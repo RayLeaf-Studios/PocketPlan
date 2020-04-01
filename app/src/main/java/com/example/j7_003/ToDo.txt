@@ -1,2 +1,42 @@
-- Geburtstage mit Datum und optionalem reminder
-- Push Benachrichtgungen
+() marks optional attributes
+? marks suggestions
+! marks implemented parts
+
+modules:
+
+    1 birthdays:
+        1.1 element attributes:
+            date, name, (optional note), (optional reminder x days before)
+
+        1.2 user functions:
+            add, remove, edit
+
+        1.3 functionality:
+            ?shows next x birthdays in a panel?
+            push notifications
+
+    2 to-do-list:
+        2.1 element attributes:
+            title, priority, ?color?
+
+        2.2 user functions:
+            add, remove, edit
+
+    3 calendar:
+         3.1 to be specified
+
+
+    4 ?go to sleep reminder?
+        4.1 small panel showing remaining sleep until Time X when going to sleep now
+        4.2 optional reminder at sleepTime < 8h
+
+
+
+
+
+Design Tasks:
+    AddTask Button Design (+)
+
+
+
+

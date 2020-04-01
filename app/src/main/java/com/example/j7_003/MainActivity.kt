@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         listView.adapter = listAdapter
 
 
-        btnaddTodoTask.setOnClickListener{
+        btnAddTodoTask.setOnClickListener{
             Toast.makeText(this, "this worked beginning!", Toast.LENGTH_SHORT).show()
             Toast.makeText(this, "this worked! ${database.taskList.size}", Toast.LENGTH_SHORT).show()
             database.taskList.add(Task("button added this", 1))

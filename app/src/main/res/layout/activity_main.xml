@@ -29,18 +29,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnaddTodoTask"
+        android:id="@+id/btnAddTodoTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
         android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/instagram" />
+        app:srcCompat="@drawable/cross" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
