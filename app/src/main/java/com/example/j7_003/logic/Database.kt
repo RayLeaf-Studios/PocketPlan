@@ -14,8 +14,6 @@ class Database() {
         loadTaskList()
     }
 
-
-
     fun loadTaskList() {
         d("Database", "loadtasklist got called")
             //wird ersetzt durch einlesen von file / server?
@@ -26,6 +24,4 @@ class Database() {
             Task("test2", 2)
         )
     }
-
-
 }
