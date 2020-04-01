@@ -27,7 +27,7 @@ modules:
             title, priority, ?color?
 
         2.2 user functions:
-            add, remove, edit
+            add!, remove, edit
 
     3 calendar:
          3.1 to be specified

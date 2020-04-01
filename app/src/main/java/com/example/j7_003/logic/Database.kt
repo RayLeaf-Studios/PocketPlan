@@ -9,12 +9,11 @@ class Database(context: Context) {
     private var file = File(context.filesDir, "TaskList")
 
     init {
-        file.delete()
-        file = File(context.filesDir, "TaskList")   //for debugging, will be changed after implementation of update function
-
+        file = File(context.filesDir, "TaskList")
+        file.writeText("new Task, 2")                   //for debugging, will be changed after implementation of update function
 
         update()
-        writeIntoFile("new Task", 3)
+        saveTaskList()
         debugReadFile()
     }
 
@@ -59,11 +58,13 @@ class Database(context: Context) {
      *
      * Still needs exception handling
      */
-    private fun writeIntoFile(name: String, priority: Int) {
+    fun saveTaskList() {
         val isNewFileCreated: Boolean = file.exists()
 
         if(!isNewFileCreated) {
-            file.writeText("$name, $priority\n")
+            taskList.forEach { n ->
+                file.writeText("${n.title}, ${n.priority}\n")
+            }
         }
     }
 
