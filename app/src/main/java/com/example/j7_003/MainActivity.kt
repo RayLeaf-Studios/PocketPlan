@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
             myDialogView.etxTitleAddTask.requestFocus()
 
 
-
             //adds listeners to confirmButtons in addTaskDialog
             val taskConfirmButtons = arrayListOf<Button>(
                 myDialogView.btnConfirm1,
