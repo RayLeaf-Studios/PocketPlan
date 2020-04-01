@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Toast
+import com.example.j7_003.logic.Task
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_simple.view.*
 
@@ -29,7 +30,10 @@ class MainActivity : AppCompatActivity() {
         //responsible for how many rows in my list
         private val mContext: Context = context
         private val tasks = arrayListOf<Task>(
-            Task("App programmie3ren", 3), Task("Beispie2l", 2), Task("Logo designen1", 1), Task("test2", 2)
+            Task("App programmie3ren", 3),
+            Task("Beispie2l", 2),
+            Task("Logo designen1", 1),
+            Task("test2", 2)
         )
 
         override fun getCount(): Int {
