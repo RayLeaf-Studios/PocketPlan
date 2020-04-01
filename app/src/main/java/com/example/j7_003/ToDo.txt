@@ -1,6 +1,13 @@
+Useful notes:
+1   Project has to be reloaded after adding new layout (Android Studio bug)
+    otherwise layout won't be recognized
+
+Definitions:
 () marks optional attributes
 ? marks suggestions
 ! marks implemented parts
+
+Project Structure:
 
 modules:
 

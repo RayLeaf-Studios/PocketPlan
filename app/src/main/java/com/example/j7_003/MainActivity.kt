@@ -1,75 +1,111 @@
 package com.example.j7_003
 
+import android.annotation.SuppressLint
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Toast
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.logic.Database
 import com.example.j7_003.logic.Task
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.addtask_dialog.view.*
 import kotlinx.android.synthetic.main.row_simple.view.*
+
 
 class MainActivity : AppCompatActivity() {
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val database: Database
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        database = Database()
+        val database = Database()
 
         val listAdapter = MyAdapter(this, database)
         listView.adapter = listAdapter
 
+        btnAddTodoTask.setOnClickListener {
 
-        btnAddTodoTask.setOnClickListener{
-            Toast.makeText(this, "this worked beginning!", Toast.LENGTH_SHORT).show()
-            Toast.makeText(this, "this worked! ${database.taskList.size}", Toast.LENGTH_SHORT).show()
-            database.taskList.add(Task("button added this", 1))
-            listAdapter.notifyDataSetChanged()
+            //inflate the dialog with custom view
+            //todo, passing null here probably causes problem with keyboard below
+            val myDialogView = LayoutInflater.from(this).inflate(R.layout.addtask_dialog, null)
+
+            //AlertDialogBuilder
+            val myBuilder = AlertDialog.Builder(this).setView(myDialogView).setTitle("Add Task")
+
+            //show dialog
+            val myAlertDialog = myBuilder.show()
+
+            //todo, show keyboard after this
+            myDialogView.etxTitleAddTask.requestFocus()
+
+
+
+            //adds listeners to confirmButtons in addTaskDialog
+            val taskConfirmButtons = arrayListOf<Button>(
+                myDialogView.btnConfirm1,
+                myDialogView.btnConfirm2,
+                myDialogView.btnConfirm3
+            )
+
+            taskConfirmButtons.forEachIndexed { index, button ->
+                button.setOnClickListener {
+                    myAlertDialog.dismiss()
+                    val title = myDialogView.etxTitleAddTask.text.toString()
+                    database.taskList.add(Task(title, index + 1))
+                    listAdapter.notifyDataSetChanged()
+                }
+            }
+
         }
+
     }
 
     private class MyAdapter(context: Context, database: Database) : BaseAdapter() {
-        //responsible for how many rows in my list,
-        private var tasks = database.taskList
+
+        private val tasks = database.taskList
         private val mContext: Context = context
 
         override fun getCount(): Int {
             return tasks.size
         }
 
-        fun sortTasks(){
-            tasks.sortBy{
-                t -> t.priority
+        fun sortTasks() {
+            tasks.sortBy { t ->
+                t.priority
             }
         }
 
+        //todo replace entire list with recylcer view (newer / faster version of list)
+        @SuppressLint("ViewHolder")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             sortTasks()
             val layoutInflater = LayoutInflater.from(mContext)
             val rowSimple = layoutInflater.inflate(R.layout.row_simple, parent, false)
 
+            //set displayed title
             rowSimple.name_textview.text = tasks[position].title
-            rowSimple.setOnClickListener{
-                Toast.makeText(mContext, "${tasks[position].title} got duplicated!", Toast.LENGTH_SHORT).show()
+
+            //onclick action
+            rowSimple.setOnClickListener {
+                //todo onclick should edit task
                 tasks.add(tasks[position])
                 notifyDataSetChanged()
                 sortTasks()
             }
 
-            rowSimple.btnDelete.setOnClickListener{
-                Toast.makeText(mContext, "${tasks[position].title} got deleted!", Toast.LENGTH_SHORT).show()
+            //delete button action
+            rowSimple.btnDelete.setOnClickListener {
                 tasks.remove(tasks[position])
                 notifyDataSetChanged()
                 sortTasks()
             }
 
             return rowSimple
-
         }
 
         //this can be ignored for now

@@ -1,13 +1,7 @@
 package com.example.j7_003.logic
 
-import android.util.Log.d
-
 class Database() {
-    //Beim starten der App erstellt Main Activity eine Instanz von Database
-    //Database lädt Daten aus File?!? irgendwie
-    //stellt diese in Array Lists zur Verfügung
-    //verwaltet änderungen
-    //speichert Daten lokal nach änderungen
+
     var taskList = ArrayList<Task>()
 
     init {
@@ -15,13 +9,23 @@ class Database() {
     }
 
     fun loadTaskList() {
-        d("Database", "loadtasklist got called")
-            //wird ersetzt durch einlesen von file / server?
+        //replace this by reading from file
+        //loadDebugList()
+
+    }
+
+    fun loadDebugList(){
+        //loads in list of default values, testing empty strings, long strings, duplicate elements
         taskList = arrayListOf<Task>(
-            Task("App programmie3ren", 3),
-            Task("Beispie2l", 2),
-            Task("Logo designen1", 1),
-            Task("test2", 2)
+            Task("Java", 3),
+            Task("KotlinKotlinKotlinKotlin", 2),
+            Task("Python", 1),
+            Task("C++", 2),
+            Task("", 2),
+            Task("Python", 1),
+            Task("HTML", 3),
+            Task("Javascript", 2),
+            Task("CSS", 3)
         )
     }
 }

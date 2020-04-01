@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingBottom="20dp"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/etxTitleAddTask"
+        android:layout_width="316dp"
+        android:layout_height="54dp"
+        android:ems="10"
+        android:hint="@string/addTaskTitleHint"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/btnConfirm1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:text="@string/prioDisplay1"
+        android:textColor="#FFF"
+        android:textSize="23sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+
+    <Button
+        android:id="@+id/btnConfirm2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/prioDisplay2"
+        android:textColor="#FFF"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnConfirm3"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toEndOf="@+id/btnConfirm1"
+        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+
+
+
+    <Button
+        android:id="@+id/btnConfirm3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/prioDisplay3"
+        android:textColor="#FFF"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">J7</string>
+    <string name="app_name">Omnia Magna</string>
+    <string name="to_do">To-do</string>
+    <string name="prioDisplay1">1</string>
+    <string name="prioDisplay3">3</string>
+    <string name="prioDisplay2">2</string>
+    <string name="addTaskTitleHint">Title</string>
+    <string name="sampleText">Lorem Ipsum</string>
+    <string name="checkMark">✔</string>
 </resources>
