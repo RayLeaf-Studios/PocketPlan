@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             val layoutInflater = LayoutInflater.from(mContext)
             val row_simple = layoutInflater.inflate(R.layout.row_simple, parent, false)
 
-
             row_simple.name_textview.text = tasks[position].title
             row_simple.setOnClickListener(){
                 Toast.makeText(mContext, "${tasks[position].title} got duplicated!", Toast.LENGTH_SHORT).show()
@@ -61,14 +60,7 @@ class MainActivity : AppCompatActivity() {
                 tasks.remove(tasks[position])
                 notifyDataSetChanged()
                 sortTasks()
-                true
             }
-//            this broke the onclick animation
-//            if(position%2==0){
-//                row_simple.asdf.setBackgroundColor(Color.parseColor("#f7f7f7"))
-//            }
-
-
 
             return row_simple
 
