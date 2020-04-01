@@ -15,17 +15,18 @@ import kotlinx.android.synthetic.main.row_simple.view.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val database = Database()
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        val database: Database
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        database = Database()
 
         val listAdapter = MyAdapter(this, database)
         listView.adapter = listAdapter
 
 
         btnaddTodoTask.setOnClickListener{
+            Toast.makeText(this, "this worked beginning!", Toast.LENGTH_SHORT).show()
             Toast.makeText(this, "this worked! ${database.taskList.size}", Toast.LENGTH_SHORT).show()
             database.taskList.add(Task("button added this", 1))
             listAdapter.notifyDataSetChanged()
