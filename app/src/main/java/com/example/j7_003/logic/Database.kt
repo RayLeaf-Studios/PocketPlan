@@ -5,7 +5,7 @@ import java.io.File
 
 class Database(context: Context) {
 
-    var taskList = ArrayList<Task>()
+    private var taskList = ArrayList<Task>()
     private var file = File(context.filesDir, "TaskList")
 
     init {
@@ -15,6 +15,8 @@ class Database(context: Context) {
         update()
         saveTaskList()
         debugReadFile()
+
+        file.writeText(("another task, 1"))
     }
 
     /**
@@ -63,7 +65,7 @@ class Database(context: Context) {
 
         if(!isNewFileCreated) {
             taskList.forEach { n ->
-                file.writeText("${n.title}, ${n.priority}\n")
+                file.writeText("${n.title}, ${n.priority}, $n\n")
             }
         }
     }
@@ -88,5 +90,13 @@ class Database(context: Context) {
                 val taskProperties = n.split(", ")
                 taskList.add(Task(taskProperties[0], taskProperties[1].toInt()))
         }
+    }
+
+    fun addTask(title: String, priority: Int) {
+        taskList.add(Task(title, priority))
+    }
+
+    fun getTaskList() : ArrayList<Task> {
+        return taskList
     }
 }

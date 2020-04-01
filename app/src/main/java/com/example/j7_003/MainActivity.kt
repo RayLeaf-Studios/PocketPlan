@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
-                    database.taskList.add(Task(title, index + 1))
+                    database.addTask(title, index + 1)
                     listAdapter.notifyDataSetChanged()
                 }
             }
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     private class MyAdapter(context: Context, database: Database) : BaseAdapter() {
 
-        private val tasks = database.taskList
+        private val tasks = database.getTaskList()
         private val mContext: Context = context
 
         override fun getCount(): Int {
