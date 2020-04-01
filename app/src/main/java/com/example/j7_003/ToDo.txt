@@ -1,0 +1,2 @@
+- Geburtstage mit Datum und optionalem reminder
+- Push Benachrichtgungen
