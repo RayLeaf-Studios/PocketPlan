@@ -3,16 +3,19 @@ package com.example.j7_003.logic
 import android.content.Context
 import java.io.File
 
-
-class Database(private val context: Context) {
+class Database(context: Context) {
 
     var taskList = ArrayList<Task>()
     private var file = File(context.filesDir, "TaskList")
 
     init {
-        createTaskListFile()
+        file.delete()
+        file = File(context.filesDir, "TaskList")   //for debugging, will be changed after implementation of update function
+
+
         update()
-        loadDebugList()
+        writeIntoFile("new Task", 3)
+        debugReadFile()
     }
 
     /**
@@ -30,7 +33,7 @@ class Database(private val context: Context) {
      */
     fun loadDebugList(){
         //loads in list of default values, testing empty strings, long strings, duplicate elements
-        taskList = arrayListOf<Task>(
+        taskList = arrayListOf(
             Task(file.readText(), 3),
             Task("KotlinKotlinKotlinKotlin", 2),
             Task("Python", 1),
@@ -52,20 +55,23 @@ class Database(private val context: Context) {
     }
 
     /**
-     * If the file to safe tasks in doesn't exit, then the file
-     * will be created
+     * If the file exists, contents are written into it.
+     *
+     * Still needs exception handling
      */
-    private fun createTaskListFile() {
-        val isNewFileCreated: Boolean = file.createNewFile()
+    private fun writeIntoFile(name: String, priority: Int) {
+        val isNewFileCreated: Boolean = file.exists()
 
-        if(isNewFileCreated) {
-            file.writeText("test, 2\nnew, 4\n")
+        if(!isNewFileCreated) {
+            file.writeText("$name, $priority\n")
         }
     }
 
     /**
      * To be implemented...
-     * Will read each line in file and split each line into taskName and taskPriority
+     * Check for empty file will throw an exception or something else for error handling
+     *
+     * Reads each line in file and split each line into taskName and taskPriority
      * and create with the a task with the given parameters.
      *
      * file content example:
@@ -76,8 +82,10 @@ class Database(private val context: Context) {
      * task name: "new Task", priority: 3
      */
     private fun debugReadFile() {
-        file.forEachLine { n -> val taskProperties =  n.split(", ");
-            println("${taskProperties[0]} ${taskProperties[1].toInt()}")
+
+        file.forEachLine { n ->
+                val taskProperties = n.split(", ")
+                taskList.add(Task(taskProperties[0], taskProperties[1].toInt()))
         }
     }
 }
