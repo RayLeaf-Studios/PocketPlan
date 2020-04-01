@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val database = Database()
+        val database = Database(this)
 
         val listAdapter = MyAdapter(this, database)
         listView.adapter = listAdapter
