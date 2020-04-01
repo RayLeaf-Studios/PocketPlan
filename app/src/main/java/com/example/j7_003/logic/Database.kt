@@ -5,15 +5,23 @@ class Database() {
     var taskList = ArrayList<Task>()
 
     init {
+        update()
         loadTaskList()
     }
 
-    fun loadTaskList() {
+    /**
+     * To be implemented...
+     * Will load in the task list from local files.
+     */
+    private fun loadTaskList() {
         //replace this by reading from file
         //loadDebugList()
 
     }
 
+    /**
+     * Task list used to debug some task list functionality.
+     */
     fun loadDebugList(){
         //loads in list of default values, testing empty strings, long strings, duplicate elements
         taskList = arrayListOf<Task>(
@@ -27,5 +35,13 @@ class Database() {
             Task("Javascript", 2),
             Task("CSS", 3)
         )
+    }
+
+    /**
+     * To be implemented...
+     * Will update storage files from remote host and will be called on init.
+     */
+    private fun update() {
+
     }
 }
