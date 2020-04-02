@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Omnia Magna</string>
+    <string name="app_name">SampleName</string>
     <string name="to_do">To-do</string>
     <string name="prioDisplay1">1</string>
     <string name="prioDisplay3">3</string>
