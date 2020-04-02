@@ -10,13 +10,13 @@ class Database(context: Context) {
 
     init {
         file = File(context.filesDir, "TaskList")
-        file.writeText("new Task, 2")                   //for debugging, will be changed after implementation of update function
+        file.appendText("new Task, 2")                   //for debugging, will be changed after implementation of update function
 
         update()
         saveTaskList()
         debugReadFile()
 
-        file.writeText(("another task, 1"))
+        file.appendText(("another task, 1"))
     }
 
     /**
@@ -63,9 +63,9 @@ class Database(context: Context) {
     fun saveTaskList() {
         val isNewFileCreated: Boolean = file.exists()
 
-        if(!isNewFileCreated) {
+        if(isNewFileCreated) {
             taskList.forEach { n ->
-                file.writeText("${n.title}, ${n.priority}, $n\n")
+                file.appendText("${n.title}, ${n.priority}, $n\n")
             }
         }
     }
