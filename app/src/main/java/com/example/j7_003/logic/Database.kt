@@ -66,5 +66,9 @@ class Database(context: Context) {
         if(!file.exists()) file.writeText("[]")
     }
 
+    fun deleteTask(index: Int) {
+        taskList.removeAt(index)
+    }
 
+    fun getTask(index: Int): Task = taskList[index]
 }

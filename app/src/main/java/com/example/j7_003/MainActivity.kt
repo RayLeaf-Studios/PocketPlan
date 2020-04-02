@@ -69,16 +69,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private class MyAdapter(context: Context, database: Database) : BaseAdapter() {
-
-        private val tasks = database.taskList
+        private val database = database
         private val mContext: Context = context
 
         override fun getCount(): Int {
-            return tasks.size
+            return database.taskList.size
         }
 
         fun sortTasks() {
-            tasks.sortBy { t ->
+            database.taskList.sortBy { t ->
                 t.priority
             }
         }
@@ -91,17 +90,14 @@ class MainActivity : AppCompatActivity() {
             val rowSimple = layoutInflater.inflate(R.layout.row_simple, parent, false)
 
             //set displayed title
-            rowSimple.name_textview.text = tasks[position].title
+            rowSimple.name_textview.text = database.getTask(position).title
 
             //onclick action
             rowSimple.setOnClickListener {
-                //todo onclick should edit task
-                tasks.add(tasks[position])
-                notifyDataSetChanged()
-                sortTasks()
+                //todo edit on click
             }
 
-            when(tasks[position].priority){
+            when(database.getTask(position).priority){
                 1 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorAccent)
                 2 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPrimary)
                 3 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPrimaryDark)
@@ -109,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
             //delete button action
             rowSimple.btnDelete.setOnClickListener {
-                tasks.remove(tasks[position])
+                database.deleteTask(position)
                 notifyDataSetChanged()
                 sortTasks()
             }
