@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
             //onclick action
             rowSimple.setOnClickListener {
-                //todo edit on click
+                editTaskDialog(position)
             }
 
             when(database.getTask(position).priority){
@@ -113,6 +113,44 @@ class MainActivity : AppCompatActivity() {
             return rowSimple
         }
 
+        fun editTaskDialog(position: Int) {
+            //inflate the dialog with custom view
+            //todo, passing null here probably causes problem with keyboard below
+            val myDialogView = LayoutInflater.from(mContext).inflate(R.layout.addtask_dialog, null)
+
+            //AlertDialogBuilder
+            val myBuilder = AlertDialog.Builder(mContext).setView(myDialogView).setTitle("Edit Task")
+
+            //show dialog
+            val myAlertDialog = myBuilder.create()
+            myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+            myAlertDialog.show()
+
+            //todo, show keyboard after this
+            myDialogView.etxTitleAddTask.requestFocus()
+            myDialogView.etxTitleAddTask.setText(database.getTask(position).title)
+            myDialogView.etxTitleAddTask.setSelection(myDialogView.etxTitleAddTask.text.length)
+
+            //adds listeners to confirmButtons in addTaskDialog
+            val taskConfirmButtons = arrayListOf<Button>(
+                myDialogView.btnConfirm1,
+                myDialogView.btnConfirm2,
+                myDialogView.btnConfirm3
+            )
+
+            taskConfirmButtons.forEachIndexed { index, button ->
+                button.setOnClickListener {
+                    myAlertDialog.dismiss()
+                    val title = myDialogView.etxTitleAddTask.text.toString()
+                    database.getTask(position).title = myDialogView.etxTitleAddTask.text.toString()
+                    database.getTask(position).priority = index + 1
+                    database.saveTaskList()
+                    this.notifyDataSetChanged()
+                }
+            }
+
+        }
+
         //this can be ignored for now
         override fun getItemId(position: Int): Long {
             return position.toLong()
@@ -123,6 +161,8 @@ class MainActivity : AppCompatActivity() {
             return "TEST STRING"
         }
     }
+
+
 }
 
 

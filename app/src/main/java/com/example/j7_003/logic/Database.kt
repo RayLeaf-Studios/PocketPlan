@@ -18,7 +18,7 @@ class Database(context: Context) {
     var file = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "TaskList.txt") //debug for api level 24
     init {
         createFile()
-        taskList = TaskList()
+        taskList = taskList()
     }
 
 
@@ -27,7 +27,7 @@ class Database(context: Context) {
      * To be implemented...
      * Will update storage files from remote host and will be called on init.
      */
-    private fun update() {
+    private fun updateTask() {
 
     }
 
@@ -36,7 +36,7 @@ class Database(context: Context) {
      *
      * Still needs exception handling
      */
-    private fun saveTaskList() {
+    fun saveTaskList() {
         val isNewFileCreated: Boolean = file.exists()
         val jsonString = taskListToJson()
 
@@ -45,7 +45,7 @@ class Database(context: Context) {
         }
     }
 
-    private fun TaskList(): ArrayList<Task> {
+    private fun taskList(): ArrayList<Task> {
         val jsonString = file.readText()
 
         return GsonBuilder().create()
