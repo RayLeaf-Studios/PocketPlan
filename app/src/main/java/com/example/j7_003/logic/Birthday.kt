@@ -1,5 +1,5 @@
 package com.example.j7_003.logic
 
-import java.util.*
+import java.time.LocalDate
 
-data class Birthday(var name: String, var date: Date)
+data class Birthday(var name: String, var date: LocalDate)
