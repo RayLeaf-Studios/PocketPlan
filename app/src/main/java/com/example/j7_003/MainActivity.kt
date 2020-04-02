@@ -1,17 +1,19 @@
 package com.example.j7_003
 
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.BaseAdapter
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.logic.Database
-import com.example.j7_003.logic.Task
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.addtask_dialog.view.*
 import kotlinx.android.synthetic.main.row_simple.view.*
@@ -38,11 +40,12 @@ class MainActivity : AppCompatActivity() {
             val myBuilder = AlertDialog.Builder(this).setView(myDialogView).setTitle("Add Task")
 
             //show dialog
-            val myAlertDialog = myBuilder.show()
+            val myAlertDialog = myBuilder.create()
+            myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+            myAlertDialog.show()
 
             //todo, show keyboard after this
             myDialogView.etxTitleAddTask.requestFocus()
-
 
             //adds listeners to confirmButtons in addTaskDialog
             val taskConfirmButtons = arrayListOf<Button>(
