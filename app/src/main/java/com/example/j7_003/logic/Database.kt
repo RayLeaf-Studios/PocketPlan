@@ -1,6 +1,8 @@
 package com.example.j7_003.logic
 
 import android.content.Context
+import android.os.Environment
+import android.os.Environment.DIRECTORY_DOWNLOADS
 
 import com.beust.klaxon.Klaxon
 import com.google.gson.GsonBuilder
@@ -12,8 +14,8 @@ class Database(context: Context) {
 
 
     var taskList = ArrayList<Task>()
-    var file = File(context.filesDir, "TaskList")
-
+    /*var file = File(context.filesDir, "TaskList")*/
+    var file = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "TaskList.txt") //debug for api level 24
     init {
         createFile()
         taskList = TaskList()
@@ -34,7 +36,7 @@ class Database(context: Context) {
      *
      * Still needs exception handling
      */
-    fun saveTaskList() {
+    private fun saveTaskList() {
         val isNewFileCreated: Boolean = file.exists()
         val jsonString = taskListToJson()
 
@@ -43,7 +45,7 @@ class Database(context: Context) {
         }
     }
 
-    fun TaskList(): ArrayList<Task> {
+    private fun TaskList(): ArrayList<Task> {
         val jsonString = file.readText()
 
         return GsonBuilder().create()
@@ -63,4 +65,6 @@ class Database(context: Context) {
     private fun createFile() {
         if(!file.exists()) file.writeText("")
     }
+
+
 }
