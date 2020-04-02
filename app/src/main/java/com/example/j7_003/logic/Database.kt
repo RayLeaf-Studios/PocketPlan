@@ -63,7 +63,7 @@ class Database(context: Context) {
     }
 
     private fun createFile() {
-        if(!file.exists()) file.writeText("")
+        if(!file.exists()) file.writeText("[]")
     }
 
 

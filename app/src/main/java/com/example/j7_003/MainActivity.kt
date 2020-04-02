@@ -3,6 +3,7 @@ package com.example.j7_003
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -98,6 +99,12 @@ class MainActivity : AppCompatActivity() {
                 tasks.add(tasks[position])
                 notifyDataSetChanged()
                 sortTasks()
+            }
+
+            when(tasks[position].priority){
+                1 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorAccent)
+                2 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPrimary)
+                3 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPrimaryDark)
             }
 
             //delete button action
