@@ -41,9 +41,9 @@ modules:
 
 
 
-Design Tasks:
+random Tasks:
     AddTask Button Design (+)
-
+    change app permissions
 
 
 

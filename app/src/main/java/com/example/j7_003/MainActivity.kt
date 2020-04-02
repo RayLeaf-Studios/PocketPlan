@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     private class MyAdapter(context: Context, database: Database) : BaseAdapter() {
 
-        private val tasks = database.getTaskList()
+        private val tasks = database.taskList
         private val mContext: Context = context
 
         override fun getCount(): Int {
