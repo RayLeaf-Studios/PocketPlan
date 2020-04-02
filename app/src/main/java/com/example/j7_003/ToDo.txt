@@ -42,9 +42,14 @@ modules:
 
 
 random Tasks:
-    AddTask Button Design (+)
-    change app permissions
-    Multithreading for adding task
+    request app permission for storage on new install
+    Multithreading for adding task? (not that important but would be nice)
+    grobes design / layout des Main-Panels? Was wird wo angezeigt?
+    Geburtstage, komplette datenstruktur, speichern, lesen, bearbeiten usw
+    geburtstagspanel layout?
+    dat sollte ma reichen bis ich on bin
+
+
 
 
 

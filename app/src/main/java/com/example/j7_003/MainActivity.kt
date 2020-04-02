@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +23,10 @@ import kotlinx.android.synthetic.main.row_simple.view.*
 
 class MainActivity : AppCompatActivity() {
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.setTitle("To-Do List")
+//        supportActionBar?.setBackgroundDrawable(ColorDrawable(R.color.colorError))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val database = Database(this)
@@ -31,14 +34,18 @@ class MainActivity : AppCompatActivity() {
         val listAdapter = MyAdapter(this, database)
         listView.adapter = listAdapter
 
+
+
         btnAddTodoTask.setOnClickListener {
+
 
             //inflate the dialog with custom view
             //todo, passing null here probably causes problem with keyboard below
             val myDialogView = LayoutInflater.from(this).inflate(R.layout.addtask_dialog, null)
 
             //AlertDialogBuilder
-            val myBuilder = AlertDialog.Builder(this).setView(myDialogView).setTitle("Add Task")
+            val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
+            myBuilder.setCustomTitle(layoutInflater.inflate(R.layout.addtask_dialog_title, null))
 
             //show dialog
             val myAlertDialog = myBuilder.create()
@@ -98,13 +105,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             when(database.getTask(position).priority){
-                1 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorAccent)
-                2 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPrimary)
-                3 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPrimaryDark)
+                1 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPriority1)
+                2 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPriority2)
+                3 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPriority3)
             }
 
             //delete button action
-            rowSimple.btnDelete.setOnClickListener {
+            rowSimple.btnDelete.setOnClickListener{
                 database.deleteTask(position)
                 notifyDataSetChanged()
                 sortTasks()

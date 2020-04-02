@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorBackground"
     android:paddingBottom="20dp">
 
 
     <EditText
         android:id="@+id/etxTitleAddTask"
         android:layout_width="0dp"
+        android:textColor="@color/onBackGround"
         android:layout_height="42dp"
         android:autofillHints=""
         android:hint="@string/addTaskTitleHint"
@@ -24,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPriority1"
         android:text="@string/prioDisplay1"
         android:textColor="#FFF"
         android:textSize="@dimen/font_size_prio_buttons"
@@ -32,29 +34,31 @@
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
 
     <Button
-        android:id="@+id/btnConfirm3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/colorPrimaryDark"
-        android:text="@string/prioDisplay3"
-        android:textColor="#FFF"
-        android:textSize="@dimen/font_size_prio_buttons"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
-
-    <Button
         android:id="@+id/btnConfirm2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPriority2"
         android:text="@string/prioDisplay2"
         android:textColor="#FFF"
         android:textSize="@dimen/font_size_prio_buttons"
         app:layout_constraintEnd_toEndOf="@+id/btnConfirm3"
         app:layout_constraintStart_toStartOf="@+id/btnConfirm1"
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+
+    <Button
+        android:id="@+id/btnConfirm3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorPriority3"
+        android:text="@string/prioDisplay3"
+        android:textColor="#FFF"
+        android:textSize="@dimen/font_size_prio_buttons"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
