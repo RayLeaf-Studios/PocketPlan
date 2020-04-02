@@ -12,23 +12,13 @@ import java.io.File
 
 class Database(context: Context) {
 
-
     var taskList = ArrayList<Task>()
     /*var file = File(context.filesDir, "TaskList")*/
     var file = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "TaskList.txt") //debug for api level 24
+
     init {
         createFile()
-        taskList = taskList()
-    }
-
-
-
-    /**
-     * To be implemented...
-     * Will update storage files from remote host and will be called on init.
-     */
-    private fun updateTask() {
-
+        taskList = fetchTaskList()
     }
 
     /**
@@ -45,18 +35,31 @@ class Database(context: Context) {
         }
     }
 
-    private fun taskList(): ArrayList<Task> {
-        val jsonString = file.readText()
-
-        return GsonBuilder().create()
-            .fromJson(jsonString, object : TypeToken<ArrayList<Task>>() {}.type)
-    }
-
+    /**
+     * Adds a task to the tasklist and saves the tasklist.
+     * @param title The title of the created task
+     * @param priority The priority the task will be set to
+     */
     fun addTask(title: String, priority: Int) {
         taskList.add(Task(title, priority))
         saveTaskList()
-        //todo save with adding task
     }
+
+    /**
+     * Deletes a task at a given index.
+     * @param index The index of the list, which will be removed.
+     */
+    fun deleteTask(index: Int) {
+        taskList.removeAt(index)
+    }
+
+    /**
+     * Returns a task at a given index in the tasklist.
+     * @param index The index the task is at.
+     * @return Returns the requested task.
+     */
+    fun getTask(index: Int): Task = taskList[index]
+
 
     private fun taskListToJson(): String {
         return Klaxon().toJsonString(taskList)
@@ -66,9 +69,10 @@ class Database(context: Context) {
         if(!file.exists()) file.writeText("[]")
     }
 
-    fun deleteTask(index: Int) {
-        taskList.removeAt(index)
-    }
+    private fun fetchTaskList(): ArrayList<Task> {
+        val jsonString = file.readText()
 
-    fun getTask(index: Int): Task = taskList[index]
+        return GsonBuilder().create()
+            .fromJson(jsonString, object : TypeToken<ArrayList<Task>>() {}.type)
+    }
 }
