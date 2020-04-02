@@ -9,14 +9,15 @@ class Database(context: Context) {
     private var file = File(context.filesDir, "TaskList")
 
     init {
+        file.delete()
         file = File(context.filesDir, "TaskList")
-        file.appendText("new Task, 2")                   //for debugging, will be changed after implementation of update function
+        file.appendText("new Task, 2\n")                   //for debugging, will be changed after implementation of update function
 
         update()
         saveTaskList()
         debugReadFile()
 
-        file.appendText("another task, 1")
+        file.appendText("another task, 1\n")
     }
 
     /**
@@ -65,7 +66,7 @@ class Database(context: Context) {
 
         if(isNewFileCreated) {
             taskList.forEach { n ->
-                file.appendText("${n.title}, ${n.priority}, $n\n")
+                file.appendText("${n.title}, ${n.priority}\n")
             }
         }
     }
