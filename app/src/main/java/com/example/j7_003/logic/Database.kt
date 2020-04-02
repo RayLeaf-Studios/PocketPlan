@@ -16,7 +16,7 @@ class Database(context: Context) {
         saveTaskList()
         debugReadFile()
 
-        file.appendText(("another task, 1"))
+        file.appendText("another task, 1")
     }
 
     /**
