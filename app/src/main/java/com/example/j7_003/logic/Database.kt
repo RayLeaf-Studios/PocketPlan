@@ -11,21 +11,19 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.time.LocalDate
+import java.time.MonthDay
 
-
-@RequiresApi(Build.VERSION_CODES.O)
 class Database(context: Context) {
 
     var birthdayList = ArrayList<Birthday>()
     var taskList = ArrayList<Task>()
     /*private var taskFile = File(context.filesDir, "TaskList")
-    private var birthdayFile = File(context.filesDir, "BirthdayList*/
+    private var birthdayFile = File(context.filesDir, "BirthdayList")*/
     private var taskFile = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "TaskList.txt") //debug for api level 24
     private var birthdayFile = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "BirthdayList.txt")  // s.o.
 
     init {
         createFiles()
-        addBirthday("eugen", LocalDate.of(1999,12,24))
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()
     }
@@ -62,6 +60,7 @@ class Database(context: Context) {
      */
     fun deleteTask(index: Int) {
         taskList.removeAt(index)
+        saveTaskList()
     }
 
     /**
@@ -86,8 +85,8 @@ class Database(context: Context) {
     //--------------------------------------------------------------------------------------------//
     //debug here will be the birthday functionality
 
-    fun addBirthday(name: String, date: LocalDate) {
-        birthdayList.add(Birthday(name, date))
+    fun addBirthday(name: String, month: Int, day: Int) {
+        birthdayList.add(Birthday(name, month, day))
         saveBirthdayList()
     }
 
@@ -102,14 +101,14 @@ class Database(context: Context) {
 
     fun deleteBirthday(index: Int) {
         birthdayList.removeAt(index)
+        saveBirthdayList()
     }
 
     private fun fetchBirthdayList(): ArrayList<Birthday> {
         val jsonString = birthdayFile.readText()
 
-        //debug object isn't created as at should be and crashes the app
-        return ArrayList() /*GsonBuilder().create()
-            .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)*/
+        return GsonBuilder().create()
+            .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
     }
 
     private fun birthdayListToJson(): String = Klaxon().toJsonString(birthdayList)

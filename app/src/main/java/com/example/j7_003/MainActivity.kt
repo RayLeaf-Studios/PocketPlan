@@ -25,8 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
-        supportActionBar?.setTitle("To-Do List")
-//        supportActionBar?.setBackgroundDrawable(ColorDrawable(R.color.colorError))
+        supportActionBar?.title = "To-Do List"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val database = Database(this)
@@ -75,8 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private class MyAdapter(context: Context, database: Database) : BaseAdapter() {
-        private val database = database
+    private class MyAdapter(context: Context, val database: Database) : BaseAdapter() {
         private val mContext: Context = context
 
         override fun getCount(): Int {
@@ -148,7 +146,7 @@ class MainActivity : AppCompatActivity() {
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
-                    val title = myDialogView.etxTitleAddTask.text.toString()
+                    //val title = myDialogView.etxTitleAddTask.text.toString()
                     database.getTask(position).title = myDialogView.etxTitleAddTask.text.toString()
                     database.getTask(position).priority = index + 1
                     database.saveTaskList()
