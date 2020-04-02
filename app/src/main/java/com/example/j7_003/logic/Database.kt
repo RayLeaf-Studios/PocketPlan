@@ -36,8 +36,6 @@ class Database(context: Context) {
 
     /**
      * If the file exists, contents are written into it.
-     *
-     * Still needs exception handling
      */
     fun saveTaskList() {
         val isNewFileCreated: Boolean = taskFile.exists()
