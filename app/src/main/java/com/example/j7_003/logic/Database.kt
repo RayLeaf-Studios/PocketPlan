@@ -3,11 +3,10 @@ package com.example.j7_003.logic
 import android.content.Context
 import android.os.Build
 import android.os.Environment
-import com.beust.klaxon.Klaxon
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
-import java.time.LocalDate
 import kotlin.collections.ArrayList
 
 class Database(context: Context) {
@@ -16,6 +15,7 @@ class Database(context: Context) {
     var taskList = ArrayList<Task>()
     private var taskFile = setStorageLocation("TaskList.txt", context)
     private var birthdayFile = setStorageLocation("BirthdayList.txt", context)
+    private val converter = Gson()
 
     private var debugFile = setStorageLocation("debug.txt", context)
 
@@ -24,10 +24,10 @@ class Database(context: Context) {
         createFiles()
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()
+        addDebugBirthdays()
 
         sortBirthday()
         saveBirthdayList()
-        debugSave()
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -77,14 +77,7 @@ class Database(context: Context) {
     }
 
     private fun saveTaskList() {
-
-        val isNewFileCreated: Boolean = taskFile.exists()
-        val jsonString = Klaxon().toJsonString(taskList)
-
-        if (isNewFileCreated) {
-            taskFile.writeText(jsonString)
-        }
-
+        taskFile.writeText(converter.toJson(taskList))
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -103,12 +96,7 @@ class Database(context: Context) {
     }
 
     fun saveBirthdayList() {
-        val isNewFileCreated: Boolean = birthdayFile.exists()
-        val jsonString = Klaxon().toJsonString(birthdayList)
-
-        if (isNewFileCreated) {
-            birthdayFile.writeText(jsonString)
-        }
+        birthdayFile.writeText(converter.toJson(birthdayList))
     }
 
     fun deleteBirthday(index: Int) {
@@ -133,7 +121,7 @@ class Database(context: Context) {
         birthdayList.sortWith(compareBy({ it.month }, {it.day }, {it.name}))
     }
 
-    fun getNextXBirthdays(count: Int): ArrayList<String>{
+    /*fun getNextXBirthdays(count: Int): ArrayList<String>{
                 //debug gibt die nächsten count birthdays ab (inklusive) heute als arraylist zurück
 
         var dateNow: LocalDate
@@ -143,7 +131,7 @@ class Database(context: Context) {
 
         birthdayList.forEach { n ->
 
-            /*daysLeft = ChronoUnit.DAYS.between(otherDay, dateNow)
+            *//*daysLeft = ChronoUnit.DAYS.between(otherDay, dateNow)
 
             if(daysLeft < cacheLeft) {
                 cacheLeft = daysLeft
@@ -152,11 +140,11 @@ class Database(context: Context) {
                 }
             } else {
                 return@forEachIndexed
-            }*/
+            }*//*
         }
 
         return closestBirthdays
-    }
+    }*/
 
     private fun addDebugBirthdays() {
         addBirthday("eugen", 12, 24)
@@ -187,7 +175,7 @@ class Database(context: Context) {
         }
     }
 
-    private fun debugSave() {
+    /*private fun debugSave() {
         debugFile.writeText(Klaxon().toJsonString(getNextXBirthdays(3)))
-    }
+    }*/
 }
