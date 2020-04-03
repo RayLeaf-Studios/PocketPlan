@@ -18,7 +18,6 @@ class Database(var context: Context) {
 
 
     init {
-        print("${Environment.getDataDirectory()}/data/com.example.j7_003")
         createFiles()
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()

@@ -1,0 +1,19 @@
+
+
+
+//Useful for checking and requesting permissions
+private fun requestStoragePermission() {
+        ActivityCompat.requestPermissions(                  //permission request
+            context as Activity,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            101)
+
+|---------------------------------------------------------------------------------|
+
+        val permission = ContextCompat.checkSelfPermission(context,         //permission check
+            Manifest.permission.RECORD_AUDIO)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Permission to record denied")
+        }
+}
