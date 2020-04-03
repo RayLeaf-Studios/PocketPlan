@@ -8,13 +8,12 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
 
-
-class Database(var context: Context) {
+class Database(context: Context) {
 
     var birthdayList = ArrayList<Birthday>()
     var taskList = ArrayList<Task>()
-    private var taskFile = setStorageLocation("TaskList.txt")
-    private var birthdayFile = setStorageLocation("BirthdayList.txt")
+    private var taskFile = setStorageLocation("TaskList.txt", context)
+    private var birthdayFile = setStorageLocation("BirthdayList.txt", context)
 
 
     init {
@@ -28,17 +27,6 @@ class Database(var context: Context) {
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
 
-    /**
-     * If the file exists, contents are written into it.
-     */
-    fun saveTaskList() {
-        val isNewFileCreated: Boolean = taskFile.exists()
-        val jsonString = taskListToJson()
-
-        if(isNewFileCreated) {
-            taskFile.writeText(jsonString)
-        }
-    }
 
     /**
      * Adds a task to the tasklist and saves the tasklist.
@@ -59,6 +47,12 @@ class Database(var context: Context) {
         saveTaskList()
     }
 
+    fun editTask(position: Int, index: Int, title: String) {
+        getTask(position).title = title
+        getTask(position).priority = index + 1
+        saveTaskList()
+    }
+
     /**
      * Returns a task at a given index in the tasklist.
      * @param index The index the task is at.
@@ -66,14 +60,20 @@ class Database(var context: Context) {
      */
     fun getTask(index: Int): Task = taskList[index]
 
-
-    private fun taskListToJson(): String = Klaxon().toJsonString(taskList)
-
     private fun fetchTaskList(): ArrayList<Task> {
         val jsonString = taskFile.readText()
 
         return GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<ArrayList<Task>>() {}.type)
+    }
+
+    private fun saveTaskList() {
+        val isNewFileCreated: Boolean = taskFile.exists()
+        val jsonString = Klaxon().toJsonString(taskList)
+
+        if(isNewFileCreated) {
+            taskFile.writeText(jsonString)
+        }
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -93,7 +93,7 @@ class Database(var context: Context) {
 
     fun saveBirthdayList() {
         val isNewFileCreated: Boolean = birthdayFile.exists()
-        val jsonString = birthdayListToJson()
+        val jsonString = Klaxon().toJsonString(birthdayList)
 
         if(isNewFileCreated) {
             birthdayFile.writeText(jsonString)
@@ -105,14 +105,18 @@ class Database(var context: Context) {
         saveBirthdayList()
     }
 
+    fun editBirthday() {
+        //todo
+    }
+
+    fun getBirthday(position: Int): Birthday = birthdayList[position]
+
     private fun fetchBirthdayList(): ArrayList<Birthday> {
         val jsonString = birthdayFile.readText()
 
         return GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
     }
-
-    private fun birthdayListToJson(): String = Klaxon().toJsonString(birthdayList)
 
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
@@ -124,7 +128,7 @@ class Database(var context: Context) {
         if(!birthdayFile.exists()) birthdayFile.writeText("[]")
     }
 
-    private fun setStorageLocation(fileName: String): File {
+    private fun setStorageLocation(fileName: String, context: Context): File {
         return if(Build.VERSION.SDK_INT < 29) {
             File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
         } else {

@@ -13,7 +13,7 @@ modules:
 
     1 birthdays:
         1.1 element attributes:
-            date!, name!, (optional note), (optional reminder x days before)
+            date!, name!, note!, (optional reminder x days before)
 
         1.2 user functions:
             add!, remove!, edit
@@ -38,7 +38,6 @@ modules:
 
 
 random Tasks:
-    request app permission for storage on new install
     Multithreading for adding task? (not that important but would be nice)
     grobes design / layout des Main-Panels? Was wird wo angezeigt?
     Geburtstage, komplette datenstruktur, speichern, lesen, bearbeiten usw

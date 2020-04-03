@@ -151,9 +151,7 @@ class MainActivity : AppCompatActivity() {
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
                     //val title = myDialogView.etxTitleAddTask.text.toString()
-                    database.getTask(position).title = myDialogView.etxTitleAddTask.text.toString()
-                    database.getTask(position).priority = index + 1
-                    database.saveTaskList()
+                    database.editTask(position, index, myDialogView.etxTitleAddTask.text.toString())
                     this.notifyDataSetChanged()
                 }
             }
