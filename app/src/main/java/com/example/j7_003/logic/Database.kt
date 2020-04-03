@@ -7,6 +7,8 @@ import com.beust.klaxon.Klaxon
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
+import java.time.LocalDate
+import kotlin.collections.ArrayList
 
 class Database(context: Context) {
 
@@ -15,12 +17,17 @@ class Database(context: Context) {
     private var taskFile = setStorageLocation("TaskList.txt", context)
     private var birthdayFile = setStorageLocation("BirthdayList.txt", context)
 
+    private var debugFile = setStorageLocation("debug.txt", context)
+
 
     init {
         createFiles()
-        addBirthday("eugen", 12, 24, "test")
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()
+
+        sortBirthday()
+        saveBirthdayList()
+        debugSave()
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -122,6 +129,41 @@ class Database(context: Context) {
             .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
     }
 
+    private fun sortBirthday() {
+        birthdayList.sortWith(compareBy({ it.month }, {it.day }, {it.name}))
+    }
+
+    fun getNextXBirthdays(count: Int): ArrayList<String>{
+                //debug gibt die nächsten count birthdays ab (inklusive) heute als arraylist zurück
+
+        var dateNow: LocalDate
+        var daysLeft: Long
+        var cacheLeft: Long = 365
+        val closestBirthdays = ArrayList<String>()
+
+        birthdayList.forEach { n ->
+
+            /*daysLeft = ChronoUnit.DAYS.between(otherDay, dateNow)
+
+            if(daysLeft < cacheLeft) {
+                cacheLeft = daysLeft
+                if((n != birthdayList.last() && n.hashCode() != birthdayList[index + 1].hashCode()) || (n.hashCode() != birthdayList[index + 1].hashCode())) {
+                    closestBirthdays.add(n)
+                }
+            } else {
+                return@forEachIndexed
+            }*/
+        }
+
+        return closestBirthdays
+    }
+
+    private fun addDebugBirthdays() {
+        addBirthday("eugen", 12, 24)
+        addBirthday("micha", 9, 15)
+        addBirthday("nico", 3, 24)
+    }
+
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
@@ -131,6 +173,8 @@ class Database(context: Context) {
 
         if (!taskFile.exists()) taskFile.writeText("[]")
         if (!birthdayFile.exists()) birthdayFile.writeText("[]")
+        if (!debugFile.exists()) debugFile.writeText("[]")
+
 
     }
 
@@ -141,5 +185,9 @@ class Database(context: Context) {
         } else {
             File(context.filesDir, fileName)
         }
+    }
+
+    private fun debugSave() {
+        debugFile.writeText(Klaxon().toJsonString(getNextXBirthdays(3)))
     }
 }
