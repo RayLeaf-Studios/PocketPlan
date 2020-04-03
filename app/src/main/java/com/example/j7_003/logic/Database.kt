@@ -3,26 +3,22 @@ package com.example.j7_003.logic
 import android.content.Context
 import android.os.Build
 import android.os.Environment
-import android.os.Environment.DIRECTORY_DOWNLOADS
-import androidx.annotation.RequiresApi
-
 import com.beust.klaxon.Klaxon
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
-import java.time.LocalDate
-import java.time.MonthDay
 
-class Database(context: Context) {
+
+class Database(var context: Context) {
 
     var birthdayList = ArrayList<Birthday>()
     var taskList = ArrayList<Task>()
-    /*private var taskFile = File(context.filesDir, "TaskList")
-    private var birthdayFile = File(context.filesDir, "BirthdayList")*/
-    private var taskFile = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "TaskList.txt") //debug for api level 24
-    private var birthdayFile = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "BirthdayList.txt")  // s.o.
+    private var taskFile = setStorageLocation("TaskList.txt")
+    private var birthdayFile = setStorageLocation("BirthdayList.txt")
+
 
     init {
+        print("${Environment.getDataDirectory()}/data/com.example.j7_003")
         createFiles()
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()
@@ -121,5 +117,13 @@ class Database(context: Context) {
     private fun createFiles() {
         if(!taskFile.exists()) taskFile.writeText("[]")
         if(!birthdayFile.exists()) birthdayFile.writeText("[]")
+    }
+
+    private fun setStorageLocation(fileName: String): File {
+        return if(Build.VERSION.SDK_INT < 29) {
+            File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
+        } else {
+            File(context.filesDir, fileName)
+        }
     }
 }
