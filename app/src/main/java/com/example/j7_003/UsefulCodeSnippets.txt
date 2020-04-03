@@ -17,3 +17,10 @@ private fun requestStoragePermission() {
             Log.i(TAG, "Permission to record denied")
         }
 }
+
+|---------------------------------------------------------------------------------|
+
+
+//Accessing main activity from inside a fragment class, to access actionBar etc.
+
+    (activity as AppCompatActivity).supportActionBar?.title="Example Title"

@@ -3,6 +3,7 @@ package com.example.j7_003
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -21,12 +22,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     @SuppressLint("InflateParams", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
 
         setSupportActionBar(toolBar)
         val actionBar = supportActionBar
-        actionBar?.title = "Navigation Drawer"
+        actionBar?.title = "Home"
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolBar, (R.string.open), (R.string.close)){}
 
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when(menuItem.itemId){
             R.id.home -> {
+                supportActionBar?.title = "Home"
                 homeFragment = HomeFragment()
                 supportFragmentManager
                     .beginTransaction()
@@ -55,6 +58,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.settings -> {
+                supportActionBar?.title = "Settings"
                 settingsFragment = SettingsFragment()
                 supportFragmentManager
                     .beginTransaction()
@@ -63,6 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.todolist -> {
+                supportActionBar?.title = "ToDo List"
                 todoFragment = TodoFragment()
                 supportFragmentManager
                     .beginTransaction()
@@ -71,6 +76,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.birthdays -> {
+                supportActionBar?.title = "Birthdays"
+                Toast.makeText(this, "i got called", Toast.LENGTH_LONG)
                 birthdayFragment = BirthdayFragment()
                 supportFragmentManager
                     .beginTransaction()
@@ -79,6 +86,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.calendar -> {
+                supportActionBar?.title = "Calendar"
                 calenderFragment = CalenderFragment()
                 supportFragmentManager
                     .beginTransaction()

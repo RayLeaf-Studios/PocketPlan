@@ -43,6 +43,7 @@ class Database(context: Context) {
      * @param index The index of the list, which will be removed.
      */
     fun deleteTask(index: Int) {
+
         taskList.removeAt(index)
         saveTaskList()
     }
@@ -61,6 +62,7 @@ class Database(context: Context) {
     fun getTask(index: Int): Task = taskList[index]
 
     private fun fetchTaskList(): ArrayList<Task> {
+
         val jsonString = taskFile.readText()
 
         return GsonBuilder().create()
@@ -68,12 +70,14 @@ class Database(context: Context) {
     }
 
     private fun saveTaskList() {
+
         val isNewFileCreated: Boolean = taskFile.exists()
         val jsonString = Klaxon().toJsonString(taskList)
 
-        if(isNewFileCreated) {
+        if (isNewFileCreated) {
             taskFile.writeText(jsonString)
         }
+
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -95,7 +99,7 @@ class Database(context: Context) {
         val isNewFileCreated: Boolean = birthdayFile.exists()
         val jsonString = Klaxon().toJsonString(birthdayList)
 
-        if(isNewFileCreated) {
+        if (isNewFileCreated) {
             birthdayFile.writeText(jsonString)
         }
     }
@@ -124,12 +128,15 @@ class Database(context: Context) {
     //debug here will be database handling
 
     private fun createFiles() {
-        if(!taskFile.exists()) taskFile.writeText("[]")
-        if(!birthdayFile.exists()) birthdayFile.writeText("[]")
+
+        if (!taskFile.exists()) taskFile.writeText("[]")
+        if (!birthdayFile.exists()) birthdayFile.writeText("[]")
+
     }
 
     private fun setStorageLocation(fileName: String, context: Context): File {
-        return if(Build.VERSION.SDK_INT < 29) {
+
+        return if (Build.VERSION.SDK_INT < 29) {
             File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
         } else {
             File(context.filesDir, fileName)

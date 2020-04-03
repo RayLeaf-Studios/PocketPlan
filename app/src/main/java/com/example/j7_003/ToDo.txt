@@ -35,11 +35,18 @@ modules:
 
 
 random Tasks:
+    statt multithreading, in mainactivity oncreate das laden der tasks auslösen?, dann hängt die app
+    nicht während der nutzung sondern beim ersten laden dauerts halt 0.3 sek
+
     Multithreading for adding task? (not that important but would be nice)
     grobes design / layout des Main-Panels? Was wird wo angezeigt?
-    Geburtstage, komplette datenstruktur, speichern, lesen, bearbeiten usw
     geburtstagspanel layout?
-    dat sollte ma reichen bis ich on bin
+    Geburtstage mit optionalem (remember me x days before)?
+    Calender layout?
+    Termin Speicher Datenstruktur?
+
+
+
 
 
 
