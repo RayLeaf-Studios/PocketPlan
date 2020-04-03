@@ -13,21 +13,17 @@ modules:
 
     1 birthdays:
         1.1 element attributes:
-            date, name, (optional note), (optional reminder x days before)
+            date!, name!, (optional note), (optional reminder x days before)
 
         1.2 user functions:
-            add, remove, edit
+            add!, remove!, edit
 
         1.3 functionality:
             ?shows next x birthdays in a panel?
             push notifications
 
     2 to-do-list:
-        2.1 element attributes:
-            title!, priority!, ?color?
-
-        2.2 user functions:
-            add!, remove!, edit
+        2.1 layout
 
     3 calendar:
          3.1 to be specified
@@ -49,7 +45,6 @@ random Tasks:
     geburtstagspanel layout?
     dat sollte ma reichen bis ich on bin
 
-    fix storage for older android versions
 
 
 
