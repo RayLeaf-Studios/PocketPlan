@@ -19,6 +19,7 @@ class Database(var context: Context) {
 
     init {
         createFiles()
+        addBirthday("eugen", 12, 24, "test")
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()
     }
@@ -79,6 +80,11 @@ class Database(var context: Context) {
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
     //debug here will be the birthday functionality
+
+    fun addBirthday(name: String, month: Int, day: Int, note: String) {
+        birthdayList.add(Birthday(name, month, day, note))
+        saveBirthdayList()
+    }
 
     fun addBirthday(name: String, month: Int, day: Int) {
         birthdayList.add(Birthday(name, month, day))
