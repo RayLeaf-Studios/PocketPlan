@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.logic.Database
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.addtask_dialog.view.*
+import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
 import kotlinx.android.synthetic.main.row_simple.view.*
 
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val database = Database(this)
 
-        val listAdapter = MyAdapter(this, database)
+        val listAdapter = MyAdapter(this, database, layoutInflater)
         listView.adapter = listAdapter
 
 
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private class MyAdapter(context: Context, val database: Database) : BaseAdapter() {
+    private class MyAdapter(context: Context, val database: Database, val layoutInflater: LayoutInflater) : BaseAdapter() {
         private val mContext: Context = context
 
         override fun getCount(): Int {
@@ -91,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         @SuppressLint("ViewHolder")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             sortTasks()
-            val layoutInflater = LayoutInflater.from(mContext)
             val rowSimple = layoutInflater.inflate(R.layout.row_simple, parent, false)
 
             //set displayed title
@@ -124,7 +124,11 @@ class MainActivity : AppCompatActivity() {
             val myDialogView = LayoutInflater.from(mContext).inflate(R.layout.addtask_dialog, null)
 
             //AlertDialogBuilder
-            val myBuilder = AlertDialog.Builder(mContext).setView(myDialogView).setTitle("Edit Task")
+            val myBuilder = AlertDialog.Builder(mContext).setView(myDialogView)
+            val editTitle = layoutInflater.inflate(R.layout.addtask_dialog_title, null)
+            editTitle.tvDialogTitle.text = "Edit Task"
+            myBuilder.setCustomTitle(editTitle)
+
 
             //show dialog
             val myAlertDialog = myBuilder.create()
