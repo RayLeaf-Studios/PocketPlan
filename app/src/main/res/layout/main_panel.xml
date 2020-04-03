@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:fitsSystemWindows="true"
+    android:background="@color/colorBackground"
     android:layout_height="match_parent">
 
     <include
@@ -17,11 +18,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/nav_view"
+        app:itemIconTint="@color/colorOnBackGround"
+        app:itemTextColor="@color/colorOnBackGround"
         android:background="@color/colorBackground"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/header"
-        android:layout_gravity="start"
-        ></com.google.android.material.navigation.NavigationView>
+        android:layout_gravity="start" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

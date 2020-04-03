@@ -90,7 +90,6 @@ class TodoFragment : Fragment() {
     }
 
 
-
     private class MyAdapter(context: Context, val database: Database, val layoutInflater: LayoutInflater) : BaseAdapter() {
         private val mContext: Context = context
 
@@ -130,7 +129,6 @@ class TodoFragment : Fragment() {
                 notifyDataSetChanged()
                 sortTasks()
             }
-
             return rowSimple
         }
 
