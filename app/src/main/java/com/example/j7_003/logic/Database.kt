@@ -25,9 +25,6 @@ class Database(context: Context) {
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()
         addDebugBirthdays()
-
-        sortBirthday()
-        saveBirthdayList()
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -85,29 +82,57 @@ class Database(context: Context) {
     //--------------------------------------------------------------------------------------------//
     //debug here will be the birthday functionality
 
+    /**
+     * Adds a birthday to the birthdaylist and saves the birthdaylist.
+     * @param name The name of the created birthday
+     * @param month The month of the birthday
+     * @param day The day of the birthday
+     * @param note A note belonging to the birthday object
+     */
     fun addBirthday(name: String, month: Int, day: Int, note: String) {
         birthdayList.add(Birthday(name, month, day, note))
         saveBirthdayList()
     }
 
+    /**
+     * Adds a birthday to the birthdaylist and saves the birthdaylist.
+     * @param name The name of the created birthday
+     * @param month The month of the birthday
+     * @param day The day of the birthday
+     */
     fun addBirthday(name: String, month: Int, day: Int) {
         birthdayList.add(Birthday(name, month, day))
         saveBirthdayList()
     }
 
+    /**
+     * Saves the birthday list as json string
+     */
     fun saveBirthdayList() {
         birthdayFile.writeText(converter.toJson(birthdayList))
     }
 
+    /**
+     * Deletes the Birthday at a given index in the birthdaylist
+     * @param index The position of the birthday in the array list
+     */
     fun deleteBirthday(index: Int) {
         birthdayList.removeAt(index)
         saveBirthdayList()
     }
 
+    /**
+     * To be implemented...
+     * Will edit a given birthday object
+     */
     fun editBirthday() {
         //todo
     }
 
+    /**
+     * Returns a birthday from arraylist at given index
+     * @return Returns requested birthday object
+     */
     fun getBirthday(position: Int): Birthday = birthdayList[position]
 
     private fun fetchBirthdayList(): ArrayList<Birthday> {
