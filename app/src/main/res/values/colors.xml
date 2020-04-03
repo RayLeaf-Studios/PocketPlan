@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+    <resources>
     <color name="colorPriority1">#6097C3</color>
     <color name="colorPriority2">#385170</color>
     <color name="colorPriority3">#132C4C</color>
-    <color name="onBackGround">#FFFFFF</color>
+    <color name="colorOnBackGround">#FFFFFF</color>
     <color name="colorPrimary">#1C1C1C</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#4E9151</color>//#26836E
+    <color name="colorAccent">#4E917C</color>//#26836E
     <color name="colorBackground">#121212</color>
     <color name="colorBackgroundElevated">#1C1C1C</color>
     <color name="colorError">#CF6679</color>

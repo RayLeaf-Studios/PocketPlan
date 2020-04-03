@@ -7,4 +7,6 @@
     <string name="addTaskTitleHint">Title</string>
     <string name="sampleText">Lorem Ipsum</string>
     <string name="checkMark">✔</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 </resources>

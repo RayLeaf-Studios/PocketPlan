@@ -11,7 +11,7 @@
     <EditText
         android:id="@+id/etxTitleAddTask"
         android:layout_width="0dp"
-        android:textColor="@color/onBackGround"
+        android:textColor="@color/colorOnBackGround"
         android:layout_height="42dp"
         android:autofillHints=""
         android:hint="@string/addTaskTitleHint"

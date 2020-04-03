@@ -16,7 +16,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/roboto"
         android:text="@string/sampleText"
-        android:textColor="@color/onBackGround"
+        android:textColor="@color/colorOnBackGround"
         android:textSize="20sp"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"

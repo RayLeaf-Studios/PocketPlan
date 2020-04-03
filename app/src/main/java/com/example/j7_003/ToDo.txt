@@ -34,9 +34,6 @@ modules:
         4.2 optional reminder at sleepTime < 8h
 
 
-
-
-
 random Tasks:
     Multithreading for adding task? (not that important but would be nice)
     grobes design / layout des Main-Panels? Was wird wo angezeigt?
