@@ -35,10 +35,8 @@ modules:
 
 
 random Tasks:
-    statt multithreading, in mainactivity oncreate das laden der tasks auslösen?, dann hängt die app
-    nicht während der nutzung sondern beim ersten laden dauerts halt 0.3 sek
+    Multithreading for adapter creation
 
-    Multithreading for adding task? (not that important but would be nice)
     grobes design / layout des Main-Panels? Was wird wo angezeigt?
     geburtstagspanel layout?
     Geburtstage mit optionalem (remember me x days before)?
