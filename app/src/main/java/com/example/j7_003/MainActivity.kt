@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.birthdays -> {
-                notificationHandler.createBirthdayNotification(Birthday("Eugen", 12, 24))
+                notificationHandler.notifyUpcomingBirthday(Birthday("Eugen", 12, 24))
                 supportActionBar?.title = "Birthdays"
                 Toast.makeText(this, "i got called", Toast.LENGTH_LONG)
                 birthdayFragment =

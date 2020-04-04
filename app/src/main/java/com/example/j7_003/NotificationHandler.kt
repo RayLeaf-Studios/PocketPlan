@@ -49,7 +49,7 @@ class NotificationHandler(val context: Context, private val systemNotificationSe
         notificationManager.notify(0, builder.build())
     }
 
-    fun createBirthdayNotification(birthday: Birthday) {
+    fun notifyUpcomingBirthday(birthday: Birthday) {
         lateinit var notificationChannel: NotificationChannel
         lateinit var builder: Notification.Builder
         val channelId = "com.example.j7_003"
@@ -67,15 +67,52 @@ class NotificationHandler(val context: Context, private val systemNotificationSe
             notificationManager.createNotificationChannel(notificationChannel)
 
             builder = Notification.Builder(context, channelId)
-                .setContentTitle("Birthday")
+                //.setContentTitle("Birthday")
                 .setContentText("${birthday.name}'s birthday is coming up!")
                 .setSmallIcon(R.drawable.ic_action_birthday)
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_birthday))
                 .setContentIntent(pendingIntent)
         } else {
             builder = Notification.Builder(context)
-                .setContentTitle("Birthday")
+                //.setContentTitle("Birthday")
                 .setContentText("${birthday.name}'s birthday is coming up!")
+                .setSmallIcon(R.drawable.ic_action_birthday)
+                .setLargeIcon(
+                    BitmapFactory.decodeResource(context.resources,
+                        R.mipmap.ic_launcher_round
+                    ))
+                .setContentIntent(pendingIntent)
+        }
+        notificationManager.notify(1000, builder.build())
+    }
+
+    fun notifyBirthday(birthday: Birthday) {
+        lateinit var notificationChannel: NotificationChannel
+        lateinit var builder: Notification.Builder
+        val channelId = "com.example.j7_003"
+        val description = "Birthday Notification"
+        val notificationManager: NotificationManager = systemNotificationService as NotificationManager
+
+        val intent = Intent(context, LauncherActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(context, channelId)
+                //.setContentTitle("Birthday")
+                .setContentText("It's ${birthday.name}s birthday!")
+                .setSmallIcon(R.drawable.ic_action_birthday)
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_birthday))
+                .setContentIntent(pendingIntent)
+        } else {
+            builder = Notification.Builder(context)
+                //.setContentTitle("Birthday")
+                .setContentText("It's ${birthday.name}s birthday!")
                 .setSmallIcon(R.drawable.ic_action_birthday)
                 .setLargeIcon(
                     BitmapFactory.decodeResource(context.resources,
