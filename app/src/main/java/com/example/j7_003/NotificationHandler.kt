@@ -6,7 +6,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
-import com.example.j7_003.data.Birthday
+import com.example.j7_003.data.database_objects.Birthday
 
 class NotificationHandler(val context: Context, private val systemNotificationService: Any?) {
     fun createDebugNotification() {

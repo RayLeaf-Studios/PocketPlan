@@ -3,6 +3,7 @@ package com.example.j7_003.data
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import com.example.j7_003.data.database_objects.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -38,7 +39,12 @@ class Database(context: Context) {
      * @param priority The priority the task will be set to
      */
     fun addTask(title: String, priority: Int) {
-        taskList.add(Task(title, priority))
+        taskList.add(
+            Task(
+                title,
+                priority
+            )
+        )
         saveTaskList()
     }
 
@@ -108,7 +114,13 @@ class Database(context: Context) {
      * @param day The day of the birthday
      */
     fun addBirthday(name: String, month: Int, day: Int) {
-        birthdayList.add(Birthday(name, month, day))
+        birthdayList.add(
+            Birthday(
+                name,
+                month,
+                day
+            )
+        )
         saveBirthdayList()
     }
 
