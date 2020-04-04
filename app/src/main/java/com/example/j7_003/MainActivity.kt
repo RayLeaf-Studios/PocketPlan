@@ -1,12 +1,7 @@
 package com.example.j7_003
 
 import android.annotation.SuppressLint
-import android.app.*
 import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -14,7 +9,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
-import com.example.j7_003.data.Birthday
+import com.example.j7_003.data.database_objects.Birthday
 import com.example.j7_003.fragments.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -90,7 +85,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.birthdays -> {
-                notificationHandler.notifyUpcomingBirthday(Birthday("Eugen", 12, 24))
+                notificationHandler.notifyUpcomingBirthday(
+                    Birthday(
+                        "Eugen",
+                        12,
+                        24
+                    )
+                )
                 supportActionBar?.title = "Birthdays"
                 Toast.makeText(this, "i got called", Toast.LENGTH_LONG)
                 birthdayFragment =
