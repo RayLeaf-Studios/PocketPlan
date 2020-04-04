@@ -14,10 +14,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
+import com.example.j7_003.fragments.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.main_panel.*
 
+@SuppressLint("Registered")
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var homeFragment: HomeFragment
@@ -65,7 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.settings -> {
                 supportActionBar?.title = "Settings"
-                settingsFragment = SettingsFragment()
+                settingsFragment =
+                    SettingsFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, settingsFragment)
@@ -85,7 +88,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.birthdays -> {
                 supportActionBar?.title = "Birthdays"
                 Toast.makeText(this, "i got called", Toast.LENGTH_LONG)
-                birthdayFragment = BirthdayFragment()
+                birthdayFragment =
+                    BirthdayFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, birthdayFragment)
@@ -94,7 +98,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.calendar -> {
                 supportActionBar?.title = "Calendar"
-                calenderFragment = CalenderFragment()
+                calenderFragment =
+                    CalenderFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, calenderFragment)
@@ -134,14 +139,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .setContentTitle("new content title")
                 .setContentText("new content text")
                 .setSmallIcon(R.drawable.ic_action_todo)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher_round))
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources,
+                    R.mipmap.ic_launcher_round
+                ))
                 .setContentIntent(pendingIntent)
         } else {
             builder = Notification.Builder(this)
                 .setContentTitle("new content title")
                 .setContentText("new content text")
                 .setSmallIcon(R.drawable.ic_action_todo)
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher_round))
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources,
+                    R.mipmap.ic_launcher_round
+                ))
                 .setContentIntent(pendingIntent)
         }
         notificationManager.notify(1234, builder.build())

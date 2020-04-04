@@ -1,4 +1,4 @@
-package com.example.j7_003
+package com.example.j7_003.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

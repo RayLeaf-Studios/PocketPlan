@@ -1,4 +1,4 @@
-package com.example.j7_003
+package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,28 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.example.j7_003.logic.Database
-import kotlinx.android.synthetic.main.row_simple.view.*
-import android.app.ActionBar
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import com.example.j7_003.data.Database
+import kotlinx.android.synthetic.main.row_task.view.*
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.navigation.NavigationView
+import com.example.j7_003.R
 import kotlinx.android.synthetic.main.addtask_dialog.view.*
 import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
-import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.fragment_todo.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
-import kotlinx.android.synthetic.main.main_panel.*
-import kotlinx.android.synthetic.main.row_simple.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -47,7 +34,11 @@ class TodoFragment : Fragment() {
         val btnAddTodoTask = view.btnAddTodoTask
 
         val database = Database(inflater.context)
-        val listAdapter = MyAdapter(inflater.context, database, layoutInflater)
+        val listAdapter = MyAdapter(
+            inflater.context,
+            database,
+            layoutInflater
+        )
 
         listView.adapter = listAdapter
 
@@ -107,7 +98,7 @@ class TodoFragment : Fragment() {
         @SuppressLint("ViewHolder")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             sortTasks()
-            val rowSimple = layoutInflater.inflate(R.layout.row_simple, parent, false)
+            val rowSimple = layoutInflater.inflate(R.layout.row_task, parent, false)
 
             //set displayed title
             rowSimple.name_textview.text = database.getTask(position).title

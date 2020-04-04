@@ -23,7 +23,7 @@
         android:background="@color/colorBackground"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
-        app:headerLayout="@layout/header"
+        app:headerLayout="@layout/header_menu"
         android:layout_gravity="start" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

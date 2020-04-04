@@ -1,4 +1,4 @@
-package com.example.j7_003.logic
+package com.example.j7_003.data
 
 import android.content.Context
 import android.os.Build
@@ -90,7 +90,14 @@ class Database(context: Context) {
      * @param note A note belonging to the birthday object
      */
     fun addBirthday(name: String, month: Int, day: Int, note: String) {
-        birthdayList.add(Birthday(name, month, day, note))
+        birthdayList.add(
+            Birthday(
+                name,
+                month,
+                day,
+                note
+            )
+        )
         saveBirthdayList()
     }
 
