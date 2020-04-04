@@ -14,10 +14,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
-import com.example.j7_003.data.Birthday
+import com.example.j7_003.data.Database
 import com.example.j7_003.fragments.*
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.main_panel.*
 
 @SuppressLint("Registered")
@@ -28,10 +29,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var birthdayFragment: BirthdayFragment
     lateinit var settingsFragment: SettingsFragment
     lateinit var todoFragment: TodoFragment
-    lateinit var notificationHandler: NotificationHandler
+    lateinit var test: String
 
     @SuppressLint("InflateParams", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        test = "this worked"
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
@@ -41,8 +44,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         actionBar?.title = "Home"
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolBar, (R.string.open), (R.string.close)){}
-
-        notificationHandler = NotificationHandler(this, getSystemService(Context.NOTIFICATION_SERVICE))
 
         drawerToggle.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(drawerToggle)
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
+
+
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when(menuItem.itemId){
@@ -80,7 +83,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.todolist -> {
-                notificationHandler.createDebugNotification()
+//                tvTasks.text=
+                createNotification("new description")
                 supportActionBar?.title = "ToDo List"
                 todoFragment = TodoFragment()
                 supportFragmentManager
@@ -90,7 +94,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.birthdays -> {
-                notificationHandler.notifyUpcomingBirthday(Birthday("Eugen", 12, 24))
                 supportActionBar?.title = "Birthdays"
                 Toast.makeText(this, "i got called", Toast.LENGTH_LONG)
                 birthdayFragment =
@@ -122,6 +125,43 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }else {
             super.onBackPressed()
         }
+    }
+
+    private fun createNotification(description: String) {
+        lateinit var notificationChannel: NotificationChannel
+        lateinit var builder: Notification.Builder
+        val channelId = "com.example.j7_003"
+        val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val intent = Intent(this, LauncherActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(this, channelId)
+                .setContentTitle("new content title")
+                .setContentText("new content text")
+                .setSmallIcon(R.drawable.ic_action_todo)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources,
+                    R.mipmap.ic_launcher_round
+                ))
+                .setContentIntent(pendingIntent)
+        } else {
+            builder = Notification.Builder(this)
+                .setContentTitle("new content title")
+                .setContentText("new content text")
+                .setSmallIcon(R.drawable.ic_action_todo)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources,
+                    R.mipmap.ic_launcher_round
+                ))
+                .setContentIntent(pendingIntent)
+        }
+        notificationManager.notify(1234, builder.build())
     }
 }
 

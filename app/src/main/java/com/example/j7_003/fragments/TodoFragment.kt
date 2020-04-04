@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.row_task.view.*
 import android.view.*
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import kotlinx.android.synthetic.main.addtask_dialog.view.*
 import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
