@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity(){
                 }
                 R.id.birthdays -> {
                     if(activeFragment!=3) {
-                        notificationHandler.notifyUpcomingBirthday(database.getBirthday(0))
                         supportActionBar?.title = "Birthdays"
                         birthdayFragment = BirthdayFragment()
                         supportFragmentManager
