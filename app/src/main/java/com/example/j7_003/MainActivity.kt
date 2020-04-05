@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database_objects.Birthday
 import com.example.j7_003.fragments.*
+import com.example.j7_003.notifications.NotificationHandler
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.main_panel.*
@@ -37,7 +38,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolBar, (R.string.open), (R.string.close)){}
 
-        notificationHandler = NotificationHandler(this, getSystemService(Context.NOTIFICATION_SERVICE))
+        notificationHandler =
+            NotificationHandler(
+                this,
+                getSystemService(Context.NOTIFICATION_SERVICE)
+            )
 
         drawerToggle.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(drawerToggle)
