@@ -29,62 +29,79 @@ class MainActivity : AppCompatActivity(){
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.btm_nav)
 
+        var activeFragment = 0
+
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
                 R.id.home -> {
-                    supportActionBar?.title = "Home"
-                    homeFragment = HomeFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, homeFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
+                    if(activeFragment!=0){
+                        supportActionBar?.title = "Home"
+                        homeFragment = HomeFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, homeFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                        activeFragment=0
+                    }
                 }
                 R.id.settings -> {
-                    supportActionBar?.title = "Settings"
-                    settingsFragment = SettingsFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, settingsFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
+                    if(activeFragment!=1) {
+                        supportActionBar?.title = "Settings"
+                        settingsFragment = SettingsFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, settingsFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                        activeFragment=1
+                    }
                 }
                 R.id.todolist -> {
-                    notificationHandler.createDebugNotification()
-                    supportActionBar?.title = "ToDo List"
-                    todoFragment = TodoFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, todoFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
+                    if(activeFragment!=2) {
+                        notificationHandler.createDebugNotification()
+                        supportActionBar?.title = "ToDo List"
+                        todoFragment = TodoFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, todoFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                        activeFragment=2
+                    }
                 }
                 R.id.birthdays -> {
-                    //debug >
-                    notificationHandler.notifyUpcomingBirthday(
-                        Birthday(
-                            "Eugen",
-                            12,
-                            24
+                    if(activeFragment!=3) {
+                        //debug >
+                        notificationHandler.notifyUpcomingBirthday(
+                            Birthday(
+                                "Eugen",
+                                12,
+                                24
+                            )
                         )
-                    )
-                    //debug <
-                    supportActionBar?.title = "Birthdays"
-                    birthdayFragment = BirthdayFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, birthdayFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
+                        //debug <
+                        supportActionBar?.title = "Birthdays"
+                        birthdayFragment = BirthdayFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, birthdayFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                        activeFragment=3
+                    }
                 }
                 R.id.calendar -> {
-                    supportActionBar?.title="Calendar"
-                    calenderFragment = CalenderFragment()
-                    supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.frame_layout, calenderFragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commit()
+                    if(activeFragment!=4) {
+                        supportActionBar?.title = "Calendar"
+                        calenderFragment = CalenderFragment()
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.frame_layout, calenderFragment)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .commit()
+                        activeFragment=4
+                    }
                 }
             }
             true
