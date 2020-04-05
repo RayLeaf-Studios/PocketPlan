@@ -1,7 +1,11 @@
 package com.example.j7_003
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.Database
@@ -11,14 +15,16 @@ import com.example.j7_003.notifications.NotificationHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(){
-
     private lateinit var homeFragment: HomeFragment
     private lateinit var calenderFragment: CalenderFragment
     private lateinit var birthdayFragment: BirthdayFragment
     private lateinit var settingsFragment: SettingsFragment
     private lateinit var todoFragment: TodoFragment
-    private lateinit var notificationHandler: NotificationHandler
-    lateinit var database: Database
+
+    companion object {
+        lateinit var notificationHandler: NotificationHandler
+        lateinit var database: Database
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -26,6 +32,7 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.main_panel)
 
         database = Database(this)
+        notificationHandler = NotificationHandler(this, getSystemService(Context.NOTIFICATION_SERVICE))
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.btm_nav)
 
@@ -59,7 +66,6 @@ class MainActivity : AppCompatActivity(){
                 }
                 R.id.todolist -> {
                     if(activeFragment!=2) {
-                        notificationHandler.createDebugNotification()
                         supportActionBar?.title = "ToDo List"
                         todoFragment = TodoFragment()
                         supportFragmentManager
@@ -72,15 +78,7 @@ class MainActivity : AppCompatActivity(){
                 }
                 R.id.birthdays -> {
                     if(activeFragment!=3) {
-                        //debug >
-                        notificationHandler.notifyUpcomingBirthday(
-                            Birthday(
-                                "Eugen",
-                                12,
-                                24
-                            )
-                        )
-                        //debug <
+                        notificationHandler.notifyUpcomingBirthday(database.getBirthday(0))
                         supportActionBar?.title = "Birthdays"
                         birthdayFragment = BirthdayFragment()
                         supportFragmentManager
@@ -106,12 +104,6 @@ class MainActivity : AppCompatActivity(){
             }
             true
         }
-
-        notificationHandler =
-            NotificationHandler(
-                this,
-                getSystemService(Context.NOTIFICATION_SERVICE)
-            )
 
         /**
          * initializes homeFragment as first fragment
