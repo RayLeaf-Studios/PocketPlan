@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btm_nav"
+        app:itemTextColor="@color/colorOnBackGround"
+        app:itemIconTint="@color/colorOnBackGround"
         android:layout_alignParentBottom="true"
         android:background="@color/colorBackgroundElevated"
         app:menu="@menu/bottom_nav"/>
@@ -20,7 +22,6 @@
         android:layout_height="match_parent"
         android:id="@+id/frame_layout"
         android:layout_above="@+id/btm_nav" />
-
 </RelativeLayout>
 
 
