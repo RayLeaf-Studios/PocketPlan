@@ -9,11 +9,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
+import com.example.j7_003.data.Database
 import com.example.j7_003.data.database_objects.Birthday
 import com.example.j7_003.fragments.*
 import com.example.j7_003.notifications.NotificationHandler
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.main_panel.*
 
 @SuppressLint("Registered")
@@ -25,6 +27,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var settingsFragment: SettingsFragment
     lateinit var todoFragment: TodoFragment
     lateinit var notificationHandler: NotificationHandler
+    lateinit var database: Database
+
 
     @SuppressLint("InflateParams", "ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolBar)
         val actionBar = supportActionBar
         actionBar?.title = "Home"
-
+        database = Database(this)
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolBar, (R.string.open), (R.string.close)){}
 
         notificationHandler =
@@ -71,8 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.settings -> {
                 supportActionBar?.title = "Settings"
-                settingsFragment =
-                    SettingsFragment()
+                settingsFragment = SettingsFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, settingsFragment)
@@ -90,6 +93,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.birthdays -> {
+                //debug >
                 notificationHandler.notifyUpcomingBirthday(
                     Birthday(
                         "Eugen",
@@ -97,10 +101,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         24
                     )
                 )
+                //debug <
                 supportActionBar?.title = "Birthdays"
-                Toast.makeText(this, "i got called", Toast.LENGTH_LONG)
-                birthdayFragment =
-                    BirthdayFragment()
+                birthdayFragment = BirthdayFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, birthdayFragment)
@@ -109,8 +112,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.calendar -> {
                 supportActionBar?.title = "Calendar"
-                calenderFragment =
-                    CalenderFragment()
+                calenderFragment = CalenderFragment()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, calenderFragment)
@@ -129,6 +131,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
+
 }
 
 

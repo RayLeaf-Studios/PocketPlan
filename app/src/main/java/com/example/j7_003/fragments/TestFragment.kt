@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.j7_003.R
+import com.example.j7_003.data.Database
+import kotlinx.android.synthetic.main.fragment_test.*
+import kotlinx.android.synthetic.main.fragment_test.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val ARG_PARAM3 = "param3"
-
 
 /**
  * A simple [Fragment] subclass.
@@ -23,14 +24,16 @@ private const val ARG_PARAM3 = "param3"
 class TestFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
-    private var param2: String? = null
+    private var param2: Database? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            param2 = it.get(ARG_PARAM2) as Database
         }
+
+
     }
 
     override fun onCreateView(
@@ -38,8 +41,16 @@ class TestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_test, container, false)
+        var view = inflater.inflate(R.layout.fragment_test, container, false)
+        view.testText.text = param1+param2?.taskList?.size.toString()
+        return view
     }
+
+    fun setDatabase(database: Database){
+        param2 = database
+    }
+
+
 
     companion object {
         /**
@@ -52,13 +63,15 @@ class TestFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(test: Int, param2: String, param3: Int) =
+        fun newInstance(param1: String, param2: Database) =
             TestFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, test)
-                    putString(ARG_PARAM2, param2)
-                    putString(ARG_PARAM3, param3)
+                    putString(ARG_PARAM1, param1)
+                    putSerializable(ARG_PARAM2, param2)
                 }
+                setDatabase(param2)
+                view?.testText?.text=param2.taskList.size.toString()
             }
+
     }
 }
