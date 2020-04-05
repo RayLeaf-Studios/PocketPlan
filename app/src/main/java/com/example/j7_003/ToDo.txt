@@ -35,8 +35,6 @@ modules:
 
 
 random Tasks:
-    Multithreading for adapter creation
-
     grobes design / layout des Main-Panels? Was wird wo angezeigt?
     geburtstagspanel layout?
     Geburtstage mit optionalem (remember me x days before)?

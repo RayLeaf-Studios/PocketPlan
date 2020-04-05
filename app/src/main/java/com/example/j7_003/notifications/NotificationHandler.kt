@@ -1,4 +1,4 @@
-package com.example.j7_003
+package com.example.j7_003.notifications
 
 import android.app.*
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import com.example.j7_003.R
 import com.example.j7_003.data.database_objects.Birthday
 
 class NotificationHandler(val context: Context, private val systemNotificationService: Any?) {
@@ -70,7 +71,9 @@ class NotificationHandler(val context: Context, private val systemNotificationSe
                 //.setContentTitle("Birthday")
                 .setContentText("${birthday.name}'s birthday is coming up!")
                 .setSmallIcon(R.drawable.ic_action_birthday)
-                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_birthday))
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources,
+                    R.drawable.ic_action_birthday
+                ))
                 .setContentIntent(pendingIntent)
         } else {
             builder = Notification.Builder(context)
@@ -107,7 +110,9 @@ class NotificationHandler(val context: Context, private val systemNotificationSe
                 //.setContentTitle("Birthday")
                 .setContentText("It's ${birthday.name}s birthday!")
                 .setSmallIcon(R.drawable.ic_action_birthday)
-                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_action_birthday))
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources,
+                    R.drawable.ic_action_birthday
+                ))
                 .setContentIntent(pendingIntent)
         } else {
             builder = Notification.Builder(context)
