@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/birthdays"
+        android:icon="@drawable/ic_action_birthday"
+        android:title="@string/menuTitleBirthdays" />
+
+    <item
+        android:id="@+id/todolist"
+        android:icon="@drawable/ic_action_todo"
+        android:title="@string/menuTitleTodo" />
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_action_home"
+        android:title="@string/menuTitleHome" />
+
+    <item
+        android:id="@+id/calendar"
+        android:icon="@drawable/ic_action_calendar"
+        android:title="@string/menuTitleCalendar" />
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/menuTitleSettings" />
+
+</menu>

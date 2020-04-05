@@ -7,7 +7,6 @@
     android:background="@color/colorBackground"
     android:paddingBottom="20dp">
 
-
     <EditText
         android:id="@+id/etxTitleAddTask"
         android:layout_width="0dp"
@@ -57,8 +56,6 @@
         android:textSize="@dimen/font_size_prio_buttons"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
-
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

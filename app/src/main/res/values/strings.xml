@@ -7,9 +7,10 @@
     <string name="addTaskTitleHint">Title</string>
     <string name="sampleText">Lorem Ipsum</string>
     <string name="checkMark">✔</string>
-    <string name="open">open</string>
-    <string name="close">close</string>
+    <string name="menuTitleBirthdays">Birthdays</string>
+    <string name="menuTitleTodo">ToDo</string>
+    <string name="menuTitleHome">Home</string>
+    <string name="menuTitleCalendar">Calendar</string>
+    <string name="menuTitleSettings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

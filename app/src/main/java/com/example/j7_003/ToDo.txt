@@ -28,18 +28,20 @@ modules:
     3 calendar:
          3.1 to be specified
 
-
     4 ?go to sleep reminder?
         4.1 small panel showing remaining sleep until Time X when going to sleep now
         4.2 optional reminder at sleepTime < 8h
 
 
+important Tasks:
+    -fix invisible icons in bottom navigation bar
+    -fix display of long tasks in task list
+
 random Tasks:
-    grobes design / layout des Main-Panels? Was wird wo angezeigt?
-    geburtstagspanel layout?
-    Geburtstage mit optionalem (remember me x days before)?
-    Calender layout?
-    Termin Speicher Datenstruktur?
+    - plan exact layout of main panel
+    - plan layout of birthday panel
+    - plan calendar layout
+
 
 
 

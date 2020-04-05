@@ -15,7 +15,7 @@
         <service android:name=".notifications.NotificationService" />
             <!--android:description="Used to notify the user, i.e. upcoming birthdays." />-->
         <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

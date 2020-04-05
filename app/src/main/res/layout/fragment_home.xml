@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".fragments.HomeFragment"
-    android:layout_marginTop="?attr/actionBarSize">
+    tools:context=".fragments.HomeFragment">
 
     <TextView
         android:id="@+id/tvTasks"
@@ -15,7 +14,7 @@
         android:layout_margin="20dp"
         android:padding="10dp"
         android:text="No Tasks"
-        android:textSize="30dp"
+        android:textSize="20sp"
         android:textColor="@color/colorOnBackGround"
         android:background="@color/colorBackgroundElevated"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,9 +29,9 @@
         android:layout_marginLeft="20dp"
         android:background="@color/colorBackgroundElevated"
         android:padding="10dp"
-        android:text="Birthday1\nBirthday2\nBirthday3"
+        android:text="Birthday 1\nBirthday 2\nBirthday 3"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="30dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTasks" />
 
@@ -47,7 +46,7 @@
         android:padding="10dp"
         android:text="Sample Calendar\nCalendar Entry 1\nCalendar Entry 2\nCalendar Entry 3"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="30dp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBirthdays" />
 </androidx.constraintlayout.widget.ConstraintLayout>

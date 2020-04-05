@@ -8,9 +8,8 @@
     android:orientation="vertical"
     android:background="@color/colorBackground"
     tools:context=".fragments.TodoFragment">
-^^
+
     <ListView
-        android:layout_marginTop="53dp"
         android:id="@+id/listView"
         android:layout_width="fill_parent"
         android:layout_height="586dp"
@@ -26,7 +25,7 @@
         android:layout_marginBottom="30dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/baseline_add_white_18dp"
+        android:src="@drawable/ic_add_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
