@@ -35,7 +35,7 @@ class BirthdayFragment : Fragment() {
 
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
 
-        val myRecycler = myView.recycler_view
+        val myRecycler = myView.recycler_view_birthday
 
         //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
         myView.btnAddBirthday.setOnClickListener() {
@@ -74,8 +74,10 @@ class BirthdayFragment : Fragment() {
 
             monthField.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                   database.addBirthday(nameField.text.toString(),
-                       monthField.text.toString().toInt(), dayField.text.toString().toInt())
+                    database.addBirthday(
+                        nameField.text.toString(),
+                        monthField.text.toString().toInt(), dayField.text.toString().toInt()
+                    )
                     myRecycler.adapter?.notifyDataSetChanged()
                     myAlertDialog?.dismiss()
                 }
@@ -84,19 +86,26 @@ class BirthdayFragment : Fragment() {
 
             nameField.requestFocus()
 
+
         }
-        myRecycler.adapter = BirthdayAdapter(MainActivity.database.birthdayList)
+
+        myRecycler.adapter = BirthdayAdapter()
+
         myRecycler.layoutManager = LinearLayoutManager(activity)
+
         //performance optimization, not necessary
         myRecycler.setHasFixedSize(true)
-        // Inflate the layout for this fragment
+
         return myView
     }
 
 }
 
-class BirthdayAdapter(private val birthdayList: List<Birthday>) :
+private class BirthdayAdapter() :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
+    val birthdayList = MainActivity.database.birthdayList
+    val mydatabase = MainActivity.database
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
         //parent is Recyclerview the view holder will be placed in
@@ -110,10 +119,9 @@ class BirthdayAdapter(private val birthdayList: List<Birthday>) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
+
         val currentBirthday = birthdayList[position]
         val activity = MainActivity.myActivity
-        val database = MainActivity.database
-        val birthdayList = database.birthdayList
 
         // EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener() {
@@ -161,7 +169,7 @@ class BirthdayAdapter(private val birthdayList: List<Birthday>) :
 
             monthField.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    database.editBirthday(nameField.text.toString(),
+                    mydatabase.editBirthday(nameField.text.toString(),
                         monthField.text.toString().toInt(),
                         dayField.text.toString().toInt(), position)
                     notifyDataSetChanged()
@@ -177,14 +185,14 @@ class BirthdayAdapter(private val birthdayList: List<Birthday>) :
 
         //formatting date
         var monthAddition = ""
-        if(currentBirthday.month<10) monthAddition = "0"
+        if (currentBirthday.month < 10) monthAddition = "0"
 
         var dayAddition = ""
-        if(currentBirthday.day<10) dayAddition = "0"
+        if (currentBirthday.day < 10) dayAddition = "0"
 
         holder.txvBirthdayLabelName.text =
-            dayAddition+currentBirthday.day.toString()+"."+
-                    monthAddition+currentBirthday.month.toString()+"      "+currentBirthday.name
+            dayAddition + currentBirthday.day.toString() + "." +
+                    monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
 
     }
 
@@ -192,6 +200,7 @@ class BirthdayAdapter(private val birthdayList: List<Birthday>) :
 
     //one instance of this class will contain one instance of row_birthday and meta data like position
     //also holds references to views inside the layout
+
     class BirthdayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txvBirthdayLabelName: TextView = itemView.txvBirthdayLabelName
     }

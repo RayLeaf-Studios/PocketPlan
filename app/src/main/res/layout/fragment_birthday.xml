@@ -10,7 +10,7 @@
     tools:context=".fragments.BirthdayFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_view_birthday"
         android:padding="4dp"
         android:clipToPadding="false"
         android:layout_width="match_parent"
@@ -28,6 +28,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

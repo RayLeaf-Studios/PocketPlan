@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
-    android:layout_margin="5dp"
+    android:layout_margin="8dp"
     android:background="@drawable/round_corner">
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sample Text"
-        android:textSize="15sp"
+        android:textSize="@dimen/font_size_list_items"
         android:textColor="@color/colorOnBackGround"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

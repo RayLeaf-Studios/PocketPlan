@@ -1,24 +1,24 @@
 package com.example.j7_003.fragments
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import com.example.j7_003.data.Database
-import kotlinx.android.synthetic.main.row_task.view.*
-import android.view.*
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.database_objects.Task
 import kotlinx.android.synthetic.main.addtask_dialog.view.*
 import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
+import kotlinx.android.synthetic.main.row_task.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -31,22 +31,14 @@ class TodoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_todo, container, false)
-
-        val listView = view.listView
-        val btnAddTodoTask = view.btnAddTodoTask
-
         val database = MainActivity.database
-        val listAdapter = MyAdapter(
-            inflater.context,
-            database,
-            layoutInflater
-        )
 
-        listView.adapter = listAdapter
+        val myView = inflater.inflate(R.layout.fragment_todo, container, false)
 
-        btnAddTodoTask.setOnClickListener {
+        val myRecycler = myView.recycler_view_todo
 
+        //ADDING TASK VIA FLOATING ACTION BUTTON
+        myView.btnAddTodoTask.setOnClickListener() {
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog, null)
 
@@ -58,8 +50,6 @@ class TodoFragment : Fragment() {
             val myAlertDialog = myBuilder?.create()
             myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             myAlertDialog?.show()
-
-            myDialogView.etxTitleAddTask.requestFocus()
 
             //adds listeners to confirmButtons in addTaskDialog
             val taskConfirmButtons = arrayListOf<Button>(
@@ -73,66 +63,57 @@ class TodoFragment : Fragment() {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
                     database.addTask(title, index + 1)
-                    listAdapter.notifyDataSetChanged()
+                    myRecycler.adapter?.notifyDataSetChanged()
                 }
             }
+
+            myDialogView.etxTitleAddTask.requestFocus()
         }
 
-        // Inflate the layout for this fragment
-        return view
+        myRecycler.adapter = TodoTaskAdapter()
+
+        myRecycler.layoutManager = LinearLayoutManager(activity)
+
+        myRecycler.setHasFixedSize(true)
+
+
+        return myView
     }
 
+}
 
-    private class MyAdapter(context: Context, val database: Database, val layoutInflater: LayoutInflater) : BaseAdapter() {
-        private val mContext: Context = context
+private class TodoTaskAdapter() :
+    RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){
+    private val database = MainActivity.database
+    private val taskList = database.taskList
 
-        override fun getCount(): Int {
-            return database.taskList.size
-        }
 
-        fun sortTasks() {
-            database.taskList.sortBy { t ->
-                t.priority
-            }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskAdapter.TodoTaskViewHolder {
+        //parent is Recyclerview the view holder will be placed in
+        //context is activity that the recyclerview is placed in
+        //parent in inflate tells the inflater where the layout will be placed
+        //so it can be inflated to the right size
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.row_task, parent, false)
+        return TodoTaskViewHolder(itemView)
+    }
 
-        //todo replace entire list with recylcer view (newer / faster version of list)
-        @SuppressLint("ViewHolder")
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            sortTasks()
-            val rowSimple = layoutInflater.inflate(R.layout.row_task, parent, false)
+    override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
-            //set displayed title
-            rowSimple.name_textview.text = database.getTask(position).title
+        val currentTask = taskList[position]
+        val activity = MainActivity.myActivity
 
-            //onclick action
-            rowSimple.setOnClickListener {
-                editTaskDialog(position)
-            }
 
-            when(database.getTask(position).priority){
-                1 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPriority1)
-                2 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPriority2)
-                3 -> rowSimple.btnDelete.setBackgroundResource(R.color.colorPriority3)
-            }
+        //EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
+        holder.itemView.setOnClickListener(){
 
-            //delete button action
-            rowSimple.btnDelete.setOnClickListener{
-                database.deleteTask(position)
-                notifyDataSetChanged()
-                sortTasks()
-            }
-            return rowSimple
-        }
-
-        fun editTaskDialog(position: Int) {
             //inflate the dialog with custom view
             //todo, passing null here probably causes problem with keyboard below
-            val myDialogView = LayoutInflater.from(mContext).inflate(R.layout.addtask_dialog, null)
+            val myDialogView = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog, null)
 
             //AlertDialogBuilder
-            val myBuilder = AlertDialog.Builder(mContext).setView(myDialogView)
-            val editTitle = layoutInflater.inflate(R.layout.addtask_dialog_title, null)
+            val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
+            val editTitle = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog_title, null)
             editTitle.tvDialogTitle.text = "Edit Task"
             myBuilder.setCustomTitle(editTitle)
 
@@ -141,7 +122,7 @@ class TodoFragment : Fragment() {
             myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             myAlertDialog.show()
 
-            //todo, show keyboard after this
+            //write current task to textField
             myDialogView.etxTitleAddTask.requestFocus()
             myDialogView.etxTitleAddTask.setText(database.getTask(position).title)
             myDialogView.etxTitleAddTask.setSelection(myDialogView.etxTitleAddTask.text.length)
@@ -163,15 +144,28 @@ class TodoFragment : Fragment() {
 
         }
 
-        //this can be ignored for now
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
+        holder.name_textview.text = currentTask.title
 
-        //this can be ignored for now
-        override fun getItem(position: Int): Any {
-            return "TEST STRING"
+        when(currentTask.priority){
+            1 -> holder.btnDelete.setBackgroundResource(R.color.colorPriority1)
+            2 -> holder.btnDelete.setBackgroundResource(R.color.colorPriority2)
+            3 -> holder.btnDelete.setBackgroundResource(R.color.colorPriority3)
+        }
+        holder.btnDelete.setOnClickListener(){
+            database.deleteTask(position)
+            notifyDataSetChanged()
+            //todo sort birthdays!? when and where
+
         }
     }
 
+    override fun getItemCount() = taskList.size
+
+    //one instance of this class will contain one instance of row_task and meta data like position
+    //also holds references to views inside the layout
+
+    class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val name_textview: TextView = itemView.name_textview
+        val btnDelete: ImageButton = itemView.btnDelete
+    }
 }
