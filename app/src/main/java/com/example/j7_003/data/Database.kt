@@ -169,6 +169,15 @@ class Database(context: Context) : Serializable {
         saveBirthdayList()
     }
 
+    fun editBirthday(name: String, month: Int, day: Int, index: Int, dayToRemind: Int) {
+        val editableBirthday: Birthday = getBirthday(index)
+        editableBirthday.name = name
+        editableBirthday.day = day
+        editableBirthday.month = month
+        editableBirthday.daysToRemind = dayToRemind
+        saveBirthdayList()
+    }
+
     fun editBirthday(name: String, month: Int, day: Int, index: Int) {
         val editableBirthday: Birthday = getBirthday(index)
         editableBirthday.name = name
@@ -193,31 +202,6 @@ class Database(context: Context) : Serializable {
     private fun sortBirthday() {
         birthdayList.sortWith(compareBy({ it.month }, {it.day }, {it.name}))
     }
-
-    /*fun getNextXBirthdays(count: Int): ArrayList<String>{
-                //debug gibt die nächsten count birthdays ab (inklusive) heute als arraylist zurück
-
-        var dateNow: LocalDate
-        var daysLeft: Long
-        var cacheLeft: Long = 365
-        val closestBirthdays = ArrayList<String>()
-
-        birthdayList.forEach { n ->
-
-            *//*daysLeft = ChronoUnit.DAYS.between(otherDay, dateNow)
-
-            if(daysLeft < cacheLeft) {
-                cacheLeft = daysLeft
-                if((n != birthdayList.last() && n.hashCode() != birthdayList[index + 1].hashCode()) || (n.hashCode() != birthdayList[index + 1].hashCode())) {
-                    closestBirthdays.add(n)
-                }
-            } else {
-                return@forEachIndexed
-            }*//*
-        }
-
-        return closestBirthdays
-    }*/
 
     private fun addDebugBirthdays() {
         birthdayList = arrayListOf(
