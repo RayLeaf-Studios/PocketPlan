@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:layout_margin="8dp"
-    android:background="@drawable/round_corner">
+    android:background="@drawable/round_corner3">
 
     <TextView
         android:padding="13dp"

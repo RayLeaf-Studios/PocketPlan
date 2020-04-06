@@ -1,5 +1,6 @@
 package com.example.j7_003.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
@@ -70,11 +72,19 @@ class TodoFragment : Fragment() {
             myDialogView.etxTitleAddTask.requestFocus()
         }
 
-        myRecycler.adapter = TodoTaskAdapter()
+        val myAdapter = TodoTaskAdapter()
+
+        myRecycler.adapter = myAdapter
 
         myRecycler.layoutManager = LinearLayoutManager(activity)
 
         myRecycler.setHasFixedSize(true)
+
+        var swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteT(myAdapter))
+        swipeHelperLeft.attachToRecyclerView(myRecycler)
+
+        var swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteT(myAdapter))
+        swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
         return myView
@@ -82,14 +92,42 @@ class TodoFragment : Fragment() {
 
 }
 
-private class TodoTaskAdapter() :
+class SwipeRightToDeleteT(var adapter: TodoTaskAdapter):
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        var position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+    }
+}
+
+class SwipeLeftToDeleteT(private var adapter: TodoTaskAdapter):
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        var position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+    }
+}
+
+class TodoTaskAdapter() :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){
     private val database = MainActivity.database
     private val taskList = database.taskList
 
+    fun deleteItem(position: Int){
+        database.deleteTask(position)
+        notifyItemRemoved(position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskAdapter.TodoTaskViewHolder {
-        //parent is Recyclerview the view holder will be placed in
+        //parent is Recyc^^lerview the view holder will be placed in
         //context is activity that the recyclerview is placed in
         //parent in inflate tells the inflater where the layout will be placed
         //so it can be inflated to the right size
@@ -108,7 +146,6 @@ private class TodoTaskAdapter() :
         holder.itemView.setOnClickListener(){
 
             //inflate the dialog with custom view
-            //todo, passing null here probably causes problem with keyboard below
             val myDialogView = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog, null)
 
             //AlertDialogBuilder
@@ -147,16 +184,15 @@ private class TodoTaskAdapter() :
         holder.name_textview.text = currentTask.title
 
         when(currentTask.priority){
-            1 -> holder.btnDelete.setBackgroundResource(R.color.colorPriority1)
-            2 -> holder.btnDelete.setBackgroundResource(R.color.colorPriority2)
-            3 -> holder.btnDelete.setBackgroundResource(R.color.colorPriority3)
+            1 -> holder.myView.setBackgroundResource(R.drawable.round_corner1)
+            2 -> holder.myView.setBackgroundResource(R.drawable.round_corner2)
+            3 -> holder.myView.setBackgroundResource(R.drawable.round_corner3)
         }
-        holder.btnDelete.setOnClickListener(){
-            database.deleteTask(position)
-            notifyDataSetChanged()
-            //todo sort birthdays!? when and where
-
-        }
+//        holder.btnDelete.setOnClickListener(){
+//            database.deleteTask(position)
+//            notifyDataSetChanged()
+//
+//        }
     }
 
     override fun getItemCount() = taskList.size
@@ -166,6 +202,7 @@ private class TodoTaskAdapter() :
 
     class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name_textview: TextView = itemView.name_textview
-        val btnDelete: ImageButton = itemView.btnDelete
+//        val btnDelete: ImageButton = itemView.btnDelete
+        var myView = itemView
     }
 }
