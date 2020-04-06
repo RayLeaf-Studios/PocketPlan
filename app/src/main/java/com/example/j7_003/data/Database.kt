@@ -212,7 +212,27 @@ class Database(context: Context) : Serializable {
         val calendar = Calendar.getInstance()
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
+        val cacheList = ArrayList<Birthday>()
+        var i = 0
+
+        birthdayList.sortWith(compareBy({ it.month }, { it.day }, { it.name }))
+
+        while(i < birthdayList.size) {
+            if (getBirthday(i).month < month || (getBirthday(i).month == month && getBirthday(i).day < day)) {
+                cacheList.add(getBirthday(i))
+                birthdayList.remove(getBirthday(i))
+            } else {
+                i++
+            }
+        }
+
         birthdayList.sortWith(compareBy({ it.month < month }, { it.month }, { it.day < day }, { it.day }, { it.name }))
+
+        cacheList.forEach { n ->
+            birthdayList.add(n)
+        }
+
+        Log.e("debug", cacheList.toString())
     }
 
     private fun addDebugBirthdays() {
@@ -232,6 +252,21 @@ class Database(context: Context) : Serializable {
             Birthday("Niemand", 17, 2),
             Birthday("Test", 3, 2)
         )
+
+        fun getXNextBirthdays(index: Int): ArrayList<Birthday> {
+            var min = index
+            if (index > birthdayList.size) {
+                min = birthdayList.size
+            }
+
+            val xNextBirthdays = ArrayList<Birthday>()
+
+            for (i in 0..min) {
+                xNextBirthdays.add(birthdayList[i])
+            }
+
+            return xNextBirthdays
+        }
     }
 
     //--------------------------------------------------------------------------------------------//
