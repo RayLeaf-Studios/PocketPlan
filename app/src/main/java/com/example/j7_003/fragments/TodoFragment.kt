@@ -65,6 +65,7 @@ class TodoFragment : Fragment() {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
                     database.addTask(title, index + 1)
+                    database.sortTasks()
                     myRecycler.adapter?.notifyDataSetChanged()
                 }
             }
@@ -175,6 +176,7 @@ class TodoTaskAdapter() :
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
                     database.editTask(position, index, myDialogView.etxTitleAddTask.text.toString())
+                    database.sortTasks()
                     this.notifyDataSetChanged()
                 }
             }

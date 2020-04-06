@@ -81,6 +81,7 @@ class BirthdayFragment : Fragment() {
                         nameField.text.toString(),
                         monthField.text.toString().toInt(), dayField.text.toString().toInt()
                     )
+                    database.sortBirthday()
                     myRecycler.adapter?.notifyDataSetChanged()
                     myAlertDialog?.dismiss()
                 }
@@ -209,6 +210,7 @@ class BirthdayAdapter() :
                     mydatabase.editBirthday(nameField.text.toString(),
                         monthField.text.toString().toInt(),
                         dayField.text.toString().toInt(), position)
+                    mydatabase.sortBirthday()
                     notifyDataSetChanged()
                     myAlertDialog?.dismiss()
                 }
