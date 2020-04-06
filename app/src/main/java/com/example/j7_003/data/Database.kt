@@ -25,25 +25,10 @@ class Database(context: Context) : Serializable {
     init {
         createFiles()
         taskList = fetchTaskList()
-//        birthdayList = fetchBirthdayList()
+        //addDebugBirthdays()
+        birthdayList = fetchBirthdayList()
         //debug!
-        birthdayList = arrayListOf(
-            Birthday("Nasus", 1, 23),
-            Birthday("Veigar", 12, 24),
-            Birthday("Sion", 5, 1),
-            Birthday("Ezreal", 3, 5),
-            Birthday("Leona", 4, 7),
-            Birthday("Jarvan IV", 1, 9),
-            Birthday("Sejuani", 6, 12),
-            Birthday("Max Mustermann", 1, 2),
-            Birthday("Darius", 1, 2),
-            Birthday("Xerath", 12, 12),
-            Birthday("Svobby", 5, 28),
-            Birthday("Angela Merkel", 1, 25),
-            Birthday("Niemand", 17, 2),
-            Birthday("Test", 3, 2)
 
-        )
         sortBirthday()
 //        addDebugBirthdays()
     }
@@ -165,10 +150,28 @@ class Database(context: Context) : Serializable {
      * To be implemented...
      * Will edit a given birthday object
      */
-    fun editBirthday(index: Int, name: String, note: String, day: Int, month: Int) {
+    fun editBirthday(name: String, month: Int, day: Int, index: Int, note: String, dayToRemind: Int) {
         val editableBirthday: Birthday = getBirthday(index)
         editableBirthday.name = name
         editableBirthday.note = note
+        editableBirthday.day = day
+        editableBirthday.month = month
+        editableBirthday.daysToRemind = dayToRemind
+        saveBirthdayList()
+    }
+
+    fun editBirthday(name: String, month: Int, day: Int, index: Int, note: String) {
+        val editableBirthday: Birthday = getBirthday(index)
+        editableBirthday.name = name
+        editableBirthday.note = note
+        editableBirthday.day = day
+        editableBirthday.month = month
+        saveBirthdayList()
+    }
+
+    fun editBirthday(name: String, month: Int, day: Int, index: Int) {
+        val editableBirthday: Birthday = getBirthday(index)
+        editableBirthday.name = name
         editableBirthday.day = day
         editableBirthday.month = month
         saveBirthdayList()
@@ -217,9 +220,22 @@ class Database(context: Context) : Serializable {
     }*/
 
     private fun addDebugBirthdays() {
-        addBirthday("eugen", 12, 24)
-        addBirthday("micha", 9, 15)
-        addBirthday("nico", 3, 24)
+        birthdayList = arrayListOf(
+            Birthday("Nasus", 1, 23),
+            Birthday("Veigar", 12, 24),
+            Birthday("Sion", 5, 1),
+            Birthday("Ezreal", 3, 5),
+            Birthday("Leona", 4, 7),
+            Birthday("Jarvan IV", 1, 9),
+            Birthday("Sejuani", 6, 12),
+            Birthday("Max Mustermann", 1, 2),
+            Birthday("Darius", 1, 2),
+            Birthday("Xerath", 12, 12),
+            Birthday("Svobby", 5, 28),
+            Birthday("Angela Merkel", 1, 25),
+            Birthday("Niemand", 17, 2),
+            Birthday("Test", 3, 2)
+        )
     }
 
     //--------------------------------------------------------------------------------------------//

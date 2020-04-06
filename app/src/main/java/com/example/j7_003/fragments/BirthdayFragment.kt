@@ -154,16 +154,16 @@ class BirthdayAdapter(private val birthdayList: List<Birthday>) :
             dayField.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     monthField.requestFocus()
-                    monthField.setSelection(dayField.text.toString().length)
+                    monthField.setSelection(monthField.text.toString().length)
                 }
                 false
             }
 
             monthField.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    //todo, implement this as soon as edit birthday is implemented
-//                    database.editBirthday(nameField.text.toString(),
-//                        monthField.text.toString().toInt(), dayField.text.toString().toInt())
+                    database.editBirthday(nameField.text.toString(),
+                        monthField.text.toString().toInt(),
+                        dayField.text.toString().toInt(), position)
                     notifyDataSetChanged()
                     myAlertDialog?.dismiss()
                 }
