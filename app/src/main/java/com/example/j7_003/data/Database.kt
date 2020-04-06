@@ -79,8 +79,9 @@ class Database(context: Context) : Serializable {
     }
 
     fun editTask(position: Int, index: Int, title: String) {
-        getTask(position).title = title
-        getTask(position).priority = index + 1
+        val editableTask: Task = getTask(position)
+        editableTask.title = title
+        editableTask.priority = index + 1
         saveTaskList()
     }
 
@@ -164,8 +165,13 @@ class Database(context: Context) : Serializable {
      * To be implemented...
      * Will edit a given birthday object
      */
-    fun editBirthday() {
-        //todo
+    fun editBirthday(index: Int, name: String, note: String, day: Int, month: Int) {
+        val editableBirthday: Birthday = getBirthday(index)
+        editableBirthday.name = name
+        editableBirthday.note = note
+        editableBirthday.day = day
+        editableBirthday.month = month
+        saveBirthdayList()
     }
 
     /**
