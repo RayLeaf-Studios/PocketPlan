@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
@@ -30,6 +31,8 @@ class BirthdayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
 
         val database = MainActivity.database
 
@@ -89,9 +92,17 @@ class BirthdayFragment : Fragment() {
 
         }
 
-        myRecycler.adapter = BirthdayAdapter()
+        var myAdapter = BirthdayAdapter()
+
+        myRecycler.adapter = myAdapter
 
         myRecycler.layoutManager = LinearLayoutManager(activity)
+
+        var swipeHelperLeft = ItemTouchHelper(SwipeLeftToDelete(myAdapter))
+        swipeHelperLeft.attachToRecyclerView(myRecycler)
+
+        var swipeHelperRight = ItemTouchHelper(SwipeRightToDelete(myAdapter))
+        swipeHelperRight.attachToRecyclerView(myRecycler)
 
         //performance optimization, not necessary
         myRecycler.setHasFixedSize(true)
@@ -101,11 +112,37 @@ class BirthdayFragment : Fragment() {
 
 }
 
-private class BirthdayAdapter() :
+class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        var position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+    }
+}
+
+class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        var position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+    }
+}
+
+class BirthdayAdapter() :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     val birthdayList = MainActivity.database.birthdayList
     val mydatabase = MainActivity.database
 
+    fun deleteItem(position: Int){
+        mydatabase.deleteBirthday(position)
+        notifyItemRemoved(position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
         //parent is Recyclerview the view holder will be placed in
