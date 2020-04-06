@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_todo.view.*
 /**
  * A simple [Fragment] subclass.
  */
+
 class TodoFragment : Fragment() {
 
     override fun onCreateView(
@@ -30,12 +31,12 @@ class TodoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var view = inflater.inflate(R.layout.fragment_todo, container, false)
+        val view = inflater.inflate(R.layout.fragment_todo, container, false)
 
         val listView = view.listView
         val btnAddTodoTask = view.btnAddTodoTask
 
-        val database = Database(inflater.context)
+        val database = MainActivity.database
         val listAdapter = MyAdapter(
             inflater.context,
             database,
@@ -47,7 +48,6 @@ class TodoFragment : Fragment() {
         btnAddTodoTask.setOnClickListener {
 
             //inflate the dialog with custom view
-            //todo, passing null here probably causes problem with keyboard below
             val myDialogView = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog, null)
 
             //AlertDialogBuilder

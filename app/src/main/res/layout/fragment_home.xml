@@ -8,45 +8,14 @@
     tools:context=".fragments.HomeFragment">
 
     <TextView
-        android:id="@+id/tvTasks"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="10dp"
-        android:text="No Tasks"
-        android:textSize="20sp"
+        android:text="Home"
         android:textColor="@color/colorOnBackGround"
-        android:background="@color/colorBackgroundElevated"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvBirthdays"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:background="@color/colorBackgroundElevated"
-        android:padding="10dp"
-        android:text="Birthday 1\nBirthday 2\nBirthday 3"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTasks" />
-
-    <TextView
-        android:id="@+id/tvCalendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:background="@color/colorBackgroundElevated"
-        android:padding="10dp"
-        android:text="Sample Calendar\nCalendar Entry 1\nCalendar Entry 2\nCalendar Entry 3"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBirthdays" />
 </androidx.constraintlayout.widget.ConstraintLayout>

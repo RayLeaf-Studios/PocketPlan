@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var todoFragment: TodoFragment
 
     companion object {
+        lateinit var myActivity: MainActivity
         lateinit var notificationHandler: NotificationHandler
         lateinit var database: Database
     }
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity(){
 
         database = Database(this)
         notificationHandler = NotificationHandler(this, getSystemService(Context.NOTIFICATION_SERVICE))
+        myActivity = this
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.btm_nav)
 
@@ -107,6 +109,8 @@ class MainActivity : AppCompatActivity(){
         /**
          * initializes homeFragment as first fragment
          */
+
+        bottomNavigation.selectedItemId = R.id.home
 
         homeFragment = HomeFragment()
         supportFragmentManager

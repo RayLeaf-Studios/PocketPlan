@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/addBirthdayNameHint"
+        android:autofillHints=""
+        android:inputType="textPersonName"
+        android:textColor="@color/colorOnBackGround"
+        android:textColorHint="@color/colorHint"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/etDay"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/addBirthdayDayHint"
+        android:autofillHints=""
+        android:inputType="date"
+        android:textColor="@color/colorOnBackGround"
+        android:textColorHint="@color/colorHint"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etName">
+
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="."
+        android:textColor="@color/colorOnBackGround"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/etDay"
+        app:layout_constraintStart_toEndOf="@+id/etDay"
+        tools:ignore="HardcodedText">
+
+    </TextView>
+
+    <EditText
+        android:id="@+id/etMonth"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/addBirthdayMonthHint"
+        android:inputType="date"
+        android:textColor="@color/colorOnBackGround"
+        android:textColorHint="@color/colorHint"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/etName">
+
+    </EditText>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

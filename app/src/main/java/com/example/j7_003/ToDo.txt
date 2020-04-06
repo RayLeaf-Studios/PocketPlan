@@ -34,13 +34,22 @@ modules:
 
 
 important Tasks:
-    -fix invisible icons in bottom navigation bar
-    -fix display of long tasks in task list
+    - add functionality of editing birthdays
+    - convert task list into Recyclerview
+    - fix handling of errors when inputting wrong birthdays
 
-random Tasks:
+random tasks:
+    - add sleep reminder
     - plan exact layout of main panel
     - plan layout of birthday panel
     - plan calendar layout
+    - handle loading and saving of settings
+
+design tasks:
+    - refine colors / design of lists
+
+ideas:
+    - add ability to store simple text notes, organized in folders, (mark them with colors)
 
 
 

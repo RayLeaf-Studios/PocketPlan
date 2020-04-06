@@ -4,6 +4,7 @@
     <color name="colorPriority2">#385170</color>
     <color name="colorPriority3">#132C4C</color>
     <color name="colorOnBackGround">#FFFFFF</color>
+    <color name="colorHint">#757272</color>
     <color name="colorPrimary">#1C1C1C</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#4E917C</color>//#26836E

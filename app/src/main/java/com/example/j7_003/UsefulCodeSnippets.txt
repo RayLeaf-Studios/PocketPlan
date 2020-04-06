@@ -24,3 +24,14 @@ private fun requestStoragePermission() {
 //Accessing main activity from inside a fragment class, to access actionBar etc.
 
     (activity as AppCompatActivity).supportActionBar?.title="Example Title"
+
+
+|---------------------------------------------------------------------------------|
+
+    Context of a fragment can be accessed by typing getActivity or simply
+    by accessing the activity attribute
+
+
+
+
+

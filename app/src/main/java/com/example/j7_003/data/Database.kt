@@ -25,8 +25,27 @@ class Database(context: Context) : Serializable {
     init {
         createFiles()
         taskList = fetchTaskList()
-        birthdayList = fetchBirthdayList()
-        addDebugBirthdays()
+//        birthdayList = fetchBirthdayList()
+        //debug!
+        birthdayList = arrayListOf(
+            Birthday("Nasus", 1, 23),
+            Birthday("Veigar", 12, 24),
+            Birthday("Sion", 5, 1),
+            Birthday("Ezreal", 3, 5),
+            Birthday("Leona", 4, 7),
+            Birthday("Jarvan IV", 1, 9),
+            Birthday("Sejuani", 6, 12),
+            Birthday("Max Mustermann", 1, 2),
+            Birthday("Darius", 1, 2),
+            Birthday("Xerath", 12, 12),
+            Birthday("Svobby", 5, 28),
+            Birthday("Angela Merkel", 1, 25),
+            Birthday("Niemand", 17, 2),
+            Birthday("Test", 3, 2)
+
+        )
+        sortBirthday()
+//        addDebugBirthdays()
     }
 
     //--------------------------------------------------------------------------------------------//
