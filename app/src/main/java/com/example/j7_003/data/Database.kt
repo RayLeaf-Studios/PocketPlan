@@ -3,12 +3,16 @@ package com.example.j7_003.data
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import android.provider.CalendarContract
+import android.util.Log
 import com.example.j7_003.data.database_objects.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.Serializable
+import java.text.DateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 class Database(context: Context) : Serializable {
@@ -25,6 +29,7 @@ class Database(context: Context) : Serializable {
     init {
         createFiles()
         taskList = fetchTaskList()
+        sortTasks()
         //addDebugBirthdays()
         birthdayList = fetchBirthdayList()
         //debug!
@@ -50,6 +55,7 @@ class Database(context: Context) : Serializable {
                 priority
             )
         )
+        sortTasks()
         saveTaskList()
     }
 
@@ -58,7 +64,6 @@ class Database(context: Context) : Serializable {
      * @param index The index of the list, which will be removed.
      */
     fun deleteTask(index: Int) {
-
         taskList.removeAt(index)
         saveTaskList()
     }
@@ -76,6 +81,10 @@ class Database(context: Context) : Serializable {
      * @return Returns the requested task.
      */
     fun getTask(index: Int): Task = taskList[index]
+
+    fun sortTasks() {
+        taskList.sortWith(compareBy({it.priority}, {it.title}))
+    }
 
     private fun fetchTaskList(): ArrayList<Task> {
 
@@ -199,8 +208,11 @@ class Database(context: Context) : Serializable {
             .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
     }
 
-    private fun sortBirthday() {
-        birthdayList.sortWith(compareBy({ it.month }, {it.day }, {it.name}))
+    fun sortBirthday() {
+        val calendar = Calendar.getInstance()
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH) + 1
+        birthdayList.sortWith(compareBy({ it.month < month }, { it.month }, { it.day < day }, { it.day }, { it.name }))
     }
 
     private fun addDebugBirthdays() {
