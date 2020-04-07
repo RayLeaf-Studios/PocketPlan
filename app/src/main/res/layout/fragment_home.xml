@@ -8,14 +8,17 @@
     tools:context=".fragments.HomeFragment">
 
     <TextView
+        android:id="@+id/task_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Home"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.046" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

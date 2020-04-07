@@ -178,9 +178,9 @@ class BirthdayAdapter() :
             myBuilder?.setCustomTitle(myTitle)
 
             //write current values to edit Text fields
-            nameField.setText(mydatabase.getBirthday(position).name)
-            monthField.setText(mydatabase.getBirthday(position).month.toString())
-            dayField.setText(mydatabase.getBirthday(position).day.toString())
+            nameField.setText(currentBirthday.name)
+            monthField.setText(currentBirthday.month.toString())
+            dayField.setText(currentBirthday.day.toString())
 
             //show dialog
             val myAlertDialog = myBuilder?.create()

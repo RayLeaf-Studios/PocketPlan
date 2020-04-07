@@ -15,8 +15,8 @@ modules:
         1.1 element attributes:
             date!, name!, note!, (optional reminder x days before)
 
-        1.2 user functions:
-            add!, remove!, edit
+        1.2 user functions!
+            add!, remove!, edit!
 
         1.3 functionality:
             ?shows next x birthdays in a panel?
@@ -34,8 +34,7 @@ modules:
 
 
 important Tasks:
-    - convert task list into Recyclerview
-    - fix handling of errors when inputting wrong birthdays
+
 
 random tasks:
     - add sleep reminder
@@ -49,6 +48,7 @@ design tasks:
 
 ideas:
     - add ability to store simple text notes, organized in folders, (mark them with colors)
+    - dark mode switch is clickable, but always jumps back to enabled, prompting a toast saying "No"
 
 
 
