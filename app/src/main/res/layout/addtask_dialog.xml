@@ -14,6 +14,7 @@
         android:layout_height="42dp"
         android:autofillHints=""
         android:hint="@string/addTaskTitleHint"
+        android:textColorHint="@color/colorHint"
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintEnd_toStartOf="@+id/guideline2"

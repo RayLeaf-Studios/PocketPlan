@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(){
         database = Database(this)
         notificationHandler = NotificationHandler(this, getSystemService(Context.NOTIFICATION_SERVICE))
         myActivity = this
+        supportActionBar?.title = "Home"
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.btm_nav)
 
