@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
     <resources>
-    <color name="colorPriority1">#6097C3</color>
-    <color name="colorPriority2">#385170</color>
-    <color name="colorPriority3">#132C4C</color>
+    <color name="colorPriority1">#463168</color>
+    <color name="colorPriority2">#293E70</color>
+    <color name="colorPriority3">#194C3A</color>
     <color name="colorOnBackGround">#FFFFFF</color>
     <color name="colorHint">#757272</color>
     <color name="colorPrimary">#1C1C1C</color>
@@ -10,5 +10,24 @@
     <color name="colorAccent">#4E917C</color>//#26836E
     <color name="colorBackground">#121212</color>
     <color name="colorBackgroundElevated">#1C1C1C</color>
+    <color name="colorBackgroundListElement">#252525</color>
     <color name="colorError">#CF6679</color>
 </resources>
+
+<!--<color name="colorPriority1">#5A417E</color>-->
+<!--<color name="colorPriority2">#34508F</color>-->
+<!--<color name="colorPriority3">#1F5C53</color>-->
+
+<!--<resources>-->
+<!--<color name="colorPriority1">#6097C3</color>-->
+<!--<color name="colorPriority2">#385170</color>-->
+<!--<color name="colorPriority3">#132C4C</color>-->
+<!--<color name="colorOnBackGround">#FFFFFF</color>-->
+<!--<color name="colorHint">#757272</color>-->
+<!--<color name="colorPrimary">#1C1C1C</color>-->
+<!--<color name="colorPrimaryDark">#000000</color>-->
+<!--<color name="colorAccent">#4E917C</color>//#26836E-->
+<!--<color name="colorBackground">#121212</color>-->
+<!--<color name="colorBackgroundElevated">#1C1C1C</color>-->
+<!--<color name="colorError">#CF6679</color>-->
+<!--</resources>-->

@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(){
                 }
                 R.id.todolist -> {
                     if(activeFragment!=2) {
-                        supportActionBar?.title = "ToDo List"
+                        supportActionBar?.title = "To-Do"
                         todoFragment = TodoFragment()
                         supportFragmentManager
                             .beginTransaction()

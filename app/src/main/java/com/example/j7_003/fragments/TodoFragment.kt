@@ -1,21 +1,22 @@
 package com.example.j7_003.fragments
 
-import android.graphics.drawable.Drawable
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
-import com.example.j7_003.R
+
+import com.example.j7_003.R.*
 import com.example.j7_003.data.database_objects.Task
 import kotlinx.android.synthetic.main.addtask_dialog.view.*
 import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
@@ -35,18 +36,18 @@ class TodoFragment : Fragment() {
 
         val database = MainActivity.database
 
-        val myView = inflater.inflate(R.layout.fragment_todo, container, false)
+        val myView = inflater.inflate(layout.fragment_todo, container, false)
 
         val myRecycler = myView.recycler_view_todo
 
         //ADDING TASK VIA FLOATING ACTION BUTTON
         myView.btnAddTodoTask.setOnClickListener() {
             //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog, null)
+            val myDialogView = LayoutInflater.from(activity).inflate(layout.addtask_dialog, null)
 
             //AlertDialogBuilder
             val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            myBuilder?.setCustomTitle(layoutInflater.inflate(R.layout.addtask_dialog_title, null))
+            myBuilder?.setCustomTitle(layoutInflater.inflate(layout.addtask_dialog_title, null))
 
             //show dialog
             val myAlertDialog = myBuilder?.create()
@@ -133,9 +134,10 @@ class TodoTaskAdapter() :
         //parent in inflate tells the inflater where the layout will be placed
         //so it can be inflated to the right size
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_task, parent, false)
+            .inflate(layout.row_task, parent, false)
         return TodoTaskViewHolder(itemView)
     }
+
 
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
@@ -147,11 +149,11 @@ class TodoTaskAdapter() :
         holder.itemView.setOnClickListener(){
 
             //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog, null)
+            val myDialogView = LayoutInflater.from(activity).inflate(layout.addtask_dialog, null)
 
             //AlertDialogBuilder
             val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
-            val editTitle = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog_title, null)
+            val editTitle = LayoutInflater.from(activity).inflate(layout.addtask_dialog_title, null)
             editTitle.tvDialogTitle.text = "Edit Task"
             myBuilder.setCustomTitle(editTitle)
 
@@ -186,15 +188,17 @@ class TodoTaskAdapter() :
         holder.name_textview.text = currentTask.title
 
         when(currentTask.priority){
-            1 -> holder.myView.setBackgroundResource(R.drawable.round_corner1)
-            2 -> holder.myView.setBackgroundResource(R.drawable.round_corner2)
-            3 -> holder.myView.setBackgroundResource(R.drawable.round_corner3)
+            1 -> {holder.myView.setBackgroundResource(drawable.round_corner1)
+//                holder.name_textview.setTextColor(ContextCompat.getColor(activity, color.colorPriority1))
+            }
+            2 -> {holder.myView.setBackgroundResource(drawable.round_corner2)
+//                holder.name_textview.setTextColor(ContextCompat.getColor(activity, color.colorPriority2))
+            }
+            3 -> {holder.myView.setBackgroundResource(drawable.round_corner3)
+//                holder.name_textview.setTextColor(ContextCompat.getColor(activity, color.colorPriority3))
+            }
         }
-//        holder.btnDelete.setOnClickListener(){
-//            database.deleteTask(position)
-//            notifyDataSetChanged()
-//
-//        }
+
     }
 
     override fun getItemCount() = taskList.size
