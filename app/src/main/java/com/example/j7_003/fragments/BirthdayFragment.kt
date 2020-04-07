@@ -137,7 +137,6 @@ class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCall
 
 class BirthdayAdapter() :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
-    val birthdayList = MainActivity.database.birthdayList
     val mydatabase = MainActivity.database
 
     fun deleteItem(position: Int){
@@ -158,7 +157,7 @@ class BirthdayAdapter() :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
-        val currentBirthday = birthdayList[position]
+        val currentBirthday = mydatabase.getBirthday(position)
         val activity = MainActivity.myActivity
 
         // EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
@@ -179,9 +178,9 @@ class BirthdayAdapter() :
             myBuilder?.setCustomTitle(myTitle)
 
             //write current values to edit Text fields
-            nameField.setText(birthdayList[position].name)
-            monthField.setText(birthdayList[position].month.toString())
-            dayField.setText(birthdayList[position].day.toString())
+            nameField.setText(mydatabase.getBirthday(position).name)
+            monthField.setText(mydatabase.getBirthday(position).month.toString())
+            dayField.setText(mydatabase.getBirthday(position).day.toString())
 
             //show dialog
             val myAlertDialog = myBuilder?.create()
@@ -235,7 +234,7 @@ class BirthdayAdapter() :
 
     }
 
-    override fun getItemCount() = birthdayList.size
+    override fun getItemCount() = mydatabase.birthdayList.size
 
     //one instance of this class will contain one instance of row_birthday and meta data like position
     //also holds references to views inside the layout

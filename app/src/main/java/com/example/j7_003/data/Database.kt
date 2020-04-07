@@ -3,7 +3,6 @@ package com.example.j7_003.data
 import android.content.Context
 import android.os.Build
 import android.os.Environment
-import android.provider.CalendarContract
 import android.util.Log
 import com.example.j7_003.data.database_objects.*
 import com.google.gson.Gson
@@ -12,7 +11,6 @@ import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.Serializable
 import java.lang.NumberFormatException
-import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -23,20 +21,14 @@ class Database(context: Context) : Serializable {
     private var taskFile = setStorageLocation("TaskList.txt", context)
     private var birthdayFile = setStorageLocation("BirthdayList.txt", context)
     private val converter = Gson()
-
-    private var debugFile = setStorageLocation("debug.txt", context)
-
+    private val calendar = Calendar.getInstance()
 
     init {
         createFiles()
         taskList = fetchTaskList()
-        sortTasks()
-        //addDebugBirthdays()
         birthdayList = fetchBirthdayList()
-        //debug!
-
+        sortTasks()
         sortBirthday()
-//        addDebugBirthdays()
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -126,15 +118,19 @@ class Database(context: Context) : Serializable {
     /**
      * Adds a birthday to the birthdaylist and saves the birthdaylist.
      * @param name The name of the created birthday
-     * @param month The month of the birthday
-     * @param day The day of the birthday
+     * @param parMonth The month of the birthday
+     * @param parDay The day of the birthday
      */
-    fun addBirthday(name: String, parMonth: String, parDay: String) {
+    fun addBirthday(name: String, parMonth: String, parDay: String): Boolean {
         try {
+            checkNameLength(name)
             val month = parMonth.toInt()
             val day = parDay.toInt()
 
-            if(month in 1..12 && day in 1 until GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
+            if(checkNameLength(name) && month in 1..12 && day in 1..GregorianCalendar(
+                    calendar.get(Calendar.YEAR),
+                    month-1,
+                    Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
                 birthdayList.add(
                     Birthday(
                         name,
@@ -142,18 +138,17 @@ class Database(context: Context) : Serializable {
                         day
                     )
                 )
-
                 saveBirthdayList()
+                return true
             }
         } catch(e: NumberFormatException) {
-            return
+            return false
         }
+
+        return false
     }
 
-    /**
-     * Saves the birthday list as json string
-     */
-    fun saveBirthdayList() {
+    private fun saveBirthdayList() {
         birthdayFile.writeText(converter.toJson(birthdayList))
     }
 
@@ -198,23 +193,30 @@ class Database(context: Context) : Serializable {
         saveBirthdayList()
     }
 
-    fun editBirthday(name: String, parMonth: String, parDay: String, parIndex: String) {
+    fun editBirthday(name: String, parMonth: String, parDay: String, parIndex: String): Boolean {
         try {
+
             val month = parMonth.toInt()
             val day = parDay.toInt()
             val index = parIndex.toInt()
 
-            if(month in 1..12 && day in 1 until GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
+            if(checkNameLength(name) && month in 1..12 && day in 1 until GregorianCalendar(
+                    calendar.get(Calendar.YEAR),
+                    month-1,
+                    Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
+            ) {
                 val editableBirthday: Birthday = getBirthday(index)
 
                 editableBirthday.name = name
                 editableBirthday.day = day
                 editableBirthday.month = month
                 saveBirthdayList()
+                return true
             }
         } catch(e: NumberFormatException) {
-            return
+            return false
         }
+        return false
     }
 
     /**
@@ -289,6 +291,10 @@ class Database(context: Context) : Serializable {
         }
     }
 
+    private fun checkNameLength(name: String): Boolean {
+        return name.length <= 22
+    }
+
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
@@ -298,7 +304,6 @@ class Database(context: Context) : Serializable {
 
         if (!taskFile.exists()) taskFile.writeText("[]")
         if (!birthdayFile.exists()) birthdayFile.writeText("[]")
-        if (!debugFile.exists()) debugFile.writeText("[]")
 
 
     }
