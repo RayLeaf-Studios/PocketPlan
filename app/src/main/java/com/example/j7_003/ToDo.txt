@@ -34,7 +34,6 @@ modules:
 
 
 important Tasks:
-    - add functionality of editing birthdays
     - convert task list into Recyclerview
     - fix handling of errors when inputting wrong birthdays
 

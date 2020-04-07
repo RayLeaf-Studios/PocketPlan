@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.Serializable
+import java.lang.NumberFormatException
 import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -128,15 +129,25 @@ class Database(context: Context) : Serializable {
      * @param month The month of the birthday
      * @param day The day of the birthday
      */
-    fun addBirthday(name: String, month: Int, day: Int) {
-        birthdayList.add(
-            Birthday(
-                name,
-                month,
-                day
-            )
-        )
-        saveBirthdayList()
+    fun addBirthday(name: String, parMonth: String, parDay: String) {
+        try {
+            val month = parMonth.toInt()
+            val day = parDay.toInt()
+
+            if(month in 1..12/* && day in */) {
+                birthdayList.add(
+                    Birthday(
+                        name,
+                        month,
+                        day
+                    )
+                )
+
+                saveBirthdayList()
+            }
+        } catch(e: NumberFormatException) {
+            return
+        }
     }
 
     /**
@@ -187,12 +198,23 @@ class Database(context: Context) : Serializable {
         saveBirthdayList()
     }
 
-    fun editBirthday(name: String, month: Int, day: Int, index: Int) {
-        val editableBirthday: Birthday = getBirthday(index)
-        editableBirthday.name = name
-        editableBirthday.day = day
-        editableBirthday.month = month
-        saveBirthdayList()
+    fun editBirthday(name: String, parMonth: String, parDay: String, parIndex: String) {
+        try {
+            val month = parMonth.toInt()
+            val day = parDay.toInt()
+            val index = parIndex.toInt()
+
+            if(month in 1..12) {
+                val editableBirthday: Birthday = getBirthday(index)
+
+                editableBirthday.name = name
+                editableBirthday.day = day
+                editableBirthday.month = month
+                saveBirthdayList()
+            }
+        } catch(e: NumberFormatException) {
+            return
+        }
     }
 
     /**
@@ -231,8 +253,6 @@ class Database(context: Context) : Serializable {
         cacheList.forEach { n ->
             birthdayList.add(n)
         }
-
-        Log.e("debug", cacheList.toString())
     }
 
     private fun addDebugBirthdays() {

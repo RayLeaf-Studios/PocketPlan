@@ -79,7 +79,7 @@ class BirthdayFragment : Fragment() {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     database.addBirthday(
                         nameField.text.toString(),
-                        monthField.text.toString().toInt(), dayField.text.toString().toInt()
+                        monthField.text.toString(), dayField.text.toString()
                     )
                     database.sortBirthday()
                     myRecycler.adapter?.notifyDataSetChanged()
@@ -208,8 +208,8 @@ class BirthdayAdapter() :
             monthField.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mydatabase.editBirthday(nameField.text.toString(),
-                        monthField.text.toString().toInt(),
-                        dayField.text.toString().toInt(), position)
+                        monthField.text.toString(),
+                        dayField.text.toString(), position.toString())
                     mydatabase.sortBirthday()
                     notifyDataSetChanged()
                     myAlertDialog?.dismiss()
