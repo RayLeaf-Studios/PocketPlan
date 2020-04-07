@@ -32,8 +32,6 @@ class BirthdayFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
-
         val database = MainActivity.database
 
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
@@ -68,10 +66,7 @@ class BirthdayFragment : Fragment() {
                 false
             }
 
-
-
             nameField.requestFocus()
-
 
         }
 
@@ -141,7 +136,6 @@ class BirthdayAdapter() :
 
         val currentBirthday = mydatabase.getBirthday(position)
         val activity = MainActivity.myActivity
-
 
         // EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener() {

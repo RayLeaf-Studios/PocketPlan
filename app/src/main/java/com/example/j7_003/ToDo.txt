@@ -34,17 +34,15 @@ modules:
 
 
 important Tasks:
-
+    - FIX BIRTHDAYS ADDING AND EDITING
 
 random tasks:
     - add sleep reminder
     - plan exact layout of main panel
-    - plan layout of birthday panel
     - plan calendar layout
     - handle loading and saving of settings
 
 design tasks:
-    - refine colors / design of lists
 
 ideas:
     - add ability to store simple text notes, organized in folders, (mark them with colors)
