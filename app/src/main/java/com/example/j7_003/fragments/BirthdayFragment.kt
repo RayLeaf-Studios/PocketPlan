@@ -68,25 +68,7 @@ class BirthdayFragment : Fragment() {
                 false
             }
 
-            dayField.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    monthField.requestFocus()
-                }
-                false
-            }
 
-            monthField.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    database.addBirthday(
-                        nameField.text.toString(),
-                        monthField.text.toString(), dayField.text.toString()
-                    )
-                    database.sortBirthday()
-                    myRecycler.adapter?.notifyDataSetChanged()
-                    myAlertDialog?.dismiss()
-                }
-                false
-            }
 
             nameField.requestFocus()
 
@@ -160,12 +142,20 @@ class BirthdayAdapter() :
         val currentBirthday = mydatabase.getBirthday(position)
         val activity = MainActivity.myActivity
 
+
         // EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener() {
 
             //inflate the dialog with custom view
             val myDialogView =
                 LayoutInflater.from(activity).inflate(R.layout.addbirthday_dialog, null)
+
+            val npMonth = myDialogView.etMonth
+            npMonth.minValue = 1
+            npMonth.maxValue = 12
+            val npDay = myDialogView.etDay
+            npDay.minValue = 1
+            npDay.maxValue = 29
 
             val nameField = myDialogView.etName
             val monthField = myDialogView.etMonth
@@ -179,42 +169,13 @@ class BirthdayAdapter() :
 
             //write current values to edit Text fields
             nameField.setText(currentBirthday.name)
-            monthField.setText(currentBirthday.month.toString())
-            dayField.setText(currentBirthday.day.toString())
+            monthField.value = currentBirthday.month
+            dayField.value = currentBirthday.day
 
             //show dialog
             val myAlertDialog = myBuilder?.create()
             myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             myAlertDialog?.show()
-
-            //detect next / done press on phone keyboard, send focus to next text field
-            nameField.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    dayField.requestFocus()
-                    dayField.setSelection(monthField.text.toString().length)
-                }
-                false
-            }
-
-            dayField.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    monthField.requestFocus()
-                    monthField.setSelection(monthField.text.toString().length)
-                }
-                false
-            }
-
-            monthField.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    mydatabase.editBirthday(nameField.text.toString(),
-                        monthField.text.toString(),
-                        dayField.text.toString(), position.toString())
-                    mydatabase.sortBirthday()
-                    notifyDataSetChanged()
-                    myAlertDialog?.dismiss()
-                }
-                false
-            }
 
             nameField.requestFocus()
             nameField.setSelection(nameField.text.length)

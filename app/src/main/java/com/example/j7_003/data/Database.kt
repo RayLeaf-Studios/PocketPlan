@@ -95,26 +95,6 @@ class Database(context: Context) : Serializable {
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
     //debug here will be the birthday functionality
-
-    /**
-     * Adds a birthday to the birthdaylist and saves the birthdaylist.
-     * @param name The name of the created birthday
-     * @param month The month of the birthday
-     * @param day The day of the birthday
-     * @param note A note belonging to the birthday object
-     */
-    fun addBirthday(name: String, month: Int, day: Int, note: String) {
-        birthdayList.add(
-            Birthday(
-                name,
-                month,
-                day,
-                note
-            )
-        )
-        saveBirthdayList()
-    }
-
     /**
      * Adds a birthday to the birthdaylist and saves the birthdaylist.
      * @param name The name of the created birthday
@@ -165,25 +145,6 @@ class Database(context: Context) : Serializable {
      * To be implemented...
      * Will edit a given birthday object
      */
-    fun editBirthday(name: String, month: Int, day: Int, index: Int, note: String, dayToRemind: Int) {
-        val editableBirthday: Birthday = getBirthday(index)
-        editableBirthday.name = name
-        editableBirthday.note = note
-        editableBirthday.day = day
-        editableBirthday.month = month
-        editableBirthday.daysToRemind = dayToRemind
-        saveBirthdayList()
-    }
-
-    fun editBirthday(name: String, month: Int, day: Int, index: Int, note: String) {
-        val editableBirthday: Birthday = getBirthday(index)
-        editableBirthday.name = name
-        editableBirthday.note = note
-        editableBirthday.day = day
-        editableBirthday.month = month
-        saveBirthdayList()
-    }
-
     fun editBirthday(name: String, month: Int, day: Int, index: Int, dayToRemind: Int) {
         val editableBirthday: Birthday = getBirthday(index)
         editableBirthday.name = name
