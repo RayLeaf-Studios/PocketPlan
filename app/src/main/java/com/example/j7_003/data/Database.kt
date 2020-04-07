@@ -134,7 +134,7 @@ class Database(context: Context) : Serializable {
             val month = parMonth.toInt()
             val day = parDay.toInt()
 
-            if(month in 1..12/* && day in */) {
+            if(month in 1..12 && day in 1 until GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
                 birthdayList.add(
                     Birthday(
                         name,
@@ -204,7 +204,7 @@ class Database(context: Context) : Serializable {
             val day = parDay.toInt()
             val index = parIndex.toInt()
 
-            if(month in 1..12) {
+            if(month in 1..12 && day in 1 until GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
                 val editableBirthday: Birthday = getBirthday(index)
 
                 editableBirthday.name = name
