@@ -9,7 +9,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.Serializable
-import java.lang.NumberFormatException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -100,7 +99,7 @@ class Database(context: Context) : Serializable {
      * @param parMonth The month of the birthday
      * @param parDay The day of the birthday
      */
-    fun addBirthday(name: String, parMonth: Int, parDay: Int): Boolean {
+    fun addBirthday(name: String, parDay: Int, parMonth: Int, parIndex: Int): Boolean {
         if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
                 calendar.get(Calendar.YEAR),
                 parMonth -1,
@@ -109,7 +108,8 @@ class Database(context: Context) : Serializable {
                 Birthday(
                     name,
                     parMonth,
-                    parDay
+                    parDay,
+                    parIndex
                 )
             )
                 saveBirthdayList()
@@ -135,30 +135,18 @@ class Database(context: Context) : Serializable {
      * To be implemented...
      * Will edit a given birthday object
      */
-    fun editBirthday(name: String, month: Int, day: Int, index: Int, dayToRemind: Int) {
-        val editableBirthday: Birthday = getBirthday(index)
-        editableBirthday.name = name
-        editableBirthday.day = day
-        editableBirthday.month = month
-        editableBirthday.daysToRemind = dayToRemind
-        saveBirthdayList()
-    }
 
-    fun editBirthday(name: String, parMonth: String, parDay: String, parIndex: String): Boolean {
-        val month = parMonth.toInt()
-        val day = parDay.toInt()
-        val index = parIndex.toInt()
-
-        if(checkNameLength(name) && month in 1..12 && day in 1 until GregorianCalendar(
+    fun editBirthday(name: String, parMonth: Int, parDay: Int, parIndex: Int): Boolean {
+        if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
                 calendar.get(Calendar.YEAR),
-                month-1,
+                parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
             ) {
-                val editableBirthday: Birthday = getBirthday(index)
+                val editableBirthday: Birthday = getBirthday(parIndex)
 
                 editableBirthday.name = name
-                editableBirthday.day = day
-                editableBirthday.month = month
+                editableBirthday.day = parDay
+                editableBirthday.month = parMonth
                 saveBirthdayList()
                 return true
             }
