@@ -103,7 +103,7 @@ class Database(context: Context) : Serializable {
      * @param parDay The day of the birthday
      */
     fun addBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int): Boolean {
-        if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
+        if(parMonth in 1..12 && parDay in 1..GregorianCalendar(
                 calendar.get(Calendar.YEAR),
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
@@ -137,7 +137,7 @@ class Database(context: Context) : Serializable {
      */
 
     fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int): Boolean {
-        if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
+        if(parMonth in 1..12 && parDay in 1..GregorianCalendar(
                 calendar.get(Calendar.YEAR),
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -228,11 +228,6 @@ class Database(context: Context) : Serializable {
             return xNextBirthdays
         }
     }
-
-    private fun checkNameLength(name: String): Boolean {
-        return name.length <= 22
-    }
-
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
