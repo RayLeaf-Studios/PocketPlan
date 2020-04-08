@@ -21,7 +21,7 @@ class Database(context: Context) : Serializable {
     private val converter = Gson()
     private val calendar = Calendar.getInstance()
 
-    //private val reminder = SleepReminder().checkClock()
+    private val reminder = SleepReminder(19, 51) //debug
 
     init {
         createFiles()
