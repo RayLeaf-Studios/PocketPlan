@@ -3,7 +3,6 @@ package com.example.j7_003.data
 import android.content.Context
 import android.os.Build
 import android.os.Environment
-import android.util.Log
 import com.example.j7_003.data.database_objects.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -101,30 +100,21 @@ class Database(context: Context) : Serializable {
      * @param parMonth The month of the birthday
      * @param parDay The day of the birthday
      */
-    fun addBirthday(name: String, parMonth: String, parDay: String): Boolean {
-        try {
-            checkNameLength(name)
-            val month = parMonth.toInt()
-            val day = parDay.toInt()
-
-            if(checkNameLength(name) && month in 1..12 && day in 1..GregorianCalendar(
-                    calendar.get(Calendar.YEAR),
-                    month-1,
-                    Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                birthdayList.add(
-                    Birthday(
-                        name,
-                        month,
-                        day
-                    )
+    fun addBirthday(name: String, parMonth: Int, parDay: Int): Boolean {
+        if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
+                calendar.get(Calendar.YEAR),
+                parMonth -1,
+                Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
+            birthdayList.add(
+                Birthday(
+                    name,
+                    parMonth,
+                    parDay
                 )
+            )
                 saveBirthdayList()
                 return true
             }
-        } catch(e: NumberFormatException) {
-            return false
-        }
-
         return false
     }
 
@@ -155,16 +145,14 @@ class Database(context: Context) : Serializable {
     }
 
     fun editBirthday(name: String, parMonth: String, parDay: String, parIndex: String): Boolean {
-        try {
+        val month = parMonth.toInt()
+        val day = parDay.toInt()
+        val index = parIndex.toInt()
 
-            val month = parMonth.toInt()
-            val day = parDay.toInt()
-            val index = parIndex.toInt()
-
-            if(checkNameLength(name) && month in 1..12 && day in 1 until GregorianCalendar(
-                    calendar.get(Calendar.YEAR),
-                    month-1,
-                    Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
+        if(checkNameLength(name) && month in 1..12 && day in 1 until GregorianCalendar(
+                calendar.get(Calendar.YEAR),
+                month-1,
+                Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
             ) {
                 val editableBirthday: Birthday = getBirthday(index)
 
@@ -174,9 +162,7 @@ class Database(context: Context) : Serializable {
                 saveBirthdayList()
                 return true
             }
-        } catch(e: NumberFormatException) {
-            return false
-        }
+
         return false
     }
 
