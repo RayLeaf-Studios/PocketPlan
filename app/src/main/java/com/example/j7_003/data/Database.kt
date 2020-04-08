@@ -102,13 +102,13 @@ class Database(context: Context) : Serializable {
      * @param parMonth The month of the birthday
      * @param parDay The day of the birthday
      */
-    fun addBirthday(name: String, parDay: Int, parMonth: Int, parIndex: Int): Boolean {
+    fun addBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int): Boolean {
         if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
                 calendar.get(Calendar.YEAR),
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
             birthdayList.add(
-                Birthday(name, parMonth, parDay, parIndex)
+                Birthday(name, parMonth, parDay, parReminder)
             )
 
             saveBirthdayList()
@@ -136,17 +136,18 @@ class Database(context: Context) : Serializable {
      * Will edit a given birthday object
      */
 
-    fun editBirthday(name: String, parDay: Int, parMonth: Int, parIndex: Int): Boolean {
+    fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int): Boolean {
         if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
                 calendar.get(Calendar.YEAR),
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
             ) {
-            val editableBirthday: Birthday = getBirthday(parIndex)
+            val editableBirthday: Birthday = getBirthday(parPosition)
 
             editableBirthday.name = name
             editableBirthday.day = parDay
             editableBirthday.month = parMonth
+            editableBirthday.daysToRemind = parReminder
 
             sortBirthday()
             saveBirthdayList()

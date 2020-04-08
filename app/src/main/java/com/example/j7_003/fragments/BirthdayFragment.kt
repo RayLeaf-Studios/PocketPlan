@@ -7,16 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.database_objects.Birthday
+import kotlinx.android.synthetic.main.addbirthday_dialog.*
 import kotlinx.android.synthetic.main.addbirthday_dialog.view.*
+import kotlinx.android.synthetic.main.addbirthday_dialog.view.npMonth
 import kotlinx.android.synthetic.main.addbirthday_dialog.view.etName
 import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
@@ -40,13 +42,23 @@ class BirthdayFragment : Fragment() {
 
         //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
         myView.btnAddBirthday.setOnClickListener() {
+
             //inflate the dialog with custom view
             val myDialogView =
                 LayoutInflater.from(activity).inflate(R.layout.addbirthday_dialog, null)
 
             val nameField = myDialogView.etName
-            val monthField = myDialogView.etMonth
-            val dayField = myDialogView.etDay
+
+            //configure number pickers
+            val npMonth = myDialogView.npMonth
+            npMonth.minValue = 1
+            npMonth.maxValue = 12
+            val npDay = myDialogView.npDay
+            npDay.minValue = 1
+            npDay.maxValue = 31
+            val npReminder = myDialogView.npReminder
+            npReminder.minValue = 0
+            npReminder.maxValue = 30
 
             //AlertDialogBuilder
             val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
@@ -59,27 +71,33 @@ class BirthdayFragment : Fragment() {
             myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             myAlertDialog?.show()
 
-            nameField.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    dayField.requestFocus()
+
+            //button to confirm adding of birthday
+            myDialogView.btnConfirmBirthday.setOnClickListener(){
+                val name = nameField.text.toString()
+                val day = npDay.value
+                val month = npMonth.value
+                val reminderPeriod = npReminder.value
+                if(!(database.addBirthday(name, day, month, reminderPeriod))){
+                    Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show()
                 }
-                false
+                myRecycler.adapter?.notifyDataSetChanged()
+                myAlertDialog?.dismiss()
             }
 
             nameField.requestFocus()
-
         }
 
-        var myAdapter = BirthdayAdapter()
+        val myAdapter = BirthdayAdapter()
 
         myRecycler.adapter = myAdapter
 
         myRecycler.layoutManager = LinearLayoutManager(activity)
 
-        var swipeHelperLeft = ItemTouchHelper(SwipeLeftToDelete(myAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDelete(myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        var swipeHelperRight = ItemTouchHelper(SwipeRightToDelete(myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeRightToDelete(myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
         //performance optimization, not necessary
@@ -96,7 +114,7 @@ class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCal
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        var position = viewHolder.adapterPosition
+        val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
     }
 }
@@ -107,7 +125,7 @@ class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCall
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        var position = viewHolder.adapterPosition
+        val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
     }
 }
@@ -144,16 +162,21 @@ class BirthdayAdapter() :
             val myDialogView =
                 LayoutInflater.from(activity).inflate(R.layout.addbirthday_dialog, null)
 
-            val npMonth = myDialogView.etMonth
+
+            //configuring number pickers
+            val npMonth = myDialogView.npMonth
             npMonth.minValue = 1
             npMonth.maxValue = 12
-            val npDay = myDialogView.etDay
-            npDay.minValue = 1
-            npDay.maxValue = 29
 
-            val nameField = myDialogView.etName
-            val monthField = myDialogView.etMonth
-            val dayField = myDialogView.etDay
+            val npDay = myDialogView.npDay
+            npDay.minValue = 1
+            npDay.maxValue = 31
+
+            val npReminder = myDialogView.npReminder
+            npReminder.minValue = 0
+            npReminder.maxValue = 30
+
+            val etName = myDialogView.etName
 
             //AlertDialogBuilder
             val myBuilder = activity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
@@ -162,17 +185,35 @@ class BirthdayAdapter() :
             myBuilder?.setCustomTitle(myTitle)
 
             //write current values to edit Text fields
-            nameField.setText(currentBirthday.name)
-            monthField.value = currentBirthday.month
-            dayField.value = currentBirthday.day
+            etName.setText(currentBirthday.name)
+            npMonth.value = currentBirthday.month
+            npDay.value = currentBirthday.day
+            npReminder.value = currentBirthday.daysToRemind
+
+            myDialogView.btnConfirmBirthday.text ="CONFIRM EDIT"
 
             //show dialog
             val myAlertDialog = myBuilder?.create()
             myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             myAlertDialog?.show()
 
-            nameField.requestFocus()
-            nameField.setSelection(nameField.text.length)
+            //button to confirm editing of birthday
+            myDialogView.btnConfirmBirthday.setOnClickListener(){
+                val name = etName.text.toString()
+                val day = npDay.value
+                val month = npMonth.value
+                val reminderPeriod = npReminder.value
+                if(!(mydatabase.editBirthday(name, day, month, reminderPeriod, position))){
+                    Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show()
+                }
+
+
+                notifyDataSetChanged()
+                myAlertDialog?.dismiss()
+            }
+
+            etName.requestFocus()
+            etName.setSelection(etName.text.length)
 
         }
 
@@ -187,6 +228,12 @@ class BirthdayAdapter() :
             dayAddition + currentBirthday.day.toString() + "." +
                     monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
 
+        if(currentBirthday.hasReminder()) {
+            holder.iconBell.visibility = View.VISIBLE
+        }else{
+            holder.iconBell.visibility = View.INVISIBLE
+        }
+
     }
 
     override fun getItemCount() = mydatabase.birthdayList.size
@@ -196,6 +243,7 @@ class BirthdayAdapter() :
 
     class BirthdayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txvBirthdayLabelName: TextView = itemView.txvBirthdayLabelName
+        val iconBell: ImageView = itemView.icon_bell
     }
 
 }

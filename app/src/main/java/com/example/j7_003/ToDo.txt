@@ -40,6 +40,7 @@ random tasks:
     - add sleep reminder
     - plan exact layout of main panel
     - plan calendar layout
+    - replace all colors and values like text size with resource references
     - handle loading and saving of settings
 
 design tasks:

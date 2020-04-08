@@ -23,18 +23,26 @@
     </EditText>
 
     <NumberPicker
-        android:id="@+id/etMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:divider="@color/colorAccent"
-        app:layout_constraintStart_toEndOf="@+id/etDay"
-        app:layout_constraintTop_toBottomOf="@+id/etName" />
-
-    <NumberPicker
-        android:id="@+id/etDay"
+        android:id="@+id/npDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/etName"
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
+
+    <NumberPicker
+        android:id="@+id/npMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundTint="@color/colorAccent"
+        app:layout_constraintStart_toEndOf="@+id/npDay"
+        app:layout_constraintTop_toBottomOf="@+id/etName" />
+
+    <NumberPicker
+        android:id="@+id/npReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundTint="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <TextView
@@ -44,25 +52,13 @@
         android:text="."
         android:textColor="@color/colorOnBackGround"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/etDay"
-        app:layout_constraintEnd_toEndOf="@+id/etMonth"
-        app:layout_constraintStart_toStartOf="@+id/etDay"
-        app:layout_constraintTop_toTopOf="@+id/etMonth"
+        app:layout_constraintBottom_toBottomOf="@+id/npDay"
+        app:layout_constraintEnd_toEndOf="@+id/npMonth"
+        app:layout_constraintStart_toStartOf="@+id/npDay"
+        app:layout_constraintTop_toTopOf="@+id/npMonth"
         tools:ignore="HardcodedText">
 
     </TextView>
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:inputType="number"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/etMonth"
-        app:layout_constraintEnd_toEndOf="@+id/etName"
-        app:layout_constraintTop_toBottomOf="@+id/etName" />
 
     <TextView
         android:id="@+id/textView4"
@@ -71,10 +67,22 @@
         android:text="Reminder: "
         android:textColor="@color/colorOnBackGround"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText"
-        app:layout_constraintEnd_toStartOf="@+id/editText"
-        app:layout_constraintStart_toEndOf="@+id/etMonth"
-        app:layout_constraintTop_toTopOf="@+id/editText" />
+        app:layout_constraintBottom_toBottomOf="@+id/npMonth"
+        app:layout_constraintEnd_toStartOf="@+id/npReminder"
+        app:layout_constraintStart_toEndOf="@+id/npMonth"
+        app:layout_constraintTop_toTopOf="@+id/npMonth" />
+
+    <Button
+        android:id="@+id/btnConfirmBirthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner_accent"
+        android:text="ADD BIRTHDAY"
+        android:textColor="@color/colorOnBackGround"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/npMonth" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
