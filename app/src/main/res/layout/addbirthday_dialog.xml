@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:hint="@string/addBirthdayNameHint"
+        android:maxLength="22"
         android:inputType="textPersonName"
         android:textColor="@color/colorOnBackGround"
         android:textColorHint="@color/colorHint"
@@ -82,7 +83,7 @@
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/npMonth" />
+        app:layout_constraintTop_toBottomOf="@+id/npMonth"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
