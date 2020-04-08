@@ -21,6 +21,8 @@ class Database(context: Context) : Serializable {
     private val converter = Gson()
     private val calendar = Calendar.getInstance()
 
+    //private val reminder = SleepReminder().checkClock()
+
     init {
         createFiles()
         taskList = fetchTaskList()
@@ -63,6 +65,7 @@ class Database(context: Context) : Serializable {
         val editableTask: Task = getTask(position)
         editableTask.title = title
         editableTask.priority = index + 1
+        sortTasks()
         saveTaskList()
     }
 
@@ -105,15 +108,12 @@ class Database(context: Context) : Serializable {
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
             birthdayList.add(
-                Birthday(
-                    name,
-                    parMonth,
-                    parDay,
-                    parIndex
-                )
+                Birthday(name, parMonth, parDay, parIndex)
             )
-                saveBirthdayList()
-                return true
+
+            saveBirthdayList()
+            sortBirthday()
+            return true
             }
         return false
     }
@@ -136,19 +136,21 @@ class Database(context: Context) : Serializable {
      * Will edit a given birthday object
      */
 
-    fun editBirthday(name: String, parMonth: Int, parDay: Int, parIndex: Int): Boolean {
+    fun editBirthday(name: String, parDay: Int, parMonth: Int, parIndex: Int): Boolean {
         if(checkNameLength(name) && parMonth in 1..12 && parDay in 1..GregorianCalendar(
                 calendar.get(Calendar.YEAR),
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
             ) {
-                val editableBirthday: Birthday = getBirthday(parIndex)
+            val editableBirthday: Birthday = getBirthday(parIndex)
 
-                editableBirthday.name = name
-                editableBirthday.day = parDay
-                editableBirthday.month = parMonth
-                saveBirthdayList()
-                return true
+            editableBirthday.name = name
+            editableBirthday.day = parDay
+            editableBirthday.month = parMonth
+
+            sortBirthday()
+            saveBirthdayList()
+            return true
             }
 
         return false
@@ -251,8 +253,4 @@ class Database(context: Context) : Serializable {
             File(context.filesDir, fileName)
         }
     }
-
-    /*private fun debugSave() {
-        debugFile.writeText(Klaxon().toJsonString(getNextXBirthdays(3)))
-    }*/
 }
