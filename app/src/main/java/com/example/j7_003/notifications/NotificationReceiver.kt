@@ -52,16 +52,6 @@ class NotificationReceiver : BroadcastReceiver() {
         } else if (notifiableCurrentBirthdays.size == 1) {
             notifyUpcomingBirthday(notifiableUpcomingBirthdays[0])
         }
-
-        when {
-            notifiableCurrentBirthdays.size > 1 -> {
-                notifyCurrentBirthdays(notifiableCurrentBirthdays.size)
-            }
-            notifiableCurrentBirthdays.size == 1 -> {
-                notifyBirthdayNow(notifiableCurrentBirthdays[0])
-            }
-            else -> return
-        }
     }
 
     private fun getUpcomingBirthdays(): ArrayList<Birthday> {
@@ -121,28 +111,28 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun createNotification(channelId: String, name: String, requestCode: Int, contentTitle: String, contentText: String) {
         val notificationManager = myContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val repeatingIntent = Intent(myContext, MainActivity::class.java)
+                        val repeatingIntent = Intent(myContext, MainActivity::class.java)
 
-        repeatingIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            repeatingIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
 
-        val pendingIntent = PendingIntent.getActivity(myContext, requestCode, repeatingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val pendingIntent = PendingIntent.getActivity(myContext, requestCode, repeatingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val builder: Notification.Builder
+            val builder: Notification.Builder
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_HIGH)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.GREEN
-            notificationChannel.enableVibration(true)
-            notificationManager.createNotificationChannel(notificationChannel)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val notificationChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_HIGH)
+                notificationChannel.enableLights(true)
+                notificationChannel.lightColor = Color.GREEN
+                notificationChannel.enableVibration(true)
+                notificationManager.createNotificationChannel(notificationChannel)
 
-            builder = Notification.Builder(myContext, channelId)
-                .setContentTitle(contentTitle)
-                .setContentText(contentText)
-                .setSmallIcon(R.drawable.ic_action_birthday)
-                .setLargeIcon(
-                    BitmapFactory.decodeResource(myContext.resources,
-                        R.drawable.ic_action_birthday
+                builder = Notification.Builder(myContext, channelId)
+                    .setContentTitle(contentTitle)
+                    .setContentText(contentText)
+                    .setSmallIcon(R.drawable.ic_action_birthday)
+                    .setLargeIcon(
+                        BitmapFactory.decodeResource(myContext.resources,
+                            R.drawable.ic_action_birthday
                     ))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
