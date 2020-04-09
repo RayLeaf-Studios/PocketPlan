@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.Database
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -15,13 +16,46 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
  */
 class HomeFragment : Fragment() {
 
+    lateinit var myView: View
+    lateinit var myDatabase: Database
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var myview = inflater.inflate(R.layout.fragment_home, container, false)
-        myview.task_panel.text = MainActivity.database.taskList.size.toString()+" Tasks"
-        return myview
+        myView = inflater.inflate(R.layout.fragment_home, container, false)
+        myDatabase = MainActivity.database
+
+//        displayTasks(myView)
+
+        return myView
     }
+
+//    fun displayTasks(myview: View){
+//        var p1TaskCounter = 0
+//        var i = 0
+//        val taskList = myDatabase.taskList
+//        for(i in 0..taskList.size-1){
+//            if(taskList[i].priority>1){
+//                break
+//            }
+//            p1TaskCounter++
+//        }
+//        val displayTaskCount = minOf(p1TaskCounter, 3)
+//        var taskPanelText = ""
+//        for(i in 0..displayTaskCount-1){
+//            taskPanelText+=(i+1).toString()+". "+taskList[i].title+"\n"
+//        }
+//        taskPanelText=taskPanelText.substring(0, taskPanelText.length-1)
+//        val additionalTasks = p1TaskCounter-displayTaskCount
+//        if(additionalTasks!=0){
+//            var addedLetter = "s"
+//            if(additionalTasks==1){
+//                addedLetter = ""
+//            }
+//            taskPanelText+="\n+ "+additionalTasks+" more important task"+addedLetter
+//        }
+//        myView.task_panel.text = taskPanelText
+//    }
 
 }

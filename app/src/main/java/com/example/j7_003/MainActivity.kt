@@ -125,7 +125,6 @@ class MainActivity : AppCompatActivity(){
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
-
     private fun testAlarmManager() {
         val intent = Intent(this, NotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -133,6 +132,7 @@ class MainActivity : AppCompatActivity(){
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60 * 1000, pendingIntent)
     }
+
 }
 
 

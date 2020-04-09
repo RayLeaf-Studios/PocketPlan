@@ -26,11 +26,25 @@ modules:
         2.1 layout
 
     3 calendar:
-         3.1 to be specified
+         one month sheet
+         one week
+         one day
+
+
+
 
     4 ?go to sleep reminder?
         4.1 small panel showing remaining sleep until Time X when going to sleep now
         4.2 optional reminder at sleepTime < 8h
+
+
+
+
+
+
+
+
+
 
 
 important Tasks:
