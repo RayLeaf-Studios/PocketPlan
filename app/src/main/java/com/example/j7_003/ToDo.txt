@@ -37,7 +37,7 @@ modules:
 
 
     5 idea: shopping list
-        - custom prebuilt and saveable shopping list
+        - custom prebuilt and save able shopping list
         - preloaded database with food / macros
         - possibility to add new custom products
         - one click check mark placing

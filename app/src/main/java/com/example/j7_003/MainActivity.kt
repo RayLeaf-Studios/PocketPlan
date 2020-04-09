@@ -4,12 +4,14 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.Database
 import com.example.j7_003.fragments.*
 import com.example.j7_003.notifications.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity(){
     private lateinit var homeFragment: HomeFragment
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity(){
         supportActionBar?.title = "Home"
 
         setBirthdayAlarms()
+
+
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.btm_nav)
 
@@ -110,12 +114,28 @@ class MainActivity : AppCompatActivity(){
 
         bottomNavigation.selectedItemId = R.id.home
 
-        homeFragment = HomeFragment()
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frame_layout, homeFragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .commit()
+        try {
+            Log.e("debug", intent.getStringExtra("NotificationEntry"))
+            intent.getStringExtra("NotificationEntry")
+            birthdayFragment = BirthdayFragment()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, birthdayFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            supportActionBar?.title="Birthdays"
+            bottomNavigation.selectedItemId = R.id.birthdays
+        }catch (e: Exception){
+            Log.e("debug", e.stackTrace.toString())
+            homeFragment = HomeFragment()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, homeFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+        }
+
+
     }
     private fun setBirthdayAlarms() {
         val intent = Intent(this, NotificationReceiver::class.java)

@@ -34,7 +34,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
         database = Database(myContext)
 
-        if(database.birthdayList.size < 1) {
+        if (database.birthdayList.size < 1) {
             return
         }
 
@@ -49,7 +49,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
         if (notifiableUpcomingBirthdays.size > 1) {
             notifyUpcomingBirthdays(notifiableUpcomingBirthdays.size)
-        } else if (notifiableCurrentBirthdays.size == 1) {
+        } else if (notifiableUpcomingBirthdays.size == 1) {
             notifyUpcomingBirthday(notifiableUpcomingBirthdays[0])
         }
     }
@@ -57,7 +57,10 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun getUpcomingBirthdays(): ArrayList<Birthday> {
         val upcomingBirthdays = ArrayList<Birthday>()
         database.birthdayList.forEach { n ->
-            if (n.month == calendar.get(Calendar.MONTH)+1 && (n.day - n.daysToRemind) == calendar.get(Calendar.DAY_OF_MONTH) &&  n.daysToRemind != 0) {
+            if (n.month == calendar.get(Calendar.MONTH) + 1 && (n.day - n.daysToRemind) == calendar.get(
+                    Calendar.DAY_OF_MONTH
+                ) && n.daysToRemind != 0
+            ) {
                 upcomingBirthdays.add(n)
             }
         }
@@ -67,14 +70,15 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun getCurrentBirthdays(): ArrayList<Birthday> {
         val currentBirthdays = ArrayList<Birthday>()
         database.birthdayList.forEach { n ->
-            if (n.month == calendar.get(Calendar.MONTH)+1 && n.day == calendar.get(Calendar.DAY_OF_MONTH) && n.daysToRemind == 0)
+            if (n.month == calendar.get(Calendar.MONTH) + 1 && n.day == calendar.get(Calendar.DAY_OF_MONTH) && n.daysToRemind == 0)
                 currentBirthdays.add(n)
         }
         return currentBirthdays
     }
 
     private fun notifyBirthdayNow(birthday: Birthday) {
-        createNotification("Birthdays",
+        createNotification(
+            "Birthdays",
             "Birthday Notification",
             100,
             "Birthday",
@@ -83,7 +87,8 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun notifyCurrentBirthdays(currentBirthdays: Int) {
-        createNotification("Birthdays",
+        createNotification(
+            "Birthdays",
             "Birthday Notification",
             102,
             "Birthdays",
@@ -92,7 +97,8 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun notifyUpcomingBirthday(birthday: Birthday) {
-        createNotification("Upcoming Birthdays",
+        createNotification(
+            "Upcoming Birthdays",
             "Birthday Notification",
             101,
             "Upcoming Birthday",
@@ -101,7 +107,8 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun notifyUpcomingBirthdays(upcomingBirthdays: Int) {
-        createNotification("Upcoming Birthdays",
+        createNotification(
+            "Upcoming Birthdays",
             "Birthday Notification",
             103,
             "Upcoming Birthdays",
@@ -109,31 +116,49 @@ class NotificationReceiver : BroadcastReceiver() {
         )
     }
 
-    private fun createNotification(channelId: String, name: String, requestCode: Int, contentTitle: String, contentText: String) {
-        val notificationManager = myContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                        val repeatingIntent = Intent(myContext, MainActivity::class.java)
+    private fun createNotification(
+        channelId: String,
+        name: String,
+        requestCode: Int,
+        contentTitle: String,
+        contentText: String
+    ) {
+        val notificationManager =
+            myContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val repeatingIntent = Intent(myContext, MainActivity::class.java)
 
-            repeatingIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        repeatingIntent.putExtra("NotificationEntry", "true")
 
-            val pendingIntent = PendingIntent.getActivity(myContext, requestCode, repeatingIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val builder: Notification.Builder
+        repeatingIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val notificationChannel = NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_HIGH)
-                notificationChannel.enableLights(true)
-                notificationChannel.lightColor = Color.GREEN
-                notificationChannel.enableVibration(true)
-                notificationManager.createNotificationChannel(notificationChannel)
+        val pendingIntent = PendingIntent.getActivity(
+            myContext,
+            requestCode,
+            repeatingIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
-                builder = Notification.Builder(myContext, channelId)
-                    .setContentTitle(contentTitle)
-                    .setContentText(contentText)
-                    .setSmallIcon(R.drawable.ic_action_birthday)
-                    .setLargeIcon(
-                        BitmapFactory.decodeResource(myContext.resources,
-                            R.drawable.ic_action_birthday
-                    ))
+        val builder: Notification.Builder
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel =
+                NotificationChannel(channelId, name, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(myContext, channelId)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setSmallIcon(R.drawable.ic_action_birthday)
+                .setLargeIcon(
+                    BitmapFactory.decodeResource(
+                        myContext.resources,
+                        R.drawable.ic_action_birthday
+                    )
+                )
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
         } else {
@@ -142,9 +167,11 @@ class NotificationReceiver : BroadcastReceiver() {
                 .setContentText(contentText)
                 .setSmallIcon(R.drawable.ic_action_birthday)
                 .setLargeIcon(
-                    BitmapFactory.decodeResource(myContext.resources,
+                    BitmapFactory.decodeResource(
+                        myContext.resources,
                         R.mipmap.ic_launcher_round
-                    ))
+                    )
+                )
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
         }

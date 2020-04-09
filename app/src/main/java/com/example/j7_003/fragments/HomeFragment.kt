@@ -26,36 +26,35 @@ class HomeFragment : Fragment() {
         myView = inflater.inflate(R.layout.fragment_home, container, false)
         myDatabase = MainActivity.database
 
-//        displayTasks(myView)
+        displayTasks(myView)
 
         return myView
     }
 
-//    fun displayTasks(myview: View){
-//        var p1TaskCounter = 0
-//        var i = 0
-//        val taskList = myDatabase.taskList
-//        for(i in 0..taskList.size-1){
-//            if(taskList[i].priority>1){
-//                break
-//            }
-//            p1TaskCounter++
-//        }
-//        val displayTaskCount = minOf(p1TaskCounter, 3)
-//        var taskPanelText = ""
-//        for(i in 0..displayTaskCount-1){
-//            taskPanelText+=(i+1).toString()+". "+taskList[i].title+"\n"
-//        }
-//        taskPanelText=taskPanelText.substring(0, taskPanelText.length-1)
-//        val additionalTasks = p1TaskCounter-displayTaskCount
-//        if(additionalTasks!=0){
-//            var addedLetter = "s"
-//            if(additionalTasks==1){
-//                addedLetter = ""
-//            }
-//            taskPanelText+="\n+ "+additionalTasks+" more important task"+addedLetter
-//        }
-//        myView.task_panel.text = taskPanelText
-//    }
+    fun displayTasks(myview: View){
+        var p1TaskCounter = 0
+        var i = 0
+        val taskList = myDatabase.taskList
+        for(i in 0..taskList.size-1){
+            if(taskList[i].priority>1){
+                break
+            }
+            p1TaskCounter++
+        }
+        val displayTaskCount = minOf(p1TaskCounter, 3)
+        var taskPanelText = ""
+        for(i in 0..displayTaskCount-1){
+            taskPanelText+=(i+1).toString()+". "+taskList[i].title+"\n"
+        }
+        val additionalTasks = p1TaskCounter-displayTaskCount
+        if(additionalTasks!=0){
+            var addedLetter = "s"
+            if(additionalTasks==1){
+                addedLetter = ""
+            }
+            taskPanelText+="\n+ "+additionalTasks+" more important task"+addedLetter
+        }
+        myView.task_panel.text = taskPanelText
+    }
 
 }
