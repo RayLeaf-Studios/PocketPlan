@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.Database
 import com.example.j7_003.data.database_objects.Birthday
 import com.example.j7_003.fragments.*
+import com.example.j7_003.notifications.NotificationHandler
 import com.example.j7_003.notifications.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity(){
 
     companion object {
         lateinit var myActivity: MainActivity
+        lateinit var notificationHandler: NotificationHandler
         lateinit var database: Database
     }
 
@@ -34,10 +36,11 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.main_panel)
 
         database = Database(this)
+        notificationHandler = NotificationHandler(this, getSystemService(Context.NOTIFICATION_SERVICE))
         myActivity = this
         supportActionBar?.title = "Home"
 
-        setBirthdayAlarms()
+//        testAlarmManager()
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.btm_nav)
 
@@ -122,13 +125,12 @@ class MainActivity : AppCompatActivity(){
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
     }
-
-    private fun setBirthdayAlarms() {
+    private fun testAlarmManager() {
         val intent = Intent(this, NotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 60 * 1000, pendingIntent)
     }
 
 }

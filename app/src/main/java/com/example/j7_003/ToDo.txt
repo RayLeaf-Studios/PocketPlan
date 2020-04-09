@@ -31,11 +31,23 @@ modules:
          one day
 
 
-
-
     4 ?go to sleep reminder?
         4.1 small panel showing remaining sleep until Time X when going to sleep now
         4.2 optional reminder at sleepTime < 8h
+
+
+    5 idea: shopping list
+        - custom prebuilt and saveable shopping list
+        - preloaded database with food / macros
+        - possibility to add new custom products
+        - one click check mark placing
+
+        - smart grouping of items by category for optimized shopping pathing
+
+        advanced customizable reminder (hourly reminder? like for drinking)
+
+
+
 
 
 
