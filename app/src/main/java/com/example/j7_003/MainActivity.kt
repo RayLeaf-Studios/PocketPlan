@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.Database
+import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.fragments.*
 import com.example.j7_003.notifications.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,8 +36,6 @@ class MainActivity : AppCompatActivity(){
         supportActionBar?.title = "Home"
 
         setBirthdayAlarms()
-
-
 
         val bottomNavigation : BottomNavigationView = findViewById(R.id.btm_nav)
 
@@ -142,7 +141,7 @@ class MainActivity : AppCompatActivity(){
         val pendingIntent = PendingIntent.getBroadcast(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pendingIntent)
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 
 }
