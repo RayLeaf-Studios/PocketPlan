@@ -43,6 +43,7 @@ Modules:
 
 
 important Tasks:
+    - setup storage handler and redo database infrastructure to be more efficient
 
 random tasks:
     - sleep reminder structure / module page
