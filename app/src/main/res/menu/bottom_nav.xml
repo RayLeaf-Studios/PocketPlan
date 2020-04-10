@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/birthdays"
-        android:icon="@drawable/ic_action_birthday"
-        android:title="@string/menuTitleBirthdays" />
+        android:id="@+id/notes"
+        android:icon="@drawable/ic_action_notes"
+        android:title="@string/menuTitleNotes" />
 
     <item
         android:id="@+id/todolist"
@@ -22,8 +22,8 @@
         android:title="@string/menuTitleCalendar" />
 
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_action_settings"
-        android:title="@string/menuTitleSettings" />
+        android:id="@+id/modules"
+        android:icon="@drawable/ic_action_modules"
+        android:title="@string/menuTitleModules" />
 
 </menu>

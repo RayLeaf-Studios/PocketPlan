@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.Database
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.fragment_modules.view.*
 
 
 /**
@@ -33,7 +35,6 @@ class HomeFragment : Fragment() {
 
     fun displayTasks(myview: View){
         var p1TaskCounter = 0
-        var i = 0
         val taskList = myDatabase.taskList
         for(i in 0..taskList.size-1){
             if(taskList[i].priority>1){
@@ -43,8 +44,11 @@ class HomeFragment : Fragment() {
         }
         val displayTaskCount = minOf(p1TaskCounter, 3)
         var taskPanelText = ""
-        for(i in 0..displayTaskCount-1){
-            taskPanelText+=(i+1).toString()+". "+taskList[i].title+"\n"
+        for(i in 0 until displayTaskCount){
+            taskPanelText+=(i+1).toString()+". "+taskList[i].title
+            if(i<displayTaskCount-1){
+                taskPanelText+="\n"
+            }
         }
         val additionalTasks = p1TaskCounter-displayTaskCount
         if(additionalTasks!=0){
@@ -54,7 +58,12 @@ class HomeFragment : Fragment() {
             }
             taskPanelText+="\n+ "+additionalTasks+" more important task"+addedLetter
         }
-        myView.task_panel.text = taskPanelText
+        if(taskPanelText.length==0){
+            myview.task_panel.visibility = View.GONE
+        }else{
+            myView.task_panel.text = taskPanelText
+        }
+
     }
 
 }

@@ -127,7 +127,7 @@ class NotificationReceiver : BroadcastReceiver() {
             myContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val repeatingIntent = Intent(myContext, MainActivity::class.java)
 
-        repeatingIntent.putExtra("NotificationEntry", "true")
+        repeatingIntent.putExtra("NotificationEntry", "birthdays")
 
 
         repeatingIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
