@@ -32,6 +32,7 @@ class Database(context: Context) : Serializable {
         noteList = fetchNoteList()
         sortTasks()
         sortBirthday()
+        WeekScheduleHandler(context)
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -107,7 +108,7 @@ class Database(context: Context) : Serializable {
      */
     fun addBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int): Boolean {
         if(parMonth in 1..12 && parDay in 1..GregorianCalendar(
-                calendar.get(Calendar.YEAR),
+                2020,
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
             birthdayList.add(
@@ -141,7 +142,7 @@ class Database(context: Context) : Serializable {
 
     fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int): Boolean {
         if(parMonth in 1..12 && parDay in 1..GregorianCalendar(
-                calendar.get(Calendar.YEAR),
+                2020,
                 parMonth -1,
                 Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
             ) {
