@@ -10,6 +10,7 @@ import com.example.j7_003.data.Database
 import com.example.j7_003.fragments.*
 import com.example.j7_003.notifications.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
 
 class MainActivity : AppCompatActivity(){
     private lateinit var homeFragment: HomeFragment
@@ -179,7 +180,13 @@ class MainActivity : AppCompatActivity(){
         val intent = Intent(this, NotificationReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, pendingIntent)
+
+        val notificationTime = Calendar.getInstance()
+        notificationTime.set(Calendar.HOUR_OF_DAY, 12)
+        notificationTime.set(Calendar.MINUTE, 0)
+        notificationTime.set(Calendar.SECOND, 0)
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notificationTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 
 }

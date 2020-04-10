@@ -21,7 +21,7 @@ import kotlin.collections.ArrayList
 
 
 class NotificationReceiver : BroadcastReceiver() {
-    lateinit var myContext: Context
+    private lateinit var myContext: Context
     lateinit var database: Database
     private val calendar = Calendar.getInstance()
 
@@ -102,7 +102,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "Birthday Notification",
             101,
             "Upcoming Birthday",
-            "${birthday.name}s birthday is coming up in ${birthday.daysToRemind} days!"
+            "${birthday.name}s birthday is coming up in ${birthday.daysToRemind} ${if(birthday.daysToRemind ==1 ) {"day"} else {"days"}}!"
         )
     }
 
