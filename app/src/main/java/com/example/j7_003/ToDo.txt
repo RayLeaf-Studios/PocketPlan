@@ -43,9 +43,10 @@ Modules:
 
 
 important Tasks:
-    - FIX APP STARTING UP INTO BIRTHDAY PANEL
 
 random tasks:
+    - sleep reminder structure / module page
+    - add notes module
     - improve task display in home panel
     - add shopping list module
     - add sleep reminder
