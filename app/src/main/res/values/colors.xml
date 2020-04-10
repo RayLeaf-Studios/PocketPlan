@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
     <resources>
-    <color name="colorPriority1">#463168</color>
-    <color name="colorPriority2">#293E70</color>
-    <color name="colorPriority3">#194C3A</color>
+    <color name="colorPriority1">#1E3B7A</color>
+    <color name="colorPriority2">#2E857B</color>
+    <color name="colorPriority3">#0F5523</color>
     <color name="colorOnBackGround">#FFFFFF</color>
     <color name="colorHint">#757272</color>
     <color name="colorPrimary">#1C1C1C</color>
@@ -13,10 +13,6 @@
     <color name="colorBackgroundListElement">#252525</color>
     <color name="colorError">#CF6679</color>
 </resources>
-
-<!--<color name="colorPriority1">#5A417E</color>-->
-<!--<color name="colorPriority2">#34508F</color>-->
-<!--<color name="colorPriority3">#1F5C53</color>-->
 
 <!--<resources>-->
 <!--<color name="colorPriority1">#6097C3</color>-->
