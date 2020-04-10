@@ -16,9 +16,11 @@ class Database(context: Context) : Serializable {
 
     var birthdayList = ArrayList<Birthday>()
     var taskList = ArrayList<Task>()
+    var noteList = ArrayList<Note>()
+
     private var taskFile = setStorageLocation("TaskList.txt", context)
     private var birthdayFile = setStorageLocation("BirthdayList.txt", context)
-    private val converter = Gson()
+    private var noteFile = setStorageLocation("NoteList.txt", context)
     private val calendar = Calendar.getInstance()
 
     private val reminder = SleepReminder(19, 51) //debug
@@ -27,6 +29,7 @@ class Database(context: Context) : Serializable {
         createFiles()
         taskList = fetchTaskList()
         birthdayList = fetchBirthdayList()
+        noteList = fetchNoteList()
         sortTasks()
         sortBirthday()
     }
@@ -89,7 +92,7 @@ class Database(context: Context) : Serializable {
     }
 
     private fun saveTaskList() {
-        taskFile.writeText(converter.toJson(taskList))
+        taskFile.writeText(Gson().toJson(taskList))
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -111,15 +114,15 @@ class Database(context: Context) : Serializable {
                 Birthday(name, parMonth, parDay, parReminder)
             )
 
-            saveBirthdayList()
             sortBirthday()
+            saveBirthdayList()
             return true
             }
         return false
     }
 
     private fun saveBirthdayList() {
-        birthdayFile.writeText(converter.toJson(birthdayList))
+        birthdayFile.writeText(Gson().toJson(birthdayList))
     }
 
     /**
@@ -195,39 +198,58 @@ class Database(context: Context) : Serializable {
         }
     }
 
-    private fun addDebugBirthdays() {
-        birthdayList = arrayListOf(
-            Birthday("Nasus", 1, 23),
-            Birthday("Veigar", 12, 24),
-            Birthday("Sion", 5, 1),
-            Birthday("Ezreal", 3, 5),
-            Birthday("Leona", 4, 7),
-            Birthday("Jarvan IV", 1, 9),
-            Birthday("Sejuani", 6, 12),
-            Birthday("Max Mustermann", 1, 2),
-            Birthday("Darius", 1, 2),
-            Birthday("Xerath", 12, 12),
-            Birthday("Svobby", 5, 28),
-            Birthday("Angela Merkel", 1, 25),
-            Birthday("Niemand", 17, 2),
-            Birthday("Test", 3, 2)
-        )
+    fun getXNextBirthdays(index: Int): ArrayList<Birthday> {
+        var min = index
 
-        fun getXNextBirthdays(index: Int): ArrayList<Birthday> {
-            var min = index
-            if (index > birthdayList.size) {
-                min = birthdayList.size
-            }
-
-            val xNextBirthdays = ArrayList<Birthday>()
-
-            for (i in 0..min) {
-                xNextBirthdays.add(birthdayList[i])
-            }
-
-            return xNextBirthdays
+        if (index > birthdayList.size) {
+            min = birthdayList.size
         }
+
+        val xNextBirthdays = ArrayList<Birthday>()
+
+        for (i in 0..min) {
+            xNextBirthdays.add(birthdayList[i])
+        }
+
+        return xNextBirthdays
     }
+
+
+    //--------------------------------------------------------------------------------------------//
+    //--------------------------------------------------------------------------------------------//
+    //--------------------------------------------------------------------------------------------//
+    //debug here will be note handling
+
+    fun addNote(title: String, note: String) {
+        noteList.add(Note(title, note))
+        saveNoteList()
+    }
+
+    fun editNote(index: Int, title: String, note: String) {
+        val editableNote = getNote(index)
+        editableNote.title = title
+        editableNote.note = note
+        saveNoteList()
+    }
+
+    fun deleteNote(index: Int) {
+        noteList.removeAt(index)
+        saveNoteList()
+    }
+
+    fun getNote(index: Int): Note = noteList[index]
+
+    private fun fetchNoteList(): ArrayList<Note> {
+        val jsonString = noteFile.readText()
+
+        return GsonBuilder().create()
+            .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
+    }
+
+    private fun saveNoteList() {
+        noteFile.writeText(Gson().toJson(noteList))
+    }
+
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
@@ -237,6 +259,7 @@ class Database(context: Context) : Serializable {
 
         if (!taskFile.exists()) taskFile.writeText("[]")
         if (!birthdayFile.exists()) birthdayFile.writeText("[]")
+        if (!noteFile.exists()) noteFile.writeText("[]")
 
 
     }
