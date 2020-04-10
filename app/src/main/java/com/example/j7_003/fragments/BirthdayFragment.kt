@@ -53,12 +53,21 @@ class BirthdayFragment : Fragment() {
             val npMonth = myDialogView.npMonth
             npMonth.minValue = 1
             npMonth.maxValue = 12
+
             val npDay = myDialogView.npDay
             npDay.minValue = 1
             npDay.maxValue = 31
             val npReminder = myDialogView.npReminder
             npReminder.minValue = 0
             npReminder.maxValue = 30
+
+            npMonth.setOnValueChangedListener{ _, _, _ ->
+                when(npMonth.value){
+                    1,3,5,7,8,10,12 -> npDay.maxValue = 31
+                    2 -> npDay.maxValue = 29
+                    else -> npDay.maxValue = 30
+                }
+            }
 
             //AlertDialogBuilder
             val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
@@ -176,6 +185,14 @@ class BirthdayAdapter() :
             npReminder.minValue = 0
             npReminder.maxValue = 30
 
+            npMonth.setOnValueChangedListener{ _, _, _ ->
+                when(npMonth.value){
+                    1,3,5,7,8,10,12 -> npDay.maxValue = 31
+                    2 -> npDay.maxValue = 29
+                    else -> npDay.maxValue = 30
+                }
+            }
+
             val etName = myDialogView.etName
 
             //AlertDialogBuilder
@@ -189,6 +206,12 @@ class BirthdayAdapter() :
             npMonth.value = currentBirthday.month
             npDay.value = currentBirthday.day
             npReminder.value = currentBirthday.daysToRemind
+
+            when(npMonth.value){
+                1,3,5,7,8,10,12 -> npDay.maxValue = 31
+                2 -> npDay.maxValue = 29
+                else -> npDay.maxValue = 30
+            }
 
             myDialogView.btnConfirmBirthday.text ="CONFIRM EDIT"
 
