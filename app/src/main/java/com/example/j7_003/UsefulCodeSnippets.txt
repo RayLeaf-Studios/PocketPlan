@@ -1,4 +1,5 @@
-
+//Good to know
+USE ADAPTER POSITION instead of passed position in recycler adapter class, ALWAYS
 
 
 //Useful for checking and requesting permissions

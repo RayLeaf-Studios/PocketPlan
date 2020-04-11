@@ -2,6 +2,7 @@ package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -119,17 +120,20 @@ class BirthdayFragment : Fragment() {
 
 class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        Log.e("debug", "im moving")
         return false
-    }
+            }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
+
     }
 }
 
 class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        Log.e("debug", "im moving")
         return false
     }
 
@@ -166,6 +170,7 @@ class BirthdayAdapter() :
 
         // EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener() {
+
 
             //inflate the dialog with custom view
             val myDialogView =
@@ -222,11 +227,12 @@ class BirthdayAdapter() :
 
             //button to confirm editing of birthday
             myDialogView.btnConfirmBirthday.setOnClickListener(){
+
                 val name = etName.text.toString()
                 val day = npDay.value
                 val month = npMonth.value
                 val reminderPeriod = npReminder.value
-                if(!(mydatabase.editBirthday(name, day, month, reminderPeriod, position))){
+                if(!(mydatabase.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition))){
                     Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show()
                 }
 

@@ -36,6 +36,24 @@ Modules:
         - api created preloaded database of items, tagged with category like vegetables? for grouping
         of similar items on shopping list for optimal pathing through supermarket
 
+        logical categories
+            1. vegetables, fruits
+            2. cooled meat
+            3. cooled dairy products
+            4. canned food
+            5. bread and pastry
+            6. pasta, rice
+            7. spices
+            8. hygiene
+            9. drinks
+            10. alcoholic drinks
+            11. international
+            12. frozen food
+            13. cereals
+            14. baking ingredients
+
+
+
     6 Notes
 
     7 MainPanel
@@ -60,6 +78,23 @@ ideas:
     - add ability to store simple text notes, organized in folders, (mark them with colors)
     - dark mode switch is clickable, but always jumps back to enabled, prompting a toast saying "No"
     - simple schedule model for university class plan?
+
+
+1 Tasks
+2 Birthdays
+3 Notes
+4 Sleep Reminder
+5 Shopping List
+6 General Reminder / Schedule
+7 Main Panel
+
+
+
+
+
+Work for the intern:
+    - create multiple example color schemes for the task list and present them to the great leaders
+    - tag 100000 items with category, by hand
 
 
 

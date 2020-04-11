@@ -3,4 +3,5 @@
     <dimen name="font_size_prio_buttons">20sp</dimen>
     <dimen name="font_size_dialog_titles">20sp</dimen>
     <dimen name="font_size_list_items">17sp</dimen>
+    <dimen name="font_size_daysofweek">15sp</dimen>
 </resources>

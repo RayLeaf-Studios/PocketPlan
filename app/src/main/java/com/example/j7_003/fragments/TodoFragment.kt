@@ -141,7 +141,7 @@ class TodoTaskAdapter() :
 
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
-        val currentTask = taskList[position]
+        val currentTask = database.getTask(holder.adapterPosition)
         val activity = MainActivity.myActivity
 
 
@@ -164,7 +164,7 @@ class TodoTaskAdapter() :
 
             //write current task to textField
             myDialogView.etxTitleAddTask.requestFocus()
-            myDialogView.etxTitleAddTask.setText(database.getTask(position).title)
+            myDialogView.etxTitleAddTask.setText(database.getTask(holder.adapterPosition).title)
             myDialogView.etxTitleAddTask.setSelection(myDialogView.etxTitleAddTask.text.length)
 
             //adds listeners to confirmButtons in addTaskDialog
@@ -177,7 +177,7 @@ class TodoTaskAdapter() :
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
-                    database.editTask(position, index, myDialogView.etxTitleAddTask.text.toString())
+                    database.editTask(holder.adapterPosition, index, myDialogView.etxTitleAddTask.text.toString())
                     database.sortTasks()
                     this.notifyDataSetChanged()
                 }
@@ -208,7 +208,6 @@ class TodoTaskAdapter() :
 
     class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name_textview: TextView = itemView.name_textview
-//        val btnDelete: ImageButton = itemView.btnDelete
         var myView = itemView
     }
 }

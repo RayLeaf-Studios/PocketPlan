@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToHome(){
+    fun changeToHome(){
         if(activeFragmentTag!="home"){
             supportActionBar?.title = "Home"
             homeFragment = HomeFragment()
