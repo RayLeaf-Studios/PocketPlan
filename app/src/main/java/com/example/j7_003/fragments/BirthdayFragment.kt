@@ -88,9 +88,9 @@ class BirthdayFragment : Fragment() {
                 val day = npDay.value
                 val month = npMonth.value
                 val reminderPeriod = npReminder.value
-                if(!(database.addBirthday(name, day, month, reminderPeriod))){
-                    Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show()
-                }
+
+                database.addBirthday(name, day, month, reminderPeriod)
+
                 myRecycler.adapter?.notifyDataSetChanged()
                 myAlertDialog?.dismiss()
             }
@@ -232,9 +232,8 @@ class BirthdayAdapter() :
                 val day = npDay.value
                 val month = npMonth.value
                 val reminderPeriod = npReminder.value
-                if(!(mydatabase.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition))){
-                    Toast.makeText(activity, "Invalid Input", Toast.LENGTH_SHORT).show()
-                }
+                mydatabase.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition)
+
 
 
                 notifyDataSetChanged()

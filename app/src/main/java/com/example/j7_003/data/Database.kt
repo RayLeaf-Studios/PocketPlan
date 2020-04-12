@@ -1,38 +1,38 @@
 package com.example.j7_003.data
 
 import android.content.Context
-import android.os.Build
-import android.os.Environment
 import com.example.j7_003.data.database_objects.*
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.io.File
 import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
 class Database(context: Context) : Serializable {
+    private val storageHandler = StorageHandler(context)
 
-    var birthdayList = ArrayList<Birthday>()
-    var taskList = ArrayList<Task>()
-    var noteList = ArrayList<Note>()
+    companion object {
+        lateinit var taskList: ArrayList<Task>
+        lateinit var birthdayList: ArrayList<Birthday>
+        lateinit var noteList: ArrayList<Note>
+    }
 
-    private var taskFile = setStorageLocation("TaskList.txt", context)
-    private var birthdayFile = setStorageLocation("BirthdayList.txt", context)
-    private var noteFile = setStorageLocation("NoteList.txt", context)
-    private val calendar = Calendar.getInstance()
+    var taskList: ArrayList<Task>
+    var birthdayList: ArrayList<Birthday>
+    var noteList: ArrayList<Note>
 
-    private val reminder = SleepReminder(19, 51) //debug
+    private val TLIST = "TASKLIST"
+    private val BLIST = "BIRTHDAYLIST"
+    private val NLIST = "NOTELIST"
 
     init {
-        createFiles()
-        taskList = fetchTaskList()
-        birthdayList = fetchBirthdayList()
-        noteList = fetchNoteList()
+        initStorage()
+        initLists()
+        taskList = Companion.taskList
+        birthdayList = Companion.birthdayList
+        noteList = Companion.noteList
         sortTasks()
         sortBirthday()
-        WeekScheduleHandler(context)
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -53,7 +53,7 @@ class Database(context: Context) : Serializable {
             )
         )
         sortTasks()
-        saveTaskList()
+        storageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
     }
 
     /**
@@ -62,7 +62,7 @@ class Database(context: Context) : Serializable {
      */
     fun deleteTask(index: Int) {
         taskList.removeAt(index)
-        saveTaskList()
+        storageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
     }
 
     fun editTask(position: Int, index: Int, title: String) {
@@ -70,7 +70,7 @@ class Database(context: Context) : Serializable {
         editableTask.title = title
         editableTask.priority = index + 1
         sortTasks()
-        saveTaskList()
+        storageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
     }
 
     /**
@@ -81,19 +81,14 @@ class Database(context: Context) : Serializable {
     fun getTask(index: Int): Task = taskList[index]
 
     fun sortTasks() {
-        taskList.sortWith(compareBy({it.priority}, {it.title}))
+        taskList.sortWith(compareBy({ it.priority }, { it.priority }))
     }
 
-    private fun fetchTaskList(): ArrayList<Task> {
-
-        val jsonString = taskFile.readText()
+    private fun fetchTaskList() : ArrayList<Task> {
+        val jsonString = StorageHandler.files[TLIST]?.readText()
 
         return GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<ArrayList<Task>>() {}.type)
-    }
-
-    private fun saveTaskList() {
-        taskFile.writeText(Gson().toJson(taskList))
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -106,24 +101,12 @@ class Database(context: Context) : Serializable {
      * @param parMonth The month of the birthday
      * @param parDay The day of the birthday
      */
-    fun addBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int): Boolean {
-        if(parMonth in 1..12 && parDay in 1..GregorianCalendar(
-                2020,
-                parMonth -1,
-                Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)) {
-            birthdayList.add(
-                Birthday(name, parMonth, parDay, parReminder)
-            )
+    fun addBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int) {
+        birthdayList.add(Birthday(name, parMonth, parDay, parReminder))
 
-            sortBirthday()
-            saveBirthdayList()
-            return true
-            }
-        return false
-    }
+        sortBirthday()
 
-    private fun saveBirthdayList() {
-        birthdayFile.writeText(Gson().toJson(birthdayList))
+        storageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
     }
 
     /**
@@ -132,7 +115,7 @@ class Database(context: Context) : Serializable {
      */
     fun deleteBirthday(index: Int) {
         birthdayList.removeAt(index)
-        saveBirthdayList()
+        storageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
     }
 
     /**
@@ -140,25 +123,16 @@ class Database(context: Context) : Serializable {
      * Will edit a given birthday object
      */
 
-    fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int): Boolean {
-        if(parMonth in 1..12 && parDay in 1..GregorianCalendar(
-                2020,
-                parMonth -1,
-                Calendar.DAY_OF_MONTH).getActualMaximum(Calendar.DAY_OF_MONTH)
-            ) {
-            val editableBirthday: Birthday = getBirthday(parPosition)
+    fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int) {
+        val editableBirthday: Birthday = getBirthday(parPosition)
 
-            editableBirthday.name = name
-            editableBirthday.day = parDay
-            editableBirthday.month = parMonth
-            editableBirthday.daysToRemind = parReminder
+        editableBirthday.name = name
+        editableBirthday.day = parDay
+        editableBirthday.month = parMonth
+        editableBirthday.daysToRemind = parReminder
 
-            sortBirthday()
-            saveBirthdayList()
-            return true
-            }
-
-        return false
+        sortBirthday()
+        storageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
     }
 
     /**
@@ -167,14 +141,7 @@ class Database(context: Context) : Serializable {
      */
     fun getBirthday(position: Int): Birthday = birthdayList[position]
 
-    private fun fetchBirthdayList(): ArrayList<Birthday> {
-        val jsonString = birthdayFile.readText()
-
-        return GsonBuilder().create()
-            .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
-    }
-
-    fun sortBirthday() {
+    private fun sortBirthday() {
         val calendar = Calendar.getInstance()
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         val month = calendar.get(Calendar.MONTH) + 1
@@ -192,7 +159,13 @@ class Database(context: Context) : Serializable {
             }
         }
 
-        birthdayList.sortWith(compareBy({ it.month < month }, { it.month }, { it.day < day }, { it.day }, { it.name }))
+        birthdayList.sortWith(compareBy(
+            { it.month < month },
+            { it.month },
+            { it.day < day },
+            { it.day },
+            { it.name })
+        )
 
         cacheList.forEach { n ->
             birthdayList.add(n)
@@ -209,12 +182,18 @@ class Database(context: Context) : Serializable {
         val xNextBirthdays = ArrayList<Birthday>()
 
         for (i in 0..min) {
-            xNextBirthdays.add(birthdayList[i])
+            xNextBirthdays.add(getBirthday(i))
         }
 
         return xNextBirthdays
     }
 
+    private fun fetchBList() : ArrayList<Birthday> {
+        val jsonString = StorageHandler.files[BLIST]?.readText()
+
+        return GsonBuilder().create()
+            .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
+    }
 
     //--------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------//
@@ -223,32 +202,28 @@ class Database(context: Context) : Serializable {
 
     fun addNote(title: String, note: String) {
         noteList.add(Note(title, note))
-        saveNoteList()
+        storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
     }
 
     fun editNote(index: Int, title: String, note: String) {
         val editableNote = getNote(index)
         editableNote.title = title
         editableNote.note = note
-        saveNoteList()
+        storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
     }
 
     fun deleteNote(index: Int) {
         noteList.removeAt(index)
-        saveNoteList()
+        storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
     }
 
     fun getNote(index: Int): Note = noteList[index]
 
-    private fun fetchNoteList(): ArrayList<Note> {
-        val jsonString = noteFile.readText()
+    private fun fetchNoteList() : ArrayList<Note> {
+        val jsonString = StorageHandler.files[NLIST]?.readText()
 
         return GsonBuilder().create()
-            .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
-    }
-
-    private fun saveNoteList() {
-        noteFile.writeText(Gson().toJson(noteList))
+            .fromJson(jsonString, object : TypeToken<ArrayList<Note>>() {}.type)
     }
 
     //--------------------------------------------------------------------------------------------//
@@ -256,21 +231,15 @@ class Database(context: Context) : Serializable {
     //--------------------------------------------------------------------------------------------//
     //debug here will be database handling
 
-    private fun createFiles() {
-
-        if (!taskFile.exists()) taskFile.writeText("[]")
-        if (!birthdayFile.exists()) birthdayFile.writeText("[]")
-        if (!noteFile.exists()) noteFile.writeText("[]")
-
-
+    private fun initStorage() {
+        storageHandler.addListToFiles(TLIST, "TaskList.json")
+        storageHandler.addListToFiles(BLIST, "BirthdayList.json")
+        storageHandler.addListToFiles(NLIST, "NoteFile.json")
     }
 
-    private fun setStorageLocation(fileName: String, context: Context): File {
-
-        return if (Build.VERSION.SDK_INT < 29) {
-            File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
-        } else {
-            File(context.filesDir, fileName)
-        }
+    private fun initLists() {
+        Companion.birthdayList = fetchBList()
+        Companion.taskList = fetchTaskList()
+        Companion.noteList = fetchNoteList()
     }
 }
