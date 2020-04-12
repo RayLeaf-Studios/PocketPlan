@@ -14,7 +14,7 @@ class StorageHandler(val context: Context) {
 
     fun saveToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
 
-    fun addListToFiles(identifier: String, fileName: String) {
+    fun addCollToFiles(identifier: String, fileName: String) {
         files[identifier] = setStorageLocation(fileName, context)
 
         if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {

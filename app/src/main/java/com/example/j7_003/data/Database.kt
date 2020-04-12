@@ -232,9 +232,9 @@ class Database(context: Context) : Serializable {
     //debug here will be database handling
 
     private fun initStorage() {
-        storageHandler.addListToFiles(TLIST, "TaskList.json")
-        storageHandler.addListToFiles(BLIST, "BirthdayList.json")
-        storageHandler.addListToFiles(NLIST, "NoteFile.json")
+        storageHandler.addCollToFiles(TLIST, "TaskList.json")
+        storageHandler.addCollToFiles(BLIST, "BirthdayList.json")
+        storageHandler.addCollToFiles(NLIST, "NoteFile.json")
     }
 
     private fun initLists() {
