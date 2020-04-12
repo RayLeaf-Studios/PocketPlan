@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.WriteNoteFragment"
+    android:background="@color/colorBackground"
+    android:padding="5dp">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:gravity="start"
+        android:inputType="text"
+        android:maxLength="40"
+        android:textColor="@color/colorOnBackGround"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:hint="Title"
+        android:ems="10"
+        android:textColorHint="@color/colorHint"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:padding="4dp"
+        android:id="@+id/etNoteFrag"
+        android:hint="Note"
+        android:textSize="20sp"
+        android:textColorHint="@color/colorHint"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:text=""
+        android:textColor="@color/colorOnBackGround"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

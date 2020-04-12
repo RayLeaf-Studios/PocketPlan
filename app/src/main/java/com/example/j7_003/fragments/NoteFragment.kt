@@ -38,7 +38,8 @@ class NoteFragment : Fragment() {
 
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener() {
-            //TODO SWITCH INTO ADD NOTE WINDOW HERE
+            MainActivity.myActivity.changeToWriteNoteFragment()
+            //tew
 
         }
 
@@ -50,10 +51,10 @@ class NoteFragment : Fragment() {
 
         myRecycler.setHasFixedSize(true)
 
-        var swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteN(myAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteN(myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        var swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteN(myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteN(myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
         return myView
@@ -80,7 +81,7 @@ class SwipeLeftToDeleteN(private var adapter: NoteAdapter):
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        var position = viewHolder.adapterPosition
+        val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
     }
 }
@@ -95,7 +96,7 @@ class NoteAdapter() :
         notifyItemRemoved(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteAdapter.NoteViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         //parent is Recyclerview the view holder will be placed in
         //context is activity that the recyclerview is placed in
         //parent in inflate tells the inflater where the layout will be placed

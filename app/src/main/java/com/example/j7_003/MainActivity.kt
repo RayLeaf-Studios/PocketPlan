@@ -1,10 +1,15 @@
 package com.example.j7_003
 
+import android.app.ActionBar
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.drm.DrmStore
 import android.os.Bundle
+import android.view.View
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.Database
 import com.example.j7_003.fragments.*
@@ -21,6 +26,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var modulesFragment: ModulesFragment
     private lateinit var sleepFragment: SleepFragment
     private lateinit var noteFragment: NoteFragment
+    private lateinit var writeNoteFragment: WriteNoteFragment
 
     private lateinit var bottomNavigation: BottomNavigationView
 
@@ -70,6 +76,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="birthdays") {
             bottomNavigation.selectedItemId = R.id.modules
             supportActionBar?.title = "Birthdays"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             birthdayFragment = BirthdayFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -84,6 +91,7 @@ class MainActivity : AppCompatActivity(){
     private fun changeToToDo(){
         if(activeFragmentTag!="todo") {
             supportActionBar?.title = "To-Do"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             todoFragment = TodoFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -97,6 +105,7 @@ class MainActivity : AppCompatActivity(){
     fun changeToHome(){
         if(activeFragmentTag!="home"){
             supportActionBar?.title = "Home"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             homeFragment = HomeFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -111,6 +120,7 @@ class MainActivity : AppCompatActivity(){
     private fun changeToCalendar(){
         if(activeFragmentTag!="calendar") {
             supportActionBar?.title = "Calendar"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             calenderFragment = CalenderFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -125,6 +135,7 @@ class MainActivity : AppCompatActivity(){
     private fun changeToModules(){
         if(activeFragmentTag!="modules") {
             supportActionBar?.title = "Modules"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             modulesFragment = ModulesFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -139,6 +150,7 @@ class MainActivity : AppCompatActivity(){
     fun changeToSettings(){
         if(activeFragmentTag!="settings") {
             supportActionBar?.title = "Settings"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             settingsFragment = SettingsFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -152,6 +164,7 @@ class MainActivity : AppCompatActivity(){
     fun changeToSleepReminder(){
         if(activeFragmentTag!="sleep") {
             supportActionBar?.title = "Sleep-Reminder"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             sleepFragment = SleepFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -162,9 +175,10 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToNotes(){
+     fun changeToNotes(){
         if(activeFragmentTag!="notes") {
             supportActionBar?.title = "Notes"
+            supportActionBar?.setDisplayShowCustomEnabled(false)
             noteFragment= NoteFragment()
             supportFragmentManager
                 .beginTransaction()
@@ -173,6 +187,21 @@ class MainActivity : AppCompatActivity(){
                 .commit()
             activeFragmentTag="notes"
             bottomNavigation.selectedItemId=R.id.notes
+        }
+    }
+
+    fun changeToWriteNoteFragment(){
+        if(activeFragmentTag!="writeNote") {
+            supportActionBar?.title=""
+            supportActionBar?.setDisplayShowCustomEnabled(true)
+            supportActionBar?.customView = layoutInflater.inflate(R.layout.appbar_write_note, null)
+            writeNoteFragment= WriteNoteFragment()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, writeNoteFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            activeFragmentTag="writeNote"
         }
     }
 

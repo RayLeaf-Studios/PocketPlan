@@ -73,6 +73,8 @@ random tasks:
     - plan calendar layout
     - replace all colors and values like text size with resource references
     - handle loading and saving of settings
+    - figure out how to open keyboard in write note fragment (without using toggleSoftinput, which
+    causes keyboard to stay open even if app is closed)
 
 ideas:
     - add ability to store simple text notes, organized in folders, (mark them with colors)
