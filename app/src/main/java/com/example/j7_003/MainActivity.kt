@@ -43,6 +43,12 @@ class MainActivity : AppCompatActivity(){
         myActivity = this
         Database.init()
 
+        //debug kannst gerne mal mit den zeiten rum testen, jetzt sollte es eine notification
+        //geben wenn die Reminder time erreicht ist
+        /*SleepReminder.editReminder(1, 34)
+        SleepReminder.editWakeUp(2, 0)
+        SleepReminder.enable()
+        SleepReminder.setSleepReminderAlarm()*/
 
         setBirthdayAlarms()
 
@@ -66,6 +72,7 @@ class MainActivity : AppCompatActivity(){
 
         when(intent.getStringExtra("NotificationEntry")){
             "birthdays" -> changeToBirthdays()
+            "SReminder" -> TODO("wohin auch immer die sleep reminder notification führen soll")
             else -> changeToHome()
         }
 
@@ -206,6 +213,8 @@ class MainActivity : AppCompatActivity(){
 
     private fun setBirthdayAlarms() {
         val intent = Intent(this, NotificationReceiver::class.java)
+        intent.putExtra("Notification", "Birthday")
+
         val pendingIntent = PendingIntent.getBroadcast(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 

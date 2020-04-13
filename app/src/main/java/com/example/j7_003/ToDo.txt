@@ -61,7 +61,8 @@ Modules:
 
 
 important Tasks:
-    - setup storage handler and redo database infrastructure to be more efficient
+    - fix on back press
+    - delete notes by press and hold (mark multiple)
 
 random tasks:
     - sleep reminder structure / module page

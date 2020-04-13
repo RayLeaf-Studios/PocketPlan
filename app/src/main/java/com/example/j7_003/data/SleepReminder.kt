@@ -26,18 +26,22 @@ class SleepReminder {
 
         var isSet: Boolean = false
 
-        private val fileName: String = "SLEEP_REMINDER"
+        private const val fileName: String = "SLEEP_REMINDER"
 
         fun isRemindTimeReached(): Boolean {
             getClock()
 
             return compareHours() || compareWithMinutes()
-            //return (compareHours() == -1) || (compareHours() == 0 && compareMinutes() < 1)
         }
 
-        fun edit(newHour: Int, newMinute: Int) {
+        fun editReminder(newHour: Int, newMinute: Int) {
             reminderHour = newHour
             reminderMinute = newMinute
+        }
+
+        fun editWakeUp(newHour: Int, newMinute: Int) {
+            wakeUpHour = newHour
+            wakeUpMinute = newMinute
         }
 
         fun disable() {
@@ -46,7 +50,6 @@ class SleepReminder {
 
         fun enable() {
             isSet = true
-
         }
 
         private fun compareHours(): Boolean = currentHour in reminderHour+1 until wakeUpHour
@@ -66,6 +69,8 @@ class SleepReminder {
         fun setSleepReminderAlarm() {
             if (isSet) {
                 val intent = Intent(MainActivity.myActivity, NotificationReceiver::class.java)
+                intent.putExtra("Notification", "SReminder")
+
                 val pendingIntent = PendingIntent.getBroadcast(
                     MainActivity.myActivity,
                     200,

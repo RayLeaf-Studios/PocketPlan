@@ -22,7 +22,6 @@ import kotlin.collections.ArrayList
 
 class NotificationReceiver : BroadcastReceiver() {
     private lateinit var myContext: Context
-    lateinit var database: Database
     private val calendar = Calendar.getInstance()
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -32,6 +31,27 @@ class NotificationReceiver : BroadcastReceiver() {
             return
         }
 
+        if (intent != null) {
+            when (intent.extras?.get("Notification")) {
+                "Birthday" -> birthdayNotifications()
+                "SReminder" -> sRNotification()
+            }
+        }
+    }
+
+    private fun sRNotification() {
+        createNotification(
+            "Sleep Reminder",
+            "Sleep Reminder Notification",
+            200,
+            "Sleep Time",
+            "It's time to go to bed, have a good nights sleep!",
+            R.drawable.ic_action_sleepreminder,
+            "SReminder"
+        )
+    }
+
+    private fun birthdayNotifications() {
         if (Database.birthdayList.size < 1) {
             return
         }
@@ -80,7 +100,9 @@ class NotificationReceiver : BroadcastReceiver() {
             "Birthday Notification",
             100,
             "Birthday",
-            "It's ${birthday.name}s birthday!"
+            "It's ${birthday.name}s birthday!",
+            R.drawable.ic_action_birthday,
+            "birthdays"
         )
     }
 
@@ -90,7 +112,9 @@ class NotificationReceiver : BroadcastReceiver() {
             "Birthday Notification",
             102,
             "Birthdays",
-            "There are $currentBirthdays birthdays today!"
+            "There are $currentBirthdays birthdays today!",
+            R.drawable.ic_action_birthday,
+            "birthdays"
         )
     }
 
@@ -100,7 +124,9 @@ class NotificationReceiver : BroadcastReceiver() {
             "Birthday Notification",
             101,
             "Upcoming Birthday",
-            "${birthday.name}s birthday is coming up in ${birthday.daysToRemind} ${if(birthday.daysToRemind ==1 ) {"day"} else {"days"}}!"
+            "${birthday.name}s birthday is coming up in ${birthday.daysToRemind} ${if(birthday.daysToRemind ==1 ) {"day"} else {"days"}}!",
+            R.drawable.ic_action_birthday,
+            "birthdays"
         )
     }
 
@@ -110,7 +136,9 @@ class NotificationReceiver : BroadcastReceiver() {
             "Birthday Notification",
             103,
             "Upcoming Birthdays",
-            "$upcomingBirthdays birthdays are coming up!"
+            "$upcomingBirthdays birthdays are coming up!",
+            R.drawable.ic_action_birthday,
+            "birthdays"
         )
     }
 
@@ -119,13 +147,15 @@ class NotificationReceiver : BroadcastReceiver() {
         name: String,
         requestCode: Int,
         contentTitle: String,
-        contentText: String
+        contentText: String,
+        icon: Int,
+        intentValue: String
     ) {
         val notificationManager =
             myContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val repeatingIntent = Intent(myContext, MainActivity::class.java)
 
-        repeatingIntent.putExtra("NotificationEntry", "birthdays")
+        repeatingIntent.putExtra("NotificationEntry", intentValue)
 
 
         repeatingIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -150,11 +180,11 @@ class NotificationReceiver : BroadcastReceiver() {
             builder = Notification.Builder(myContext, channelId)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .setSmallIcon(R.drawable.ic_action_birthday)
+                .setSmallIcon(icon)
                 .setLargeIcon(
                     BitmapFactory.decodeResource(
                         myContext.resources,
-                        R.drawable.ic_action_birthday
+                        icon
                     )
                 )
                 .setContentIntent(pendingIntent)
@@ -163,7 +193,7 @@ class NotificationReceiver : BroadcastReceiver() {
             builder = Notification.Builder(myContext)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
-                .setSmallIcon(R.drawable.ic_action_birthday)
+                .setSmallIcon(icon)
                 .setLargeIcon(
                     BitmapFactory.decodeResource(
                         myContext.resources,
