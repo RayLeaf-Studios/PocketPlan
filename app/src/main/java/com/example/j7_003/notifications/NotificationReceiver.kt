@@ -32,9 +32,7 @@ class NotificationReceiver : BroadcastReceiver() {
             return
         }
 
-        database = Database(myContext)
-
-        if (database.birthdayList.size < 1) {
+        if (Database.birthdayList.size < 1) {
             return
         }
 
@@ -56,7 +54,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun getUpcomingBirthdays(): ArrayList<Birthday> {
         val upcomingBirthdays = ArrayList<Birthday>()
-        database.birthdayList.forEach { n ->
+        Database.birthdayList.forEach { n ->
             if (n.month == calendar.get(Calendar.MONTH) + 1 && (n.day - n.daysToRemind) == calendar.get(
                     Calendar.DAY_OF_MONTH
                 ) && n.daysToRemind != 0
@@ -69,7 +67,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun getCurrentBirthdays(): ArrayList<Birthday> {
         val currentBirthdays = ArrayList<Birthday>()
-        database.birthdayList.forEach { n ->
+        Database.birthdayList.forEach { n ->
             if (n.month == calendar.get(Calendar.MONTH) + 1 && n.day == calendar.get(Calendar.DAY_OF_MONTH) && n.daysToRemind == 0)
                 currentBirthdays.add(n)
         }

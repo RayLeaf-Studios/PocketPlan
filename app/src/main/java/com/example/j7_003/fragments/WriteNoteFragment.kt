@@ -2,6 +2,7 @@ package com.example.j7_003.fragments
 
 import android.app.Activity
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.renderscript.ScriptGroup
 import android.util.Log
 import android.view.*
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 
 import com.example.j7_003.R
+import com.example.j7_003.data.Database
 import com.example.j7_003.data.NoteColors
 import kotlinx.android.synthetic.main.appbar_write_note.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.view.*
@@ -20,7 +22,6 @@ class WriteNoteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val database = MainActivity.database
 
         val myView = inflater.inflate(R.layout.fragment_write_note, container, false)
 
@@ -32,7 +33,7 @@ class WriteNoteFragment : Fragment() {
         MainActivity.myActivity.supportActionBar?.customView?.btnSaveNote?.setOnClickListener(){
             val noteTitle = etNoteTitle.text.toString()
             val noteContent = etNoteContent.text.toString()
-            database.addNote(noteTitle, noteContent, NoteColors.RED)
+            Database.addNote(noteTitle, noteContent, NoteColors.RED)
             MainActivity.myActivity.changeToNotes()
 
             //todo notify adapter of changed dataset

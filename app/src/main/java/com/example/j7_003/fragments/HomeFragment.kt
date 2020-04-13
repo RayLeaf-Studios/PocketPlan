@@ -1,6 +1,7 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,14 +20,13 @@ import kotlinx.android.synthetic.main.fragment_modules.view.*
 class HomeFragment : Fragment() {
 
     lateinit var myView: View
-    lateinit var myDatabase: Database
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         myView = inflater.inflate(R.layout.fragment_home, container, false)
-        myDatabase = MainActivity.database
+
 
         displayTasks(myView)
 
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
 
     fun displayTasks(myview: View){
         var p1TaskCounter = 0
-        val taskList = myDatabase.taskList
+        val taskList = Database.taskList
         for(i in 0..taskList.size-1){
             if(taskList[i].priority>1){
                 break

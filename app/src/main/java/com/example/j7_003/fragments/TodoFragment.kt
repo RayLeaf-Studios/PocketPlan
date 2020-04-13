@@ -9,7 +9,6 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 
 import com.example.j7_003.R.*
-import com.example.j7_003.data.database_objects.Task
+import com.example.j7_003.data.Database
 import kotlinx.android.synthetic.main.addtask_dialog.view.*
 import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
@@ -32,9 +31,7 @@ class TodoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        val database = MainActivity.database
+    ): View? {      
 
         val myView = inflater.inflate(layout.fragment_todo, container, false)
 
@@ -65,8 +62,9 @@ class TodoFragment : Fragment() {
                 button.setOnClickListener {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
-                    database.addTask(title, index + 1)
-                    database.sortTasks()
+                    Database.addTask(title, index + 1)
+                    Database.sortTasks()
+                    //todo is this unneccessary?
                     myRecycler.adapter?.notifyDataSetChanged()
                 }
             }
@@ -119,12 +117,10 @@ class SwipeLeftToDeleteT(private var adapter: TodoTaskAdapter):
 }
 
 class TodoTaskAdapter() :
-    RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){
-    private val database = MainActivity.database
-    private val taskList = database.taskList
+    RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){   
 
     fun deleteItem(position: Int){
-        database.deleteTask(position)
+        Database.deleteTask(position)
         notifyItemRemoved(position)
     }
 
@@ -141,7 +137,7 @@ class TodoTaskAdapter() :
 
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
-        val currentTask = database.getTask(holder.adapterPosition)
+        val currentTask = Database.getTask(holder.adapterPosition)
         val activity = MainActivity.myActivity
 
 
@@ -164,7 +160,7 @@ class TodoTaskAdapter() :
 
             //write current task to textField
             myDialogView.etxTitleAddTask.requestFocus()
-            myDialogView.etxTitleAddTask.setText(database.getTask(holder.adapterPosition).title)
+            myDialogView.etxTitleAddTask.setText(Database.getTask(holder.adapterPosition).title)
             myDialogView.etxTitleAddTask.setSelection(myDialogView.etxTitleAddTask.text.length)
 
             //adds listeners to confirmButtons in addTaskDialog
@@ -177,15 +173,15 @@ class TodoTaskAdapter() :
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
-                    database.editTask(holder.adapterPosition, index, myDialogView.etxTitleAddTask.text.toString())
-                    database.sortTasks()
+                    Database.editTask(holder.adapterPosition, index, myDialogView.etxTitleAddTask.text.toString())
+                    Database.sortTasks()
                     this.notifyDataSetChanged()
                 }
             }
 
         }
 
-        holder.name_textview.text = currentTask.title
+        holder.tvName.text = currentTask.title
 
         when(currentTask.priority){
             1 -> {holder.myView.setBackgroundResource(drawable.round_corner1)
@@ -201,13 +197,13 @@ class TodoTaskAdapter() :
 
     }
 
-    override fun getItemCount() = taskList.size
+    override fun getItemCount() = Database.taskList.size
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout
 
     class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name_textview: TextView = itemView.name_textview
+        val tvName: TextView = itemView.name_textview
         var myView = itemView
     }
 }

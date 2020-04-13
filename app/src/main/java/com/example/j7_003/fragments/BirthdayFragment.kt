@@ -2,6 +2,7 @@ package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.Database
 import kotlinx.android.synthetic.main.addbirthday_dialog.*
 import kotlinx.android.synthetic.main.addbirthday_dialog.view.*
 import kotlinx.android.synthetic.main.addbirthday_dialog.view.npMonth
@@ -34,8 +36,6 @@ class BirthdayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val database = MainActivity.database
 
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
 
@@ -89,7 +89,7 @@ class BirthdayFragment : Fragment() {
                 val month = npMonth.value
                 val reminderPeriod = npReminder.value
 
-                database.addBirthday(name, day, month, reminderPeriod)
+                Database.addBirthday(name, day, month, reminderPeriod)
 
                 myRecycler.adapter?.notifyDataSetChanged()
                 myAlertDialog?.dismiss()
@@ -145,10 +145,9 @@ class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCall
 
 class BirthdayAdapter() :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
-    val mydatabase = MainActivity.database
 
     fun deleteItem(position: Int){
-        mydatabase.deleteBirthday(position)
+        Database.deleteBirthday(position)
         notifyItemRemoved(position)
     }
 
@@ -165,7 +164,7 @@ class BirthdayAdapter() :
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
-        val currentBirthday = mydatabase.getBirthday(position)
+        val currentBirthday = Database.getBirthday(position)
         val activity = MainActivity.myActivity
 
         // EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
@@ -232,7 +231,7 @@ class BirthdayAdapter() :
                 val day = npDay.value
                 val month = npMonth.value
                 val reminderPeriod = npReminder.value
-                mydatabase.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition)
+                Database.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition)
 
 
 
@@ -264,7 +263,7 @@ class BirthdayAdapter() :
 
     }
 
-    override fun getItemCount() = mydatabase.birthdayList.size
+    override fun getItemCount() = Database.birthdayList.size
 
     //one instance of this class will contain one instance of row_birthday and meta data like position
     //also holds references to views inside the layout

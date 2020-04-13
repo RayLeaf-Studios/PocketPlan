@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 
 import com.example.j7_003.R
+import com.example.j7_003.data.Database
 import com.example.j7_003.data.NoteColors
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
@@ -34,8 +36,6 @@ class NoteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val database = MainActivity.database
 
         val myView = inflater.inflate(R.layout.fragment_note, container, false)
 
@@ -91,11 +91,9 @@ class SwipeLeftToDeleteN(private var adapter: NoteAdapter):
 
 class NoteAdapter() :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
-    private val database = MainActivity.database
-    private val noteList = database.noteList
 
     fun deleteItem(position: Int){
-        database.deleteNote(position)
+        Database.deleteNote(position)
         notifyItemRemoved(position)
     }
 
@@ -113,7 +111,7 @@ class NoteAdapter() :
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
-        val currentNote = database.getNote(position)
+        val currentNote = Database.getNote(position)
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
 
@@ -141,7 +139,7 @@ class NoteAdapter() :
 
     }
 
-    override fun getItemCount() = noteList.size
+    override fun getItemCount() = Database.noteList.size
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout

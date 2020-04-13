@@ -34,16 +34,15 @@ class MainActivity : AppCompatActivity(){
 
     companion object {
         lateinit var myActivity: MainActivity
-        lateinit var database: Database
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
-
-        database = Database(this)
         myActivity = this
+        Database.init()
+
 
         setBirthdayAlarms()
 
