@@ -45,10 +45,6 @@ class WriteNoteFragment : Fragment() {
             MainActivity.myActivity.changeToNotes()
         }
 
-        MainActivity.myActivity.supportActionBar?.customView?.btnDiscardNote?.setOnClickListener(){
-           MainActivity.myActivity.changeToNotes()
-        }
-
         MainActivity.myActivity.supportActionBar?.customView?.btnChooseColor?.setOnClickListener(){
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(MainActivity.myActivity).inflate(R.layout.dialog_choose_color, null)
