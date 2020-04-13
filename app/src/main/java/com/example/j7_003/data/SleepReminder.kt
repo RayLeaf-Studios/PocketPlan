@@ -3,8 +3,12 @@ package com.example.j7_003.data
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.example.j7_003.MainActivity
+import com.example.j7_003.data.database_objects.Task
 import com.example.j7_003.notifications.NotificationReceiver
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -21,6 +25,8 @@ class SleepReminder {
         var wakeUpMinute: Int = 0
 
         var isSet: Boolean = false
+
+        private val fileName: String = "SLEEP_REMINDER"
 
         fun isRemindTimeReached(): Boolean {
             getClock()
@@ -81,6 +87,24 @@ class SleepReminder {
                     pendingIntent
                 )
             }
+        }
+
+        fun save() {
+            val sleepReminder: Array<Int> = arrayOf(reminderHour, reminderMinute, wakeUpHour, wakeUpMinute)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], sleepReminder)
+        }
+
+        fun load() {
+            StorageHandler.createJsonFile(fileName, "SReminder.json")
+            val jsonString = StorageHandler.files[fileName]?.readText()
+
+            val loadedData = GsonBuilder().create()
+                .fromJson(jsonString, object : TypeToken<Array<Int>>() {}.type) as Array<Int>
+
+            reminderHour = loadedData[0]
+            reminderMinute = loadedData[1]
+            wakeUpHour = loadedData[2]
+            wakeUpMinute = loadedData[3]
         }
     }
 }

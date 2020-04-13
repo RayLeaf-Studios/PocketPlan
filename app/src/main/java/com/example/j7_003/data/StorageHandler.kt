@@ -12,9 +12,17 @@ class StorageHandler {
     companion object {
         val files = HashMap<String, File>()
 
-        fun saveToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
+        fun saveAsJsonToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
 
-        fun addCollToFiles(identifier: String, fileName: String) {
+        fun createFile(identifier: String, fileName: String) {
+            files[identifier] = setStorageLocation(fileName, MainActivity.myActivity)
+
+            if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
+                files[identifier]?.createNewFile()
+            }
+        }
+
+        fun createJsonFile(identifier: String, fileName: String) {
             files[identifier] = setStorageLocation(fileName, MainActivity.myActivity)
 
             if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {

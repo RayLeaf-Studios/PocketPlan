@@ -36,7 +36,7 @@ class Database {
                 )
             )
             sortTasks()
-            StorageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[TLIST], taskList)
         }
 
         /**
@@ -45,7 +45,7 @@ class Database {
          */
         fun deleteTask(index: Int) {
             taskList.removeAt(index)
-            StorageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[TLIST], taskList)
         }
 
         fun editTask(position: Int, index: Int, title: String) {
@@ -53,7 +53,7 @@ class Database {
             editableTask.title = title
             editableTask.priority = index + 1
             sortTasks()
-            StorageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[TLIST], taskList)
         }
 
         /**
@@ -89,7 +89,7 @@ class Database {
 
             sortBirthday()
 
-            StorageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[BLIST], birthdayList)
         }
 
         /**
@@ -98,7 +98,7 @@ class Database {
          */
         fun deleteBirthday(index: Int) {
             birthdayList.removeAt(index)
-            StorageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[BLIST], birthdayList)
         }
 
         /**
@@ -115,7 +115,7 @@ class Database {
             editableBirthday.daysToRemind = parReminder
 
             sortBirthday()
-            StorageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[BLIST], birthdayList)
         }
 
         /**
@@ -185,7 +185,7 @@ class Database {
 
         fun addNote(title: String, note: String, color: NoteColors) {
             noteList.add(Note(title, note, color))
-            StorageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
         }
 
         fun editNote(index: Int, title: String, note: String, color: NoteColors) {
@@ -193,12 +193,12 @@ class Database {
             editableNote.title = title
             editableNote.note = note
             editableNote.color = color
-            StorageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
         }
 
         fun deleteNote(index: Int) {
             noteList.removeAt(index)
-            StorageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
         }
 
         fun getNote(index: Int): Note = noteList[index]
@@ -216,9 +216,9 @@ class Database {
         //debug here will be database handling
 
         private fun initStorage() {
-            StorageHandler.addCollToFiles(TLIST, "TaskList.json")
-            StorageHandler.addCollToFiles(BLIST, "BirthdayList.json")
-            StorageHandler.addCollToFiles(NLIST, "NoteFile.json")
+            StorageHandler.createJsonFile(TLIST, "TaskList.json")
+            StorageHandler.createJsonFile(BLIST, "BirthdayList.json")
+            StorageHandler.createJsonFile(NLIST, "NoteFile.json")
         }
 
         private fun initLists() {
