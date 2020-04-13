@@ -7,31 +7,43 @@
     android:background="@color/colorBackground"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/tvNoteTitle"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingStart="10dp"
-        android:textSize="15sp"
-        android:text="Titel"
-        android:background="@color/colorNoteRed"
-        android:textColor="@color/colorBackground"
+        android:id="@+id/notePane"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorNoteRed">
 
-    <TextView
-        android:id="@+id/tvNoteContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:padding="10dp"
-        android:textSize="12sp"
-        android:text="Notiz"
-        android:background="@color/colorNoteRed"
-        android:textColor="@color/colorBackground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNoteTitle" />
+        <TextView
+            android:id="@+id/tvNoteContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:padding="10dp"
+            android:text="Notiz"
+            android:textColor="@color/colorBackground"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNoteTitle" />
+
+        <TextView
+            android:id="@+id/tvNoteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:text="Titel"
+            android:textColor="@color/colorBackground"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,9 @@
 package com.example.j7_003.fragments
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 
 import com.example.j7_003.R
+import com.example.j7_003.data.NoteColors
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 
@@ -105,6 +110,7 @@ class NoteAdapter() :
     }
 
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
         val currentNote = database.getNote(position)
@@ -118,6 +124,13 @@ class NoteAdapter() :
         //specifying design of note rows here
         holder.tvNoteTitle.text = currentNote.title
         holder.tvNoteContent.text = currentNote.note
+        when(currentNote.color){
+            NoteColors.RED -> holder.notePane.background = ColorDrawable(R.color.colorNoteRed)
+            NoteColors.BLUE -> holder.notePane.background = ColorDrawable(R.color.colorNoteBlue)
+            NoteColors.YELLOW -> holder.notePane.background = ColorDrawable(R.color.colorNoteYellow)
+            NoteColors.GREEN -> holder.notePane.background = ColorDrawable(R.color.colorNoteGreen)
+            NoteColors.PURPLE -> holder.notePane.background = ColorDrawable(R.color.colorNotePurple)
+        }
 
 
     }
@@ -130,6 +143,8 @@ class NoteAdapter() :
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvNoteTitle = itemView.tvNoteTitle
         val tvNoteContent = itemView.tvNoteContent
+        val notePane = itemView.notePane
+
     }
 
 }
