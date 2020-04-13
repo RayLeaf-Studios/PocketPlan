@@ -35,11 +35,11 @@
         android:textColor="@color/colorOnBackGround" />
 
     <Button
-        android:id="@+id/btnColor"
+        android:id="@+id/btnChooseColor"
         android:layout_margin="10dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/colorNoteRed"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorNoteYellow"
         android:text=""
         android:textColor="@color/colorOnBackGround" />
 

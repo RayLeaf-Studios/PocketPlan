@@ -11,11 +11,11 @@
     <color name="colorBackground">#121212</color>
     <color name="colorBackgroundElevated">#1C1C1C</color>
     <color name="colorBackgroundListElement">#252525</color>
-    <color name="colorNoteRed">#CD596F</color>
-    <color name="colorNoteYellow">#BF9D37</color>
-    <color name="colorNoteGreen">#80D338</color>
-    <color name="colorNoteBlue">#30AAB5</color>
-    <color name="colorNotePurple">#AA78DD</color>
+    <color name="colorNoteRed">#DD727B</color>
+    <color name="colorNoteYellow">#D5B83E</color>
+    <color name="colorNoteGreen">#5EB14D</color>
+    <color name="colorNoteBlue">#43A8B1</color>
+    <color name="colorNotePurple">#9E6CD1</color>
 </resources>
 
 <!--<resources>-->

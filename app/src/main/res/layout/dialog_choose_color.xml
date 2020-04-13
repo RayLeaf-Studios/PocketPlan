@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
+
+
+    <Button
+        android:id="@+id/btnRed"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorNoteRed"
+        android:text=""
+        app:layout_constraintEnd_toStartOf="@+id/btnYellow"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnYellow"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorNoteYellow"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/btnRed"
+        app:layout_constraintEnd_toStartOf="@+id/btnGreen"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnRed" />
+
+    <Button
+        android:id="@+id/btnGreen"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorNoteGreen"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/btnYellow"
+        app:layout_constraintEnd_toStartOf="@+id/btnBlue"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnYellow" />
+
+    <Button
+        android:id="@+id/btnBlue"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorNoteBlue"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/btnGreen"
+        app:layout_constraintEnd_toStartOf="@+id/btnPurple"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnGreen" />
+
+    <Button
+        android:id="@+id/btnPurple"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorNotePurple"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/btnBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnBlue" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,9 @@ private fun requestStoragePermission() {
     Context of a fragment can be accessed by typing getActivity or simply
     by accessing the activity attribute
 
+|---------------------------------------------------------------------------------|
+
+    var randomNumber = Random.nextInt(5)  (0,1,2,3,4)
 
 
 
