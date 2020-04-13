@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,7 +44,6 @@ class NoteFragment : Fragment() {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener() {
             MainActivity.myActivity.changeToWriteNoteFragment()
-
         }
 
         val myAdapter = NoteAdapter()
@@ -110,7 +110,7 @@ class NoteAdapter() :
     }
 
 
-    @SuppressLint("ResourceAsColor")
+
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
         val currentNote = database.getNote(position)
@@ -125,11 +125,17 @@ class NoteAdapter() :
         holder.tvNoteTitle.text = currentNote.title
         holder.tvNoteContent.text = currentNote.note
         when(currentNote.color){
-            NoteColors.RED -> holder.notePane.background = ColorDrawable(R.color.colorNoteRed)
-            NoteColors.BLUE -> holder.notePane.background = ColorDrawable(R.color.colorNoteBlue)
-            NoteColors.YELLOW -> holder.notePane.background = ColorDrawable(R.color.colorNoteYellow)
-            NoteColors.GREEN -> holder.notePane.background = ColorDrawable(R.color.colorNoteGreen)
-            NoteColors.PURPLE -> holder.notePane.background = ColorDrawable(R.color.colorNotePurple)
+            NoteColors.RED -> {holder.tvNoteContent.setBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))
+                holder.tvNoteTitle.setBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))}
+            NoteColors.YELLOW -> {holder.tvNoteContent.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
+                holder.tvNoteTitle.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))}
+            NoteColors.BLUE -> {holder.tvNoteContent.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteBlue))
+                holder.tvNoteTitle.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteBlue))}
+            NoteColors.GREEN -> {holder.tvNoteContent.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteGreen))
+                holder.tvNoteTitle.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteGreen))}
+            NoteColors.PURPLE -> {holder.tvNoteContent.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNotePurple))
+                holder.tvNoteTitle.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNotePurple))}
+
         }
 
 
@@ -143,7 +149,6 @@ class NoteAdapter() :
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvNoteTitle = itemView.tvNoteTitle
         val tvNoteContent = itemView.tvNoteContent
-        val notePane = itemView.notePane
 
     }
 
