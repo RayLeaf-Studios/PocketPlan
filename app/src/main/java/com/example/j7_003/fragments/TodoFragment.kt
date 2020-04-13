@@ -128,8 +128,8 @@ class TodoTaskAdapter() :
         notifyItemRemoved(position)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskAdapter.TodoTaskViewHolder {
-        //parent is Recyc^^lerview the view holder will be placed in
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
+        //parent is Recyclerview the view holder will be placed in
         //context is activity that the recyclerview is placed in
         //parent in inflate tells the inflater where the layout will be placed
         //so it can be inflated to the right size
