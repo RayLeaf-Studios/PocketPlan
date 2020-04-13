@@ -17,13 +17,16 @@ class SleepReminder {
 
         var reminderHour: Int = 0
         var reminderMinute: Int = 0
+        var wakeUpHour: Int = 0
+        var wakeUpMinute: Int = 0
 
         var isSet: Boolean = false
 
         fun isRemindTimeReached(): Boolean {
             getClock()
 
-            return (compareHours() == -1) || (compareHours() == 0 && compareMinutes() < 1)
+            return compareHours() || compareWithMinutes()
+            //return (compareHours() == -1) || (compareHours() == 0 && compareMinutes() < 1)
         }
 
         fun edit(newHour: Int, newMinute: Int) {
@@ -40,8 +43,14 @@ class SleepReminder {
 
         }
 
-        private fun compareHours(): Int = reminderHour.compareTo(currentHour)
-        private fun compareMinutes(): Int = reminderMinute.compareTo(currentMinute)
+        private fun compareHours(): Boolean = currentHour in reminderHour+1 until wakeUpHour
+        private fun compareWithMinutes(): Boolean {
+            return when (currentHour) {
+                reminderHour -> currentMinute >= reminderMinute
+                wakeUpHour -> currentMinute < wakeUpMinute
+                else -> false
+            }
+        }
 
         private fun getClock() {
             currentHour = myCalendar.get(Calendar.HOUR_OF_DAY)
