@@ -200,15 +200,16 @@ class Database(context: Context) : Serializable {
     //--------------------------------------------------------------------------------------------//
     //debug here will be note handling
 
-    fun addNote(title: String, note: String) {
-        noteList.add(Note(title, note))
+    fun addNote(title: String, note: String, color: NoteColors) {
+        noteList.add(Note(title, note, color))
         storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
     }
 
-    fun editNote(index: Int, title: String, note: String) {
+    fun editNote(index: Int, title: String, note: String, color: NoteColors) {
         val editableNote = getNote(index)
         editableNote.title = title
         editableNote.note = note
+        editableNote.color = color
         storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
     }
 
