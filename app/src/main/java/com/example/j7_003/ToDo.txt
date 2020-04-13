@@ -80,6 +80,7 @@ ideas:
     - add ability to store simple text notes, organized in folders, (mark them with colors)
     - dark mode switch is clickable, but always jumps back to enabled, prompting a toast saying "No"
     - simple schedule model for university class plan?
+    - maybe change note background to look like index card
 
 
 1 Tasks
