@@ -9,7 +9,7 @@
     android:padding="5dp">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etNoteTitle"
         android:layout_width="match_parent"
         android:gravity="start"
         android:inputType="text"
@@ -26,7 +26,7 @@
 
     <EditText
         android:padding="4dp"
-        android:id="@+id/etNoteFrag"
+        android:id="@+id/etNoteContent"
         android:hint="Note"
         android:textSize="20sp"
         android:textColorHint="@color/colorHint"
@@ -40,6 +40,6 @@
         android:textColor="@color/colorOnBackGround"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/etNoteTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

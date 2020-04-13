@@ -5,7 +5,6 @@
         android:color="@color/colorPriority1" />
 
     <solid android:color="@color/colorPriority1" />
-
     <padding
         android:left="1dp"
         android:right="1dp"

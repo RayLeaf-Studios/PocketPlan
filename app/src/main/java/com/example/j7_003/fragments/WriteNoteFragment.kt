@@ -20,22 +20,27 @@ class WriteNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val database = MainActivity.database
-        // Inflate the layout for this fragment
+
         val myView = inflater.inflate(R.layout.fragment_write_note, container, false)
-        val etNoteFrag = myView.etNoteFrag
-        //todo open keyboard here
-        etNoteFrag.requestFocus()
-        myView.requestFocus()
+
+        val etNoteTitle = myView.etNoteTitle
+        val etNoteContent = myView.etNoteContent
+
+        etNoteTitle.requestFocus()
 
         MainActivity.myActivity.supportActionBar?.customView?.btnSaveNote?.setOnClickListener(){
-            val noteText = myView.etNoteFrag.text.toString()
-            //todo add note here
+            val noteTitle = etNoteTitle.text.toString()
+            val noteContent = etNoteContent.text.toString()
+            database.addNote(noteTitle, noteContent)
             MainActivity.myActivity.changeToNotes()
 
+            //todo notify adapter of changed dataset
         }
+
         MainActivity.myActivity.supportActionBar?.customView?.btnDiscardNote?.setOnClickListener(){
            MainActivity.myActivity.changeToNotes()
         }
+
         return myView
     }
 

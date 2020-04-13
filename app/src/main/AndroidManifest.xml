@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"        >
         <activity android:name=".MainActivity"
+            android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan"
             >

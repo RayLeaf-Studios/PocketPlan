@@ -5,25 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 
 import com.example.j7_003.R
-import kotlinx.android.synthetic.main.addtask_dialog.view.*
-import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
-import kotlinx.android.synthetic.main.fragment_note_framgent.view.*
-import kotlinx.android.synthetic.main.row_task.view.*
+import kotlinx.android.synthetic.main.fragment_note.view.*
+import kotlinx.android.synthetic.main.row_note.view.*
+
 
 /**
  * A simple [Fragment] subclass.
  */
 class NoteFragment : Fragment() {
+
+    companion object{
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,14 +31,13 @@ class NoteFragment : Fragment() {
 
         val database = MainActivity.database
 
-        val myView = inflater.inflate(R.layout.fragment_note_framgent, container, false)
+        val myView = inflater.inflate(R.layout.fragment_note, container, false)
 
         val myRecycler = myView.recycler_view_note
 
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener() {
             MainActivity.myActivity.changeToWriteNoteFragment()
-            //tew
 
         }
 
@@ -109,18 +107,17 @@ class NoteAdapter() :
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
-        val currentTask = database.getNote(position)
-        val activity = MainActivity.myActivity
-
+        val currentNote = database.getNote(position)
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
+
         holder.itemView.setOnClickListener(){
-            //TODO OPEN EDIT TASK VIEW HERE
+            MainActivity.myActivity.changeToWriteNoteFragment()
         }
 
-        //todo specify design of note rows here
-        //holder.name_textview.text = currentTask.title
-
+        //specifying design of note rows here
+        holder.tvNoteTitle.text = currentNote.title
+        holder.tvNoteContent.text = currentNote.note
 
 
     }
@@ -131,9 +128,8 @@ class NoteAdapter() :
     //also holds references to views inside the layout
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        //todo specify needed attributes for row elements (dependent on itemView)
-//        val name_textview: TextView = itemView.name_textview
-//        var myView = itemView
+        val tvNoteTitle = itemView.tvNoteTitle
+        val tvNoteContent = itemView.tvNoteContent
     }
 
 }
