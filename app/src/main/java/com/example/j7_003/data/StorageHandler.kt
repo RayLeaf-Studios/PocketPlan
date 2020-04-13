@@ -3,30 +3,31 @@ package com.example.j7_003.data
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import com.example.j7_003.MainActivity
 import com.google.gson.Gson
 import java.io.File
 
-class StorageHandler(val context: Context) {
+class StorageHandler {
 
     companion object {
         val files = HashMap<String, File>()
-    }
 
-    fun saveToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
+        fun saveToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
 
-    fun addCollToFiles(identifier: String, fileName: String) {
-        files[identifier] = setStorageLocation(fileName, context)
+        fun addCollToFiles(identifier: String, fileName: String) {
+            files[identifier] = setStorageLocation(fileName, MainActivity.myActivity)
 
-        if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
-            files[identifier]?.writeText("[]")
+            if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
+                files[identifier]?.writeText("[]")
+            }
         }
-    }
 
-    private fun setStorageLocation(fileName: String, context: Context): File {
-        return if (Build.VERSION.SDK_INT < 29) {
-            File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
-        } else {
-            File(context.filesDir, fileName)
+        private fun setStorageLocation(fileName: String, context: Context): File {
+            return if (Build.VERSION.SDK_INT < 29) {
+                File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
+            } else {
+                File(context.filesDir, fileName)
+            }
         }
     }
 }

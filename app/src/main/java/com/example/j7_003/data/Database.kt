@@ -1,6 +1,5 @@
 package com.example.j7_003.data
 
-import com.example.j7_003.MainActivity
 import com.example.j7_003.data.database_objects.*
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -9,8 +8,6 @@ import kotlin.collections.ArrayList
 
 class Database {
     companion object {
-        private val storageHandler = StorageHandler(MainActivity.myActivity)
-
         lateinit var taskList: ArrayList<Task>
         lateinit var birthdayList: ArrayList<Birthday>
         lateinit var noteList: ArrayList<Note>
@@ -39,7 +36,7 @@ class Database {
                 )
             )
             sortTasks()
-            storageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
+            StorageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
         }
 
         /**
@@ -48,7 +45,7 @@ class Database {
          */
         fun deleteTask(index: Int) {
             taskList.removeAt(index)
-            storageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
+            StorageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
         }
 
         fun editTask(position: Int, index: Int, title: String) {
@@ -56,7 +53,7 @@ class Database {
             editableTask.title = title
             editableTask.priority = index + 1
             sortTasks()
-            storageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
+            StorageHandler.saveToFile(StorageHandler.files["TASKLIST"], taskList)
         }
 
         /**
@@ -92,7 +89,7 @@ class Database {
 
             sortBirthday()
 
-            storageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
         }
 
         /**
@@ -101,7 +98,7 @@ class Database {
          */
         fun deleteBirthday(index: Int) {
             birthdayList.removeAt(index)
-            storageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
         }
 
         /**
@@ -118,7 +115,7 @@ class Database {
             editableBirthday.daysToRemind = parReminder
 
             sortBirthday()
-            storageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveToFile(StorageHandler.files[BLIST], birthdayList)
         }
 
         /**
@@ -188,7 +185,7 @@ class Database {
 
         fun addNote(title: String, note: String, color: NoteColors) {
             noteList.add(Note(title, note, color))
-            storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
         }
 
         fun editNote(index: Int, title: String, note: String, color: NoteColors) {
@@ -196,12 +193,12 @@ class Database {
             editableNote.title = title
             editableNote.note = note
             editableNote.color = color
-            storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
         }
 
         fun deleteNote(index: Int) {
             noteList.removeAt(index)
-            storageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveToFile(StorageHandler.files[NLIST], noteList)
         }
 
         fun getNote(index: Int): Note = noteList[index]
@@ -219,15 +216,15 @@ class Database {
         //debug here will be database handling
 
         private fun initStorage() {
-            storageHandler.addCollToFiles(TLIST, "TaskList.json")
-            storageHandler.addCollToFiles(BLIST, "BirthdayList.json")
-            storageHandler.addCollToFiles(NLIST, "NoteFile.json")
+            StorageHandler.addCollToFiles(TLIST, "TaskList.json")
+            StorageHandler.addCollToFiles(BLIST, "BirthdayList.json")
+            StorageHandler.addCollToFiles(NLIST, "NoteFile.json")
         }
 
         private fun initLists() {
-            Companion.birthdayList = fetchBList()
-            Companion.taskList = fetchTaskList()
-            Companion.noteList = fetchNoteList()
+            birthdayList = fetchBList()
+            taskList = fetchTaskList()
+            noteList = fetchNoteList()
         }
     }
 }

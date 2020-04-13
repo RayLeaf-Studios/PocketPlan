@@ -7,7 +7,7 @@ import com.example.j7_003.data.StorageHandler
 import com.google.gson.Gson
 import java.io.File
 
-class SettingsManager(private val storageHandler: StorageHandler) {
+class SettingsManager {
     val settings = HashMap<String, String>()
     private val SETTINGS = "SETTINGS"
 
@@ -17,10 +17,10 @@ class SettingsManager(private val storageHandler: StorageHandler) {
     }
 
     fun saveSettings() {
-        storageHandler.saveToFile(StorageHandler.files[SETTINGS], settings)
+        StorageHandler.saveToFile(StorageHandler.files[SETTINGS], settings)
     }
 
     private fun createFile() {
-        storageHandler.addCollToFiles(SETTINGS, "Settings.json")
+        StorageHandler.addCollToFiles(SETTINGS, "Settings.json")
     }
 }
