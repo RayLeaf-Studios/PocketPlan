@@ -2,7 +2,6 @@ package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,13 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.Database
-import kotlinx.android.synthetic.main.addbirthday_dialog.*
-import kotlinx.android.synthetic.main.addbirthday_dialog.view.*
-import kotlinx.android.synthetic.main.addbirthday_dialog.view.npMonth
-import kotlinx.android.synthetic.main.addbirthday_dialog.view.etName
-import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
+import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
+import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -46,7 +41,7 @@ class BirthdayFragment : Fragment() {
 
             //inflate the dialog with custom view
             val myDialogView =
-                LayoutInflater.from(activity).inflate(R.layout.addbirthday_dialog, null)
+                LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
 
             val nameField = myDialogView.etName
 
@@ -72,7 +67,7 @@ class BirthdayFragment : Fragment() {
 
             //AlertDialogBuilder
             val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            val myTitle = layoutInflater.inflate(R.layout.addtask_dialog_title, null)
+            val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
             myTitle.tvDialogTitle.text = "Add Birthday"
             myBuilder?.setCustomTitle(myTitle)
 
@@ -173,7 +168,7 @@ class BirthdayAdapter() :
 
             //inflate the dialog with custom view
             val myDialogView =
-                LayoutInflater.from(activity).inflate(R.layout.addbirthday_dialog, null)
+                LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
 
 
             //configuring number pickers
@@ -201,7 +196,7 @@ class BirthdayAdapter() :
 
             //AlertDialogBuilder
             val myBuilder = activity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            val myTitle = LayoutInflater.from(activity).inflate(R.layout.addtask_dialog_title, null)
+            val myTitle = LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
             myTitle.tvDialogTitle.text = "Edit Birthday"
             myBuilder?.setCustomTitle(myTitle)
 

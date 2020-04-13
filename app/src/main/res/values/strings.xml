@@ -16,9 +16,6 @@
     <string name="addBirthdayDayHint">Day</string>
     <string name="addBirthdayMonthHint">Month</string>
     <string name="menuTitleModules">Modules</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menuTitleNotes">Notes</string>
 
 </resources>

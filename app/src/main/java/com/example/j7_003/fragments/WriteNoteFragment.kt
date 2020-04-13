@@ -35,12 +35,14 @@ class WriteNoteFragment : Fragment() {
             val noteContent = etNoteContent.text.toString()
             Database.addNote(noteTitle, noteContent, NoteColors.RED)
             MainActivity.myActivity.changeToNotes()
-
-            //todo notify adapter of changed dataset
         }
 
         MainActivity.myActivity.supportActionBar?.customView?.btnDiscardNote?.setOnClickListener(){
            MainActivity.myActivity.changeToNotes()
+        }
+
+        MainActivity.myActivity.supportActionBar?.customView?.btnColor?.setOnClickListener(){
+
         }
 
         return myView

@@ -1,6 +1,5 @@
 package com.example.j7_003.fragments
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,13 +13,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
-
 import com.example.j7_003.R.*
 import com.example.j7_003.data.Database
-import kotlinx.android.synthetic.main.addtask_dialog.view.*
-import kotlinx.android.synthetic.main.addtask_dialog_title.view.*
+import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
+import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -40,11 +38,11 @@ class TodoFragment : Fragment() {
         //ADDING TASK VIA FLOATING ACTION BUTTON
         myView.btnAddTodoTask.setOnClickListener() {
             //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(layout.addtask_dialog, null)
+            val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
 
             //AlertDialogBuilder
             val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            myBuilder?.setCustomTitle(layoutInflater.inflate(layout.addtask_dialog_title, null))
+            myBuilder?.setCustomTitle(layoutInflater.inflate(layout.title_dialog_add_task, null))
 
             //show dialog
             val myAlertDialog = myBuilder?.create()
@@ -145,11 +143,11 @@ class TodoTaskAdapter() :
         holder.itemView.setOnClickListener(){
 
             //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(layout.addtask_dialog, null)
+            val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
 
             //AlertDialogBuilder
             val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
-            val editTitle = LayoutInflater.from(activity).inflate(layout.addtask_dialog_title, null)
+            val editTitle = LayoutInflater.from(activity).inflate(layout.title_dialog_add_task, null)
             editTitle.tvDialogTitle.text = "Edit Task"
             myBuilder.setCustomTitle(editTitle)
 
