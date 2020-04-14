@@ -34,16 +34,23 @@ class WriteNoteFragment : Fragment() {
         myEtTitle = myView.etNoteTitle
         myEtContent = myView.etNoteContent
 
+        val btnColorChoose = MainActivity.myActivity.supportActionBar?.customView?.btnChooseColor
+
         myEtTitle.requestFocus()
         if(MainActivity.editNotePosition!=-1){
             myEtTitle.setText(Database.getNote(MainActivity.editNotePosition).title)
             myEtContent.setText(Database.getNote(MainActivity.editNotePosition).note)
+            btnColorChoose?.background = when (Database.getNote(MainActivity.editNotePosition).color) {
+                NoteColors.RED -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))
+                NoteColors.YELLOW -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
+                NoteColors.GREEN -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteGreen))
+                NoteColors.BLUE -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteBlue))
+                NoteColors.PURPLE -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNotePurple))
+            }
             myEtContent.requestFocus()
+        } else {
+            btnColorChoose?.background =  ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
         }
-
-        val btnColorChoose = MainActivity.myActivity.supportActionBar?.customView?.btnChooseColor
-        btnColorChoose?.background =  ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
-
 
         MainActivity.myActivity.supportActionBar?.customView?.btnSaveNote?.setOnClickListener(){
             if(MainActivity.editNotePosition!=-1){

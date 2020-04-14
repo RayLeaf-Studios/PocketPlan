@@ -65,17 +65,15 @@ important Tasks:
     - delete notes by press and hold (mark multiple)
 
 random tasks:
-    - sleep reminder structure / module page
-    - add notes module
     - improve task display in home panel
     - add shopping list module
-    - add sleep reminder
     - plan exact layout of main panel
     - plan calendar layout
     - replace all colors and values like text size with resource references
     - handle loading and saving of settings
     - figure out how to open keyboard in write note fragment (without using toggleSoftinput, which
     causes keyboard to stay open even if app is closed)
+    - realtime note color in the edit screen
 
 ideas:
     - add ability to store simple text notes, organized in folders, (mark them with colors)
