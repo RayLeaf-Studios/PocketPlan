@@ -10,8 +10,6 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
-import android.os.Message
-import android.util.Log
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.Database
@@ -96,8 +94,8 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun notifyBirthdayNow(birthday: Birthday) {
         createNotification(
-            "Birthdays",
             "Birthday Notification",
+            "Birthdays",
             100,
             "Birthday",
             "It's ${birthday.name}s birthday!",
@@ -108,8 +106,8 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun notifyCurrentBirthdays(currentBirthdays: Int) {
         createNotification(
-            "Birthdays",
             "Birthday Notification",
+            "Birthdays",
             102,
             "Birthdays",
             "There are $currentBirthdays birthdays today!",
@@ -120,8 +118,8 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun notifyUpcomingBirthday(birthday: Birthday) {
         createNotification(
-            "Upcoming Birthdays",
             "Birthday Notification",
+            "Upcoming Birthdays",
             101,
             "Upcoming Birthday",
             "${birthday.name}s birthday is coming up in ${birthday.daysToRemind} ${if(birthday.daysToRemind ==1 ) {"day"} else {"days"}}!",
@@ -132,8 +130,8 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun notifyUpcomingBirthdays(upcomingBirthdays: Int) {
         createNotification(
-            "Upcoming Birthdays",
             "Birthday Notification",
+            "Upcoming Birthdays",
             103,
             "Upcoming Birthdays",
             "$upcomingBirthdays birthdays are coming up!",
@@ -142,6 +140,7 @@ class NotificationReceiver : BroadcastReceiver() {
         )
     }
 
+    @Suppress("DEPRECATION")
     private fun createNotification(
         channelId: String,
         name: String,

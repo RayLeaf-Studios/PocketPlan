@@ -3,9 +3,7 @@ package com.example.j7_003.data
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.example.j7_003.MainActivity
-import com.example.j7_003.data.database_objects.Task
 import com.example.j7_003.notifications.NotificationReceiver
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -19,12 +17,12 @@ class SleepReminder {
         private var currentHour by Delegates.notNull<Int>()
         private var currentMinute by Delegates.notNull<Int>()
 
-        var reminderHour: Int = 0
-        var reminderMinute: Int = 0
-        var wakeUpHour: Int = 0
-        var wakeUpMinute: Int = 0
+        private var reminderHour: Int = 0
+        private var reminderMinute: Int = 0
+        private var wakeUpHour: Int = 0
+        private var wakeUpMinute: Int = 0
 
-        var isSet: Boolean = false
+        private var isSet: Boolean = false
 
         private const val fileName: String = "SLEEP_REMINDER"
 
@@ -82,8 +80,8 @@ class SleepReminder {
 
                 val notificationTime = Calendar.getInstance()
                 notificationTime.set(Calendar.HOUR_OF_DAY, reminderHour)
-                notificationTime.set(Calendar.MINUTE, reminderHour)
-                notificationTime.set(Calendar.SECOND, 0)
+                notificationTime.set(Calendar.MINUTE, reminderMinute-1)
+                notificationTime.set(Calendar.SECOND, 59)
 
                 alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
