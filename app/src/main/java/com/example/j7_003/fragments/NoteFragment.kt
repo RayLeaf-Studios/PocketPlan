@@ -39,6 +39,7 @@ class NoteFragment : Fragment() {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener() {
             MainActivity.myActivity.changeToWriteNoteFragment()
+            MainActivity.editNotePosition = -1
         }
 
         val myAdapter = NoteAdapter()

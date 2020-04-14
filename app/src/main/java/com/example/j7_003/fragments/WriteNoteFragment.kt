@@ -34,14 +34,16 @@ class WriteNoteFragment : Fragment() {
         myEtTitle = myView.etNoteTitle
         myEtContent = myView.etNoteContent
 
+        myEtTitle.requestFocus()
         if(MainActivity.editNotePosition!=-1){
             myEtTitle.setText(Database.getNote(MainActivity.editNotePosition).title)
             myEtContent.setText(Database.getNote(MainActivity.editNotePosition).note)
+            myEtContent.requestFocus()
         }
 
         val btnColorChoose = MainActivity.myActivity.supportActionBar?.customView?.btnChooseColor
         btnColorChoose?.background =  ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
-        myEtTitle.requestFocus()
+
 
         MainActivity.myActivity.supportActionBar?.customView?.btnSaveNote?.setOnClickListener(){
             if(MainActivity.editNotePosition!=-1){
