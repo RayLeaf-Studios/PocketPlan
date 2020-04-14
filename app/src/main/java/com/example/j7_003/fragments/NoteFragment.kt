@@ -68,7 +68,7 @@ class SwipeRightToDeleteN(var adapter: NoteAdapter):
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        var position = viewHolder.adapterPosition
+        val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
     }
 }
@@ -153,7 +153,6 @@ class NoteAdapter() :
         val tvNoteTitle = itemView.tvNoteTitle
         val tvNoteContent = itemView.tvNoteContent
         var cvNoteCard = itemView.cvNoteCard
-
     }
 
 }

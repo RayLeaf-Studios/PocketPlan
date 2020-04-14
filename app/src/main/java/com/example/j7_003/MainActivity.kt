@@ -1,22 +1,15 @@
 package com.example.j7_003
 
-import android.app.ActionBar
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
-import android.drm.DrmStore
 import android.os.Bundle
-import android.view.View
-import android.widget.Toolbar
-import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.Database
 import com.example.j7_003.fragments.*
 import com.example.j7_003.notifications.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_write_note.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(){
