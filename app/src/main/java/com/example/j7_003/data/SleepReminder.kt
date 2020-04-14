@@ -8,6 +8,7 @@ import com.example.j7_003.notifications.NotificationReceiver
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 class SleepReminder {
@@ -17,14 +18,17 @@ class SleepReminder {
         private var currentHour by Delegates.notNull<Int>()
         private var currentMinute by Delegates.notNull<Int>()
 
-        private var reminderHour: Int = 0
-        private var reminderMinute: Int = 0
-        private var wakeUpHour: Int = 0
-        private var wakeUpMinute: Int = 0
-
+        private var timings: IntArray = IntArray(4)
         private var isSet: Boolean = false
 
+        var days: BooleanArray = BooleanArray(7)
+
         private const val fileName: String = "SLEEP_REMINDER"
+
+        fun init() {
+            StorageHandler.createJsonFile(fileName, "SReminder.json")
+            load()
+        }
 
         fun isRemindTimeReached(): Boolean {
             getClock()
@@ -33,13 +37,13 @@ class SleepReminder {
         }
 
         fun editReminder(newHour: Int, newMinute: Int) {
-            reminderHour = newHour
-            reminderMinute = newMinute
+            timings[0] = newHour
+            timings[1] = newMinute
         }
 
         fun editWakeUp(newHour: Int, newMinute: Int) {
-            wakeUpHour = newHour
-            wakeUpMinute = newMinute
+            timings[2] = newHour
+            timings[3] = newMinute
         }
 
         fun disable() {
@@ -50,11 +54,11 @@ class SleepReminder {
             isSet = true
         }
 
-        private fun compareHours(): Boolean = currentHour in reminderHour+1 until wakeUpHour
+        private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
         private fun compareWithMinutes(): Boolean {
             return when (currentHour) {
-                reminderHour -> currentMinute >= reminderMinute
-                wakeUpHour -> currentMinute < wakeUpMinute
+                timings[0].toInt() -> currentMinute >= timings[1]
+                timings[2].toInt() -> currentMinute < timings[3]
                 else -> false
             }
         }
@@ -68,6 +72,7 @@ class SleepReminder {
             if (isSet) {
                 val intent = Intent(MainActivity.myActivity, NotificationReceiver::class.java)
                 intent.putExtra("Notification", "SReminder")
+                intent.putExtra("SReminder", days)
 
                 val pendingIntent = PendingIntent.getBroadcast(
                     MainActivity.myActivity,
@@ -79,8 +84,8 @@ class SleepReminder {
                     MainActivity.myActivity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
                 val notificationTime = Calendar.getInstance()
-                notificationTime.set(Calendar.HOUR_OF_DAY, reminderHour)
-                notificationTime.set(Calendar.MINUTE, reminderMinute-1)
+                notificationTime.set(Calendar.HOUR_OF_DAY, timings[0].toInt())
+                notificationTime.set(Calendar.MINUTE, timings[1].toInt()-1)
                 notificationTime.set(Calendar.SECOND, 59)
 
                 alarmManager.setRepeating(
@@ -93,21 +98,21 @@ class SleepReminder {
         }
 
         fun save() {
-            val sleepReminder: Array<Int> = arrayOf(reminderHour, reminderMinute, wakeUpHour, wakeUpMinute)
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], sleepReminder)
+            val saveableList = arrayListOf(timings, days)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], saveableList)
         }
 
         fun load() {
-            StorageHandler.createJsonFile(fileName, "SReminder.json")
             val jsonString = StorageHandler.files[fileName]?.readText()
 
             val loadedData = GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<Array<Int>>() {}.type) as Array<Int>
+                .fromJson(jsonString, object : TypeToken<ArrayList<Any>>() {}.type) as ArrayList<Any>
 
-            reminderHour = loadedData[0]
-            reminderMinute = loadedData[1]
-            wakeUpHour = loadedData[2]
-            wakeUpMinute = loadedData[3]
+            val list1 = loadedData[0] as ArrayList<Int>
+            val list2 = loadedData[1] as ArrayList<Boolean>
+
+            timings = list1.toIntArray()
+            days = list2.toBooleanArray()
         }
     }
 }

@@ -32,7 +32,12 @@ class NotificationReceiver : BroadcastReceiver() {
         if (intent != null) {
             when (intent.extras?.get("Notification")) {
                 "Birthday" -> birthdayNotifications()
-                "SReminder" -> sRNotification()
+                "SReminder" -> {
+                    val array: BooleanArray = intent.extras?.get("SReminder") as BooleanArray
+                    if (array[calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH)-1]) {
+                        sRNotification()
+                    }
+                }
             }
         }
     }
