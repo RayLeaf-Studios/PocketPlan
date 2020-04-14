@@ -7,6 +7,7 @@ import android.content.Intent
 import android.drm.DrmStore
 import android.os.Bundle
 import android.view.View
+import android.widget.Toolbar
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -15,6 +16,7 @@ import com.example.j7_003.data.Database
 import com.example.j7_003.fragments.*
 import com.example.j7_003.notifications.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_write_note.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(){
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity(){
 
     companion object {
         lateinit var myActivity: MainActivity
+        var editNotePosition: Int = -1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity(){
         SleepReminder.setSleepReminderAlarm()*/
 
         setBirthdayAlarms()
+
 
         bottomNavigation = findViewById(R.id.btm_nav)
 
@@ -80,10 +84,10 @@ class MainActivity : AppCompatActivity(){
 
     fun changeToBirthdays(){
         if(activeFragmentTag!="birthdays") {
+            birthdayFragment = BirthdayFragment()
             bottomNavigation.selectedItemId = R.id.modules
             supportActionBar?.title = "Birthdays"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            birthdayFragment = BirthdayFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, birthdayFragment)
@@ -96,9 +100,9 @@ class MainActivity : AppCompatActivity(){
 
     private fun changeToToDo(){
         if(activeFragmentTag!="todo") {
+            todoFragment = TodoFragment()
             supportActionBar?.title = "To-Do"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            todoFragment = TodoFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, todoFragment)
@@ -110,9 +114,9 @@ class MainActivity : AppCompatActivity(){
 
     fun changeToHome(){
         if(activeFragmentTag!="home"){
+            homeFragment = HomeFragment()
             supportActionBar?.title = "Home"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            homeFragment = HomeFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, homeFragment)
@@ -125,9 +129,9 @@ class MainActivity : AppCompatActivity(){
 
     private fun changeToCalendar(){
         if(activeFragmentTag!="calendar") {
+            calenderFragment = CalenderFragment()
             supportActionBar?.title = "Calendar"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            calenderFragment = CalenderFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, calenderFragment)
@@ -140,9 +144,9 @@ class MainActivity : AppCompatActivity(){
 
     private fun changeToModules(){
         if(activeFragmentTag!="modules") {
+            modulesFragment = ModulesFragment()
             supportActionBar?.title = "Modules"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            modulesFragment = ModulesFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, modulesFragment)
@@ -155,9 +159,9 @@ class MainActivity : AppCompatActivity(){
 
     fun changeToSettings(){
         if(activeFragmentTag!="settings") {
+            settingsFragment = SettingsFragment()
             supportActionBar?.title = "Settings"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            settingsFragment = SettingsFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, settingsFragment)
@@ -169,9 +173,9 @@ class MainActivity : AppCompatActivity(){
 
     fun changeToSleepReminder(){
         if(activeFragmentTag!="sleep") {
+            sleepFragment = SleepFragment()
             supportActionBar?.title = "Sleep-Reminder"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            sleepFragment = SleepFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, sleepFragment)
@@ -183,9 +187,9 @@ class MainActivity : AppCompatActivity(){
 
      fun changeToNotes(){
         if(activeFragmentTag!="notes") {
+            noteFragment = NoteFragment()
             supportActionBar?.title = "Notes"
             supportActionBar?.setDisplayShowCustomEnabled(false)
-            noteFragment= NoteFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, noteFragment)
@@ -199,9 +203,9 @@ class MainActivity : AppCompatActivity(){
     fun changeToWriteNoteFragment(){
         if(activeFragmentTag!="writeNote") {
             supportActionBar?.title=""
+            writeNoteFragment = WriteNoteFragment()
             supportActionBar?.setDisplayShowCustomEnabled(true)
             supportActionBar?.customView = layoutInflater.inflate(R.layout.appbar_write_note, null)
-            writeNoteFragment= WriteNoteFragment()
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, writeNoteFragment)

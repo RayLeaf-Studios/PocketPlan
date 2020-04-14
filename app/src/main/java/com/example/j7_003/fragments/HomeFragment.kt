@@ -45,7 +45,8 @@ class HomeFragment : Fragment() {
         val displayTaskCount = minOf(p1TaskCounter, 3)
         var taskPanelText = ""
         for(i in 0 until displayTaskCount){
-            taskPanelText+=(i+1).toString()+". "+taskList[i].title
+            taskPanelText+="• "+taskList[i].title
+//          taskPanelText+=(i+1).toString()+". "+taskList[i].title
             if(i<displayTaskCount-1){
                 taskPanelText+="\n"
             }
@@ -56,14 +57,14 @@ class HomeFragment : Fragment() {
             if(additionalTasks==1){
                 addedLetter = ""
             }
-            taskPanelText+="\n+ "+additionalTasks+" more important task"+addedLetter
+            taskPanelText+="\n& "+additionalTasks+" more task"+addedLetter
         }
         if(taskPanelText.length==0){
             myview.task_panel.visibility = View.GONE
-        }else{
+        }else {
             myView.task_panel.text = taskPanelText
-        }
 
+        }
     }
 
 }

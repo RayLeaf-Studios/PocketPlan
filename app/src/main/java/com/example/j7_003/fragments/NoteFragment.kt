@@ -1,18 +1,12 @@
 package com.example.j7_003.fragments
 
-import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.j7_003.MainActivity
@@ -118,6 +112,7 @@ class NoteAdapter() :
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
 
         holder.itemView.setOnClickListener(){
+            MainActivity.editNotePosition = position
             MainActivity.myActivity.changeToWriteNoteFragment()
         }
 
