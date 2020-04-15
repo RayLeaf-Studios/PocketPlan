@@ -10,9 +10,11 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.Database
+import com.example.j7_003.data.StorageHandler
 import com.example.j7_003.data.database_objects.Birthday
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,7 +57,8 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun birthdayNotifications() {
-        Database.init()
+        StorageHandler.createJsonFile("BIRTHDAYLIST", "BirthdayList.json", myContext)
+        Database.birthdayList = Database.fetchBList()
         if (Database.birthdayList.size < 1) {
             return
         }

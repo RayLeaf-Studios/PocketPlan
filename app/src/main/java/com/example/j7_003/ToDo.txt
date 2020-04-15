@@ -63,10 +63,12 @@ Modules:
 important Tasks:
     - fix on back press
     - delete notes by press and hold (mark multiple)
+    - notifications should work after restarting device without reopening the ap
 
 random tasks:
     - improve task display in home panel
     - add shopping list module
+    - birthday remind time cusomization
     - plan exact layout of main panel
     - plan calendar layout
     - replace all colors and values like text size with resource references
@@ -76,8 +78,7 @@ random tasks:
     - realtime note color in the edit screen
 
 ideas:
-    - add ability to store simple text notes, organized in folders, (mark them with colors)
-    - dark mode switch is clickable, but always jumps back to enabled, prompting a toast saying "No"
+    - optional retro / pixelArt theme? pixelated icons, pixelart background, etc
     - simple schedule model for university class plan?
     - maybe change note background to look like index card
 
@@ -89,20 +90,4 @@ ideas:
 5 Shopping List
 6 General Reminder / Schedule
 7 Main Panel
-
-
-
-
-
-Work for the intern:
-    - create multiple example color schemes for the task list and present them to the great leaders
-    - tag 100000 items with category, by hand
-
-
-
-
-
-
-
-
 

@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity(){
 
         setBirthdayAlarms()
 
-
         bottomNavigation = findViewById(R.id.btm_nav)
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -208,7 +207,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun setBirthdayAlarms() {
+    fun setBirthdayAlarms(hour: Int = 12, minute: Int = 0) {
         val intent = Intent(this, NotificationReceiver::class.java)
         intent.putExtra("Notification", "Birthday")
 
@@ -216,8 +215,8 @@ class MainActivity : AppCompatActivity(){
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
         val notificationTime = Calendar.getInstance()
-        notificationTime.set(Calendar.HOUR_OF_DAY, 12)
-        notificationTime.set(Calendar.MINUTE, 0)
+        notificationTime.set(Calendar.HOUR_OF_DAY, hour)
+        notificationTime.set(Calendar.MINUTE, minute)
         notificationTime.set(Calendar.SECOND, 0)
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notificationTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)

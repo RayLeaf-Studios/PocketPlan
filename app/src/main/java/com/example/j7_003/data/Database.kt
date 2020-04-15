@@ -171,7 +171,7 @@ class Database {
             return xNextBirthdays
         }
 
-        private fun fetchBList() : ArrayList<Birthday> {
+        fun fetchBList() : ArrayList<Birthday> {
             val jsonString = StorageHandler.files[BLIST]?.readText()
 
             return GsonBuilder().create()

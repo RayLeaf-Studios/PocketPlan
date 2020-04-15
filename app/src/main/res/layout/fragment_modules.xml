@@ -12,9 +12,10 @@
         android:id="@+id/menuPanelSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/menuPanelShopping"
+        app:layout_constraintEnd_toStartOf="@+id/menuPanelShopping"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/menuPanelBirthdays">
 
         <ImageView
@@ -45,10 +46,11 @@
         android:id="@+id/menuPanelBirthdays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline3">
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/menuPanelSettings"
+        app:layout_constraintEnd_toStartOf="@+id/menuPanelSettings"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/menuPanelSleepReminder">
 
         <ImageView
             android:id="@+id/birthdayIcon"
@@ -78,9 +80,10 @@
         android:id="@+id/menuPanelSleepReminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/menuPanelBirthdays"
         app:layout_constraintEnd_toStartOf="@+id/menuPanelBirthdays"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
@@ -106,12 +109,39 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/menuPanelShopping"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/menuPanelSettings">
+
+        <ImageView
+            android:id="@+id/shoppingIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_action_shopping"
+            android:tint="@color/colorOnBackGround"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shopping"
+            android:textColor="@color/colorOnBackGround"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/shoppingIcon"
+            app:layout_constraintStart_toStartOf="@+id/shoppingIcon"
+            app:layout_constraintTop_toBottomOf="@+id/shoppingIcon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
