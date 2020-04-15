@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity(){
 
     companion object {
         lateinit var myActivity: MainActivity
-        var editNotePosition: Int = -1
+//        var editNotePosition: Int = -1
+        var holder: NoteAdapter.NoteViewHolder? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -223,12 +224,17 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onBackPressed() {
-        if(activeFragmentTag=="writeNote"){
-            changeToNotes()
-        }else if(activeFragmentTag!="home"){
-            changeToHome()
-        }else{
-            super.onBackPressed()
+
+        when {
+            activeFragmentTag=="writeNote" -> {
+                changeToNotes()
+            }
+            activeFragmentTag!="home" -> {
+                changeToHome()
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
 
     }

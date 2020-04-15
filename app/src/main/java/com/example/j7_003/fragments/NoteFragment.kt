@@ -39,7 +39,8 @@ class NoteFragment : Fragment() {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener() {
             MainActivity.myActivity.changeToWriteNoteFragment()
-            MainActivity.editNotePosition = -1
+            MainActivity.holder = null
+//            MainActivity.editNotePosition = -1
         }
 
         val myAdapter = NoteAdapter()
@@ -113,8 +114,9 @@ class NoteAdapter() :
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
 
         holder.itemView.setOnClickListener(){
-            MainActivity.editNotePosition = position
+//            MainActivity.editNotePosition = position
             MainActivity.myActivity.changeToWriteNoteFragment()
+            MainActivity.holder = holder
         }
 
         //specifying design of note rows here

@@ -42,11 +42,11 @@ class WriteNoteFragment : Fragment() {
          */
 
         myEtTitle.requestFocus()
-        if(MainActivity.editNotePosition!=-1){
-            noteColor = Database.getNote(MainActivity.editNotePosition).color
-            myEtTitle.setText(Database.getNote(MainActivity.editNotePosition).title)
-            myEtContent.setText(Database.getNote(MainActivity.editNotePosition).note)
-            btnColorChoose?.background = when (Database.getNote(MainActivity.editNotePosition).color) {
+        if(MainActivity.holder!=null){
+            noteColor = Database.getNote(MainActivity.holder!!.adapterPosition).color
+            myEtTitle.setText(Database.getNote(MainActivity.holder!!.adapterPosition).title)
+            myEtContent.setText(Database.getNote(MainActivity.holder!!.adapterPosition).note)
+            btnColorChoose?.background = when (Database.getNote(MainActivity.holder!!.adapterPosition).color) {
                 NoteColors.RED -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))
                 NoteColors.YELLOW -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
                 NoteColors.GREEN -> ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteGreen))
@@ -64,11 +64,11 @@ class WriteNoteFragment : Fragment() {
          */
 
         MainActivity.myActivity.supportActionBar?.customView?.btnSaveNote?.setOnClickListener(){
-            if(MainActivity.editNotePosition!=-1){
+            if(MainActivity.holder!=null){
                 val noteTitle = myEtTitle.text.toString()
                 val noteContent = etNoteContent.text.toString()
-                Database.editNote(MainActivity.editNotePosition, noteTitle, noteContent, noteColor)
-                MainActivity.editNotePosition = -1
+                Database.editNote(MainActivity.holder!!.adapterPosition, noteTitle, noteContent, noteColor)
+                MainActivity.holder = null
                 MainActivity.myActivity.changeToNotes()
             }else{
                 val noteTitle = myEtTitle.text.toString()

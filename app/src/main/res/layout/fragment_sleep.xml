@@ -8,272 +8,365 @@
     android:padding="5dp"
     tools:context=".fragments.SleepFragment">
 
-
-    <TextView
-        android:id="@+id/tvWakeTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:padding="20dp"
-        android:text="Wakeup Time"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/npWakeHour"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/npWakeHour"
-        app:layout_constraintVertical_bias="0.504" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text=":"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/npWakeHour"
-        app:layout_constraintEnd_toStartOf="@+id/npWakeMinute"
-        app:layout_constraintStart_toEndOf="@+id/npWakeHour"
-        app:layout_constraintTop_toTopOf="@+id/npWakeHour" />
-
-    <NumberPicker
-        android:id="@+id/npWakeMinute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        app:layout_constraintBottom_toBottomOf="@+id/npWakeHour"
-        app:layout_constraintStart_toEndOf="@+id/npWakeHour"
-        app:layout_constraintTop_toTopOf="@+id/npWakeHour"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <NumberPicker
-        android:id="@+id/npSleepHour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        app:layout_constraintStart_toStartOf="@+id/npWakeHour"
-        app:layout_constraintTop_toBottomOf="@+id/npWakeHour" />
-
-    <TextView
-        android:id="@+id/textViedfdw6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="h"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/npSleepHour"
-        app:layout_constraintEnd_toStartOf="@+id/npSleepMinute"
-        app:layout_constraintStart_toEndOf="@+id/npSleepHour"
-        app:layout_constraintTop_toTopOf="@+id/npSleepHour" />
-
-    <TextView
-        android:id="@+id/tvSleepAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Sleep duration"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/npSleepHour"
-        app:layout_constraintEnd_toStartOf="@+id/npSleepHour"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/npSleepHour" />
-
-    <TextView
-        android:id="@+id/textVieddfdw6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="min"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/npSleepMinute"
-        app:layout_constraintStart_toEndOf="@+id/npSleepMinute"
-        app:layout_constraintTop_toTopOf="@+id/npSleepMinute" />
-
-    <NumberPicker
-        android:id="@+id/npSleepMinute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/npSleepHour"
-        app:layout_constraintStart_toStartOf="@+id/npWakeMinute" />
-
-    <NumberPicker
-        android:id="@+id/npWakeHour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/tvWakeTime"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cbMonday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/cbTuesday"
-        app:layout_constraintEnd_toStartOf="@+id/cbTuesday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <CheckBox
-        android:id="@+id/cbTuesday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/cbWednsday"
-        app:layout_constraintEnd_toStartOf="@+id/cbWednsday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbMonday" />
-
-    <CheckBox
-        android:id="@+id/cbWednsday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/cbThursday"
-        app:layout_constraintEnd_toStartOf="@+id/cbThursday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbTuesday" />
-
-    <CheckBox
-        android:id="@+id/cbThursday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/cbFriday"
-        app:layout_constraintEnd_toStartOf="@+id/cbFriday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbWednsday" />
-
-    <CheckBox
-        android:id="@+id/cbFriday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/cbSaturday"
-        app:layout_constraintEnd_toStartOf="@+id/cbSaturday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbThursday" />
-
-    <CheckBox
-        android:id="@+id/cbSaturday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/cbSunday"
-        app:layout_constraintEnd_toStartOf="@+id/cbSunday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbFriday" />
-
-    <CheckBox
-        android:id="@+id/cbSunday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnApplySleepChanges"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbSaturday" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mon"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toTopOf="@+id/cbMonday"
-        app:layout_constraintEnd_toEndOf="@+id/cbMonday"
-        app:layout_constraintStart_toStartOf="@+id/cbMonday" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thu"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/textView12"
-        app:layout_constraintEnd_toEndOf="@+id/cbThursday"
-        app:layout_constraintStart_toStartOf="@+id/cbThursday" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fri"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/textView11"
-        app:layout_constraintEnd_toEndOf="@+id/cbFriday"
-        app:layout_constraintStart_toStartOf="@+id/cbFriday" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sat"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/textView9"
-        app:layout_constraintEnd_toEndOf="@+id/cbSaturday"
-        app:layout_constraintStart_toStartOf="@+id/cbSaturday" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sun"
-        android:textColor="@color/colorOnBackGround"
-
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/textView8"
-        app:layout_constraintEnd_toEndOf="@+id/cbSunday"
-        app:layout_constraintStart_toStartOf="@+id/cbSunday" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wed"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/textView10"
-        app:layout_constraintEnd_toEndOf="@+id/cbWednsday"
-        app:layout_constraintStart_toStartOf="@+id/cbWednsday" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tue"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_daysofweek"
-        app:layout_constraintBottom_toBottomOf="@+id/textView7"
-        app:layout_constraintEnd_toEndOf="@+id/cbTuesday"
-        app:layout_constraintStart_toStartOf="@+id/cbTuesday" />
-
     <View
         android:id="@+id/divider"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toTopOf="@+id/tvSleepAmount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWakeTime" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        tools:layout_editor_absoluteX="5dp" />
 
-    <Button
-        android:id="@+id/btnApplySleepChanges"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/round_corner_accent"
         android:padding="10dp"
-        android:text="APPLY CHANGES"
-        android:focusable="true"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider">
+
+        <TextView
+            android:id="@+id/tvWakeTimePanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wakeup time"
+            android:textColor="@color/colorOnBackGround"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:35"
+            android:textColor="@color/colorHint"
+            android:textSize="17sp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvWakeTimePanel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        tools:layout_editor_absoluteX="5dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        tools:layout_editor_absoluteX="5dp">
+
+        <TextView
+            android:id="@+id/tvSleepDurationPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sleep duration"
+            android:textColor="@color/colorOnBackGround"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:35"
+            android:textColor="@color/colorHint"
+            android:textSize="17sp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSleepDurationPanel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+        tools:layout_editor_absoluteX="5dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvEnableSleepReminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable Reminder"
+            android:textColor="@color/colorOnBackGround"
+            android:textSize="20sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Switch
+            android:id="@+id/switch2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvWakeTime"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="4dp"-->
+    <!--        android:padding="20dp"-->
+    <!--        android:text="Wakeup Time"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintVertical_bias="0.504" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView6"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:text=":"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/npWakeMinute"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/npWakeHour" />-->
+
+    <!--    <NumberPicker-->
+    <!--        android:id="@+id/npWakeMinute"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="28dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
+
+    <!--    <NumberPicker-->
+    <!--        android:id="@+id/npSleepHour"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="36dp"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/npWakeHour"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/npWakeHour" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textViedfdw6"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:text="h"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/npSleepHour"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/npSleepMinute"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/npSleepHour"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/npSleepHour" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tvSleepAmount"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:padding="20dp"-->
+    <!--        android:text="Sleep duration"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="20sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/npSleepHour"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/npSleepHour"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/npSleepHour" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textVieddfdw6"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:padding="5dp"-->
+    <!--        android:text="min"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/npSleepMinute"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/npSleepMinute"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/npSleepMinute" />-->
+
+    <!--    <NumberPicker-->
+    <!--        android:id="@+id/npSleepMinute"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/npSleepHour"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/npWakeMinute" />-->
+
+    <!--    <NumberPicker-->
+    <!--        android:id="@+id/npWakeHour"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:layout_marginTop="4dp"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/tvWakeTime"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/cbMonday"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/cbTuesday"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/cbTuesday"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/cbTuesday"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/cbWednsday"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/cbWednsday"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/cbMonday" />-->
+
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/cbWednsday"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/cbThursday"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/cbThursday"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/cbTuesday" />-->
+
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/cbThursday"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/cbFriday"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/cbFriday"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/cbWednsday" />-->
+
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/cbFriday"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/cbSaturday"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/cbSaturday"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/cbThursday" />-->
+
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/cbSaturday"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/cbSunday"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/cbSunday"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/cbFriday" />-->
+
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/cbSunday"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="20dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/btnApplySleepChanges"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/cbSaturday" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView7"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Mon"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/cbMonday"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/cbMonday"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/cbMonday" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView11"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Thu"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/textView12"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/cbThursday"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/cbThursday" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView9"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Fri"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/textView11"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/cbFriday"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/cbFriday" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView8"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Sat"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/textView9"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/cbSaturday"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/cbSaturday" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView16"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Sun"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/textView8"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/cbSunday"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/cbSunday" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView12"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Wed"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/textView10"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/cbWednsday"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/cbWednsday" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView10"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Tue"-->
+    <!--        android:textColor="@color/colorOnBackGround"-->
+    <!--        android:textSize="@dimen/font_size_daysofweek"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/textView7"-->
+    <!--        app:layout_constraintEnd_toEndOf="@+id/cbTuesday"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/cbTuesday" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
