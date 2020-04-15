@@ -35,7 +35,10 @@ class TodoFragment : Fragment() {
 
         val myRecycler = myView.recycler_view_todo
 
-        //ADDING TASK VIA FLOATING ACTION BUTTON
+        /**
+         * Adding Task via floating action button
+         * Onclick-Listener opening the add-task dialog
+         */
         myView.btnAddTodoTask.setOnClickListener() {
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
@@ -61,8 +64,6 @@ class TodoFragment : Fragment() {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
                     Database.addTask(title, index + 1)
-                    Database.sortTasks()
-                    //todo is this unneccessary?
                     myRecycler.adapter?.notifyDataSetChanged()
                 }
             }
@@ -70,18 +71,19 @@ class TodoFragment : Fragment() {
             myDialogView.etxTitleAddTask.requestFocus()
         }
 
+        /**
+         * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
+         */
+
         val myAdapter = TodoTaskAdapter()
-
         myRecycler.adapter = myAdapter
-
         myRecycler.layoutManager = LinearLayoutManager(activity)
-
         myRecycler.setHasFixedSize(true)
 
-        var swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteT(myAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteT(myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        var swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteT(myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteT(myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
@@ -97,7 +99,7 @@ class SwipeRightToDeleteT(var adapter: TodoTaskAdapter):
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        var position = viewHolder.adapterPosition
+        val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
     }
 }
@@ -109,7 +111,7 @@ class SwipeLeftToDeleteT(private var adapter: TodoTaskAdapter):
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        var position = viewHolder.adapterPosition
+        val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
     }
 }
@@ -123,10 +125,6 @@ class TodoTaskAdapter() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
-        //parent is Recyclerview the view holder will be placed in
-        //context is activity that the recyclerview is placed in
-        //parent in inflate tells the inflater where the layout will be placed
-        //so it can be inflated to the right size
         val itemView = LayoutInflater.from(parent.context)
             .inflate(layout.row_task, parent, false)
         return TodoTaskViewHolder(itemView)
@@ -139,7 +137,11 @@ class TodoTaskAdapter() :
         val activity = MainActivity.myActivity
 
 
-        //EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
+        /**
+         * Editing task via floating action button
+         * Onclick-Listener on List items, opening the edit-task dialog
+         */
+
         holder.itemView.setOnClickListener(){
 
             //inflate the dialog with custom view
@@ -148,7 +150,7 @@ class TodoTaskAdapter() :
             //AlertDialogBuilder
             val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
             val editTitle = LayoutInflater.from(activity).inflate(layout.title_dialog_add_task, null)
-            editTitle.tvDialogTitle.text = "Edit Task"
+            editTitle.tvDialogTitle.text = "Edit task"
             myBuilder.setCustomTitle(editTitle)
 
             //show dialog
@@ -182,25 +184,20 @@ class TodoTaskAdapter() :
         holder.tvName.text = currentTask.title
 
         when(currentTask.priority){
-            1 -> {holder.myView.setBackgroundResource(drawable.round_corner1)
-//                holder.name_textview.setTextColor(ContextCompat.getColor(activity, color.colorPriority1))
-            }
-            2 -> {holder.myView.setBackgroundResource(drawable.round_corner2)
-//                holder.name_textview.setTextColor(ContextCompat.getColor(activity, color.colorPriority2))
-            }
-            3 -> {holder.myView.setBackgroundResource(drawable.round_corner3)
-//                holder.name_textview.setTextColor(ContextCompat.getColor(activity, color.colorPriority3))
-            }
+            1 -> holder.myView.setBackgroundResource(drawable.round_corner1)
+            2 -> holder.myView.setBackgroundResource(drawable.round_corner2)
+            3 -> holder.myView.setBackgroundResource(drawable.round_corner3)
         }
 
     }
 
     override fun getItemCount() = Database.taskList.size
 
-    //one instance of this class will contain one instance of row_task and meta data like position
-    //also holds references to views inside the layout
-
     class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        /**
+         * One instance of this class will contain one "instance" of row_task and meta data
+         * like position, it also holds references to views inside of the layout
+         */
         val tvName: TextView = itemView.name_textview
         var myView = itemView
     }

@@ -105,7 +105,6 @@ class BirthdayFragment : Fragment() {
         val swipeHelperRight = ItemTouchHelper(SwipeRightToDelete(myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
-        //performance optimization, not necessary
         myRecycler.setHasFixedSize(true)
 
         return myView
@@ -114,10 +113,7 @@ class BirthdayFragment : Fragment() {
 }
 
 class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        Log.e("debug", "im moving")
-        return false
-            }
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
@@ -127,10 +123,7 @@ class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCal
 }
 
 class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        Log.e("debug", "im moving")
-        return false
-    }
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
@@ -147,10 +140,6 @@ class BirthdayAdapter() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
-        //parent is Recyclerview the view holder will be placed in
-        //context is activity that the recyclerview is placed in
-        //parent in inflate tells the inflater where the layout will be placed
-        //so it can be inflated to the right size
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_birthday, parent, false)
         return BirthdayViewHolder(itemView)
@@ -162,7 +151,11 @@ class BirthdayAdapter() :
         val currentBirthday = Database.getBirthday(position)
         val activity = MainActivity.myActivity
 
-        // EDITING BIRTHDAY VIA ONCLICK LISTENER ON RECYCLER ITEMS
+        /**
+         * Editing birthday via floating action button
+         * Onclick-Listener on List items, opening the edit-task dialog
+         */
+
         holder.itemView.setOnClickListener() {
 
 
@@ -260,10 +253,11 @@ class BirthdayAdapter() :
 
     override fun getItemCount() = Database.birthdayList.size
 
-    //one instance of this class will contain one instance of row_birthday and meta data like position
-    //also holds references to views inside the layout
-
     class BirthdayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        /**
+         * One instance of this class will contain one "instance" of row_task and meta data
+         * like position, it also holds references to views inside of the layout
+         */
         val txvBirthdayLabelName: TextView = itemView.txvBirthdayLabelName
         val iconBell: ImageView = itemView.icon_bell
     }

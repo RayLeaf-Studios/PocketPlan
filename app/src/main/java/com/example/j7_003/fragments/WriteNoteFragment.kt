@@ -36,6 +36,11 @@ class WriteNoteFragment : Fragment() {
 
         val btnColorChoose = MainActivity.myActivity.supportActionBar?.customView?.btnChooseColor
 
+        /**
+         * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when
+         * called from an editing context
+         */
+
         myEtTitle.requestFocus()
         if(MainActivity.editNotePosition!=-1){
             noteColor = Database.getNote(MainActivity.editNotePosition).color
@@ -53,6 +58,11 @@ class WriteNoteFragment : Fragment() {
             btnColorChoose?.background =  ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
         }
 
+        /**
+         * OnclickListener for saveButton, saving or editing task depending on
+         * MainActivity.editNotePosition
+         */
+
         MainActivity.myActivity.supportActionBar?.customView?.btnSaveNote?.setOnClickListener(){
             if(MainActivity.editNotePosition!=-1){
                 val noteTitle = myEtTitle.text.toString()
@@ -69,11 +79,15 @@ class WriteNoteFragment : Fragment() {
 
         }
 
+        /**
+         * Dialog for Note-Color-Choose Button
+         */
+
         MainActivity.myActivity.supportActionBar?.customView?.btnChooseColor?.setOnClickListener(){
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(MainActivity.myActivity).inflate(R.layout.dialog_choose_color, null)
 
-            //AlertDialogBuilder^^
+            //AlertDialogBuilder
             val myBuilder = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
             val editTitle = LayoutInflater.from(MainActivity.myActivity).inflate(R.layout.title_dialog_add_task, null)
             editTitle.tvDialogTitle.text = "Choose color"
@@ -84,39 +98,23 @@ class WriteNoteFragment : Fragment() {
             myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             myAlertDialog.show()
 
-            myDialogView.btnRed.setOnClickListener(){
-                noteColor = NoteColors.RED
-                myAlertDialog.dismiss()
-                btnColorChoose?.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))
-            }
-
-            myDialogView.btnYellow.setOnClickListener(){
-                noteColor = NoteColors.YELLOW
-                myAlertDialog.dismiss()
-                btnColorChoose?.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
-            }
-
-            myDialogView.btnGreen.setOnClickListener(){
-                noteColor = NoteColors.GREEN
-                myAlertDialog.dismiss()
-                btnColorChoose?.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteGreen))
-            }
-
-            myDialogView.btnBlue.setOnClickListener(){
-                noteColor = NoteColors.BLUE
-                myAlertDialog.dismiss()
-                btnColorChoose?.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteBlue))
-            }
-
-            myDialogView.btnPurple.setOnClickListener(){
-                noteColor = NoteColors.PURPLE
-                myAlertDialog.dismiss()
-                btnColorChoose?.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNotePurple))
+            val colorList = arrayOf(R.color.colorNoteRed, R.color.colorNoteYellow,
+                R.color.colorNoteGreen, R.color.colorNoteBlue, R.color.colorNotePurple)
+            val buttonList = arrayOf(myDialogView.btnRed, myDialogView.btnYellow,
+                myDialogView.btnGreen, myDialogView.btnBlue, myDialogView.btnPurple)
+            /**
+             * Onclick-listeners for every specific color button
+             */
+            buttonList.forEachIndexed(){ i, b ->
+                b.setOnClickListener(){
+                    noteColor = NoteColors.values()[i]
+                    btnColorChoose?.background = ColorDrawable(ContextCompat.getColor(MainActivity.myActivity, colorList[i]))
+                    myAlertDialog.dismiss()
+                }
             }
         }
 
         return myView
     }
-
 
 }
