@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".fragments.ModulesFragment"
-    android:paddingBottom="20dp">
+    android:paddingBottom="20dp"
+    tools:context=".fragments.ModulesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuPanelSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/menuPanelShopping"
-        app:layout_constraintEnd_toStartOf="@+id/menuPanelShopping"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/menuPanelBirthdays">
+        app:layout_constraintStart_toEndOf="@+id/menuPanelShopping">
 
         <ImageView
             android:id="@+id/settingsIcon"
@@ -47,8 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/menuPanelSettings"
-        app:layout_constraintEnd_toStartOf="@+id/menuPanelSettings"
+        app:layout_constraintBottom_toBottomOf="@+id/menuPanelShopping"
+        app:layout_constraintEnd_toStartOf="@+id/menuPanelShopping"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/menuPanelSleepReminder">
 
@@ -114,10 +114,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/menuPanelSettings"
+        app:layout_constraintEnd_toStartOf="@+id/menuPanelSettings"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/menuPanelSettings">
+        app:layout_constraintStart_toEndOf="@+id/menuPanelBirthdays">
 
         <ImageView
             android:id="@+id/shoppingIcon"

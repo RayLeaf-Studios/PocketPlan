@@ -61,6 +61,7 @@ Modules:
 
 
 important Tasks:
+    - fix notifications!!!!11111
     - fix on back press
     - delete notes by press and hold (mark multiple)
     - notifications should work after restarting device without reopening the ap
