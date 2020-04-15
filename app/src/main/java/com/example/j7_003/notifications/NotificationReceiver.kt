@@ -55,6 +55,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun birthdayNotifications() {
+        Database.init()
         if (Database.birthdayList.size < 1) {
             return
         }
