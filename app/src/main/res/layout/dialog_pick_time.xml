@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:id="@+id/tvHourMinuteDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text=":"
+        android:textColor="@color/colorOnBackGround"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/npHour"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/npHour" />
+
+    <TextView
+        android:id="@+id/tvHourMinuteAttachment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="m"
+        android:textColor="@color/colorOnBackGround"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/npHour"
+        app:layout_constraintStart_toEndOf="@+id/npMinute"
+        app:layout_constraintTop_toTopOf="@+id/npHour" />
+
+    <NumberPicker
+        android:id="@+id/npHour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/tvHourMinuteDivider"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <NumberPicker
+        android:id="@+id/npMinute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/tvHourMinuteDivider"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnApplyTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="APPLY"
+        android:textColor="@color/colorOnBackGround"
+        android:background="@drawable/round_corner_accent"
+        app:layout_constraintEnd_toEndOf="@+id/npMinute"
+        app:layout_constraintStart_toStartOf="@+id/npHour"
+        app:layout_constraintTop_toBottomOf="@+id/npHour" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
