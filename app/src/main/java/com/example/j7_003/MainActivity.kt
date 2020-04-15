@@ -222,5 +222,16 @@ class MainActivity : AppCompatActivity(){
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notificationTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 
+    override fun onBackPressed() {
+        if(activeFragmentTag=="writeNote"){
+            changeToNotes()
+        }else if(activeFragmentTag!="home"){
+            changeToHome()
+        }else{
+            super.onBackPressed()
+        }
+
+    }
+
 }
 
