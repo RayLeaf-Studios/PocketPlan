@@ -38,6 +38,7 @@ class WriteNoteFragment : Fragment() {
 
         myEtTitle.requestFocus()
         if(MainActivity.editNotePosition!=-1){
+            noteColor = Database.getNote(MainActivity.editNotePosition).color
             myEtTitle.setText(Database.getNote(MainActivity.editNotePosition).title)
             myEtContent.setText(Database.getNote(MainActivity.editNotePosition).note)
             btnColorChoose?.background = when (Database.getNote(MainActivity.editNotePosition).color) {
