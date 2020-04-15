@@ -1,59 +1,41 @@
 package com.example.j7_003.data
 
-import android.content.Context
-import android.os.Build
-import android.os.Environment
-import com.example.j7_003.data.database_objects.Appointment
-import com.google.gson.Gson
-import java.io.File
+import com.example.j7_003.data.database_objects.WeekAppointment
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 
-class WeekScheduleHandler(context: Context) {
-    val weekSchedule = HashMap<String , ArrayList<Appointment>>(7)
-    val weekScheduleFile = setStorageLocation("WeekSchedule.txt", context)
-    private val days = arrayOf(MON, TUE, WED, THU, FRI, SAT, SUN)
-
-    companion object {
-        val MON = "Monday"
-        val TUE = "Tuesday"
-        val WED = "Wednesday"
-        val THU = "Thursday"
-        val FRI = "Friday"
-        val SAT = "Saturday"
-        val SUN = "Sunday"
-    }
+class WeekSchedule() {
+    val weekSchedule = HashMap<Weekdays , ArrayList<WeekAppointment>>()
+    private val IDENTIFIER = "WEEK_SCHEDULE"
 
     init {
-        createFile()
+        StorageHandler.createJsonFile(IDENTIFIER, "WeekSchedule.json")
         initMap()
-        addAppointmentToDay(FRI, "test", "test", false)
-        saveWeekSchedule()
+        load()
     }
 
-    fun addAppointmentToDay(day: String, title: String, note: String, repetitive: Boolean) {
-        weekSchedule[day]?.add(Appointment(title, note, repetitive))
-        saveWeekSchedule()
+    fun addAppointmentToDay(title: String, note: String, weekDay: Weekdays, startHour: Int, startMinute: Int, duration: Int) {
+        weekSchedule[weekDay]?.add(WeekAppointment(title, note, weekDay, startHour, startMinute, duration, AppointmentColors.RED))
+        StorageHandler.saveAsJsonToFile(StorageHandler.files[IDENTIFIER], weekSchedule)
+    }
+
+    fun deleteAppointmentAtDay(weekDay: Weekdays, index: Int) {
+        weekSchedule[weekDay]?.removeAt(index)
     }
 
     private fun initMap() {
-        for (element in days) {
-            weekSchedule[element] = ArrayList<Appointment>()
+        for (element in Weekdays.values()) {
+            weekSchedule[element] = ArrayList()
         }
     }
 
-    private fun saveWeekSchedule() {
-        weekScheduleFile.writeText(Gson().toJson(weekSchedule))
-    }
+    private fun load() {
+        val jsonString = StorageHandler.files[IDENTIFIER]?.readText()
 
-    private fun createFile() {
-        if(!weekScheduleFile.exists()) weekScheduleFile.writeText("{\"Monday\":[],\"Thursday\":[],\"Friday\":[],\"Sunday\":[],\"Wednesday\":[],\"Tuesday\":[],\"Saturday\":[],\"Sunday\":[]}")
-    }
-
-    private fun setStorageLocation(fileName: String, context: Context): File {
-
-        return if (Build.VERSION.SDK_INT < 29) {
-            File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
-        } else {
-            File(context.filesDir, fileName)
-        }
+        return GsonBuilder().create()
+            .fromJson(
+                jsonString,
+                object : TypeToken<HashMap<Weekdays, ArrayList<WeekAppointment>>>() {}.type
+            )
     }
 }
