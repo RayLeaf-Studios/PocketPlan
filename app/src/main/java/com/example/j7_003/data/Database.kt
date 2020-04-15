@@ -201,7 +201,7 @@ class Database {
             StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
         }
 
-        fun getNote(index: Int): Note = noteList[index]
+        fun getNote(index: Int): Note = noteList.asReversed()[index]
 
         private fun fetchNoteList() : ArrayList<Note> {
             val jsonString = StorageHandler.files[NLIST]?.readText()
