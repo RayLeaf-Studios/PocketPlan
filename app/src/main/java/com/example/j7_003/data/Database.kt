@@ -10,7 +10,7 @@ class Database {
     companion object {
         lateinit var taskList: ArrayList<Task>
         lateinit var birthdayList: ArrayList<Birthday>
-        lateinit var noteList: ArrayList<Note>
+        lateinit var noteList: LinkedList<Note>
 
         private const val TLIST = "TASKLIST"
         private const val BLIST = "BIRTHDAYLIST"
@@ -184,7 +184,7 @@ class Database {
         //debug here will be note handling
 
         fun addNote(title: String, note: String, color: NoteColors) {
-            noteList.add(Note(title, note, color))
+            noteList.push(Note(title, note, color))
             StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
         }
 
@@ -201,13 +201,13 @@ class Database {
             StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
         }
 
-        fun getNote(index: Int): Note = noteList.asReversed()[index]
+        fun getNote(index: Int): Note = noteList[index]
 
-        private fun fetchNoteList() : ArrayList<Note> {
+        private fun fetchNoteList() : LinkedList<Note> {
             val jsonString = StorageHandler.files[NLIST]?.readText()
 
             return GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<ArrayList<Note>>() {}.type)
+                .fromJson(jsonString, object : TypeToken<LinkedList<Note>>() {}.type)
         }
 
         //--------------------------------------------------------------------------------------------//

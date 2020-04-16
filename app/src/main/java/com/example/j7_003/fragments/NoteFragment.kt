@@ -51,6 +51,7 @@ class NoteFragment : Fragment() {
         val lm = StaggeredGridLayoutManager(2, 1)
         myRecycler.layoutManager = lm
 
+
         myRecycler.setHasFixedSize(true)
 
         val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteN(myAdapter))
