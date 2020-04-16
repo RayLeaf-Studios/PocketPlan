@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/settingsIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_action_settings"
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="Settings"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/settingsIcon"
             app:layout_constraintStart_toStartOf="@+id/settingsIcon"
             app:layout_constraintTop_toBottomOf="@+id/settingsIcon" />
@@ -54,8 +54,8 @@
 
         <ImageView
             android:id="@+id/birthdayIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_action_birthday"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:text="Birthdays"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/birthdayIcon"
             app:layout_constraintStart_toStartOf="@+id/birthdayIcon"
             app:layout_constraintTop_toBottomOf="@+id/birthdayIcon" />
@@ -88,8 +88,8 @@
 
         <ImageView
             android:id="@+id/sleepIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_action_sleepreminder"
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:text="Sleep"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/sleepIcon"
             app:layout_constraintStart_toStartOf="@+id/sleepIcon"
             app:layout_constraintTop_toBottomOf="@+id/sleepIcon" />
@@ -121,8 +121,8 @@
 
         <ImageView
             android:id="@+id/shoppingIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_action_shopping"
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:text="Shopping"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="20sp"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/shoppingIcon"
             app:layout_constraintStart_toStartOf="@+id/shoppingIcon"
             app:layout_constraintTop_toBottomOf="@+id/shoppingIcon" />

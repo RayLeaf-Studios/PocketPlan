@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -39,8 +41,7 @@ class NoteFragment : Fragment() {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener() {
             MainActivity.myActivity.changeToWriteNoteFragment()
-            MainActivity.holder = null
-//            MainActivity.editNotePosition = -1
+            MainActivity.editNoteHolder = null
         }
 
         val myAdapter = NoteAdapter()
@@ -96,10 +97,6 @@ class NoteAdapter() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        //parent is Recyclerview the view holder will be placed in
-        //context is activity that the recyclerview is placed in
-        //parent in inflate tells the inflater where the layout will be placed
-        //so it can be inflated to the right size
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_note, parent, false)
         return NoteViewHolder(itemView)
@@ -114,35 +111,24 @@ class NoteAdapter() :
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
 
         holder.itemView.setOnClickListener(){
-//            MainActivity.editNotePosition = position
+            MainActivity.editNoteHolder = holder
+            MainActivity.noteColor = Database.getNote(holder.adapterPosition).color
             MainActivity.myActivity.changeToWriteNoteFragment()
-            MainActivity.holder = holder
         }
 
         //specifying design of note rows here
         holder.tvNoteTitle.text = currentNote.title
         holder.tvNoteContent.text = currentNote.note
 
-
-        when(currentNote.color){
-            NoteColors.RED -> {
-              holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))
-            }
-            NoteColors.YELLOW -> {
-                holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteYellow))
-            }
-            NoteColors.GREEN -> {
-                holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteGreen))
-            }
-            NoteColors.BLUE -> {
-                holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteBlue))
-            }
-            NoteColors.PURPLE -> {
-                holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNotePurple))
-            }
-
-
+        val cardColor =  when(currentNote.color){
+            NoteColors.RED -> R.color.colorNoteRed
+            NoteColors.YELLOW -> R.color.colorNoteYellow
+            NoteColors.GREEN -> R.color.colorNoteGreen
+            NoteColors.BLUE -> R.color.colorNoteBlue
+            NoteColors.PURPLE -> R.color.colorNotePurple
         }
+
+        holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, cardColor))
 
 
     }
@@ -153,9 +139,9 @@ class NoteAdapter() :
     //also holds references to views inside the layout
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvNoteTitle = itemView.tvNoteTitle
-        val tvNoteContent = itemView.tvNoteContent
-        var cvNoteCard = itemView.cvNoteCard
+        val tvNoteTitle: TextView = itemView.tvNoteTitle
+        val tvNoteContent: TextView = itemView.tvNoteContent
+        var cvNoteCard: CardView = itemView.cvNoteCard
     }
 
 }

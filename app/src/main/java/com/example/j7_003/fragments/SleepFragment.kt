@@ -27,6 +27,14 @@ class SleepFragment : Fragment() {
         // Inflate the layout for this fragment
         val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
 
+        myView.switchEnableReminder.setOnClickListener {
+            if(myView.switchEnableReminder.isChecked){
+                //todo, enable reminder in sleep reminder manager here
+            }else{
+                //todo, disable reminder in sleep reminder manager here
+            }
+        }
+
         myView.constraintLayout.setOnClickListener() {
             /**
              * pick wake up time
@@ -59,10 +67,15 @@ class SleepFragment : Fragment() {
             customTitle.tvDialogTitle.text = "Wakeup Time"
             myBuilder.setCustomTitle(customTitle)
 
+
             //show dialog
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()
 
+            myDialogView.btnApplyTime.setOnClickListener(){
+                //todo apply / save chosen wakeup time
+                myAlertDialog.dismiss()
+            }
 
 
         }
@@ -93,6 +106,11 @@ class SleepFragment : Fragment() {
             //show dialog
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()
+
+            myDialogView.btnApplyTime.setOnClickListener(){
+                //todo apply chosen sleep duration / save it
+                myAlertDialog.dismiss()
+            }
         }
 
         return myView
