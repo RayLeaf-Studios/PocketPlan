@@ -1,4 +1,4 @@
-package com.example.j7_003.data.database_objects
+package com.example.j7_003.data.database.database_objects
 
 import com.example.j7_003.data.AppointmentColors
 import com.example.j7_003.data.Weekdays

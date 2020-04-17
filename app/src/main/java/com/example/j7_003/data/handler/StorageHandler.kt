@@ -1,4 +1,4 @@
-package com.example.j7_003.data
+package com.example.j7_003.data.handler
 
 import android.content.Context
 import android.os.Build
@@ -15,7 +15,11 @@ class StorageHandler {
         fun saveAsJsonToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
 
         fun createFile(identifier: String, fileName: String) {
-            files[identifier] = setStorageLocation(fileName, MainActivity.myActivity)
+            files[identifier] =
+                setStorageLocation(
+                    fileName,
+                    MainActivity.myActivity
+                )
 
             if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
                 files[identifier]?.createNewFile()
@@ -23,7 +27,11 @@ class StorageHandler {
         }
 
         fun createJsonFile(identifier: String, fileName: String, context: Context = MainActivity.myActivity) {
-            files[identifier] = setStorageLocation(fileName, context)
+            files[identifier] =
+                setStorageLocation(
+                    fileName,
+                    context
+                )
 
             if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
                 files[identifier]?.writeText("[]")

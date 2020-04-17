@@ -1,6 +1,4 @@
-package com.example.j7_003.data.database_objects
-
-import com.example.j7_003.data.Weekdays
+package com.example.j7_003.data.database.database_objects
 
 data class Appointment(var title: String, var note: String, var repetitive: Boolean, var day: Int, var month: Int, var year: Int) {
 

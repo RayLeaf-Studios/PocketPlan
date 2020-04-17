@@ -1,17 +1,13 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.Database
+import com.example.j7_003.data.database.database_objects.Database
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.fragment_modules.view.*
 
 
 /**

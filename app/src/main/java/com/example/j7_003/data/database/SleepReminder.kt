@@ -1,10 +1,11 @@
-package com.example.j7_003.data
+package com.example.j7_003.data.database
 
 import android.app.*
 import android.content.Context
 import android.content.Intent
 import com.example.j7_003.MainActivity
-import com.example.j7_003.notifications.NotificationReceiver
+import com.example.j7_003.data.handler.StorageHandler
+import com.example.j7_003.receiver.NotificationReceiver
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -26,7 +27,10 @@ class SleepReminder {
         private const val fileName: String = "SLEEP_REMINDER"
 
         fun init() {
-            StorageHandler.createJsonFile(fileName, "SReminder.json")
+            StorageHandler.createJsonFile(
+                fileName,
+                "SReminder.json"
+            )
             load()
         }
 
@@ -72,7 +76,9 @@ class SleepReminder {
             if (isSet) {
                 val intent = Intent(MainActivity.myActivity, NotificationReceiver::class.java)
                 intent.putExtra("Notification", "SReminder")
-                intent.putExtra("SReminder", days)
+                intent.putExtra("SReminder",
+                    days
+                )
 
                 val pendingIntent = PendingIntent.getBroadcast(
                     MainActivity.myActivity,
@@ -98,8 +104,14 @@ class SleepReminder {
         }
 
         fun save() {
-            val saveableList = arrayListOf(timings, days)
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], saveableList)
+            val saveableList = arrayListOf(
+                timings,
+                days
+            )
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[fileName],
+                saveableList
+            )
         }
 
         fun load() {

@@ -1,4 +1,4 @@
-package com.example.j7_003.notifications
+package com.example.j7_003.receiver
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.j7_003.MainActivity
 import java.util.*
 
 class RebootReceiver : BroadcastReceiver() {

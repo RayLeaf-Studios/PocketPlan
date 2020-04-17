@@ -1,4 +1,4 @@
-package com.example.j7_003.data.database_objects
+package com.example.j7_003.data.database.database_objects
 
 data class Birthday constructor(var name: String, var month: Int, var day: Int, var daysToRemind: Int) {
     constructor(name: String, month: Int, day: Int): this(name, month, day, 0)

@@ -1,6 +1,6 @@
 package com.example.j7_003.data.settings
 
-import com.example.j7_003.data.StorageHandler
+import com.example.j7_003.data.handler.StorageHandler
 
 class SettingsManager {
     val settings = HashMap<String, String>()
@@ -12,7 +12,8 @@ class SettingsManager {
     }
 
     fun saveSettings() {
-        StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], settings)
+        StorageHandler.saveAsJsonToFile(
+            StorageHandler.files[fileName], settings)
     }
 
     private fun createFile() {

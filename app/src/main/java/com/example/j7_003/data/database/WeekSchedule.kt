@@ -1,22 +1,33 @@
-package com.example.j7_003.data
+package com.example.j7_003.data.database
 
-import com.example.j7_003.data.database_objects.WeekAppointment
+import com.example.j7_003.data.AppointmentColors
+import com.example.j7_003.data.handler.StorageHandler
+import com.example.j7_003.data.Weekdays
+import com.example.j7_003.data.database.database_objects.WeekAppointment
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 class WeekSchedule() {
-    val weekSchedule = HashMap<Weekdays , ArrayList<WeekAppointment>>()
+    val weekSchedule = HashMap<Weekdays, ArrayList<WeekAppointment>>()
     private val IDENTIFIER = "WEEK_SCHEDULE"
 
     init {
-        StorageHandler.createJsonFile(IDENTIFIER, "WeekSchedule.json")
+        StorageHandler.createJsonFile(
+            IDENTIFIER,
+            "WeekSchedule.json"
+        )
         initMap()
         load()
     }
 
     fun addAppointmentToDay(title: String, note: String, weekDay: Weekdays, startHour: Int, startMinute: Int, duration: Int) {
-        weekSchedule[weekDay]?.add(WeekAppointment(title, note, weekDay, startHour, startMinute, duration, AppointmentColors.RED))
-        StorageHandler.saveAsJsonToFile(StorageHandler.files[IDENTIFIER], weekSchedule)
+        weekSchedule[weekDay]?.add(WeekAppointment(title, note, weekDay, startHour, startMinute, duration,
+            AppointmentColors.RED
+        ))
+        StorageHandler.saveAsJsonToFile(
+            StorageHandler.files[IDENTIFIER],
+            weekSchedule
+        )
     }
 
     fun deleteAppointmentAtDay(weekDay: Weekdays, index: Int) {

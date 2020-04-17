@@ -27,13 +27,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notifications.RebootReceiver" >
+        <receiver android:name=".receiver.RebootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".notifications.NotificationReceiver" />
+        <receiver android:name=".receiver.NotificationReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"

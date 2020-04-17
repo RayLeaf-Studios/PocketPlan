@@ -1,6 +1,7 @@
-package com.example.j7_003.data
+package com.example.j7_003.data.database.database_objects
 
-import com.example.j7_003.data.database_objects.*
+import com.example.j7_003.data.NoteColors
+import com.example.j7_003.data.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -36,7 +37,10 @@ class Database {
                 )
             )
             sortTasks()
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[TLIST], taskList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[TLIST],
+                taskList
+            )
         }
 
         /**
@@ -45,15 +49,24 @@ class Database {
          */
         fun deleteTask(index: Int) {
             taskList.removeAt(index)
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[TLIST], taskList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[TLIST],
+                taskList
+            )
         }
 
         fun editTask(position: Int, index: Int, title: String) {
-            val editableTask: Task = getTask(position)
+            val editableTask: Task =
+                getTask(
+                    position
+                )
             editableTask.title = title
             editableTask.priority = index + 1
             sortTasks()
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[TLIST], taskList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[TLIST],
+                taskList
+            )
         }
 
         /**
@@ -89,7 +102,10 @@ class Database {
 
             sortBirthday()
 
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[BLIST],
+                birthdayList
+            )
         }
 
         /**
@@ -98,7 +114,10 @@ class Database {
          */
         fun deleteBirthday(index: Int) {
             birthdayList.removeAt(index)
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[BLIST],
+                birthdayList
+            )
         }
 
         /**
@@ -107,7 +126,10 @@ class Database {
          */
 
         fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int) {
-            val editableBirthday: Birthday = getBirthday(parPosition)
+            val editableBirthday: Birthday =
+                getBirthday(
+                    parPosition
+                )
 
             editableBirthday.name = name
             editableBirthday.day = parDay
@@ -115,7 +137,10 @@ class Database {
             editableBirthday.daysToRemind = parReminder
 
             sortBirthday()
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[BLIST], birthdayList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[BLIST],
+                birthdayList
+            )
         }
 
         /**
@@ -134,9 +159,23 @@ class Database {
             birthdayList.sortWith(compareBy({ it.month }, { it.day }, { it.name }))
 
             while(i < birthdayList.size) {
-                if (getBirthday(i).month < month || (getBirthday(i).month == month && getBirthday(i).day < day)) {
-                    cacheList.add(getBirthday(i))
-                    birthdayList.remove(getBirthday(i))
+                if (getBirthday(
+                        i
+                    ).month < month || (getBirthday(
+                        i
+                    ).month == month && getBirthday(
+                        i
+                    ).day < day)) {
+                    cacheList.add(
+                        getBirthday(
+                            i
+                        )
+                    )
+                    birthdayList.remove(
+                        getBirthday(
+                            i
+                        )
+                    )
                 } else {
                     i++
                 }
@@ -165,7 +204,11 @@ class Database {
             val xNextBirthdays = ArrayList<Birthday>()
 
             for (i in 0..min) {
-                xNextBirthdays.add(getBirthday(i))
+                xNextBirthdays.add(
+                    getBirthday(
+                        i
+                    )
+                )
             }
 
             return xNextBirthdays
@@ -185,20 +228,32 @@ class Database {
 
         fun addNote(title: String, note: String, color: NoteColors) {
             noteList.push(Note(title, note, color))
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[NLIST],
+                noteList
+            )
         }
 
         fun editNote(index: Int, title: String, note: String, color: NoteColors) {
-            val editableNote = getNote(index)
+            val editableNote =
+                getNote(
+                    index
+                )
             editableNote.title = title
             editableNote.note = note
             editableNote.color = color
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[NLIST],
+                noteList
+            )
         }
 
         fun deleteNote(index: Int) {
             noteList.removeAt(index)
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[NLIST], noteList)
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[NLIST],
+                noteList
+            )
         }
 
         fun getNote(index: Int): Note = noteList[index]
@@ -216,15 +271,27 @@ class Database {
         //debug here will be database handling
 
         private fun initStorage() {
-            StorageHandler.createJsonFile(TLIST, "TaskList.json")
-            StorageHandler.createJsonFile(BLIST, "BirthdayList.json")
-            StorageHandler.createJsonFile(NLIST, "NoteFile.json")
+            StorageHandler.createJsonFile(
+                TLIST,
+                "TaskList.json"
+            )
+            StorageHandler.createJsonFile(
+                BLIST,
+                "BirthdayList.json"
+            )
+            StorageHandler.createJsonFile(
+                NLIST,
+                "NoteFile.json"
+            )
         }
 
         private fun initLists() {
-            birthdayList = fetchBList()
-            taskList = fetchTaskList()
-            noteList = fetchNoteList()
+            birthdayList =
+                fetchBList()
+            taskList =
+                fetchTaskList()
+            noteList =
+                fetchNoteList()
         }
     }
 }
