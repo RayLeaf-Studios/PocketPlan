@@ -1,7 +1,7 @@
 package com.example.j7_003.data.database
 
 import com.example.j7_003.data.AppointmentColors
-import com.example.j7_003.data.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.example.j7_003.data.Weekdays
 import com.example.j7_003.data.database.database_objects.WeekAppointment
 import com.google.gson.GsonBuilder

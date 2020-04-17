@@ -1,6 +1,6 @@
 package com.example.j7_003.data.settings
 
-import com.example.j7_003.data.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageHandler
 
 class SettingsManager {
     val settings = HashMap<String, String>()

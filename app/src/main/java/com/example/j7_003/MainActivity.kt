@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.database_objects.Database
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.fragments.*
-import com.example.j7_003.receiver.NotificationReceiver
+import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*

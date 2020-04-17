@@ -1,4 +1,4 @@
-package com.example.j7_003.receiver
+package com.example.j7_003.system_interaction.receiver
 
 import android.app.AlarmManager
 import android.app.PendingIntent

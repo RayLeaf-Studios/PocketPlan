@@ -4,8 +4,8 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import com.example.j7_003.MainActivity
-import com.example.j7_003.data.handler.StorageHandler
-import com.example.j7_003.receiver.NotificationReceiver
+import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
