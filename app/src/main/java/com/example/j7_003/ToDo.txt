@@ -62,9 +62,7 @@ Modules: test test
 
 important Tasks:
     - fix notifications!!!!11111
-    - fix on back press
     - delete notes by press and hold (mark multiple)
-    - notifications should work after restarting device without reopening the ap
     - work out storage for multiple week schedules
     - rethink notification system and maybe re-add NotificationHandler
 
@@ -78,7 +76,6 @@ random tasks:
     - handle loading and saving of settings
     - figure out how to open keyboard in write note fragment (without using toggleSoftinput, which
     causes keyboard to stay open even if app is closed)
-    - realtime note color in the edit screen
 
 ideas:
     - optional retro / pixelArt theme? pixelated icons, pixelart background, etc
