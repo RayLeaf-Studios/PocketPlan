@@ -61,10 +61,8 @@ Modules: test test
 
 
 important Tasks:
-    - fix notifications!!!!11111
     - delete notes by press and hold (mark multiple)
     - work out storage for multiple week schedules
-    - rethink notification system and maybe re-add NotificationHandler
 
 random tasks:
     - improve task display in home panel
