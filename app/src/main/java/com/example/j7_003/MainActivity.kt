@@ -22,8 +22,6 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(){
-    //hallo nico
-    //lool
     private lateinit var homeFragment: HomeFragment
     private lateinit var calenderFragment: CalenderFragment
     private lateinit var birthdayFragment: BirthdayFragment
