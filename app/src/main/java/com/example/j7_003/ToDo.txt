@@ -5,7 +5,7 @@ Definitions:
 
 Project Structure:
 
-Modules:
+Modules: test test
 
     1 birthdays:
         1.1 element attributes:
