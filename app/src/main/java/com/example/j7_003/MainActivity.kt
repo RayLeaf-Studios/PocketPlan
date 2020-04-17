@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.database_objects.Database
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.fragments.*
+import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity(){
         Database.init()
         myMenu = null
 
-        setBirthdayAlarms()
+        AlarmHandler.setBirthdayAlarms(context = this)
 
         bottomNavigation = findViewById(R.id.btm_nav)
 
@@ -237,21 +238,6 @@ class MainActivity : AppCompatActivity(){
             myMenu!!.getItem(0).setVisible(false)
             myMenu!!.getItem(1).setVisible(false)
         }
-    }
-
-    fun setBirthdayAlarms(hour: Int = 12, minute: Int = 0) {
-        val intent = Intent(this, NotificationReceiver::class.java)
-        intent.putExtra("Notification", "Birthday")
-
-        val pendingIntent = PendingIntent.getBroadcast(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-
-        val notificationTime = Calendar.getInstance()
-        notificationTime.set(Calendar.HOUR_OF_DAY, hour)
-        notificationTime.set(Calendar.MINUTE, minute)
-        notificationTime.set(Calendar.SECOND, 0)
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notificationTime.timeInMillis, AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 
     override fun onBackPressed() {

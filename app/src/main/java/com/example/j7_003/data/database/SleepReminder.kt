@@ -19,7 +19,7 @@ class SleepReminder {
         private var currentHour by Delegates.notNull<Int>()
         private var currentMinute by Delegates.notNull<Int>()
 
-        private var timings: IntArray = IntArray(4)
+        var timings: IntArray = IntArray(4)
         private var isSet: Boolean = false
 
         var days: BooleanArray = BooleanArray(7)
@@ -70,37 +70,6 @@ class SleepReminder {
         private fun getClock() {
             currentHour = myCalendar.get(Calendar.HOUR_OF_DAY)
             currentMinute = myCalendar.get(Calendar.MINUTE)
-        }
-
-        fun setSleepReminderAlarm() {
-            if (isSet) {
-                val intent = Intent(MainActivity.myActivity, NotificationReceiver::class.java)
-                intent.putExtra("Notification", "SReminder")
-                intent.putExtra("SReminder",
-                    days
-                )
-
-                val pendingIntent = PendingIntent.getBroadcast(
-                    MainActivity.myActivity,
-                    200,
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-                )
-                val alarmManager =
-                    MainActivity.myActivity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-                val notificationTime = Calendar.getInstance()
-                notificationTime.set(Calendar.HOUR_OF_DAY, timings[0].toInt())
-                notificationTime.set(Calendar.MINUTE, timings[1].toInt()-1)
-                notificationTime.set(Calendar.SECOND, 59)
-
-                alarmManager.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    notificationTime.timeInMillis,
-                    AlarmManager.INTERVAL_DAY,
-                    pendingIntent
-                )
-            }
         }
 
         fun save() {
