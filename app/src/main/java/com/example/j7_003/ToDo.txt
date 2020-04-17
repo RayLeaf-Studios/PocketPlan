@@ -66,6 +66,7 @@ important Tasks:
     - delete notes by press and hold (mark multiple)
     - notifications should work after restarting device without reopening the ap
     - work out storage for multiple week schedules
+    - rethink notification system and maybe re-add NotificationHandler
 
 random tasks:
     - improve task display in home panel
