@@ -58,6 +58,13 @@ class SleepReminder {
             save()
         }
 
+        fun setDay(index: Int, bool: Boolean) {
+            days[index] = bool
+            save()
+        }
+
+        fun getRemindTimeString(): String = "${timings[0].toString().padStart(2, '0')}:${timings[1].toString().padStart(2, '0')}"
+
         private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
         private fun compareWithMinutes(): Boolean {
             return when (currentHour) {
@@ -86,8 +93,18 @@ class SleepReminder {
         }
 
         private fun calcReminder(){
-            //todo, eugene hier ausrechnen lassen
+            if (timings[2] - sDuration[0] < 1) {
+                timings[0] = 24 + (timings[2] - sDuration[0])
+            } else {
+                timings[0] = timings[2] - sDuration[0]
+            }
 
+            if (timings[3] - sDuration[1] < 1) {
+                timings[0] -= 1
+                timings[1] = 60 + (timings[3] - sDuration[1])
+            } else {
+                timings[1] = timings[3] - sDuration[1]
+            }
         }
 
         private fun load() {
