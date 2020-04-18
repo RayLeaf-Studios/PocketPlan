@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tvWakeTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10:35"
@@ -80,7 +80,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvZeit"
+            android:id="@+id/tvSleepDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10:35"

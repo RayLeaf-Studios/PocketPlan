@@ -1,6 +1,7 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.j7_003.MainActivity
 
 import com.example.j7_003.R
+import com.example.j7_003.data.database.SleepReminder
 import kotlinx.android.synthetic.main.dialog_pick_time.view.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
@@ -25,15 +27,25 @@ class SleepFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        SleepReminder.init()
         val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
 
+        updateFragmentDisplay(myView)
+        val cbsDayList = arrayListOf(myView.cbMonday, myView.cbTuesday, myView.cbWednsday,
+            myView.cbThursday, myView.cbFriday, myView.cbSaturday, myView.cbSunday)
+
+        //initialize checkbox states, read from sleep reminder
+        cbsDayList.forEachIndexed{i, cb ->
+            cb.isChecked = SleepReminder.days[i]
+        }
         myView.switchEnableReminder.setOnClickListener {
             if(myView.switchEnableReminder.isChecked){
-                //todo, enable reminder in sleep reminder manager here
+                SleepReminder.enable()
             }else{
-                //todo, disable reminder in sleep reminder manager here
+                SleepReminder.disable()
             }
         }
+
 
         myView.constraintLayout.setOnClickListener() {
             /**
@@ -71,8 +83,10 @@ class SleepFragment : Fragment() {
             myAlertDialog.show()
 
             myDialogView.btnApplyTime.setOnClickListener(){
-                //todo apply / save chosen wakeup time
+                SleepReminder.editWakeUp(myDialogView.npHour.value, myDialogView.npMinute.value)
                 myAlertDialog.dismiss()
+                updateFragmentDisplay(myView)
+
             }
 
 
@@ -106,12 +120,23 @@ class SleepFragment : Fragment() {
             myAlertDialog.show()
 
             myDialogView.btnApplyTime.setOnClickListener(){
-                //todo apply chosen sleep duration / save it
+                SleepReminder.editDuration(myDialogView.npHour.value, myDialogView.npMinute.value)
                 myAlertDialog.dismiss()
+                updateFragmentDisplay(myView)
             }
         }
 
+        cbsDayList.forEachIndexed{i, cb ->
+            cb.setOnClickListener{
+                SleepReminder.setDay(i, cb.isChecked)
+                }
+        }
         return myView
+    }
+
+    fun updateFragmentDisplay(passedView: View){
+        passedView.tvWakeTime.text = SleepReminder.getWakeUpTimeString()
+        passedView.tvSleepDuration.text = SleepReminder.getDurationTimeString()
     }
 
 }

@@ -73,9 +73,7 @@ class SleepReminder {
             "${timings[2].toString().padStart(2, '0')}:" +
                     timings[3].toString().padStart(2, '0')
 
-        fun getDurationTimeString(): String =
-            "${sDuration[0].toString().padStart(2, '0')}h" +
-                    "${sDuration[1].toString().padStart(2, '0')}m"
+        fun getDurationTimeString(): String = "${sDuration[0]}h ${sDuration[1]}m"
 
         private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
         private fun compareWithMinutes(): Boolean {
@@ -114,6 +112,10 @@ class SleepReminder {
             if (timings[3] - sDuration[1] < 1) {
                 timings[0] -= 1
                 timings[1] = 60 + (timings[3] - sDuration[1])
+                if (timings[1] == 60) {
+                    timings[0] += 1
+                    timings[1] = 0
+                }
             } else {
                 timings[1] = timings[3] - sDuration[1]
             }
