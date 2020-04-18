@@ -75,6 +75,12 @@ class SleepReminder {
 
         fun getDurationTimeString(): String = "${sDuration[0]}h ${sDuration[1]}m"
 
+        fun getRemainingWakeDurationString(): String {
+            getClock()
+
+            return "${timings[0] - currentHour}h ${timings[1] - currentMinute}"
+        }
+
         private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
         private fun compareWithMinutes(): Boolean {
             return when (currentHour) {
