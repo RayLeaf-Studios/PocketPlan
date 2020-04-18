@@ -51,8 +51,6 @@ class SleepFragment : Fragment() {
             myDialogView.tvHourMinuteDivider.text = ":"
             myDialogView.tvHourMinuteAttachment.text = ""
 
-
-
             myDialogView.npHour.setFormatter { i ->
                 if (i < 10) "0$i" else "$i"
             }

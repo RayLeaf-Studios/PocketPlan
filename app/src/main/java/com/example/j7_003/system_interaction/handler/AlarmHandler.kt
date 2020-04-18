@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
@@ -35,7 +34,7 @@ class AlarmHandler {
         }
 
         fun setSleepReminderAlarm(context: Context) {
-            val intent = Intent(context, NotificationReceiver::class.java)
+           val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "SReminder")
             intent.putExtra(
                 "SReminder",
@@ -63,12 +62,17 @@ class AlarmHandler {
             notificationTime.set(Calendar.MINUTE, SleepReminder.timings[1])
             notificationTime.set(Calendar.SECOND, 0)
 
-            alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                notificationTime.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                pendingIntent
-            )
+            SleepReminder.init()
+            if (SleepReminder.isSet) {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    notificationTime.timeInMillis,
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent
+                )
+            }else{
+                alarmManager.cancel(pendingIntent)
+            }
         }
     }
 }

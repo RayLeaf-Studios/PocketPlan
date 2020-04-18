@@ -1,11 +1,6 @@
 package com.example.j7_003.data.database
 
-import android.app.*
-import android.content.Context
-import android.content.Intent
-import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.handler.StorageHandler
-import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -20,7 +15,7 @@ class SleepReminder {
         private var currentMinute by Delegates.notNull<Int>()
 
         var timings: IntArray = IntArray(4)
-        private var isSet: Boolean = false
+        var isSet: Boolean = false
 
         var days: BooleanArray = BooleanArray(7)
 
@@ -43,11 +38,13 @@ class SleepReminder {
         fun editReminder(newHour: Int, newMinute: Int) {
             timings[0] = newHour
             timings[1] = newMinute
+            save()
         }
 
         fun editWakeUp(newHour: Int, newMinute: Int) {
             timings[2] = newHour
             timings[3] = newMinute
+            save()
         }
 
         fun disable() {
@@ -61,8 +58,8 @@ class SleepReminder {
         private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
         private fun compareWithMinutes(): Boolean {
             return when (currentHour) {
-                timings[0].toInt() -> currentMinute >= timings[1]
-                timings[2].toInt() -> currentMinute < timings[3]
+                timings[0] -> currentMinute >= timings[1]
+                timings[2] -> currentMinute < timings[3]
                 else -> false
             }
         }
@@ -72,7 +69,7 @@ class SleepReminder {
             currentMinute = myCalendar.get(Calendar.MINUTE)
         }
 
-        fun save() {
+        private fun save() {
             val saveableList = arrayListOf(
                 timings,
                 days
@@ -83,7 +80,7 @@ class SleepReminder {
             )
         }
 
-        fun load() {
+        private fun load() {
             val jsonString = StorageHandler.files[fileName]?.readText()
 
             val loadedData = GsonBuilder().create()
