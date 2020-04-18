@@ -39,12 +39,14 @@ class SleepReminder {
         fun editDuration(newHour: Int, newMinute: Int) {
             sDuration[0] = newHour
             sDuration[1] = newMinute
+            calcReminder()
             save()
         }
 
         fun editWakeUp(newHour: Int, newMinute: Int) {
             timings[2] = newHour
             timings[3] = newMinute
+            calcReminder()
             save()
         }
 
@@ -63,7 +65,17 @@ class SleepReminder {
             save()
         }
 
-        fun getRemindTimeString(): String = "${timings[0].toString().padStart(2, '0')}:${timings[1].toString().padStart(2, '0')}"
+        fun getRemindTimeString(): String =
+            "${timings[0].toString().padStart(2, '0')}:" +
+                    timings[1].toString().padStart(2, '0')
+
+        fun getWakeUpTimeString(): String =
+            "${timings[2].toString().padStart(2, '0')}:" +
+                    timings[3].toString().padStart(2, '0')
+
+        fun getDurationTimeString(): String =
+            "${sDuration[0].toString().padStart(2, '0')}h" +
+                    "${sDuration[1].toString().padStart(2, '0')}m"
 
         private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
         private fun compareWithMinutes(): Boolean {
