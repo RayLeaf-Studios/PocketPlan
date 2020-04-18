@@ -47,6 +47,7 @@ class SleepFragment : Fragment() {
         }
 
 
+
         myView.constraintLayout.setOnClickListener() {
             /**
              * pick wake up time
@@ -76,6 +77,10 @@ class SleepFragment : Fragment() {
                 LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
             customTitle.tvDialogTitle.text = "Wakeup Time"
             myBuilder.setCustomTitle(customTitle)
+
+            //initialize numberpicker values
+            myDialogView.npHour.value = SleepReminder.timings[2]
+            myDialogView.npMinute.value = SleepReminder.timings[3]
 
 
             //show dialog
@@ -119,10 +124,15 @@ class SleepFragment : Fragment() {
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()
 
+            //initialize numberpicker values
+            myDialogView.npHour.value = SleepReminder.sDuration[0]
+            myDialogView.npMinute.value = SleepReminder.sDuration[1]
+
             myDialogView.btnApplyTime.setOnClickListener(){
                 SleepReminder.editDuration(myDialogView.npHour.value, myDialogView.npMinute.value)
                 myAlertDialog.dismiss()
                 updateFragmentDisplay(myView)
+                Log.e("debug", SleepReminder.getRemainingWakeDurationString())
             }
         }
 
