@@ -49,10 +49,12 @@ class SleepReminder {
 
         fun disable() {
             isSet = false
+            save()
         }
 
         fun enable() {
             isSet = true
+            save()
         }
 
         private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
@@ -72,7 +74,8 @@ class SleepReminder {
         private fun save() {
             val saveableList = arrayListOf(
                 timings,
-                days
+                days,
+                isSet
             )
             StorageHandler.saveAsJsonToFile(
                 StorageHandler.files[fileName],
@@ -88,9 +91,11 @@ class SleepReminder {
 
             val list1 = loadedData[0] as ArrayList<Int>
             val list2 = loadedData[1] as ArrayList<Boolean>
+            val test = loadedData[2] as Boolean
 
             timings = list1.toIntArray()
             days = list2.toBooleanArray()
+            isSet = test
         }
     }
 }
