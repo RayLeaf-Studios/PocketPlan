@@ -116,12 +116,12 @@ class SleepReminder {
             val list1 = loadedData[0] as ArrayList<Int>
             val list2 = loadedData[1] as ArrayList<Boolean>
             val lIsSet = loadedData[2] as Boolean
-            val lDuration = loadedData[3] as IntArray
+            val lDuration = loadedData[3] as ArrayList<Int>
 
             timings = list1.toIntArray()
             days = list2.toBooleanArray()
             isSet = lIsSet
-            sDuration = lDuration
+            sDuration = lDuration.toIntArray()
         }
     }
 }
