@@ -138,6 +138,15 @@
 
 
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="match_parent"
+        android:paddingTop="20dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
         <CheckBox
             android:id="@+id/cbMonday"
             android:layout_width="wrap_content"
@@ -183,26 +192,25 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cbThursday" />
 
-    <CheckBox
-        android:id="@+id/cbSaturday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/cbSunday"
-        app:layout_constraintEnd_toStartOf="@+id/cbSunday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbFriday" />
+        <CheckBox
+            android:id="@+id/cbSaturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/cbSunday"
+            app:layout_constraintEnd_toStartOf="@+id/cbSunday"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cbFriday" />
 
-    <CheckBox
-        android:id="@+id/cbSunday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cbSaturday"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
-
-    <TextView
+        <CheckBox
+            android:id="@+id/cbSunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cbSaturday"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
             android:id="@+id/tvMonday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -279,6 +287,15 @@
             app:layout_constraintBottom_toBottomOf="@+id/tvMonday"
             app:layout_constraintEnd_toEndOf="@+id/cbTuesday"
             app:layout_constraintStart_toStartOf="@+id/cbTuesday" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        tools:layout_editor_absoluteX="4dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,6 +34,10 @@ class ModulesFragment : Fragment() {
         myView.menuPanelSleepReminder.setOnClickListener(){
             MainActivity.myActivity.changeToSleepReminder()
         }
+
+        myView.menuPanelShopping.setOnClickListener(){
+            MainActivity.myActivity.changeToShopping()
+        }
         return myView
     }
 
