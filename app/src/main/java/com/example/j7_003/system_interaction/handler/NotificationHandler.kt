@@ -38,7 +38,7 @@ class NotificationHandler {
                 myContext,
                 requestCode,
                 repeatingIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_ONE_SHOT
             )
 
             val builder: Notification.Builder

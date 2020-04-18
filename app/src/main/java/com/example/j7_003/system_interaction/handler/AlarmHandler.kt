@@ -21,8 +21,8 @@ class AlarmHandler {
 
             val notificationTime = Calendar.getInstance()
 
-            if (notificationTime.get(Calendar.HOUR_OF_DAY) > hour) {
-                if (notificationTime.get(Calendar.MINUTE) > minute) {
+            if (notificationTime.get(Calendar.HOUR_OF_DAY) >= hour) {
+                if (notificationTime.get(Calendar.MINUTE) >= minute) {
                     notificationTime.add(Calendar.DAY_OF_MONTH, 1)
                 }
             }
