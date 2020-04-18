@@ -15,6 +15,7 @@ class SleepReminder {
         private var currentMinute by Delegates.notNull<Int>()
 
         var timings: IntArray = IntArray(4)
+        var sDuration: IntArray = IntArray(2)
         var isSet: Boolean = false
 
         var days: BooleanArray = BooleanArray(7)
@@ -35,9 +36,9 @@ class SleepReminder {
             return compareHours() || compareWithMinutes()
         }
 
-        fun editReminder(newHour: Int, newMinute: Int) {
-            timings[0] = newHour
-            timings[1] = newMinute
+        fun editDuration(newHour: Int, newMinute: Int) {
+            sDuration[0] = newHour
+            sDuration[1] = newMinute
             save()
         }
 
@@ -75,12 +76,18 @@ class SleepReminder {
             val saveableList = arrayListOf(
                 timings,
                 days,
-                isSet
+                isSet,
+                sDuration
             )
             StorageHandler.saveAsJsonToFile(
                 StorageHandler.files[fileName],
                 saveableList
             )
+        }
+
+        private fun calcReminder(){
+            //todo, eugene hier ausrechnen lassen
+
         }
 
         private fun load() {
@@ -91,11 +98,13 @@ class SleepReminder {
 
             val list1 = loadedData[0] as ArrayList<Int>
             val list2 = loadedData[1] as ArrayList<Boolean>
-            val test = loadedData[2] as Boolean
+            val lIsSet = loadedData[2] as Boolean
+            val lDuration = loadedData[3] as IntArray
 
             timings = list1.toIntArray()
             days = list2.toBooleanArray()
-            isSet = test
+            isSet = lIsSet
+            sDuration = lDuration
         }
     }
 }
