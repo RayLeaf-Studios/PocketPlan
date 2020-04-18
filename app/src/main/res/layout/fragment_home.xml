@@ -10,15 +10,23 @@
 
     <TextView
         android:id="@+id/task_panel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/round_corner1"
+        android:layout_width="299dp"
+        android:layout_height="46dp"
+        android:background="@android:color/transparent"
         android:lineSpacingExtra="3dp"
         android:padding="10dp"
         android:text="Home"
         android:textColor="@color/colorOnBackGround"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_action_todo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

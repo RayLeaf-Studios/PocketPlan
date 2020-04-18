@@ -1,8 +1,5 @@
 package com.example.j7_003
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,12 +12,10 @@ import com.example.j7_003.data.database.database_objects.Database
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.fragments.*
 import com.example.j7_003.system_interaction.handler.AlarmHandler
-import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
-import java.util.*
 
 class MainActivity : AppCompatActivity(){
     private lateinit var homeFragment: HomeFragment
@@ -31,6 +26,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var modulesFragment: ModulesFragment
     private lateinit var sleepFragment: SleepFragment
     private lateinit var noteFragment: NoteFragment
+    private lateinit var shoppingFragment: ShoppingFragment
     private lateinit var writeNoteFragment: WriteNoteFragment
 
     private lateinit var bottomNavigation: BottomNavigationView
@@ -84,7 +80,7 @@ class MainActivity : AppCompatActivity(){
     fun changeToBirthdays(){
         if(activeFragmentTag!="birthdays") {
             hideMenuIcons()
-            birthdayFragment = BirthdayFragment()
+            shoppingFragment = ShoppingFragment()
             bottomNavigation.selectedItemId = R.id.modules
             supportActionBar?.title = "Birthdays"
             supportFragmentManager
@@ -94,6 +90,21 @@ class MainActivity : AppCompatActivity(){
                 .commit()
             activeFragmentTag="birthdays"
 
+        }
+    }
+
+    fun changeToShopping(){
+        if(activeFragmentTag!="shopping") {
+            hideMenuIcons()
+            shoppingFragment = ShoppingFragment()
+            bottomNavigation.selectedItemId = R.id.modules
+            supportActionBar?.title = "Shopping"
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, shoppingFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            activeFragmentTag="shopping"
         }
     }
 
