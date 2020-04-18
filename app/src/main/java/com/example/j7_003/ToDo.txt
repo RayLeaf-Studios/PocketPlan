@@ -62,7 +62,6 @@ Modules: test test
 
 important Tasks:
     - delete notes by press and hold (mark multiple)
-    - work out storage for multiple week schedules
 
 random tasks:
     - improve task display in home panel
