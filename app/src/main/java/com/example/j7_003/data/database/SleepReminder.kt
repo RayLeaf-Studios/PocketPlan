@@ -27,6 +27,9 @@ class SleepReminder {
                 fileName,
                 "SReminder.json"
             )
+            StorageHandler.files[fileName]?.writeText(
+                "[[0,0,0,0],[false,false,false,false,false,false,false],false,[0,0]]"
+            )
             load()
         }
 

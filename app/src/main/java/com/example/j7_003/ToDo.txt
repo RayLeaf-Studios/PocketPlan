@@ -62,6 +62,7 @@ Modules: test test
 important Tasks:
     - delete notes by press and hold (mark multiple)
     - fix and adapt sleep reminder remaining wake duration
+        -> rethink the SleepReminder to use different reminders for each week day
 
 random tasks:
     - improve task display in home panel
