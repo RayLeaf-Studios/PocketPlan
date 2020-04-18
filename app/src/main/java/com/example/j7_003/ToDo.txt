@@ -15,8 +15,8 @@ Modules: test test
             add!, remove!, edit!
 
         1.3 functionality:
-            ?shows next x birthdays in a panel?
-            push notifications
+            ?shows next x birthdays in a panel?(!)
+            push notifications!
 
 
     2 to-do-list:
@@ -26,7 +26,7 @@ Modules: test test
          ?? replace with reminder system
 
 
-    4 ?go to sleep reminder?
+    4 ?go to sleep reminder?!
         4.1 small panel showing remaining sleep until Time X when going to sleep now
         4.2 optional reminder at sleepTime < 8h
 
@@ -69,12 +69,8 @@ random tasks:
     - plan exact layout of main panel
     - plan calendar layout
     - replace all colors and values like text size with resource references
-    - handle loading and saving of settings
-    - figure out how to open keyboard in write note fragment (without using toggleSoftinput, which
-     causes keyboard to stay open even if app is closed)
 
 ideas:
-    - simple schedule model for university class plan?
     - maybe change note background to look like index card
 
 
