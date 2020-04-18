@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity(){
     fun changeToBirthdays(){
         if(activeFragmentTag!="birthdays") {
             hideMenuIcons()
-            shoppingFragment = ShoppingFragment()
+            birthdayFragment = BirthdayFragment()
             bottomNavigation.selectedItemId = R.id.modules
             supportActionBar?.title = "Birthdays"
             supportFragmentManager
