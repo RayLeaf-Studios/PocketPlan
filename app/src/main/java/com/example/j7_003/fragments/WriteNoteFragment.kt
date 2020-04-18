@@ -1,8 +1,10 @@
 package com.example.j7_003.fragments
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
@@ -21,6 +23,7 @@ class WriteNoteFragment : Fragment() {
     ): View? {
 
         val myView = inflater.inflate(R.layout.fragment_write_note, container, false)
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         myEtTitle = myView.etNoteTitle
         myEtContent = myView.etNoteContent
@@ -30,12 +33,14 @@ class WriteNoteFragment : Fragment() {
          * called from an editing context
          */
 
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
         myEtTitle.requestFocus()
 
         if(MainActivity.editNoteHolder!=null){
             myEtTitle.setText(Database.getNote(MainActivity.editNoteHolder!!.adapterPosition).title)
             myEtContent.setText(Database.getNote(MainActivity.editNoteHolder!!.adapterPosition).note)
             myEtContent.requestFocus()
+            imm.hideSoftInputFromWindow(myView.windowToken, 0)
         }
 
         return myView
