@@ -6,8 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.Toast
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import com.example.j7_003.MainActivity
 
@@ -31,6 +30,7 @@ class SleepFragment : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
 
         //todo replace following if statement with check of saved custom or not custom
+
         if(myView.switchEnableCustomDays.isChecked){
             myView.panelNotCustom.visibility = View.GONE
             myView.panelCustom.visibility = View.VISIBLE
@@ -51,11 +51,36 @@ class SleepFragment : Fragment() {
         }
         myView.switchEnableCustomDays.setOnClickListener{
             if(myView.switchEnableCustomDays.isChecked){
+
                 myView.panelNotCustom.visibility = View.GONE
+                val animationHide = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
+                animationHide.duration = 200
+                animationHide.fillAfter = true
+                myView.panelNotCustom.startAnimation(animationHide)
+
                 myView.panelCustom.visibility = View.VISIBLE
+                val animationShow = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
+                animationShow.duration = 200
+                animationShow.fillAfter = true
+                animationShow.startOffset = 200
+                myView.panelCustom.startAnimation(animationShow)
+
             }else{
-                myView.panelNotCustom.visibility = View.VISIBLE
+
                 myView.panelCustom.visibility = View.GONE
+                val animationHide = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
+                animationHide.duration = 200
+                animationHide.fillAfter = true
+                myView.panelCustom.startAnimation(animationHide)
+
+                myView.panelNotCustom.visibility = View.VISIBLE
+                val animationShow = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
+                animationShow.duration = 200
+                animationShow.fillAfter = true
+                animationShow.startOffset = 200
+                myView.panelNotCustom.startAnimation(animationShow)
+
+
            }
         }
         myView.switchEnableReminder.setOnClickListener {

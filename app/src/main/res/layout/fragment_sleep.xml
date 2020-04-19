@@ -358,11 +358,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:text="Monday"
                 android:textColor="@color/colorOnBackGround"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -370,9 +372,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_action_sun"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeMo"
-                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeMo" />
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeMo"
+                 />
 
             <TextView
                 android:id="@+id/tvWakeTimeMo"
@@ -382,6 +385,7 @@
                 android:text="10:30"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imageView2"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -390,16 +394,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_duration"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurMo"
-                app:layout_constraintEnd_toStartOf="@+id/tvSDurMo" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvSDurMo"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvSDurMo"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
                 android:text="8h 00 min"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -408,6 +415,8 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="@id/customMondayPanel"
             tools:layout_editor_absoluteX="1dp"
@@ -426,6 +435,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:text="Tuesday"
                 android:textColor="@color/colorOnBackGround"
                 android:textSize="20sp"
@@ -439,7 +449,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_action_sun"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeTu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeTu" />
 
             <TextView
@@ -450,6 +461,7 @@
                 android:text="10:30"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icDurTu"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -458,28 +470,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_duration"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurTu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurTu" />
 
             <TextView
                 android:id="@+id/tvSDurTu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
                 android:text="8h 00 min"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/dividerTu"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="@id/customTuesdayPanel"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="47dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <!-- Tuesday ends here -->
 
 
@@ -494,6 +511,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:text="Wednesday"
                 android:textColor="@color/colorOnBackGround"
                 android:textSize="20sp"
@@ -507,7 +525,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_action_sun"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeWe"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeWe" />
 
             <TextView
@@ -518,6 +537,7 @@
                 android:text="10:30"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icDurWe"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -526,28 +546,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_duration"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurWe"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurWe" />
 
             <TextView
                 android:id="@+id/tvSDurWe"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
                 android:text="8h 00 min"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/dividerWe"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="@id/customWednesdayPanel"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="47dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <!-- Wednesday ends here -->
 
         <!-- Thursday starts here -->
@@ -561,6 +586,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:text="Thursday"
                 android:textColor="@color/colorOnBackGround"
                 android:textSize="20sp"
@@ -574,7 +600,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_action_sun"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeThu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeThu" />
 
             <TextView
@@ -585,6 +612,7 @@
                 android:text="10:30"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icDurThu"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -593,28 +621,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_duration"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurThu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurThu" />
 
             <TextView
                 android:id="@+id/tvSDurThu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
                 android:text="8h 00 min"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/dividerThu"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="@id/customThursdayPanel"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="47dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <!-- Thursday ends here -->
 
         <!-- Friday starts here -->
@@ -628,6 +661,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:text="Friday"
                 android:textColor="@color/colorOnBackGround"
                 android:textSize="20sp"
@@ -641,7 +675,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_action_sun"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeFr"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeFr" />
 
             <TextView
@@ -652,6 +687,7 @@
                 android:text="10:30"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icDurFr"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -660,28 +696,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_duration"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurFr"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurFr" />
 
             <TextView
                 android:id="@+id/tvSDurFr"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
                 android:text="8h 00 min"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/dividerFr"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="@id/customFridayPanel"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="47dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <!-- Friday ends here -->
 
         <!-- Saturday starts here -->
@@ -695,6 +736,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:text="Saturday"
                 android:textColor="@color/colorOnBackGround"
                 android:textSize="20sp"
@@ -708,7 +750,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_action_sun"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeSa"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeSa" />
 
             <TextView
@@ -719,6 +762,7 @@
                 android:text="10:30"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icDurSa"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -727,28 +771,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_duration"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurSa"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurSa" />
 
             <TextView
                 android:id="@+id/tvSDurSa"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
                 android:text="8h 00 min"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/dividerSa"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="@id/customSaturdayPanel"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="47dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <!-- Saturday ends here -->
 
         <!-- Sunday starts here -->
@@ -762,6 +811,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:text="Sunday"
                 android:textColor="@color/colorOnBackGround"
                 android:textSize="20sp"
@@ -775,7 +825,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_action_sun"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeSu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeSu" />
 
             <TextView
@@ -786,6 +837,7 @@
                 android:text="10:30"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/icDurSu"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -794,27 +846,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_duration"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurSu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurSu" />
 
             <TextView
                 android:id="@+id/tvSDurSu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
                 android:text="8h 00 min"
                 android:textColor="@color/colorHint"
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/dividerSu"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="@id/customSundayPanel"
-           />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <!-- Sunday ends here -->
 
 
