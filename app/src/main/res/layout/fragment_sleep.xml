@@ -89,6 +89,7 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:id="@+id/panelNotCustom"
+         android:visibility="gone"
          app:layout_constraintTop_toBottomOf="@id/panelCustomSwitch">
 
          <androidx.constraintlayout.widget.ConstraintLayout
@@ -341,14 +342,15 @@
 
     <!-- custom starts here -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/panelCustom"
-        app:layout_constraintTop_toBottomOf="@id/panelNotCustom">
+        android:layout_width="match_parent"
+        android:layout_height="800dp"
+        app:layout_constraintTop_toBottomOf="@+id/panelCustomSwitch"
+        tools:layout_editor_absoluteX="5dp">
         <!-- Monday starts here -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/customMondayPanel"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             app:layout_constraintTop_toTopOf="parent">
@@ -390,6 +392,7 @@
                 android:src="@drawable/ic_action_duration"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurMo"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurMo" />
+
             <TextView
                 android:id="@+id/tvSDurMo"
                 android:layout_width="wrap_content"
@@ -406,17 +409,16 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="47dp"
             app:layout_constraintBottom_toBottomOf="@id/customMondayPanel"
-            />
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="47dp" />
 
         <!-- Monday ends here -->
 
         <!-- Tuesday starts here -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/customTuesdayPanel"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             app:layout_constraintTop_toBottomOf="@id/customMondayPanel">
@@ -432,7 +434,7 @@
 
 
             <ImageView
-                android:id="@+id/icWaketu"
+                android:id="@+id/icWakeTu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
@@ -458,6 +460,7 @@
                 android:src="@drawable/ic_action_duration"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurTu"
                 app:layout_constraintEnd_toStartOf="@+id/tvSDurTu" />
+
             <TextView
                 android:id="@+id/tvSDurTu"
                 android:layout_width="wrap_content"
@@ -474,26 +477,345 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="47dp"
             app:layout_constraintBottom_toBottomOf="@id/customTuesdayPanel"
-            />
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="47dp" />
         <!-- Tuesday ends here -->
 
 
         <!-- Wednesday starts here -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/customWednesdayPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/customTuesdayPanel">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Wednesday"
+                android:textColor="@color/colorOnBackGround"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/icWakeWe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_action_sun"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeWe"
+                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeWe" />
+
+            <TextView
+                android:id="@+id/tvWakeTimeWe"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:text="10:30"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toStartOf="@id/icDurWe"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icDurWe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_duration"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurWe"
+                app:layout_constraintEnd_toStartOf="@+id/tvSDurWe" />
+
+            <TextView
+                android:id="@+id/tvSDurWe"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="8h 00 min"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/dividerWe"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/customWednesdayPanel"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="47dp" />
         <!-- Wednesday ends here -->
+
         <!-- Thursday starts here -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/customThursdayPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/customWednesdayPanel">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Thursday"
+                android:textColor="@color/colorOnBackGround"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/icWakeThu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_action_sun"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeThu"
+                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeThu" />
+
+            <TextView
+                android:id="@+id/tvWakeTimeThu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:text="10:30"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toStartOf="@id/icDurThu"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icDurThu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_duration"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurThu"
+                app:layout_constraintEnd_toStartOf="@+id/tvSDurThu" />
+
+            <TextView
+                android:id="@+id/tvSDurThu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="8h 00 min"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/dividerThu"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/customThursdayPanel"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="47dp" />
         <!-- Thursday ends here -->
+
         <!-- Friday starts here -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/customFridayPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/customThursdayPanel">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Friday"
+                android:textColor="@color/colorOnBackGround"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/icWakeFr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_action_sun"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeFr"
+                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeFr" />
+
+            <TextView
+                android:id="@+id/tvWakeTimeFr"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:text="10:30"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toStartOf="@id/icDurFr"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icDurFr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_duration"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurFr"
+                app:layout_constraintEnd_toStartOf="@+id/tvSDurFr" />
+
+            <TextView
+                android:id="@+id/tvSDurFr"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="8h 00 min"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/dividerFr"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/customFridayPanel"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="47dp" />
         <!-- Friday ends here -->
+
         <!-- Saturday starts here -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/customSaturdayPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/customFridayPanel">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Saturday"
+                android:textColor="@color/colorOnBackGround"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/icWakeSa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_action_sun"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeSa"
+                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeSa" />
+
+            <TextView
+                android:id="@+id/tvWakeTimeSa"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:text="10:30"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toStartOf="@id/icDurSa"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icDurSa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_duration"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurSa"
+                app:layout_constraintEnd_toStartOf="@+id/tvSDurSa" />
+
+            <TextView
+                android:id="@+id/tvSDurSa"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="8h 00 min"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/dividerSa"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/customSaturdayPanel"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="47dp" />
         <!-- Saturday ends here -->
+
         <!-- Sunday starts here -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/customSundayPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/customSaturdayPanel">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Sunday"
+                android:textColor="@color/colorOnBackGround"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/icWakeSu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_action_sun"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvWakeTimeSu"
+                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeSu" />
+
+            <TextView
+                android:id="@+id/tvWakeTimeSu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:text="10:30"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toStartOf="@id/icDurSu"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icDurSu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_duration"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvSDurSu"
+                app:layout_constraintEnd_toStartOf="@+id/tvSDurSu" />
+
+            <TextView
+                android:id="@+id/tvSDurSu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="8h 00 min"
+                android:textColor="@color/colorHint"
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/dividerSu"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/customSundayPanel"
+           />
         <!-- Sunday ends here -->
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
