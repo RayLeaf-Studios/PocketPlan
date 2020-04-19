@@ -30,6 +30,17 @@ class SleepFragment : Fragment() {
         SleepReminder.init()
         val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
 
+        //todo replace following if statement with check of saved custom or not custom
+        if(myView.switchEnableCustomDays.isChecked){
+            myView.panelNotCustom.visibility = View.GONE
+            myView.panelCustom.visibility = View.VISIBLE
+        }else{
+            myView.panelNotCustom.visibility = View.VISIBLE
+            myView.panelCustom.visibility = View.GONE
+        }
+
+
+
         updateFragmentDisplay(myView)
         val cbsDayList = arrayListOf(myView.cbMonday, myView.cbTuesday, myView.cbWednsday,
             myView.cbThursday, myView.cbFriday, myView.cbSaturday, myView.cbSunday)
@@ -37,6 +48,15 @@ class SleepFragment : Fragment() {
         //initialize checkbox states, read from sleep reminder
         cbsDayList.forEachIndexed{i, cb ->
             cb.isChecked = SleepReminder.days[i]
+        }
+        myView.switchEnableCustomDays.setOnClickListener{
+            if(myView.switchEnableCustomDays.isChecked){
+                myView.panelNotCustom.visibility = View.GONE
+                myView.panelCustom.visibility = View.VISIBLE
+            }else{
+                myView.panelNotCustom.visibility = View.VISIBLE
+                myView.panelCustom.visibility = View.GONE
+           }
         }
         myView.switchEnableReminder.setOnClickListener {
             if(myView.switchEnableReminder.isChecked){
@@ -48,7 +68,7 @@ class SleepFragment : Fragment() {
 
 
 
-        myView.constraintLayout.setOnClickListener() {
+        myView.panelWakeTime.setOnClickListener() {
             /**
              * pick wake up time
              */
@@ -97,7 +117,7 @@ class SleepFragment : Fragment() {
 
         }
 
-        myView.constraintLayout2.setOnClickListener() {
+        myView.panelSleepDuration.setOnClickListener() {
             /**
              * pick sleep duration
              */
