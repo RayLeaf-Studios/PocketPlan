@@ -50,34 +50,37 @@ class SleepFragment : Fragment() {
             cb.isChecked = SleepReminder.days[i]
         }
         myView.switchEnableCustomDays.setOnClickListener{
+
+            val speedCustom: Long = 700
+            val speedNotCustom: Long = 350
             if(myView.switchEnableCustomDays.isChecked){
 
                 myView.panelNotCustom.visibility = View.GONE
                 val animationHide = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
-                animationHide.duration = 200
+                animationHide.duration = speedNotCustom
                 animationHide.fillAfter = true
                 myView.panelNotCustom.startAnimation(animationHide)
 
                 myView.panelCustom.visibility = View.VISIBLE
                 val animationShow = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
-                animationShow.duration = 200
+                animationShow.duration = speedCustom
                 animationShow.fillAfter = true
-                animationShow.startOffset = 200
+                animationShow.startOffset = speedNotCustom
                 myView.panelCustom.startAnimation(animationShow)
 
             }else{
 
                 myView.panelCustom.visibility = View.GONE
                 val animationHide = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
-                animationHide.duration = 200
+                animationHide.duration = speedCustom
                 animationHide.fillAfter = true
                 myView.panelCustom.startAnimation(animationHide)
 
                 myView.panelNotCustom.visibility = View.VISIBLE
                 val animationShow = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
-                animationShow.duration = 200
+                animationShow.duration = speedNotCustom
                 animationShow.fillAfter = true
-                animationShow.startOffset = 200
+                animationShow.startOffset = speedCustom
                 myView.panelNotCustom.startAnimation(animationShow)
 
 
