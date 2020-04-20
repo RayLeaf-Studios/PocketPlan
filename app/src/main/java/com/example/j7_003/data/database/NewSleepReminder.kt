@@ -23,8 +23,11 @@ class NewSleepReminder {
             createFile()
             load()
             reminder[Weekdays.FRIDAY]?.editDuration(0, 1)
+            Log.e("debug", reminder[Weekdays.FRIDAY]?.getDurationTimeString()!!)
             Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemainingWakeDuration()!!)
-            Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemainingWakeDuration()!!)
+            Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemindTimeString()!!)
+            Log.e("debug", reminder[Weekdays.FRIDAY]?.getWakeUpTimeString()!!)
+
         }
 
         fun editWakeUpAtDay(day: Weekdays, hour: Int, minute: Int) {
@@ -116,10 +119,10 @@ class NewSleepReminder {
 
             fun getWakeUpTimeString(): String = wakeUpTime.toString()
 
-            fun getDurationTimeString(): String = duration.toString()
+            fun getDurationTimeString(): String = "${duration.toHours()}h ${duration.toMinutes()%60}m"
 
             fun getRemainingWakeDuration(): String {
-                return "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h" +
+                return "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h " +
                         "${(LocalTime.now().until(reminderTime, ChronoUnit.MINUTES)%60)}m"
             }
 
