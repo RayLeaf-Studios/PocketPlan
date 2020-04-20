@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
-import com.example.j7_003.data.database.database_objects.Database
+import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.NewSleepReminder
 import com.example.j7_003.fragments.*

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.j7_003.MainActivity
 
 import com.example.j7_003.R
-import com.example.j7_003.data.database.database_objects.Database
+import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*

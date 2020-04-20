@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.j7_003.R
-import com.example.j7_003.data.database.database_objects.Database
+import com.example.j7_003.data.database.Database
 import com.example.j7_003.system_interaction.handler.NotificationHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.example.j7_003.data.database.database_objects.Birthday
