@@ -13,15 +13,17 @@ import kotlin.collections.HashMap
 
 class NewSleepReminder {
     companion object {
+        var daysAreCustom: Boolean = false
         private const val fileName: String = "SLEEP_REMINDER_DEBUG"
 
-        var reminder = HashMap<Weekdays, Reminder>(7)
+        var reminder = HashMap<Weekdays, Reminder>(8)
 
         fun init() {
             initMap()
             createFile()
             load()
-            Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemindTimeString()!!)
+            reminder[Weekdays.FRIDAY]?.editDuration(0, 1)
+            Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemainingWakeDuration()!!)
             Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemainingWakeDuration()!!)
         }
 
@@ -49,6 +51,18 @@ class NewSleepReminder {
             save()
         }
 
+        fun enableAll() {
+            reminder.forEach { n ->
+                if (n.key != Weekdays.NULL) n.value.isSet = true
+            }
+        }
+
+        fun disableAll() {
+            reminder.forEach { n ->
+                if (n.key != Weekdays.NULL) n.value.isSet = false
+            }
+        }
+
         private fun initMap() {
             Weekdays.values().forEach { n ->
                 reminder[n] = Reminder()
@@ -64,6 +78,8 @@ class NewSleepReminder {
         }
 
         private fun save() {
+            reminder[Weekdays.NULL] = Reminder()
+            reminder[Weekdays.NULL]?.isSet = daysAreCustom
             StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
         }
 
@@ -72,6 +88,8 @@ class NewSleepReminder {
 
             reminder = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<HashMap<Weekdays, Reminder>>() {}.type)
+
+            daysAreCustom = reminder[Weekdays.NULL]?.isSet!!
         }
 
         class Reminder {
@@ -101,7 +119,8 @@ class NewSleepReminder {
             fun getDurationTimeString(): String = duration.toString()
 
             fun getRemainingWakeDuration(): String {
-                return LocalTime.now().until(reminderTime, ChronoUnit.MINUTES).toString()
+                return "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h" +
+                        "${(LocalTime.now().until(reminderTime, ChronoUnit.MINUTES)%60)}m"
             }
 
             private fun calcReminderTime() {
