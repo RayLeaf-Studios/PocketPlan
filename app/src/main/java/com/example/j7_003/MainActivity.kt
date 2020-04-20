@@ -10,9 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.database_objects.Database
 import com.example.j7_003.data.NoteColors
+import com.example.j7_003.data.database.NewSleepReminder
 import com.example.j7_003.fragments.*
 import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
@@ -46,9 +48,13 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
         myActivity = this
+        //initializes the time api
+        AndroidThreeTen.init(this)
         Database.init()
         myMenu = null
 
+        //debug for the new sleepreminder; will be updated after proper implementation
+        NewSleepReminder.init()
         AlarmHandler.setBirthdayAlarms(context = this)
 
         bottomNavigation = findViewById(R.id.btm_nav)
