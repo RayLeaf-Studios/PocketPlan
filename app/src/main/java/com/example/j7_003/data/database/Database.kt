@@ -4,6 +4,7 @@ import com.example.j7_003.data.NoteColors
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import org.threeten.bp.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -150,32 +151,19 @@ class Database {
         fun getBirthday(position: Int): Birthday = birthdayList[position]
 
         private fun sortBirthday() {
-            val calendar = Calendar.getInstance()
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-            val month = calendar.get(Calendar.MONTH) + 1
+            val localDate = LocalDate.now()
+            val day = localDate.dayOfMonth
+            val month = localDate.month.value + 1
             val cacheList = ArrayList<Birthday>()
-            var i = 0
 
             birthdayList.sortWith(compareBy({ it.month }, { it.day }, { it.name }))
 
+            var i = 0
             while(i < birthdayList.size) {
-                if (getBirthday(
-                        i
-                    ).month < month || (getBirthday(
-                        i
-                    ).month == month && getBirthday(
-                        i
-                    ).day < day)) {
-                    cacheList.add(
-                        getBirthday(
-                            i
-                        )
-                    )
-                    birthdayList.remove(
-                        getBirthday(
-                            i
-                        )
-                    )
+                if (getBirthday(i).month < month ||
+                    (getBirthday(i).month == month && getBirthday(i).day < day)) {
+                    cacheList.add(getBirthday(i))
+                    birthdayList.remove(getBirthday(i))
                 } else {
                     i++
                 }

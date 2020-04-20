@@ -8,13 +8,13 @@ import com.example.j7_003.data.database.database_objects.Database
 import com.example.j7_003.system_interaction.handler.NotificationHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.example.j7_003.data.database.database_objects.Birthday
-import java.util.*
+import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
 
 class NotificationReceiver : BroadcastReceiver() {
     private lateinit var myContext: Context
-    private val calendar = Calendar.getInstance()
+    private val localDate = LocalDate.now()
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context != null) {
@@ -28,7 +28,7 @@ class NotificationReceiver : BroadcastReceiver() {
                 "Birthday" -> birthdayNotifications()
                 "SReminder" -> {
                     val array: BooleanArray = intent.extras?.get("SReminder") as BooleanArray
-                    if (array[calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH)-1]) {
+                    if (array[localDate.dayOfWeek.value-1]) {
                         sRNotification()
                     }
                 }
@@ -75,10 +75,9 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun getUpcomingBirthdays(): ArrayList<Birthday> {
         val upcomingBirthdays = ArrayList<Birthday>()
         Database.birthdayList.forEach { n ->
-            if (n.month == calendar.get(Calendar.MONTH) + 1 && (n.day - n.daysToRemind) == calendar.get(
-                    Calendar.DAY_OF_MONTH
-                ) && n.daysToRemind != 0
-            ) {
+            if (n.month == localDate.monthValue + 1 && (n.day - n.daysToRemind) ==
+                localDate.dayOfMonth && n.daysToRemind != 0)
+            {
                 upcomingBirthdays.add(n)
             }
         }
@@ -88,8 +87,12 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun getCurrentBirthdays(): ArrayList<Birthday> {
         val currentBirthdays = ArrayList<Birthday>()
         Database.birthdayList.forEach { n ->
-            if (n.month == calendar.get(Calendar.MONTH) + 1 && n.day == calendar.get(Calendar.DAY_OF_MONTH) && n.daysToRemind == 0)
+            if (n.month == localDate.monthValue + 1 &&
+                n.day == localDate.dayOfMonth &&
+                n.daysToRemind == 0
+            ) {
                 currentBirthdays.add(n)
+            }
         }
         return currentBirthdays
     }
