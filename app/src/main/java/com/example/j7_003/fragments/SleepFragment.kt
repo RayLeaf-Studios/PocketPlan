@@ -65,7 +65,7 @@ class SleepFragment : Fragment() {
                 val animationShow = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
                 animationShow.duration = speedCustom
                 animationShow.fillAfter = true
-                animationShow.startOffset = speedNotCustom
+                animationShow.startOffset = speedNotCustom - 420
                 myView.panelCustom.startAnimation(animationShow)
 
             }else{
@@ -80,7 +80,7 @@ class SleepFragment : Fragment() {
                 val animationShow = AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
                 animationShow.duration = speedNotCustom
                 animationShow.fillAfter = true
-                animationShow.startOffset = speedCustom
+                animationShow.startOffset = speedCustom - 420
                 myView.panelNotCustom.startAnimation(animationShow)
 
 
