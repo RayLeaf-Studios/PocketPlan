@@ -65,6 +65,8 @@ important Tasks:
         -> rethink the SleepReminder to use different reminders for each week day
 
 random tasks:
+    - optimize ui updating in sleep fragment
+    - remove ability to scroll in addtask textline
     - improve task display in home panel
     - add shopping list module
     - birthday remind time customization
@@ -76,6 +78,8 @@ ideas:
     - maybe change note background to look like index card
     - weekschedule: display current day in the home screen
     - maybe make modules more customizable
+    - make months somehow visible in birthday fragment
+    - calculates remaining waketime into lol, rocket league or pubg games
 
 
 1 Tasks

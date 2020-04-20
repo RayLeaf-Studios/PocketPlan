@@ -111,9 +111,9 @@ class NewSleepReminder {
                 calcReminderTime()
             }
 
-            fun enable() { isSet = true }
+            fun enable() { isSet = true; save() }
 
-            fun disable() { isSet = false }
+            fun disable() { isSet = false; save() }
 
             fun getRemindTimeString(): String = reminderTime.toString()
 

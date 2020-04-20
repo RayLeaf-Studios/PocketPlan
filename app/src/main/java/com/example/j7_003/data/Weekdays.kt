@@ -1,12 +1,16 @@
 package com.example.j7_003.data
 
-enum class Weekdays(s: String) {
+enum class Weekdays(val s: String) {
     MONDAY("Monday"),
     TUESDAY("Tuesday"),
-    WEDNESDAY("WEDNESDAY"),
+    WEDNESDAY("Wednesday"),
     THURSDAY("Thursday"),
     FRIDAY("Friday"),
     SATURDAY("Saturday"),
     SUNDAY("Sunday"),
-    NULL("")
+    NULL("");
+
+//    override fun toString(): String {
+//        return s
+//    }
 }
