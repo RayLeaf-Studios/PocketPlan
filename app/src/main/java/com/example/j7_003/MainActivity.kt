@@ -1,6 +1,7 @@
 package com.example.j7_003
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
@@ -18,6 +19,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalDateTime
 
 class MainActivity : AppCompatActivity(){
     private lateinit var homeFragment: HomeFragment
@@ -55,7 +58,8 @@ class MainActivity : AppCompatActivity(){
 
         //debug for the new sleepreminder; will be updated after proper implementation
         NewSleepReminder.init()
-        AlarmHandler.setBirthdayAlarms(context = this)
+        NewSleepReminder.editDurationAtDay(DayOfWeek.SUNDAY, 8, 0)
+        Log.e("debug", LocalDateTime.now().isBefore(LocalDateTime.of(2020,4,21,0,0)).toString())
 
         bottomNavigation = findViewById(R.id.btm_nav)
 

@@ -1,7 +1,6 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +9,13 @@ import android.view.animation.AnimationUtils
 import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import com.example.j7_003.MainActivity
-
 import com.example.j7_003.R
-import com.example.j7_003.data.Weekdays
 import com.example.j7_003.data.database.NewSleepReminder
 import com.example.j7_003.data.database.SleepReminder
 import kotlinx.android.synthetic.main.dialog_pick_time.view.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import org.threeten.bp.DayOfWeek
 
 /**
  * A simple [Fragment] subclass.
@@ -207,9 +205,9 @@ class SleepFragment : Fragment() {
         cbsDayList.forEachIndexed { i, cb ->
             cb.setOnClickListener {
                 if (cb.isChecked) {
-                    NewSleepReminder.reminder.get(Weekdays.values()[i])?.enable()
+                    NewSleepReminder.reminder.get(DayOfWeek.values()[i])?.enable()
                 } else {
-                    NewSleepReminder.reminder.get(Weekdays.values()[i])?.disable()
+                    NewSleepReminder.reminder.get(DayOfWeek.values()[i])?.disable()
                 }
             }
         }
@@ -221,9 +219,9 @@ class SleepFragment : Fragment() {
         customCheckBoxList.forEachIndexed{ i, cb ->
             cb.setOnClickListener{
                 if(cb.isChecked){
-                    NewSleepReminder.reminder[Weekdays.values()[i]]?.enable()
+                    NewSleepReminder.reminder[DayOfWeek.values()[i]]?.enable()
                 }else{
-                    NewSleepReminder.reminder[Weekdays.values()[i]]?.disable()
+                    NewSleepReminder.reminder[DayOfWeek.values()[i]]?.disable()
                 }
             }
         }
@@ -253,7 +251,7 @@ class SleepFragment : Fragment() {
                val myBuilder = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
                val customTitle =
                    LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-               customTitle.tvDialogTitle.text = "Wakeup Time - "+Weekdays.values()[i].toString()
+               customTitle.tvDialogTitle.text = "Wakeup Time - "+DayOfWeek.values()[i].toString()
                myBuilder.setCustomTitle(customTitle)
 
                //initialize numberpicker values
@@ -267,7 +265,7 @@ class SleepFragment : Fragment() {
                //EDIT WAKEUP FOR ALL DAYS HERE
                myDialogView.btnApplyTime.setOnClickListener() {
                    NewSleepReminder.editWakeUpAtDay(
-                       Weekdays.values()[i],
+                       DayOfWeek.values()[i],
                        myDialogView.npHour.value,
                        myDialogView.npMinute.value
                    )
@@ -293,7 +291,7 @@ class SleepFragment : Fragment() {
                    val myBuilder = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
                    val customTitle =
                        LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-                   customTitle.tvDialogTitle.text = "Sleep Duration - "+Weekdays.values()[i].toString()
+                   customTitle.tvDialogTitle.text = "Sleep Duration - "+DayOfWeek.values()[i].toString()
                    myBuilder.setCustomTitle(customTitle)
 
                    //show dialog
@@ -306,7 +304,7 @@ class SleepFragment : Fragment() {
 
                    myDialogView.btnApplyTime.setOnClickListener() {
                        NewSleepReminder.editDurationAtDay(
-                           Weekdays.values()[i],
+                           DayOfWeek.values()[i],
                            myDialogView.npHour.value,
                            myDialogView.npMinute.value
                        )
@@ -325,13 +323,13 @@ class SleepFragment : Fragment() {
 
     fun updateCheckBoxes(cblist: ArrayList<CheckBox>){
         cblist.forEachIndexed{ i, cb ->
-            cb.isChecked = NewSleepReminder.reminder[Weekdays.values()[i]]?.isSet!!
+            cb.isChecked = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.isSet!!
         }
     }
 
     fun updateFragmentDisplay(pv: View) {
-        pv.tvWakeTime.text = NewSleepReminder.reminder.get(Weekdays.MONDAY)?.getWakeUpTimeString()
-        pv.tvSleepDuration.text = NewSleepReminder.reminder.get(Weekdays.MONDAY)?.getDurationTimeString()
+        pv.tvWakeTime.text = NewSleepReminder.reminder.get(DayOfWeek.MONDAY)?.getWakeUpTimeString()
+        pv.tvSleepDuration.text = NewSleepReminder.reminder.get(DayOfWeek.MONDAY)?.getDurationTimeString()
         val wakeTimePanels = arrayListOf(pv.tvWakeTimeMo, pv.tvWakeTimeTu, pv.tvWakeTimeWe,
             pv.tvWakeTimeThu, pv.tvWakeTimeFr, pv.tvWakeTimeSa, pv.tvWakeTimeSu)
 
@@ -339,10 +337,10 @@ class SleepFragment : Fragment() {
             pv.tvSDurThu, pv.tvSDurFr, pv.tvSDurSa, pv.tvSDurSu)
 
         wakeTimePanels.forEachIndexed{ i, tv ->
-            tv.setText(NewSleepReminder.reminder[Weekdays.values()[i]]?.getWakeUpTimeString())
+            tv.setText(NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeUpTimeString())
         }
         durationPanels.forEachIndexed{ i, tv ->
-            tv.setText(NewSleepReminder.reminder[Weekdays.values()[i]]?.getDurationTimeString())
+            tv.setText(NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationTimeString())
         }
 
     }

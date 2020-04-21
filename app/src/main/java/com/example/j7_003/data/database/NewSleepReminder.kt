@@ -1,10 +1,13 @@
 package com.example.j7_003.data.database
 
 import com.example.j7_003.data.Weekdays
+import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.DayOfWeek.*
 import org.threeten.bp.Duration
 import org.threeten.bp.LocalTime
 import org.threeten.bp.temporal.ChronoUnit
@@ -15,7 +18,7 @@ class NewSleepReminder {
         var daysAreCustom: Boolean = false
         private const val fileName: String = "SLEEP_REMINDER_DEBUG"
 
-        var reminder = HashMap<Weekdays, Reminder>(8)
+        var reminder = HashMap<DayOfWeek, Reminder>(7)
 
         fun init() {
             initMap()
@@ -23,8 +26,9 @@ class NewSleepReminder {
             load()
         }
 
-        fun editWakeUpAtDay(day: Weekdays, hour: Int, minute: Int) {
+        fun editWakeUpAtDay(day: DayOfWeek, hour: Int, minute: Int) {
             reminder[day]?.editWakeUpTime(hour, minute)
+            updateSingleReminder(day)
             save()
         }
 
@@ -35,8 +39,9 @@ class NewSleepReminder {
             save()
         }
 
-        fun editDurationAtDay(day: Weekdays, hour: Int, minute: Int) {
+        fun editDurationAtDay(day: DayOfWeek, hour: Int, minute: Int) {
             reminder[day]?.editDuration(hour, minute)
+            updateSingleReminder(day)
             save()
         }
 
@@ -49,18 +54,20 @@ class NewSleepReminder {
 
         fun enableAll() {
             reminder.forEach { n ->
-                if (n.key != Weekdays.NULL) n.value.isSet = true
+                n.value.isSet = true
             }
+            save()
         }
 
         fun disableAll() {
             reminder.forEach { n ->
-                if (n.key != Weekdays.NULL) n.value.isSet = false
+                 n.value.isSet = false
             }
+            save()
         }
 
         private fun initMap() {
-            Weekdays.values().forEach { n ->
+            values().forEach { n ->
                 reminder[n] = Reminder()
             }
         }
@@ -74,25 +81,51 @@ class NewSleepReminder {
         }
 
         private fun save() {
-            reminder[Weekdays.NULL] = Reminder()
+           /* reminder[Weekdays.NULL] = Reminder()
             reminder[Weekdays.NULL]?.isSet = daysAreCustom
-            StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
+            */StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
+            updateReminder()
         }
 
         private fun load() {
             val jsonString = StorageHandler.files[fileName]?.readText()
 
             reminder = GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<HashMap<Weekdays, Reminder>>() {}.type)
+                .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
 
-            daysAreCustom = reminder[Weekdays.NULL]?.isSet!!
+            //daysAreCustom = reminder[Weekdays.NULL]?.isSet!!
+
+            updateReminder()
+        }
+
+        private fun updateReminder() {
+            var i = 200
+            reminder.forEach { n ->
+                n.value.updateAlarm(n.key, i)
+                i++
+            }
+        }
+
+        private fun updateSingleReminder(dayOfWeek: DayOfWeek) {
+           reminder[dayOfWeek]?.updateAlarm(
+               dayOfWeek,
+               when(dayOfWeek) {
+                   SATURDAY -> 200
+                   TUESDAY -> 201
+                   SUNDAY -> 202
+                   THURSDAY -> 203
+                   FRIDAY -> 204
+                   WEDNESDAY -> 205
+                   MONDAY -> 206
+               }
+           )
         }
 
         class Reminder {
             var isSet: Boolean = false
-            private lateinit var reminderTime: LocalTime
-            private var wakeUpTime: LocalTime = LocalTime.of(0, 0)
-            private var duration: Duration = Duration.ofHours(0).plusMinutes(0)
+            private var reminderTime = LocalTime.of(23, 59)
+            private var wakeUpTime: LocalTime = LocalTime.of(12, 0)
+            private var duration: Duration = Duration.ofHours(8).plusMinutes(0)
 
             fun editWakeUpTime(hour: Int, minute: Int) {
                 wakeUpTime = LocalTime.of(hour, minute)
@@ -112,7 +145,8 @@ class NewSleepReminder {
 
             fun getWakeUpTimeString(): String = wakeUpTime.toString()
 
-            fun getDurationTimeString(): String = "${duration.toHours()}h ${duration.toMinutes()%60}m"
+            fun getDurationTimeString(): String = "${duration.toHours()}h " +
+                    "${(duration.toMinutes()%60).toString().padStart(2, ' ')}m"
 
             fun getRemainingWakeDuration(): String {
                 return "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h " +
@@ -121,6 +155,14 @@ class NewSleepReminder {
 
             private fun calcReminderTime() {
                reminderTime = wakeUpTime.minus(duration)
+            }
+
+            fun updateAlarm(weekdays: DayOfWeek, requestCode: Int) {
+                AlarmHandler.setNewSleepReminderAlarm(
+                    dayOfWeek = weekdays,
+                    requestCode = requestCode,
+                    reminderTime = reminderTime
+                )
             }
         }
     }
