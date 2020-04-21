@@ -145,7 +145,8 @@ class NewSleepReminder {
 
             fun getWakeUpTimeString(): String = wakeUpTime.toString()
 
-            fun getDurationTimeString(): String = "${duration.toHours()}h " +
+            fun getDurationTimeString(): String =
+                "${duration.toHours().toString().padStart(2, ' ')}h " +
                     "${(duration.toMinutes()%60).toString().padStart(2, ' ')}m"
 
             fun getRemainingWakeDuration(): String {
