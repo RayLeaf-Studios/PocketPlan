@@ -1,6 +1,5 @@
 package com.example.j7_003.data.database
 
-import android.util.Log
 import com.example.j7_003.data.Weekdays
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.Gson
@@ -22,12 +21,6 @@ class NewSleepReminder {
             initMap()
             createFile()
             load()
-            reminder[Weekdays.FRIDAY]?.editDuration(0, 1)
-            Log.e("debug", reminder[Weekdays.FRIDAY]?.getDurationTimeString()!!)
-            Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemainingWakeDuration()!!)
-            Log.e("debug", reminder[Weekdays.FRIDAY]?.getRemindTimeString()!!)
-            Log.e("debug", reminder[Weekdays.FRIDAY]?.getWakeUpTimeString()!!)
-
         }
 
         fun editWakeUpAtDay(day: Weekdays, hour: Int, minute: Int) {
