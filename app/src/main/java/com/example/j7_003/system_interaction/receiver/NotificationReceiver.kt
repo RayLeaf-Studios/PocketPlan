@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
+import com.example.j7_003.data.database.NewSleepReminder
 import com.example.j7_003.system_interaction.handler.NotificationHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.example.j7_003.data.database.database_objects.Birthday
@@ -26,13 +27,15 @@ class NotificationReceiver : BroadcastReceiver() {
         if (intent != null) {
             when (intent.extras?.get("Notification")) {
                 "Birthday" -> birthdayNotifications()
-                "SReminder" -> {
-                    val array: BooleanArray = intent.extras?.get("SReminder") as BooleanArray
-                    if (array[localDate.dayOfWeek.value-1]) {
-                        sRNotification()
-                    }
-                }
+                "SReminder" -> checkSleepNotification()
             }
+        }
+    }
+
+    private fun checkSleepNotification() {
+        NewSleepReminder.init()
+        NewSleepReminder.reminder.forEach { n ->
+            if (n.toString() == LocalDate.now().dayOfWeek.toString()) sRNotification()
         }
     }
 
