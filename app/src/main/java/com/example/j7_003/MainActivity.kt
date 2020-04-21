@@ -56,11 +56,6 @@ class MainActivity : AppCompatActivity(){
         Database.init()
         myMenu = null
 
-        //debug for the new sleepreminder; will be updated after proper implementation
-        NewSleepReminder.init()
-        NewSleepReminder.editDurationAtDay(DayOfWeek.SUNDAY, 8, 0)
-        Log.e("debug", LocalDateTime.now().isBefore(LocalDateTime.of(2020,4,21,0,0)).toString())
-
         bottomNavigation = findViewById(R.id.btm_nav)
 
         bottomNavigation.setOnNavigationItemSelectedListener { item ->

@@ -35,7 +35,7 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun checkSleepNotification() {
         NewSleepReminder.init()
         NewSleepReminder.reminder.forEach { n ->
-            if (n.toString() == LocalDate.now().dayOfWeek.toString()) sRNotification()
+            if (n.key.toString() == LocalDate.now().dayOfWeek.toString()) sRNotification()
         }
     }
 
