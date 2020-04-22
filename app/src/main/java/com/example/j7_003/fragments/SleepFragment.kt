@@ -47,7 +47,8 @@ class SleepFragment : Fragment() {
 
         customIsInit = false
         regularIsInit = false
-        val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
+//        val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
+        val myView = MainActivity.sleepView
         Log.e("after inflating", LocalTime.now().toString())
         NewSleepReminder.init()
 

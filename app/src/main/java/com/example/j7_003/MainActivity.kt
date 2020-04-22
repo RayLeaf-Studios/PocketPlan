@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity(){
 
     companion object {
         lateinit var myActivity: MainActivity
+        lateinit var sleepView: View
         var editNoteHolder: NoteAdapter.NoteViewHolder? = null
         var myMenu: Menu? = null
         var noteColor: NoteColors = NoteColors.YELLOW
@@ -48,6 +50,8 @@ class MainActivity : AppCompatActivity(){
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
