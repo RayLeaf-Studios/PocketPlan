@@ -1,22 +1,39 @@
 package com.example.j7_003.data.settings
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 
 class SettingsManager {
-    val settings = HashMap<String, String>()
-    private val fileName = "SETTINGS"
+    companion object {
+        var settings = HashMap<String, Any>()
+        private const val fileName = "SETTINGS"
 
-    init {
-        createFile()
-        saveSettings()
-    }
+        fun init() {
+            createFile()
+            load()
+        }
 
-    fun saveSettings() {
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[fileName], settings)
-    }
+        fun addSetting(name: String, any: Any) {
+            settings[name] = any
+            save()
+        }
 
-    private fun createFile() {
-        StorageHandler.createJsonFile(fileName, "Settings.json")
+        private fun save() {
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[fileName], settings
+            )
+        }
+
+        private fun load() {
+            val jsonString = StorageHandler.files[fileName]?.readText()
+
+            settings = GsonBuilder().create()
+                .fromJson(jsonString, object : TypeToken<HashMap<String, Any>>() {}.type)
+        }
+
+        private fun createFile() {
+            StorageHandler.createJsonFile(fileName, "Settings.json")
+        }
     }
 }

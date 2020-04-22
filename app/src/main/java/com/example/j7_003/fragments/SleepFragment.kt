@@ -1,6 +1,7 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.j7_003.MainActivity
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.dialog_pick_time.view.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalTime
 
 /**
  * A simple [Fragment] subclass.
@@ -39,17 +42,30 @@ class SleepFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        Log.e("called oncreate", LocalTime.now().toString())
+
+        customIsInit = false
+        regularIsInit = false
         val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
+        Log.e("after inflating", LocalTime.now().toString())
         NewSleepReminder.init()
 
+        Log.e("var", NewSleepReminder.daysAreCustom.toString())
+        Log.e("after reminder init", LocalTime.now().toString())
         if(NewSleepReminder.daysAreCustom){
             initializeCustomDaysDisplay(myView)
+            myView.switchEnableCustomDays.isChecked = true
             updateCustomDisplay()
+            myView.panelNotCustom.visibility = View.GONE
         }else{
             initializeRegularDayDisplay(myView)
             updateRegularDisplay()
+            myView.panelCustom.visibility = View.GONE
+            myView.switchEnableCustomDays.isChecked = false
         }
 
+        Log.e("after init and update", LocalTime.now().toString())
         //switch to enable / disable entire reminder
         myView.switchEnableReminder.setOnClickListener {
             if (myView.switchEnableReminder.isChecked) {
@@ -63,13 +79,17 @@ class SleepFragment : Fragment() {
         myView.switchEnableCustomDays.setOnClickListener {
             if (myView.switchEnableCustomDays.isChecked) {
                 if(!customIsInit) initializeCustomDaysDisplay(myView); customIsInit = true
+                NewSleepReminder.setCustom()
+                updateCustomDisplay()
                 animationShowCustom(myView)
             } else {
                 if(!regularIsInit) initializeRegularDayDisplay(myView); regularIsInit = true
+                NewSleepReminder.setRegular()
+                updateRegularDisplay()
                 animationShowRegular(myView)
             }
         }
-
+        Log.e("after onclicklisters", LocalTime.now().toString())
         return myView
     }
 
@@ -148,8 +168,8 @@ class SleepFragment : Fragment() {
                 myBuilder.setCustomTitle(customTitle)
 
                 //todo get right times here
-                myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[i]].getWakeHour()
-                myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[i]].getWakeMinute()
+                myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeHour()!!
+                myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeMinute()!!
 
                 val myAlertDialog = myBuilder.create()
                 myAlertDialog.show()
@@ -183,8 +203,8 @@ class SleepFragment : Fragment() {
                     val myAlertDialog2 = myBuilder2.create()
                     myAlertDialog2.show()
 
-                    myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[i]].getDurationHour()
-                    myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[i]].getDurationMinute()
+                    myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
+                    myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
 
                     myDialogView.btnApplyTime.setOnClickListener() {
                         NewSleepReminder.editDurationAtDay(
@@ -240,8 +260,8 @@ class SleepFragment : Fragment() {
 
 
             //todo get regular wakehour here
-            myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[0]].getWakeHour()
-            myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[0]].getWakeMinute()
+            myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeHour()!!
+            myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeMinute()!!
 
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()

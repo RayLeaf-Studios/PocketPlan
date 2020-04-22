@@ -1,6 +1,6 @@
 package com.example.j7_003.data.database
 
-import com.example.j7_003.data.Weekdays
+import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.Gson
@@ -24,6 +24,16 @@ class NewSleepReminder {
             initMap()
             createFile()
             load()
+        }
+
+        fun setRegular() {
+            daysAreCustom = false
+            save()
+        }
+
+        fun setCustom() {
+            daysAreCustom = true
+            save()
         }
 
         fun editWakeUpAtDay(day: DayOfWeek, hour: Int, minute: Int) {
@@ -81,9 +91,8 @@ class NewSleepReminder {
         }
 
         private fun save() {
-           /* reminder[Weekdays.NULL] = Reminder()
-            reminder[Weekdays.NULL]?.isSet = daysAreCustom
-            */StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
+            SettingsManager.addSetting("daysAreCustom", daysAreCustom)
             updateReminder()
         }
 
@@ -93,7 +102,7 @@ class NewSleepReminder {
             reminder = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
 
-            //daysAreCustom = reminder[Weekdays.NULL]?.isSet!!
+            daysAreCustom = SettingsManager.settings["daysAreCustom"] as Boolean
 
             updateReminder()
         }
@@ -126,6 +135,12 @@ class NewSleepReminder {
             private var reminderTime = LocalTime.of(23, 59)
             private var wakeUpTime: LocalTime = LocalTime.of(12, 0)
             private var duration: Duration = Duration.ofHours(8).plusMinutes(0)
+
+            fun getWakeHour(): Int = wakeUpTime.hour
+            fun getWakeMinute(): Int = wakeUpTime.minute
+
+            fun getDurationHour(): Int = duration.toHours().toInt()
+            fun getDurationMinute(): Int = (duration.toMinutes() % 60).toInt()
 
             fun editWakeUpTime(hour: Int, minute: Int) {
                 wakeUpTime = LocalTime.of(hour, minute)

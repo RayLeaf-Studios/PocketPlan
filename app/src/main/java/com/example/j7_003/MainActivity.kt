@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.NewSleepReminder
+import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.fragments.*
 import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity(){
         //initializes the time api
         AndroidThreeTen.init(this)
         Database.init()
+        SettingsManager.init()
         myMenu = null
 
         bottomNavigation = findViewById(R.id.btm_nav)
