@@ -88,6 +88,9 @@ class NewSleepReminder {
                 "SReminder_Debug.json",
                 text = Gson().toJson(reminder)
             )
+            if (SettingsManager.settings["daysAreCustom"] == null) {
+                SettingsManager.addSetting("daysAreCustom", daysAreCustom)
+            }
         }
 
         private fun save() {
