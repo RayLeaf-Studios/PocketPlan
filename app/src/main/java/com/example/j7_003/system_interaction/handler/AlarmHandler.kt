@@ -4,15 +4,11 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
-import com.example.j7_003.data.Weekdays
 import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
-import org.threeten.bp.temporal.TemporalAdjuster
 import org.threeten.bp.temporal.TemporalAdjusters
 import java.util.*
 
@@ -51,9 +47,8 @@ class AlarmHandler {
             requestCode: Int,
             reminderTime: LocalTime
         ) {
-            val intent: Intent = Intent(context, NotificationReceiver::class.java)
+            val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "SReminder")
-            intent.putExtra("ReminderDay", "$dayOfWeek")
 
             val pendingIntent: PendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -79,10 +74,7 @@ class AlarmHandler {
                 } else {
                     now.with(TemporalAdjusters.next(dayOfWeek)).dayOfMonth
                 }
-                /*return if (reminderTime.isBefore(LocalTime.now())) {
-                    LocalDate.now().plusDays(7).dayOfMonth
-                } else LocalDate.now().dayOfMonth*/
-            }
+           }
 
             notificationTime = LocalDateTime.of(
                 now.year,
@@ -98,10 +90,6 @@ class AlarmHandler {
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent
             )
-
-            Log.e("debug", notificationTime.toString())
-            Log.e("debug", pendingIntent.toString())
-            Log.e("debug", dayOfWeek.toString())
         }
 
         fun setSleepReminderAlarm(context: Context) {
