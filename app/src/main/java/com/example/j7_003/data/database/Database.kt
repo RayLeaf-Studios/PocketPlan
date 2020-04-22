@@ -185,6 +185,33 @@ class Database {
             }
         }
 
+        fun getRelevantCurrentBirthdays(): ArrayList<Birthday> {
+            val currentBirthdays = ArrayList<Birthday>()
+            val localDate = LocalDate.now()
+            birthdayList.forEach { n ->
+                if (n.month == localDate.monthValue + 1 &&
+                    n.day == localDate.dayOfMonth &&
+                    n.daysToRemind == 0
+                ) {
+                    currentBirthdays.add(n)
+                }
+            }
+            return currentBirthdays
+        }
+
+        fun getRelevantUpcomingBirthdays(): ArrayList<Birthday> {
+            val upcomingBirthdays = ArrayList<Birthday>()
+            val localDate = LocalDate.now()
+            birthdayList.forEach { n ->
+                if (n.month == localDate.monthValue + 1 && (n.day - n.daysToRemind) ==
+                    localDate.dayOfMonth && n.daysToRemind != 0)
+                {
+                    upcomingBirthdays.add(n)
+                }
+            }
+            return upcomingBirthdays
+        }
+
         fun getXNextBirthdays(index: Int): ArrayList<Birthday> {
             var min = index
 
