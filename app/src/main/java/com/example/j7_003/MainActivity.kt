@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
 
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
         myActivity = this

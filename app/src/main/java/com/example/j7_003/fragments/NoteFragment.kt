@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -115,6 +116,11 @@ class NoteAdapter() :
             MainActivity.editNoteHolder = holder
             MainActivity.noteColor = Database.getNote(holder.adapterPosition).color
             MainActivity.myActivity.changeToWriteNoteFragment()
+        }
+
+        holder.itemView.setOnLongClickListener{
+            Toast.makeText(MainActivity.myActivity, "longpress", Toast.LENGTH_SHORT).show()
+            true
         }
 
         //specifying design of note rows here

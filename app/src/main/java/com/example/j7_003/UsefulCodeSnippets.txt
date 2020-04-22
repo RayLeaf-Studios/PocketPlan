@@ -36,6 +36,3 @@ private fun requestStoragePermission() {
 
     var randomNumber = Random.nextInt(5)  (0,1,2,3,4)
 
-
-
-
