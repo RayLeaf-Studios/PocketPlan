@@ -32,6 +32,9 @@ class SleepFragment : Fragment() {
     private lateinit var customWakeTimeTexts: ArrayList<TextView>
     private lateinit var customDurationTexts: ArrayList<TextView>
 
+    private var customIsInit: Boolean = false
+    private var regularIsInit: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,8 +44,10 @@ class SleepFragment : Fragment() {
 
         if(NewSleepReminder.daysAreCustom){
             initializeCustomDaysDisplay(myView)
+            updateCustomDisplay()
         }else{
             initializeRegularDayDisplay(myView)
+            updateRegularDisplay()
         }
 
         //switch to enable / disable entire reminder
@@ -57,8 +62,10 @@ class SleepFragment : Fragment() {
         //switch to enable use of custom days
         myView.switchEnableCustomDays.setOnClickListener {
             if (myView.switchEnableCustomDays.isChecked) {
+                if(!customIsInit) initializeCustomDaysDisplay(myView); customIsInit = true
                 animationShowCustom(myView)
             } else {
+                if(!regularIsInit) initializeRegularDayDisplay(myView); regularIsInit = true
                 animationShowRegular(myView)
             }
         }
