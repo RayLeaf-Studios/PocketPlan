@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.DayOfWeek.*
 import org.threeten.bp.Duration
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.temporal.ChronoUnit
 import kotlin.collections.HashMap
@@ -60,6 +61,10 @@ class NewSleepReminder {
                 n.value.editDuration(hour, minute)
             }
             save()
+        }
+
+        fun getRemainingWakeDurationString(): String {
+            return reminder[LocalDate.now().dayOfWeek]?.getRemainingWakeDuration()!!
         }
 
         fun enableAll() {
