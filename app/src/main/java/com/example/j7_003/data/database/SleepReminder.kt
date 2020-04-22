@@ -1,150 +1,193 @@
 package com.example.j7_003.data.database
 
+import com.example.j7_003.data.settings.SettingsManager
+import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.DayOfWeek.*
+import org.threeten.bp.Duration
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
+import org.threeten.bp.temporal.ChronoUnit
+import kotlin.collections.HashMap
 
 class SleepReminder {
-
     companion object {
-        private val myCalendar = Calendar.getInstance()
-        private var currentHour by Delegates.notNull<Int>()
-        private var currentMinute by Delegates.notNull<Int>()
+        var daysAreCustom: Boolean = false
+        private const val fileName: String = "SLEEP_REMINDER_DEBUG"
 
-        var timings: IntArray = IntArray(4)
-        var sDuration: IntArray = IntArray(2)
-        var isSet: Boolean = false
-
-        var days: BooleanArray = BooleanArray(7)
-
-        private const val fileName: String = "SLEEP_REMINDER"
+        var reminder = HashMap<DayOfWeek, Reminder>(7)
 
         fun init() {
-            StorageHandler.createJsonFile(
-                fileName,
-                "SReminder.json"
-            )
-            StorageHandler.files[fileName]?.writeText(
-                "[[0,0,0,0],[false,false,false,false,false,false,false],false,[0,0]]"
-            )
+            initMap()
+            createFile()
             load()
         }
 
-        fun isRemindTimeReached(): Boolean {
-            getClock()
-
-            return compareHours() || compareWithMinutes()
-        }
-
-        fun editDuration(newHour: Int, newMinute: Int) {
-            sDuration[0] = newHour
-            sDuration[1] = newMinute
-            calcReminder()
+        fun setRegular() {
+            daysAreCustom = false
             save()
         }
 
-        fun editWakeUp(newHour: Int, newMinute: Int) {
-            timings[2] = newHour
-            timings[3] = newMinute
-            calcReminder()
+        fun setCustom() {
+            daysAreCustom = true
             save()
         }
 
-        fun disable() {
-            isSet = false
+        fun editWakeUpAtDay(day: DayOfWeek, hour: Int, minute: Int) {
+            reminder[day]?.editWakeUpTime(hour, minute)
+            updateSingleReminder(day)
             save()
         }
 
-        fun enable() {
-            isSet = true
+        fun editAllWakeUp(hour: Int, minute: Int) {
+            reminder.forEach { n ->
+                n.value.editWakeUpTime(hour, minute)
+            }
             save()
         }
 
-        fun setDay(index: Int, bool: Boolean) {
-            days[index] = bool
+        fun editDurationAtDay(day: DayOfWeek, hour: Int, minute: Int) {
+            reminder[day]?.editDuration(hour, minute)
+            updateSingleReminder(day)
             save()
         }
 
-        fun getRemindTimeString(): String =
-            "${timings[0].toString().padStart(2, '0')}:" +
-                    timings[1].toString().padStart(2, '0')
-
-        fun getWakeUpTimeString(): String =
-            "${timings[2].toString().padStart(2, '0')}:" +
-                    timings[3].toString().padStart(2, '0')
-
-        fun getDurationTimeString(): String = "${sDuration[0]}h ${sDuration[1]}m"
+        fun editAllDuration(hour: Int, minute: Int) {
+            reminder.forEach { n ->
+                n.value.editDuration(hour, minute)
+            }
+            save()
+        }
 
         fun getRemainingWakeDurationString(): String {
-            getClock()
-
-            return "${timings[0] - currentHour}h ${timings[1] - currentMinute}"
+            return reminder[LocalDate.now().dayOfWeek]?.getRemainingWakeDuration()!!
         }
 
-        private fun compareHours(): Boolean = currentHour in timings[0]+1 until timings[2]
-        private fun compareWithMinutes(): Boolean {
-            return when (currentHour) {
-                timings[0] -> currentMinute >= timings[1]
-                timings[2] -> currentMinute < timings[3]
-                else -> false
+        fun enableAll() {
+            reminder.forEach { n ->
+                n.value.isSet = true
+            }
+            save()
+        }
+
+        fun disableAll() {
+            reminder.forEach { n ->
+                 n.value.isSet = false
+            }
+            save()
+        }
+
+        private fun initMap() {
+            values().forEach { n ->
+                reminder[n] = Reminder()
             }
         }
 
-        private fun getClock() {
-            currentHour = myCalendar.get(Calendar.HOUR_OF_DAY)
-            currentMinute = myCalendar.get(Calendar.MINUTE)
+        private fun createFile() {
+            StorageHandler.createJsonFile(
+                fileName,
+                "SReminder_Debug.json",
+                text = Gson().toJson(reminder)
+            )
+            if (SettingsManager.settings["daysAreCustom"] == null) {
+                SettingsManager.addSetting("daysAreCustom", daysAreCustom)
+            }
         }
 
         private fun save() {
-            val saveableList = arrayListOf(
-                timings,
-                days,
-                isSet,
-                sDuration
-            )
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[fileName],
-                saveableList
-            )
-        }
-
-        private fun calcReminder(){
-            if (timings[2] - sDuration[0] < 1) {
-                timings[0] = 24 + (timings[2] - sDuration[0])
-            } else {
-                timings[0] = timings[2] - sDuration[0]
-            }
-
-            if (timings[3] - sDuration[1] < 1) {
-                timings[0] -= 1
-                timings[1] = 60 + (timings[3] - sDuration[1])
-                if (timings[1] == 60) {
-                    timings[0] += 1
-                    timings[1] = 0
-                }
-            } else {
-                timings[1] = timings[3] - sDuration[1]
-            }
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
+            SettingsManager.addSetting("daysAreCustom", daysAreCustom)
+            updateReminder()
         }
 
         private fun load() {
             val jsonString = StorageHandler.files[fileName]?.readText()
 
-            val loadedData = GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<ArrayList<Any>>() {}.type) as ArrayList<Any>
+            reminder = GsonBuilder().create()
+                .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
 
-            val list1 = loadedData[0] as ArrayList<Int>
-            val list2 = loadedData[1] as ArrayList<Boolean>
-            val lIsSet = loadedData[2] as Boolean
-            val lDuration = loadedData[3] as ArrayList<Int>
+            daysAreCustom = SettingsManager.settings["daysAreCustom"] as Boolean
 
-            timings = list1.toIntArray()
-            days = list2.toBooleanArray()
-            isSet = lIsSet
-            sDuration = lDuration.toIntArray()
+            updateReminder()
+        }
+
+         fun updateReminder() {
+            var i = 200
+            reminder.forEach { n ->
+                n.value.updateAlarm(n.key, i)
+                i++
+            }
+        }
+
+        private fun updateSingleReminder(dayOfWeek: DayOfWeek) {
+           reminder[dayOfWeek]?.updateAlarm(
+               dayOfWeek,
+               when(dayOfWeek) {
+                   SATURDAY -> 200
+                   TUESDAY -> 201
+                   SUNDAY -> 202
+                   THURSDAY -> 203
+                   FRIDAY -> 204
+                   WEDNESDAY -> 205
+                   MONDAY -> 206
+               }
+           )
+        }
+
+        class Reminder {
+            var isSet: Boolean = false
+            private var reminderTime = LocalTime.of(23, 59)
+            private var wakeUpTime: LocalTime = LocalTime.of(12, 0)
+            private var duration: Duration = Duration.ofHours(8).plusMinutes(0)
+
+            fun getWakeHour(): Int = wakeUpTime.hour
+            fun getWakeMinute(): Int = wakeUpTime.minute
+
+            fun getDurationHour(): Int = duration.toHours().toInt()
+            fun getDurationMinute(): Int = (duration.toMinutes() % 60).toInt()
+
+            fun editWakeUpTime(hour: Int, minute: Int) {
+                wakeUpTime = LocalTime.of(hour, minute)
+                calcReminderTime()
+            }
+
+            fun editDuration(hour: Int, minute: Int) {
+                duration = Duration.ofHours(hour.toLong()).plusMinutes(minute.toLong())
+                calcReminderTime()
+            }
+
+            fun enable() { isSet = true; save() }
+
+            fun disable() { isSet = false; save() }
+
+            fun getRemindTimeString(): String = reminderTime.toString()
+
+            fun getWakeUpTimeString(): String = wakeUpTime.toString()
+
+            fun getDurationTimeString(): String =
+                "${duration.toHours().toString().padStart(2, ' ')}h " +
+                    "${(duration.toMinutes()%60).toString().padStart(2, ' ')}m"
+
+            fun getRemainingWakeDuration(): String {
+                return "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h " +
+                        "${(LocalTime.now().until(reminderTime, ChronoUnit.MINUTES)%60)}m"
+            }
+
+            private fun calcReminderTime() {
+               reminderTime = wakeUpTime.minus(duration)
+            }
+
+            fun updateAlarm(weekdays: DayOfWeek, requestCode: Int) {
+                AlarmHandler.setNewSleepReminderAlarm(
+                    dayOfWeek = weekdays,
+                    requestCode = requestCode,
+                    reminderTime = reminderTime
+                )
+            }
         }
     }
 }

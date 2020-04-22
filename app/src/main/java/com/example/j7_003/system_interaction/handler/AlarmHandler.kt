@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
-import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
 import org.threeten.bp.temporal.TemporalAdjusters
@@ -18,8 +17,10 @@ class AlarmHandler {
             val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "Birthday")
 
-            val pendingIntent = PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            val alarmManager = context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+            val pendingIntent =
+                PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val alarmManager =
+                context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
             val notificationTime = Calendar.getInstance()
 
@@ -57,7 +58,8 @@ class AlarmHandler {
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-            val alarmManager: AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val alarmManager: AlarmManager =
+                context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val notificationTime: LocalDateTime
             val now: LocalDate = LocalDate.now()
 
@@ -74,7 +76,7 @@ class AlarmHandler {
                 } else {
                     now.with(TemporalAdjusters.next(dayOfWeek)).dayOfMonth
                 }
-           }
+            }
 
             notificationTime = LocalDateTime.of(
                 now.year,
@@ -90,44 +92,6 @@ class AlarmHandler {
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent
             )
-        }
-
-        fun setSleepReminderAlarm(context: Context) {
-           val intent = Intent(context, NotificationReceiver::class.java)
-            intent.putExtra("Notification", "SReminder")
-
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                200,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            val alarmManager =
-                context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-            val notificationTime = Calendar.getInstance()
-
-            if (notificationTime.get(Calendar.HOUR_OF_DAY) > SleepReminder.timings[0]) {
-                if (notificationTime.get(Calendar.MINUTE) > SleepReminder.timings[1]) {
-                    notificationTime.add(Calendar.DAY_OF_MONTH, 1)
-                }
-            }
-
-            notificationTime.set(Calendar.HOUR_OF_DAY, SleepReminder.timings[0])
-            notificationTime.set(Calendar.MINUTE, SleepReminder.timings[1])
-            notificationTime.set(Calendar.SECOND, 0)
-
-            SleepReminder.init()
-            if (SleepReminder.isSet) {
-                alarmManager.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    notificationTime.timeInMillis,
-                    AlarmManager.INTERVAL_DAY,
-                    pendingIntent
-                )
-            }else{
-                alarmManager.cancel(pendingIntent)
-            }
         }
     }
 }

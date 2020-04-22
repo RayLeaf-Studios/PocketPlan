@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.database.NewSleepReminder
+import com.example.j7_003.data.database.SleepReminder
 import kotlinx.android.synthetic.main.dialog_pick_time.view.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
@@ -50,11 +49,11 @@ class SleepFragment : Fragment() {
 //        val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
         val myView = MainActivity.sleepView
         Log.e("after inflating", LocalTime.now().toString())
-        NewSleepReminder.init()
+        SleepReminder.init()
 
-        Log.e("var", NewSleepReminder.daysAreCustom.toString())
+        Log.e("var", SleepReminder.daysAreCustom.toString())
         Log.e("after reminder init", LocalTime.now().toString())
-        if(NewSleepReminder.daysAreCustom){
+        if(SleepReminder.daysAreCustom){
             initializeCustomDaysDisplay(myView)
             myView.switchEnableCustomDays.isChecked = true
             updateCustomDisplay()
@@ -70,9 +69,9 @@ class SleepFragment : Fragment() {
         //switch to enable / disable entire reminder
         myView.switchEnableReminder.setOnClickListener {
             if (myView.switchEnableReminder.isChecked) {
-                NewSleepReminder.enableAll()
+                SleepReminder.enableAll()
             } else {
-                NewSleepReminder.disableAll()
+                SleepReminder.disableAll()
             }
         }
 
@@ -80,12 +79,12 @@ class SleepFragment : Fragment() {
         myView.switchEnableCustomDays.setOnClickListener {
             if (myView.switchEnableCustomDays.isChecked) {
                 if(!customIsInit) initializeCustomDaysDisplay(myView); customIsInit = true
-                NewSleepReminder.setCustom()
+                SleepReminder.setCustom()
                 updateCustomDisplay()
                 animationShowCustom(myView)
             } else {
                 if(!regularIsInit) initializeRegularDayDisplay(myView); regularIsInit = true
-                NewSleepReminder.setRegular()
+                SleepReminder.setRegular()
                 updateRegularDisplay()
                 animationShowRegular(myView)
             }
@@ -133,9 +132,9 @@ class SleepFragment : Fragment() {
         customCheckBoxList.forEachIndexed{ i, cb ->
             cb.setOnClickListener{
                 if(cb.isChecked){
-                    NewSleepReminder.reminder[DayOfWeek.values()[i]]?.enable()
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.enable()
                 }else{
-                    NewSleepReminder.reminder[DayOfWeek.values()[i]]?.disable()
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.disable()
                 }
             }
         }
@@ -169,14 +168,14 @@ class SleepFragment : Fragment() {
                 myBuilder.setCustomTitle(customTitle)
 
                 //todo get right times here
-                myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeHour()!!
-                myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeMinute()!!
+                myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeHour()!!
+                myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeMinute()!!
 
                 val myAlertDialog = myBuilder.create()
                 myAlertDialog.show()
 
                 myDialogView.btnApplyTime.setOnClickListener() {
-                    NewSleepReminder.editWakeUpAtDay(
+                    SleepReminder.editWakeUpAtDay(
                         DayOfWeek.values()[i],
                         myDialogView.npHour.value,
                         myDialogView.npMinute.value
@@ -204,11 +203,11 @@ class SleepFragment : Fragment() {
                     val myAlertDialog2 = myBuilder2.create()
                     myAlertDialog2.show()
 
-                    myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
-                    myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
+                    myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
+                    myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
 
                     myDialogView.btnApplyTime.setOnClickListener() {
-                        NewSleepReminder.editDurationAtDay(
+                        SleepReminder.editDurationAtDay(
                             DayOfWeek.values()[i],
                             myDialogView.npHour.value,
                             myDialogView.npMinute.value
@@ -261,8 +260,8 @@ class SleepFragment : Fragment() {
 
 
             //todo get regular wakehour here
-            myDialogView.npHour.value = NewSleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeHour()!!
-            myDialogView.npMinute.value = NewSleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeMinute()!!
+            myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeHour()!!
+            myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeMinute()!!
 
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()
@@ -272,7 +271,7 @@ class SleepFragment : Fragment() {
              */
 
             myDialogView.btnApplyTime.setOnClickListener {
-                NewSleepReminder.editAllWakeUp(
+                SleepReminder.editAllWakeUp(
                     myDialogView.npHour.value,
                     myDialogView.npMinute.value
                 )
@@ -312,7 +311,7 @@ class SleepFragment : Fragment() {
             myDialogView.npMinute.value = 0
 
             myDialogView.btnApplyTime.setOnClickListener() {
-                NewSleepReminder.editAllDuration(
+                SleepReminder.editAllDuration(
                     myDialogView.npHour.value,
                     myDialogView.npMinute.value
                 )
@@ -324,9 +323,9 @@ class SleepFragment : Fragment() {
         regularCheckBoxList.forEachIndexed { i, cb ->
             cb.setOnClickListener {
                 if (cb.isChecked) {
-                    NewSleepReminder.reminder[DayOfWeek.values()[i]]?.enable()
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.enable()
                 } else {
-                    NewSleepReminder.reminder[DayOfWeek.values()[i]]?.disable()
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.disable()
                 }
             }
         }
@@ -334,27 +333,27 @@ class SleepFragment : Fragment() {
 
     private fun updateCustomTimes(){
         customWakeTimeTexts.forEachIndexed{ i, tv ->
-            tv.text = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeUpTimeString()
+            tv.text = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeUpTimeString()
         }
         customDurationTexts.forEachIndexed{ i, tv ->
-            tv.text = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationTimeString()
+            tv.text = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationTimeString()
         }
     }
 
     private fun updateCustomCheckBoxes(){
         customCheckBoxList.forEachIndexed{ i, cb ->
-            cb.isChecked = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.isSet!!
+            cb.isChecked = SleepReminder.reminder[DayOfWeek.values()[i]]?.isSet!!
         }
     }
 
     private fun updateRegularTimes(){
-        regularWakeTimeText.text = NewSleepReminder.reminder[DayOfWeek.MONDAY]?.getWakeUpTimeString()
-        regularDurationTimeText.text = NewSleepReminder.reminder[DayOfWeek.MONDAY]?.getDurationTimeString()
+        regularWakeTimeText.text = SleepReminder.reminder[DayOfWeek.MONDAY]?.getWakeUpTimeString()
+        regularDurationTimeText.text = SleepReminder.reminder[DayOfWeek.MONDAY]?.getDurationTimeString()
     }
 
     private fun updateRegularCheckboxes(){
         regularCheckBoxList.forEachIndexed { i, cb ->
-            cb.isChecked = NewSleepReminder.reminder[DayOfWeek.values()[i]]?.isSet!!
+            cb.isChecked = SleepReminder.reminder[DayOfWeek.values()[i]]?.isSet!!
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.j7_003.system_interaction.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.system_interaction.handler.AlarmHandler
 
 class RebootReceiver : BroadcastReceiver() {
@@ -10,8 +11,9 @@ class RebootReceiver : BroadcastReceiver() {
         if (Intent.ACTION_BOOT_COMPLETED == intent!!.action) {
             AlarmHandler.run {
                 setBirthdayAlarms(context = context!!)
-                setSleepReminderAlarm(context)
             }
+            SleepReminder.init()
+            SleepReminder.updateReminder()
         }
     }
 }

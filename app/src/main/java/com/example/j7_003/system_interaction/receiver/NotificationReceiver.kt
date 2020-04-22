@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
-import com.example.j7_003.data.database.NewSleepReminder
+import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.system_interaction.handler.NotificationHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.example.j7_003.data.database.database_objects.Birthday
@@ -33,8 +33,8 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun checkSleepNotification() {
-        NewSleepReminder.init()
-        NewSleepReminder.reminder.forEach { n ->
+        SleepReminder.init()
+        SleepReminder.reminder.forEach { n ->
             if (n.key.toString() == LocalDate.now().dayOfWeek.toString()) sRNotification()
         }
     }
