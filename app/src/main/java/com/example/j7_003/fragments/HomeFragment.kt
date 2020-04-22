@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
+import com.example.j7_003.data.database.NewSleepReminder
+import com.example.j7_003.data.database.SleepReminder
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -21,12 +23,16 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        NewSleepReminder.init()
+
         myView = inflater.inflate(R.layout.fragment_home, container, false)
-
-
+        updateRemainingWakeimeDisplay()
         displayTasks(myView)
-
         return myView
+    }
+
+    fun updateRemainingWakeimeDisplay(){
+        myView.tvRemainingWakeTime.text = NewSleepReminder.getRemainingWakeDurationString()
     }
 
     fun displayTasks(myview: View){
