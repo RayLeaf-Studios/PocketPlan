@@ -63,6 +63,7 @@ class NotificationHandler {
                     )
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
+                    .setShowWhen(true)
             } else {
                 builder = Notification.Builder(myContext)
                     .setContentTitle(contentTitle)
@@ -76,6 +77,7 @@ class NotificationHandler {
                     )
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
+                    .setShowWhen(true)
             }
             notificationManager.notify(requestCode, builder.build())
         }
