@@ -11,6 +11,10 @@ import org.threeten.bp.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * A simple handler to manage the interaction of different objects
+ * with a similar structure.
+ */
 class Database {
     companion object {
         lateinit var taskList: ArrayList<Task>
@@ -21,6 +25,11 @@ class Database {
         private const val BLIST = "BIRTHDAYLIST"
         private const val NLIST = "NOTELIST"
 
+        /**
+         * Used to initialize the Database, i.e. setting up the storage
+         * and loading existing data from the file. Also sorts the taskList and
+         * birthdayList.
+         */
         fun init() {
             initStorage()
             initLists()
@@ -29,7 +38,7 @@ class Database {
         }
 
         /**
-         * Adds a task to the tasklist and saves the tasklist.
+         * Adds a task to the taskList and saves the taskList.
          * @param title The title of the created task
          * @param priority The priority the task will be set to
          */
@@ -59,6 +68,12 @@ class Database {
             )
         }
 
+        /**
+         * Edits the requested task to have a new title and priority.
+         * @param position The tasks position in the list.
+         * @param index The tasks new priority.
+         * @param title The new title of the task.
+         */
         fun editTask(position: Int, index: Int, title: String) {
             val editableTask: Task =
                 getTask(
@@ -74,11 +89,12 @@ class Database {
         }
 
         /**
-         * Returns a task at a given index in the tasklist.
+         * Returns a task at a given index in the taskList.
          * @param index The index the task is at.
          * @return Returns the requested task.
          */
         fun getTask(index: Int): Task = taskList[index]
+
 
         fun sortTasks() {
             taskList.sortWith(compareBy({ it.priority }, { it.priority }))
@@ -92,11 +108,11 @@ class Database {
         }
 
         //--------------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------------//
+        //-----------------------------------birthdayList handling------------------------------------//
         //--------------------------------------------------------------------------------------------//
         //debug here will be the birthday functionality
         /**
-         * Adds a birthday to the birthdaylist and saves the birthdaylist.
+         * Adds a birthday to the birthdayList and saves the birthdayList.
          * @param name The name of the created birthday
          * @param parMonth The month of the birthday
          * @param parDay The day of the birthday
@@ -113,7 +129,7 @@ class Database {
         }
 
         /**
-         * Deletes the Birthday at a given index in the birthdaylist
+         * Deletes the Birthday at a given index in the birthdayList
          * @param index The position of the birthday in the array list
          */
         fun deleteBirthday(index: Int) {
@@ -125,10 +141,13 @@ class Database {
         }
 
         /**
-         * To be implemented...
-         * Will edit a given birthday object
+         * Grabs a birthday object and changes its attributes according to the parameters.
+         * @param name Name of the Person.
+         * @param parDay Day of the birthday.
+         * @param parMonth Month of the birthday.
+         * @param parReminder Days to be reminded at prior to the birthday.
+         * @param parPosition Position of the birthday object int he list.
          */
-
         fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int) {
             val editableBirthday: Birthday =
                 getBirthday(
@@ -185,6 +204,11 @@ class Database {
             }
         }
 
+        /**
+         * Collects all birthdays that are happening on the current day and returns
+         * them as an list.
+         * @return List of today's birthdays.
+         */
         fun getRelevantCurrentBirthdays(): ArrayList<Birthday> {
             val currentBirthdays = ArrayList<Birthday>()
             val localDate = LocalDate.now()
@@ -199,6 +223,11 @@ class Database {
             return currentBirthdays
         }
 
+        /**
+         * Collects all birthdays which's reminder corresponds to the current day
+         * @see getRelevantCurrentBirthdays for current birthdays.
+         * @return List of birthdays to be reminded of on the current day.
+         */
         fun getRelevantUpcomingBirthdays(): ArrayList<Birthday> {
             val upcomingBirthdays = ArrayList<Birthday>()
             val localDate = LocalDate.now()
@@ -212,6 +241,12 @@ class Database {
             return upcomingBirthdays
         }
 
+        /**
+         * Returns the x next birthdays from the birthdayList as a list. If the requested
+         * size is larger than the birthdayList size the whole list is returned.
+         * @param index Amount of birthdays to return.
+         * @return The requested amount of birthdays or the whole birthdayList.
+         */
         fun getXNextBirthdays(index: Int): ArrayList<Birthday> {
             var min = index
 
@@ -232,6 +267,10 @@ class Database {
             return xNextBirthdays
         }
 
+        /**
+         * Fetches the data from the birthdayList's file and returns it as a list.
+         * @return The loaded version of the birthdayList.
+         */
         fun fetchBList() : ArrayList<Birthday> {
             val jsonString = StorageHandler.files[BLIST]?.readText()
 
@@ -240,10 +279,15 @@ class Database {
         }
 
         //--------------------------------------------------------------------------------------------//
+        //---------------------------------noteList handling------------------------------------------//
         //--------------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------------//
-        //debug here will be note handling
 
+        /**
+         * Creates a note with the given parameters and saves it to file.
+         * @param title Displayed title of the note.
+         * @param note Contents of the note.
+         * @param color Color of the note.
+         */
         fun addNote(title: String, note: String, color: NoteColors) {
             noteList.push(Note(title, note, color))
             StorageHandler.saveAsJsonToFile(
@@ -252,6 +296,13 @@ class Database {
             )
         }
 
+        /**
+         * Changes the requested notes properties.
+         * @param index Position of the note in the noteList.
+         * @param title Title of the note.
+         * @param note Contents of the note color.
+         * @param color Color of the note.
+         */
         fun editNote(index: Int, title: String, note: String, color: NoteColors) {
             val editableNote =
                 getNote(
@@ -266,6 +317,10 @@ class Database {
             )
         }
 
+        /**
+         * Deletes the requested note.
+         * @param index Position of the note in the noteList.
+         */
         fun deleteNote(index: Int) {
             noteList.removeAt(index)
             StorageHandler.saveAsJsonToFile(
@@ -274,6 +329,10 @@ class Database {
             )
         }
 
+        /**
+         * Gets the requested note from the list.
+         * @return The requested noteObject.
+         */
         fun getNote(index: Int): Note = noteList[index]
 
         private fun fetchNoteList() : LinkedList<Note> {
@@ -284,9 +343,8 @@ class Database {
         }
 
         //--------------------------------------------------------------------------------------------//
+        //-------------------------------Database internal handling-----------------------------------//
         //--------------------------------------------------------------------------------------------//
-        //--------------------------------------------------------------------------------------------//
-        //debug here will be database handling
 
         private fun initStorage() {
             StorageHandler.createJsonFile(
