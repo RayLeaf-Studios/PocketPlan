@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import kotlinx.android.synthetic.main.fragment_create_term.*
+import com.example.j7_003.data.database.CalendarManager
+
 
 import kotlinx.android.synthetic.main.fragment_create_term.view.*
 import kotlinx.android.synthetic.main.fragment_create_term.view.tvTermEndTime
@@ -95,8 +96,9 @@ class CreateTermFragment : Fragment() {
     }
 
     fun saveTerm() {
-        val termTitle = etTermTitle.text
-        val termInfo = etTermInfo.text
+        val termTitle = etTermTitle.text.toString()
+        val termInfo = etTermInfo.text.toString()
+        CalendarManager.addAppointment(termTitle, termInfo, startDateTime, endLocalTime)
         MainActivity.myActivity.changeToCalendar()
     }
 
@@ -190,7 +192,7 @@ class CreateTermFragment : Fragment() {
             openTimePickerStart()
         }
         panelTermEndTime.setOnClickListener {
-            openTimePickerEnd() //todo handle this differently than start time
+            openTimePickerEnd()
         }
 
         btnSaveTerm.setOnClickListener() {
