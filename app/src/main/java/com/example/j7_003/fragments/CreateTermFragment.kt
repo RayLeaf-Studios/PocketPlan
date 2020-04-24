@@ -38,6 +38,7 @@ class CreateTermFragment : Fragment() {
     lateinit var panelTermEndTime: ConstraintLayout
 
     lateinit var btnDuration30m: Button
+    lateinit var btnDuration60m: Button
     lateinit var btnDuration90m: Button
     lateinit var btnDuration120m: Button
     lateinit var btnDuration180m: Button
@@ -113,6 +114,7 @@ class CreateTermFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     fun openTimePickerStart() {
         val timeSetListener = TimePickerDialog.OnTimeSetListener { _: TimePicker?, h: Int, m: Int ->
+            startDateTime = startDateTime.withHour(h).withMinute(m)
             tvTermTime.text = h.toString()
                 .padStart(2, '0') + ":" + m.toString().padStart(2, '0')
         }
@@ -150,6 +152,7 @@ class CreateTermFragment : Fragment() {
 
         //buttons for quick duration
         btnDuration30m = myView.btnDuration30m
+        btnDuration60m = myView.btnDuration60m
         btnDuration90m = myView.btnDuration90m
         btnDuration120m = myView.btnDuration120m
         btnDuration180m = myView.btnDuration180m
@@ -160,6 +163,10 @@ class CreateTermFragment : Fragment() {
         //duration button onclick listeners
         btnDuration30m.setOnClickListener {
             setDuration(30)
+        }
+
+        btnDuration60m.setOnClickListener{
+            setDuration(60)
         }
 
         btnDuration90m.setOnClickListener {

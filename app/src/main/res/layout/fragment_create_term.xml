@@ -194,33 +194,45 @@
 
     <Button
         android:id="@+id/btnDuration30m"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/line_white"
-        android:text="0.5h"
+        android:text="30m"
         android:textAllCaps="false"
-        app:layout_constraintEnd_toStartOf="@+id/btnDuration90m"
+        app:layout_constraintEnd_toStartOf="@+id/btnDuration60m"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text3" />
 
     <Button
-        android:id="@+id/btnDuration90m"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btnDuration60m"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:background="@drawable/line_white"
-        android:text="1.5h"
+        android:text="1h"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="@+id/btnDuration30m"
-        app:layout_constraintEnd_toStartOf="@+id/btnDuration120m"
+        app:layout_constraintEnd_toStartOf="@+id/btnDuration90m"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnDuration30m" />
 
     <Button
+        android:id="@+id/btnDuration90m"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:background="@drawable/line_white"
+        android:text="1.5h"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/btnDuration60m"
+        app:layout_constraintEnd_toStartOf="@+id/btnDuration120m"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnDuration60m" />
+
+    <Button
         android:id="@+id/btnDuration120m"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:background="@drawable/line_white"
         android:text="2h"
         android:textAllCaps="false"
@@ -231,8 +243,8 @@
 
     <Button
         android:id="@+id/btnDuration180m"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:background="@drawable/line_white"
         android:text="3h"
         android:textAllCaps="false"
@@ -240,6 +252,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnDuration120m" />
+
 
     <TextView
         android:id="@+id/textView"
