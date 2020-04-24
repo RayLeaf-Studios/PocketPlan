@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity(){
     private lateinit var noteFragment: NoteFragment
     private lateinit var shoppingFragment: ShoppingFragment
     private lateinit var writeNoteFragment: WriteNoteFragment
+    private lateinit var createTermFragment: CreateTermFragment
+
 
     private lateinit var bottomNavigation: BottomNavigationView
 
@@ -142,7 +144,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToCalendar(){
+    fun changeToCalendar(){
         if(activeFragmentTag!="calendar") {
             hideMenuIcons()
             calenderFragment = CalenderFragment()
@@ -154,6 +156,19 @@ class MainActivity : AppCompatActivity(){
                 .commit()
             activeFragmentTag="calendar"
             bottomNavigation.selectedItemId=R.id.calendar
+        }
+    }
+     fun changeToCreateTerm(){
+        if(activeFragmentTag!="createTerm") {
+            hideMenuIcons()
+            createTermFragment = CreateTermFragment()
+            supportActionBar?.title = "Create Term"
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, createTermFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            activeFragmentTag="createTerm"
         }
     }
 
