@@ -72,7 +72,7 @@ class CreateTermFragment : Fragment() {
         endLocalTime = LocalTime.of(hour, minute)
 
 
-        tvTermDate.text = day.toString().padStart(2, '0') + "." + month.toString()
+        tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
             .padStart(2, '0') + "." + year.toString()
         tvTermTime.text = hour.toString()
             .padStart(2, '0') + ":" + minute.toString().padStart(2, '0')
@@ -102,10 +102,10 @@ class CreateTermFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     fun openDatePicker() {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            tvTermDate.text = day.toString().padStart(2, '0') + "." + month.toString()
+            tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
                 .padStart(2, '0') + "." + year.toString()
         }
-        val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, 2000, 3, 3)
+        val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, startDateTime.year, startDateTime.monthValue, startDateTime.dayOfMonth)
         dpd.show()
     }
 
