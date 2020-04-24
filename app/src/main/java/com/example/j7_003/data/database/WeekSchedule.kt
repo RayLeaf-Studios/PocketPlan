@@ -35,13 +35,13 @@ class WeekSchedule() {
             val editableAppointment = weekSchedule[weekDay]?.get(position)
 
             if (editableAppointment != null) {
-                editableAppointment.title = title
+            /*    editableAppointment.title = title
                 editableAppointment.note = note
                 editableAppointment.startHour = startHour
                 editableAppointment.startMinute = startMinute
                 editableAppointment.duration = duration
                 editableAppointment.color = colors
-            }
+            */}
         }
 
         fun addAppointmentToDay(
@@ -53,7 +53,7 @@ class WeekSchedule() {
             duration: Int,
             colors: AppointmentColors
         ) {
-            weekSchedule[weekDay]?.add(
+            /*weekSchedule[weekDay]?.add(
                 WeekAppointment(
                     title,
                     note,
@@ -63,7 +63,7 @@ class WeekSchedule() {
                     duration,
                     colors
                 )
-            )
+            )*/
             StorageHandler.saveAsJsonToFile(
                 StorageHandler.files[IDENTIFIER],
                 weekSchedule
