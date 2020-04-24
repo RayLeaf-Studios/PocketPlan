@@ -58,11 +58,10 @@ Modules: test test
     7 MainPanel
 
 important Tasks:
-    - fix and adapt sleep reminder remaining wake duration
-        -> rethink the SleepReminder to use different reminders for each week day
-
+     - fix remaining wake time string for every occasion (bis zur wakeup time, verbal ins bett schicken)
 
 random tasks:
+    - live update sleepreminder time
     - design home panel
     - optimize ui updating in sleep fragment
     - remove ability to scroll in addtask textline
