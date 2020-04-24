@@ -10,7 +10,7 @@ import org.threeten.bp.LocalTime
 /**
  * A class to handle Appointments according the gregorian calendar.
  */
-class Calendar {
+class CalendarManager {
     companion object {
         var calendar = ArrayList<CalendarAppointment>()
 
@@ -43,7 +43,9 @@ class Calendar {
         }
 
         /**
-         * Adds a CalendarAppointment, sorts the list and saves the list to file.
+         * Edits the requested Appointment with the given parameters, sorts the list
+         * and saves it to file.
+         * @param index Position of the requested Appointment.
          * @param title Title of the CalendarAppointment.
          * @param addInfo Additional information of the Appointment.
          * @param newDateTime Time parameters of the Appointment, formatted as LocalDateTime.
