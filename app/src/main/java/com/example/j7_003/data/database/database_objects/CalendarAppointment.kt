@@ -10,10 +10,8 @@ data class CalendarAppointment(
     @SerializedName(value = "cAAddInfo")
     override var addInfo: String,
 
-    var date: org.threeten.bp.LocalDate,
+    @SerializedName(value = "dTime")
+    override var dateTime: org.threeten.bp.LocalDateTime,
 
-    @SerializedName(value = "cATime")
-    override var sTime: LocalTime,
-
-    var eTime: LocalTime = sTime
-) : Appointment(title, addInfo, sTime)
+    var eTime: LocalTime
+) : Appointment(title, addInfo, dateTime)
