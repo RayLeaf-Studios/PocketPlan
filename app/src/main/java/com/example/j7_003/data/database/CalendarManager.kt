@@ -68,12 +68,21 @@ class CalendarManager {
             save()
         }
 
+        /**
+         * Deletes the requested Appointment, sorts the list and saves it to file.
+         * @param index Position of the requested Appointment.
+         */
         fun deleteAppointment(index: Int) {
             calendar.removeAt(index)
             sort()
             save()
         }
 
+        /**
+         * Fetches an Appointment from a given position in the list.
+         * @param index Position of the requested Appointment.
+         * @return The Appointment from the list at a given position.
+         */
         fun getAppointment(index: Int): CalendarAppointment =
             calendar[index]
 
