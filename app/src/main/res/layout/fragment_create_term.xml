@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start"
-        android:hint="Additional Info"
+        android:hint="Additional Info (optional)"
         android:inputType="text"
         android:maxLength="40"
         android:textColor="@color/colorOnBackGround"
@@ -192,7 +192,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 
-
     <Button
         android:id="@+id/btnDuration30m"
         android:layout_width="wrap_content"
@@ -229,6 +228,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnDuration180m"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnDuration90m" />
+
     <Button
         android:id="@+id/btnDuration180m"
         android:layout_width="wrap_content"
@@ -240,5 +240,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnDuration120m" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="(optional)"
+        android:textColor="@color/colorHint"
+        app:layout_constraintBaseline_toBaselineOf="@+id/text3"
+        app:layout_constraintStart_toEndOf="@+id/text3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
