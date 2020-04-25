@@ -30,14 +30,14 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enable Dark Mode"
+                    android:text="Checkboxes in ToDo-List"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Switch
-                    android:id="@+id/switch1"
+                    android:id="@+id/swEnableCheckBoxesTodo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -46,31 +46,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="20dp">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:text="Language"-->
-<!--                    android:textColor="@color/colorOnBackGround"-->
-<!--                    android:textSize="20sp"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--                <Spinner-->
-<!--                    android:id="@+id/spinner6"-->
-<!--                    android:layout_width="176dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:background="@color/colorBackgroundElevated"-->
-<!--                    android:layout_height="22dp"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 

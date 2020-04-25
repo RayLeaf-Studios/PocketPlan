@@ -10,16 +10,27 @@
     android:background="@drawable/round_corner3">
 
     <TextView
-        android:padding="13dp"
         android:id="@+id/name_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:padding="13dp"
         android:text=""
-        android:textSize="@dimen/font_size_list_items"
         android:textColor="@color/colorOnBackGround"
+        android:textSize="@dimen/font_size_list_items"
+        app:layout_constraintEnd_toStartOf="@+id/checkBox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </TextView>
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <CheckBox
+        android:id="@+id/cbTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/WhiteCheck"
+        app:layout_constraintVertical_bias="0.481" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

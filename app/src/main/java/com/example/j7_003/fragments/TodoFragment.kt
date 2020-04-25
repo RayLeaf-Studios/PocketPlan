@@ -1,18 +1,23 @@
 package com.example.j7_003.fragments
 
+import android.graphics.Paint
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
+import com.example.j7_003.R
 import com.example.j7_003.R.*
 import com.example.j7_003.data.database.Database
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
@@ -63,7 +68,7 @@ class TodoFragment : Fragment() {
                 button.setOnClickListener {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
-                    Database.addTask(title, index + 1)
+                    Database.addTask(title, index + 1, false)
                     myRecycler.adapter?.notifyDataSetChanged()
                 }
             }
@@ -138,7 +143,7 @@ class TodoTaskAdapter() :
 
 
         /**
-         * Editing task via floating action button
+         * EDITING task via floating action button
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
@@ -173,15 +178,44 @@ class TodoTaskAdapter() :
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
-                    Database.editTask(holder.adapterPosition, index, myDialogView.etxTitleAddTask.text.toString())
+                    Database.editTask(holder.adapterPosition, index, myDialogView.etxTitleAddTask.text.toString(), Database.getTask(holder.adapterPosition).isChecked)
                     Database.sortTasks()
-                    this.notifyDataSetChanged()
                 }
             }
 
         }
 
         holder.tvName.text = currentTask.title
+        if(Database.getTask(holder.adapterPosition).isChecked){
+            holder.checkBox.isChecked = true
+            holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
+        }else{
+            holder.checkBox.isChecked = false
+            holder.tvName.paintFlags = 0
+            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
+        }
+
+        //todo replace always false with setting if checkboxes are used
+
+        if(false){
+            holder.checkBox.visibility = View.GONE
+            holder.checkBox.isClickable = false
+        }else{
+            holder.checkBox.visibility = View.VISIBLE
+            holder.checkBox.isClickable = true
+        }
+
+        holder.checkBox.setOnClickListener{
+            if(holder.checkBox.isChecked){
+                holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
+            }else{
+                holder.tvName.paintFlags = 0
+                holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
+            }
+
+        }
 
         when(currentTask.priority){
             1 -> holder.myView.setBackgroundResource(drawable.round_corner1)
@@ -198,7 +232,8 @@ class TodoTaskAdapter() :
          * One instance of this class will contain one "instance" of row_task and meta data
          * like position, it also holds references to views inside of the layout
          */
-        val tvName: TextView = itemView.name_textview
         var myView = itemView
+        val tvName: TextView = itemView.name_textview
+        val checkBox: CheckBox = itemView.cbTask
     }
 }
