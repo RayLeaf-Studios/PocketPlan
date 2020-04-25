@@ -294,6 +294,7 @@ class SleepReminder {
              * @param requestCode An integer to identify the alarm.
              */
             fun updateAlarm(weekdays: DayOfWeek, requestCode: Int) {
+                return
                 AlarmHandler.setNewSleepReminderAlarm(
                     dayOfWeek = weekdays,
                     requestCode = requestCode,
