@@ -61,6 +61,7 @@ important Tasks:
      - fix remaining wake time string for every occasion (bis zur wakeup time, verbal ins bett schicken)
 
 random tasks:
+    - change color of checked task to grey
     - live update sleepreminder time
     - design home panel
     - optimize ui updating in sleep fragment

@@ -1,5 +1,6 @@
 package com.example.j7_003.data.database
 
+import android.animation.TimeAnimator
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.database_objects.Birthday
 import com.example.j7_003.data.database.database_objects.Note
@@ -9,6 +10,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.LocalDate
 import java.util.*
+import java.util.concurrent.BlockingDeque
 import kotlin.collections.ArrayList
 
 /**
@@ -42,18 +44,20 @@ class Database {
          * @param title The title of the created task
          * @param priority The priority the task will be set to
          */
-        fun addTask(title: String, priority: Int) {
+        fun addTask(
+            title: String,
+            priority: Int,
+            isChecked: Boolean
+        ) {
             taskList.add(
                 Task(
                     title,
-                    priority
+                    priority,
+                    isChecked
                 )
             )
             sortTasks()
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[TLIST],
-                taskList
-            )
+            save(TLIST, taskList)
         }
 
         /**
@@ -62,10 +66,7 @@ class Database {
          */
         fun deleteTask(index: Int) {
             taskList.removeAt(index)
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[TLIST],
-                taskList
-            )
+            save(TLIST, taskList)
         }
 
         /**
@@ -74,18 +75,16 @@ class Database {
          * @param index The tasks new priority.
          * @param title The new title of the task.
          */
-        fun editTask(position: Int, index: Int, title: String) {
+        fun editTask(position: Int, index: Int, title: String, isChecked: Boolean) {
             val editableTask: Task =
                 getTask(
                     position
                 )
             editableTask.title = title
-            editableTask.priority = index + 1
+            editableTask.priority = index
+            editableTask.isChecked = isChecked
             sortTasks()
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[TLIST],
-                taskList
-            )
+            save(TLIST, taskList)
         }
 
         /**
@@ -97,7 +96,7 @@ class Database {
 
 
         fun sortTasks() {
-            taskList.sortWith(compareBy({ it.priority }, { it.priority }))
+            taskList.sortWith(compareBy({ it.isChecked }, { it.priority }))
         }
 
         private fun fetchTaskList() : ArrayList<Task> {
@@ -122,10 +121,7 @@ class Database {
 
             sortBirthday()
 
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[BLIST],
-                birthdayList
-            )
+            save(BLIST, birthdayList)
         }
 
         /**
@@ -134,10 +130,7 @@ class Database {
          */
         fun deleteBirthday(index: Int) {
             birthdayList.removeAt(index)
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[BLIST],
-                birthdayList
-            )
+            save(BLIST, birthdayList)
         }
 
         /**
@@ -160,10 +153,7 @@ class Database {
             editableBirthday.daysToRemind = parReminder
 
             sortBirthday()
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[BLIST],
-                birthdayList
-            )
+            save(BLIST, birthdayList)
         }
 
         /**
@@ -290,10 +280,7 @@ class Database {
          */
         fun addNote(title: String, note: String, color: NoteColors) {
             noteList.push(Note(title, note, color))
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[NLIST],
-                noteList
-            )
+            save(NLIST, noteList)
         }
 
         /**
@@ -311,10 +298,7 @@ class Database {
             editableNote.title = title
             editableNote.note = note
             editableNote.color = color
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[NLIST],
-                noteList
-            )
+            save(NLIST, noteList)
         }
 
         /**
@@ -323,10 +307,7 @@ class Database {
          */
         fun deleteNote(index: Int) {
             noteList.removeAt(index)
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[NLIST],
-                noteList
-            )
+            save(NLIST, noteList)
         }
 
         /**
@@ -368,6 +349,13 @@ class Database {
                 fetchTaskList()
             noteList =
                 fetchNoteList()
+        }
+
+        private fun save(identifier: String, collection: Collection<Any>) {
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[identifier],
+                collection
+            )
         }
     }
 }

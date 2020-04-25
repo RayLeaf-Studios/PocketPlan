@@ -178,7 +178,7 @@ class TodoTaskAdapter() :
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
-                    Database.editTask(holder.adapterPosition, index, myDialogView.etxTitleAddTask.text.toString(), Database.getTask(holder.adapterPosition).isChecked)
+                    Database.editTask(holder.adapterPosition, index + 1, myDialogView.etxTitleAddTask.text.toString(), Database.getTask(holder.adapterPosition).isChecked)
                     Database.sortTasks()
                 }
             }
@@ -207,14 +207,17 @@ class TodoTaskAdapter() :
         }
 
         holder.checkBox.setOnClickListener{
+            val task = Database.getTask(holder.adapterPosition)
+            Database.editTask(holder.adapterPosition, task.priority, task.title, holder.checkBox.isChecked)
             if(holder.checkBox.isChecked){
                 holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
+                notifyDataSetChanged()
             }else{
                 holder.tvName.paintFlags = 0
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
+                notifyDataSetChanged()
             }
-
         }
 
         when(currentTask.priority){

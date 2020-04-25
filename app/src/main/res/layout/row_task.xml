@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
     android:layout_margin="8dp"
-    android:background="@drawable/round_corner3">
+    android:background="@drawable/round_corner3"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/name_textview"
@@ -17,20 +16,21 @@
         android:text=""
         android:textColor="@color/colorOnBackGround"
         android:textSize="@dimen/font_size_list_items"
-        app:layout_constraintEnd_toStartOf="@+id/checkBox"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cbTask"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/cbTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:theme="@style/WhiteCheck"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:theme="@style/WhiteCheck"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.48000002" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
