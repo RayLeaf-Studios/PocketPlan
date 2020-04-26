@@ -61,6 +61,8 @@ important Tasks:
      - fix remaining wake time string for every occasion (bis zur wakeup time, verbal ins bett schicken)
 
 random tasks:
+    - add listener to number picker for typing in numbers
+    - add support for 24h sleep duration
     - change color of checked task to grey
     - live update sleepreminder time
     - design home panel
