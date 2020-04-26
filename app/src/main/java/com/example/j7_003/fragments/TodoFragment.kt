@@ -226,6 +226,10 @@ class TodoTaskAdapter() :
             3 -> holder.myView.setBackgroundResource(drawable.round_corner3)
         }
 
+        if(currentTask.isChecked){
+            holder.myView.setBackgroundResource(drawable.round_corner_bday)
+        }
+
     }
 
     override fun getItemCount() = Database.taskList.size
