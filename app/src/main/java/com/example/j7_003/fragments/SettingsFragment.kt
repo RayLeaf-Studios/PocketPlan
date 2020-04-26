@@ -19,17 +19,6 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val myView = inflater.inflate(R.layout.fragment_settings, container, false)
-
-        //todo initialize correct display of saved settings, (switch for enabled checkboxes)
-
-        myView.swEnableCheckBoxesTodo.setOnClickListener{
-            if (myView.swEnableCheckBoxesTodo.isChecked){
-                //todo enable and save setting of checkboxes are visible
-            }else{
-                //todo disable use of checkboxes, uncheck all tasks
-            }
-        }
-
         return myView
     }
 

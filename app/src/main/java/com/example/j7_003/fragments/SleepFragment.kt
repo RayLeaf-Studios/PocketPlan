@@ -42,17 +42,13 @@ class SleepFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        Log.e("called oncreate", LocalTime.now().toString())
-
         customIsInit = false
         regularIsInit = false
-//        val myView = inflater.inflate(R.layout.fragment_sleep, container, false)
+
         val myView = MainActivity.sleepView
-        Log.e("after inflating", LocalTime.now().toString())
+
         SleepReminder.init()
 
-        Log.e("var", SleepReminder.daysAreCustom.toString())
-        Log.e("after reminder init", LocalTime.now().toString())
         if(SleepReminder.daysAreCustom){
             initializeCustomDaysDisplay(myView)
             myView.switchEnableCustomDays.isChecked = true
@@ -65,7 +61,6 @@ class SleepFragment : Fragment() {
             myView.switchEnableCustomDays.isChecked = false
         }
 
-        Log.e("after init and update", LocalTime.now().toString())
         //switch to enable / disable entire reminder
         myView.switchEnableReminder.setOnClickListener {
             if (myView.switchEnableReminder.isChecked) {
@@ -89,7 +84,6 @@ class SleepFragment : Fragment() {
                 animationShowRegular(myView)
             }
         }
-        Log.e("after onclicklisters", LocalTime.now().toString())
         return myView
     }
 

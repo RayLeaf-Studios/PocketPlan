@@ -196,16 +196,6 @@ class TodoTaskAdapter() :
             holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
         }
 
-        //todo replace always false with setting if checkboxes are used
-
-        if(false){
-            holder.checkBox.visibility = View.GONE
-            holder.checkBox.isClickable = false
-        }else{
-            holder.checkBox.visibility = View.VISIBLE
-            holder.checkBox.isClickable = true
-        }
-
         holder.checkBox.setOnClickListener{
             val task = Database.getTask(holder.adapterPosition)
             Database.editTask(holder.adapterPosition, task.priority, task.title, holder.checkBox.isChecked)

@@ -30,7 +30,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Checkboxes in ToDo-List"
+                    android:text="Sample Setting"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
