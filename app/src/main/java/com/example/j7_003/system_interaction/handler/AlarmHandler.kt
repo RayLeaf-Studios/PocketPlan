@@ -46,7 +46,9 @@ class AlarmHandler {
             context: Context = MainActivity.myActivity,
             dayOfWeek: DayOfWeek,
             requestCode: Int,
-            reminderTime: LocalTime
+            reminderTime: LocalTime,
+            duration: Duration,
+            isSet: Boolean
         ) {
             val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "SReminder")
@@ -63,35 +65,44 @@ class AlarmHandler {
             val notificationTime: LocalDateTime
             val now: LocalDate = LocalDate.now()
 
-            fun nowOrNext(): Int {
-                val day: DayOfWeek = now.dayOfWeek
+            fun nowOrNext(): LocalDate {
+                val test = if (
+                    reminderTime.hour.plus(duration.toHours()) > 23
+                ) {
+                    now.with(TemporalAdjusters.next(dayOfWeek)).minusDays(1)
+                } else {
+                    now.with(TemporalAdjusters.next(dayOfWeek))
+                }
 
-
-                return if (dayOfWeek == day) {
-                    if (LocalTime.now().isAfter(reminderTime)) {
-                        now.with(TemporalAdjusters.next(day)).dayOfMonth
+                return if (test.dayOfWeek == now.dayOfWeek) {
+                    if (reminderTime.isAfter(LocalTime.now())) {
+                        test.minusDays(7)
                     } else {
-                        now.dayOfMonth
+                        test
                     }
                 } else {
-                    now.with(TemporalAdjusters.next(dayOfWeek)).dayOfMonth
+                    test
                 }
             }
 
             notificationTime = LocalDateTime.of(
-                now.year,
-                now.month,
                 nowOrNext(),
-                reminderTime.hour,
-                reminderTime.minute
+                LocalTime.of(
+                    reminderTime.hour,
+                    reminderTime.minute
+                )
             )
 
-            alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-                AlarmManager.INTERVAL_DAY,
-                pendingIntent
-            )
+            if (isSet) {
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.cancel(pendingIntent)
+            }
         }
     }
 }

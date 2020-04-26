@@ -125,10 +125,11 @@ class SleepFragment : Fragment() {
          */
         customCheckBoxList.forEachIndexed{ i, cb ->
             cb.setOnClickListener{
+                val day = DayOfWeek.values()[i]
                 if(cb.isChecked){
-                    SleepReminder.reminder[DayOfWeek.values()[i]]?.enable()
+                    SleepReminder.reminder[day]?.enable(day)
                 }else{
-                    SleepReminder.reminder[DayOfWeek.values()[i]]?.disable()
+                    SleepReminder.reminder[day]?.disable(day)
                 }
             }
         }
@@ -316,10 +317,11 @@ class SleepFragment : Fragment() {
 
         regularCheckBoxList.forEachIndexed { i, cb ->
             cb.setOnClickListener {
+                val day = DayOfWeek.values()[i]
                 if (cb.isChecked) {
-                    SleepReminder.reminder[DayOfWeek.values()[i]]?.enable()
+                    SleepReminder.reminder[day]?.enable(day)
                 } else {
-                    SleepReminder.reminder[DayOfWeek.values()[i]]?.disable()
+                    SleepReminder.reminder[day]?.disable(day)
                 }
             }
         }

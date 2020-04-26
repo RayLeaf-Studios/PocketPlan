@@ -20,7 +20,7 @@ import kotlin.collections.HashMap
 class SleepReminder {
     companion object {
         var daysAreCustom: Boolean = false
-        private const val fileName: String = "SLEEP_REMINDER_DEBUG"
+        private const val fileName: String = "SLEEP_REMINDER"
 
         var reminder = HashMap<DayOfWeek, Reminder>(7)
 
@@ -77,6 +77,7 @@ class SleepReminder {
             reminder.forEach { n ->
                 n.value.editWakeUpTime(hour, minute)
             }
+            updateReminder()
             save()
         }
 
@@ -101,6 +102,7 @@ class SleepReminder {
             reminder.forEach { n ->
                 n.value.editDuration(hour, minute)
             }
+            updateReminder()
             save()
         }
 
@@ -120,8 +122,10 @@ class SleepReminder {
             reminder.forEach { n ->
                 n.value.isSet = true
             }
+            updateReminder()
             save()
         }
+
 
         /**
          * Disables all Reminders from notifying the user and saves the SleepReminder to file.
@@ -131,6 +135,7 @@ class SleepReminder {
             reminder.forEach { n ->
                  n.value.isSet = false
             }
+            updateReminder()
             save()
         }
 
@@ -143,7 +148,7 @@ class SleepReminder {
         private fun createFile() {
             StorageHandler.createJsonFile(
                 fileName,
-                "SReminder_Debug.json",
+                "SReminder.json",
                 text = Gson().toJson(reminder)
             )
             if (SettingsManager.settings["daysAreCustom"] == null) {
@@ -154,7 +159,6 @@ class SleepReminder {
         private fun save() {
             StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
             SettingsManager.addSetting("daysAreCustom", daysAreCustom)
-            updateReminder()
         }
 
         private fun load() {
@@ -173,10 +177,17 @@ class SleepReminder {
          * @see Reminder.updateAlarm for alarm updating.
          */
          fun updateReminder() {
-            var i = 200
             reminder.forEach { n ->
+                val i = when(n.key) {
+                    MONDAY -> 203
+                    TUESDAY -> 200
+                    WEDNESDAY -> 201
+                    THURSDAY -> 202
+                    FRIDAY -> 205
+                    SATURDAY -> 204
+                    SUNDAY -> 206
+                }
                 n.value.updateAlarm(n.key, i)
-                i++
             }
         }
 
@@ -184,13 +195,13 @@ class SleepReminder {
            reminder[dayOfWeek]?.updateAlarm(
                dayOfWeek,
                when(dayOfWeek) {
-                   SATURDAY -> 200
-                   TUESDAY -> 201
-                   SUNDAY -> 202
-                   THURSDAY -> 203
-                   FRIDAY -> 204
-                   WEDNESDAY -> 205
-                   MONDAY -> 206
+                   MONDAY -> 203
+                   TUESDAY -> 200
+                   WEDNESDAY -> 201
+                   THURSDAY -> 202
+                   FRIDAY -> 205
+                   SATURDAY -> 204
+                   SUNDAY -> 206
                }
            )
         }
@@ -201,9 +212,13 @@ class SleepReminder {
          */
         class Reminder {
             var isSet: Boolean = false
-            private var reminderTime = LocalTime.of(23, 59)
+            private lateinit var reminderTime: LocalTime
             private var wakeUpTime: LocalTime = LocalTime.of(12, 0)
             private var duration: Duration = Duration.ofHours(8).plusMinutes(0)
+
+            init {
+                calcReminderTime()
+            }
 
             /**
              * @return The hour of the Reminders wakeUpTime as int.
@@ -251,13 +266,13 @@ class SleepReminder {
              * Marks the Reminder as notifiable.
              * @see disable for the counterpart.
              */
-            fun enable() { isSet = true; save() }
+            fun enable(day: DayOfWeek) { isSet = true; updateSingleReminder(day); save() }
 
             /**
              * Marks the Reminder as not notifiable.
              * @see enable for the counterpart.
              */
-            fun disable() { isSet = false; save() }
+            fun disable(day: DayOfWeek) { isSet = false; updateSingleReminder(day); save() }
 
             /**
              * @return The reminderTime formatted as a string.
@@ -294,11 +309,12 @@ class SleepReminder {
              * @param requestCode An integer to identify the alarm.
              */
             fun updateAlarm(weekdays: DayOfWeek, requestCode: Int) {
-                return
                 AlarmHandler.setNewSleepReminderAlarm(
                     dayOfWeek = weekdays,
                     requestCode = requestCode,
-                    reminderTime = reminderTime
+                    reminderTime = reminderTime,
+                    duration = duration,
+                    isSet = isSet
                 )
             }
         }
