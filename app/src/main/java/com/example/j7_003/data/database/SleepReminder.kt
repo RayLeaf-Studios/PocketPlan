@@ -312,7 +312,7 @@ class SleepReminder {
                 AlarmHandler.setNewSleepReminderAlarm(
                     dayOfWeek = weekdays,
                     requestCode = requestCode,
-                    reminderTime = reminderTime,
+                    wakeUpTime = wakeUpTime,
                     duration = duration,
                     isSet = isSet
                 )

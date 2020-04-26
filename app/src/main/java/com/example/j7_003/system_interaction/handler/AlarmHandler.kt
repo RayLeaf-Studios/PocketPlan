@@ -4,10 +4,13 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
+import org.threeten.bp.chrono.ChronoLocalDate
+import org.threeten.bp.temporal.TemporalAdjuster
 import org.threeten.bp.temporal.TemporalAdjusters
 import java.util.*
 
@@ -46,7 +49,7 @@ class AlarmHandler {
             context: Context = MainActivity.myActivity,
             dayOfWeek: DayOfWeek,
             requestCode: Int,
-            reminderTime: LocalTime,
+            wakeUpTime: LocalTime,
             duration: Duration,
             isSet: Boolean
         ) {
@@ -62,47 +65,31 @@ class AlarmHandler {
 
             val alarmManager: AlarmManager =
                 context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val notificationTime: LocalDateTime
-            val now: LocalDate = LocalDate.now()
 
-            fun nowOrNext(): LocalDate {
-                val test = if (
-                    reminderTime.hour.plus(duration.toHours()) > 23
-                ) {
-                    now.with(TemporalAdjusters.next(dayOfWeek)).minusDays(1)
-                } else {
-                    now.with(TemporalAdjusters.next(dayOfWeek))
-                }
+            fun nowOrNext(): LocalDateTime {
+                val nextReminder = LocalDateTime.now()
+                    .with(TemporalAdjusters.next(dayOfWeek)).with(wakeUpTime)
+                    .minus(duration)
 
-                return if (test.dayOfWeek == now.dayOfWeek) {
-                    if (reminderTime.isAfter(LocalTime.now())) {
-                        test.minusDays(7)
-                    } else {
-                        test
-                    }
-                } else {
-                    test
-                }
+                return if (nextReminder.toLocalDate() == LocalDate.now()) {
+                    if (nextReminder.isAfter(LocalDateTime.now())) nextReminder
+                    else nextReminder.plusDays(7)
+                } else if (nextReminder.minusDays(7).isAfter(LocalDateTime.now())) {
+                    nextReminder.minusDays(7)
+                } else nextReminder
             }
-
-            notificationTime = LocalDateTime.of(
-                nowOrNext(),
-                LocalTime.of(
-                    reminderTime.hour,
-                    reminderTime.minute
-                )
-            )
 
             if (isSet) {
                 alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
-                    notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    nowOrNext().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
                     AlarmManager.INTERVAL_DAY,
                     pendingIntent
                 )
             } else {
                 alarmManager.cancel(pendingIntent)
             }
+            Log.e("debug", "${nowOrNext().dayOfWeek}\n${nowOrNext()}")
         }
     }
 }
