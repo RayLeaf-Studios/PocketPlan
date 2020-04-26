@@ -29,7 +29,7 @@
     </style>
 
     <style name="WhiteCheck">
-        <item name="colorAccent">#fff</item>
+        <item name="colorAccent">@color/colorHint</item>
     </style>
 
 </resources>
