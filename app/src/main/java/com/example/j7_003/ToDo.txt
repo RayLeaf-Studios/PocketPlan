@@ -63,7 +63,6 @@ important Tasks:
 random tasks:
     - add listener to number picker for typing in numbers
     - add support for 24h sleep duration
-    - change color of checked task to grey
     - live update sleepreminder time
     - design home panel
     - optimize ui updating in sleep fragment
@@ -73,6 +72,7 @@ random tasks:
     - replace all colors and values like text size with resource references
 
 ideas:
+    - limit sleep duration to 12h
     - weekschedule: display current day in the home screen
     - maybe make modules more customizable
     - make months somehow visible in birthday fragment
