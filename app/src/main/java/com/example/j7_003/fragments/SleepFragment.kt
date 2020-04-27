@@ -134,7 +134,47 @@ class SleepFragment : Fragment() {
             }
         }
 
-        customPanelList.forEachIndexed{ i, p ->
+        customDurationTexts.forEachIndexed{i, p ->
+            p.setOnClickListener{
+                val myDialogView = LayoutInflater.from(activity)
+                    .inflate(R.layout.dialog_pick_time, null)
+
+                myDialogView.npHour.minValue = 0
+                myDialogView.npHour.maxValue = 23
+
+                myDialogView.npMinute.minValue = 0
+                myDialogView.npMinute.maxValue = 59
+
+                myDialogView.tvHourMinuteDivider.text = "h"
+                myDialogView.tvHourMinuteAttachment.text = "m"
+
+                val myBuilder2 = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
+                val customTitle2 =
+                    LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
+                customTitle2.tvDialogTitle.text = "Sleep Duration - "+DayOfWeek.values()[i].toString()
+                myBuilder2.setCustomTitle(customTitle2)
+
+                val myAlertDialog2 = myBuilder2.create()
+                myAlertDialog2.show()
+
+                myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
+                myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
+
+                myDialogView.btnApplyTime.setOnClickListener() {
+                    SleepReminder.editDurationAtDay(
+                        DayOfWeek.values()[i],
+                        myDialogView.npHour.value,
+                        myDialogView.npMinute.value
+                    )
+                    myAlertDialog2.dismiss()
+                    updateCustomDisplay()
+
+                }
+            }
+
+        }
+
+        customWakeTimeTexts.forEachIndexed{ i, p ->
             p.setOnClickListener{
                 val myDialogView =
                     LayoutInflater.from(activity).inflate(R.layout.dialog_pick_time, null)
@@ -177,40 +217,7 @@ class SleepFragment : Fragment() {
                     )
                     myAlertDialog.dismiss()
                     updateCustomDisplay()
-                    val myDialogView = LayoutInflater.from(activity)
-                        .inflate(R.layout.dialog_pick_time, null)
 
-                    myDialogView.npHour.minValue = 0
-                    myDialogView.npHour.maxValue = 23
-
-                    myDialogView.npMinute.minValue = 0
-                    myDialogView.npMinute.maxValue = 59
-
-                    myDialogView.tvHourMinuteDivider.text = "h"
-                    myDialogView.tvHourMinuteAttachment.text = "m"
-
-                    val myBuilder2 = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
-                    val customTitle2 =
-                        LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-                    customTitle2.tvDialogTitle.text = "Sleep Duration - "+DayOfWeek.values()[i].toString()
-                    myBuilder2.setCustomTitle(customTitle2)
-
-                    val myAlertDialog2 = myBuilder2.create()
-                    myAlertDialog2.show()
-
-                    myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
-                    myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
-
-                    myDialogView.btnApplyTime.setOnClickListener() {
-                        SleepReminder.editDurationAtDay(
-                            DayOfWeek.values()[i],
-                            myDialogView.npHour.value,
-                            myDialogView.npMinute.value
-                        )
-                        myAlertDialog2.dismiss()
-                       updateCustomDisplay()
-
-                    }
                 }
             }
         }

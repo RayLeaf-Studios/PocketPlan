@@ -79,10 +79,6 @@ class CreateTermFragment : Fragment() {
         tvTermTime.text = hour.toString()
             .padStart(2, '0') + ":" + minute.toString().padStart(2, '0')
         tvTermEndTime.text = "(optional)"
-
-
-
-
     }
 
     @SuppressLint("SetTextI18n")

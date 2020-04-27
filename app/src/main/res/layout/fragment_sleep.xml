@@ -13,6 +13,7 @@
      <androidx.constraintlayout.widget.ConstraintLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
+         android:visibility="gone"
          android:id="@+id/panelNotCustom"
          app:layout_constraintTop_toBottomOf="@id/switchPanel"
         >
@@ -280,7 +281,7 @@
             android:id="@+id/customMondayPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -365,7 +366,7 @@
             android:id="@+id/customTuesdayPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintTop_toBottomOf="@id/customMondayPanel">
 
             <TextView
@@ -450,7 +451,7 @@
             android:id="@+id/customWednesdayPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintTop_toBottomOf="@id/customTuesdayPanel">
 
             <TextView
@@ -534,7 +535,7 @@
             android:id="@+id/customThursdayPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintTop_toBottomOf="@id/customWednesdayPanel">
 
             <TextView
@@ -617,7 +618,7 @@
             android:id="@+id/customFridayPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintTop_toBottomOf="@id/customThursdayPanel">
 
             <TextView
@@ -700,7 +701,7 @@
             android:id="@+id/customSaturdayPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintTop_toBottomOf="@id/customFridayPanel">
 
             <TextView
@@ -784,7 +785,7 @@
             android:id="@+id/customSundayPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             app:layout_constraintTop_toBottomOf="@id/customSaturdayPanel">
 
             <TextView

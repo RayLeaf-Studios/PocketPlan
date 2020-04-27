@@ -48,7 +48,7 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etTermInfo">
 
@@ -90,7 +90,7 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/panelTermDate">
 
@@ -132,7 +132,7 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/panelTermTime">
 
@@ -195,7 +195,7 @@
     <Button
         android:id="@+id/btnDuration30m"
         android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/line_white"
         android:text="30m"
@@ -208,7 +208,7 @@
     <Button
         android:id="@+id/btnDuration60m"
         android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/line_white"
         android:text="1h"
         android:textAllCaps="false"
@@ -220,7 +220,7 @@
     <Button
         android:id="@+id/btnDuration90m"
         android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/line_white"
         android:text="1.5h"
         android:textAllCaps="false"
@@ -232,7 +232,7 @@
     <Button
         android:id="@+id/btnDuration120m"
         android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/line_white"
         android:text="2h"
         android:textAllCaps="false"
@@ -244,7 +244,7 @@
     <Button
         android:id="@+id/btnDuration180m"
         android:layout_width="60dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/line_white"
         android:text="3h"
         android:textAllCaps="false"
