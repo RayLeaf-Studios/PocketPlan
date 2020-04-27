@@ -62,8 +62,10 @@ Stuff to do next in following order:
      - single term design in calendar view
 
 important Tasks:
-fix loading of numberpickers in sleepfragment
-     - fix remaining wake time string for every occasion (bis zur wakeup time, verbal ins bett schicken)
+    - fix loading of numberpickers in sleepfragment
+    - fix remaining wake time string for every occasion (bis zur wakeup time, verbal ins bett schicken)
+    - sleepReminder alarms should be set once and refresh on trigger (Sent intent extra to notification receiver)
+    - update sleepReminder to calculate the remaining duration until the next reminder and reset to the next after the wake up time
 
 random tasks:
     - add listener to number picker for typing in numbers
