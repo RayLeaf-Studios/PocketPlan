@@ -57,23 +57,24 @@ Modules: test test
 
     7 MainPanel
 
+Stuff to do next in following order:
+     - home panel design
+     - single term design in calendar view
+
 important Tasks:
      - fix remaining wake time string for every occasion (bis zur wakeup time, verbal ins bett schicken)
 
 random tasks:
     - add listener to number picker for typing in numbers
     - add support for 24h sleep duration
-    - live update sleepreminder time
+    - live update sleep-reminder time
     - design home panel
-    - optimize ui updating in sleep fragment
-    - remove ability to scroll in addtask textline
     - add shopping list module
     - plan calendar layout
     - replace all colors and values like text size with resource references
 
 ideas:
-    - limit sleep duration to 12h
-    - weekschedule: display current day in the home screen
+    - week-schedule: display current day in the home screen
     - maybe make modules more customizable
     - make months somehow visible in birthday fragment
     - make note column count flexible (1-3)
