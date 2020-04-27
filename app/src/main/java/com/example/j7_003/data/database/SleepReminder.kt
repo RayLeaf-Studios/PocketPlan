@@ -110,7 +110,7 @@ class SleepReminder {
          * Returns a string containing the RemainingWakeDuration of the current day.
          * @return A string of the remaining time until the Reminders reminderTime.
          */
-        fun getRemainingWakeDurationString(): String {
+        fun getRemainingWakeDurationString(): Pair<String, Int> {
             return reminder[LocalDate.now().dayOfWeek]?.getRemainingWakeDuration()!!
         }
 
@@ -294,9 +294,14 @@ class SleepReminder {
             /**
              * @return The remainingWakeDuration formatted as "HHh MMm".
              */
-            fun getRemainingWakeDuration(): String {
-                return "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h " +
-                        "${(LocalTime.now().until(reminderTime, ChronoUnit.MINUTES)%60)}m"
+            fun getRemainingWakeDuration(): Pair<String, Int> {
+                return Pair(
+                    "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h " +
+                        "${(LocalTime.now().until(reminderTime, ChronoUnit.MINUTES) % 60)}m",
+                    if (!isSet) 3
+                    else if (LocalTime.now().until(reminderTime, ChronoUnit.MINUTES) % 60 < 0) 2
+                    else 0
+                )
             }
 
             private fun calcReminderTime() {
