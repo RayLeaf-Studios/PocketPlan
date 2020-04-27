@@ -6,11 +6,8 @@ import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import org.threeten.bp.DayOfWeek
+import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
 import org.threeten.bp.temporal.ChronoUnit
 import kotlin.collections.HashMap
 
@@ -111,6 +108,7 @@ class SleepReminder {
          * @return A string of the remaining time until the Reminders reminderTime.
          */
         fun getRemainingWakeDurationString(): Pair<String, Int> {
+
             return reminder[LocalDate.now().dayOfWeek]?.getRemainingWakeDuration()!!
         }
 
@@ -140,8 +138,8 @@ class SleepReminder {
         }
 
         private fun initMap() {
-            values().forEach { n ->
-                reminder[n] = Reminder()
+            DayOfWeek.values().forEach { n ->
+                reminder[n] = Reminder(n)
             }
         }
 
@@ -187,13 +185,12 @@ class SleepReminder {
                     SATURDAY -> 204
                     SUNDAY -> 206
                 }
-                n.value.updateAlarm(n.key, i)
+                n.value.updateAlarm(i)
             }
         }
 
         private fun updateSingleReminder(dayOfWeek: DayOfWeek) {
            reminder[dayOfWeek]?.updateAlarm(
-               dayOfWeek,
                when(dayOfWeek) {
                    MONDAY -> 203
                    TUESDAY -> 200
@@ -210,7 +207,7 @@ class SleepReminder {
          * A simple local class which instances are used to remind the user
          * of his sleeping habits.
          */
-        class Reminder {
+        class Reminder(private val weekday: DayOfWeek) {
             var isSet: Boolean = false
             private lateinit var reminderTime: LocalTime
             private var wakeUpTime: LocalTime = LocalTime.of(12, 0)
@@ -310,12 +307,11 @@ class SleepReminder {
 
             /**
              * Updates the AlarmManager for the calling Reminder.
-             * @param weekdays The day of the week to specify the Reminder.
              * @param requestCode An integer to identify the alarm.
              */
-            fun updateAlarm(weekdays: DayOfWeek, requestCode: Int) {
+            fun updateAlarm(requestCode: Int) {
                 AlarmHandler.setNewSleepReminderAlarm(
-                    dayOfWeek = weekdays,
+                    dayOfWeek = weekday,
                     requestCode = requestCode,
                     wakeUpTime = wakeUpTime,
                     duration = duration,

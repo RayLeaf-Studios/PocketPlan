@@ -89,7 +89,6 @@ class AlarmHandler {
             } else {
                 alarmManager.cancel(pendingIntent)
             }
-            Log.e("debug", "${nowOrNext().dayOfWeek}\n${nowOrNext()}")
         }
     }
 }
