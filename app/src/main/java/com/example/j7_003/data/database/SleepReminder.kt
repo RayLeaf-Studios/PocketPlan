@@ -288,8 +288,8 @@ class SleepReminder {
              * @return The Duration formatted as "HHh MMm".
              */
             fun getDurationTimeString(): String =
-                "${duration.toHours().toString().padStart(2, ' ')}h " +
-                    "${(duration.toMinutes()%60).toString().padStart(2, ' ')}m"
+                "${duration.toHours().toString().padStart(2, '0')}h " +
+                    "${(duration.toMinutes()%60).toString().padStart(2, '0')}m"
 
             /**
              * @return The remainingWakeDuration formatted as "HHh MMm".
