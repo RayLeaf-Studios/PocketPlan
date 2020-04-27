@@ -31,7 +31,7 @@
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/icSleepHome"
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:src="@drawable/baseline_nights_stay_white_18dp"
@@ -44,9 +44,9 @@
         android:layout_height="wrap_content"
         android:text="8h and 13 min until bedtime"
         android:textColor="@color/colorOnBackGround"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
+        app:layout_constraintBottom_toBottomOf="@+id/icSleepHome"
+        app:layout_constraintStart_toEndOf="@+id/icSleepHome"
+        app:layout_constraintTop_toTopOf="@+id/icSleepHome" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

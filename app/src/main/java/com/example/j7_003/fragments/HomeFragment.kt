@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.SleepReminder
@@ -31,7 +33,30 @@ class HomeFragment : Fragment() {
     }
 
     fun updateRemainingWakeimeDisplay(){
-        myView.tvRemainingWakeTime.text = SleepReminder.getRemainingWakeDurationString()
+
+        val (message, status) = SleepReminder.getRemainingWakeDurationString()
+
+        //0 -> positive wake time, 1 -> negative wake time, 2 -> no reminder set
+        when(status){
+            0 -> { //show icon, set and show message, text white
+                myView.icSleepHome.visibility = View.VISIBLE
+                myView.tvRemainingWakeTime.text = message
+                myView.tvRemainingWakeTime.visibility = View.VISIBLE
+                myView.tvRemainingWakeTime.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+            }
+            1 ->{
+                //show icon, set and show message, text red
+                myView.icSleepHome.visibility = View.VISIBLE
+                myView.tvRemainingWakeTime.text = message
+                myView.tvRemainingWakeTime.visibility = View.VISIBLE
+                myView.tvRemainingWakeTime.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))
+            }
+            2 ->{
+                //hide icon, hide text
+                myView.icSleepHome.visibility = View.INVISIBLE
+                myView.tvRemainingWakeTime.visibility = View.INVISIBLE
+            }
+        }
     }
 
 //    fun displayTasks(myview: View){

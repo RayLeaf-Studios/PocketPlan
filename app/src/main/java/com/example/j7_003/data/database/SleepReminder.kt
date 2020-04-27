@@ -298,8 +298,8 @@ class SleepReminder {
                 return Pair(
                     "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h " +
                         "${(LocalTime.now().until(reminderTime, ChronoUnit.MINUTES) % 60)}m",
-                    if (!isSet) 3
-                    else if (LocalTime.now().until(reminderTime, ChronoUnit.MINUTES) % 60 < 0) 2
+                    if (!isSet) 2
+                    else if (LocalTime.now().until(reminderTime, ChronoUnit.MINUTES) % 60 < 0) 1
                     else 0
                 )
             }

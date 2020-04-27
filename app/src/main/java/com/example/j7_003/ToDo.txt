@@ -62,6 +62,7 @@ Stuff to do next in following order:
      - single term design in calendar view
 
 important Tasks:
+fix loading of numberpickers in sleepfragment
      - fix remaining wake time string for every occasion (bis zur wakeup time, verbal ins bett schicken)
 
 random tasks:

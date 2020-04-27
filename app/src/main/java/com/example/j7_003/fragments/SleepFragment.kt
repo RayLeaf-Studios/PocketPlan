@@ -54,9 +54,11 @@ class SleepFragment : Fragment() {
             myView.switchEnableCustomDays.isChecked = true
             updateCustomDisplay()
             myView.panelNotCustom.visibility = View.GONE
+            myView.panelCustom.visibility = View.VISIBLE
         }else{
             initializeRegularDayDisplay(myView)
             updateRegularDisplay()
+            myView.panelNotCustom.visibility = View.VISIBLE
             myView.panelCustom.visibility = View.GONE
             myView.switchEnableCustomDays.isChecked = false
         }
@@ -202,7 +204,6 @@ class SleepFragment : Fragment() {
                 customTitle.tvDialogTitle.text = "Wakeup Time - "+DayOfWeek.values()[i].toString()
                 myBuilder.setCustomTitle(customTitle)
 
-                //todo get right times here
                 myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeHour()!!
                 myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeMinute()!!
 
