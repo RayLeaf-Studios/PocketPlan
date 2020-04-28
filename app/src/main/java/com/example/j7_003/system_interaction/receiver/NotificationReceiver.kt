@@ -27,16 +27,17 @@ class NotificationReceiver : BroadcastReceiver() {
         if (intent != null) {
             when (intent.extras?.get("Notification")) {
                 "Birthday" -> birthdayNotifications()
-                "SReminder" -> checkSleepNotification()
+                "SReminder" -> checkSleepNotification(intent)
             }
         }
     }
 
-    private fun checkSleepNotification() {
+    private fun checkSleepNotification(intent: Intent) {
         SleepReminder.init()
-        SleepReminder.reminder.forEach { n ->
-            if (n.key.toString() == LocalDate.now().dayOfWeek.toString()) sRNotification()
-        }
+        SleepReminder.reminder[intent.extras?.get("weekday")]?.updateAlarm(
+            intent.extras?.getInt("requestCode")!!
+        )
+        sRNotification()
     }
 
     private fun sRNotification() {

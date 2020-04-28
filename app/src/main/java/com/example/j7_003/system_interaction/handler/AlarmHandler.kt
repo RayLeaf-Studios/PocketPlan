@@ -4,13 +4,10 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
-import org.threeten.bp.chrono.ChronoLocalDate
-import org.threeten.bp.temporal.TemporalAdjuster
 import org.threeten.bp.temporal.TemporalAdjusters
 import java.util.*
 
@@ -55,6 +52,8 @@ class AlarmHandler {
         ) {
             val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "SReminder")
+            intent.putExtra("weekday", dayOfWeek.toString())
+            intent.putExtra("requestCode", requestCode)
 
             val pendingIntent: PendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -80,10 +79,9 @@ class AlarmHandler {
             }
 
             if (isSet) {
-                alarmManager.setRepeating(
+                alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
                     nowOrNext().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-                    AlarmManager.INTERVAL_DAY,
                     pendingIntent
                 )
             } else {
