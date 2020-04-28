@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
 import org.threeten.bp.temporal.ChronoUnit
+import org.threeten.bp.temporal.TemporalAdjusters
 import kotlin.collections.HashMap
 
 /**
@@ -212,6 +213,7 @@ class SleepReminder {
             private lateinit var reminderTime: LocalTime
             private var wakeUpTime: LocalTime = LocalTime.of(12, 0)
             private var duration: Duration = Duration.ofHours(8).plusMinutes(0)
+            private var nextReminder: LocalDateTime = getNextReminder()
 
             init {
                 calcReminderTime()
@@ -313,10 +315,22 @@ class SleepReminder {
                 AlarmHandler.setNewSleepReminderAlarm(
                     dayOfWeek = weekday,
                     requestCode = requestCode,
-                    wakeUpTime = wakeUpTime,
-                    duration = duration,
+                    reminderTime = nextReminder,
                     isSet = isSet
                 )
+            }
+
+            private fun getNextReminder(): LocalDateTime {
+                val nextReminder = LocalDateTime.now()
+                    .with(TemporalAdjusters.next(weekday)).with(wakeUpTime)
+                    .minus(duration)
+
+                return if (nextReminder.toLocalDate() == LocalDate.now()) {
+                    if (nextReminder.isAfter(LocalDateTime.now())) nextReminder
+                    else nextReminder.plusDays(7)
+                } else if (nextReminder.minusDays(7).isAfter(LocalDateTime.now())) {
+                    nextReminder.minusDays(7)
+                } else nextReminder
             }
         }
     }

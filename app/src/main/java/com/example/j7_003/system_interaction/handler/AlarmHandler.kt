@@ -45,9 +45,8 @@ class AlarmHandler {
         fun setNewSleepReminderAlarm(
             context: Context = MainActivity.myActivity,
             dayOfWeek: DayOfWeek,
+            reminderTime: LocalDateTime,
             requestCode: Int,
-            wakeUpTime: LocalTime,
-            duration: Duration,
             isSet: Boolean
         ) {
             val intent = Intent(context, NotificationReceiver::class.java)
@@ -65,23 +64,10 @@ class AlarmHandler {
             val alarmManager: AlarmManager =
                 context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            fun nowOrNext(): LocalDateTime {
-                val nextReminder = LocalDateTime.now()
-                    .with(TemporalAdjusters.next(dayOfWeek)).with(wakeUpTime)
-                    .minus(duration)
-
-                return if (nextReminder.toLocalDate() == LocalDate.now()) {
-                    if (nextReminder.isAfter(LocalDateTime.now())) nextReminder
-                    else nextReminder.plusDays(7)
-                } else if (nextReminder.minusDays(7).isAfter(LocalDateTime.now())) {
-                    nextReminder.minusDays(7)
-                } else nextReminder
-            }
-
             if (isSet) {
                 alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
-                    nowOrNext().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    reminderTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
                     pendingIntent
                 )
             } else {
