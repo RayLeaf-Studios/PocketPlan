@@ -43,13 +43,15 @@ class HomeFragment : Fragment() {
                 myView.tvRemainingWakeTime.text = message
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+                myView.icSleepHome.setColorFilter(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
             }
             1 ->{
                 //show icon, set and show message, text red
                 myView.icSleepHome.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.text = message
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
-                myView.tvRemainingWakeTime.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorNoteRed))
+                myView.tvRemainingWakeTime.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorGoToSleep))
+                myView.icSleepHome.setColorFilter(ContextCompat.getColor(MainActivity.myActivity, R.color.colorGoToSleep))
             }
             2 ->{
                 //hide icon, hide text

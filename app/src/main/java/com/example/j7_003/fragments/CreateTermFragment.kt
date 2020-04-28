@@ -70,7 +70,7 @@ class CreateTermFragment : Fragment() {
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
 
-        startDateTime = LocalDateTime.of(year, month, day, hour, minute)
+        startDateTime = LocalDateTime.of(year, month+1, day, hour, minute)
         endLocalTime = LocalTime.of(hour, minute)
 
 
@@ -83,7 +83,7 @@ class CreateTermFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     fun setDuration(minutes: Int) {
-        var newEndTime = LocalTime.of(startDateTime.hour, startDateTime.minute).plusMinutes(minutes.toLong())
+        val newEndTime = LocalTime.of(startDateTime.hour, startDateTime.minute).plusMinutes(minutes.toLong())
         if(newEndTime.isAfter(LocalTime.of(startDateTime.hour, startDateTime.minute))){
             endLocalTime = LocalTime.of(newEndTime.hour, newEndTime.minute)
             tvTermEndTime.text = endLocalTime.hour.toString()
@@ -101,10 +101,11 @@ class CreateTermFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     fun openDatePicker() {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            startDateTime = startDateTime.withYear(year).withMonth(month+1).withDayOfMonth(day)
             tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
                 .padStart(2, '0') + "." + year.toString()
         }
-        val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, startDateTime.year, startDateTime.monthValue, startDateTime.dayOfMonth)
+        val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, startDateTime.year, startDateTime.monthValue+1, startDateTime.dayOfMonth)
         dpd.show()
     }
 

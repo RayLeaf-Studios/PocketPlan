@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,8 @@ import com.example.j7_003.data.database.CalendarManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_calender.view.*
 import kotlinx.android.synthetic.main.row_term.view.*
+import org.threeten.bp.LocalDate
+import java.util.*
 
 
 /**
@@ -111,7 +114,16 @@ class TermAdapter() :
 
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
+        holder.tvTime.text = currentTerm.dateTime.toLocalTime().toString()
+        val date: LocalDate = currentTerm.dateTime.toLocalDate()
+        val dayOfWeekString = date.dayOfWeek.toString().substring(0,1)+date.dayOfWeek.toString()
+            .substring(1, 2).decapitalize()
+        val month = date.monthValue.toString()
+        val day = date.dayOfMonth.toString()
+        holder.tvDate.text = MainActivity.myActivity.getString(R.string.termItemDate,
+        dayOfWeekString, day, month)
     }
+
 
     //todo get size of termlist here
     override fun getItemCount() = CalendarManager.calendar.size
@@ -121,8 +133,10 @@ class TermAdapter() :
          * One instance of this class will contain one "instance" of row_term and meta data
          * like position, it also holds references to views inside of the layout
          */
-        val tvTitle = itemView.tvTermItemTitel
+        val tvTitle = itemView.tvTermItemTitle
         val tvInfo = itemView.tvTermItemInfo
+        val tvDate = itemView.tvTermItemDate
+        val tvTime = itemView.tvTermItemTime
         //var myView = itemView
     }
 
