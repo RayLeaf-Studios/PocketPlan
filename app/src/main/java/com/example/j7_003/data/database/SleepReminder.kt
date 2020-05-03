@@ -92,6 +92,20 @@ class SleepReminder {
         }
 
         /**
+         * Checks if any reminder is set.
+         * @return Boolean depending on weather at least one reminder is
+         * set or not.
+         */
+        fun isAnySet(): Boolean {
+            reminder.forEach { n ->
+                if (n.value.isSet) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        /**
          * Edits the Duration of all Reminders and saves to file.
          * @param hour The amount of hours the Duration will be set to.
          * @param minute The amount of minutes the Duration will be set to.
@@ -143,6 +157,22 @@ class SleepReminder {
                 reminder[n] = Reminder(n)
             }
         }
+
+//        private fun getClosestReminder(): Reminder {
+//            var closestReminder = reminder[MONDAY]
+//            var closestYet = LocalDateTime.now().until(reminder[MONDAY]?.nextReminder, ChronoUnit.MINUTES)
+//            reminder.forEach { n ->
+//                n.value.updateReminderState()
+//                Log.e("day", "${n.key}")
+//                Log.e("reminder before", "${n.value.nextReminder}")
+//                if (LocalDateTime.now().until(n.value.nextReminder, ChronoUnit.MINUTES) < closestYet) {
+//                    closestYet = LocalDateTime.now().until(n.value.nextReminder, ChronoUnit.MINUTES)
+//                    closestReminder = n.value
+//                }
+//                Log.e("reminder after", "${closestReminder?.nextReminder}")
+//            }
+//            return closestReminder!!
+//        }
 
         private fun createFile() {
             StorageHandler.createJsonFile(
@@ -210,10 +240,10 @@ class SleepReminder {
          */
         class Reminder(private val weekday: DayOfWeek) {
             var isSet: Boolean = false
-            private lateinit var reminderTime: LocalTime
-            private var wakeUpTime: LocalTime = LocalTime.of(12, 0)
-            private var duration: Duration = Duration.ofHours(8).plusMinutes(0)
-            private var nextReminder: LocalDateTime = getNextReminder()
+            lateinit var reminderTime: LocalTime
+            var wakeUpTime: LocalTime = LocalTime.of(12, 0)
+            var duration: Duration = Duration.ofHours(8).plusMinutes(0)
+            var nextReminder = getNextReminderCustom()
 
             init {
                 calcReminderTime()
@@ -303,6 +333,11 @@ class SleepReminder {
                 )
             }
 
+            fun updateReminderState() {
+                calcReminderTime()
+                nextReminder = getNextReminderCustom()
+            }
+
             private fun calcReminderTime() {
                reminderTime = wakeUpTime.minus(duration)
             }
@@ -320,7 +355,7 @@ class SleepReminder {
                 )
             }
 
-            private fun getNextReminder(): LocalDateTime {
+            private fun getNextReminderCustom(): LocalDateTime {
                 val nextReminder = LocalDateTime.now()
                     .with(TemporalAdjusters.next(weekday)).with(wakeUpTime)
                     .minus(duration)

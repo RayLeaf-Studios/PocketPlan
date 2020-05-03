@@ -4,11 +4,11 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
-import org.threeten.bp.temporal.TemporalAdjusters
 import java.util.*
 
 class AlarmHandler {
@@ -73,6 +73,7 @@ class AlarmHandler {
             } else {
                 alarmManager.cancel(pendingIntent)
             }
+            //Log.e("debug", "$reminderTime\n${reminderTime.atZone(ZoneId.systemDefault()).toInstant()}")
         }
     }
 }
