@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
+import org.threeten.bp.temporal.ChronoUnit
 import java.util.*
 
 class AlarmHandler {
@@ -64,16 +65,27 @@ class AlarmHandler {
             val alarmManager: AlarmManager =
                 context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            if (isSet) {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    reminderTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-                    pendingIntent
-                )
-            } else {
-                alarmManager.cancel(pendingIntent)
-            }
-            //Log.e("debug", "$reminderTime\n${reminderTime.atZone(ZoneId.systemDefault()).toInstant()}")
+//            if (isSet) {
+//                alarmManager.setRepeating(
+//                    AlarmManager.RTC_WAKEUP,
+//                    //LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+//                    //reminderTime.atZone(ZoneId.systemDefault()).plusHours(2).toInstant().toEpochMilli(),
+//                    //reminderTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+//                    LocalDateTime.now().until(reminderTime, ChronoUnit.MILLIS),
+//                    86400000,
+//                    pendingIntent
+//                )
+//            } else {
+//                alarmManager.cancel(pendingIntent)
+//            }
+//            Log.e("debug", "${ZoneId.systemDefault()}\n${reminderTime.dayOfWeek}:\t$reminderTime" +
+//                    "\n${reminderTime.dayOfWeek}:\t${reminderTime.atZone(ZoneId.systemDefault()).plusHours(2).toInstant()}" +
+//                    "\n${reminderTime.atZone(ZoneId.systemDefault()).plusHours(2).toInstant().toEpochMilli()}" +
+//                    "\n${LocalDateTime.now().until(reminderTime, ChronoUnit.MILLIS)}" +
+//                    "\n$pendingIntent" +
+//                    "\n$requestCode" +
+//                    "\n$isSet"
+//            )
         }
     }
 }

@@ -246,7 +246,7 @@ class SleepReminder {
             var nextReminder = getNextReminderCustom()
 
             init {
-                calcReminderTime()
+                updateReminderState()
             }
 
             /**
@@ -277,7 +277,7 @@ class SleepReminder {
              */
             fun editWakeUpTime(hour: Int, minute: Int) {
                 wakeUpTime = LocalTime.of(hour, minute)
-                calcReminderTime()
+                updateReminderState()
             }
 
             /**
@@ -288,7 +288,7 @@ class SleepReminder {
              */
             fun editDuration(hour: Int, minute: Int) {
                 duration = Duration.ofHours(hour.toLong()).plusMinutes(minute.toLong())
-                calcReminderTime()
+                updateReminderState()
             }
 
             /**
@@ -333,13 +333,8 @@ class SleepReminder {
                 )
             }
 
-            fun updateReminderState() {
-                calcReminderTime()
+            private fun updateReminderState() {
                 nextReminder = getNextReminderCustom()
-            }
-
-            private fun calcReminderTime() {
-               reminderTime = wakeUpTime.minus(duration)
             }
 
             /**
