@@ -1,9 +1,11 @@
 package com.example.j7_003.data.database
 
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
+import com.example.j7_003.data.database.database_objects.WeekAppointment
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 
@@ -83,8 +85,19 @@ class CalendarManager {
          * @param index Position of the requested Appointment.
          * @return The Appointment from the list at a given position.
          */
-        fun getAppointment(index: Int): CalendarAppointment =
-            calendar[index]
+        fun getAppointment(index: Int): CalendarAppointment = calendar[index]
+
+        fun getDayView(date: LocalDate): ArrayList<CalendarAppointment> {
+            val dateList = ArrayList<CalendarAppointment>()
+            calendar.forEach { n ->
+                if (n.dateTime.toLocalDate().isEqual(date)) {
+                    dateList.add(n)
+                }
+            }
+            val list: ArrayList<WeekAppointment> = WeekSchedule.weekSchedule[date.dayOfWeek]!!
+            dateList.addAll(WeekSchedule.weekSchedule[date.dayOfWeek] as Collection<CalendarAppointment>)
+            return dateList
+        }
 
         private fun sort() {
             calendar.sortWith(compareBy({ it.dateTime }, { it.title }))
