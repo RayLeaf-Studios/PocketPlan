@@ -1,15 +1,16 @@
 package com.example.j7_003.data.database
 
-import com.example.j7_003.data.AppointmentColors
 import com.example.j7_003.system_interaction.handler.StorageHandler
-import com.example.j7_003.data.Weekdays
 import com.example.j7_003.data.database.database_objects.WeekAppointment
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.Duration
+import org.threeten.bp.LocalTime
 
-class WeekSchedule() {
+class WeekSchedule {
     companion object {
-        private val weekSchedule = HashMap<Weekdays, ArrayList<WeekAppointment>>()
+        val weekSchedule = HashMap<DayOfWeek, ArrayList<WeekAppointment>>()
         private const val IDENTIFIER = "WEEK_SCHEDULE"
 
         fun init() {
@@ -20,64 +21,63 @@ class WeekSchedule() {
 
             initMap()
             load()
+            addAppointmentToDay("test", "test", DayOfWeek.MONDAY, LocalTime.of(12, 0), Duration.ofHours(4))
         }
 
         fun editAppointmentAtDay(
             title: String,
             note: String,
-            weekDay: Weekdays,
+            dayOfWeek: DayOfWeek,
             position: Int,
-            startHour: Int,
-            startMinute: Int,
-            duration: Int,
-            colors: AppointmentColors
+            startTime: LocalTime,
+            duration: Duration
         ) {
-            val editableAppointment = weekSchedule[weekDay]?.get(position)
+            val editableAppointment = weekSchedule[dayOfWeek]?.get(position)
 
             if (editableAppointment != null) {
-            /*    editableAppointment.title = title
-                editableAppointment.note = note
-                editableAppointment.startHour = startHour
-                editableAppointment.startMinute = startMinute
+                editableAppointment.title = title
+                editableAppointment.addInfo = note
+                editableAppointment.startTime = startTime
                 editableAppointment.duration = duration
-                editableAppointment.color = colors
-            */}
+            }
+            save()
         }
 
         fun addAppointmentToDay(
             title: String,
             note: String,
-            weekDay: Weekdays,
-            startHour: Int,
-            startMinute: Int,
-            duration: Int,
-            colors: AppointmentColors
+            dayOfWeek: DayOfWeek,
+            startTime: LocalTime,
+            duration: Duration
         ) {
-            /*weekSchedule[weekDay]?.add(
+            weekSchedule[dayOfWeek]?.add(
                 WeekAppointment(
                     title,
                     note,
-                    weekDay,
-                    startHour,
-                    startMinute,
-                    duration,
-                    colors
+                    dayOfWeek,
+                    startTime,
+                    duration
                 )
-            )*/
+            )
+            save()
+        }
+
+        fun deleteAppointmentAtDay(dayOfWeek: DayOfWeek, index: Int) {
+            weekSchedule[dayOfWeek]?.removeAt(index)
+            save()
+        }
+
+        private fun initMap() {
+            for (element in DayOfWeek.values()) {
+                weekSchedule[element] = ArrayList()
+            }
+        }
+
+        private fun save() {
             StorageHandler.saveAsJsonToFile(
                 StorageHandler.files[IDENTIFIER],
                 weekSchedule
             )
-        }
-
-        fun deleteAppointmentAtDay(weekDay: Weekdays, index: Int) {
-            weekSchedule[weekDay]?.removeAt(index)
-        }
-
-        private fun initMap() {
-            for (element in Weekdays.values()) {
-                weekSchedule[element] = ArrayList()
-            }
         }
 
         private fun load() {
@@ -86,7 +86,7 @@ class WeekSchedule() {
             return GsonBuilder().create()
                 .fromJson(
                     jsonString,
-                    object : TypeToken<HashMap<Weekdays, ArrayList<WeekAppointment>>>() {}.type
+                    object : TypeToken<HashMap<DayOfWeek, HashMap<DayOfWeek, WeekAppointment>>>() {}.type
                 )
         }
     }
