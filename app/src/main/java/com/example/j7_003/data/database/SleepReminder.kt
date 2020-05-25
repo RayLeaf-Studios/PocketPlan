@@ -218,7 +218,15 @@ class SleepReminder {
                     closestTime = dateTime.until(closestReminder.nextReminder, ChronoUnit.MINUTES)
                 }
             }
-            val priorReminder = reminder[closestReminder.nextReminder.minusDays(1).dayOfWeek]
+
+            val priorReminder = if (
+                closestReminder.nextReminder.plus(closestReminder.duration).dayOfMonth == closestReminder.nextReminder.dayOfMonth
+            ) {
+                reminder[closestReminder.nextReminder.minusDays(1).dayOfWeek]
+            } else {
+                reminder[closestReminder.nextReminder.dayOfWeek]
+            }
+
             return Pair(
                 closestReminder,
                 priorReminder!!
@@ -266,7 +274,7 @@ class SleepReminder {
             var isSet: Boolean = false
             var wakeUpTime: LocalTime = LocalTime.of(9, 0)
             var duration: Duration = Duration.ofHours(8).plusMinutes(0)
-            var nextReminder = getNextReminderCustom()
+            var nextReminder:LocalDateTime = getNextReminderCustom()
 
             /**
              * @return The hour of the Reminders wakeUpTime as int.
