@@ -267,7 +267,6 @@ class SleepReminder {
             var wakeUpTime: LocalTime = LocalTime.of(9, 0)
             var duration: Duration = Duration.ofHours(8).plusMinutes(0)
             var nextReminder = getNextReminderCustom()
-            private var reminderTime: LocalTime = wakeUpTime.minus(duration)
 
             /**
              * @return The hour of the Reminders wakeUpTime as int.
@@ -326,7 +325,7 @@ class SleepReminder {
             /**
              * @return The reminderTime formatted as a string.
              */
-            fun getRemindTimeString(): String = reminderTime.toString()
+            fun getRemindTimeString(): String = wakeUpTime.minus(duration).toString()
 
             /**
              * @return The WakeUpTime formatted as a string.
@@ -339,19 +338,6 @@ class SleepReminder {
             fun getDurationTimeString(): String =
                 "${duration.toHours().toString().padStart(2, '0')}h " +
                     "${(duration.toMinutes()%60).toString().padStart(2, '0')}m"
-
-            /**
-             * @return The remainingWakeDuration formatted as "HHh MMm".
-             */
-            fun getRemainingWakeDuration(): Pair<String, Int> {
-                return Pair(
-                    "${(LocalTime.now().until(nextReminder, ChronoUnit.HOURS))}h " +
-                        "${(LocalTime.now().until(nextReminder, ChronoUnit.MINUTES) % 60)}m",
-                    if (!isSet) 2
-                    else if (LocalTime.now().until(nextReminder, ChronoUnit.MINUTES) % 60 < 0) 1
-                    else 0
-                )
-            }
 
             private fun updateReminderState() {
                 nextReminder = getNextReminderCustom()
