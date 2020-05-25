@@ -11,6 +11,7 @@ import org.threeten.bp.DayOfWeek.*
 import org.threeten.bp.temporal.ChronoUnit
 import org.threeten.bp.temporal.TemporalAdjusters
 import kotlin.collections.HashMap
+import kotlin.math.abs
 
 /**
  * A simple class to handle different Reminders for a sleep schedule
@@ -123,8 +124,30 @@ class SleepReminder {
          * @return A string of the remaining time until the Reminders reminderTime.
          */
         fun getRemainingWakeDurationString(): Pair<String, Int> {
+            //ignore this mess, it ain't pretty, but it works as intended
+            val nextTwoReminder = getNextTwoReminder()
+            val nextReminder = nextTwoReminder.first.nextReminder
+            val nextSet = nextTwoReminder.first.isSet
+            val priorReminder = nextTwoReminder.second.nextReminder.minusDays(7)
+            val priorSet = nextTwoReminder.second.isSet
+            val priorReminderDuration = nextTwoReminder.second.duration
+            val localDateTime = LocalDateTime.now()
 
-            return reminder[LocalDate.now().dayOfWeek]?.getRemainingWakeDuration()!!
+            return if (localDateTime.isBefore(priorReminder.plus(priorReminderDuration))) {
+                Pair(
+                    "${localDateTime.until(priorReminder, ChronoUnit.HOURS)}h " +
+                            "${localDateTime.until(priorReminder, ChronoUnit.MINUTES) % 60}m",
+                    if (priorSet) 1
+                    else 2
+                )
+            } else {
+                Pair(
+                    "${localDateTime.until(nextReminder, ChronoUnit.HOURS)}h " +
+                            "${localDateTime.until(nextReminder, ChronoUnit.MINUTES) % 60}m",
+                    if (nextSet) 0
+                    else 2
+                )
+            }
         }
 
         /**
@@ -158,22 +181,6 @@ class SleepReminder {
             }
         }
 
-//        private fun getClosestReminder(): Reminder {
-//            var closestReminder = reminder[MONDAY]
-//            var closestYet = LocalDateTime.now().until(reminder[MONDAY]?.nextReminder, ChronoUnit.MINUTES)
-//            reminder.forEach { n ->
-//                n.value.updateReminderState()
-//                Log.e("day", "${n.key}")
-//                Log.e("reminder before", "${n.value.nextReminder}")
-//                if (LocalDateTime.now().until(n.value.nextReminder, ChronoUnit.MINUTES) < closestYet) {
-//                    closestYet = LocalDateTime.now().until(n.value.nextReminder, ChronoUnit.MINUTES)
-//                    closestReminder = n.value
-//                }
-//                Log.e("reminder after", "${closestReminder?.nextReminder}")
-//            }
-//            return closestReminder!!
-//        }
-
         private fun createFile() {
             StorageHandler.createJsonFile(
                 fileName,
@@ -199,6 +206,23 @@ class SleepReminder {
             daysAreCustom = SettingsManager.settings["daysAreCustom"] as Boolean
 
             updateReminder()
+        }
+
+        private fun getNextTwoReminder(): Pair<Reminder, Reminder> {
+            val dateTime = LocalDateTime.now()
+            var closestReminder: Reminder = reminder[dateTime.dayOfWeek]!!
+            var closestTime = dateTime.until(closestReminder.nextReminder, ChronoUnit.MINUTES)
+            reminder.forEach { n ->
+                if (abs(dateTime.until(n.value.nextReminder, ChronoUnit.MINUTES)) < closestTime) {
+                    closestReminder = n.value
+                    closestTime = dateTime.until(closestReminder.nextReminder, ChronoUnit.MINUTES)
+                }
+            }
+            val priorReminder = reminder[closestReminder.nextReminder.minusDays(1).dayOfWeek]
+            return Pair(
+                closestReminder,
+                priorReminder!!
+            )
         }
 
         /**
@@ -240,14 +264,10 @@ class SleepReminder {
          */
         class Reminder(private val weekday: DayOfWeek) {
             var isSet: Boolean = false
-            lateinit var reminderTime: LocalTime
-            var wakeUpTime: LocalTime = LocalTime.of(12, 0)
+            var wakeUpTime: LocalTime = LocalTime.of(9, 0)
             var duration: Duration = Duration.ofHours(8).plusMinutes(0)
             var nextReminder = getNextReminderCustom()
-
-            init {
-                updateReminderState()
-            }
+            private var reminderTime: LocalTime = wakeUpTime.minus(duration)
 
             /**
              * @return The hour of the Reminders wakeUpTime as int.
@@ -325,10 +345,10 @@ class SleepReminder {
              */
             fun getRemainingWakeDuration(): Pair<String, Int> {
                 return Pair(
-                    "${(LocalTime.now().until(reminderTime, ChronoUnit.HOURS))}h " +
-                        "${(LocalTime.now().until(reminderTime, ChronoUnit.MINUTES) % 60)}m",
+                    "${(LocalTime.now().until(nextReminder, ChronoUnit.HOURS))}h " +
+                        "${(LocalTime.now().until(nextReminder, ChronoUnit.MINUTES) % 60)}m",
                     if (!isSet) 2
-                    else if (LocalTime.now().until(reminderTime, ChronoUnit.MINUTES) % 60 < 0) 1
+                    else if (LocalTime.now().until(nextReminder, ChronoUnit.MINUTES) % 60 < 0) 1
                     else 0
                 )
             }
@@ -342,6 +362,7 @@ class SleepReminder {
              * @param requestCode An integer to identify the alarm.
              */
             fun updateAlarm(requestCode: Int) {
+                updateReminderState()
                 AlarmHandler.setNewSleepReminderAlarm(
                     dayOfWeek = weekday,
                     requestCode = requestCode,
