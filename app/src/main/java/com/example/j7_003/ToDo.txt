@@ -1,37 +1,6 @@
-Definitions:
-() marks optional attributes
-? marks suggestions
-! marks implemented parts
-
 Project Structure:
 
-Modules: test test
-
-    1 birthdays:
-        1.1 element attributes:
-            date!, name!, note!, (optional reminder x days before)
-
-        1.2 user functions!
-            add!, remove!, edit!
-
-        1.3 functionality:
-            ?shows next x birthdays in a panel?(!)
-            push notifications!
-
-
-    2 to-do-list:
-        2.1 layout
-
-    3 calendar:
-         ?? replace with reminder system
-
-
-    4 ?go to sleep reminder?!
-        4.1 small panel showing remaining sleep until Time X when going to sleep now
-        4.2 optional reminder at sleepTime < 8h
-
-
-    5 idea: shopping list
+    shopping list
         - custom prebuilt and save-able shopping list
         - api created preloaded database of items, tagged with category like vegetables? for grouping
         of similar items on shopping list for optimal pathing through supermarket
@@ -51,44 +20,26 @@ Modules: test test
             13. cereals
             14. baking ingredients
 
-
-
-    6 Notes
-
-    7 MainPanel
-
 Stuff to do next in following order:
      - home panel design
-     - single term design in calendar view
+     - design calender
 
 important Tasks:
+    - FIX SLEEPFRAGMENT FRONTEND
     - fix loading of numberpickers in sleepfragment
+    - add shopping list module
+    - live update sleep-reminder time (in home panel)
 
 random tasks:
     - add listener to number picker for typing in numbers
-    - live update sleep-reminder time
-    - design home panel
-    - add shopping list module
-    - plan calendar layout
     - replace all colors and values like text size with resource references
+    - reorder / reprioritize tasks by dragging and dropping them
+    - clear button to delete all checked tasks
+    - history for last 20? deleted notes/birthdays/tasks/terms
+    - make months somehow visible in birthday fragment
 
 ideas:
-    - week-schedule: display current day in the home screen
     - maybe make modules more customizable
-    - make months somehow visible in birthday fragment
-    - make note column count flexible (1-3)
-    - maybe change note background to look like index card
-    - delete notes by press and hold (mark multiple)
-    - clear button to delete all checked tasks
-    - deleted notes can be restored
 
 Future Project ideas: Vim optimizer
-
-1 Tasks
-2 Birthdays
-3 Notes
-4 Sleep Reminder
-5 Shopping List
-6 General Reminder / Schedule
-7 Main Panel
 
