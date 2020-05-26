@@ -49,6 +49,10 @@ class SleepFragment : Fragment() {
 
         SleepReminder.init()
 
+        if(SleepReminder.isAnySet()){
+
+        }
+
         if(SleepReminder.daysAreCustom){
             initializeCustomDaysDisplay(myView)
             myView.switchEnableCustomDays.isChecked = true
@@ -67,8 +71,18 @@ class SleepFragment : Fragment() {
         myView.switchEnableReminder.setOnClickListener {
             if (myView.switchEnableReminder.isChecked) {
                 SleepReminder.enableAll()
+                if(SleepReminder.daysAreCustom){
+                    updateCustomCheckBoxes()
+                }else{
+                    updateRegularCheckboxes()
+                }
             } else {
                 SleepReminder.disableAll()
+                if(SleepReminder.daysAreCustom){
+                    updateCustomCheckBoxes()
+                }else{
+                    updateRegularCheckboxes()
+                }
             }
         }
 

@@ -99,6 +99,8 @@ class CalendarManager {
                     dateList.add(n)
                 }
             }
+
+            WeekSchedule.init()
             dateList.addAll(WeekSchedule.weekSchedule[date.dayOfWeek] as Collection<CalendarAppointment>)
             dateList.sortBy { it.startTime }
 

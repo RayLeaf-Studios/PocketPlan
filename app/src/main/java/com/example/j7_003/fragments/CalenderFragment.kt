@@ -53,15 +53,12 @@ class CalenderFragment : Fragment() {
         val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteTerm(myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
-
-
         return myView
     }
 
     fun changeToCreateTermFragment() {
         MainActivity.myActivity.changeToCreateTerm()
     }
-
 
 }
 
@@ -109,7 +106,8 @@ class TermAdapter() :
         val currentTerm = CalendarManager.getAppointment(position)
 
         holder.itemView.setOnClickListener() {
-            //todo handle editing of terms here onclick
+            //todo start createTermFragment in EDIT MODE
+            MainActivity.myActivity.changeToCreateTerm()
         }
 
         holder.tvTitle.text = currentTerm.title
@@ -125,7 +123,6 @@ class TermAdapter() :
     }
 
 
-    //todo get size of termlist here
     override fun getItemCount() = CalendarManager.calendar.size
 
     class TermViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

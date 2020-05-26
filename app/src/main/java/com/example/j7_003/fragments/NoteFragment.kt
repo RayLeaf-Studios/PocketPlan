@@ -118,11 +118,6 @@ class NoteAdapter() :
             MainActivity.myActivity.changeToWriteNoteFragment()
         }
 
-        holder.itemView.setOnLongClickListener{
-            Toast.makeText(MainActivity.myActivity, "longpress", Toast.LENGTH_SHORT).show()
-            true
-        }
-
         //specifying design of note rows here
         holder.tvNoteTitle.text = currentNote.title
         holder.tvNoteContent.text = currentNote.note

@@ -105,7 +105,7 @@ class CreateTermFragment : Fragment() {
             tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
                 .padStart(2, '0') + "." + year.toString()
         }
-        val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, startDateTime.year, startDateTime.monthValue+1, startDateTime.dayOfMonth)
+        val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, startDateTime.year, startDateTime.monthValue-1, startDateTime.dayOfMonth)
         dpd.show()
     }
 

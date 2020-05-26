@@ -143,7 +143,7 @@ class TodoTaskAdapter() :
 
 
         /**
-         * EDITING task via floating action button
+         * EDITING task
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
@@ -180,6 +180,7 @@ class TodoTaskAdapter() :
                     myAlertDialog.dismiss()
                     Database.editTask(holder.adapterPosition, index + 1, myDialogView.etxTitleAddTask.text.toString(), Database.getTask(holder.adapterPosition).isChecked)
                     Database.sortTasks()
+                    this.notifyDataSetChanged()
                 }
             }
 

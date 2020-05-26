@@ -5,12 +5,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
+import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity(){
     private lateinit var homeFragment: HomeFragment
+    private lateinit var dayFragment: DayFragment
     private lateinit var calenderFragment: CalenderFragment
     private lateinit var birthdayFragment: BirthdayFragment
     private lateinit var settingsFragment: SettingsFragment
@@ -65,7 +68,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.notes -> changeToNotes()
                 R.id.todolist -> changeToToDo()
                 R.id.home -> changeToHome()
-                R.id.calendar -> changeToCalendar()
+                R.id.calendar -> changeToDayView()
                 R.id.modules -> changeToModules()
             }
             true
@@ -143,7 +146,22 @@ class MainActivity : AppCompatActivity(){
             bottomNavigation.selectedItemId=R.id.home
         }
     }
-
+    fun changeToDayView(){
+        if(activeFragmentTag!="dayView") {
+            hideMenuIcons()
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
+            myMenu?.getItem(0)?.setVisible(true)
+            dayFragment = DayFragment()
+            supportActionBar?.title = "Day-View"
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, dayFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            activeFragmentTag="dayView"
+            bottomNavigation.selectedItemId=R.id.calendar
+        }
+    }
     fun changeToCalendar(){
         if(activeFragmentTag!="calendar") {
             hideMenuIcons()
@@ -155,7 +173,6 @@ class MainActivity : AppCompatActivity(){
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
             activeFragmentTag="calendar"
-            bottomNavigation.selectedItemId=R.id.calendar
         }
     }
      fun changeToCreateTerm(){
@@ -232,6 +249,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun changeToWriteNoteFragment(){
+        myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
         myMenu?.getItem(0)?.setVisible(true)
         myMenu?.getItem(1)?.setVisible(true)
         if(activeFragmentTag!="writeNote") {
@@ -294,35 +312,42 @@ class MainActivity : AppCompatActivity(){
          */
         return when(item.itemId){
             R.id.item_colorpicker -> {
-                //inflate the dialog with custom view
-                val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
 
-                //AlertDialogBuilder
-                val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
-                val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-                editTitle.tvDialogTitle.text = "Choose color"
-                myBuilder.setCustomTitle(editTitle)
+                if(activeFragmentTag=="dayView"){
+                    changeToCalendar()
+                    true
+                }else{
+                    //inflate the dialog with custom view
+                    val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
 
-                //show dialog
-                val myAlertDialog = myBuilder.create()
-                myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-                myAlertDialog.show()
+                    //AlertDialogBuilder
+                    val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
+                    val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+                    editTitle.tvDialogTitle.text = "Choose color"
+                    myBuilder.setCustomTitle(editTitle)
 
-                val colorList = arrayOf(R.color.colorNoteRed, R.color.colorNoteYellow,
-                    R.color.colorNoteGreen, R.color.colorNoteBlue, R.color.colorNotePurple)
-                val buttonList = arrayOf(myDialogView.btnRed, myDialogView.btnYellow,
-                    myDialogView.btnGreen, myDialogView.btnBlue, myDialogView.btnPurple)
-                /**
-                 * Onclick-listeners for every specific color button
-                 */
-                buttonList.forEachIndexed(){ i, b ->
-                    b.setOnClickListener(){
-                        noteColor = NoteColors.values()[i]
-                        myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
-                        myAlertDialog.dismiss()
+                    //show dialog
+                    val myAlertDialog = myBuilder.create()
+                    myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+                    myAlertDialog.show()
+
+                    val colorList = arrayOf(R.color.colorNoteRed, R.color.colorNoteYellow,
+                        R.color.colorNoteGreen, R.color.colorNoteBlue, R.color.colorNotePurple)
+                    val buttonList = arrayOf(myDialogView.btnRed, myDialogView.btnYellow,
+                        myDialogView.btnGreen, myDialogView.btnBlue, myDialogView.btnPurple)
+                    /**
+                     * Onclick-listeners for every specific color button
+                     */
+                    buttonList.forEachIndexed(){ i, b ->
+                        b.setOnClickListener(){
+                            noteColor = NoteColors.values()[i]
+                            myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
+                            myAlertDialog.dismiss()
+                        }
                     }
+                    true
                 }
-                true
+
             }
             R.id.item_savenote -> {
                 if(editNoteHolder==null){
