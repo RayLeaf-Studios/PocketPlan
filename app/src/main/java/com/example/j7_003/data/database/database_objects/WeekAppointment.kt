@@ -13,7 +13,9 @@ data class WeekAppointment(
     @SerializedName(value = "wAddInfo")
     override var addInfo: String,
 
+    @SerializedName(value = "wStartTime")
+    override var startTime: LocalTime,
+
     var dayOfWeek: DayOfWeek,
-    var startTime: LocalTime,
     var duration: Duration
-) : CalendarAppointment(title, addInfo)
+) : CalendarAppointment(title, addInfo, startTime)

@@ -114,8 +114,8 @@ class TermAdapter() :
 
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
-        holder.tvTime.text = currentTerm.dateTime.toLocalTime().toString()
-        val date: LocalDate = currentTerm.dateTime.toLocalDate()
+        holder.tvTime.text = currentTerm.startTime.toString()
+        val date: LocalDate = currentTerm.date
         val dayOfWeekString = date.dayOfWeek.toString().substring(0,1)+date.dayOfWeek.toString()
             .substring(1, 2).decapitalize()
         val month = date.monthValue.toString()

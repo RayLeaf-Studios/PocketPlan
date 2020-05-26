@@ -21,7 +21,6 @@ class WeekSchedule {
 
             initMap()
             load()
-            addAppointmentToDay("test", "test", DayOfWeek.MONDAY, LocalTime.of(12, 0), Duration.ofHours(4))
         }
 
         fun editAppointmentAtDay(
@@ -54,8 +53,8 @@ class WeekSchedule {
                 WeekAppointment(
                     title,
                     note,
-                    dayOfWeek,
                     startTime,
+                    dayOfWeek,
                     duration
                 )
             )
@@ -86,7 +85,7 @@ class WeekSchedule {
             return GsonBuilder().create()
                 .fromJson(
                     jsonString,
-                    object : TypeToken<HashMap<DayOfWeek, HashMap<DayOfWeek, WeekAppointment>>>() {}.type
+                    object : TypeToken<HashMap<DayOfWeek, ArrayList<WeekAppointment>>>() {}.type
                 )
         }
     }

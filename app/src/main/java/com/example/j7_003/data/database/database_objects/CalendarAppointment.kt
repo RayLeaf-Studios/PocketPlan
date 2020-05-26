@@ -1,13 +1,18 @@
 package com.example.j7_003.data.database.database_objects
 
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 
 open class CalendarAppointment(
     open var title: String,
     open var addInfo: String,
-    var dateTime: LocalDateTime,
+    open var startTime: LocalTime,
+    var date: LocalDate,
     var eTime: LocalTime
 ) {
-    constructor(title: String, addInfo: String): this(title, addInfo, LocalDateTime.now(), LocalTime.of(0, 0))
+    constructor(
+        title: String,
+        addInfo: String,
+        startTime: LocalTime
+    ): this(title, addInfo, startTime, LocalDate.now(), LocalTime.of(0, 0))
 }

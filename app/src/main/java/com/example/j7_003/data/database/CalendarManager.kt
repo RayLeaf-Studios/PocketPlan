@@ -1,7 +1,6 @@
 package com.example.j7_003.data.database
 
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
-import com.example.j7_003.data.database.database_objects.WeekAppointment
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -39,7 +38,12 @@ class CalendarManager {
             dateTime: LocalDateTime,
             eTime: LocalTime
         ) {
-            calendar.add(CalendarAppointment(title, addInfo, dateTime, eTime))
+            calendar.add(CalendarAppointment(
+                title,
+                addInfo,
+                dateTime.toLocalTime(),
+                dateTime.toLocalDate(), eTime)
+            )
             sort()
             save()
         }
@@ -63,7 +67,8 @@ class CalendarManager {
             val appointment = getAppointment(index)
             appointment.title = title
             appointment.addInfo = addInfo
-            appointment.dateTime = newDateTime
+            appointment.startTime = newDateTime.toLocalTime()
+            appointment.date = newDateTime.toLocalDate()
             appointment.eTime = eTime
 
             sort()
@@ -90,17 +95,18 @@ class CalendarManager {
         fun getDayView(date: LocalDate): ArrayList<CalendarAppointment> {
             val dateList = ArrayList<CalendarAppointment>()
             calendar.forEach { n ->
-                if (n.dateTime.toLocalDate().isEqual(date)) {
+                if (n.date.isEqual(date)) {
                     dateList.add(n)
                 }
             }
-            val list: ArrayList<WeekAppointment> = WeekSchedule.weekSchedule[date.dayOfWeek]!!
             dateList.addAll(WeekSchedule.weekSchedule[date.dayOfWeek] as Collection<CalendarAppointment>)
+            dateList.sortBy { it.startTime }
+
             return dateList
         }
 
         private fun sort() {
-            calendar.sortWith(compareBy({ it.dateTime }, { it.title }))
+            calendar.sortWith(compareBy({ it.date }, {it.startTime}, { it.title }))
         }
 
         private fun save() {
