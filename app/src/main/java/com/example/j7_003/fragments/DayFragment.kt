@@ -126,7 +126,7 @@ class TermAdapterDay() :
         //todo make these attributes specific for dayView
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
-        holder.tvTime.text = currentTerm.startTime.toString()
+        holder.tvTime.text = currentTerm.startTime.toString()+" - "+currentTerm.eTime.toString()
         val date: LocalDate = currentTerm.date
         val dayOfWeekString = date.dayOfWeek.toString().substring(0, 1) + date.dayOfWeek.toString()
             .substring(1, 2).decapitalize()
