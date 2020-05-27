@@ -17,6 +17,9 @@ import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_day.view.*
 import kotlinx.android.synthetic.main.row_term.view.*
+import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
+import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
+import kotlinx.android.synthetic.main.row_term_day.view.*
 import org.threeten.bp.LocalDate
 
 /**
@@ -126,16 +129,18 @@ class TermAdapterDay() :
         //todo make these attributes specific for dayView
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
-        holder.tvTime.text = currentTerm.startTime.toString()+" - "+currentTerm.eTime.toString()
-        val date: LocalDate = currentTerm.date
-        val dayOfWeekString = date.dayOfWeek.toString().substring(0, 1) + date.dayOfWeek.toString()
-            .substring(1, 2).decapitalize()
-        val month = date.monthValue.toString()
-        val day = date.dayOfMonth.toString()
-        holder.tvDate.text = MainActivity.myActivity.getString(
-            R.string.termItemDate,
-            dayOfWeekString, day, month
-        )
+        //tvDate usually holds the date, but since the date is trivial, here it gets reused to
+        //display the time
+        if(currentTerm.startTime.equals(currentTerm.eTime)){
+            holder.tvStartTime.text = currentTerm.startTime.toString()
+            holder.tvEndTime.text = ""
+            holder.tvDashUntil.visibility = View.INVISIBLE
+        }else{
+            holder.tvStartTime.text = currentTerm.startTime.toString()
+            holder.tvEndTime.text = currentTerm.eTime.toString()
+            holder.tvDashUntil.visibility = View.VISIBLE
+        }
+
     }
 
     //TODO return number of terms of current inspected day here
@@ -150,8 +155,9 @@ class TermAdapterDay() :
         //todo only use necessary dayview attributes
         val tvTitle = itemView.tvTermItemTitle
         val tvInfo = itemView.tvTermItemInfo
-        val tvDate = itemView.tvTermItemDate
-        val tvTime = itemView.tvTermItemTime
+        val tvStartTime = itemView.tvTermItemStartTime
+        val tvEndTime = itemView.tvTermItemEndTime
+        val tvDashUntil = itemView.tvDashUntil
         //var myView = itemView
     }
 
