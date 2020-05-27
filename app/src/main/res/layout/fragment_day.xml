@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/colorBackground"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:padding="4dp"
     tools:context=".fragments.DayFragment">
 
 

@@ -165,6 +165,8 @@ class MainActivity : AppCompatActivity(){
     fun changeToCalendar(){
         if(activeFragmentTag!="calendar") {
             hideMenuIcons()
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
+            myMenu?.getItem(0)?.setVisible(true)
             calenderFragment = CalenderFragment()
             supportActionBar?.title = "Calendar"
             supportFragmentManager
@@ -315,6 +317,9 @@ class MainActivity : AppCompatActivity(){
 
                 if(activeFragmentTag=="dayView"){
                     changeToCalendar()
+                    true
+                }else if(activeFragmentTag=="calendar"){
+                    changeToDayView()
                     true
                 }else{
                     //inflate the dialog with custom view
