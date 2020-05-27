@@ -12,9 +12,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
+import kotlinx.android.synthetic.main.fragment_create_term.*
 
 
 import kotlinx.android.synthetic.main.fragment_create_term.view.*
+import kotlinx.android.synthetic.main.fragment_create_term.view.btnDiscardTermChanges
 import kotlinx.android.synthetic.main.fragment_create_term.view.tvTermEndTime
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -44,6 +46,7 @@ class CreateTermFragment : Fragment() {
     lateinit var btnDuration120m: Button
     lateinit var btnDuration180m: Button
 
+    lateinit var btnDiscardTermChanges: Button
     lateinit var btnSaveTerm: Button
     lateinit var myView: View
 
@@ -158,6 +161,7 @@ class CreateTermFragment : Fragment() {
 
         //button to save term
         btnSaveTerm = myView.btnSaveTerm
+        btnDiscardTermChanges = myView.btnDiscardTermChanges
 
         //duration button onclick listeners
         btnDuration30m.setOnClickListener {
@@ -194,6 +198,10 @@ class CreateTermFragment : Fragment() {
 
         btnSaveTerm.setOnClickListener() {
             saveTerm()
+        }
+
+        btnDiscardTermChanges.setOnClickListener(){
+            MainActivity.myActivity.changeToDayView()
         }
 
     }
