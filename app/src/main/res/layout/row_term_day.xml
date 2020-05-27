@@ -22,7 +22,7 @@
             android:id="@+id/tvTermItemStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="4dp"
             android:text="12:12"
             android:textColor="@color/colorOnBackGround"
             android:textSize="17sp"
@@ -41,17 +41,18 @@
             app:layout_constraintEnd_toEndOf="@+id/tvTermItemStartTime"
             app:layout_constraintStart_toStartOf="@+id/tvTermItemStartTime"
             app:layout_constraintTop_toTopOf="@+id/tvTermItemStartTime" />
+
         <TextView
             android:id="@+id/tvTermItemEndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginTop="4dp"
             android:text="12:12"
             android:textColor="@color/colorOnBackGround"
             android:textSize="17sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTermItemStartTime" />   app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/tvTermItemStartTime"
+            app:layout_constraintTop_toBottomOf="@id/tvTermItemStartTime" />
 
         <TextView
             android:id="@+id/tvTermItemTitle"

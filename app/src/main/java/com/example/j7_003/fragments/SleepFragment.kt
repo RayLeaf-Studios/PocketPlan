@@ -378,6 +378,8 @@ class SleepFragment : Fragment() {
 
     private fun animationShowCustom(v: View){
         customPanelList.forEach{p -> p.isClickable = true}
+        customWakeTimeTexts.forEach{p -> p.isClickable = true}
+        customDurationTexts.forEach{p -> p.isClickable = true}
         v.panelNotCustom.visibility = View.GONE
         val animationHide =
             AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
@@ -395,6 +397,8 @@ class SleepFragment : Fragment() {
 
     private fun animationShowRegular(v: View){
         customPanelList.forEach{p -> p.isClickable = false}
+        customWakeTimeTexts.forEach{p -> p.isClickable = false}
+        customDurationTexts.forEach{p -> p.isClickable = false}
         v.panelCustom.visibility = View.GONE
         val animationHide =
             AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
