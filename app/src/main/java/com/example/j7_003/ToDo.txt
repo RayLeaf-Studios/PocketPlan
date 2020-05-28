@@ -40,6 +40,7 @@ random tasks:
 
 ideas:
     - maybe make modules more customizable
+    - change pink on app logo to green from priorities
 
 Future Project ideas: Vim optimizer
 
