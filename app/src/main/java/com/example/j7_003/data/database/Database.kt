@@ -183,15 +183,32 @@ class Database {
                 if (birthdayList[n].daysToRemind < 0) birthdayList.remove(birthdayList[n])
                 else n++
             }
-            birthdayList.forEach { n ->
-                if(!months.contains(n.month)){
-                    months.add(n.month)
+
+            val today = LocalDate.now()
+            var beforeMonth = false
+            birthdayList.forEach { m ->
+                if(!months.contains(m.month)){
+                    months.add(m.month)
                 }
+
+                if (m.month == today.monthValue && m.day < today.dayOfMonth) beforeMonth = true
             }
+
+            if (beforeMonth) {
+                birthdayList.add(
+                    Birthday(
+                        today.month.toString().toLowerCase().capitalize(),
+                        today.monthValue,
+                        today.dayOfMonth,
+                        -1 * today.monthValue
+                    )
+                )
+            }
+
 
             months.forEach { m ->
                 val name = LocalDate.of(2020, m, 1).month.toString()
-                birthdayList.add(Birthday(name.substring(0,1)+name.substring(1,name.length).toLowerCase(),m, 1, -1*m))
+                birthdayList.add(Birthday(name.toLowerCase().capitalize(), m, 0, -1*m))
             }
         }
 
@@ -201,7 +218,7 @@ class Database {
             val day = localDate.dayOfMonth
             val month = localDate.month.value
             val cacheList = ArrayList<Birthday>()
-            birthdayList.sortWith(compareBy({ it.month }, { it.day },{it.daysToRemind>=0}, { it.name }))
+            birthdayList.sortWith(compareBy({ it.month }, { it.day }, {it.daysToRemind >= 0}, { it.name }))
 
             var i = 0
             while(i < birthdayList.size) {
@@ -215,10 +232,9 @@ class Database {
             }
 
             birthdayList.sortWith(compareBy(
-                { it.month < month },
                 { it.month },
-                { it.day < day },
                 { it.day },
+                { it.daysToRemind >= 0},
                 { it.name })
             )
 
