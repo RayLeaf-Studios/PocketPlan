@@ -1,6 +1,7 @@
 package com.example.j7_003.data.database
 
 import android.animation.TimeAnimator
+import android.provider.ContactsContract
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.database_objects.Birthday
 import com.example.j7_003.data.database.database_objects.Note
@@ -94,7 +95,6 @@ class Database {
          */
         fun getTask(index: Int): Task = taskList[index]
 
-
         fun sortTasks() {
             taskList.sortWith(compareBy({ it.isChecked }, { it.priority }))
         }
@@ -130,6 +130,7 @@ class Database {
          */
         fun deleteBirthday(index: Int) {
             birthdayList.removeAt(index)
+            sortBirthday()
             save(BLIST, birthdayList)
         }
 
@@ -162,13 +163,32 @@ class Database {
          */
         fun getBirthday(position: Int): Birthday = birthdayList[position]
 
+        private fun manageLabels() {
+            val months = arrayListOf<Int>()
+            var n = 0
+            while (n < birthdayList.size) {
+                if (birthdayList[n].daysToRemind < 0) birthdayList.remove(birthdayList[n])
+                else n++
+            }
+            birthdayList.forEach { n ->
+                if(!months.contains(n.month)){
+                    months.add(n.month)
+                }
+            }
+
+            months.forEach { m ->
+                val name = LocalDate.of(2020, m, 1).month.toString()
+                birthdayList.add(Birthday(name.substring(0,1)+name.substring(1,name.length).toLowerCase(),m, 1, -1*m))
+            }
+        }
+
         private fun sortBirthday() {
+            manageLabels()
             val localDate = LocalDate.now()
             val day = localDate.dayOfMonth
-            val month = localDate.month.value + 1
+            val month = localDate.month.value
             val cacheList = ArrayList<Birthday>()
-
-            birthdayList.sortWith(compareBy({ it.month }, { it.day }, { it.name }))
+            birthdayList.sortWith(compareBy({ it.month }, { it.day },{it.daysToRemind>=0}, { it.name }))
 
             var i = 0
             while(i < birthdayList.size) {

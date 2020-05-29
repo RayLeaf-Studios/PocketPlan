@@ -113,29 +113,56 @@ class BirthdayFragment : Fragment() {
 
 class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
+    override fun getSwipeDirs(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
+            return 0
+        }else{
+            return super.getSwipeDirs(recyclerView, viewHolder)
+        }
 
+    }
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
+        adapter.deleteItem(viewHolder)
 
     }
 }
 
 class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+    override fun getSwipeDirs(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
+            return 0
+        }else{
+            return super.getSwipeDirs(recyclerView, viewHolder)
+        }
+
+    }
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
+
+        adapter.deleteItem(viewHolder)
     }
 }
 
 class BirthdayAdapter() :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
 
-    fun deleteItem(position: Int){
-        Database.deleteBirthday(position)
-        notifyItemRemoved(position)
+    fun deleteItem(viewHolder: RecyclerView.ViewHolder){
+        Database.deleteBirthday(viewHolder.adapterPosition)
+        notifyItemRemoved(viewHolder.adapterPosition)
+        //TODO replace this with notifyItemRemoved( Position of removed month label )
+        notifyDataSetChanged()
+
+
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
@@ -155,98 +182,110 @@ class BirthdayAdapter() :
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        holder.itemView.setOnClickListener() {
+        if(currentBirthday.daysToRemind<0){
+            //initialize month divider design
+            holder.tvMonthLabel.text=currentBirthday.name
+            holder.txvBirthdayLabelName.text = ""
+            holder.myView.setBackgroundResource(R.color.colorBackground)
+            holder.itemView.setOnClickListener{}
+        }else{
+            //initialize regular birthday design
+            holder.tvMonthLabel.text = ""
+            holder.myView.setBackgroundResource(R.drawable.round_corner_bday)
+            holder.itemView.setOnClickListener() {
 
 
-            //inflate the dialog with custom view
-            val myDialogView =
-                LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+                //inflate the dialog with custom view
+                val myDialogView =
+                    LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
 
 
-            //configuring number pickers
-            val npMonth = myDialogView.npMonth
-            npMonth.minValue = 1
-            npMonth.maxValue = 12
+                //configuring number pickers
+                val npMonth = myDialogView.npMonth
+                npMonth.minValue = 1
+                npMonth.maxValue = 12
 
-            val npDay = myDialogView.npDay
-            npDay.minValue = 1
-            npDay.maxValue = 31
+                val npDay = myDialogView.npDay
+                npDay.minValue = 1
+                npDay.maxValue = 31
 
-            val npReminder = myDialogView.npReminder
-            npReminder.minValue = 0
-            npReminder.maxValue = 30
+                val npReminder = myDialogView.npReminder
+                npReminder.minValue = 0
+                npReminder.maxValue = 30
 
-            npMonth.setOnValueChangedListener{ _, _, _ ->
+                npMonth.setOnValueChangedListener{ _, _, _ ->
+                    when(npMonth.value){
+                        1,3,5,7,8,10,12 -> npDay.maxValue = 31
+                        2 -> npDay.maxValue = 29
+                        else -> npDay.maxValue = 30
+                    }
+                }
+
+                val etName = myDialogView.etName
+
+                //AlertDialogBuilder
+                val myBuilder = activity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+                val myTitle = LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
+                myTitle.tvDialogTitle.text = "Edit Birthday"
+                myBuilder?.setCustomTitle(myTitle)
+
+                //write current values to edit Text fields
+                etName.setText(currentBirthday.name)
+                npMonth.value = currentBirthday.month
+                npDay.value = currentBirthday.day
+                npReminder.value = currentBirthday.daysToRemind
+
                 when(npMonth.value){
                     1,3,5,7,8,10,12 -> npDay.maxValue = 31
                     2 -> npDay.maxValue = 29
                     else -> npDay.maxValue = 30
                 }
+
+                myDialogView.btnConfirmBirthday.text ="CONFIRM EDIT"
+
+                //show dialog
+                val myAlertDialog = myBuilder?.create()
+                myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+                myAlertDialog?.show()
+
+                //button to confirm editing of birthday
+                myDialogView.btnConfirmBirthday.setOnClickListener(){
+
+                    val name = etName.text.toString()
+                    val day = npDay.value
+                    val month = npMonth.value
+                    val reminderPeriod = npReminder.value
+                    Database.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition)
+
+
+
+                    notifyDataSetChanged()
+                    myAlertDialog?.dismiss()
+                }
+
+                etName.requestFocus()
+                etName.setSelection(etName.text.length)
+
             }
 
-            val etName = myDialogView.etName
+            //formatting date
+            var monthAddition = ""
+            if (currentBirthday.month < 10) monthAddition = "0"
 
-            //AlertDialogBuilder
-            val myBuilder = activity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            val myTitle = LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-            myTitle.tvDialogTitle.text = "Edit Birthday"
-            myBuilder?.setCustomTitle(myTitle)
+            var dayAddition = ""
+            if (currentBirthday.day < 10) dayAddition = "0"
 
-            //write current values to edit Text fields
-            etName.setText(currentBirthday.name)
-            npMonth.value = currentBirthday.month
-            npDay.value = currentBirthday.day
-            npReminder.value = currentBirthday.daysToRemind
+            holder.txvBirthdayLabelName.text =
+                dayAddition + currentBirthday.day.toString() + "." +
+                        monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
 
-            when(npMonth.value){
-                1,3,5,7,8,10,12 -> npDay.maxValue = 31
-                2 -> npDay.maxValue = 29
-                else -> npDay.maxValue = 30
+            if(currentBirthday.hasReminder()) {
+                holder.iconBell.visibility = View.VISIBLE
+            }else{
+                holder.iconBell.visibility = View.INVISIBLE
             }
-
-            myDialogView.btnConfirmBirthday.text ="CONFIRM EDIT"
-
-            //show dialog
-            val myAlertDialog = myBuilder?.create()
-            myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-            myAlertDialog?.show()
-
-            //button to confirm editing of birthday
-            myDialogView.btnConfirmBirthday.setOnClickListener(){
-
-                val name = etName.text.toString()
-                val day = npDay.value
-                val month = npMonth.value
-                val reminderPeriod = npReminder.value
-                Database.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition)
-
-
-
-                notifyDataSetChanged()
-                myAlertDialog?.dismiss()
-            }
-
-            etName.requestFocus()
-            etName.setSelection(etName.text.length)
-
         }
 
-        //formatting date
-        var monthAddition = ""
-        if (currentBirthday.month < 10) monthAddition = "0"
-
-        var dayAddition = ""
-        if (currentBirthday.day < 10) dayAddition = "0"
-
-        holder.txvBirthdayLabelName.text =
-            dayAddition + currentBirthday.day.toString() + "." +
-                    monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
-
-        if(currentBirthday.hasReminder()) {
-            holder.iconBell.visibility = View.VISIBLE
-        }else{
-            holder.iconBell.visibility = View.INVISIBLE
-        }
 
     }
 
@@ -259,6 +298,8 @@ class BirthdayAdapter() :
          */
         val txvBirthdayLabelName: TextView = itemView.txvBirthdayLabelName
         val iconBell: ImageView = itemView.icon_bell
+        val myView: View = itemView
+        val tvMonthLabel = itemView.tvMonthLabel
     }
 
 }
