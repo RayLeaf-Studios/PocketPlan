@@ -49,10 +49,6 @@ class SleepFragment : Fragment() {
 
         SleepReminder.init()
 
-        if(SleepReminder.isAnySet()){
-
-        }
-
         if(SleepReminder.daysAreCustom){
             initializeCustomDaysDisplay(myView)
             myView.switchEnableCustomDays.isChecked = true
@@ -275,8 +271,6 @@ class SleepFragment : Fragment() {
             customTitle.tvDialogTitle.text = "Wakeup Time"
             myBuilder.setCustomTitle(customTitle)
 
-
-            //todo get regular wakehour here
             myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeHour()!!
             myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeMinute()!!
 
@@ -323,9 +317,8 @@ class SleepFragment : Fragment() {
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()
 
-            //TODO GET DURATION FOR ALL HERE
-            myDialogView.npHour.value = 0
-            myDialogView.npMinute.value = 0
+            myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.MONDAY]?.duration?.toHours()?.toInt()!!
+            myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.MONDAY]?.duration?.toMinutes()?.toInt()!! % 60
 
             myDialogView.btnApplyTime.setOnClickListener() {
                 SleepReminder.editAllDuration(
@@ -380,6 +373,7 @@ class SleepFragment : Fragment() {
         customPanelList.forEach{p -> p.isClickable = true}
         customWakeTimeTexts.forEach{p -> p.isClickable = true}
         customDurationTexts.forEach{p -> p.isClickable = true}
+        customCheckBoxList.forEach{p -> p.isClickable = true}
         v.panelNotCustom.visibility = View.GONE
         val animationHide =
             AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
@@ -399,6 +393,7 @@ class SleepFragment : Fragment() {
         customPanelList.forEach{p -> p.isClickable = false}
         customWakeTimeTexts.forEach{p -> p.isClickable = false}
         customDurationTexts.forEach{p -> p.isClickable = false}
+        customCheckBoxList.forEach{p -> p.isClickable = false}
         v.panelCustom.visibility = View.GONE
         val animationHide =
             AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)

@@ -67,14 +67,12 @@ class DayFragment : Fragment() {
             updateContentList()
             updateDayViewTitle()
             myAdapter.notifyDataSetChanged()
-            //todo change recycler content and day title to previous day
         }
         btnNextDay.setOnClickListener{
             date = date.plusDays(1)
             updateContentList()
             updateDayViewTitle()
             myAdapter.notifyDataSetChanged()
-            //todo change recycler content and day title to next day
         }
 
         //initialize recycler + adapter
@@ -110,7 +108,6 @@ class TermAdapterDay() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TermViewHolderDay {
         val itemView = LayoutInflater.from(parent.context)
-                //TODO CHANGE row_term_day to fit display of day term
             .inflate(R.layout.row_term_day, parent, false)
         return TermViewHolderDay(itemView)
     }
@@ -118,7 +115,6 @@ class TermAdapterDay() :
 
     override fun onBindViewHolder(holder: TermViewHolderDay, position: Int) {
 
-        //TODO get position-th term of current inspected day here
         val currentTerm = DayFragment.dayList[position]
 
         holder.itemView.setOnClickListener() {
@@ -126,11 +122,9 @@ class TermAdapterDay() :
             MainActivity.myActivity.changeToCreateTerm()
         }
 
-        //todo make these attributes specific for dayView
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
-        //tvDate usually holds the date, but since the date is trivial, here it gets reused to
-        //display the time
+
         if(currentTerm.startTime.equals(currentTerm.eTime)){
             holder.tvStartTime.text = currentTerm.startTime.toString()
             holder.tvEndTime.text = ""
@@ -143,7 +137,6 @@ class TermAdapterDay() :
 
     }
 
-    //TODO return number of terms of current inspected day here
     override fun getItemCount() = DayFragment.dayList.size
 
 
@@ -152,13 +145,11 @@ class TermAdapterDay() :
          * One instance of this class will contain one "instance" of row_term and meta data
          * like position, it also holds references to views inside of the layout
          */
-        //todo only use necessary dayview attributes
         val tvTitle = itemView.tvTermItemTitle
         val tvInfo = itemView.tvTermItemInfo
         val tvStartTime = itemView.tvTermItemStartTime
         val tvEndTime = itemView.tvTermItemEndTime
         val tvDashUntil = itemView.tvDashUntil
-        //var myView = itemView
     }
 
 }
