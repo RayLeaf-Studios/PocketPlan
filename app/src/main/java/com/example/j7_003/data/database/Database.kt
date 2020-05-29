@@ -100,7 +100,16 @@ class Database {
         }
 
         fun clearCheckedTasks(){
-            //TODO makes this delete all tasks that have isChecked = true
+            val toBeDeleted = ArrayList<Task>()
+            taskList.forEach { n ->
+                if (n.isChecked) toBeDeleted.add(n)
+            }
+
+            toBeDeleted.forEach { n ->
+                taskList.remove(n)
+            }
+
+            save(TLIST, taskList)
         }
 
         private fun fetchTaskList() : ArrayList<Task> {
