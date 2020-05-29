@@ -1,5 +1,6 @@
 package com.example.j7_003.fragments
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ class DayFragment : Fragment() {
     lateinit var btnPreviousDay: Button
     lateinit var btnNextDay: Button
     lateinit var tvDayViewTitle: TextView
+    lateinit var tvYear: TextView
     lateinit var date: LocalDate
     lateinit var myAdapter: TermAdapterDay
 
@@ -51,12 +53,18 @@ class DayFragment : Fragment() {
         btnPreviousDay = myView.btnPreviousDay
         btnNextDay = myView.btnNextDay
         tvDayViewTitle = myView.tvDayViewTitle
+        tvYear = myView.tvYear
 
         date = LocalDate.now()
 
-        updateDayViewTitle()
-        updateContentList()
-
+        tvDayViewTitle.setOnClickListener {
+            val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                date = date.withYear(year).withMonth(month+1).withDayOfMonth(day)
+                update()
+            }
+            val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, date.year, date.monthValue-1, date.dayOfMonth)
+            dpd.show()
+        }
 
         btnAddTermDay.setOnClickListener {
             changeToCreateTermFragment()
@@ -64,15 +72,11 @@ class DayFragment : Fragment() {
 
         btnPreviousDay.setOnClickListener{
             date = date.minusDays(1)
-            updateContentList()
-            updateDayViewTitle()
-            myAdapter.notifyDataSetChanged()
+            update()
         }
         btnNextDay.setOnClickListener{
             date = date.plusDays(1)
-            updateContentList()
-            updateDayViewTitle()
-            myAdapter.notifyDataSetChanged()
+            update()
         }
 
         //initialize recycler + adapter
@@ -82,6 +86,9 @@ class DayFragment : Fragment() {
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(MainActivity.myActivity)
         myRecycler.setHasFixedSize(true)
+
+        update()
+
         return myView
     }
 
@@ -89,12 +96,20 @@ class DayFragment : Fragment() {
         dayList = CalendarManager.getDayView(date)
     }
 
-
+    fun update(){
+        updateDayViewTitle()
+        updateContentList()
+        myAdapter.notifyDataSetChanged()
+    }
 
     fun updateDayViewTitle(){
+        var monthString = date.month.toString()
+
         tvDayViewTitle.text = date.dayOfWeek.toString().substring(0,1)+
                 date.dayOfWeek.toString().substring(1,2).decapitalize()+
-                " "+date.dayOfMonth+"."+date.monthValue
+                " "+date.dayOfMonth+". "+ monthString.substring(0,1)+
+                monthString.substring(1,3).toLowerCase()
+        tvYear.text = date.year.toString()
     }
 
     fun changeToCreateTermFragment() {
@@ -125,6 +140,7 @@ class TermAdapterDay() :
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
 
+        //hides end time of a term if its identical to start time
         if(currentTerm.startTime.equals(currentTerm.eTime)){
             holder.tvStartTime.text = currentTerm.startTime.toString()
             holder.tvEndTime.text = ""
