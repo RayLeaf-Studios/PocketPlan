@@ -99,6 +99,10 @@ class Database {
             taskList.sortWith(compareBy({ it.isChecked }, { it.priority }))
         }
 
+        fun clearCheckedTasks(){
+            //TODO makes this delete all tasks that have isChecked = true
+        }
+
         private fun fetchTaskList() : ArrayList<Task> {
             val jsonString = StorageHandler.files[TLIST]?.readText()
 

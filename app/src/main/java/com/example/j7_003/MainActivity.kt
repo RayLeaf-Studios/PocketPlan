@@ -1,6 +1,7 @@
 package com.example.j7_003
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -121,6 +122,8 @@ class MainActivity : AppCompatActivity(){
     private fun changeToToDo(){
         if(activeFragmentTag!="todo") {
             hideMenuIcons()
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
+            myMenu?.getItem(0)?.setVisible(true)
             todoFragment = TodoFragment()
             supportActionBar?.title = "To-Do"
             supportFragmentManager
@@ -320,6 +323,10 @@ class MainActivity : AppCompatActivity(){
                     true
                 }else if(activeFragmentTag=="calendar"){
                     changeToDayView()
+                    true
+                }else if(activeFragmentTag=="todo"){
+                    Database.clearCheckedTasks()
+                    TodoFragment.myAdapter.notifyDataSetChanged()
                     true
                 }else{
                     //inflate the dialog with custom view

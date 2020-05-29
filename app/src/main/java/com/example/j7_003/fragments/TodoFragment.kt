@@ -31,6 +31,9 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class TodoFragment : Fragment() {
 
+    companion object{
+        lateinit var myAdapter: TodoTaskAdapter
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,7 +83,7 @@ class TodoFragment : Fragment() {
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        val myAdapter = TodoTaskAdapter()
+        myAdapter = TodoTaskAdapter()
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
