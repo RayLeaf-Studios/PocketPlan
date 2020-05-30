@@ -186,15 +186,28 @@ class Database {
 
             val today = LocalDate.now()
             var beforeMonth = false
+            var afterMonth = false
             birthdayList.forEach { m ->
-                if(!months.contains(m.month)){
+                if(!months.contains(m.month) && m.month != today.monthValue){
                     months.add(m.month)
                 }
 
                 if (m.month == today.monthValue && m.day < today.dayOfMonth) beforeMonth = true
+                else if (m.month == today.monthValue && m.day >= today.dayOfMonth) afterMonth = true
             }
 
             if (beforeMonth) {
+                birthdayList.add(
+                    Birthday(
+                        today.month.toString().toLowerCase().capitalize(),
+                        today.monthValue,
+                        1,
+                        -1 * today.monthValue
+                    )
+                )
+            }
+
+            if (afterMonth) {
                 birthdayList.add(
                     Birthday(
                         today.month.toString().toLowerCase().capitalize(),
@@ -204,7 +217,6 @@ class Database {
                     )
                 )
             }
-
 
             months.forEach { m ->
                 val name = LocalDate.of(2020, m, 1).month.toString()
