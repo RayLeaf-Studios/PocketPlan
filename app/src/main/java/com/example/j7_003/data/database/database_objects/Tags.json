@@ -1,8 +1,16 @@
-[
-  {
-
-  },
-  {
-
-  }
-]
+[{"n" : "Fruits", "c" : "#79e32d"},
+  {"n" : "Vegetables", "c" : "#00ad06"},
+  {"n" : "Drinks", "c" : "#1826ed"},
+  {"n" : "Meat", "c" : "#8a0303"},
+  {"n" : "Dairy", "c" : "#fcfcf7"},
+  {"n" : "Canned Goods", "c" : "#a8a8a8"},
+  {"n" : "Bread and Pastries", "c" : "#a16813"},
+  {"n" : "Pasta and Grains", "c" : "#f2d70a"},
+  {"n" : "Hygiene", "c" : "#00ffae"},
+  {"n" : "Spices", "c" : "#ff0019"},
+  {"n" : "Alcohol", "c" : "#a605a0"},
+  {"n" : "Frozen", "c" : "#00bd16"},
+  {"n" : "Cereal", "c" : "#ff9a17"},
+  {"n" : "Cooled Goods", "c" : "#b0c0ff"},
+  {"n" : "International", "c" : "#ffb5b0"},
+  {"n" : "Misc", "c" : "#ffffff"}]
