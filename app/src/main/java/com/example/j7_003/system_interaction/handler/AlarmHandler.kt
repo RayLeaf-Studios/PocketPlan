@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
@@ -21,24 +22,26 @@ class AlarmHandler {
             val alarmManager =
                 context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
-            val notificationTime = Calendar.getInstance()
+            var notificationTime = LocalDateTime.now()
 
-            if (notificationTime.get(Calendar.HOUR_OF_DAY) >= hour) {
-                if (notificationTime.get(Calendar.MINUTE) >= minute) {
-                    notificationTime.add(Calendar.DAY_OF_MONTH, 1)
+            if (notificationTime.hour >= hour) {
+                if (notificationTime.minute >= minute) {
+                    notificationTime = notificationTime.plusDays(1)
                 }
             }
 
-            notificationTime.set(Calendar.HOUR_OF_DAY, hour)
-            notificationTime.set(Calendar.MINUTE, minute)
-            notificationTime.set(Calendar.SECOND, 0)
+            notificationTime = notificationTime
+                .withHour(hour).withMinute(minute)
+                .withSecond(0).withNano(0)
 
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                notificationTime.timeInMillis,
+                notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent
             )
+
+            Log.e("debug", notificationTime.atZone(ZoneId.systemDefault()).toInstant().toString())
         }
 
         fun setNewSleepReminderAlarm(
