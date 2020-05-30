@@ -233,6 +233,8 @@ class Database {
             birthdayList.sortWith(compareBy({ it.month }, { it.day }, {it.daysToRemind >= 0}, { it.name }))
 
             var i = 0
+            val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1, -200)
+            cacheList.add(spacerBirthday)
             while(i < birthdayList.size) {
                 if (getBirthday(i).month < month ||
                     (getBirthday(i).month == month && getBirthday(i).day < day)) {
@@ -249,6 +251,10 @@ class Database {
                 { it.daysToRemind >= 0},
                 { it.name })
             )
+
+            if (cacheList.size == 1) {
+                cacheList.remove(spacerBirthday)
+            }
 
             cacheList.forEach { n ->
                 birthdayList.add(n)
