@@ -25,22 +25,22 @@ Stuff to do next in following order:
      - design calender
 
 important Tasks:
-    - FIX SLEEPFRAGMENT FRONTEND
-    - fix loading of numberpickers in sleepfragment
     - add shopping list module
     - live update sleep-reminder time (in home panel)
 
 random tasks:
+    - button to go to current day in dayview
+    - replace dayview buttons with swipe gesture? or redesign / relocate them
+    - fix birthday scroll wheels (scrolling over february sets date to 29th)
+        (delete all unfitting months for chosen day)
+    - make birthdays searchable
     - animation for deleting birthday
     - add listener to number picker for typing in numbers
     - replace all colors and values like text size with resource references
     - reorder / reprioritize tasks by dragging and dropping them
-    - clear button to delete all checked tasks
     - history for last 20? deleted notes/birthdays/tasks/terms
-    - make months somehow visible in birthday fragment
 
 ideas:
-    - maybe make modules more customizable
     - change pink on app logo to green from priorities
 
 Future Project ideas: Vim optimizer
