@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 /**
  * A simple [Fragment] subclass.
  */
+
 class BirthdayFragment : Fragment() {
 
     override fun onCreateView(
