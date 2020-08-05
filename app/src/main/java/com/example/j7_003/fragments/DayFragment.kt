@@ -1,27 +1,32 @@
 package com.example.j7_003.fragments
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.j7_003.MainActivity
-
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_day.view.*
-import kotlinx.android.synthetic.main.row_term.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
 import kotlinx.android.synthetic.main.row_term_day.view.*
 import org.threeten.bp.LocalDate
+
+
+private const val MIN_SCALE = 0.85f
+private const val MIN_ALPHA = 0.5f
 
 /**
  * A simple [Fragment] subclass.
@@ -30,17 +35,17 @@ class DayFragment : Fragment() {
 
     companion object{
         lateinit var dayList: ArrayList<CalendarAppointment>
+        lateinit var dayFragment: DayFragment
+        lateinit var dayPager: ViewPager2
+        lateinit var date: LocalDate
     }
 
     lateinit var myView: View
     lateinit var btnAddTermDay: FloatingActionButton
-    lateinit var btnPreviousDay: Button
-    lateinit var btnNextDay: Button
     lateinit var tvDayViewTitle: TextView
     lateinit var tvYear: TextView
-    lateinit var date: LocalDate
-    lateinit var myAdapter: TermAdapterDay
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,17 +54,33 @@ class DayFragment : Fragment() {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_day, container, false)
 
+        dayFragment = this
+
         btnAddTermDay = myView.btnAddTermDay
-        btnPreviousDay = myView.btnPreviousDay
-        btnNextDay = myView.btnNextDay
         tvDayViewTitle = myView.tvDayViewTitle
         tvYear = myView.tvYear
 
         date = LocalDate.now()
 
+        dayPager = myView.dayPager
+        val pagerAdapter = ScreenSlidePagerAdapter(MainActivity.myActivity)
+        dayPager.adapter = pagerAdapter
+
+        val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                changeToPosition(position)
+            }
+        }
+        dayPager.registerOnPageChangeCallback(pageChangeCallback)
+
+
+        dayPager.setCurrentItem(Int.MAX_VALUE/2, false)
+
         tvDayViewTitle.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 date = date.withYear(year).withMonth(month+1).withDayOfMonth(day)
+                val newPosition = (Int.MAX_VALUE / 2) + LocalDate.now().until(date).days
+                dayPager.setCurrentItem(newPosition)
                 update()
             }
             val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, date.year, date.monthValue-1, date.dayOfMonth)
@@ -70,40 +91,53 @@ class DayFragment : Fragment() {
             changeToCreateTermFragment()
         }
 
-        btnPreviousDay.setOnClickListener{
-            date = date.minusDays(1)
-            update()
-        }
-        btnNextDay.setOnClickListener{
-            date = date.plusDays(1)
-            update()
-        }
-
         //initialize recycler + adapter
-        val myRecycler = myView.recylcer_view_day
-        myAdapter = TermAdapterDay()
+        //val myRecycler = myView.recylcer_view_day
 
-        myRecycler.adapter = myAdapter
-        myRecycler.layoutManager = LinearLayoutManager(MainActivity.myActivity)
-        myRecycler.setHasFixedSize(true)
+       // myRecycler.adapter = myAdapter
+       // myRecycler.layoutManager = LinearLayoutManager(MainActivity.myActivity)
+       // myRecycler.setHasFixedSize(true)
 
         update()
 
         return myView
     }
 
-    fun updateContentList(){
-        dayList = CalendarManager.getDayView(date)
+
+
+    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = Int.MAX_VALUE
+
+            override fun createFragment(position: Int): Fragment{
+            return TestFragment.newInstance(position)
+        }
+
     }
 
     fun update(){
         updateDayViewTitle()
-        updateContentList()
-        myAdapter.notifyDataSetChanged()
+    }
+
+    fun changeToPosition(position: Int){
+        val delta = -(Int.MAX_VALUE/2 - position)
+        val newDate: LocalDate
+        newDate = LocalDate.now().plusDays(delta.toLong())
+        changeDateTo(newDate)
+    }
+
+    fun changeDateTo(newDate: LocalDate){
+        val monthString = newDate.month.toString()
+
+        tvDayViewTitle.text = newDate.dayOfWeek.toString().substring(0,1)+
+                newDate.dayOfWeek.toString().substring(1,2).decapitalize()+
+                " "+newDate.dayOfMonth+". "+ monthString.substring(0,1)+
+                monthString.substring(1,3).toLowerCase()
+        tvYear.text = newDate.year.toString()
+        date = newDate
     }
 
     fun updateDayViewTitle(){
-        var monthString = date.month.toString()
+        val monthString = date.month.toString()
 
         tvDayViewTitle.text = date.dayOfWeek.toString().substring(0,1)+
                 date.dayOfWeek.toString().substring(1,2).decapitalize()+
@@ -118,54 +152,5 @@ class DayFragment : Fragment() {
 
 }
 
-class TermAdapterDay() :
-    RecyclerView.Adapter<TermAdapterDay.TermViewHolderDay>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TermViewHolderDay {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_term_day, parent, false)
-        return TermViewHolderDay(itemView)
-    }
 
 
-    override fun onBindViewHolder(holder: TermViewHolderDay, position: Int) {
-
-        val currentTerm = DayFragment.dayList[position]
-
-        holder.itemView.setOnClickListener() {
-            //todo start CreateTermFragment in EDIT mode
-            MainActivity.myActivity.changeToCreateTerm()
-        }
-
-        holder.tvTitle.text = currentTerm.title
-        holder.tvInfo.text = currentTerm.addInfo
-
-        //hides end time of a term if its identical to start time
-        if(currentTerm.startTime.equals(currentTerm.eTime)){
-            holder.tvStartTime.text = currentTerm.startTime.toString()
-            holder.tvEndTime.text = ""
-            holder.tvDashUntil.visibility = View.INVISIBLE
-        }else{
-            holder.tvStartTime.text = currentTerm.startTime.toString()
-            holder.tvEndTime.text = currentTerm.eTime.toString()
-            holder.tvDashUntil.visibility = View.VISIBLE
-        }
-
-    }
-
-    override fun getItemCount() = DayFragment.dayList.size
-
-
-    class TermViewHolderDay(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        /**
-         * One instance of this class will contain one "instance" of row_term and meta data
-         * like position, it also holds references to views inside of the layout
-         */
-        val tvTitle = itemView.tvTermItemTitle
-        val tvInfo = itemView.tvTermItemInfo
-        val tvStartTime = itemView.tvTermItemStartTime
-        val tvEndTime = itemView.tvTermItemEndTime
-        val tvDashUntil = itemView.tvDashUntil
-    }
-
-}

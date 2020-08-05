@@ -8,50 +8,16 @@
     android:padding="4dp"
     tools:context=".fragments.DayFragment">
 
-
-    <Button
-        android:id="@+id/btnPreviousDay"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="&lt;"
-        android:textSize="20sp"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="5dp"
-        android:background="@drawable/line_white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnNextDay"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@drawable/line_white"
-        android:layout_marginTop="4dp"
-        android:layout_marginRight="5dp"
-        android:text="&gt;"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tvDayViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mo 12.3"
-        android:textSize="20sp"
         android:textColor="@color/colorOnBackGround"
-        app:layout_constraintBottom_toBottomOf="@+id/btnPreviousDay"
-        app:layout_constraintEnd_toStartOf="@+id/btnPreviousDay"
-        app:layout_constraintStart_toEndOf="@+id/btnNextDay"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:id="@+id/recylcer_view_day"
-        android:layout_width="match_parent"
-        android:layout_height="551dp"
-        app:layout_constraintTop_toBottomOf="@+id/btnPreviousDay"
-        tools:layout_editor_absoluteX="10dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddTermDay"
@@ -75,4 +41,13 @@
         app:layout_constraintEnd_toEndOf="@+id/tvDayViewTitle"
         app:layout_constraintStart_toStartOf="@+id/tvDayViewTitle"
         app:layout_constraintTop_toBottomOf="@+id/tvDayViewTitle" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/dayPager"
+        android:layout_width="409dp"
+        android:layout_height="464dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvYear" />
 </androidx.constraintlayout.widget.ConstraintLayout>

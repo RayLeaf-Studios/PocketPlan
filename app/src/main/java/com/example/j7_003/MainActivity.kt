@@ -88,6 +88,10 @@ class MainActivity : AppCompatActivity(){
 
     }
 
+    fun titleDebug(debugMsg: String){
+        supportActionBar?.title = debugMsg
+    }
+
     fun changeToBirthdays(){
         if(activeFragmentTag!="birthdays") {
             hideMenuIcons()

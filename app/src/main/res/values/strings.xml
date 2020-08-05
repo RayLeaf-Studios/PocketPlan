@@ -18,5 +18,7 @@
     <string name="menuTitleModules">Modules</string>
     <string name="menuTitleNotes">Notes</string>
     <string name="termItemDate">%1$s %2$s.%3$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
