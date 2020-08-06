@@ -18,6 +18,7 @@ import com.example.j7_003.data.database.CalendarManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_day.view.*
 import org.threeten.bp.LocalDate
+import org.threeten.bp.temporal.ChronoUnit
 
 class DayFragment : Fragment() {
 
@@ -74,7 +75,8 @@ class DayFragment : Fragment() {
         tvDayViewTitle.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 date = date.withYear(year).withMonth(month+1).withDayOfMonth(day)
-                val newPosition = (Int.MAX_VALUE / 2) + LocalDate.now().until(date).days
+                val delta = ChronoUnit.DAYS.between(LocalDate.now(), date).toInt()
+                val newPosition = (Int.MAX_VALUE / 2) + delta
                 dayPager.setCurrentItem(newPosition)
                 updateDayViewTitle()
             }
