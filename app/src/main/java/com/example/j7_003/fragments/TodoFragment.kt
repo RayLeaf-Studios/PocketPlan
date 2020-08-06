@@ -39,15 +39,16 @@ class TodoFragment : Fragment() {
         val oldSize = Database.taskList.size
         val newSize = Database.deleteCheckedTasks()
         val delta = oldSize - newSize
+        var animationCounter = oldSize
         for(i in newSize until oldSize){
             val v = myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
-
-            if(i == oldSize-1){
-                v.myView.animate().scaleX(0f).setDuration(250).withEndAction{
+            animationCounter -= 1
+            if(i == newSize){
+                v.myView.animate().scaleX(0f).setDuration(250).setStartDelay(animationCounter.toLong()*100).withEndAction{
                     myAdapter.notifyDataSetChanged()
                 }
             }else{
-                v.myView.animate().scaleX(0f).duration = 250
+                v.myView.animate().scaleX(0f).setStartDelay(animationCounter.toLong()*100).duration = 250
             }
 
         }
