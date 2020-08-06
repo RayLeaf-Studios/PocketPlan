@@ -10,31 +10,21 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
-import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_day.view.*
-import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
-import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
-import kotlinx.android.synthetic.main.row_term_day.view.*
 import org.threeten.bp.LocalDate
 
-
-private const val MIN_SCALE = 0.85f
-private const val MIN_ALPHA = 0.5f
-
-/**
- * A simple [Fragment] subclass.
- */
 class DayFragment : Fragment() {
 
+    /*
+        companion object holds reference to itself, its viewpager and current date
+    */
     companion object{
-        lateinit var dayList: ArrayList<CalendarAppointment>
         lateinit var dayFragment: DayFragment
         lateinit var dayPager: ViewPager2
         lateinit var date: LocalDate
@@ -45,27 +35,30 @@ class DayFragment : Fragment() {
     lateinit var tvDayViewTitle: TextView
     lateinit var tvYear: TextView
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //initialize CalendarManager
         CalendarManager.init()
+
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_day, container, false)
-
         dayFragment = this
 
+        //initialize references to gui elements
         btnAddTermDay = myView.btnAddTermDay
         tvDayViewTitle = myView.tvDayViewTitle
         tvYear = myView.tvYear
 
         date = LocalDate.now()
 
+        //initializes viewpager
         dayPager = myView.dayPager
         val pagerAdapter = ScreenSlidePagerAdapter(MainActivity.myActivity)
         dayPager.adapter = pagerAdapter
 
+        //pageChangeCallback to react to scrolling
         val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 changeToPosition(position)
@@ -74,37 +67,34 @@ class DayFragment : Fragment() {
         dayPager.registerOnPageChangeCallback(pageChangeCallback)
 
 
+        //starts in the middle for "infinite" scrolling left / right
         dayPager.setCurrentItem(Int.MAX_VALUE/2, false)
 
+        //onclick listener to change current date by clicking on the date up top
         tvDayViewTitle.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 date = date.withYear(year).withMonth(month+1).withDayOfMonth(day)
                 val newPosition = (Int.MAX_VALUE / 2) + LocalDate.now().until(date).days
                 dayPager.setCurrentItem(newPosition)
-                update()
+                updateDayViewTitle()
             }
             val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, date.year, date.monthValue-1, date.dayOfMonth)
             dpd.show()
         }
 
+        //button to create a new term
         btnAddTermDay.setOnClickListener {
             changeToCreateTermFragment()
         }
 
-        //initialize recycler + adapter
-        //val myRecycler = myView.recylcer_view_day
-
-       // myRecycler.adapter = myAdapter
-       // myRecycler.layoutManager = LinearLayoutManager(MainActivity.myActivity)
-       // myRecycler.setHasFixedSize(true)
-
-        update()
-
+        //initialize fragment with current date
+        updateDayViewTitle()
         return myView
     }
 
 
 
+    //adapter for viewpager2
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = Int.MAX_VALUE
 
@@ -114,10 +104,7 @@ class DayFragment : Fragment() {
 
     }
 
-    fun update(){
-        updateDayViewTitle()
-    }
-
+    //switches the current daylist to the daylist of a date according to a position
     fun changeToPosition(position: Int){
         val delta = -(Int.MAX_VALUE/2 - position)
         val newDate: LocalDate
@@ -125,6 +112,7 @@ class DayFragment : Fragment() {
         changeDateTo(newDate)
     }
 
+    //switches the current daylist to the daylist of the passed date
     fun changeDateTo(newDate: LocalDate){
         val monthString = newDate.month.toString()
 

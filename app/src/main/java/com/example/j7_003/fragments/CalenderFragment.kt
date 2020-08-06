@@ -118,8 +118,9 @@ class TermAdapter() :
             .substring(1, 2).decapitalize()
         val month = date.monthValue.toString()
         val day = date.dayOfMonth.toString()
+        val year = date.year.toString().subSequence(2,4)
         holder.tvDate.text = MainActivity.myActivity.getString(R.string.termItemDate,
-        dayOfWeekString, day, month)
+        dayOfWeekString, day, month, year)
     }
 
 

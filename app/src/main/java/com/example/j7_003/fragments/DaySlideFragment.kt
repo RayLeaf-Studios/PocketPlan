@@ -11,25 +11,15 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
-import kotlinx.android.synthetic.main.fragment_day.*
 import kotlinx.android.synthetic.main.fragment_test.view.*
-import kotlinx.android.synthetic.main.row_term.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
 import kotlinx.android.synthetic.main.row_term_day.view.*
 import org.threeten.bp.LocalDate
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM1 = "position"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TestFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TestFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var position: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,14 +53,6 @@ class TestFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @return A new instance of fragment TestFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(position: Int) =
             TestFragment().apply {
@@ -83,7 +65,6 @@ class TestFragment : Fragment() {
 class TermAdapterDay() :
     RecyclerView.Adapter<TermAdapterDay.TermViewHolderDay>() {
 
-
     private lateinit var daylist: ArrayList<CalendarAppointment>
     fun setDate(date: LocalDate){
               daylist = CalendarManager.getDayView(date)
@@ -94,7 +75,6 @@ class TermAdapterDay() :
             .inflate(R.layout.row_term_day, parent, false)
         return TermViewHolderDay(itemView)
     }
-
 
     override fun onBindViewHolder(holder: TermViewHolderDay, position: Int) {
 
@@ -123,10 +103,9 @@ class TermAdapterDay() :
 
     override fun getItemCount() = daylist.size
 
-
     class TermViewHolderDay(itemView: View) : RecyclerView.ViewHolder(itemView) {
         /**
-         * One instance of this class will contain one "instance" of row_term and meta data
+         * One instance of this class will contain one "instance" of row_term_day and meta data
          * like position, it also holds references to views inside of the layout
          */
         val tvTitle = itemView.tvTermItemTitle
