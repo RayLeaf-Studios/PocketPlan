@@ -192,7 +192,7 @@ class BirthdayAdapter() :
         }else{
             //initialize regular birthday design
             holder.tvMonthLabel.text = ""
-            holder.myView.setBackgroundResource(R.drawable.round_corner_bday)
+            holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
             holder.itemView.setOnClickListener() {
 
 

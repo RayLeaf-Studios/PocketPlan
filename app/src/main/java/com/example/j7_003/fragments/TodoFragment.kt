@@ -2,7 +2,6 @@ package com.example.j7_003.fragments
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
-import com.example.j7_003.R
 import com.example.j7_003.R.*
 import com.example.j7_003.data.database.Database
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
@@ -32,8 +30,34 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 class TodoFragment : Fragment() {
 
     companion object{
+        lateinit var myFragment: TodoFragment
         lateinit var myAdapter: TodoTaskAdapter
+        lateinit var myRecycler: RecyclerView
     }
+
+    fun manageCheckedTaskDeletion(){
+        val oldSize = Database.taskList.size
+        val newSize = Database.deleteCheckedTasks()
+        val delta = oldSize - newSize
+        for(i in newSize until oldSize){
+            val v = myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
+
+            if(i == oldSize-1){
+                v.myView.animate().scaleX(0f).setDuration(250).withEndAction{
+                    myAdapter.notifyDataSetChanged()
+                }
+            }else{
+                v.myView.animate().scaleX(0f).duration = 250
+            }
+
+        }
+        if(delta == 0){
+            myAdapter.notifyDataSetChanged()
+        }
+    }
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,7 +65,9 @@ class TodoFragment : Fragment() {
 
         val myView = inflater.inflate(layout.fragment_todo, container, false)
 
-        val myRecycler = myView.recycler_view_todo
+        myRecycler = myView.recycler_view_todo
+
+        myFragment = this
 
         /**
          * Adding Task via floating action button
@@ -87,6 +113,7 @@ class TodoFragment : Fragment() {
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
+
 
         val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteT(myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
@@ -144,7 +171,26 @@ class TodoTaskAdapter() :
         val currentTask = Database.getTask(holder.adapterPosition)
         val activity = MainActivity.myActivity
 
+        //changes design of task based on priority and being checked
+        holder.tvName.text = currentTask.title
+        holder.myView.scaleX = 1f
+        if(Database.getTask(holder.adapterPosition).isChecked){
+            holder.checkBox.isChecked = true
+            holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
+            holder.myView.setBackgroundResource(drawable.round_corner_gray)
+        }else{
+            holder.checkBox.isChecked = false
+            holder.tvName.paintFlags = 0
+            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
+            when(currentTask.priority){
+                1 -> holder.myView.setBackgroundResource(drawable.round_corner1)
+                2 -> holder.myView.setBackgroundResource(drawable.round_corner2)
+                3 -> holder.myView.setBackgroundResource(drawable.round_corner3)
+            }
+        }
 
+        //User Interactions with Task List Item below
         /**
          * EDITING task
          * Onclick-Listener on List items, opening the edit-task dialog
@@ -178,53 +224,35 @@ class TodoTaskAdapter() :
                 myDialogView.btnConfirm3
             )
 
+            //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
-                    Database.editTask(holder.adapterPosition, index + 1, myDialogView.etxTitleAddTask.text.toString(), Database.getTask(holder.adapterPosition).isChecked)
-                    Database.sortTasks()
-                    this.notifyDataSetChanged()
+                    val newPos = Database.editTask(holder.adapterPosition, index + 1, myDialogView.etxTitleAddTask.text.toString(), Database.getTask(holder.adapterPosition).isChecked)
+                    this.notifyItemChanged(holder.adapterPosition)
+                    this.notifyItemMoved(holder.adapterPosition, newPos)
                 }
             }
 
         }
 
-        holder.tvName.text = currentTask.title
-        if(Database.getTask(holder.adapterPosition).isChecked){
-            holder.checkBox.isChecked = true
-            holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
-        }else{
-            holder.checkBox.isChecked = false
-            holder.tvName.paintFlags = 0
-            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
-        }
-
+        //reacts to the user checking a task
         holder.checkBox.setOnClickListener{
+            val checked = holder.checkBox.isChecked
             val task = Database.getTask(holder.adapterPosition)
-            Database.editTask(holder.adapterPosition, task.priority, task.title, holder.checkBox.isChecked)
-            if(holder.checkBox.isChecked){
+            val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checked)
+            if(checked){
                 holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
-                notifyDataSetChanged()
             }else{
                 holder.tvName.paintFlags = 0
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
-                notifyDataSetChanged()
             }
+            notifyItemChanged(holder.adapterPosition)
+            notifyItemMoved(holder.adapterPosition, newPos)
         }
-
-        when(currentTask.priority){
-            1 -> holder.myView.setBackgroundResource(drawable.round_corner1)
-            2 -> holder.myView.setBackgroundResource(drawable.round_corner2)
-            3 -> holder.myView.setBackgroundResource(drawable.round_corner3)
-        }
-
-        if(currentTask.isChecked){
-            holder.myView.setBackgroundResource(drawable.round_corner_bday)
-        }
-
     }
+
 
     override fun getItemCount() = Database.taskList.size
 

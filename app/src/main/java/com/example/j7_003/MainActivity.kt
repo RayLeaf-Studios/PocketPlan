@@ -1,19 +1,16 @@
 package com.example.j7_003
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
-import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -329,8 +326,7 @@ class MainActivity : AppCompatActivity(){
                     changeToDayView()
                     true
                 }else if(activeFragmentTag=="todo"){
-                    Database.clearCheckedTasks()
-                    TodoFragment.myAdapter.notifyDataSetChanged()
+                    TodoFragment.myFragment.manageCheckedTaskDeletion()
                     true
                 }else{
                     //inflate the dialog with custom view

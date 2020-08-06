@@ -76,16 +76,17 @@ class Database {
          * @param index The tasks new priority.
          * @param title The new title of the task.
          */
-        fun editTask(position: Int, index: Int, title: String, isChecked: Boolean) {
+        fun editTask(position: Int, prio: Int, title: String, isChecked: Boolean) : Int{
             val editableTask: Task =
                 getTask(
                     position
                 )
             editableTask.title = title
-            editableTask.priority = index
+            editableTask.priority = prio
             editableTask.isChecked = isChecked
             sortTasks()
             save(TLIST, taskList)
+            return taskList.indexOf(editableTask)
         }
 
         /**
@@ -99,7 +100,7 @@ class Database {
             taskList.sortWith(compareBy({ it.isChecked }, { it.priority }))
         }
 
-        fun clearCheckedTasks(){
+        fun deleteCheckedTasks(): Int{
             val toBeDeleted = ArrayList<Task>()
             taskList.forEach { n ->
                 if (n.isChecked) toBeDeleted.add(n)
@@ -110,6 +111,7 @@ class Database {
             }
 
             save(TLIST, taskList)
+            return taskList.size
         }
 
         private fun fetchTaskList() : ArrayList<Task> {
