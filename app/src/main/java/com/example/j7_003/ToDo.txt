@@ -30,11 +30,9 @@ important Tasks:
 
 random tasks:
     - button to go to current day in dayview
-    - replace dayview buttons with swipe gesture? or redesign / relocate them
     - fix birthday scroll wheels (scrolling over february sets date to 29th)
         (delete all unfitting months for chosen day)
     - make birthdays searchable
-    - animation for deleting birthday
     - add listener to number picker for typing in numbers
     - replace all colors and values like text size with resource references
     - reorder / reprioritize tasks by dragging and dropping them
@@ -43,6 +41,7 @@ random tasks:
 
 ideas:
     - change pink on app logo to green from priorities
+    - small counter for accomplished tasks of tasklist
 
 Future Project ideas: Vim optimizer
 

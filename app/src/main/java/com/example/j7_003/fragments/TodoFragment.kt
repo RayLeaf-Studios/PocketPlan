@@ -250,7 +250,9 @@ class TodoTaskAdapter() :
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
             }
             notifyItemChanged(holder.adapterPosition)
-            notifyItemMoved(holder.adapterPosition, newPos)
+            if(holder.adapterPosition != newPos){
+                notifyItemMoved(holder.adapterPosition, newPos)
+            }
         }
     }
 
