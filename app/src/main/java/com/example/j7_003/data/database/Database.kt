@@ -73,16 +73,16 @@ class Database {
         /**
          * Edits the requested task to have a new title and priority.
          * @param position The tasks position in the list.
-         * @param index The tasks new priority.
+         * @param priority The tasks new priority.
          * @param title The new title of the task.
          */
-        fun editTask(position: Int, prio: Int, title: String, isChecked: Boolean) : Int{
+        fun editTask(position: Int, priority: Int, title: String, isChecked: Boolean) : Int{
             val editableTask: Task =
                 getTask(
                     position
                 )
             editableTask.title = title
-            editableTask.priority = prio
+            editableTask.priority = priority
             editableTask.isChecked = isChecked
             sortTasks()
             save(TLIST, taskList)
@@ -96,7 +96,7 @@ class Database {
          */
         fun getTask(index: Int): Task = taskList[index]
 
-        fun sortTasks() {
+        private fun sortTasks() {
             taskList.sortWith(compareBy({ it.isChecked }, { it.priority }))
         }
 
@@ -272,7 +272,7 @@ class Database {
             val currentBirthdays = ArrayList<Birthday>()
             val localDate = LocalDate.now()
             birthdayList.forEach { n ->
-                if (n.month == localDate.monthValue + 1 &&
+                if (n.month == localDate.monthValue  &&
                     n.day == localDate.dayOfMonth &&
                     n.daysToRemind == 0
                 ) {

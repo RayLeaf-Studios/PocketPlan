@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var sleepFragment: SleepFragment
     private lateinit var noteFragment: NoteFragment
     private lateinit var shoppingFragment: ShoppingFragment
-    private lateinit var writeNoteFragment: WriteNoteFragment
+    private lateinit var createNoteFragment: CreateNoteFragment
     private lateinit var createTermFragment: CreateTermFragment
 
 
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity(){
         var editNoteHolder: NoteAdapter.NoteViewHolder? = null
         var myMenu: Menu? = null
         var noteColor: NoteColors = NoteColors.YELLOW
+        var fromHome: Boolean = false
     }
 
 
@@ -120,7 +121,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToToDo(){
+     fun changeToToDo(){
         if(activeFragmentTag!="todo") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
@@ -254,16 +255,16 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToWriteNoteFragment(){
+    fun changeToCreateNoteFragment(){
         myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
         myMenu?.getItem(0)?.setVisible(true)
         myMenu?.getItem(1)?.setVisible(true)
         if(activeFragmentTag!="writeNote") {
             supportActionBar?.title="Editor"
-            writeNoteFragment = WriteNoteFragment()
+            createNoteFragment = CreateNoteFragment()
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frame_layout, writeNoteFragment)
+                .replace(R.id.frame_layout, createNoteFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
             activeFragmentTag="writeNote"
@@ -363,14 +364,19 @@ class MainActivity : AppCompatActivity(){
             }
             R.id.item_savenote -> {
                 if(editNoteHolder==null){
-                    val noteContent = writeNoteFragment.etNoteContent.text.toString()
-                    val noteTitle = writeNoteFragment.etNoteTitle.text.toString()
+                    val noteContent = createNoteFragment.etNoteContent.text.toString()
+                    val noteTitle = createNoteFragment.etNoteTitle.text.toString()
                     Database.addNote(noteTitle, noteContent, noteColor)
-                    changeToNotes()
+                    if(!fromHome){
+                        changeToNotes()
+                    }else{
+                        changeToHome()
+                        fromHome = false
+                    }
                     true
                 }else{
-                    val noteContent = writeNoteFragment.etNoteContent.text.toString()
-                    val noteTitle = writeNoteFragment.etNoteTitle.text.toString()
+                    val noteContent = createNoteFragment.etNoteContent.text.toString()
+                    val noteTitle = createNoteFragment.etNoteTitle.text.toString()
                     Database.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
                     editNoteHolder = null
                     changeToNotes()

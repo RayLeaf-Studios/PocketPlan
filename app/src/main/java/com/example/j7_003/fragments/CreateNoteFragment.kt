@@ -12,7 +12,7 @@ import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
 import kotlinx.android.synthetic.main.fragment_write_note.view.*
 
-class WriteNoteFragment : Fragment() {
+class CreateNoteFragment : Fragment() {
 
     lateinit var myEtTitle: EditText
     lateinit var myEtContent: EditText

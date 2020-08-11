@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import org.threeten.bp.LocalDate
 
 /**
  * A simple [Fragment] subclass.
@@ -125,11 +126,8 @@ class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCal
         }
 
     }
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(viewHolder)
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = adapter.deleteItem(viewHolder)
 
-    }
 }
 
 class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
@@ -146,10 +144,8 @@ class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCall
     }
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = adapter.deleteItem(viewHolder)
 
-        adapter.deleteItem(viewHolder)
-    }
 }
 
 class BirthdayAdapter() :
@@ -280,6 +276,13 @@ class BirthdayAdapter() :
                 dayAddition + currentBirthday.day.toString() + "." +
                         monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
 
+            if(LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day){
+                holder.myConstr.setBackgroundResource(R.drawable.round_corner_winered)
+            }
+            else{
+                holder.myConstr.setBackgroundResource(R.drawable.round_corner_gray)
+            }
+
             if(currentBirthday.hasReminder()) {
                 holder.iconBell.visibility = View.VISIBLE
             }else{
@@ -301,6 +304,7 @@ class BirthdayAdapter() :
         val iconBell: ImageView = itemView.icon_bell
         val myView: View = itemView
         val tvMonthLabel = itemView.tvMonthLabel
+        val myConstr = itemView.constr
     }
 
 }

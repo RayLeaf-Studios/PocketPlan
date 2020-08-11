@@ -8,27 +8,76 @@
     android:padding="10dp"
     tools:context=".fragments.HomeFragment">
 
-<!--    <TextView-->
-<!--        android:id="@+id/task_panel"-->
-<!--        android:layout_width="299dp"-->
-<!--        android:layout_height="46dp"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        android:lineSpacingExtra="3dp"-->
-<!--        android:padding="10dp"-->
-<!--        android:text="Home"-->
-<!--        android:textColor="@color/colorOnBackGround"-->
-<!--        android:textSize="20sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/imageView"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/imageView"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="50dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:src="@drawable/ic_action_todo"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/panelTasks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackgroundElevated"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:text="\n   Take out the trash\n   Go Shopping\n "
+            android:textColor="@color/colorOnBackGround"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/icTasksHome"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_action_todo"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTasks"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvTasks"
+            app:layout_constraintVertical_bias="0.555" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/panelBirthdays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/panelTasks">
+
+        <TextView
+            android:id="@+id/tvBirthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorBackgroundElevated"
+            android:padding="3dp"
+            android:text="\n    Max Mustermann\n"
+            android:textColor="@color/colorOnBackGround"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/icBirthdaysHome"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/ic_action_birthday"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBirthday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvBirthday"
+            app:layout_constraintVertical_bias="0.555" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ImageView
         android:id="@+id/icSleepHome"
@@ -36,7 +85,7 @@
         android:layout_height="18dp"
         android:src="@drawable/baseline_nights_stay_white_18dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/btnNewNote" />
 
     <TextView
         android:id="@+id/tvRemainingWakeTime"
@@ -48,5 +97,51 @@
         app:layout_constraintStart_toEndOf="@+id/icSleepHome"
         app:layout_constraintTop_toTopOf="@+id/icSleepHome" />
 
+    <Button
+        android:id="@+id/btnNewNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_corner_accent"
+        android:text="+ Note"
+        app:layout_constraintBottom_toTopOf="@+id/tvRemainingWakeTime"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewTask"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btnNewTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner_accent"
+        android:text="+ Task"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewTerm"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnNewNote"
+        app:layout_constraintTop_toTopOf="@+id/btnNewNote">
+
+
+    </Button>
+
+    <Button
+        android:id="@+id/btnNewTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner_accent"
+        android:text="+ Term"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewItem"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnNewTask"
+        app:layout_constraintTop_toTopOf="@+id/btnNewTask" />
+
+    <Button
+        android:id="@+id/btnNewItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner_accent"
+        android:text="+ Item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnNewTerm"
+        app:layout_constraintTop_toTopOf="@+id/btnNewTerm" />
 </androidx.constraintlayout.widget.ConstraintLayout>
