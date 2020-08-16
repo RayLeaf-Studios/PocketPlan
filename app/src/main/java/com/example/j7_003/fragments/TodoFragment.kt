@@ -39,24 +39,17 @@ class TodoFragment : Fragment() {
     fun manageCheckedTaskDeletion(){
         val oldSize = Database.taskList.size
         val newSize = Database.deleteCheckedTasks()
-        val delta = oldSize - newSize
-        var animationCounter = oldSize
         for(i in newSize until oldSize){
             val v = myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
-            animationCounter -= 1
-            if(i == newSize){
-                v.myView.animate().scaleX(0f).setDuration(250).setStartDelay(animationCounter.toLong()*100).withEndAction{
-                    myAdapter.notifyDataSetChanged()
+            if(i == oldSize-1){
+                v.myView.animate().scaleX(0f).setDuration(250).withEndAction{
+                    myAdapter.notifyItemRangeRemoved(newSize, oldSize)
                 }
             }else{
-                v.myView.animate().scaleX(0f).setStartDelay(animationCounter.toLong()*100).duration = 250
+                v.myView.animate().scaleX(0f).duration = 250
             }
-
         }
-        if(delta == 0){
-            myAdapter.notifyDataSetChanged()
-            MainActivity.myActivity.updateDeleteNoteIcon()
-        }
+        MainActivity.myActivity.updateDeleteNoteIcon()
     }
 
 
@@ -245,18 +238,24 @@ class TodoTaskAdapter() :
             holder.checkBox.isChecked = checkedStatus
             val task = Database.getTask(holder.adapterPosition)
             val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checkedStatus)
+            MainActivity.myActivity.updateDeleteNoteIcon()
             if(checkedStatus){
                 holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
+                holder.myView.setBackgroundResource(drawable.round_corner_gray)
             }else{
                 holder.tvName.paintFlags = 0
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
+                when(task.priority) {
+                    1 -> holder.myView.setBackgroundResource(drawable.round_corner1)
+                    2 -> holder.myView.setBackgroundResource(drawable.round_corner2)
+                    3 -> holder.myView.setBackgroundResource(drawable.round_corner3)
+                }
             }
             if(holder.adapterPosition != newPos){
                 notifyItemMoved(holder.adapterPosition, newPos)
             }
-            notifyItemChanged(holder.adapterPosition)
-            MainActivity.myActivity.updateDeleteNoteIcon()
+            //delays item change until list is reordered
         }
     }
 

@@ -25,6 +25,7 @@ Stuff to do next in following order:
      - design calender
 
 important Tasks:
+    - FIX Task reorder animations
     - add shopping list module
     - live update sleep-reminder time (in home panel)
 

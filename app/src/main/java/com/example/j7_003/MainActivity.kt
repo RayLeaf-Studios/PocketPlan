@@ -383,7 +383,6 @@ class MainActivity : AppCompatActivity(){
     fun updateDeleteNoteIcon(){
         val checkedTasks = Database.taskList.filter{ t -> t.isChecked}.size
         myMenu?.getItem(0)?.isVisible = checkedTasks > 0
-
     }
 
     private fun manageEditNote(){
