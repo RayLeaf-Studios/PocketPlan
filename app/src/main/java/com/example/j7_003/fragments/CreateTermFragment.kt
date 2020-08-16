@@ -98,7 +98,12 @@ class CreateTermFragment : Fragment() {
         val termTitle = etTermTitle.text.toString()
         val termInfo = etTermInfo.text.toString()
         CalendarManager.addAppointment(termTitle, termInfo, startDateTime, endLocalTime)
-        MainActivity.myActivity.changeToCalendar()
+        if(MainActivity.fromHome){
+            MainActivity.myActivity.changeToHome()
+        }else{
+            MainActivity.myActivity.changeToDayView()
+        }
+        MainActivity.fromHome = false
     }
 
     @SuppressLint("SetTextI18n")
@@ -201,7 +206,12 @@ class CreateTermFragment : Fragment() {
         }
 
         btnDiscardTermChanges.setOnClickListener(){
-            MainActivity.myActivity.changeToDayView()
+            if(MainActivity.fromHome){
+                MainActivity.myActivity.changeToHome()
+            }else{
+                MainActivity.myActivity.changeToDayView()
+            }
+            MainActivity.fromHome = false
         }
 
     }

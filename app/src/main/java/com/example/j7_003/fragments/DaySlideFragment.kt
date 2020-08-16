@@ -11,7 +11,7 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
-import kotlinx.android.synthetic.main.fragment_test.view.*
+import kotlinx.android.synthetic.main.fragment_daypager.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
 import kotlinx.android.synthetic.main.row_term_day.view.*
@@ -34,7 +34,7 @@ class TestFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val myView = inflater.inflate(R.layout.fragment_test, container, false)
+        val myView = inflater.inflate(R.layout.fragment_daypager, container, false)
 
         //initialize own date
         val delta = -(Int.MAX_VALUE/2 - position!!)

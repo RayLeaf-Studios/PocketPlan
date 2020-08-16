@@ -9,12 +9,22 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.database.CalendarManager
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.SleepReminder
+import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
+import kotlinx.android.synthetic.main.fragment_daypager.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.row_term.view.*
+import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
+import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
+import kotlinx.android.synthetic.main.row_term_day.view.*
+import org.threeten.bp.LocalDate
 
 
 /**
@@ -24,11 +34,16 @@ class HomeFragment : Fragment() {
 
     lateinit var myView: View
 
+    companion object{
+        lateinit var homeTermRecyclerView: RecyclerView
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         SleepReminder.init()
+        CalendarManager.init()
 
 
         myView = inflater.inflate(R.layout.fragment_home, container, false)
@@ -49,8 +64,16 @@ class HomeFragment : Fragment() {
             MainActivity.myActivity.changeToCreateNoteFragment()
         }
         myView.btnNewTask.setOnClickListener{ createTaskFromHome()}
+        myView.btnNewTerm.setOnClickListener {
+            MainActivity.fromHome = true
+            MainActivity.myActivity.changeToCreateTerm()  }
 
 
+        homeTermRecyclerView = myView.homeTermRecyclerview
+        val myAdapter = HomeTermAdapterDay()
+        myAdapter.setDate(LocalDate.now())
+        homeTermRecyclerView.adapter = myAdapter
+        homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.myActivity)
 
         return myView
     }
@@ -253,3 +276,57 @@ class HomeFragment : Fragment() {
 }
 
 
+class HomeTermAdapterDay() :
+    RecyclerView.Adapter<HomeTermAdapterDay.HomeTermViewHolderDay>() {
+
+    private lateinit var daylist: ArrayList<CalendarAppointment>
+    fun setDate(date: LocalDate){
+        daylist = CalendarManager.getDayView(date)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTermViewHolderDay {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.row_term_day, parent, false)
+        return HomeTermViewHolderDay(itemView)
+    }
+
+    override fun onBindViewHolder(holder: HomeTermViewHolderDay, position: Int) {
+
+        val currentTerm = daylist[position]
+
+        holder.itemView.setOnClickListener() {
+            //todo start CreateTermFragment in EDIT mode
+            MainActivity.myActivity.changeToDayView()
+        }
+
+        holder.tvTitle.text = currentTerm.title
+        holder.tvInfo.text = currentTerm.addInfo
+
+        //hides end time of a term if its identical to start time
+        if(currentTerm.startTime.equals(currentTerm.eTime)){
+            holder.tvStartTime.text = currentTerm.startTime.toString()
+            holder.tvEndTime.text = ""
+            holder.tvDashUntil.visibility = View.INVISIBLE
+        }else{
+            holder.tvStartTime.text = currentTerm.startTime.toString()
+            holder.tvEndTime.text = currentTerm.eTime.toString()
+            holder.tvDashUntil.visibility = View.VISIBLE
+        }
+
+    }
+
+    override fun getItemCount() = daylist.size
+
+    class HomeTermViewHolderDay(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        /**
+         * One instance of this class will contain one "instance" of row_term_day and meta data
+         * like position, it also holds references to views inside of the layout
+         */
+        val tvTitle = itemView.tvTermItemTitle
+        val tvInfo = itemView.tvTermItemInfo
+        val tvStartTime = itemView.tvTermItemStartTime
+        val tvEndTime = itemView.tvTermItemEndTime
+        val tvDashUntil = itemView.tvDashUntil
+    }
+
+}

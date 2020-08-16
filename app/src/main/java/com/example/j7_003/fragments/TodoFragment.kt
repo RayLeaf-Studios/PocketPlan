@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -54,6 +55,7 @@ class TodoFragment : Fragment() {
         }
         if(delta == 0){
             myAdapter.notifyDataSetChanged()
+            MainActivity.myActivity.updateDeleteNoteIcon()
         }
     }
 
@@ -65,9 +67,7 @@ class TodoFragment : Fragment() {
     ): View? {      
 
         val myView = inflater.inflate(layout.fragment_todo, container, false)
-
         myRecycler = myView.recycler_view_todo
-
         myFragment = this
 
         /**
@@ -137,6 +137,7 @@ class SwipeRightToDeleteT(var adapter: TodoTaskAdapter):
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
+        MainActivity.myActivity.updateDeleteNoteIcon()
     }
 }
 
@@ -149,6 +150,7 @@ class SwipeLeftToDeleteT(private var adapter: TodoTaskAdapter):
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
+        MainActivity.myActivity.updateDeleteNoteIcon()
     }
 }
 
@@ -197,7 +199,7 @@ class TodoTaskAdapter() :
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        holder.itemView.setOnClickListener(){
+        holder.itemView.task_title_textview.setOnClickListener(){
 
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
@@ -238,21 +240,23 @@ class TodoTaskAdapter() :
         }
 
         //reacts to the user checking a task
-        holder.checkBox.setOnClickListener{
-            val checked = holder.checkBox.isChecked
+        holder.tapField.setOnClickListener{
+            val checkedStatus = !Database.getTask(holder.adapterPosition).isChecked
+            holder.checkBox.isChecked = checkedStatus
             val task = Database.getTask(holder.adapterPosition)
-            val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checked)
-            if(checked){
+            val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checkedStatus)
+            if(checkedStatus){
                 holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
             }else{
                 holder.tvName.paintFlags = 0
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
             }
-            notifyItemChanged(holder.adapterPosition)
             if(holder.adapterPosition != newPos){
                 notifyItemMoved(holder.adapterPosition, newPos)
             }
+            notifyItemChanged(holder.adapterPosition)
+            MainActivity.myActivity.updateDeleteNoteIcon()
         }
     }
 
@@ -265,7 +269,8 @@ class TodoTaskAdapter() :
          * like position, it also holds references to views inside of the layout
          */
         var myView = itemView
-        val tvName: TextView = itemView.name_textview
+        val tvName: TextView = itemView.task_title_textview
         val checkBox: CheckBox = itemView.cbTask
+        val tapField: ConstraintLayout = itemView.tapField
     }
 }

@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="todo") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
-            myMenu?.getItem(0)?.setVisible(true)
+            updateDeleteNoteIcon()
             todoFragment = TodoFragment()
             supportActionBar?.title = "To-Do"
             supportFragmentManager
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(){
         hideMenuIcons()
         if(activeFragmentTag!="home"){
             homeFragment = HomeFragment()
-            supportActionBar?.title = "Home"
+            supportActionBar?.title = "Pocket-Plan"
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, homeFragment)
@@ -259,7 +259,7 @@ class MainActivity : AppCompatActivity(){
         myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
         myMenu?.getItem(0)?.setVisible(true)
         myMenu?.getItem(1)?.setVisible(true)
-        if(activeFragmentTag!="writeNote") {
+        if(activeFragmentTag!="createNote") {
             supportActionBar?.title="Editor"
             createNoteFragment = CreateNoteFragment()
             supportFragmentManager
@@ -267,7 +267,7 @@ class MainActivity : AppCompatActivity(){
                 .replace(R.id.frame_layout, createNoteFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
-            activeFragmentTag="writeNote"
+            activeFragmentTag="createNote"
             /**
              * changing initial color of color choose button
              */
@@ -299,7 +299,7 @@ class MainActivity : AppCompatActivity(){
     override fun onBackPressed() {
 
         when {
-            activeFragmentTag=="writeNote" -> {
+            activeFragmentTag=="createNote" -> {
                 changeToNotes()
             }
             activeFragmentTag!="home" -> {
@@ -312,14 +312,43 @@ class MainActivity : AppCompatActivity(){
 
     }
 
+    fun openColorChooser(){
+        //inflate the dialog with custom view
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
+
+        //AlertDialogBuilder
+        val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
+        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        editTitle.tvDialogTitle.text = "Choose color"
+        myBuilder.setCustomTitle(editTitle)
+
+        //show dialog
+        val myAlertDialog = myBuilder.create()
+        myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        myAlertDialog.show()
+
+        val colorList = arrayOf(R.color.colorNoteRed, R.color.colorNoteYellow,
+            R.color.colorNoteGreen, R.color.colorNoteBlue, R.color.colorNotePurple)
+        val buttonList = arrayOf(myDialogView.btnRed, myDialogView.btnYellow,
+            myDialogView.btnGreen, myDialogView.btnBlue, myDialogView.btnPurple)
+        /**
+         * Onclick-listeners for every specific color button
+         */
+        buttonList.forEachIndexed(){ i, b ->
+            b.setOnClickListener(){
+                noteColor = NoteColors.values()[i]
+                myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
+                myAlertDialog.dismiss()
+            }
+        }
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         /**
          * Manages onclick listeners for color picker and submit icon used when
          * editing or writing a note
          */
         return when(item.itemId){
-            R.id.item_colorpicker -> {
-
+            R.id.item_left -> {
                 if(activeFragmentTag=="dayView"){
                     changeToCalendar()
                     true
@@ -329,64 +358,52 @@ class MainActivity : AppCompatActivity(){
                 }else if(activeFragmentTag=="todo"){
                     TodoFragment.myFragment.manageCheckedTaskDeletion()
                     true
+                }else if(activeFragmentTag=="createNote"){
+                    openColorChooser()
+                    true
                 }else{
-                    //inflate the dialog with custom view
-                    val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
-
-                    //AlertDialogBuilder
-                    val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
-                    val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-                    editTitle.tvDialogTitle.text = "Choose color"
-                    myBuilder.setCustomTitle(editTitle)
-
-                    //show dialog
-                    val myAlertDialog = myBuilder.create()
-                    myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-                    myAlertDialog.show()
-
-                    val colorList = arrayOf(R.color.colorNoteRed, R.color.colorNoteYellow,
-                        R.color.colorNoteGreen, R.color.colorNoteBlue, R.color.colorNotePurple)
-                    val buttonList = arrayOf(myDialogView.btnRed, myDialogView.btnYellow,
-                        myDialogView.btnGreen, myDialogView.btnBlue, myDialogView.btnPurple)
-                    /**
-                     * Onclick-listeners for every specific color button
-                     */
-                    buttonList.forEachIndexed(){ i, b ->
-                        b.setOnClickListener(){
-                            noteColor = NoteColors.values()[i]
-                            myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
-                            myAlertDialog.dismiss()
-                        }
-                    }
                     true
                 }
-
             }
-            R.id.item_savenote -> {
+
+            R.id.item_right -> {
                 if(editNoteHolder==null){
-                    val noteContent = createNoteFragment.etNoteContent.text.toString()
-                    val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-                    Database.addNote(noteTitle, noteContent, noteColor)
-                    if(!fromHome){
-                        changeToNotes()
-                    }else{
-                        changeToHome()
-                        fromHome = false
-                    }
+                    manageAddNote()
                     true
                 }else{
-                    val noteContent = createNoteFragment.etNoteContent.text.toString()
-                    val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-                    Database.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
-                    editNoteHolder = null
-                    changeToNotes()
+                    manageEditNote()
                     true
                 }
-
             }
             else -> super.onOptionsItemSelected(item)
         }
 
+    }
+
+    fun updateDeleteNoteIcon(){
+        val checkedTasks = Database.taskList.filter{ t -> t.isChecked}.size
+        myMenu?.getItem(0)?.isVisible = checkedTasks > 0
+
+    }
+
+    private fun manageEditNote(){
+        val noteContent = createNoteFragment.etNoteContent.text.toString()
+        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
+        Database.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
+        editNoteHolder = null
+        changeToNotes()
+    }
+
+    private fun manageAddNote(){
+        val noteContent = createNoteFragment.etNoteContent.text.toString()
+        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
+        Database.addNote(noteTitle, noteContent, noteColor)
+        if(!fromHome){
+            changeToNotes()
+        }else{
+            changeToHome()
+            fromHome = false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
