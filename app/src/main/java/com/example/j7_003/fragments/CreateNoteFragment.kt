@@ -38,7 +38,7 @@ class CreateNoteFragment : Fragment() {
 
         if(MainActivity.editNoteHolder!=null){
             myEtTitle.setText(Database.getNote(MainActivity.editNoteHolder!!.adapterPosition).title)
-            myEtContent.setText(Database.getNote(MainActivity.editNoteHolder!!.adapterPosition).note)
+            myEtContent.setText(Database.getNote(MainActivity.editNoteHolder!!.adapterPosition).content)
             myEtContent.requestFocus()
             imm.hideSoftInputFromWindow(myView.windowToken, 0)
         }

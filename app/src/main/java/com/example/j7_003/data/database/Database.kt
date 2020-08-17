@@ -49,16 +49,19 @@ class Database {
             title: String,
             priority: Int,
             isChecked: Boolean
-        ) {
-            taskList.add(
-                Task(
-                    title,
-                    priority,
-                    isChecked
-                )
-            )
+        ): Int {
+            val task = Task(title, priority, isChecked)
+            taskList.add(task)
             sortTasks()
             save(TLIST, taskList)
+            return taskList.indexOf(task)
+        }
+
+        /**
+         * Helper function to add a task object, used for undoing deletions
+         */
+        fun addFullTask(task: Task): Int{
+           return addTask(task.title, task.priority, task.isChecked)
         }
 
         /**
@@ -344,28 +347,35 @@ class Database {
         /**
          * Creates a note with the given parameters and saves it to file.
          * @param title Displayed title of the note.
-         * @param note Contents of the note.
+         * @param content Contents of the note.
          * @param color Color of the note.
          */
-        fun addNote(title: String, note: String, color: NoteColors) {
-            noteList.push(Note(title, note, color))
+        fun addNote(title: String, content: String, color: NoteColors) {
+            noteList.push(Note(title, content, color))
             save(NLIST, noteList)
+        }
+
+        /**
+         * Small helper function to add a note object, used for undoing deletions
+          */
+        fun addFullNote(note: Note){
+            addNote(note.title, note.content, note.color)
         }
 
         /**
          * Changes the requested notes properties.
          * @param index Position of the note in the noteList.
          * @param title Title of the note.
-         * @param note Contents of the note color.
+         * @param content Contents of the note color.
          * @param color Color of the note.
          */
-        fun editNote(index: Int, title: String, note: String, color: NoteColors) {
+        fun editNote(index: Int, title: String, content: String, color: NoteColors) {
             val editableNote =
                 getNote(
                     index
                 )
             editableNote.title = title
-            editableNote.note = note
+            editableNote.content = content
             editableNote.color = color
             save(NLIST, noteList)
         }

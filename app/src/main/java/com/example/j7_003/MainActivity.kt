@@ -1,6 +1,7 @@
 package com.example.j7_003
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
@@ -125,7 +127,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="todo") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
-            updateDeleteNoteIcon()
+            updateDeleteTaskIcon()
             todoFragment = TodoFragment()
             supportActionBar?.title = "To-Do"
             supportFragmentManager
@@ -361,17 +363,32 @@ class MainActivity : AppCompatActivity(){
                 }else if(activeFragmentTag=="createNote"){
                     openColorChooser()
                     true
+                }else if(activeFragmentTag=="notes"){
+                    Database.addFullNote(NoteFragment.deletedNote!!)
+                    NoteFragment.deletedNote = null
+                    NoteFragment.myAdapter.notifyItemInserted(0)
+                    updateUndoNoteIcon()
+                    true
                 }else{
                     true
                 }
             }
 
             R.id.item_right -> {
-                if(editNoteHolder==null){
-                    manageAddNote()
+                if(activeFragmentTag=="createNote"){
+                    if(editNoteHolder==null){
+                        manageAddNote()
+                    }else{
+                        manageEditNote()
+                    }
+                    true
+                }else if(activeFragmentTag=="todo"){
+                    val newPos = Database.addFullTask(TodoFragment.deletedTask!!)
+                    TodoFragment.deletedTask = null
+                    TodoFragment.myAdapter.notifyItemInserted(newPos)
+                    updateUndoTaskIcon()
                     true
                 }else{
-                    manageEditNote()
                     true
                 }
             }
@@ -380,7 +397,25 @@ class MainActivity : AppCompatActivity(){
 
     }
 
-    fun updateDeleteNoteIcon(){
+    fun updateUndoTaskIcon(){
+        if(TodoFragment.deletedTask!=null){
+            myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_undo)
+            myMenu?.getItem(1)?.isVisible = true
+        }else{
+            myMenu?.getItem(1)?.isVisible = false
+        }
+    }
+
+    fun updateUndoNoteIcon(){
+        if(NoteFragment.deletedNote!=null){
+           myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
+            myMenu?.getItem(0)?.isVisible = true
+        }else{
+            myMenu?.getItem(0)?.isVisible = false
+        }
+    }
+
+    fun updateDeleteTaskIcon(){
         val checkedTasks = Database.taskList.filter{ t -> t.isChecked}.size
         myMenu?.getItem(0)?.isVisible = checkedTasks > 0
     }

@@ -2,6 +2,7 @@ package com.example.j7_003.fragments
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R.*
 import com.example.j7_003.data.database.Database
+import com.example.j7_003.data.database.database_objects.Task
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
@@ -34,6 +36,7 @@ class TodoFragment : Fragment() {
         lateinit var myFragment: TodoFragment
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
+        var deletedTask: Task? = null
     }
 
     fun manageCheckedTaskDeletion(){
@@ -49,7 +52,7 @@ class TodoFragment : Fragment() {
                 v.myView.animate().scaleX(0f).duration = 250
             }
         }
-        MainActivity.myActivity.updateDeleteNoteIcon()
+        MainActivity.myActivity.updateDeleteTaskIcon()
     }
 
 
@@ -130,7 +133,7 @@ class SwipeRightToDeleteT(var adapter: TodoTaskAdapter):
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
-        MainActivity.myActivity.updateDeleteNoteIcon()
+        MainActivity.myActivity.updateDeleteTaskIcon()
     }
 }
 
@@ -143,7 +146,7 @@ class SwipeLeftToDeleteT(private var adapter: TodoTaskAdapter):
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
-        MainActivity.myActivity.updateDeleteNoteIcon()
+        MainActivity.myActivity.updateDeleteTaskIcon()
     }
 }
 
@@ -151,6 +154,8 @@ class TodoTaskAdapter() :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){   
 
     fun deleteItem(position: Int){
+        TodoFragment.deletedTask = Database.getTask(position)
+        MainActivity.myActivity.updateUndoTaskIcon()
         Database.deleteTask(position)
         notifyItemRemoved(position)
     }
@@ -238,7 +243,7 @@ class TodoTaskAdapter() :
             holder.checkBox.isChecked = checkedStatus
             val task = Database.getTask(holder.adapterPosition)
             val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checkedStatus)
-            MainActivity.myActivity.updateDeleteNoteIcon()
+            MainActivity.myActivity.updateDeleteTaskIcon()
             if(checkedStatus){
                 holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))

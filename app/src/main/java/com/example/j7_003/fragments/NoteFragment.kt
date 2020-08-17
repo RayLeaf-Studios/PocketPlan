@@ -1,6 +1,7 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
+import com.example.j7_003.data.database.database_objects.Note
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 
@@ -26,6 +28,8 @@ import kotlinx.android.synthetic.main.row_note.view.*
 class NoteFragment : Fragment() {
 
     companion object{
+        var deletedNote: Note? = null
+        lateinit var myAdapter: NoteAdapter
 
     }
 
@@ -44,7 +48,7 @@ class NoteFragment : Fragment() {
             MainActivity.editNoteHolder = null
         }
 
-        val myAdapter = NoteAdapter()
+        myAdapter = NoteAdapter()
 
         myRecycler.adapter = myAdapter
 
@@ -93,6 +97,8 @@ class NoteAdapter() :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
 
     fun deleteItem(position: Int){
+        NoteFragment.deletedNote = Database.getNote(position)
+        MainActivity.myActivity.updateUndoNoteIcon()
         Database.deleteNote(position)
         notifyItemRemoved(position)
     }
@@ -119,7 +125,7 @@ class NoteAdapter() :
 
         //specifying design of note rows here
         holder.tvNoteTitle.text = currentNote.title
-        holder.tvNoteContent.text = currentNote.note
+        holder.tvNoteContent.text = currentNote.content
 
         val cardColor =  when(currentNote.color){
             NoteColors.RED -> R.color.colorNoteRed
