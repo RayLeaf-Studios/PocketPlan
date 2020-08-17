@@ -25,9 +25,9 @@ Stuff to do next in following order:
      - design calender
 
 important Tasks:
-    - FIX Task reorder animations
     - add shopping list module
     - live update sleep-reminder time (in home panel)
+    - implement setting for full note content (loading, saving and applying)
 
 random tasks:
     - button to go to current day in dayview
@@ -36,9 +36,7 @@ random tasks:
     - make birthdays searchable
     - add listener to number picker for typing in numbers
     - replace all colors and values like text size with resource references
-    - reorder / reprioritize tasks by dragging and dropping them
     - decide what to do with terms in the past, (delete after week? even show them at all?)
-    - history for last 20? deleted notes/birthdays/tasks/terms
 
 ideas:
     - change pink on app logo to green from priorities

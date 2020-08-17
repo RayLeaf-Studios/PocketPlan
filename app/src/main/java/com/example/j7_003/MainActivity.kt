@@ -369,9 +369,14 @@ class MainActivity : AppCompatActivity(){
                     NoteFragment.myAdapter.notifyItemInserted(0)
                     updateUndoNoteIcon()
                     true
-                }else{
+                }else if(activeFragmentTag=="birthdays"){
+                    val newPos = Database.addFullBirthday(BirthdayFragment.deletedBirthday!!)
+                    BirthdayFragment.deletedBirthday = null
+                    BirthdayFragment.myAdapter.notifyItemInserted(newPos)
+                    updateUndoBirthdayIcon()
                     true
                 }
+                true
             }
 
             R.id.item_right -> {
@@ -409,6 +414,15 @@ class MainActivity : AppCompatActivity(){
     fun updateUndoNoteIcon(){
         if(NoteFragment.deletedNote!=null){
            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
+            myMenu?.getItem(0)?.isVisible = true
+        }else{
+            myMenu?.getItem(0)?.isVisible = false
+        }
+    }
+
+    fun updateUndoBirthdayIcon(){
+        if(BirthdayFragment.deletedBirthday!=null){
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
         }else{
             myMenu?.getItem(0)?.isVisible = false

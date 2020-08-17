@@ -49,19 +49,20 @@ class Database {
             title: String,
             priority: Int,
             isChecked: Boolean
-        ): Int {
-            val task = Task(title, priority, isChecked)
-            taskList.add(task)
+        ) {
+            taskList.add(Task(title, priority, isChecked))
             sortTasks()
             save(TLIST, taskList)
-            return taskList.indexOf(task)
         }
 
         /**
          * Helper function to add a task object, used for undoing deletions
          */
         fun addFullTask(task: Task): Int{
-           return addTask(task.title, task.priority, task.isChecked)
+            taskList.add(task)
+            sortTasks()
+            save(TLIST, taskList)
+            return taskList.indexOf(task)
         }
 
         /**
@@ -134,12 +135,22 @@ class Database {
          * @param parMonth The month of the birthday
          * @param parDay The day of the birthday
          */
-        fun addBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int) {
-            birthdayList.add(Birthday(name, parMonth, parDay, parReminder))
+        fun addBirthday(name: String, day: Int, month: Int, daysToRemind: Int) {
+            birthdayList.add(Birthday(name, month, day, daysToRemind))
 
             sortBirthday()
 
             save(BLIST, birthdayList)
+        }
+
+        /**
+         * Helper Function to add a full birthday object, used for undoing deletions
+          */
+        fun addFullBirthday(birthday: Birthday): Int{
+            birthdayList.add(birthday)
+            sortBirthday()
+            save(BLIST, birthdayList)
+            return birthdayList.indexOf(birthday)
         }
 
         /**

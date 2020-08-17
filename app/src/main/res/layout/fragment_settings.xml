@@ -30,25 +30,64 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sample Setting"
+                    android:text="Display full note content"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Switch
-                    android:id="@+id/swEnableCheckBoxesTodo"
+                    android:id="@+id/swFullNoteContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:clickable="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewNoteLines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tvNoteLines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Number of lines to display:"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/etNoteLines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="lines"
+                    android:maxLength="3"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textColorHint="@color/colorHint"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvNoteLines"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvNoteLines">
+
+                </EditText>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="409dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
 
         </LinearLayout>
 

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
+import com.example.j7_003.data.database.database_objects.Birthday
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
@@ -28,6 +29,10 @@ import org.threeten.bp.LocalDate
 
 class BirthdayFragment : Fragment() {
 
+    companion object{
+        var deletedBirthday: Birthday? = null
+        lateinit var myAdapter: BirthdayAdapter
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,7 +99,7 @@ class BirthdayFragment : Fragment() {
             nameField.requestFocus()
         }
 
-        val myAdapter = BirthdayAdapter()
+        myAdapter = BirthdayAdapter()
 
         myRecycler.adapter = myAdapter
 
@@ -152,14 +157,11 @@ class BirthdayAdapter() :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder){
+        BirthdayFragment.deletedBirthday = Database.getBirthday(viewHolder.adapterPosition)
         Database.deleteBirthday(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
-        //TODO replace this with notifyItemRemoved( Position of removed month label )
         notifyDataSetChanged()
-
-
-
-
+        MainActivity.myActivity.updateUndoBirthdayIcon()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {

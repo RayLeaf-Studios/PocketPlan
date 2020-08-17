@@ -2,6 +2,7 @@ package com.example.j7_003.fragments
 
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -125,7 +126,22 @@ class NoteAdapter() :
 
         //specifying design of note rows here
         holder.tvNoteTitle.text = currentNote.title
+
+        //replace following true condition with setting to display full note content
         holder.tvNoteContent.text = currentNote.content
+
+        //TODO replace the following two values with custom settings
+        val displayedLines = 5
+        val limitDisplay = true
+
+        if(limitDisplay){
+            holder.tvNoteContent.maxLines = displayedLines
+            holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
+        }else{
+            holder.tvNoteContent.maxLines = Int.MAX_VALUE
+        }
+
+
 
         val cardColor =  when(currentNote.color){
             NoteColors.RED -> R.color.colorNoteRed
