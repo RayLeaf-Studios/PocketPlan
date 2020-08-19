@@ -107,6 +107,7 @@ class TermAdapter() :
 
         holder.itemView.setOnClickListener() {
             //todo start createTermFragment in EDIT MODE
+            MainActivity.editTerm = currentTerm
             MainActivity.myActivity.changeToCreateTerm()
         }
 

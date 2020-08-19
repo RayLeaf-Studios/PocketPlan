@@ -13,6 +13,8 @@ import androidx.core.view.get
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
+import com.example.j7_003.data.database.database_objects.Birthday
+import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity(){
         lateinit var myActivity: MainActivity
         lateinit var sleepView: View
         var editNoteHolder: NoteAdapter.NoteViewHolder? = null
+        var editTerm: CalendarAppointment? = null
         var myMenu: Menu? = null
         var noteColor: NoteColors = NoteColors.YELLOW
         var fromHome: Boolean = false
@@ -136,6 +139,7 @@ class MainActivity : AppCompatActivity(){
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
             activeFragmentTag="todo"
+            bottomNavigation.selectedItemId = R.id.todolist
         }
     }
 
@@ -353,28 +357,23 @@ class MainActivity : AppCompatActivity(){
             R.id.item_left -> {
                 if(activeFragmentTag=="dayView"){
                     changeToCalendar()
-                    true
                 }else if(activeFragmentTag=="calendar"){
                     changeToDayView()
-                    true
                 }else if(activeFragmentTag=="todo"){
                     TodoFragment.myFragment.manageCheckedTaskDeletion()
-                    true
                 }else if(activeFragmentTag=="createNote"){
                     openColorChooser()
-                    true
                 }else if(activeFragmentTag=="notes"){
                     Database.addFullNote(NoteFragment.deletedNote!!)
                     NoteFragment.deletedNote = null
                     NoteFragment.myAdapter.notifyItemInserted(0)
                     updateUndoNoteIcon()
-                    true
                 }else if(activeFragmentTag=="birthdays"){
+                    //TODO fix insert animation when undo
                     val newPos = Database.addFullBirthday(BirthdayFragment.deletedBirthday!!)
                     BirthdayFragment.deletedBirthday = null
-                    BirthdayFragment.myAdapter.notifyItemInserted(newPos)
                     updateUndoBirthdayIcon()
-                    true
+                    BirthdayFragment.myAdapter.notifyDataSetChanged()
                 }
                 true
             }

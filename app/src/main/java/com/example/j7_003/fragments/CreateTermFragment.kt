@@ -60,7 +60,11 @@ class CreateTermFragment : Fragment() {
     ): View? {
         myView = inflater.inflate(R.layout.fragment_create_term, container, false)
         initComponents()
-        showDefaultValues()
+        if(MainActivity.editTerm==null){
+            showDefaultValues()
+        }else{
+            showEditValues()
+        }
         return myView
     }
 
@@ -84,6 +88,25 @@ class CreateTermFragment : Fragment() {
         tvTermEndTime.text = "(optional)"
     }
 
+    fun showEditValues() {
+        //TODO FIX EDITING TERM
+        val editTerm = MainActivity.editTerm!!
+        val year = editTerm.date.year
+        val month = editTerm.date.month
+        val day = editTerm.date.dayOfMonth
+        val hour = editTerm.startTime.hour
+        val minute = editTerm.startTime.minute
+
+        startDateTime = LocalDateTime.of(year, month+1, day, hour, minute)
+        endLocalTime = LocalTime.of(hour, minute)
+
+
+        tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
+            .padStart(2, '0') + "." + year.toString()
+        tvTermTime.text = hour.toString()
+            .padStart(2, '0') + ":" + minute.toString().padStart(2, '0')
+        tvTermEndTime.text = "(optional)"
+    }
     @SuppressLint("SetTextI18n")
     fun setDuration(minutes: Int) {
         val newEndTime = LocalTime.of(startDateTime.hour, startDateTime.minute).plusMinutes(minutes.toLong())

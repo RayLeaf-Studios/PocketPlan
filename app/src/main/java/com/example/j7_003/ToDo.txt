@@ -20,16 +20,13 @@ Project Structure:
             13. cereals
             14. baking ingredients
 
-Stuff to do next in following order:
-     - home panel design
-     - design calender
-
 important Tasks:
     - add shopping list module
     - live update sleep-reminder time (in home panel)
     - implement setting for full note content (loading, saving and applying)
 
 random tasks:
+    - birthday undo insert animation
     - button to go to current day in dayview
     - fix birthday scroll wheels (scrolling over february sets date to 29th)
         (delete all unfitting months for chosen day)
