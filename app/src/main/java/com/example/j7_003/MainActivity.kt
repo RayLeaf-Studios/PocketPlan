@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var shoppingFragment: ShoppingFragment
     private lateinit var createNoteFragment: CreateNoteFragment
     private lateinit var createTermFragment: CreateTermFragment
+    private lateinit var addItemFragment: AddItemFragment
 
 
     private lateinit var bottomNavigation: BottomNavigationView
@@ -125,7 +126,20 @@ class MainActivity : AppCompatActivity(){
             activeFragmentTag="shopping"
         }
     }
-
+    fun changeToAddItem(){
+        if(activeFragmentTag!="addItem") {
+            hideMenuIcons()
+            addItemFragment = AddItemFragment()
+            bottomNavigation.selectedItemId = R.id.modules
+            supportActionBar?.title = "Add Item"
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, addItemFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            activeFragmentTag="addItem"
+        }
+    }
      fun changeToToDo(){
         if(activeFragmentTag!="todo") {
             hideMenuIcons()

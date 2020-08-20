@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.AddItemFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp">
+
+    <TextView
+        android:id="@+id/tvItemLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item:"
+        android:textColor="@color/colorOnBackGround"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/actvItem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/actvItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorOnBackGround"
+        android:completionThreshold="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:singleLine="true"
+        app:layout_constraintStart_toStartOf="@+id/tvCategoryField"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </AutoCompleteTextView>
+
+    <TextView
+        android:id="@+id/tvItemCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textColor="@color/colorOnBackGround"
+        android:text="Category:"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/actvItem"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCategoryField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Greenery"
+        android:textColor="@color/colorOnBackGround"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@id/tvItemCategory"
+        app:layout_constraintTop_toTopOf="@+id/tvItemCategory" />
+
+
+    <TextView
+        android:id="@+id/tvLabelAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textColor="@color/colorOnBackGround"
+        android:text="Amount:"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/tvItemCategory"
+        app:layout_constraintStart_toStartOf="parent"
+         />
+
+    <EditText
+        android:id="@+id/etItemAmount"
+        android:layout_width="60dp"
+        android:maxLength="4"
+        android:layout_height="wrap_content"
+        android:hint=""
+        android:inputType="numberDecimal"
+        android:textColor="@color/colorOnBackGround"
+        android:textColorHint="@color/colorHint"
+        app:layout_constraintBottom_toBottomOf="@+id/tvLabelAmount"
+        app:layout_constraintStart_toStartOf="@+id/tvCategoryField"
+        app:layout_constraintTop_toTopOf="@+id/tvLabelAmount" />
+
+    <Spinner
+        android:id="@+id/spItemAmount"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etItemAmount"
+        android:background="@drawable/corner_input"
+        app:layout_constraintStart_toEndOf="@id/etItemAmount"
+        app:layout_constraintTop_toTopOf="@+id/etItemAmount"></Spinner>
+    <Button
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="ADD"
+        android:background="@drawable/round_corner_accent"
+        android:layout_height="wrap_content">
+
+    </Button>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

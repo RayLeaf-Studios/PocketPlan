@@ -1,31 +1,11 @@
-Project Structure:
+Todo:
 
-    shopping list
-        - custom prebuilt and save-able shopping list
-        - api created preloaded database of items, tagged with category like vegetables? for grouping
-        of similar items on shopping list for optimal pathing through supermarket
-        logical categories
-            1. vegetables, fruits
-            2. cooled meat
-            3. cooled dairy products
-            4. canned food
-            5. bread and pastry
-            6. pasta, rice
-            7. spices
-            8. hygiene
-            9. drinks
-            10. alcoholic drinks
-            11. international
-            12. frozen food
-            13. cereals
-            14. baking ingredients
-
-important Tasks:
-    - add shopping list module
+Important tasks:
+    - finalize shopping module
     - live update sleep-reminder time (in home panel)
     - implement setting for full note content (loading, saving and applying)
 
-random tasks:
+Random tasks:
     - birthday undo insert animation
     - button to go to current day in dayview
     - fix birthday scroll wheels (scrolling over february sets date to 29th)
@@ -35,9 +15,26 @@ random tasks:
     - replace all colors and values like text size with resource references
     - decide what to do with terms in the past, (delete after week? even show them at all?)
 
-ideas:
-    - change pink on app logo to green from priorities
+Ideas:
+    - new icon related to the name "Pocket-Plan"
     - small counter for accomplished tasks of tasklist
 
-Future Project ideas: Vim optimizer
-
+Shopping list details:
+    - custom prebuilt and save-able shopping list
+    - api created preloaded database of items, tagged with category like vegetables? for grouping
+    of similar items on shopping list for optimal pathing through supermarket
+    logical categories
+        1. vegetables, fruits
+        2. cooled meat
+        3. cooled dairy products
+        4. canned food
+        5. bread and pastry
+        6. pasta, rice
+        7. spices
+        8. hygiene
+        9. drinks
+        10. alcoholic drinks
+        11. international
+        12. frozen food
+        13. cereals
+        14. baking ingredients

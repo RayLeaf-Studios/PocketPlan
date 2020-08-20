@@ -20,6 +20,7 @@ import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_daypager.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_term.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
@@ -67,6 +68,7 @@ class HomeFragment : Fragment() {
         myView.btnNewTerm.setOnClickListener {
             MainActivity.fromHome = true
             MainActivity.myActivity.changeToCreateTerm()  }
+        myView.btnNewItem.setOnClickListener { MainActivity.myActivity.changeToAddItem() }
 
 
         homeTermRecyclerView = myView.homeTermRecyclerview

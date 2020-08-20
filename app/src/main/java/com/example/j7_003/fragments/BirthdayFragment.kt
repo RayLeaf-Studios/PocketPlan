@@ -184,11 +184,13 @@ class BirthdayAdapter() :
         if(currentBirthday.daysToRemind<0){
             //initialize month divider design
             holder.tvMonthLabel.text=currentBirthday.name
+            holder.tvMonthLabel.textSize = 22F
             holder.txvBirthdayLabelName.text = ""
             holder.myView.setBackgroundResource(R.color.colorBackground)
             holder.itemView.setOnClickListener{}
         }else{
             //initialize regular birthday design
+            holder.tvMonthLabel.textSize = 20F
             holder.tvMonthLabel.text = ""
             holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
             holder.itemView.setOnClickListener() {
