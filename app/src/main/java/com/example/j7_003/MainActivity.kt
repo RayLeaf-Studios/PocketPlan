@@ -60,14 +60,14 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
         myActivity = this
-        //initializes the time api
+
+        //initialization of time-API, Database and Settingsmanager
         AndroidThreeTen.init(this)
         Database.init()
         SettingsManager.init()
+
         myMenu = null
-
         bottomNavigation = findViewById(R.id.btm_nav)
-
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
                 R.id.notes -> changeToNotes()
@@ -92,9 +92,17 @@ class MainActivity : AppCompatActivity(){
 
     }
 
+    /**
+     * DEBUG FUNCTIONS
+     */
+
     fun titleDebug(debugMsg: String){
         supportActionBar?.title = debugMsg
     }
+
+    /**
+     * CHANGE FRAGMENT METHODS
+     */
 
     fun changeToBirthdays(){
         if(activeFragmentTag!="birthdays") {
@@ -126,6 +134,7 @@ class MainActivity : AppCompatActivity(){
             activeFragmentTag="shopping"
         }
     }
+
     fun changeToAddItem(){
         if(activeFragmentTag!="addItem") {
             hideMenuIcons()
@@ -140,6 +149,7 @@ class MainActivity : AppCompatActivity(){
             activeFragmentTag="addItem"
         }
     }
+
      fun changeToToDo(){
         if(activeFragmentTag!="todo") {
             hideMenuIcons()
@@ -171,6 +181,7 @@ class MainActivity : AppCompatActivity(){
             bottomNavigation.selectedItemId=R.id.home
         }
     }
+
     fun changeToDayView(){
         if(activeFragmentTag!="dayView") {
             hideMenuIcons()
@@ -187,7 +198,8 @@ class MainActivity : AppCompatActivity(){
             bottomNavigation.selectedItemId=R.id.calendar
         }
     }
-    fun changeToCalendar(){
+
+    private fun changeToCalendar(){
         if(activeFragmentTag!="calendar") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
@@ -202,7 +214,8 @@ class MainActivity : AppCompatActivity(){
             activeFragmentTag="calendar"
         }
     }
-     fun changeToCreateTerm(){
+
+    fun changeToCreateTerm(){
         if(activeFragmentTag!="createTerm") {
             hideMenuIcons()
             createTermFragment = CreateTermFragment()
@@ -260,7 +273,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-     fun changeToNotes(){
+    private fun changeToNotes(){
         if(activeFragmentTag!="notes") {
             hideMenuIcons()
             noteFragment = NoteFragment()
@@ -310,30 +323,18 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun hideMenuIcons(){
+    /**
+     * UI FUNCTIONS
+     */
+
+    private fun hideMenuIcons(){
         if(myMenu!=null){
             myMenu!!.getItem(0).setVisible(false)
             myMenu!!.getItem(1).setVisible(false)
         }
     }
 
-    override fun onBackPressed() {
-
-        when {
-            activeFragmentTag=="createNote" -> {
-                changeToNotes()
-            }
-            activeFragmentTag!="home" -> {
-                changeToHome()
-            }
-            else -> {
-                super.onBackPressed()
-            }
-        }
-
-    }
-
-    fun openColorChooser(){
+    private fun openColorChooser(){
         //inflate the dialog with custom view
         val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
 
@@ -363,6 +364,84 @@ class MainActivity : AppCompatActivity(){
             }
         }
     }
+
+    fun updateUndoTaskIcon(){
+        if(TodoFragment.deletedTask!=null){
+            myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_undo)
+            myMenu?.getItem(1)?.isVisible = true
+        }else{
+            myMenu?.getItem(1)?.isVisible = false
+        }
+    }
+
+    fun updateUndoNoteIcon(){
+        if(NoteFragment.deletedNote!=null){
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
+            myMenu?.getItem(0)?.isVisible = true
+        }else{
+            myMenu?.getItem(0)?.isVisible = false
+        }
+    }
+
+    fun updateUndoBirthdayIcon(){
+        if(BirthdayFragment.deletedBirthday!=null){
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
+            myMenu?.getItem(0)?.isVisible = true
+        }else{
+            myMenu?.getItem(0)?.isVisible = false
+        }
+    }
+
+    fun updateDeleteTaskIcon(){
+        val checkedTasks = Database.taskList.filter{ t -> t.isChecked}.size
+        myMenu?.getItem(0)?.isVisible = checkedTasks > 0
+    }
+
+
+    /**
+     * DATA MANAGEMENT FUNCTIONS
+     */
+
+    private fun manageEditNote(){
+        val noteContent = createNoteFragment.etNoteContent.text.toString()
+        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
+        Database.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
+        editNoteHolder = null
+        changeToNotes()
+    }
+
+    private fun manageAddNote(){
+        val noteContent = createNoteFragment.etNoteContent.text.toString()
+        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
+        Database.addNote(noteTitle, noteContent, noteColor)
+        if(!fromHome){
+            changeToNotes()
+        }else{
+            changeToHome()
+            fromHome = false
+        }
+    }
+
+    /**
+     * OVERRIDE FUNCTIONS
+     */
+
+    override fun onBackPressed() {
+
+        when {
+            activeFragmentTag=="createNote" -> {
+                changeToNotes()
+            }
+            activeFragmentTag!="home" -> {
+                changeToHome()
+            }
+            else -> {
+                super.onBackPressed()
+            }
+        }
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         /**
          * Manages onclick listeners for color picker and submit icon used when
@@ -406,6 +485,7 @@ class MainActivity : AppCompatActivity(){
                     TodoFragment.deletedTask = null
                     TodoFragment.myAdapter.notifyItemInserted(newPos)
                     updateUndoTaskIcon()
+                    updateDeleteTaskIcon()
                     true
                 }else{
                     true
@@ -414,58 +494,6 @@ class MainActivity : AppCompatActivity(){
             else -> super.onOptionsItemSelected(item)
         }
 
-    }
-
-    fun updateUndoTaskIcon(){
-        if(TodoFragment.deletedTask!=null){
-            myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_undo)
-            myMenu?.getItem(1)?.isVisible = true
-        }else{
-            myMenu?.getItem(1)?.isVisible = false
-        }
-    }
-
-    fun updateUndoNoteIcon(){
-        if(NoteFragment.deletedNote!=null){
-           myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
-            myMenu?.getItem(0)?.isVisible = true
-        }else{
-            myMenu?.getItem(0)?.isVisible = false
-        }
-    }
-
-    fun updateUndoBirthdayIcon(){
-        if(BirthdayFragment.deletedBirthday!=null){
-            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
-            myMenu?.getItem(0)?.isVisible = true
-        }else{
-            myMenu?.getItem(0)?.isVisible = false
-        }
-    }
-
-    fun updateDeleteTaskIcon(){
-        val checkedTasks = Database.taskList.filter{ t -> t.isChecked}.size
-        myMenu?.getItem(0)?.isVisible = checkedTasks > 0
-    }
-
-    private fun manageEditNote(){
-        val noteContent = createNoteFragment.etNoteContent.text.toString()
-        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-        Database.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
-        editNoteHolder = null
-        changeToNotes()
-    }
-
-    private fun manageAddNote(){
-        val noteContent = createNoteFragment.etNoteContent.text.toString()
-        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-        Database.addNote(noteTitle, noteContent, noteColor)
-        if(!fromHome){
-            changeToNotes()
-        }else{
-            changeToHome()
-            fromHome = false
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

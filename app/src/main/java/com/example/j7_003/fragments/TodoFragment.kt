@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -94,7 +95,11 @@ class TodoFragment : Fragment() {
                 button.setOnClickListener {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
-                    myRecycler.adapter?.notifyItemInserted(Database.addFullTask(Task(title, index+1, false)))
+                    if(title.isEmpty()){
+                        Toast.makeText(MainActivity.myActivity, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
+                    }else{
+                        myRecycler.adapter?.notifyItemInserted(Database.addFullTask(Task(title, index+1, false)))
+                    }
                 }
             }
 

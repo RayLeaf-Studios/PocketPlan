@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,13 +87,15 @@ class BirthdayFragment : Fragment() {
             //button to confirm adding of birthday
             myDialogView.btnConfirmBirthday.setOnClickListener(){
                 val name = nameField.text.toString()
-                val day = npDay.value
-                val month = npMonth.value
-                val reminderPeriod = npReminder.value
-
-                Database.addBirthday(name, day, month, reminderPeriod)
-
-                myRecycler.adapter?.notifyDataSetChanged()
+                if(name.isEmpty()){
+                    Toast.makeText(MainActivity.myActivity, "Can't create an empty birthday!", Toast.LENGTH_SHORT).show()
+                }else{
+                    val day = npDay.value
+                    val month = npMonth.value
+                    val reminderPeriod = npReminder.value
+                    Database.addBirthday(name, day, month, reminderPeriod)
+                    myRecycler.adapter?.notifyDataSetChanged()
+                }
                 myAlertDialog?.dismiss()
             }
 

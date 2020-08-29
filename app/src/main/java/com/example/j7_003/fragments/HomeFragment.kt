@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -47,19 +48,22 @@ class HomeFragment : Fragment() {
         CalendarManager.init()
 
 
+        //initializing layout
         myView = inflater.inflate(R.layout.fragment_home, container, false)
 
-
+        //updating ui
         updateWaketimePanel()
         updateTaskPanel()
         updateBirthdayPanel()
 
+        //Onclick listeners for task panel, birthday panel and sleep panel,
         myView.panelTasks.setOnClickListener { MainActivity.myActivity.changeToToDo() }
         myView.panelBirthdays.setOnClickListener { MainActivity.myActivity.changeToBirthdays() }
         myView.tvRemainingWakeTime.setOnClickListener { MainActivity.myActivity.changeToSleepReminder() }
         myView.icSleepHome.setOnClickListener{MainActivity.myActivity.changeToSleepReminder()}
 
 
+        //buttons to create new notes, tasks, terms or items from the home panel
         myView.btnNewNote.setOnClickListener{
             MainActivity.fromHome = true
             MainActivity.myActivity.changeToCreateNoteFragment()
@@ -71,6 +75,7 @@ class HomeFragment : Fragment() {
         myView.btnNewItem.setOnClickListener { MainActivity.myActivity.changeToAddItem() }
 
 
+        //recyclerview holding the terms for today
         homeTermRecyclerView = myView.homeTermRecyclerview
         val myAdapter = HomeTermAdapterDay()
         myAdapter.setDate(LocalDate.now())
@@ -81,13 +86,13 @@ class HomeFragment : Fragment() {
     }
 
     //Sets the text of tvTasks to the titles of the first 3 important tasks
-    fun updateTaskPanel() {
+    private fun updateTaskPanel() {
         var p1TaskCounter = 0
         val taskList = Database.taskList
 
         //sets p1TaskCounter to amount of Tasks with priority 1
         for (i in 0..taskList.size - 1) {
-            if (taskList[i].priority > 1) {
+            if (taskList[i].priority > 1 || taskList[i].isChecked) {
                 break
             }
             p1TaskCounter++
@@ -127,12 +132,13 @@ class HomeFragment : Fragment() {
             )
         }
 
-
-
         //creates text displaying the tasks by concatenating their titles with newlines
         var taskPanelText = "\n"
         for (i in 0 until displayTaskCount) {
-            taskPanelText += "   "+taskList[i].title
+            taskPanelText += "   "+taskList[i].title.take(28)
+            if(taskList[i].title.length>27){
+                taskPanelText+="..."
+            }
             if (i < displayTaskCount) {
                 taskPanelText += "\n"
             }
@@ -149,7 +155,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun updateBirthdayPanel(){
+    private fun updateBirthdayPanel(){
         val birthdaysToday = Database.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
         if(birthdaysToDisplay == 0){
@@ -194,7 +200,7 @@ class HomeFragment : Fragment() {
         myView.tvBirthday.text = birthdayText
     }
 
-    fun updateWaketimePanel() {
+    private fun updateWaketimePanel() {
 
         val (message, status) = SleepReminder.getRemainingWakeDurationString()
 
@@ -267,8 +273,12 @@ class HomeFragment : Fragment() {
             button.setOnClickListener {
                 myAlertDialog?.dismiss()
                 val title = myDialogView.etxTitleAddTask.text.toString()
-                Database.addTask(title, index + 1, false)
-                updateTaskPanel()
+                if(title.isEmpty()){
+                    Toast.makeText(MainActivity.myActivity, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
+                }else {
+                    Database.addTask(title, index + 1, false)
+                    updateTaskPanel()
+                }
             }
         }
 
