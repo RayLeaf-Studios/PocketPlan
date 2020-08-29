@@ -14,6 +14,7 @@ Random tasks:
     - add listener to number picker for typing in numbers
     - replace all colors and values like text size with resource references
     - decide what to do with terms in the past, (delete after week? even show them at all?)
+    - make to-do items checkable in the home menu
 
 Ideas:
     - new icon related to the name "Pocket-Plan"
