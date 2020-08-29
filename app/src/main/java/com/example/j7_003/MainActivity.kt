@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -37,8 +38,6 @@ class MainActivity : AppCompatActivity(){
     private lateinit var createNoteFragment: CreateNoteFragment
     private lateinit var createTermFragment: CreateTermFragment
     private lateinit var addItemFragment: AddItemFragment
-
-
     private lateinit var bottomNavigation: BottomNavigationView
 
     private var activeFragmentTag = ""
@@ -366,7 +365,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun updateUndoTaskIcon(){
-        if(TodoFragment.deletedTask!=null){
+        if(TodoFragment.deletedTask!=null || TodoFragment.deletedTaskList.size > 0){
             myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(1)?.isVisible = true
         }else{
@@ -455,6 +454,7 @@ class MainActivity : AppCompatActivity(){
                     changeToDayView()
                 }else if(activeFragmentTag=="todo"){
                     TodoFragment.myFragment.manageCheckedTaskDeletion()
+                    updateUndoTaskIcon()
                 }else if(activeFragmentTag=="createNote"){
                     openColorChooser()
                 }else if(activeFragmentTag=="notes"){
@@ -481,9 +481,18 @@ class MainActivity : AppCompatActivity(){
                     }
                     true
                 }else if(activeFragmentTag=="todo"){
-                    val newPos = Database.addFullTask(TodoFragment.deletedTask!!)
-                    TodoFragment.deletedTask = null
-                    TodoFragment.myAdapter.notifyItemInserted(newPos)
+                    if(TodoFragment.deletedTaskList.size>0){
+                        TodoFragment.deletedTaskList!!.forEach {
+                            task ->
+                            val newPos = Database.addFullTask(task)
+                            TodoFragment.myAdapter.notifyItemInserted(newPos)
+                        }
+                        TodoFragment.deletedTaskList.clear()
+                    }else{
+                        val newPos = Database.addFullTask(TodoFragment.deletedTask!!)
+                        TodoFragment.deletedTask = null
+                        TodoFragment.myAdapter.notifyItemInserted(newPos)
+                    }
                     updateUndoTaskIcon()
                     updateDeleteTaskIcon()
                     true

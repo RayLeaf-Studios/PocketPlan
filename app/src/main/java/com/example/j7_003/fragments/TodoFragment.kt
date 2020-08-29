@@ -38,9 +38,11 @@ class TodoFragment : Fragment() {
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
         var deletedTask: Task? = null
+        var deletedTaskList: ArrayList<Task> = arrayListOf()
     }
 
     fun manageCheckedTaskDeletion(){
+        deletedTask = null
         val oldSize = Database.taskList.size
         val newSize = Database.deleteCheckedTasks()
         for(i in newSize until oldSize){
@@ -158,6 +160,7 @@ class TodoTaskAdapter() :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){   
 
     fun deleteItem(position: Int){
+        TodoFragment.deletedTaskList.clear()
         TodoFragment.deletedTask = Database.getTask(position)
         MainActivity.myActivity.updateUndoTaskIcon()
         Database.deleteTask(position)

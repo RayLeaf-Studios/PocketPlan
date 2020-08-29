@@ -149,7 +149,7 @@
         app:layout_constraintTop_toTopOf="@+id/btnNewTerm" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homeTermRecyclerview"
+        android:id="@+id/recycler_view_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"

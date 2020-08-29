@@ -6,6 +6,7 @@ import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.database_objects.Birthday
 import com.example.j7_003.data.database.database_objects.Note
 import com.example.j7_003.data.database.database_objects.Task
+import com.example.j7_003.fragments.TodoFragment
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -107,7 +108,10 @@ class Database {
         fun deleteCheckedTasks(): Int{
             val toBeDeleted = ArrayList<Task>()
             taskList.forEach { n ->
-                if (n.isChecked) toBeDeleted.add(n)
+                if (n.isChecked) {
+                    toBeDeleted.add(n)
+                    TodoFragment.deletedTaskList?.add(n)
+                }
             }
 
             toBeDeleted.forEach { n ->

@@ -63,6 +63,7 @@ class HomeFragment : Fragment() {
         myView.icSleepHome.setOnClickListener{MainActivity.myActivity.changeToSleepReminder()}
 
 
+
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.btnNewNote.setOnClickListener{
             MainActivity.fromHome = true
@@ -76,7 +77,7 @@ class HomeFragment : Fragment() {
 
 
         //recyclerview holding the terms for today
-        homeTermRecyclerView = myView.homeTermRecyclerview
+        homeTermRecyclerView = myView.recycler_view_home
         val myAdapter = HomeTermAdapterDay()
         myAdapter.setDate(LocalDate.now())
         homeTermRecyclerView.adapter = myAdapter
@@ -308,7 +309,7 @@ class HomeTermAdapterDay() :
 
         holder.itemView.setOnClickListener() {
             //todo start CreateTermFragment in EDIT mode
-            MainActivity.myActivity.changeToDayView()
+//            MainActivity.myActivity.changeToDayView()
         }
 
         holder.tvTitle.text = currentTerm.title
