@@ -25,9 +25,9 @@ import kotlinx.android.synthetic.main.row_item.view.*
 class ShoppingFragment : Fragment() {
     companion object{
         var shoppingList = arrayListOf(
-            arrayListOf("Vegetables", "Tomato", "Cucumber"),
-            arrayListOf("Fruits", "Apple", "Lemon", "Orange"),
-            arrayListOf("Rice and Pasta", "Spaghetti")
+            arrayListOf("Vegetables", "1kg Tomaten ", "2 Gurken"),
+            arrayListOf("Fruits", "3 Äpfel", "1 Zitrone", "1 Orange"),
+            arrayListOf("Rice and Pasta", "1 Pck Spaghetti")
         )
         var expansions = arrayListOf(true, true, true)
     }

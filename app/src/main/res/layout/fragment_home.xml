@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    android:padding="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
     tools:context=".fragments.HomeFragment">
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/panelTasks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tvRemainingWakeTime">
 
         <TextView
             android:id="@+id/tvTasks"
@@ -28,8 +30,7 @@
             android:textColor="@color/colorOnBackGround"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/icTasksHome"
@@ -84,27 +85,29 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:src="@drawable/baseline_nights_stay_white_18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnNewNote" />
+        app:layout_constraintBottom_toBottomOf="@+id/tvRemainingWakeTime"
+        app:layout_constraintEnd_toStartOf="@+id/tvRemainingWakeTime"
+        app:layout_constraintTop_toTopOf="@+id/tvRemainingWakeTime" />
 
     <TextView
         android:id="@+id/tvRemainingWakeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="8h and 13 min until bedtime"
         android:textColor="@color/colorOnBackGround"
-        app:layout_constraintBottom_toBottomOf="@+id/icSleepHome"
-        app:layout_constraintStart_toEndOf="@+id/icSleepHome"
-        app:layout_constraintTop_toTopOf="@+id/icSleepHome" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="80dp" />
 
     <Button
         android:id="@+id/btnNewNote"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/round_corner_accent"
         android:text="+ Note"
-        app:layout_constraintBottom_toTopOf="@+id/tvRemainingWakeTime"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNewTask"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
@@ -146,11 +149,11 @@
         app:layout_constraintTop_toTopOf="@+id/btnNewTerm" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:id="@+id/homeTermRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/btnNewNote"
         app:layout_constraintTop_toBottomOf="@+id/panelBirthdays"
         tools:layout_editor_absoluteX="10dp" />

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:layout_margin="4dp"
-    android:background="@drawable/round_corner_winered"
+    android:background="@drawable/round_corner_accent"
     android:padding="0dp">
 
     <TextView

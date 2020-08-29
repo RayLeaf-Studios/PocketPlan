@@ -94,8 +94,7 @@ class TodoFragment : Fragment() {
                 button.setOnClickListener {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
-                    Database.addTask(title, index + 1, false)
-                    myRecycler.adapter?.notifyDataSetChanged()
+                    myRecycler.adapter?.notifyItemInserted(Database.addFullTask(Task(title, index+1, false)))
                 }
             }
 

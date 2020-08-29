@@ -277,6 +277,7 @@ class MainActivity : AppCompatActivity(){
 
     fun changeToCreateNoteFragment(){
         myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
+        myMenu?.getItem(1)?.setIcon(R.drawable.ic_check_mark)
         myMenu?.getItem(0)?.setVisible(true)
         myMenu?.getItem(1)?.setVisible(true)
         if(activeFragmentTag!="createNote") {

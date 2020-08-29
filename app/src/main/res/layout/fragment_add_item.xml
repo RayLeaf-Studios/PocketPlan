@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:text="Greenery"
+        android:text="Obst / Gemüse"
         android:textColor="@color/colorOnBackGround"
         android:textSize="17sp"
         app:layout_constraintStart_toEndOf="@id/tvItemCategory"
@@ -94,6 +94,7 @@
         app:layout_constraintStart_toEndOf="@id/etItemAmount"
         app:layout_constraintTop_toTopOf="@+id/etItemAmount"></Spinner>
     <Button
+        android:id="@+id/btnAddItemToList"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="ADD"

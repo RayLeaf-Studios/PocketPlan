@@ -237,8 +237,8 @@ class HomeFragment : Fragment() {
             }
             2 -> {
                 //hide icon, hide text
-                myView.icSleepHome.visibility = View.INVISIBLE
-                myView.tvRemainingWakeTime.visibility = View.INVISIBLE
+                myView.icSleepHome.visibility = View.GONE
+                myView.tvRemainingWakeTime.visibility = View.GONE
             }
         }
     }
