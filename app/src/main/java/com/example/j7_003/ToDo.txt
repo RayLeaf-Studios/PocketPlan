@@ -39,3 +39,18 @@ Shopping list details:
         12. frozen food
         13. cereals
         14. baking ingredients
+
+
+    functionality:
+
+    hinzufügen einer iteminstanz, abhängig vom tag des items wird das item in die zugehörige subliste einsortiert
+    oder eine neue subliste wird erstellt
+
+    sublisten expandieren / zusammenziehen (expanded = true/false mit special item an letzer stelle der liste?)
+
+    iteminstanzen in sublisten bearbeiten (attribute: checked, amount, unit)
+
+    iteminstanzen aus sublisten löschen (leere sublisten aus mainliste löschen)
+
+    sublisten in mainliste sortieren (sublisten die nur checked = true enthalten werden nach unten sortiert)
+
