@@ -53,7 +53,10 @@ class NoteFragment : Fragment() {
 
         myRecycler.adapter = myAdapter
 
-        val lm = StaggeredGridLayoutManager(2, 1)
+        //TODO READ THIS FROM SETTINGS MANAGER
+        val noteColumns = 3
+
+        val lm = StaggeredGridLayoutManager(noteColumns, 1)
         myRecycler.layoutManager = lm
 
 

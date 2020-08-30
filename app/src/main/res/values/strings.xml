@@ -28,4 +28,19 @@
         <item>ml</item>
     </string-array>
 
+    <string-array name="noteLines">
+        <item>All</item>
+        <item>None</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="noteColumns">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

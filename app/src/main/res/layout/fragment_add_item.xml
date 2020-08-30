@@ -84,7 +84,7 @@
         app:layout_constraintTop_toTopOf="@+id/tvLabelAmount" />
 
     <Spinner
-        android:id="@+id/spItemAmount"
+        android:id="@+id/spItemUnit"
         android:layout_width="wrap_content"
         android:gravity="center"
         android:layout_marginLeft="10dp"

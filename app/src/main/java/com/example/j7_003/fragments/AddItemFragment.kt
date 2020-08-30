@@ -20,6 +20,17 @@ class AddItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
+        val myView = inflater.inflate(R.layout.fragment_add_item, container, false)
+
+        initializeComponents(myView)
+
+        return myView
+    }
+
+    private fun initializeComponents(myView: View){
+
+        //TODO remove this and replace it with proper connection to database
         val items = arrayOf(
             "Ananas",
             "Apfel",
@@ -116,23 +127,24 @@ class AddItemFragment : Fragment() {
             "Zucchini",
             "Zwetschge ",
             "Zwiebel ")
-        // Inflate the layout for this fragment
-        val myView = inflater.inflate(R.layout.fragment_add_item, container, false)
-        val myActv = myView.actvItem
-        val actvAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_spinner_dropdown_item, items)
-        myActv.setAdapter(actvAdapter)
 
-        myView.btnAddItemToList.setOnClickListener { MainActivity.myActivity.changeToShopping() }
+        //Initialize autocomplete text view for item name and its adapter
+        val autoCompleteTv = myView.actvItem
+        val autoCompleteTvAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_spinner_dropdown_item, items)
+        autoCompleteTv.setAdapter(autoCompleteTvAdapter)
 
+        //Button to Confirm adding Item to list
+        myView.btnAddItemToList.setOnClickListener {
+            //TODO read values from name(autoText), amount textvield and unit spinner, then add item
 
+            MainActivity.myActivity.changeToShopping()
+        }
 
-        val mySpinner = myView.spItemAmount
+        //Initialize spinner and its adapter to choose its Unit
+        val mySpinner = myView.spItemUnit
         val myAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.units))
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mySpinner.adapter = myAdapter
-        return myView
-
-
     }
 
 }

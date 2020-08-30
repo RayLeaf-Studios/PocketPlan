@@ -18,36 +18,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:paddingLeft="20dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="10dp"
+                >
+
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tvNoteHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Display full note content"
-                    android:textColor="@color/colorOnBackGround"
-                    android:textSize="20sp"
+                    android:text="Notes"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="17sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Switch
-                    android:id="@+id/swFullNoteContent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewNoteLines"
@@ -65,20 +56,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/etNoteLines"
+                <Spinner
+                    android:id="@+id/spNoteLines"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="lines"
-                    android:maxLength="3"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/colorOnBackGround"
-                    android:textColorHint="@color/colorHint"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvNoteLines"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvNoteLines">
+                    app:layout_constraintTop_toTopOf="@id/tvNoteLines"
+                    app:layout_constraintBottom_toBottomOf="@id/tvNoteLines"
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                </EditText>
+                </Spinner>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
@@ -88,6 +76,33 @@
                 android:background="?android:attr/listDivider"
                 tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="56dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewNoteColumns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tvNoteColumns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Number of note columns:"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spNoteColumns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tvNoteColumns"
+                    app:layout_constraintBottom_toBottomOf="@id/tvNoteColumns"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                </Spinner>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
