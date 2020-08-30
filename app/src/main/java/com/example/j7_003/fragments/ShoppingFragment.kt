@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,18 +25,23 @@ import kotlinx.android.synthetic.main.row_item.view.*
  */
 class ShoppingFragment : Fragment() {
     companion object{
+        //TODO REMOVE THESE 2
         var shoppingList = arrayListOf(
             arrayListOf("Vegetables", "1kg Tomaten ", "2 Gurken"),
             arrayListOf("Fruits", "3 Äpfel", "1 Zitrone", "1 Orange"),
             arrayListOf("Rice and Pasta", "1 Pck Spaghetti")
         )
-        var expansions = arrayListOf(true, true, true)
+        var expansions = arrayListOf(false, false, false)
+        //TODO uncomment this
+//        var deletedItem: Item? = null
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //TODO add button to empty the entire list
+
         // Inflate the layout for this fragment
         val myView = inflater.inflate(R.layout.fragment_shopping, container, false)
 
@@ -64,6 +70,7 @@ class ShoppingFragment : Fragment() {
 class CategoryAdapter() :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
     fun deleteItem(position: Int){
+        //TODO decide if entire categories should be allowed to be deleted
 //        NoteFragment.deletedNote = Database.getNote(position)
 //        MainActivity.myActivity.updateUndoNoteIcon()
 //        Database.deleteNote(position)
@@ -79,20 +86,27 @@ class CategoryAdapter() :
 
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        //TODO REPLACE THIS CONDITION WITH DATABASE ACCESS
         if(ShoppingFragment.expansions[position]){
             holder.subRecyclerView.visibility = View.VISIBLE
         }else{
             holder.subRecyclerView.visibility = View.GONE
         }
         holder.tvCategoryName.text = ShoppingFragment.shoppingList[position][0]
+        holder.cvCategory.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorBirthdayLabel))
         val subAdapter = ItemAdapter(position)
         holder.subRecyclerView.adapter = subAdapter
         holder.subRecyclerView.layoutManager = LinearLayoutManager(MainActivity.myActivity)
         holder.subRecyclerView.setHasFixedSize(true)
-        holder.clCategory.setOnClickListener {
+        holder.cvCategory.setOnClickListener {
+            //TODO REPLACE THIS WITH DATABASE ACCESS
             if(ShoppingFragment.expansions[position]){
                 ShoppingFragment.expansions[position] = false
             }else{
+                for(i in 0..2){
+                    ShoppingFragment.expansions[i] = false
+                    notifyItemChanged(i)
+                }
                 ShoppingFragment.expansions[position] = true
             }
             notifyItemChanged(position)
@@ -102,14 +116,13 @@ class CategoryAdapter() :
 
     override fun getItemCount() = ShoppingFragment.shoppingList.size
 
-    //one instance of this class will contain one instance of row_shopping and meta data like position
+    //one instance of this class will contain one instance of row_category and meta data like position
     //also holds references to views inside the layout
 
     class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvCategoryName: TextView = itemView.tvCategoryName
-        val clCategory: ConstraintLayout = itemView.clCategory
-//        val tvDebug: TextView = itemView.debugText
         var subRecyclerView: RecyclerView = itemView.subRecyclerView
+        val cvCategory = itemView.cvCategory
     }
 
 }
@@ -118,10 +131,20 @@ class ItemAdapter(categoryPosition: Int) :
     private val myCategory = categoryPosition
 
     fun deleteItem(position: Int){
-//        NoteFragment.deletedNote = Database.getNote(position)
-//        MainActivity.myActivity.updateUndoNoteIcon()
-//        Database.deleteNote(position)
-//        notifyItemRemoved(position)
+        //TODO replace following line with saving the deleted item
+        //NoteFragment.deletedNote = Database.getNote(position)
+
+        //TODO replace following line with deleting item in database, and saving feedback for the cases in following todo
+        //Database.deleteNote(position)
+
+        //TODO handle deletion of Item
+        //If item was last unchecked item and there are more checked items => sublist moves => notify move (sublist contracts?)
+        //If item was last item in list => sublist gets removed => notify removed
+        //If neither of the upper cases: notify item removed in sublist
+
+        //TODO replace following line with updating undoItemIcon()
+        //MainActivity.myActivity.updateUndoNoteIcon()
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -138,7 +161,7 @@ class ItemAdapter(categoryPosition: Int) :
 
     override fun getItemCount() = ShoppingFragment.shoppingList[myCategory].size-1
 
-    //one instance of this class will contain one instance of row_shopping and meta data like position
+    //one instance of this class will contain one instance of row_item and meta data like position
     //also holds references to views inside the layout
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

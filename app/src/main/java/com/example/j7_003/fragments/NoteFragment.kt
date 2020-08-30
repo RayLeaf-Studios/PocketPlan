@@ -22,16 +22,15 @@ import com.example.j7_003.data.database.database_objects.Note
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 
-
 /**
  * A simple [Fragment] subclass.
  */
+
 class NoteFragment : Fragment() {
 
     companion object{
         var deletedNote: Note? = null
-        lateinit var myAdapter: NoteAdapter
-
+        lateinit var noteAdapter: NoteAdapter
     }
 
     override fun onCreateView(
@@ -39,9 +38,13 @@ class NoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        //inflating layout for NoteFragment
         val myView = inflater.inflate(R.layout.fragment_note, container, false)
+        initializeComponents(myView)
+        return myView
+    }
 
-        val myRecycler = myView.recycler_view_note
+    private fun initializeComponents(myView: View){
 
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener() {
@@ -49,53 +52,27 @@ class NoteFragment : Fragment() {
             MainActivity.editNoteHolder = null
         }
 
-        myAdapter = NoteAdapter()
-
-        myRecycler.adapter = myAdapter
-
         //TODO READ THIS FROM SETTINGS MANAGER
         val noteColumns = 3
 
+        //initialize Recyclerview and Adapter
+        val myRecycler = myView.recycler_view_note
+        noteAdapter = NoteAdapter()
+        myRecycler.adapter = noteAdapter
         val lm = StaggeredGridLayoutManager(noteColumns, 1)
         myRecycler.layoutManager = lm
-
-
         myRecycler.setHasFixedSize(true)
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteN(myAdapter))
+        //initialize item touch helper to support swipe to delete
+        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteN(noteAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteN(myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteN(noteAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
-
-        return myView
     }
 
 }
 
-class SwipeRightToDeleteN(var adapter: NoteAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        return false
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
-    }
-}
-
-class SwipeLeftToDeleteN(private var adapter: NoteAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        return false
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
-    }
-}
 
 class NoteAdapter() :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
@@ -112,8 +89,6 @@ class NoteAdapter() :
             .inflate(R.layout.row_note, parent, false)
         return NoteViewHolder(itemView)
     }
-
-
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
@@ -144,8 +119,6 @@ class NoteAdapter() :
             holder.tvNoteContent.maxLines = Int.MAX_VALUE
         }
 
-
-
         val cardColor =  when(currentNote.color){
             NoteColors.RED -> R.color.colorNoteRed
             NoteColors.YELLOW -> R.color.colorNoteYellow
@@ -155,8 +128,6 @@ class NoteAdapter() :
         }
 
         holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, cardColor))
-
-
     }
 
     override fun getItemCount() = Database.noteList.size
@@ -170,4 +141,28 @@ class NoteAdapter() :
         var cvNoteCard: CardView = itemView.cvNoteCard
     }
 
+}
+
+class SwipeRightToDeleteN(var adapter: NoteAdapter):
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+    }
+}
+
+class SwipeLeftToDeleteN(private var adapter: NoteAdapter):
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+    }
 }

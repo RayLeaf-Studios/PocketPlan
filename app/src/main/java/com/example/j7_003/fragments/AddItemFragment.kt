@@ -122,16 +122,24 @@ class AddItemFragment : Fragment() {
             "Tomate",
             "Weintraube",
             "Weißkohl",
-            "Wirsing ",
-            "Zitrone ",
+            "Wirsing",
+            "Zitrone",
             "Zucchini",
-            "Zwetschge ",
-            "Zwiebel ")
+            "Zwetschge",
+            "Zwiebel")
 
         //Initialize autocomplete text view for item name and its adapter
         val autoCompleteTv = myView.actvItem
         val autoCompleteTvAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_spinner_dropdown_item, items)
         autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+
+
+        //Initialize spinner and its adapter to choose its Unit
+        val mySpinner = myView.spItemUnit
+        val myAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.units))
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner.adapter = myAdapter
+
 
         //Button to Confirm adding Item to list
         myView.btnAddItemToList.setOnClickListener {
@@ -139,12 +147,6 @@ class AddItemFragment : Fragment() {
 
             MainActivity.myActivity.changeToShopping()
         }
-
-        //Initialize spinner and its adapter to choose its Unit
-        val mySpinner = myView.spItemUnit
-        val myAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.units))
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mySpinner.adapter = myAdapter
     }
 
 }

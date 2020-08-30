@@ -390,6 +390,15 @@ class MainActivity : AppCompatActivity(){
             myMenu?.getItem(0)?.isVisible = false
         }
     }
+    fun updateUndoItemIcon(){
+        //TODO uncomment this
+//        if(ShoppingFragment.deletedItem!=null){
+//            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
+//            myMenu?.getItem(0)?.isVisible = true
+//        }else{
+//            myMenu?.getItem(0)?.isVisible = false
+//        }
+    }
 
     fun updateDeleteTaskIcon(){
         val checkedTasks = Database.taskList.filter{ t -> t.isChecked}.size
@@ -460,7 +469,7 @@ class MainActivity : AppCompatActivity(){
                 }else if(activeFragmentTag=="notes"){
                     Database.addFullNote(NoteFragment.deletedNote!!)
                     NoteFragment.deletedNote = null
-                    NoteFragment.myAdapter.notifyItemInserted(0)
+                    NoteFragment.noteAdapter.notifyItemInserted(0)
                     updateUndoNoteIcon()
                 }else if(activeFragmentTag=="birthdays"){
                     //TODO fix insert animation when undo
@@ -482,7 +491,7 @@ class MainActivity : AppCompatActivity(){
                     true
                 }else if(activeFragmentTag=="todo"){
                     if(TodoFragment.deletedTaskList.size>0){
-                        TodoFragment.deletedTaskList!!.forEach {
+                        TodoFragment.deletedTaskList.forEach {
                             task ->
                             val newPos = Database.addFullTask(task)
                             TodoFragment.myAdapter.notifyItemInserted(newPos)
