@@ -1,23 +1,21 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.j7_003.MainActivity
-
 import com.example.j7_003.R
-import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
+import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.database_objects.Note
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
@@ -47,7 +45,7 @@ class NoteFragment : Fragment() {
     private fun initializeComponents(myView: View){
 
         //ADDING NOTE VIA FLOATING ACTION BUTTON
-        myView.btnAddNote.setOnClickListener() {
+        myView.btnAddNote.setOnClickListener {
             MainActivity.myActivity.changeToCreateNoteFragment()
             MainActivity.editNoteHolder = null
         }
@@ -74,7 +72,7 @@ class NoteFragment : Fragment() {
 }
 
 
-class NoteAdapter() :
+class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
 
     fun deleteItem(position: Int){
@@ -96,7 +94,7 @@ class NoteAdapter() :
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
 
-        holder.itemView.setOnClickListener(){
+        holder.itemView.setOnClickListener {
             MainActivity.editNoteHolder = holder
             MainActivity.noteColor = Database.getNote(holder.adapterPosition).color
             MainActivity.myActivity.changeToCreateNoteFragment()

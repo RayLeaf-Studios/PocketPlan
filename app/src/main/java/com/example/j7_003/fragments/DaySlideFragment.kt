@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
@@ -62,7 +63,7 @@ class TestFragment : Fragment() {
             }
     }
 }
-class TermAdapterDay() :
+class TermAdapterDay :
     RecyclerView.Adapter<TermAdapterDay.TermViewHolderDay>() {
 
     private lateinit var daylist: ArrayList<CalendarAppointment>
@@ -80,7 +81,7 @@ class TermAdapterDay() :
 
         val currentTerm = daylist[position]
 
-        holder.itemView.setOnClickListener() {
+        holder.itemView.setOnClickListener {
             //todo start CreateTermFragment in EDIT mode
             MainActivity.myActivity.changeToCreateTerm()
         }
@@ -89,7 +90,7 @@ class TermAdapterDay() :
         holder.tvInfo.text = currentTerm.addInfo
 
         //hides end time of a term if its identical to start time
-        if(currentTerm.startTime.equals(currentTerm.eTime)){
+        if(currentTerm.startTime == currentTerm.eTime){
             holder.tvStartTime.text = currentTerm.startTime.toString()
             holder.tvEndTime.text = ""
             holder.tvDashUntil.visibility = View.INVISIBLE
@@ -108,11 +109,11 @@ class TermAdapterDay() :
          * One instance of this class will contain one "instance" of row_term_day and meta data
          * like position, it also holds references to views inside of the layout
          */
-        val tvTitle = itemView.tvTermItemTitle
-        val tvInfo = itemView.tvTermItemInfo
-        val tvStartTime = itemView.tvTermItemStartTime
-        val tvEndTime = itemView.tvTermItemEndTime
-        val tvDashUntil = itemView.tvDashUntil
+        val tvTitle: TextView = itemView.tvTermItemTitle
+        val tvInfo: TextView = itemView.tvTermItemInfo
+        val tvStartTime: TextView = itemView.tvTermItemStartTime
+        val tvEndTime: TextView = itemView.tvTermItemEndTime
+        val tvDashUntil: TextView = itemView.tvDashUntil
     }
 
 }

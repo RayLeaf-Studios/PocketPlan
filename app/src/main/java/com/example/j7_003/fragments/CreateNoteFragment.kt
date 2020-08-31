@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.fragment_write_note.view.*
 
 class CreateNoteFragment : Fragment() {
 
-    lateinit var myEtTitle: EditText
-    lateinit var myEtContent: EditText
+    private lateinit var myEtTitle: EditText
+    private lateinit var myEtContent: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

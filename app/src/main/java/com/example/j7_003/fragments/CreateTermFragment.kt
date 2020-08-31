@@ -1,27 +1,25 @@
 package com.example.j7_003.fragments
 
+
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.view.*
-import android.widget.*
-import androidx.fragment.app.Fragment
-
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.TimePicker
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
-import kotlinx.android.synthetic.main.fragment_create_term.*
-
-
 import kotlinx.android.synthetic.main.fragment_create_term.view.*
-import kotlinx.android.synthetic.main.fragment_create_term.view.btnDiscardTermChanges
-import kotlinx.android.synthetic.main.fragment_create_term.view.tvTermEndTime
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
-
-
 import java.util.*
 
 
@@ -30,28 +28,28 @@ import java.util.*
  */
 class CreateTermFragment : Fragment() {
 
-    lateinit var etTermTitle: EditText
-    lateinit var etTermInfo: EditText
-    lateinit var tvTermDate: TextView
-    lateinit var tvTermTime: TextView
-    lateinit var tvTermEndTime: TextView
+    private lateinit var etTermTitle: EditText
+    private lateinit var etTermInfo: EditText
+    private lateinit var tvTermDate: TextView
+    private lateinit var tvTermTime: TextView
+    private lateinit var tvTermEndTime: TextView
 
-    lateinit var panelTermDate: ConstraintLayout
-    lateinit var panelTermTime: ConstraintLayout
-    lateinit var panelTermEndTime: ConstraintLayout
+    private lateinit var panelTermDate: ConstraintLayout
+    private lateinit var panelTermTime: ConstraintLayout
+    private lateinit var panelTermEndTime: ConstraintLayout
 
-    lateinit var btnDuration30m: Button
-    lateinit var btnDuration60m: Button
-    lateinit var btnDuration90m: Button
-    lateinit var btnDuration120m: Button
-    lateinit var btnDuration180m: Button
+    private lateinit var btnDuration30m: Button
+    private lateinit var btnDuration60m: Button
+    private lateinit var btnDuration90m: Button
+    private lateinit var btnDuration120m: Button
+    private lateinit var btnDuration180m: Button
 
-    lateinit var btnDiscardTermChanges: Button
-    lateinit var btnSaveTerm: Button
-    lateinit var myView: View
+    private lateinit var btnDiscardTermChanges: Button
+    private lateinit var btnSaveTerm: Button
+    private lateinit var myView: View
 
-    lateinit var startDateTime: LocalDateTime
-    lateinit var endLocalTime: LocalTime
+    private lateinit var startDateTime: LocalDateTime
+    private lateinit var endLocalTime: LocalTime
 
 
     override fun onCreateView(
@@ -88,7 +86,8 @@ class CreateTermFragment : Fragment() {
         tvTermEndTime.text = "(optional)"
     }
 
-    fun showEditValues() {
+    @SuppressLint("SetTextI18n")
+    private fun showEditValues() {
         //TODO FIX EDITING TERM
         val editTerm = MainActivity.editTerm!!
         val year = editTerm.date.year
@@ -107,6 +106,7 @@ class CreateTermFragment : Fragment() {
             .padStart(2, '0') + ":" + minute.toString().padStart(2, '0')
         tvTermEndTime.text = "(optional)"
     }
+
     @SuppressLint("SetTextI18n")
     fun setDuration(minutes: Int) {
         val newEndTime = LocalTime.of(startDateTime.hour, startDateTime.minute).plusMinutes(minutes.toLong())
@@ -117,7 +117,7 @@ class CreateTermFragment : Fragment() {
         }
     }
 
-    fun saveTerm() {
+    private fun saveTerm() {
         val termTitle = etTermTitle.text.toString()
         val termInfo = etTermInfo.text.toString()
         CalendarManager.addAppointment(termTitle, termInfo, startDateTime, endLocalTime)
@@ -165,7 +165,7 @@ class CreateTermFragment : Fragment() {
         tpd.show()
     }
 
-    fun initComponents() {
+    private fun initComponents() {
         //input for title and info
         etTermTitle = myView.etTermTitle
         etTermInfo = myView.etTermInfo
@@ -224,11 +224,11 @@ class CreateTermFragment : Fragment() {
             openTimePickerEnd()
         }
 
-        btnSaveTerm.setOnClickListener() {
+        btnSaveTerm.setOnClickListener {
             saveTerm()
         }
 
-        btnDiscardTermChanges.setOnClickListener(){
+        btnDiscardTermChanges.setOnClickListener {
             if(MainActivity.fromHome){
                 MainActivity.myActivity.changeToHome()
             }else{

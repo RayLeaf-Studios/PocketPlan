@@ -1,19 +1,18 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
-
 import com.example.j7_003.R
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
@@ -67,7 +66,7 @@ class ShoppingFragment : Fragment() {
 
 }
 
-class CategoryAdapter() :
+class CategoryAdapter :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
     fun deleteItem(position: Int){
         //TODO decide if entire categories should be allowed to be deleted
@@ -86,18 +85,26 @@ class CategoryAdapter() :
 
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        //TODO REPLACE THIS CONDITION WITH DATABASE ACCESS
+        //TODO REPLACE THIS CONDITION WITH DATABASE ACCESS (EXPANSION OF position-th sublist)
         if(ShoppingFragment.expansions[position]){
             holder.subRecyclerView.visibility = View.VISIBLE
         }else{
             holder.subRecyclerView.visibility = View.GONE
         }
+
+        //TODO REPLACE THIS WITH DATABASE ACCESS (TITLE OF position-th sublist)
         holder.tvCategoryName.text = ShoppingFragment.shoppingList[position][0]
+
+        //TODO REPLACE THIS WITH SOMEHOW SHOWING COLOR OF CATEGORY
         holder.cvCategory.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorBirthdayLabel))
+
+        //Setting adapter for this sublist
         val subAdapter = ItemAdapter(position)
         holder.subRecyclerView.adapter = subAdapter
         holder.subRecyclerView.layoutManager = LinearLayoutManager(MainActivity.myActivity)
         holder.subRecyclerView.setHasFixedSize(true)
+
+        //Onclick reaction to expand / contract this sublist
         holder.cvCategory.setOnClickListener {
             //TODO REPLACE THIS WITH DATABASE ACCESS
             if(ShoppingFragment.expansions[position]){
@@ -114,6 +121,7 @@ class CategoryAdapter() :
 
     }
 
+    //TODO replace this with database access, get amount of sublists
     override fun getItemCount() = ShoppingFragment.shoppingList.size
 
     //one instance of this class will contain one instance of row_category and meta data like position
@@ -122,7 +130,7 @@ class CategoryAdapter() :
     class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvCategoryName: TextView = itemView.tvCategoryName
         var subRecyclerView: RecyclerView = itemView.subRecyclerView
-        val cvCategory = itemView.cvCategory
+        val cvCategory: CardView = itemView.cvCategory
     }
 
 }
@@ -157,6 +165,9 @@ class ItemAdapter(categoryPosition: Int) :
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.tvItemTitle.text = ShoppingFragment.shoppingList[myCategory][position+1]
+        holder.clItemTapfield.setOnClickListener {
+            //Todo manage checking item
+        }
     }
 
     override fun getItemCount() = ShoppingFragment.shoppingList[myCategory].size-1

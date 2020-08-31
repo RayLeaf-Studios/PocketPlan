@@ -50,7 +50,7 @@
         android:id="@+id/tvCategoryField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:text="Obst / Gemüse"
         android:textColor="@color/colorOnBackGround"
         android:textSize="17sp"
@@ -75,7 +75,6 @@
         android:layout_width="60dp"
         android:maxLength="4"
         android:layout_height="wrap_content"
-        android:hint=""
         android:inputType="numberDecimal"
         android:textColor="@color/colorOnBackGround"
         android:textColorHint="@color/colorHint"
@@ -87,12 +86,12 @@
         android:id="@+id/spItemUnit"
         android:layout_width="wrap_content"
         android:gravity="center"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="@+id/etItemAmount"
         android:background="@drawable/corner_input"
         app:layout_constraintStart_toEndOf="@id/etItemAmount"
-        app:layout_constraintTop_toTopOf="@+id/etItemAmount"></Spinner>
+        app:layout_constraintTop_toTopOf="@+id/etItemAmount" />
     <Button
         android:id="@+id/btnAddItemToList"
         android:layout_width="match_parent"

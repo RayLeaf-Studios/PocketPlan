@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.TextView
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +17,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_calender.view.*
 import kotlinx.android.synthetic.main.row_term.view.*
 import org.threeten.bp.LocalDate
-import java.util.*
 
 
 /**
@@ -132,10 +131,10 @@ class TermAdapter() :
          * One instance of this class will contain one "instance" of row_term and meta data
          * like position, it also holds references to views inside of the layout
          */
-        val tvTitle = itemView.tvTermItemTitle
-        val tvInfo = itemView.tvTermItemInfo
-        val tvDate = itemView.tvTermItemDate
-        val tvTime = itemView.tvTermItemTime
+        val tvTitle: TextView = itemView.tvTermItemTitle
+        val tvInfo: TextView = itemView.tvTermItemInfo
+        val tvDate: TextView = itemView.tvTermItemDate
+        val tvTime: TextView = itemView.tvTermItemTime
         //var myView = itemView
     }
 

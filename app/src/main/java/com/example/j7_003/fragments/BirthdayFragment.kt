@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,7 @@ class BirthdayFragment : Fragment() {
         var deletedBirthday: Birthday? = null
         lateinit var myAdapter: BirthdayAdapter
     }
+    @SuppressLint("InflateParams", "SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,7 +46,7 @@ class BirthdayFragment : Fragment() {
         val myRecycler = myView.recycler_view_birthday
 
         //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
-        myView.btnAddBirthday.setOnClickListener() {
+        myView.btnAddBirthday.setOnClickListener {
 
             //inflate the dialog with custom view
             val myDialogView =
@@ -60,6 +62,7 @@ class BirthdayFragment : Fragment() {
             val npDay = myDialogView.npDay
             npDay.minValue = 1
             npDay.maxValue = 31
+
             val npReminder = myDialogView.npReminder
             npReminder.minValue = 0
             npReminder.maxValue = 30
@@ -85,7 +88,7 @@ class BirthdayFragment : Fragment() {
 
 
             //button to confirm adding of birthday
-            myDialogView.btnConfirmBirthday.setOnClickListener(){
+            myDialogView.btnConfirmBirthday.setOnClickListener {
                 val name = nameField.text.toString()
                 if(name.isEmpty()){
                     Toast.makeText(MainActivity.myActivity, "Can't create an empty birthday!", Toast.LENGTH_SHORT).show()
@@ -102,19 +105,18 @@ class BirthdayFragment : Fragment() {
             nameField.requestFocus()
         }
 
+        //initialize recyclerview and adapter
         myAdapter = BirthdayAdapter()
-
         myRecycler.adapter = myAdapter
-
         myRecycler.layoutManager = LinearLayoutManager(activity)
+        myRecycler.setHasFixedSize(true)
 
+        //initialize and attach swipe helpers
         val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDelete(myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
         val swipeHelperRight = ItemTouchHelper(SwipeRightToDelete(myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
-
-        myRecycler.setHasFixedSize(true)
 
         return myView
     }
@@ -127,15 +129,14 @@ class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCal
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
-            return 0
+        return if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
+            0
         }else{
-            return super.getSwipeDirs(recyclerView, viewHolder)
+            super.getSwipeDirs(recyclerView, viewHolder)
         }
 
     }
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = adapter.deleteItem(viewHolder)
-
 }
 
 class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
@@ -143,20 +144,18 @@ class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCall
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
-            return 0
+        return if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
+            0
         }else{
-            return super.getSwipeDirs(recyclerView, viewHolder)
+            super.getSwipeDirs(recyclerView, viewHolder)
         }
-
     }
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = adapter.deleteItem(viewHolder)
-
 }
 
-class BirthdayAdapter() :
+class BirthdayAdapter :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder){
@@ -173,7 +172,7 @@ class BirthdayAdapter() :
         return BirthdayViewHolder(itemView)
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
         val currentBirthday = Database.getBirthday(position)
@@ -196,13 +195,11 @@ class BirthdayAdapter() :
             holder.tvMonthLabel.textSize = 20F
             holder.tvMonthLabel.text = ""
             holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
-            holder.itemView.setOnClickListener() {
-
+            holder.itemView.setOnClickListener {
 
                 //inflate the dialog with custom view
                 val myDialogView =
                     LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
-
 
                 //configuring number pickers
                 val npMonth = myDialogView.npMonth
@@ -253,23 +250,19 @@ class BirthdayAdapter() :
                 myAlertDialog?.show()
 
                 //button to confirm editing of birthday
-                myDialogView.btnConfirmBirthday.setOnClickListener(){
+                myDialogView.btnConfirmBirthday.setOnClickListener {
 
                     val name = etName.text.toString()
                     val day = npDay.value
                     val month = npMonth.value
                     val reminderPeriod = npReminder.value
                     Database.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition)
-
-
-
-                    notifyDataSetChanged()
+                    notifyItemChanged(position)
                     myAlertDialog?.dismiss()
                 }
 
                 etName.requestFocus()
                 etName.setSelection(etName.text.length)
-
             }
 
             //formatting date
@@ -284,12 +277,13 @@ class BirthdayAdapter() :
                         monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
 
             if(LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day){
-                holder.myConstr.setBackgroundResource(R.drawable.round_corner_winered)
+                holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_winered)
             }
             else{
-                holder.myConstr.setBackgroundResource(R.drawable.round_corner_gray)
+                holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_gray)
             }
 
+            //display bell if birthday has a reminder
             if(currentBirthday.hasReminder()) {
                 holder.iconBell.visibility = View.VISIBLE
             }else{
@@ -310,8 +304,8 @@ class BirthdayAdapter() :
         val txvBirthdayLabelName: TextView = itemView.txvBirthdayLabelName
         val iconBell: ImageView = itemView.icon_bell
         val myView: View = itemView
-        val tvMonthLabel = itemView.tvMonthLabel
-        val myConstr = itemView.constr
+        val tvMonthLabel: TextView = itemView.tvMonthLabel
+        val myConstraintLayout: ConstraintLayout = itemView.constr
     }
 
 }

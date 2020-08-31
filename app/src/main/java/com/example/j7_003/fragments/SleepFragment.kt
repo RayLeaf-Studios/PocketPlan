@@ -1,8 +1,7 @@
 package com.example.j7_003.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.SleepReminder
@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.dialog_pick_time.view.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.DayOfWeek
-import org.threeten.bp.LocalTime
 
 /**
  * A simple [Fragment] subclass.
@@ -113,6 +112,7 @@ class SleepFragment : Fragment() {
         updateCustomCheckBoxes()
     }
 
+    @SuppressLint("SetTextI18n", "InflateParams")
     private fun initializeCustomDaysDisplay(v: View){
         /**
          * initialize lists of  custom panels, custom checkboxes, custom wake time text views and
@@ -176,7 +176,7 @@ class SleepFragment : Fragment() {
                 myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
                 myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
 
-                myDialogView.btnApplyTime.setOnClickListener() {
+                myDialogView.btnApplyTime.setOnClickListener {
                     SleepReminder.editDurationAtDay(
                         DayOfWeek.values()[i],
                         myDialogView.npHour.value,
@@ -224,7 +224,7 @@ class SleepFragment : Fragment() {
                 val myAlertDialog = myBuilder.create()
                 myAlertDialog.show()
 
-                myDialogView.btnApplyTime.setOnClickListener() {
+                myDialogView.btnApplyTime.setOnClickListener {
                     SleepReminder.editWakeUpAtDay(
                         DayOfWeek.values()[i],
                         myDialogView.npHour.value,
@@ -238,6 +238,7 @@ class SleepFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n", "InflateParams")
     private fun initializeRegularDayDisplay(v: View){
         /**
          * initialize lists of regular checkboxes, text view for regular wake time, and text view

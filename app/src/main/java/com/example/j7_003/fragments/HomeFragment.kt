@@ -1,11 +1,13 @@
 package com.example.j7_003.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -19,10 +21,7 @@ import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
-import kotlinx.android.synthetic.main.fragment_daypager.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.fragment_shopping.view.*
-import kotlinx.android.synthetic.main.row_term.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
 import kotlinx.android.synthetic.main.row_term_day.view.*
@@ -87,12 +86,13 @@ class HomeFragment : Fragment() {
     }
 
     //Sets the text of tvTasks to the titles of the first 3 important tasks
+    @SuppressLint("SetTextI18n")
     private fun updateTaskPanel() {
         var p1TaskCounter = 0
         val taskList = Database.taskList
 
         //sets p1TaskCounter to amount of Tasks with priority 1
-        for (i in 0..taskList.size - 1) {
+        for (i in 0 until taskList.size) {
             if (taskList[i].priority > 1 || taskList[i].isChecked) {
                 break
             }
@@ -148,7 +148,7 @@ class HomeFragment : Fragment() {
         //displays "+ (additionalTasks) more" if there are more than 3 important tasks
         val additionalTasks = p1TaskCounter - displayTaskCount
         if (additionalTasks != 0) {
-            taskPanelText += "   + " + additionalTasks + " more\n"
+            taskPanelText += "   + $additionalTasks more\n"
         }
 
         //sets the testViews text to taskPanelText
@@ -156,6 +156,7 @@ class HomeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateBirthdayPanel(){
         val birthdaysToday = Database.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
@@ -190,8 +191,8 @@ class HomeFragment : Fragment() {
             )
         }
         var birthdayText = "\n"
-        for (i in 0 .. birthdaysToDisplay-1){
-            birthdayText += "   "+birthdaysToday.get(i).name+"\n"
+        for (i in 0 until birthdaysToDisplay){
+            birthdayText += "   "+ birthdaysToday[i].name+"\n"
         }
         val excess = birthdaysToday.size - birthdaysToDisplay
         if(excess > 0){
@@ -250,7 +251,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun createTaskFromHome(){
+    @SuppressLint("InflateParams")
+    private fun createTaskFromHome(){
         //inflate the dialog with custom view
         val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_task, null)
 
@@ -289,7 +291,7 @@ class HomeFragment : Fragment() {
 }
 
 
-class HomeTermAdapterDay() :
+class HomeTermAdapterDay :
     RecyclerView.Adapter<HomeTermAdapterDay.HomeTermViewHolderDay>() {
 
     private lateinit var daylist: ArrayList<CalendarAppointment>
@@ -307,7 +309,7 @@ class HomeTermAdapterDay() :
 
         val currentTerm = daylist[position]
 
-        holder.itemView.setOnClickListener() {
+        holder.itemView.setOnClickListener {
             //todo start CreateTermFragment in EDIT mode
 //            MainActivity.myActivity.changeToDayView()
         }
@@ -316,7 +318,7 @@ class HomeTermAdapterDay() :
         holder.tvInfo.text = currentTerm.addInfo
 
         //hides end time of a term if its identical to start time
-        if(currentTerm.startTime.equals(currentTerm.eTime)){
+        if(currentTerm.startTime == currentTerm.eTime){
             holder.tvStartTime.text = currentTerm.startTime.toString()
             holder.tvEndTime.text = ""
             holder.tvDashUntil.visibility = View.INVISIBLE
@@ -335,11 +337,11 @@ class HomeTermAdapterDay() :
          * One instance of this class will contain one "instance" of row_term_day and meta data
          * like position, it also holds references to views inside of the layout
          */
-        val tvTitle = itemView.tvTermItemTitle
-        val tvInfo = itemView.tvTermItemInfo
-        val tvStartTime = itemView.tvTermItemStartTime
-        val tvEndTime = itemView.tvTermItemEndTime
-        val tvDashUntil = itemView.tvDashUntil
+        val tvTitle: TextView = itemView.tvTermItemTitle
+        val tvInfo: TextView = itemView.tvTermItemInfo
+        val tvStartTime: TextView = itemView.tvTermItemStartTime
+        val tvEndTime: TextView = itemView.tvTermItemEndTime
+        val tvDashUntil: TextView = itemView.tvDashUntil
     }
 
 }

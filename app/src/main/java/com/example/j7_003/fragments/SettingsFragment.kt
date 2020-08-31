@@ -1,7 +1,6 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Switch
+import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import kotlinx.android.synthetic.main.fragment_add_item.view.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 /**
@@ -20,8 +19,8 @@ import kotlinx.android.synthetic.main.fragment_settings.view.*
 class SettingsFragment : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
-    lateinit var spDefaultCategories: Spinner
-    lateinit var swExpandOneCategory: Switch
+    private lateinit var spDefaultCategories: Spinner
+    private lateinit var swExpandOneCategory: Switch
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +74,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun initializeListeners(){
+        //Listener for note line amount spinner
         spNoteLines.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val value = spNoteLines.selectedItem as String
@@ -84,6 +84,8 @@ class SettingsFragment : Fragment() {
 
             }
         }
+
+        //Listener for note column amount spinner
         spNoteColumns.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val value = spNoteColumns.selectedItem as String
@@ -94,6 +96,8 @@ class SettingsFragment : Fragment() {
 
             }
         }
+
+        //Listener for category default display (hidden/expanded) spinner
         spDefaultCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val expanded = when(spNoteColumns.selectedItem as String){
@@ -108,6 +112,8 @@ class SettingsFragment : Fragment() {
 
             }
         }
+
+        //Switch for only showing one category as expanded
         swExpandOneCategory.setOnClickListener{
             //TODO save swExpandOneCategory.isChecked to SettingsManager as Boolean
         }

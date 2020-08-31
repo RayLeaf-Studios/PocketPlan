@@ -1,5 +1,6 @@
 package com.example.j7_003.fragments
 
+import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -73,7 +74,7 @@ class TodoFragment : Fragment() {
          * Adding Task via floating action button
          * Onclick-Listener opening the add-task dialog
          */
-        myView.btnAddTodoTask.setOnClickListener() {
+        myView.btnAddTodoTask.setOnClickListener {
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
 
@@ -156,7 +157,7 @@ class SwipeLeftToDeleteT(private var adapter: TodoTaskAdapter):
     }
 }
 
-class TodoTaskAdapter() :
+class TodoTaskAdapter :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){   
 
     fun deleteItem(position: Int){
@@ -174,6 +175,7 @@ class TodoTaskAdapter() :
     }
 
 
+    @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
         val currentTask = Database.getTask(holder.adapterPosition)
@@ -204,7 +206,7 @@ class TodoTaskAdapter() :
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        holder.itemView.task_title_textview.setOnClickListener(){
+        holder.itemView.task_title_textview.setOnClickListener {
 
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
