@@ -75,7 +75,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      */
     fun removeItem(tagPosition: Int, sublistPosition: Int): ShoppingItem? {
         return try {    // trying to remove the item, save the list and return the removed element
-            val removedItem = this[tagPosition].second.removeAt(sublistPosition)
+            val removedItem = this[tagPosition].second.removeAt(sublistPosition + 1)
             if (this[tagPosition].second.isEmpty()) {   // removing the sublist if it is empty
                 super.removeAt(tagPosition)
             }
