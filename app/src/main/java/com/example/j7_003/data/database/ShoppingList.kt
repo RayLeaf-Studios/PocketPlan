@@ -1,5 +1,6 @@
 package com.example.j7_003.data.database
 
+import android.util.Log
 import com.example.j7_003.data.database.database_objects.ShoppingItem
 import com.example.j7_003.data.database.database_objects.Tag
 import com.example.j7_003.system_interaction.handler.StorageHandler
@@ -53,7 +54,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     /**
      * This method checks if the given sublist should expanded, if the given sublist doesn't
      * exist an exception is thrown.
-     * @param tag The tag to be checked.
+     * @param position The The position of the tag.
      * @throws NullPointerException If there is no such tag inside the list.
      */
     fun isTagExpanded(position: Int): Boolean {      // TODO durch tag oder position suchen?
@@ -63,7 +64,6 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
        }catch(e: NullPointerException){
            false
        }
-
     }
 
     fun flipExpansionState(position: Int): Boolean {
@@ -120,14 +120,16 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         var sublistGotDeleted = false
 
         return try {    // trying to remove the item, save the list and return the removed element
-            this.forEach { e ->
-                if (e.first == tag) {
-                    removedItem = e.second.removeAt(sublistPosition + 1)
-                }
+            for (i in 0 until this.size) {
 
-                if (e.second.size==1) {   // removing the sublist if it is empty
-                    super.remove(e)
-                    sublistGotDeleted = true
+                if (this[i].first == tag) {
+                    removedItem = this[i].second.removeAt(sublistPosition + 1)
+                    if (this[i].second.size==1) {   // removing the sublist if it is empty
+                        super.remove(this[i])
+                        sublistGotDeleted = true
+                    }
+
+                    break
                 }
             }
 

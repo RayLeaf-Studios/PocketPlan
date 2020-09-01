@@ -4,6 +4,7 @@ Important tasks:
     - finalize shopping module
     - live update sleep-reminder time (in home panel)
     - implement setting for full note content (loading, saving and applying)
+    - dropdown menus into dark-mode
 
 Random tasks:
     - birthday undo insert animation
