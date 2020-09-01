@@ -84,6 +84,17 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         }
         return 0
     }
+
+    fun getUncheckedSize(position: Int): Int {
+        var counter: Int = 0
+        for (i in 1 until this[position].second.size) {
+            if (!this[position].second[i].checked) {
+                counter++
+            }
+        }
+        return counter
+    }
+
     fun getItem(tag: Tag, subPosition: Int): ShoppingItem? {
         this.forEach{
             if(it.first == tag){
