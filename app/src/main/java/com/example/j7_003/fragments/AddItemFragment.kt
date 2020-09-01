@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.database.ItemTemplateList
+import com.example.j7_003.data.database.ShoppingList
+import com.example.j7_003.data.database.database_objects.ShoppingItem
 import kotlinx.android.synthetic.main.fragment_add_item.view.*
 
 class AddItemFragment : Fragment() {
@@ -140,11 +143,25 @@ class AddItemFragment : Fragment() {
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mySpinner.adapter = myAdapter
 
+        //initialize edit text for item amount string
+        val etItemAmount = myView.etItemAmount
+
 
         //Button to Confirm adding Item to list
         myView.btnAddItemToList.setOnClickListener {
             //TODO read values from name(autoText), amount textvield and unit spinner, then add item
+            val shoppingInstance = ShoppingList()
+            val listInstance = ItemTemplateList()
 
+            val template = listInstance.getTemplateByName(autoCompleteTv.text.toString())
+            if(template!=null){
+                val item = ShoppingItem(
+                    template.name, template.category,
+                    template.suggestedUnit, etItemAmount.text.toString(), mySpinner.selectedItem.toString(), false)
+                shoppingInstance.add(item)
+            }else{
+                //TODO Handle unknown item
+            }
             MainActivity.myActivity.changeToShopping()
         }
     }

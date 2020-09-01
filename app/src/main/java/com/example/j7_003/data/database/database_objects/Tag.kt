@@ -2,16 +2,16 @@ package com.example.j7_003.data.database.database_objects
 
 import java.util.*
 
-data class Tag(val n: String, val c: String) {
+data class Tag(val name: String, val color: String) {
     override fun equals(other: Any?): Boolean {
         if (other !is Tag) {
             return false
         }
 
-        return this.n.toLowerCase(Locale.ROOT) == other.n.toLowerCase(Locale.ROOT)
+        return this.name.toLowerCase(Locale.ROOT) == other.name.toLowerCase(Locale.ROOT)
     }
 
     override fun hashCode(): Int {
-        return n.hashCode()
+        return name.hashCode()
     }
 }

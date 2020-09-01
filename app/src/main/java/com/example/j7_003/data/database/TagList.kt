@@ -14,6 +14,7 @@ class TagList : ArrayList<Tag>() {
     private fun loadFromStaticList() {
         val jsonString = mainContext.assets.open("Tags.json").bufferedReader().readText()
 
+        //todo this throws error when adding item due to wrong json?!?!
         this.addAll(GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<ArrayList<Tag>>() {}.type))
     }

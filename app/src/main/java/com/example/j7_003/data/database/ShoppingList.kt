@@ -55,14 +55,43 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag The tag to be checked.
      * @throws NullPointerException If there is no such tag inside the list.
      */
-    fun isTagExpanded(tag: Tag): Boolean {      // TODO durch tag oder position suchen?
-        this.forEach { e ->
-            if (e.first == tag) {
-                return e.second[0].checked
+    fun isTagExpanded(position: Int): Boolean {      // TODO durch tag oder position suchen?
+
+       return try{
+           this[position].second[0].checked
+       }catch(e: NullPointerException){
+           false
+       }
+
+    }
+
+    fun flipExpansionState(position: Int): Boolean {
+        return try{
+            this[position].second[0].checked = !this[position].second[0].checked
+            true
+        }catch(e: NullPointerException){
+            false
+        }
+    }
+
+
+    //TODO optimize folling two functions
+    fun getSublistLength(tag: Tag): Int{
+        this.forEach {
+            if(it.first == tag){
+                return it.second.size - 1
             }
         }
+        return 0
+    }
+    fun getItem(tag: Tag, subPosition: Int): ShoppingItem? {
+        this.forEach{
+            if(it.first == tag){
+                return it.second[subPosition+1]
+            }
 
-        throw NullPointerException("there's no such tag in the list")
+        }
+        return null
     }
 
     /**
