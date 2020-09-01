@@ -30,6 +30,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
             if (e.first == element.tag) {   // add element to tags sublist and save to file
                 e.second.add(element)
                 save()
+                return
             }
         }
 
@@ -112,9 +113,11 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tagPosition The position of the sublist.
      * @param sublistPosition The position of the item inside the sublist.
      * @return The removed item is returned if the removal succeeded, null otherwise.
+     * also a boolean is returned, stating if the containing sublist was deleted or not.
      */
-    fun removeItem(tag: Tag, sublistPosition: Int): ShoppingItem? {
+    fun removeItem(tag: Tag, sublistPosition: Int): Pair<ShoppingItem?, Boolean> {
         var removedItem: ShoppingItem? = null
+        var sublistGotDeleted = false
 
         return try {    // trying to remove the item, save the list and return the removed element
             this.forEach { e ->
@@ -122,15 +125,16 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
                     removedItem = e.second.removeAt(sublistPosition + 1)
                 }
 
-                if (e.second.isEmpty()) {   // removing the sublist if it is empty
+                if (e.second.size==1) {   // removing the sublist if it is empty
                     super.remove(e)
+                    sublistGotDeleted = true
                 }
             }
 
             save()
-            removedItem
+            Pair(removedItem, sublistGotDeleted)
         } catch (e: NullPointerException) {
-            null
+            Pair(null, sublistGotDeleted)
         }
     }
 

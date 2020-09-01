@@ -22,8 +22,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="units">
         <item>x</item>
-        <item>g</item>
         <item>kg</item>
+        <item>g</item>
         <item>L</item>
         <item>ml</item>
     </string-array>

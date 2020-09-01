@@ -11,6 +11,7 @@ import com.example.j7_003.R
 import com.example.j7_003.data.database.ItemTemplateList
 import com.example.j7_003.data.database.ShoppingList
 import com.example.j7_003.data.database.database_objects.ShoppingItem
+import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.view.*
 
 class AddItemFragment : Fragment() {
@@ -33,108 +34,51 @@ class AddItemFragment : Fragment() {
 
     private fun initializeComponents(myView: View){
 
-        //TODO remove this and replace it with proper connection to database
-        val items = arrayOf(
-            "Ananas",
-            "Apfel",
-            "Aprikose",
-            "Artischocke",
-            "Aubergine",
-            "Avocado",
-            "Bohnen",
-            "Blaukraut",
-            "Banane ",
-            "Birne ",
-            "Blumenkohl",
-            "Brokkoli",
-            "Brombeere",
-            "Chili",
-            "Chinakohl",
-            "Champignon ",
-            "Cranberries",
-            "Drillinge ",
-            "Datteln",
-            "Eissalat",
-            "Erbsen",
-            "Erdbeeren",
-            "Feige ",
-            "Feldsalat ",
-            "Grünkohl",
-            "Grapefruit ",
-            "Granatapfel",
-            "Guave",
-            "Gurke",
-            "Hagebutte ",
-            "Honigmelone ",
-            "Heidelbeere ",
-            "Himbeere",
-            "Holunderbeere",
-            "Ingwer ",
-            "Johannisbeere",
-            "Kokosnuss ",
-            "Kaki",
-            "Kartoffeln",
-            "Kürbis ",
-            "Kohlrabi",
-            "Kirsche ",
-            "Knoblauch",
-            "Kiwi ",
-            "Lauch",
-            "Limette ",
-            "Litschi ",
-            "Mais",
-            "Maronen ",
-            "Maracuja ",
-            "Mandarine ",
-            "Mango ",
-            "Melone ",
-            "Mirabelle ",
-            "Nektarine ",
-            "Orange",
-            "Olive ",
-            "Papaya",
-            "Paprika",
-            "Pastinaken",
-            "Peperoni",
-            "Passionsfrucht",
-            "Pfirsich ",
-            "Pflaume ",
-            "Physalis ",
-            "Pilze",
-            "Preiselbeeren ",
-            "Pomelo ",
-            "Quitte ",
-            "Radieschen",
-            "Rucola ",
-            "Rhabarber ",
-            "Rosenkohl",
-            "Rote Beete ",
-            "Rotkohl",
-            "Salat",
-            "Schnittlauch ",
-            "Sauerkraut ",
-            "Sprossen ",
-            "Sanddorn ",
-            "Schwarzwurzel",
-            "Sellerie",
-            "Spargel",
-            "Spinat",
-            "Stachelbeere",
-            "Steckrübe",
-            "Süßkartoffel ",
-            "Tomate",
-            "Weintraube",
-            "Weißkohl",
-            "Wirsing",
-            "Zitrone",
-            "Zucchini",
-            "Zwetschge",
-            "Zwiebel")
 
+        val tvCategoryField = myView.tvCategoryField
+        tvCategoryField.text = ""
+
+        val itemNameList: ArrayList<String> = ArrayList()
+        val itemTemplateList = ItemTemplateList()
+        itemTemplateList.forEach{
+            itemNameList.add(it.name)
+        }
+
+        //TODO remove this and replace it with proper connection to database
         //Initialize autocomplete text view for item name and its adapter
         val autoCompleteTv = myView.actvItem
-        val autoCompleteTvAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_spinner_dropdown_item, items)
+        val autoCompleteTvAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_spinner_dropdown_item, itemNameList)
         autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+
+        val listInstance1 = ItemTemplateList()
+        autoCompleteTv.setOnItemClickListener { parent, view, position, id ->
+            val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
+            if(template!=null){
+                tvCategoryField.text = template.category.n
+                val unitPointPos = when(template.suggestedUnit){
+                    "kg" -> 1
+                    "g" -> 2
+                    "L" -> 3
+                    "ml" -> 4
+                    else -> 0
+                }
+                spItemUnit.setSelection(unitPointPos)
+            }
+            else{
+                tvCategoryField.text = ""
+            }
+        }
+
+        autoCompleteTv.setOnKeyListener { v, keyCode, event ->
+            val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
+            if(template!=null){
+                tvCategoryField.text = template.category.n
+            }
+            else{
+                tvCategoryField.text = ""
+            }
+            true
+        }
 
 
         //Initialize spinner and its adapter to choose its Unit
@@ -145,6 +89,10 @@ class AddItemFragment : Fragment() {
 
         //initialize edit text for item amount string
         val etItemAmount = myView.etItemAmount
+        etItemAmount.setText("1")
+        etItemAmount.setOnClickListener {
+            etItemAmount.setText("")
+        }
 
 
         //Button to Confirm adding Item to list

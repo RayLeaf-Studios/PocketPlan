@@ -92,19 +92,18 @@
         android:background="@drawable/corner_input"
         app:layout_constraintStart_toEndOf="@id/etItemAmount"
         app:layout_constraintTop_toTopOf="@+id/etItemAmount" />
+
     <Button
         android:id="@+id/btnAddItemToList"
         android:layout_width="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="ADD"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:background="@drawable/round_corner_accent"
-        android:layout_height="wrap_content">
+        android:text="ADD"
+        app:layout_constraintTop_toBottomOf="@+id/spItemUnit"
+        tools:layout_editor_absoluteX="30dp">
 
     </Button>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

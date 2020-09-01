@@ -1,5 +1,7 @@
 package com.example.j7_003.fragments
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
@@ -28,14 +31,15 @@ class ShoppingFragment : Fragment() {
     companion object{
         //TODO uncomment this
 //        var deletedItem: Item? = null
-        lateinit var shoppingHandler: ShoppingList
+        lateinit var shoppingListInstance: ShoppingList
+        lateinit var shoppingListAdapter: ShoppingListAdapater
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        shoppingHandler = ShoppingList()
+        shoppingListInstance = ShoppingList()
 
 
         //TODO add button to empty the entire list
@@ -50,11 +54,11 @@ class ShoppingFragment : Fragment() {
 
         //Initialize references to recycler and its adapter
         val myRecycler = myView.recycler_view_shopping
-        val myAdapter = CategoryAdapter()
+        shoppingListAdapter = ShoppingListAdapater()
 
 
         //attach adapter to recycler and initialize parameters of recycler
-        myRecycler.adapter = myAdapter
+        myRecycler.adapter = shoppingListAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
 
@@ -63,8 +67,8 @@ class ShoppingFragment : Fragment() {
 
 }
 
-class CategoryAdapter :
-    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>(){
+class ShoppingListAdapater :
+    RecyclerView.Adapter<ShoppingListAdapater.CategoryViewHolder>(){
     fun deleteItem(position: Int){
         //TODO decide if entire categories should be allowed to be deleted
 //        NoteFragment.deletedNote = Database.getNote(position)
@@ -81,37 +85,47 @@ class CategoryAdapter :
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         //TODO REPLACE THIS CONDITION WITH DATABASE ACCESS (EXPANSION OF position-th sublist)
-        if(ShoppingFragment.shoppingHandler.isTagExpanded(position)){
+        val numberOfItems = ShoppingFragment.shoppingListInstance.getUncheckedSize(position)
+
+        if(ShoppingFragment.shoppingListInstance.isTagExpanded(position)){
             holder.subRecyclerView.visibility = View.VISIBLE
         }else{
             holder.subRecyclerView.visibility = View.GONE
         }
 
         //TODO REPLACE THIS WITH DATABASE ACCESS (TITLE OF position-th sublist)
-        holder.tvCategoryName.text = ShoppingFragment.shoppingHandler[position].first.n
+        holder.tvCategoryName.text = numberOfItems.toString() + " " + ShoppingFragment.shoppingListInstance[position].first.n
+
 
         //TODO REPLACE THIS WITH SOMEHOW SHOWING COLOR OF CATEGORY
-        holder.cvCategory.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorBirthdayLabel))
+        holder.cvCategory.setCardBackgroundColor(Color.parseColor(ShoppingFragment.shoppingListInstance[position].first.c))
 
         //Setting adapter for this sublist
-        val subAdapter = ItemAdapter(ShoppingFragment.shoppingHandler[position].first)
+        val subAdapter = SublistAdapter(ShoppingFragment.shoppingListInstance[position].first, position)
         holder.subRecyclerView.adapter = subAdapter
         holder.subRecyclerView.layoutManager = LinearLayoutManager(MainActivity.myActivity)
         holder.subRecyclerView.setHasFixedSize(true)
 
+        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteI(subAdapter))
+        swipeHelperLeft.attachToRecyclerView(holder.subRecyclerView)
+
+        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteI(subAdapter))
+        swipeHelperRight.attachToRecyclerView(holder.subRecyclerView)
+
         //Onclick reaction to expand / contract this sublist
         holder.cvCategory.setOnClickListener {
             //TODO REPLACE THIS WITH DATABASE ACCESS
-            ShoppingFragment.shoppingHandler.flipExpansionState(position)
+            ShoppingFragment.shoppingListInstance.flipExpansionState(position)
             notifyItemChanged(position)
         }
 
     }
 
     //TODO replace this with database access, get amount of sublists
-    override fun getItemCount() = ShoppingFragment.shoppingHandler.size
+    override fun getItemCount() = ShoppingFragment.shoppingListInstance.size
 
     //one instance of this class will contain one instance of row_category and meta data like position
     //also holds references to views inside the layout
@@ -123,16 +137,26 @@ class CategoryAdapter :
     }
 
 }
-class ItemAdapter(tag: Tag) :
-    RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
+class SublistAdapter(tag: Tag, categoryPosition: Int) :
+    RecyclerView.Adapter<SublistAdapter.ItemViewHolder>(){
     private val myTag = tag
+    private val superPosition = categoryPosition
 
     fun deleteItem(position: Int){
-        //TODO replace following line with saving the deleted item
+
+        val feedback = ShoppingFragment.shoppingListInstance.removeItem(myTag, position)
+
+        //TODO replace following line with saving the deleted item (feedback.first)
         //NoteFragment.deletedNote = Database.getNote(position)
 
-        //TODO replace following line with deleting item in database, and saving feedback for the cases in following todo
-        //Database.deleteNote(position)
+        if(feedback.second){
+            MainActivity.myActivity.titleDebug("second is true")
+            ShoppingFragment.shoppingListAdapter.notifyItemRemoved(superPosition)
+        }else{
+            MainActivity.myActivity.titleDebug("second is false")
+            ShoppingFragment.shoppingListAdapter.notifyItemChanged(superPosition)
+        }
+
 
         //TODO handle deletion of Item
         //If item was last unchecked item and there are more checked items => sublist moves => notify move (sublist contracts?)
@@ -152,14 +176,18 @@ class ItemAdapter(tag: Tag) :
 
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.tvItemTitle.text = ShoppingFragment.shoppingHandler.getItem(myTag, position)!!.name
+        val item = ShoppingFragment.shoppingListInstance.getItem(myTag, position)!!
+        holder.tvItemTitle.text = item.amount + item.unit + " " + item.name
         holder.clItemTapfield.setOnClickListener {
+
             //Todo manage checking item
         }
+
     }
 
-    override fun getItemCount() = ShoppingFragment.shoppingHandler.getSublistLength(myTag)
+    override fun getItemCount() = ShoppingFragment.shoppingListInstance.getSublistLength(myTag)
 
     //one instance of this class will contain one instance of row_item and meta data like position
     //also holds references to views inside the layout
@@ -170,4 +198,29 @@ class ItemAdapter(tag: Tag) :
         var clItemTapfield: ConstraintLayout = itemView.clItemTapfield
     }
 
+}
+class SwipeRightToDeleteI(var adapter: SublistAdapter):
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+        //Todo update undo delete icon?
+    }
+}
+
+class SwipeLeftToDeleteI(private var adapter: SublistAdapter):
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        val position = viewHolder.adapterPosition
+        adapter.deleteItem(position)
+        //Todo update undo delete icon?
+    }
 }
