@@ -113,12 +113,20 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param sublistPosition The position of the item inside the sublist.
      * @return The removed item is returned if the removal succeeded, null otherwise.
      */
-    fun removeItem(tagPosition: Int, sublistPosition: Int): ShoppingItem? {
+    fun removeItem(tag: Tag, sublistPosition: Int): ShoppingItem? {
+        var removedItem: ShoppingItem? = null
+
         return try {    // trying to remove the item, save the list and return the removed element
-            val removedItem = this[tagPosition].second.removeAt(sublistPosition + 1)
-            if (this[tagPosition].second.isEmpty()) {   // removing the sublist if it is empty
-                super.removeAt(tagPosition)
+            this.forEach { e ->
+                if (e.first == tag) {
+                    removedItem = e.second.removeAt(sublistPosition + 1)
+                }
+
+                if (e.second.isEmpty()) {   // removing the sublist if it is empty
+                    super.remove(e)
+                }
             }
+
             save()
             removedItem
         } catch (e: NullPointerException) {
