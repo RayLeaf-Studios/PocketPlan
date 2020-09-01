@@ -90,7 +90,7 @@ class CategoryAdapter :
         }
 
         //TODO REPLACE THIS WITH DATABASE ACCESS (TITLE OF position-th sublist)
-        holder.tvCategoryName.text = ShoppingFragment.shoppingHandler[position].first.name
+        holder.tvCategoryName.text = ShoppingFragment.shoppingHandler[position].first.n
 
         //TODO REPLACE THIS WITH SOMEHOW SHOWING COLOR OF CATEGORY
         holder.cvCategory.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorBirthdayLabel))

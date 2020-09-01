@@ -3,12 +3,24 @@ package com.example.j7_003.data.database
 import com.example.j7_003.data.database.database_objects.Tag
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import java.util.*
+import kotlin.collections.ArrayList
 import com.example.j7_003.MainActivity.Companion.myActivity as mainContext
 
 class TagList : ArrayList<Tag>() {
 
     init {
         loadFromStaticList()
+    }
+
+    fun getTagByName(name: String): Tag? {
+        this.forEach { e ->
+            if (e.n.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
+                return e
+            }
+        }
+
+        return null
     }
 
     private fun loadFromStaticList() {
