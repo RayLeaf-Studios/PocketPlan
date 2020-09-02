@@ -21,6 +21,7 @@ import com.example.j7_003.data.database.database_objects.Tag
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
+import kotlin.random.Random
 
 
 /**
@@ -79,6 +80,7 @@ class ShoppingListAdapater :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_category, parent, false)
+        MainActivity.myActivity.titleDebug("called"+ Random.nextInt())
         return CategoryViewHolder(itemView)
     }
 
@@ -86,29 +88,38 @@ class ShoppingListAdapater :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        //TODO REPLACE THIS CONDITION WITH DATABASE ACCESS (EXPANSION OF position-th sublist)
-        val numberOfItems = ShoppingFragment.shoppingListInstance.getUncheckedSize(position)
 
-        if(ShoppingFragment.shoppingListInstance.isTagExpanded(position)){
-            holder.subRecyclerView.visibility = View.VISIBLE
-        }else{
-            holder.subRecyclerView.visibility = View.GONE
+        //Get reference to currently used shopping list instance
+        val shoppingListInstance = ShoppingFragment.shoppingListInstance
+
+        //get Tag for current category element
+        val tag = shoppingListInstance[position].first
+
+        //set tag for view holder
+        holder.tag = tag
+
+       //get Number of unchecked items
+        val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
+
+        //Expand or contract recyclerview depending on its expansion state
+        holder.subRecyclerView.visibility = when(shoppingListInstance.isTagExpanded(tag)){
+            true -> View.VISIBLE
+            false -> View.GONE
         }
 
-        //TODO REPLACE THIS WITH DATABASE ACCESS (TITLE OF position-th sublist)
-        holder.tvCategoryName.text = numberOfItems.toString() + " " + ShoppingFragment.shoppingListInstance[position].first.n
+        //Sets Text to Number of items in sublist + name of category of sublist
+        holder.tvCategoryName.text = numberOfItems.toString() + " " + tag.n
 
-
-        //TODO REPLACE THIS WITH SOMEHOW SHOWING COLOR OF CATEGORY
-        holder.cvCategory.setCardBackgroundColor(Color.parseColor(ShoppingFragment.shoppingListInstance[position].first.c))
+        //Sets background color of sublist according to the tag
+        holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
 
         //Setting adapter for this sublist
-        val subAdapter = SublistAdapter(ShoppingFragment.shoppingListInstance[position].first)
-
+        val subAdapter = SublistAdapter(tag)
         holder.subRecyclerView.adapter = subAdapter
         holder.subRecyclerView.layoutManager = LinearLayoutManager(MainActivity.myActivity)
         holder.subRecyclerView.setHasFixedSize(true)
 
+        //Initialize and attach swipe helpers
         val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteI())
         swipeHelperLeft.attachToRecyclerView(holder.subRecyclerView)
 
@@ -117,20 +128,19 @@ class ShoppingListAdapater :
 
         //Onclick reaction to expand / contract this sublist
         holder.cvCategory.setOnClickListener {
-            //TODO REPLACE THIS WITH DATABASE ACCESS
-            ShoppingFragment.shoppingListInstance.flipExpansionState(holder.adapterPosition)
+            shoppingListInstance.flipExpansionState(holder.tag)
             notifyItemChanged(holder.adapterPosition)
         }
 
     }
 
-    //TODO replace this with database access, get amount of sublists
     override fun getItemCount() = ShoppingFragment.shoppingListInstance.size
 
     //one instance of this class will contain one instance of row_category and meta data like position
     //also holds references to views inside the layout
 
     class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        lateinit var tag: Tag
         val tvCategoryName: TextView = itemView.tvCategoryName
         var subRecyclerView: RecyclerView = itemView.subRecyclerView
         val cvCategory: CardView = itemView.cvCategory
@@ -139,32 +149,6 @@ class ShoppingListAdapater :
 }
 class SublistAdapter(private val tag: Tag) :
     RecyclerView.Adapter<SublistAdapter.ItemViewHolder>(){
-    fun deleteItem(position: Int){
-
-        val index = ShoppingFragment.shoppingListInstance.getTagIndex(tag)
-        val feedback = ShoppingFragment.shoppingListInstance.removeItem(tag, position)
-
-        //TODO replace following line with saving the deleted item (feedback.first)
-        //NoteFragment.deletedNote = Database.getNote(position)
-
-        if(feedback.second){
-//            ShoppingFragment.shoppingListAdapter.notifyItemRemoved(index)
-            ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
-        }else{
-//            ShoppingFragment.shoppingListAdapter.notifyItemChanged(index)
-            ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
-        }
-
-
-        //TODO handle deletion of Item
-        //If item was last unchecked item and there are more checked items => sublist moves => notify move (sublist contracts?)
-        //If item was last item in list => sublist gets removed => notify removed
-        //If neither of the upper cases: notify item removed in sublist
-
-        //TODO replace following line with updating undoItemIcon()
-        //MainActivity.myActivity.updateUndoNoteIcon()
-
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)

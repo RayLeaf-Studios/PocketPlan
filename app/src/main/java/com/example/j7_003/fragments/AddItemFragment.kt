@@ -96,7 +96,7 @@ class AddItemFragment : Fragment() {
         //initialize edit text for item amount string
         val etItemAmount = myView.etItemAmount
         etItemAmount.setText("1")
-        etItemAmount.setOnClickListener {
+        etItemAmount.setOnFocusChangeListener { v, hasFocus ->
             etItemAmount.setText("")
         }
 
