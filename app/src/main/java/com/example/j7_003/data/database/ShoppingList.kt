@@ -1,12 +1,11 @@
 package com.example.j7_003.data.database
 
-import android.util.Log
 import com.example.j7_003.data.database.database_objects.ShoppingItem
 import com.example.j7_003.data.database.database_objects.Tag
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.lang.NullPointerException
+import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
@@ -52,31 +51,36 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     }
 
     /**
-     * This method checks if the given sublist should expanded, if the given sublist doesn't
-     * exist an exception is thrown.
-     * @param position The The position of the tag.
-     * @throws NullPointerException If there is no such tag inside the list.
+     * This method checks if the given sublist should be expanded.
+     * @param tag The tag of the requested sublist.
      */
-    fun isTagExpanded(position: Int): Boolean {      // TODO durch tag oder position suchen?
-
+    fun isTagExpanded(tag: Tag): Boolean {
        return try{
-           this[position].second[0].checked
-       }catch(e: NullPointerException){
+           this[getTagIndex(tag)].second[0].checked
+       }catch(e: Exception){
            false
        }
     }
 
-    fun flipExpansionState(position: Int): Boolean {
-        return try{
-            this[position].second[0].checked = !this[position].second[0].checked
+    /**
+     * Flips the current expansion state markers checked boolean.
+     * @param tag The tag of the sublist to flip.
+     * @return True if the expansion state markers checked boolean is flipped, false otherwise.
+     */
+    fun flipExpansionState(tag: Tag): Boolean {
+        return try {
+            this[getTagIndex(tag)].second[0].checked = !this[getTagIndex(tag)].second[0].checked
             true
-        }catch(e: NullPointerException){
+        } catch(e: Exception) {
             false
         }
     }
 
-
-    //TODO optimize folling two functions
+    /**
+     * Tries to fetch the length of the sublist with given tag if the sublist exists.
+     * @param tag The tag the sublist is supposed to have.
+     * @return Either the size of the list or zero if it doesn't exist.
+     */
     fun getSublistLength(tag: Tag): Int{
         this.forEach {
             if(it.first == tag){
@@ -86,16 +90,27 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         return 0
     }
 
-    fun getUncheckedSize(position: Int): Int {
+    /**
+     * Retrieves the amount of unchecked items of a given sublist.
+     * @param tag The tag of the sublist which will be searched.
+     * @return The amount of unchecked items in the given tags sublist.
+     */
+    fun getUncheckedSize(tag: Tag): Int {
         var counter: Int = 0
-        for (i in 1 until this[position].second.size) {
-            if (!this[position].second[i].checked) {
+        for (i in 1 until this[getTagIndex(tag)].second.size) {
+            if (!this[getTagIndex(tag)].second[i].checked) {
                 counter++
             }
         }
         return counter
     }
 
+    /**
+     * Retrieves an item from a given tags sublist by position without deleting it.
+     * @param tag The tag of the needed sublist.
+     * @param subPosition The position of the requested item inside the sublist.
+     * @return If the item could be found it is returned, null otherwise.
+     */
     fun getItem(tag: Tag, subPosition: Int): ShoppingItem? {
         this.forEach{
             if(it.first == tag){
@@ -106,6 +121,12 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         return null
     }
 
+    /**
+     * Retrieves the index of a given tag inside this list.
+     * @param tag The requested tag to be searched.
+     * @return  A positive integer representing the 0 indexed position of the given
+     *          tag, if the tag doesn't exist -1 is returned.
+     */
     fun getTagIndex(tag: Tag): Int {
         for (i in 0 until this.size) {
             if (this[i].first == tag) {
@@ -120,7 +141,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * Tries to remove an item from the list, if there are no items left in the given category,
      * the whole sublist is removed. Depending on the outcome of the removal either the removed
      * item is returned or null.
-     * @param tagPosition The position of the sublist.
+     * @param tag The tag of the sublist.
      * @param sublistPosition The position of the item inside the sublist.
      * @return The removed item is returned if the removal succeeded, null otherwise.
      * also a boolean is returned, stating if the containing sublist was deleted or not.
