@@ -96,8 +96,12 @@ class AddItemFragment : Fragment() {
         //initialize edit text for item amount string
         val etItemAmount = myView.etItemAmount
         etItemAmount.setText("1")
+        var firstTap = true
         etItemAmount.setOnFocusChangeListener { v, hasFocus ->
-            etItemAmount.setText("")
+            if(firstTap){
+                etItemAmount.setText("")
+                firstTap = false
+            }
         }
 
         //Button to Confirm adding Item to list
