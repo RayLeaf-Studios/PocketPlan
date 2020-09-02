@@ -55,9 +55,9 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag The tag of the requested sublist.
      */
     fun isTagExpanded(tag: Tag): Boolean {
-       return try{
+       return try {
            this[getTagIndex(tag)].second[0].checked
-       }catch(e: Exception){
+       } catch(e: Exception) {
            false
        }
     }
@@ -73,6 +73,23 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
             true
         } catch(e: Exception) {
             false
+        }
+    }
+
+    /**
+     * Flips the checked boolean of the requested item.
+     * @param tag The tag of the sublist.
+     * @param sublistPosition The position of the requested item.
+     * @return The new index of the requested item, -1 if the flipping process fails
+     */
+    fun flipItemCheckedState(tag: Tag, sublistPosition: Int): Int {
+        return try {
+            val itemCache: ShoppingItem = this[getTagIndex(tag)].second[sublistPosition]
+            itemCache.checked = !itemCache.checked
+            sortSublist(this[getTagIndex(tag)].second)
+            this[getTagIndex(tag)].second.indexOf(itemCache)
+        } catch (e: Exception) {
+            -1
         }
     }
 
@@ -120,7 +137,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         }
         return null
     }
-
+    
     /**
      * Retrieves the index of a given tag inside this list.
      * @param tag The requested tag to be searched.
@@ -143,8 +160,8 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * item is returned or null.
      * @param tag The tag of the sublist.
      * @param sublistPosition The position of the item inside the sublist.
-     * @return The removed item is returned if the removal succeeded, null otherwise.
-     * also a boolean is returned, stating if the containing sublist was deleted or not.
+     * @return  The removed item is returned if the removal succeeded, null otherwise.
+     *          also a boolean is returned, stating if the containing sublist was deleted or not.
      */
     fun removeItem(tag: Tag, sublistPosition: Int): Pair<ShoppingItem?, Boolean> {
         var removedItem: ShoppingItem? = null
@@ -173,6 +190,10 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
 
     private fun sort() {
         TODO()
+    }
+    
+    private fun sortSublist(list: ArrayList<ShoppingItem>) {
+        list.sortWith(compareBy({it.checked}, {it.name}))
     }
 
     private fun save() {
