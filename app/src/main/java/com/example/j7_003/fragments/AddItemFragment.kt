@@ -46,7 +46,7 @@ class AddItemFragment : Fragment() {
         val itemNameList: ArrayList<String> = ArrayList()
         val itemTemplateList = ItemTemplateList()
         itemTemplateList.forEach{
-            itemNameList.add(it.name)
+            itemNameList.add(it.n)
         }
 
         //TODO remove this and replace it with proper connection to database
@@ -60,8 +60,8 @@ class AddItemFragment : Fragment() {
         autoCompleteTv.setOnItemClickListener { parent, view, position, id ->
             val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
             if(template!=null){
-                tvCategoryField.text = template.category.n
-                val unitPointPos = when(template.suggestedUnit){
+                tvCategoryField.text = template.c.n
+                val unitPointPos = when(template.s){
                     "kg" -> 1
                     "g" -> 2
                     "L" -> 3
@@ -78,7 +78,7 @@ class AddItemFragment : Fragment() {
         autoCompleteTv.setOnKeyListener { v, keyCode, event ->
             val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
             if(template!=null){
-                tvCategoryField.text = template.category.n
+                tvCategoryField.text = template.c.n
             }
             else{
                 tvCategoryField.text = ""
@@ -113,8 +113,8 @@ class AddItemFragment : Fragment() {
             val template = listInstance.getTemplateByName(autoCompleteTv.text.toString())
             if(template!=null){
                 val item = ShoppingItem(
-                    template.name, template.category,
-                    template.suggestedUnit, etItemAmount.text.toString(), mySpinner.selectedItem.toString(), false)
+                    template.n, template.c,
+                    template.s, etItemAmount.text.toString(), mySpinner.selectedItem.toString(), false)
                 shoppingInstance.add(item)
             }else{
                 //TODO Handle unknown item

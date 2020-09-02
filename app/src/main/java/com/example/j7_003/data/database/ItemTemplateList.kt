@@ -1,11 +1,9 @@
 package com.example.j7_003.data.database
 
-import android.util.Log
 import com.example.j7_003.MainActivity
 import com.example.j7_003.data.database.database_objects.Tag
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -21,7 +19,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
      */
     fun getTemplateByName(name: String): ItemTemplate? {
         this.forEach { e ->
-            if (e.name.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
+            if (e.n.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
                 return e
             }
         }
@@ -31,7 +29,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
 
     private fun loadFromAssets() {
         val jsonString =    // TODO set file name to production name
-            MainActivity.myActivity.assets.open("testList.json").bufferedReader().readText()
+            MainActivity.myActivity.assets.open("itemList.json").bufferedReader().readText()
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type
@@ -39,13 +37,13 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
 
         val tagList = TagList()
         list.forEach { e ->
-            if (tagList.getTagByName(e.category) != null) {
-                this.add(ItemTemplate(e.name, tagList.getTagByName(e.category)!!, e.suggestedUnit))
+            if (tagList.getTagByName(e.c) != null) {
+                this.add(ItemTemplate(e.n, tagList.getTagByName(e.c)!!, e.s))
             }
         }
     }
 
-    private class TMPTemplate(val name: String, val category: String, val suggestedUnit: String)
+    private class TMPTemplate(val n: String, val c: String, val s: String)
 }
 
-data class ItemTemplate(val name: String, val category: Tag, val suggestedUnit: String)
+data class ItemTemplate(val n: String, val c: Tag, val s: String)
