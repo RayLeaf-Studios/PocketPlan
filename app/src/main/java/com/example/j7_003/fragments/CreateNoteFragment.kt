@@ -24,6 +24,7 @@ class CreateNoteFragment : Fragment() {
 
         val myView = inflater.inflate(R.layout.fragment_write_note, container, false)
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
 
         myEtTitle = myView.etNoteTitle
         myEtContent = myView.etNoteContent
@@ -33,7 +34,6 @@ class CreateNoteFragment : Fragment() {
          * called from an editing context
          */
 
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
         myEtTitle.requestFocus()
 
         if(MainActivity.editNoteHolder!=null){

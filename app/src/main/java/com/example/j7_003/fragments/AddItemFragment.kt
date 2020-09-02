@@ -1,10 +1,12 @@
 package com.example.j7_003.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
@@ -26,6 +28,9 @@ class AddItemFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val myView = inflater.inflate(R.layout.fragment_add_item, container, false)
+
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
 
         initializeComponents(myView)
 
@@ -49,6 +54,7 @@ class AddItemFragment : Fragment() {
         val autoCompleteTv = myView.actvItem
         val autoCompleteTvAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_spinner_dropdown_item, itemNameList)
         autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+        autoCompleteTv.requestFocus()
 
         val listInstance1 = ItemTemplateList()
         autoCompleteTv.setOnItemClickListener { parent, view, position, id ->
@@ -93,7 +99,6 @@ class AddItemFragment : Fragment() {
         etItemAmount.setOnClickListener {
             etItemAmount.setText("")
         }
-
 
         //Button to Confirm adding Item to list
         myView.btnAddItemToList.setOnClickListener {
