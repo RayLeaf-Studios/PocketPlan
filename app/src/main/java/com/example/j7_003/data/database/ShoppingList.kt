@@ -63,6 +63,20 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     }
 
     /**
+     * Retrieves the checked state of the requested item in this list.
+     * @param tag The tag of the sublist.
+     * @param sublistPosition The position of the requested item inside the sublist.
+     * @return The checked boolean of the item, if the item search fails null is returned
+     */
+    fun isItemChecked(tag: Tag, sublistPosition: Int): Boolean? {
+        return try {
+            this[getTagIndex(tag)].second[sublistPosition].checked
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
      * Flips the current expansion state markers checked boolean.
      * @param tag The tag of the sublist to flip.
      * @return True if the expansion state markers checked boolean is flipped, false otherwise.
@@ -138,13 +152,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         return null
     }
     
-    /**
-     * Retrieves the index of a given tag inside this list.
-     * @param tag The requested tag to be searched.
-     * @return  A positive integer representing the 0 indexed position of the given
-     *          tag, if the tag doesn't exist -1 is returned.
-     */
-    fun getTagIndex(tag: Tag): Int {
+    private fun getTagIndex(tag: Tag): Int {
         for (i in 0 until this.size) {
             if (this[i].first == tag) {
                 return i
