@@ -1,5 +1,7 @@
 package com.example.j7_003.data.database
 
+import android.util.Log
+import com.example.j7_003.MainActivity
 import com.example.j7_003.data.database.database_objects.ShoppingItem
 import com.example.j7_003.data.database.database_objects.Tag
 import com.example.j7_003.system_interaction.handler.StorageHandler
@@ -7,6 +9,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.Exception
 import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     init {
@@ -70,7 +73,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      */
     fun isItemChecked(tag: Tag, sublistPosition: Int): Boolean? {
         return try {
-            this[getTagIndex(tag)].second[sublistPosition].checked
+            this[getTagIndex(tag)].second[sublistPosition+1].checked
         } catch (e: Exception) {
             null
         }
@@ -84,6 +87,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     fun flipExpansionState(tag: Tag): Boolean {
         return try {
             this[getTagIndex(tag)].second[0].checked = !this[getTagIndex(tag)].second[0].checked
+            save()
             true
         } catch(e: Exception) {
             false
@@ -98,10 +102,11 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      */
     fun flipItemCheckedState(tag: Tag, sublistPosition: Int): Int {
         return try {
-            val itemCache: ShoppingItem = this[getTagIndex(tag)].second[sublistPosition]
+            val itemCache: ShoppingItem = this[getTagIndex(tag)].second[sublistPosition+1]
             itemCache.checked = !itemCache.checked
             sortSublist(this[getTagIndex(tag)].second)
-            this[getTagIndex(tag)].second.indexOf(itemCache)
+            save()
+            this[getTagIndex(tag)].second.indexOf(itemCache) - 1
         } catch (e: Exception) {
             -1
         }
@@ -151,8 +156,16 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         }
         return null
     }
+
+    fun areAllChecked(tag: Tag) : Boolean {
+        return try {
+            getUncheckedSize(tag) == 0
+        } catch (e: Exception) {
+            false
+        }
+    }
     
-    private fun getTagIndex(tag: Tag): Int {
+     fun getTagIndex(tag: Tag): Int {
         for (i in 0 until this.size) {
             if (this[i].first == tag) {
                 return i
@@ -175,6 +188,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         var removedItem: ShoppingItem? = null
         var sublistGotDeleted = false
 
+
         return try {    // trying to remove the item, save the list and return the removed element
             for (i in 0 until this.size) {
 
@@ -196,12 +210,32 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         }
     }
 
-    private fun sort() {
-        TODO()
+    /**
+     * Sorts the given list. Sublists where all items checked are sorted below.
+     * If sorting the list succeeds a pair is returned containing the prior and new
+     * position of the sorted tag.
+     * @param tag The tag which should get sorted.
+     * @return A pair with the old and new position of the given tag, null if sorting fails.
+     */
+    fun sortTag(tag: Tag): Pair<Int, Int>? {
+        val oldPosition = getTagIndex(tag)
+        this.sortBy { areAllChecked(it.first) }
+        val returnPair = Pair(oldPosition, getTagIndex(tag))
+
+        return if (returnPair.first == returnPair.second) {
+            null
+        } else {
+            returnPair
+        }
     }
     
     private fun sortSublist(list: ArrayList<ShoppingItem>) {
+        val markerList: ArrayList<ShoppingItem> = arrayListOf(list[0])
+        list.remove(markerList[0])
         list.sortWith(compareBy({it.checked}, {it.name}))
+        markerList.addAll(list)
+        list.clear()
+        list.addAll(markerList)
     }
 
     private fun save() {

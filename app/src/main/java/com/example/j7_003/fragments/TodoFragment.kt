@@ -94,6 +94,7 @@ class TodoFragment : Fragment() {
                 myDialogView.btnConfirm3
             )
 
+
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog?.dismiss()
@@ -253,19 +254,8 @@ class TodoTaskAdapter :
             val task = Database.getTask(holder.adapterPosition)
             val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checkedStatus)
             MainActivity.myActivity.updateDeleteTaskIcon()
-            if(checkedStatus){
-                holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
-                holder.myView.setBackgroundResource(drawable.round_corner_gray)
-            }else{
-                holder.tvName.paintFlags = 0
-                holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
-                when(task.priority) {
-                    1 -> holder.myView.setBackgroundResource(drawable.round_corner1)
-                    2 -> holder.myView.setBackgroundResource(drawable.round_corner2)
-                    3 -> holder.myView.setBackgroundResource(drawable.round_corner3)
-                }
-            }
+
+            notifyItemChanged(holder.adapterPosition)
             if(holder.adapterPosition != newPos){
                 notifyItemMoved(holder.adapterPosition, newPos)
             }

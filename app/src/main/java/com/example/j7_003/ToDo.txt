@@ -7,6 +7,7 @@ Important tasks:
     - dropdown menus into dark-mode
 
 Random tasks:
+    -optional auto retract sublists when allchecked
     - birthday undo insert animation
     - make shopping list presets save and loadable
     - button to go to current day in dayview

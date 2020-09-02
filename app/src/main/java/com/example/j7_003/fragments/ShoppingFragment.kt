@@ -1,21 +1,27 @@
 package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.ShoppingList
 import com.example.j7_003.data.database.database_objects.Tag
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
@@ -80,7 +86,6 @@ class ShoppingListAdapater :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_category, parent, false)
-        MainActivity.myActivity.titleDebug("called"+ Random.nextInt())
         return CategoryViewHolder(itemView)
     }
 
@@ -107,11 +112,24 @@ class ShoppingListAdapater :
             false -> View.GONE
         }
 
+        val amountString = when(numberOfItems){
+            0 -> ""
+            else -> numberOfItems.toString()
+        }
+
         //Sets Text to Number of items in sublist + name of category of sublist
-        holder.tvCategoryName.text = numberOfItems.toString() + " " + tag.n
+        holder.tvCategoryName.text = amountString + " " + tag.n
 
         //Sets background color of sublist according to the tag
-        holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
+        if(!ShoppingFragment.shoppingListInstance.areAllChecked(tag)){
+            holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
+            holder.tvCategoryName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+        }else{
+            holder.cvCategory.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorBackgroundElevated))
+            holder.tvCategoryName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorHint))
+        }
+
+
 
         //Setting adapter for this sublist
         val subAdapter = SublistAdapter(tag)
@@ -160,10 +178,45 @@ class SublistAdapter(private val tag: Tag) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+
+        val itemCheckedState = ShoppingFragment.shoppingListInstance.isItemChecked(tag, position)
+
+        if(itemCheckedState==null){
+            MainActivity.myActivity.sadToast("invalid checked state")
+            return
+        }
+
+        holder.cbItem.isChecked = itemCheckedState
+        if(itemCheckedState){
+            holder.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            holder.tvItemTitle.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorHint))
+            //todo, new color for checked items?
+            //holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
+        }else{
+            holder.tvItemTitle.paintFlags = 0
+            holder.tvItemTitle.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+        }
+
         val item = ShoppingFragment.shoppingListInstance.getItem(tag, position)!!
         holder.tvItemTitle.text = item.amount + item.unit + " " + item.name
+
         holder.clItemTapfield.setOnClickListener {
 
+            val newPosition = ShoppingFragment.shoppingListInstance.flipItemCheckedState(tag, holder.adapterPosition)
+            Log.e("positions", "moving from category"+tag+" from "+holder.adapterPosition+" to "+newPosition)
+            notifyItemChanged(holder.adapterPosition)
+            ShoppingFragment.shoppingListAdapter.notifyItemChanged(ShoppingFragment.shoppingListInstance.getTagIndex(tag))
+            if(newPosition!=-1){
+                notifyItemMoved(holder.adapterPosition, newPosition)
+            }
+            else{
+                MainActivity.myActivity.sadToast("invalid item checked state")
+            }
+            val sublistMoveInfo = ShoppingFragment.shoppingListInstance.sortTag(tag)
+            if(sublistMoveInfo!=null){
+                MainActivity.myActivity.titleDebug("i arrived here")
+                ShoppingFragment.shoppingListAdapter.notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
+            }
             //Todo manage checking item
         }
         holder.tag = tag

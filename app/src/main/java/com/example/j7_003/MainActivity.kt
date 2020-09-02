@@ -99,6 +99,11 @@ class MainActivity : AppCompatActivity(){
         supportActionBar?.title = debugMsg
     }
 
+
+    fun sadToast(msg: String){
+        Toast.makeText(myActivity, msg +" :(", Toast.LENGTH_LONG)
+    }
+
     /**
      * CHANGE FRAGMENT METHODS
      */
