@@ -3,6 +3,7 @@ package com.example.j7_003.fragments
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,7 +105,8 @@ class ShoppingListAdapater :
         holder.cvCategory.setCardBackgroundColor(Color.parseColor(ShoppingFragment.shoppingListInstance[position].first.c))
 
         //Setting adapter for this sublist
-        val subAdapter = SublistAdapter(ShoppingFragment.shoppingListInstance[position].first, position)
+        val subAdapter = SublistAdapter(ShoppingFragment.shoppingListInstance[position].first)
+        Log.e("reload", ShoppingFragment.shoppingListInstance[position].first.toString())
         holder.subRecyclerView.adapter = subAdapter
         holder.subRecyclerView.layoutManager = LinearLayoutManager(MainActivity.myActivity)
         holder.subRecyclerView.setHasFixedSize(true)
@@ -118,8 +120,8 @@ class ShoppingListAdapater :
         //Onclick reaction to expand / contract this sublist
         holder.cvCategory.setOnClickListener {
             //TODO REPLACE THIS WITH DATABASE ACCESS
-            ShoppingFragment.shoppingListInstance.flipExpansionState(position)
-            notifyItemChanged(position)
+            ShoppingFragment.shoppingListInstance.flipExpansionState(holder.adapterPosition)
+            notifyItemChanged(holder.adapterPosition)
         }
 
     }
@@ -137,24 +139,25 @@ class ShoppingListAdapater :
     }
 
 }
-class SublistAdapter(tag: Tag, categoryPosition: Int) :
+class SublistAdapter(private val tag: Tag) :
     RecyclerView.Adapter<SublistAdapter.ItemViewHolder>(){
-    private val myTag = tag
-    private val superPosition = categoryPosition
-
     fun deleteItem(position: Int){
 
-        val feedback = ShoppingFragment.shoppingListInstance.removeItem(myTag, position)
+        val index = ShoppingFragment.shoppingListInstance.getTagIndex(tag)
+        val feedback = ShoppingFragment.shoppingListInstance.removeItem(tag, position)
 
         //TODO replace following line with saving the deleted item (feedback.first)
         //NoteFragment.deletedNote = Database.getNote(position)
 
+        Log.e("after delete", tag.toString())
         if(feedback.second){
-            MainActivity.myActivity.titleDebug("second is true")
-            ShoppingFragment.shoppingListAdapter.notifyItemRemoved(superPosition)
+            MainActivity.myActivity.titleDebug("second is true"+ tag.n + index)
+//            ShoppingFragment.shoppingListAdapter.notifyItemRemoved(index)
+            ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
         }else{
-            MainActivity.myActivity.titleDebug("second is false")
-            ShoppingFragment.shoppingListAdapter.notifyItemChanged(superPosition)
+            MainActivity.myActivity.titleDebug("second is false" + tag.n + index)
+//            ShoppingFragment.shoppingListAdapter.notifyItemChanged(index)
+            ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
         }
 
 
@@ -178,7 +181,7 @@ class SublistAdapter(tag: Tag, categoryPosition: Int) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = ShoppingFragment.shoppingListInstance.getItem(myTag, position)!!
+        val item = ShoppingFragment.shoppingListInstance.getItem(tag, position)!!
         holder.tvItemTitle.text = item.amount + item.unit + " " + item.name
         holder.clItemTapfield.setOnClickListener {
 
@@ -187,7 +190,7 @@ class SublistAdapter(tag: Tag, categoryPosition: Int) :
 
     }
 
-    override fun getItemCount() = ShoppingFragment.shoppingListInstance.getSublistLength(myTag)
+    override fun getItemCount() = ShoppingFragment.shoppingListInstance.getSublistLength(tag)
 
     //one instance of this class will contain one instance of row_item and meta data like position
     //also holds references to views inside the layout

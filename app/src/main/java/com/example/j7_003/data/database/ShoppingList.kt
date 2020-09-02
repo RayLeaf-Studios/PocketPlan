@@ -106,6 +106,16 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         return null
     }
 
+    fun getTagIndex(tag: Tag): Int {
+        for (i in 0 until this.size) {
+            if (this[i].first == tag) {
+                return i
+            }
+        }
+
+        return -1
+    }
+
     /**
      * Tries to remove an item from the list, if there are no items left in the given category,
      * the whole sublist is removed. Depending on the outcome of the removal either the removed
