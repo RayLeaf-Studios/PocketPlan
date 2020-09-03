@@ -16,6 +16,18 @@
         <TextView
             android:textColor="@color/colorOnBackGround"
             android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/tvNumberOfItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="3"
+            />
+
+        <TextView
+            android:textColor="@color/colorOnBackGround"
+            android:padding="10dp"
             android:id="@+id/tvCategoryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

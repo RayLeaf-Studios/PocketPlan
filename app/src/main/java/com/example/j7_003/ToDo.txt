@@ -20,6 +20,10 @@ Random tasks:
     - replace all colors and values like text size with resource references
     - decide what to do with terms in the past, (delete after week? even show them at all?)
     - weekplanner / calendar
+    - option to save year for birthday, tap birthday to expand more info, (how many days until?),
+        Display age in notification? e.g. "Max Mustermann turns 20 today!"
+
+
 
 
 Ideas:

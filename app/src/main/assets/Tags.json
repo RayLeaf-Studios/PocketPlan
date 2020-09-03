@@ -1,7 +1,7 @@
-[{"n" : "Obst und Gemüse", "c" : "#00ad06"},
-  {"n" : "Getränke", "c" : "#1826ed"},
+[{"n" : "Obst und Gemüse", "c" : "#498020"},
+  {"n" : "Getränke", "c" : "u#275f9"},
   {"n" : "Fleisch", "c" : "#8a0303"},
-  {"n" : "Milchprodukte", "c" : "#b3b3b3"},
+  {"n" : "Milchprodukte", "c" : "#858583"},
   {"n" : "Konserven", "c" : "#a8a8a8"},
   {"n" : "Gebäck", "c" : "#a16813"},
   {"n" : "Nudeln und Getreide", "c" : "#f2d70a"},
@@ -13,6 +13,6 @@
   {"n" : "Gekühltes", "c" : "#b0c0ff"},
   {"n" : "Käse", "c" : "#c7ad18"},
   {"n" : "International", "c" : "#ffb5b0"},
-  {"n" : "Molkereiprodukte", "c" : "#9b9e77"},
+  {"n" : "Molkereiprodukte", "c" : "#858583"},
   {"n" : "Sonstiges", "c" : "#ffffff"}]
 

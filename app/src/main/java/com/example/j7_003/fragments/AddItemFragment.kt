@@ -116,6 +116,7 @@ class AddItemFragment : Fragment() {
                     template.n, template.c,
                     template.s, etItemAmount.text.toString(), mySpinner.selectedItem.toString(), false)
                 shoppingInstance.add(item)
+                //TODO SORT AFTER ADDING
             }else{
                 //TODO Handle unknown item
             }
