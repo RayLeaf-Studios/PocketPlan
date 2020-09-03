@@ -12,6 +12,7 @@
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleCalendar">Calendar</string>
     <string name="menuTitleSettings">Settings</string>
+    <string name="menuTitleShopping">Shopping</string>
     <string name="addBirthdayNameHint">Name</string>
     <string name="addBirthdayDayHint">Day</string>
     <string name="addBirthdayMonthHint">Month</string>

@@ -17,9 +17,9 @@
         android:title="@string/menuTitleHome" />
 
     <item
-        android:id="@+id/calendar"
-        android:icon="@drawable/ic_action_calendar"
-        android:title="@string/menuTitleCalendar" />
+        android:id="@+id/shopping"
+        android:icon="@drawable/ic_action_shopping"
+        android:title="@string/menuTitleShopping" />
 
     <item
         android:id="@+id/modules"

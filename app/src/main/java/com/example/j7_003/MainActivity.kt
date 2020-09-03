@@ -1,7 +1,6 @@
 package com.example.j7_003
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,11 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
-import com.example.j7_003.data.database.database_objects.Birthday
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.fragments.*
@@ -72,7 +69,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.notes -> changeToNotes()
                 R.id.todolist -> changeToToDo()
                 R.id.home -> changeToHome()
-                R.id.calendar -> changeToDayView()
+                R.id.shopping -> changeToShopping()
                 R.id.modules -> changeToModules()
             }
             true
@@ -199,7 +196,7 @@ class MainActivity : AppCompatActivity(){
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
             activeFragmentTag="dayView"
-            bottomNavigation.selectedItemId=R.id.calendar
+            bottomNavigation.selectedItemId=R.id.modules
         }
     }
 

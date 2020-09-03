@@ -3,10 +3,12 @@ Todo:
 Important tasks:
     - finalize shopping module
     - live update sleep-reminder time (in home panel)
-    - implement setting for full note content (loading, saving and applying)
+    - implement setting functionality
     - dropdown menus into dark-mode
 
 Random tasks:
+    - suggested amount for shopping items
+    - add new icon
     -optional auto retract sublists when allchecked
     - birthday undo insert animation
     - make shopping list presets save and loadable
@@ -17,10 +19,10 @@ Random tasks:
     - add listener to number picker for typing in numbers
     - replace all colors and values like text size with resource references
     - decide what to do with terms in the past, (delete after week? even show them at all?)
-    - make to-do items checkable in the home menu
+    - weekplanner / calendar
+
 
 Ideas:
-    - new icon related to the name "Pocket-Plan"
     - small counter for accomplished tasks of tasklist
     - add tags / sublist for different store/s?
 
@@ -45,18 +47,4 @@ Shopping list details:
         14. baking ingredients
 
 
-    functionality:
-
-    hinzufügen einer iteminstanz, abhängig vom tag des items wird das item in die zugehörige
-    subliste einsortiert oder eine neue subliste wird erstellt
-
-    sublisten expandieren / zusammenziehen (expanded = true/false mit special item an letzer
-    stelle der liste?)
-
-    iteminstanzen in sublisten bearbeiten (attribute: checked, amount, unit)
-
-    iteminstanzen aus sublisten löschen (leere sublisten aus mainliste löschen)
-
-    sublisten in mainliste sortieren (sublisten die nur checked = true enthalten werden nach
-    unten sortiert)
 
