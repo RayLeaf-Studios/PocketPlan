@@ -15,27 +15,29 @@
 
         <TextView
             android:textColor="@color/colorOnBackGround"
-            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
             android:layout_marginLeft="10dp"
             android:id="@+id/tvNumberOfItems"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/circle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="3"
             />
 
         <TextView
-            android:textColor="@color/colorOnBackGround"
-            android:padding="10dp"
             android:id="@+id/tvCategoryName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Category Name"
+            android:textColor="@color/colorOnBackGround"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfItems"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="Category Name"
-            />
+            app:layout_constraintTop_toTopOf="@+id/tvNumberOfItems" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:padding="10dp"

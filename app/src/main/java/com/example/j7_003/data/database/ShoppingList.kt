@@ -1,7 +1,5 @@
 package com.example.j7_003.data.database
 
-import android.util.Log
-import com.example.j7_003.MainActivity
 import com.example.j7_003.data.database.database_objects.ShoppingItem
 import com.example.j7_003.data.database.database_objects.Tag
 import com.example.j7_003.system_interaction.handler.StorageHandler
@@ -9,7 +7,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.Exception
 import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     init {
@@ -32,6 +29,11 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         this.forEach { e ->         // searching for preexistence of the elements tag
             if (e.first == element.tag) {   // add element to tags sublist and save to file
                 e.second.add(element)
+
+                //Added this to sort after adding element
+                sortSublist(e.second)
+                sortTag(e.first)
+
                 save()
                 return
             }
@@ -46,6 +48,10 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         this.forEach { e ->         // searching the newly added sublist and adding the element
             if (e.first == element.tag) {   // add element to tags sublist and save to file
                 e.second.add(element)
+
+                sortSublist(e.second)
+                sortTag(e.first)
+
                 save()
             }
         }

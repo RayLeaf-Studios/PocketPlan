@@ -112,22 +112,21 @@ class ShoppingListAdapater :
             false -> View.GONE
         }
 
-        val amountString = when(numberOfItems){
-            0 -> ""
-            else -> numberOfItems.toString()
-        }
 
         //Sets Text to Number of items in sublist + name of category of sublist
         holder.tvCategoryName.text = tag.n
-        holder.tvNumberOfItems.text = amountString
 
         //Sets background color of sublist according to the tag
         if(!ShoppingFragment.shoppingListInstance.areAllChecked(tag)){
             holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
             holder.tvCategoryName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+            holder.tvNumberOfItems.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+            holder.tvNumberOfItems.text = numberOfItems.toString()
         }else{
             holder.cvCategory.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorBackgroundElevated))
             holder.tvCategoryName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorHint))
+            holder.tvNumberOfItems.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorHint))
+            holder.tvNumberOfItems.text = "✔"
         }
 
 
@@ -203,25 +202,23 @@ class SublistAdapter(private val tag: Tag, private val parentHolder: ShoppingLis
         holder.tvItemTitle.text = item.amount + item.unit + " " + item.name
 
         holder.clItemTapfield.setOnClickListener {
-            //If an item got clicked while all are checked it means the list has to go from gray to color
-            if(ShoppingFragment.shoppingListInstance.areAllChecked(holder.tag)){
-                parentHolder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
-                parentHolder.tvCategoryName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
-            }
-
             val newPosition = ShoppingFragment.shoppingListInstance.flipItemCheckedState(tag, holder.adapterPosition)
+
+            val numberOfItems = ShoppingFragment.shoppingListInstance.getUncheckedSize(holder.tag)
 
             //If all are checked after the current item got flipped, the list has to go from color to gray
             if(ShoppingFragment.shoppingListInstance.areAllChecked(holder.tag)){
                 parentHolder.cvCategory.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorBackgroundElevated))
                 parentHolder.tvCategoryName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorHint))
+                parentHolder.tvNumberOfItems.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorHint))
+                parentHolder.tvNumberOfItems.text = "✔"
+            }else{
+                parentHolder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
+                parentHolder.tvCategoryName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+                parentHolder.tvNumberOfItems.setTextColor(ContextCompat.getColor(MainActivity.myActivity, R.color.colorOnBackGround))
+                parentHolder.tvNumberOfItems.text = numberOfItems.toString()
             }
 
-            val numberOfItems = ShoppingFragment.shoppingListInstance.getUncheckedSize(holder.tag)
-            parentHolder.tvNumberOfItems.text = when(numberOfItems){
-                0 -> ""
-                else -> numberOfItems.toString()
-            }
 
             notifyItemChanged(holder.adapterPosition)
             if(newPosition!=-1){

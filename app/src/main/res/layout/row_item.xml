@@ -16,6 +16,7 @@
         android:textColor="@color/colorOnBackGround"
         android:textSize="@dimen/font_size_list_items"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/clItemTapfield"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
