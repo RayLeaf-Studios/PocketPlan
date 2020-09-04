@@ -23,6 +23,14 @@ class TagList : ArrayList<Tag>() {
         return null
     }
 
+    fun getTagNames(): Array<String?>{
+        val a: Array<String?> = arrayOfNulls(this.size)
+        this.forEach {
+            a[this.indexOf(it)] = it.n
+        }
+        return a
+    }
+
     private fun loadFromStaticList() {
         val jsonString = mainContext.assets.open("Tags.json").bufferedReader().readText()
 

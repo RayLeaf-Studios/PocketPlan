@@ -11,6 +11,7 @@ import android.widget.Switch
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 /**
@@ -67,8 +68,12 @@ class SettingsFragment : Fragment() {
 
     private fun initializeDisplayValues(){
         //TODO read the following 4 values from settings manager
-        spNoteLines.setSelection(0)
-        spNoteColumns.setSelection(0)
+        val lineOptions = resources.getStringArray(R.array.noteLines)
+        spNoteLines.setSelection(lineOptions.indexOf(SettingsManager.getSetting("noteLines")))
+
+        val columnOptions = resources.getStringArray(R.array.noteColumns)
+        spNoteColumns.setSelection(SettingsManager.getSetting("noteColumns") as Int -1)
+
         spDefaultCategories.setSelection(0)
         swExpandOneCategory.isChecked = true
     }
@@ -78,7 +83,7 @@ class SettingsFragment : Fragment() {
         spNoteLines.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val value = spNoteLines.selectedItem as String
-                //TODO save Columns to SettingsManager as String
+                SettingsManager.addSetting("noteLines", value)
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
@@ -90,7 +95,7 @@ class SettingsFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val value = spNoteColumns.selectedItem as String
                 val columns = value.toInt()
-                //TODO save Columns to SettingsManager as Integer
+                SettingsManager.addSetting("noteColumns", columns)
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
 

@@ -238,6 +238,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     fun sortTag(tag: Tag): Pair<Int, Int>? {
         val oldPosition = getTagIndex(tag)
         this.sortBy { areAllChecked(it.first) }
+        save()
         val returnPair = Pair(oldPosition, getTagIndex(tag))
 
         return if (returnPair.first == returnPair.second) {

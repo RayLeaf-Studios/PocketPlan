@@ -6,6 +6,8 @@ Important tasks:
     - implement setting functionality
     - dropdown menus into dark-mode
     - fix crashing tasks when deleting via mass delete and quickly swipe deleting a task
+    - change layout without refreshing when swipe deleting item from shopping list (when all are
+    checked)
 
 Random tasks:
     - suggested amount for shopping items

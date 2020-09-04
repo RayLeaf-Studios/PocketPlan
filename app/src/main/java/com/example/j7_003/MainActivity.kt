@@ -61,6 +61,13 @@ class MainActivity : AppCompatActivity(){
         AndroidThreeTen.init(this)
         Database.init()
         SettingsManager.init()
+        //todo give all settings default values
+        if(SettingsManager.getSetting("noteColumns")==null){
+            SettingsManager.addSetting("noteColumns", 2)
+        }
+        if(SettingsManager.getSetting("noteLines")==null){
+            SettingsManager.addSetting("noteLines", "All")
+        }
 
         myMenu = null
         bottomNavigation = findViewById(R.id.btm_nav)
