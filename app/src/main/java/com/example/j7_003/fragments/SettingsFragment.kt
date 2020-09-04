@@ -72,7 +72,7 @@ class SettingsFragment : Fragment() {
         spNoteLines.setSelection(lineOptions.indexOf(SettingsManager.getSetting("noteLines")))
 
         val columnOptions = resources.getStringArray(R.array.noteColumns)
-        spNoteColumns.setSelection(SettingsManager.getSetting("noteColumns") as Int -1)
+        spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting("noteColumns")))
 
         spDefaultCategories.setSelection(0)
         swExpandOneCategory.isChecked = true
@@ -94,8 +94,7 @@ class SettingsFragment : Fragment() {
         spNoteColumns.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val value = spNoteColumns.selectedItem as String
-                val columns = value.toInt()
-                SettingsManager.addSetting("noteColumns", columns)
+                SettingsManager.addSetting("noteColumns", value)
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
 

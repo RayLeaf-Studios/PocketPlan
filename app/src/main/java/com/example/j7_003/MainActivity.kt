@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(){
         SettingsManager.init()
         //todo give all settings default values
         if(SettingsManager.getSetting("noteColumns")==null){
-            SettingsManager.addSetting("noteColumns", 2)
+            SettingsManager.addSetting("noteColumns", "2")
         }
         if(SettingsManager.getSetting("noteLines")==null){
             SettingsManager.addSetting("noteLines", "All")

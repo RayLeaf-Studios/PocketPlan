@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="Number of lines to display"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,6 +59,7 @@
                     android:id="@+id/spNoteLines"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     app:layout_constraintTop_toTopOf="@id/tvNoteLines"
                     app:layout_constraintBottom_toBottomOf="@id/tvNoteLines"
                     app:layout_constraintEnd_toEndOf="parent">
@@ -87,13 +88,14 @@
                     android:layout_height="wrap_content"
                     android:text="Number of note columns"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/spNoteColumns"
                     android:layout_width="wrap_content"
+                    android:gravity="right"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/tvNoteColumns"
                     app:layout_constraintBottom_toBottomOf="@id/tvNoteColumns"
@@ -135,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:text="Categories are by default"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -143,6 +145,7 @@
                     android:id="@+id/spDefaultCategories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     app:layout_constraintTop_toTopOf="@id/tvDefaultCategorys"
                     app:layout_constraintBottom_toBottomOf="@id/tvDefaultCategorys"
                     app:layout_constraintEnd_toEndOf="parent">
@@ -170,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:text="Only expand one category"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

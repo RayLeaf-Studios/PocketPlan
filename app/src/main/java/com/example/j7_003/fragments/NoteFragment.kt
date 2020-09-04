@@ -53,7 +53,7 @@ class NoteFragment : Fragment() {
         }
 
         //TODO READ THIS FROM SETTINGS MANAGER
-        val noteColumns = SettingsManager.getSetting("noteColumns") as Int
+        val noteColumns = SettingsManager.getSetting("noteColumns") as String
 
         val optionArray = resources.getStringArray(R.array.noteLines)
         noteLines = when(SettingsManager.getSetting("noteLines")){
@@ -70,7 +70,7 @@ class NoteFragment : Fragment() {
         val myRecycler = myView.recycler_view_note
         noteAdapter = NoteAdapter()
         myRecycler.adapter = noteAdapter
-        val lm = StaggeredGridLayoutManager(noteColumns, 1)
+        val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
         myRecycler.setHasFixedSize(true)
 
