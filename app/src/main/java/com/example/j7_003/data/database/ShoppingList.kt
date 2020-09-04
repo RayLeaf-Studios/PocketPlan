@@ -163,6 +163,18 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         return null
     }
 
+    /**
+     * Gathers all tags present in this list. An empty list is returned if there are no tags.
+     * @return A list containing all tags of this list.
+     */
+    fun getTags(): ArrayList<Tag> {
+        val tagList: ArrayList<Tag> = ArrayList()
+        this.forEach { e ->
+            tagList.add(e.first)
+        }
+        return tagList
+    }
+
     fun areAllChecked(tag: Tag) : Boolean {
         return try {
             getUncheckedSize(tag) == 0
