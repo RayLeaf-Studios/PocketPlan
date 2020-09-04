@@ -246,7 +246,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
             returnPair
         }
     }
-    
+
     private fun sortSublist(list: ArrayList<ShoppingItem>) {
         val markerList: ArrayList<ShoppingItem> = arrayListOf(list[0])
         list.remove(markerList[0])

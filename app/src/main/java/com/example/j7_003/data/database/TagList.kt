@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
-import com.example.j7_003.MainActivity.Companion.myActivity as mainContext
+import com.example.j7_003.MainActivity.Companion.act as mainContext
 
 class TagList : ArrayList<Tag>() {
 

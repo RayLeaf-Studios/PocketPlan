@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(){
     private var activeFragmentTag = ""
 
     companion object {
-        lateinit var myActivity: MainActivity
+        lateinit var act: MainActivity
         lateinit var sleepView: View
         var editNoteHolder: NoteAdapter.NoteViewHolder? = null
         var editTerm: CalendarAppointment? = null
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(){
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
-        myActivity = this
+        act = this
 
         //initialization of time-API, Database and Settingsmanager
         AndroidThreeTen.init(this)
@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity(){
 
 
     fun sadToast(msg: String){
-        Toast.makeText(myActivity, msg +" :(", Toast.LENGTH_LONG)
+        Toast.makeText(act, msg +" :(", Toast.LENGTH_LONG)
     }
 
     /**

@@ -91,7 +91,7 @@ class BirthdayFragment : Fragment() {
             myDialogView.btnConfirmBirthday.setOnClickListener {
                 val name = nameField.text.toString()
                 if(name.isEmpty()){
-                    Toast.makeText(MainActivity.myActivity, "Can't create an empty birthday!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.act, "Can't create an empty birthday!", Toast.LENGTH_SHORT).show()
                 }else{
                     val day = npDay.value
                     val month = npMonth.value
@@ -163,7 +163,7 @@ class BirthdayAdapter :
         Database.deleteBirthday(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
         notifyDataSetChanged()
-        MainActivity.myActivity.updateUndoBirthdayIcon()
+        MainActivity.act.updateUndoBirthdayIcon()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
@@ -176,7 +176,7 @@ class BirthdayAdapter :
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
         val currentBirthday = Database.getBirthday(position)
-        val activity = MainActivity.myActivity
+        val activity = MainActivity.act
 
         /**
          * Editing birthday via floating action button

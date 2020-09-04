@@ -5,9 +5,11 @@ Important tasks:
     - live update sleep-reminder time (in home panel)
     - implement setting functionality
     - dropdown menus into dark-mode
+    - fix crashing tasks when deleting via mass delete and quickly swipe deleting a task
 
 Random tasks:
     - suggested amount for shopping items
+    make all spinners / dropdowns / autotextviews darktheme
     - add new icon
     -optional auto retract sublists when allchecked
     - birthday undo insert animation

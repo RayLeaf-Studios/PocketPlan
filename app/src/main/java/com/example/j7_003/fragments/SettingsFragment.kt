@@ -49,18 +49,18 @@ class SettingsFragment : Fragment() {
 
         //NOTES
         //Spinner for amount of noteLines to be displayed
-        val spAdapterNoteLines = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.noteLines))
+        val spAdapterNoteLines = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.noteLines))
         spAdapterNoteLines.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spNoteLines.adapter = spAdapterNoteLines
 
         //SHOPPING-LIST
         //Spinner for amount of note columns
-        val spAdapterNoteColumns = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.noteColumns))
+        val spAdapterNoteColumns = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.noteColumns))
         spAdapterNoteColumns.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spNoteColumns.adapter = spAdapterNoteColumns
 
         //Spinner for showing categories as expanded / hidden
-        val spAdapterDefaultCategories = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_list_item_1, arrayOf("expanded", "hidden"))
+        val spAdapterDefaultCategories = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, arrayOf("expanded", "hidden"))
         spAdapterDefaultCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spDefaultCategories.adapter = spAdapterDefaultCategories
     }

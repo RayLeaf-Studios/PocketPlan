@@ -8,7 +8,7 @@
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/task_title_textview"
+        android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:padding="13dp"

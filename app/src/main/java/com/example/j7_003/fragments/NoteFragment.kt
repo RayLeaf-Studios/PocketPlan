@@ -46,7 +46,7 @@ class NoteFragment : Fragment() {
 
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener {
-            MainActivity.myActivity.changeToCreateNoteFragment()
+            MainActivity.act.changeToCreateNoteFragment()
             MainActivity.editNoteHolder = null
         }
 
@@ -77,7 +77,7 @@ class NoteAdapter :
 
     fun deleteItem(position: Int){
         NoteFragment.deletedNote = Database.getNote(position)
-        MainActivity.myActivity.updateUndoNoteIcon()
+        MainActivity.act.updateUndoNoteIcon()
         Database.deleteNote(position)
         notifyItemRemoved(position)
     }
@@ -97,7 +97,7 @@ class NoteAdapter :
         holder.itemView.setOnClickListener {
             MainActivity.editNoteHolder = holder
             MainActivity.noteColor = Database.getNote(holder.adapterPosition).color
-            MainActivity.myActivity.changeToCreateNoteFragment()
+            MainActivity.act.changeToCreateNoteFragment()
         }
 
         //specifying design of note rows here
@@ -125,7 +125,7 @@ class NoteAdapter :
             NoteColors.PURPLE -> R.color.colorNotePurple
         }
 
-        holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.myActivity, cardColor))
+        holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, cardColor))
     }
 
     override fun getItemCount() = Database.noteList.size

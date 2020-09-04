@@ -164,7 +164,7 @@ class SleepFragment : Fragment() {
                 myDialogView.tvHourMinuteDivider.text = "h"
                 myDialogView.tvHourMinuteAttachment.text = "m"
 
-                val myBuilder2 = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
+                val myBuilder2 = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
                 val customTitle2 =
                     LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
                 customTitle2.tvDialogTitle.text = "Sleep Duration - "+DayOfWeek.values()[i].toString()
@@ -212,7 +212,7 @@ class SleepFragment : Fragment() {
                     if (i < 10) "0$i" else "$i"
                 }
 
-                val myBuilder = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
+                val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
                 val customTitle =
                     LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
                 customTitle.tvDialogTitle.text = "Wakeup Time - "+DayOfWeek.values()[i].toString()
@@ -269,7 +269,7 @@ class SleepFragment : Fragment() {
             myDialogView.npHour.setFormatter   { i -> if (i < 10) "0$i" else "$i"}
             myDialogView.npMinute.setFormatter { i -> if (i < 10) "0$i" else "$i"}
 
-            val myBuilder = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
+            val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
             val customTitle = LayoutInflater.from(activity)
                 .inflate(R.layout.title_dialog_add_task, null)
 
@@ -312,7 +312,7 @@ class SleepFragment : Fragment() {
             myDialogView.tvHourMinuteDivider.text = "h"
             myDialogView.tvHourMinuteAttachment.text = "m"
 
-            val myBuilder = AlertDialog.Builder(MainActivity.myActivity).setView(myDialogView)
+            val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
             val customTitle = LayoutInflater.from(activity)
                 .inflate(R.layout.title_dialog_add_task, null)
 
@@ -381,14 +381,14 @@ class SleepFragment : Fragment() {
         customCheckBoxList.forEach{p -> p.isClickable = true}
         v.panelNotCustom.visibility = View.GONE
         val animationHide =
-            AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
+            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down_reverse)
         animationHide.duration = 350
         animationHide.fillAfter = true
         v.panelNotCustom.startAnimation(animationHide)
 
         v.panelCustom.visibility = View.VISIBLE
         val animationShow =
-            AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
+            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down)
         animationShow.duration = 700
         animationShow.fillAfter = true
         v.panelCustom.startAnimation(animationShow)
@@ -401,14 +401,14 @@ class SleepFragment : Fragment() {
         customCheckBoxList.forEach{p -> p.isClickable = false}
         v.panelCustom.visibility = View.GONE
         val animationHide =
-            AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down_reverse)
+            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down_reverse)
         animationHide.duration = 700
         animationHide.fillAfter = true
         v.panelCustom.startAnimation(animationHide)
 
         v.panelNotCustom.visibility = View.VISIBLE
         val animationShow =
-            AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.scale_down)
+            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down)
         animationShow.duration = 350
         animationShow.fillAfter = true
         animationShow.startOffset = 280

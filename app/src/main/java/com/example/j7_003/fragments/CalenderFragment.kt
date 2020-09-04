@@ -43,7 +43,7 @@ class CalenderFragment : Fragment() {
         val myAdapter = TermAdapter()
 
         myRecycler.adapter = myAdapter
-        myRecycler.layoutManager = LinearLayoutManager(MainActivity.myActivity)
+        myRecycler.layoutManager = LinearLayoutManager(MainActivity.act)
         myRecycler.setHasFixedSize(true)
 
         val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteTerm(myAdapter))
@@ -56,7 +56,7 @@ class CalenderFragment : Fragment() {
     }
 
     fun changeToCreateTermFragment() {
-        MainActivity.myActivity.changeToCreateTerm()
+        MainActivity.act.changeToCreateTerm()
     }
 
 }
@@ -107,7 +107,7 @@ class TermAdapter() :
         holder.itemView.setOnClickListener() {
             //todo start createTermFragment in EDIT MODE
             MainActivity.editTerm = currentTerm
-            MainActivity.myActivity.changeToCreateTerm()
+            MainActivity.act.changeToCreateTerm()
         }
 
         holder.tvTitle.text = currentTerm.title
@@ -119,7 +119,7 @@ class TermAdapter() :
         val month = date.monthValue.toString()
         val day = date.dayOfMonth.toString()
         val year = date.year.toString().subSequence(2,4)
-        holder.tvDate.text = MainActivity.myActivity.getString(R.string.termItemDate,
+        holder.tvDate.text = MainActivity.act.getString(R.string.termItemDate,
         dayOfWeekString, day, month, year)
     }
 

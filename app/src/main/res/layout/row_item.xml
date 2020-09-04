@@ -10,11 +10,13 @@
     <TextView
         android:id="@+id/tvItemTitle"
         android:layout_width="0dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
         android:text="Tomato"
         android:textColor="@color/colorOnBackGround"
         android:textSize="@dimen/font_size_list_items"
+        android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/clItemTapfield"
         app:layout_constraintStart_toStartOf="parent"

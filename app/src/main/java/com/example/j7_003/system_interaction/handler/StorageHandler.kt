@@ -18,7 +18,7 @@ class StorageHandler {
             files[identifier] =
                 setStorageLocation(
                     fileName,
-                    MainActivity.myActivity
+                    MainActivity.act
                 )
 
             if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
@@ -29,7 +29,7 @@ class StorageHandler {
         fun createJsonFile(
             identifier: String,
             fileName: String,
-            context: Context = MainActivity.myActivity,
+            context: Context = MainActivity.act,
             text: String = "[]"
         ) {
             files[identifier] =

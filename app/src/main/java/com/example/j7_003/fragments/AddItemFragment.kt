@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_add_item.view.*
 
 class AddItemFragment : Fragment() {
 
+    lateinit var tags: Array<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -32,6 +33,8 @@ class AddItemFragment : Fragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
 
+        //todo get taglist here from shoppinglistinstance or something
+        tags = arrayOf("Sonstige","Obst und Gemüse", "Käse", "Molkereiprodukte")
         initializeComponents(myView)
 
         return myView
@@ -40,8 +43,17 @@ class AddItemFragment : Fragment() {
     private fun initializeComponents(myView: View){
 
 
-        val tvCategoryField = myView.tvCategoryField
-        tvCategoryField.text = ""
+
+        val spCategory = myView.spCategory
+        val categoryAdapter = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, tags)
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spCategory.adapter = categoryAdapter
+
+        //Initialize spinner and its adapter to choose its Unit
+        val mySpinner = myView.spItemUnit
+        val myAdapter = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.units))
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner.adapter = myAdapter
 
         val itemNameList: ArrayList<String> = ArrayList()
         val itemTemplateList = ItemTemplateList()
@@ -52,7 +64,7 @@ class AddItemFragment : Fragment() {
         //TODO remove this and replace it with proper connection to database
         //Initialize autocomplete text view for item name and its adapter
         val autoCompleteTv = myView.actvItem
-        val autoCompleteTvAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_spinner_dropdown_item, itemNameList)
+        val autoCompleteTvAdapter = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_spinner_dropdown_item, itemNameList)
         autoCompleteTv.setAdapter(autoCompleteTvAdapter)
         autoCompleteTv.requestFocus()
 
@@ -60,7 +72,10 @@ class AddItemFragment : Fragment() {
         autoCompleteTv.setOnItemClickListener { parent, view, position, id ->
             val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
             if(template!=null){
-                tvCategoryField.text = template.c.n
+                //template.c.n "=" template.category.name
+//                tvCategoryField.text = template.c.n
+                //todo set correct selection in tvcategory
+                spCategory.setSelection(tags.indexOf(template.c.n))
                 val unitPointPos = when(template.s){
                     "kg" -> 1
                     "g" -> 2
@@ -71,27 +86,27 @@ class AddItemFragment : Fragment() {
                 spItemUnit.setSelection(unitPointPos)
             }
             else{
-                tvCategoryField.text = ""
+                //todo set correct selection in tvcategory
+//                tvCategoryField.text = ""
+
+                spCategory.setSelection(0)
             }
         }
 
         autoCompleteTv.setOnKeyListener { v, keyCode, event ->
             val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
             if(template!=null){
-                tvCategoryField.text = template.c.n
+                //todo set select correct selection
+//                tvCategoryField.text = template.c.n
             }
             else{
-                tvCategoryField.text = ""
+                //todo set select correct selection
+//                tvCategoryField.text = ""
             }
             true
         }
 
 
-        //Initialize spinner and its adapter to choose its Unit
-        val mySpinner = myView.spItemUnit
-        val myAdapter = ArrayAdapter<String>(MainActivity.myActivity, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.units))
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mySpinner.adapter = myAdapter
 
         //initialize edit text for item amount string
         val etItemAmount = myView.etItemAmount
@@ -116,11 +131,10 @@ class AddItemFragment : Fragment() {
                     template.n, template.c,
                     template.s, etItemAmount.text.toString(), mySpinner.selectedItem.toString(), false)
                 shoppingInstance.add(item)
-                //TODO SORT AFTER ADDING
             }else{
                 //TODO Handle unknown item
             }
-            MainActivity.myActivity.changeToShopping()
+            MainActivity.act.changeToShopping()
         }
     }
 

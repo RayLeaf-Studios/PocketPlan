@@ -29,7 +29,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
 
     private fun loadFromAssets() {
         val jsonString =    // TODO set file name to production name
-            MainActivity.myActivity.assets.open("itemList.json").bufferedReader().readText()
+            MainActivity.act.assets.open("itemList.json").bufferedReader().readText()
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type

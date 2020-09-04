@@ -56,23 +56,23 @@ class HomeFragment : Fragment() {
         updateBirthdayPanel()
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
-        myView.panelTasks.setOnClickListener { MainActivity.myActivity.changeToToDo() }
-        myView.panelBirthdays.setOnClickListener { MainActivity.myActivity.changeToBirthdays() }
-        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.myActivity.changeToSleepReminder() }
-        myView.icSleepHome.setOnClickListener{MainActivity.myActivity.changeToSleepReminder()}
+        myView.panelTasks.setOnClickListener { MainActivity.act.changeToToDo() }
+        myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToBirthdays() }
+        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.act.changeToSleepReminder() }
+        myView.icSleepHome.setOnClickListener{MainActivity.act.changeToSleepReminder()}
 
 
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.btnNewNote.setOnClickListener{
             MainActivity.fromHome = true
-            MainActivity.myActivity.changeToCreateNoteFragment()
+            MainActivity.act.changeToCreateNoteFragment()
         }
         myView.btnNewTask.setOnClickListener{ createTaskFromHome()}
         myView.btnNewTerm.setOnClickListener {
             MainActivity.fromHome = true
-            MainActivity.myActivity.changeToCreateTerm()  }
-        myView.btnNewItem.setOnClickListener { MainActivity.myActivity.changeToAddItem() }
+            MainActivity.act.changeToCreateTerm()  }
+        myView.btnNewItem.setOnClickListener { MainActivity.act.changeToAddItem() }
 
 
         //recyclerview holding the terms for today
@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
         val myAdapter = HomeTermAdapterDay()
         myAdapter.setDate(LocalDate.now())
         homeTermRecyclerView.adapter = myAdapter
-        homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.myActivity)
+        homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
 
         return myView
     }
@@ -107,13 +107,13 @@ class HomeFragment : Fragment() {
             myView.tvTasks.text = "\n   No important tasks\n"
             myView.tvTasks.setTextColor(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorHint
                 )
             )
             myView.icTasksHome.setColorFilter(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorHint
                 )
             )
@@ -121,13 +121,13 @@ class HomeFragment : Fragment() {
         }else{
             myView.tvTasks.setTextColor(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorOnBackGround
                 )
             )
             myView.icTasksHome.setColorFilter(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorOnBackGround
                 )
             )
@@ -164,13 +164,13 @@ class HomeFragment : Fragment() {
             myView.tvBirthday.text = "\n   No birthdays today\n"
             myView.tvBirthday.setTextColor(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorHint
                 )
             )
             myView.icBirthdaysHome.setColorFilter(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorHint
                 )
             )
@@ -179,13 +179,13 @@ class HomeFragment : Fragment() {
 
             myView.tvBirthday.setTextColor(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorOnBackGround
                 )
             )
             myView.icBirthdaysHome.setColorFilter(
                 ContextCompat.getColor(
-                    MainActivity.myActivity,
+                    MainActivity.act,
                     R.color.colorOnBackGround
                 )
             )
@@ -214,13 +214,13 @@ class HomeFragment : Fragment() {
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.setTextColor(
                     ContextCompat.getColor(
-                        MainActivity.myActivity,
+                        MainActivity.act,
                         R.color.colorOnBackGround
                     )
                 )
                 myView.icSleepHome.setColorFilter(
                     ContextCompat.getColor(
-                        MainActivity.myActivity,
+                        MainActivity.act,
                         R.color.colorOnBackGround
                     )
                 )
@@ -232,13 +232,13 @@ class HomeFragment : Fragment() {
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.setTextColor(
                     ContextCompat.getColor(
-                        MainActivity.myActivity,
+                        MainActivity.act,
                         R.color.colorGoToSleep
                     )
                 )
                 myView.icSleepHome.setColorFilter(
                     ContextCompat.getColor(
-                        MainActivity.myActivity,
+                        MainActivity.act,
                         R.color.colorGoToSleep
                     )
                 )
@@ -277,7 +277,7 @@ class HomeFragment : Fragment() {
                 myAlertDialog?.dismiss()
                 val title = myDialogView.etxTitleAddTask.text.toString()
                 if(title.isEmpty()){
-                    Toast.makeText(MainActivity.myActivity, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.act, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
                 }else {
                     Database.addTask(title, index + 1, false)
                     updateTaskPanel()

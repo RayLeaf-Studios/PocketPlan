@@ -1,4 +1,6 @@
-[{"n" : "Obst und Gemüse", "c" : "#498020"},
+[
+  {"n" : "Sonstige", "c" : "#7b7b7b"},
+  {"n" : "Obst und Gemüse", "c" : "#498020"},
   {"n" : "Getränke", "c" : "u#275f9"},
   {"n" : "Fleisch", "c" : "#8a0303"},
   {"n" : "Milchprodukte", "c" : "#858583"},

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
-import java.util.*
 
 class AlarmHandler {
     companion object {
@@ -45,7 +44,7 @@ class AlarmHandler {
         }
 
         fun setNewSleepReminderAlarm(
-            context: Context = MainActivity.myActivity,
+            context: Context = MainActivity.act,
             dayOfWeek: DayOfWeek,
             reminderTime: LocalDateTime,
             requestCode: Int,

@@ -122,9 +122,9 @@ class CreateTermFragment : Fragment() {
         val termInfo = etTermInfo.text.toString()
         CalendarManager.addAppointment(termTitle, termInfo, startDateTime, endLocalTime)
         if(MainActivity.fromHome){
-            MainActivity.myActivity.changeToHome()
+            MainActivity.act.changeToHome()
         }else{
-            MainActivity.myActivity.changeToDayView()
+            MainActivity.act.changeToDayView()
         }
         MainActivity.fromHome = false
     }
@@ -136,7 +136,7 @@ class CreateTermFragment : Fragment() {
             tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
                 .padStart(2, '0') + "." + year.toString()
         }
-        val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, startDateTime.year, startDateTime.monthValue-1, startDateTime.dayOfMonth)
+        val dpd = DatePickerDialog(MainActivity.act, dateSetListener, startDateTime.year, startDateTime.monthValue-1, startDateTime.dayOfMonth)
         dpd.show()
     }
 
@@ -148,7 +148,7 @@ class CreateTermFragment : Fragment() {
             tvTermTime.text = h.toString()
                 .padStart(2, '0') + ":" + m.toString().padStart(2, '0')
         }
-        val tpd = TimePickerDialog(MainActivity.myActivity, timeSetListener, startDateTime.hour, startDateTime.minute, true)
+        val tpd = TimePickerDialog(MainActivity.act, timeSetListener, startDateTime.hour, startDateTime.minute, true)
         tpd.show()
     }
     @SuppressLint("SetTextI18n")
@@ -161,7 +161,7 @@ class CreateTermFragment : Fragment() {
             tvTermEndTime.text = endLocalTime.hour.toString()
                 .padStart(2, '0') + ":" + endLocalTime.minute.toString().padStart(2, '0')
         }
-        val tpd = TimePickerDialog(MainActivity.myActivity, timeSetListener, startDateTime.hour, startDateTime.minute, true)
+        val tpd = TimePickerDialog(MainActivity.act, timeSetListener, startDateTime.hour, startDateTime.minute, true)
         tpd.show()
     }
 
@@ -230,9 +230,9 @@ class CreateTermFragment : Fragment() {
 
         btnDiscardTermChanges.setOnClickListener {
             if(MainActivity.fromHome){
-                MainActivity.myActivity.changeToHome()
+                MainActivity.act.changeToHome()
             }else{
-                MainActivity.myActivity.changeToDayView()
+                MainActivity.act.changeToDayView()
             }
             MainActivity.fromHome = false
         }

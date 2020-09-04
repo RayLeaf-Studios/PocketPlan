@@ -3,17 +3,13 @@ package com.example.j7_003.fragments
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -49,14 +45,16 @@ class TodoFragment : Fragment() {
         for(i in newSize until oldSize){
             val v = myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
             if(i == oldSize-1){
-                v.myView.animate().scaleX(0f).setDuration(250).withEndAction{
+                myRecycler.isClickable = false
+                v.itemView.animate().scaleX(0f).setDuration(250).scaleY(0f).withEndAction{
                     myAdapter.notifyItemRangeRemoved(newSize, oldSize)
+                    myRecycler.isClickable = true
                 }
             }else{
-                v.myView.animate().scaleX(0f).duration = 250
+                v.itemView.animate().scaleX(0f).scaleY(0f).duration = 250
             }
         }
-        MainActivity.myActivity.updateDeleteTaskIcon()
+        MainActivity.act.updateDeleteTaskIcon()
     }
 
 
@@ -64,7 +62,7 @@ class TodoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {      
+    ): View? {
 
         val myView = inflater.inflate(layout.fragment_todo, container, false)
         myRecycler = myView.recycler_view_todo
@@ -100,7 +98,7 @@ class TodoFragment : Fragment() {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
                     if(title.isEmpty()){
-                        Toast.makeText(MainActivity.myActivity, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(MainActivity.act, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
                     }else{
                         myRecycler.adapter?.notifyItemInserted(Database.addFullTask(Task(title, index+1, false)))
                     }
@@ -120,10 +118,10 @@ class TodoFragment : Fragment() {
         myRecycler.setHasFixedSize(true)
 
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteT(myAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.LEFT, myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteT(myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.RIGHT, myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
@@ -132,8 +130,7 @@ class TodoFragment : Fragment() {
 
 }
 
-class SwipeRightToDeleteT(var adapter: TodoTaskAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+class SwipeToDeleteTask(direction: Int,  val adapter: TodoTaskAdapter): ItemTouchHelper.SimpleCallback(0, direction){
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false
     }
@@ -141,30 +138,17 @@ class SwipeRightToDeleteT(var adapter: TodoTaskAdapter):
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
-        MainActivity.myActivity.updateDeleteTaskIcon()
-    }
-}
-
-class SwipeLeftToDeleteT(private var adapter: TodoTaskAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        return false
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
-        MainActivity.myActivity.updateDeleteTaskIcon()
+        MainActivity.act.updateDeleteTaskIcon()
     }
 }
 
 class TodoTaskAdapter :
-    RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){   
+    RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(){
 
     fun deleteItem(position: Int){
         TodoFragment.deletedTaskList.clear()
         TodoFragment.deletedTask = Database.getTask(position)
-        MainActivity.myActivity.updateUndoTaskIcon()
+        MainActivity.act.updateUndoTaskIcon()
         Database.deleteTask(position)
         notifyItemRemoved(position)
     }
@@ -180,24 +164,27 @@ class TodoTaskAdapter :
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
         val currentTask = Database.getTask(holder.adapterPosition)
-        val activity = MainActivity.myActivity
+        val activity = MainActivity.act
 
         //changes design of task based on priority and being checked
-        holder.tvName.text = currentTask.title
-        holder.myView.scaleX = 1f
+        holder.itemView.tvName.text = currentTask.title
+
+        //resets scale, that got animated
+        holder.itemView.scaleX = 1f
+        holder.itemView.scaleY = 1f
         if(Database.getTask(holder.adapterPosition).isChecked){
-            holder.checkBox.isChecked = true
-            holder.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorHint))
-            holder.myView.setBackgroundResource(drawable.round_corner_gray)
+            holder.itemView.cbTask.isChecked = true
+            holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            holder.itemView.tvName.setTextColor(ContextCompat.getColor(MainActivity.act, color.colorHint))
+            holder.itemView.setBackgroundResource(drawable.round_corner_gray)
         }else{
-            holder.checkBox.isChecked = false
-            holder.tvName.paintFlags = 0
-            holder.tvName.setTextColor(ContextCompat.getColor(MainActivity.myActivity, color.colorOnBackGround))
+            holder.itemView.cbTask.isChecked = false
+            holder.itemView.tvName.paintFlags = 0
+            holder.itemView.tvName.setTextColor(ContextCompat.getColor(MainActivity.act, color.colorOnBackGround))
             when(currentTask.priority){
-                1 -> holder.myView.setBackgroundResource(drawable.round_corner1)
-                2 -> holder.myView.setBackgroundResource(drawable.round_corner2)
-                3 -> holder.myView.setBackgroundResource(drawable.round_corner3)
+                1 -> holder.itemView.setBackgroundResource(drawable.round_corner1)
+                2 -> holder.itemView.setBackgroundResource(drawable.round_corner2)
+                3 -> holder.itemView.setBackgroundResource(drawable.round_corner3)
             }
         }
 
@@ -207,7 +194,7 @@ class TodoTaskAdapter :
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        holder.itemView.task_title_textview.setOnClickListener {
+        holder.itemView.tvName.setOnClickListener {
 
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
@@ -248,12 +235,12 @@ class TodoTaskAdapter :
         }
 
         //reacts to the user checking a task
-        holder.tapField.setOnClickListener{
+        holder.itemView.tapField.setOnClickListener{
             val checkedStatus = !Database.getTask(holder.adapterPosition).isChecked
-            holder.checkBox.isChecked = checkedStatus
+            holder.itemView.cbTask.isChecked = checkedStatus
             val task = Database.getTask(holder.adapterPosition)
             val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checkedStatus)
-            MainActivity.myActivity.updateDeleteTaskIcon()
+            MainActivity.act.updateDeleteTaskIcon()
 
             notifyItemChanged(holder.adapterPosition)
             if(holder.adapterPosition != newPos){
@@ -266,14 +253,6 @@ class TodoTaskAdapter :
 
     override fun getItemCount() = Database.taskList.size
 
-    class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        /**
-         * One instance of this class will contain one "instance" of row_task and meta data
-         * like position, it also holds references to views inside of the layout
-         */
-        var myView = itemView
-        val tvName: TextView = itemView.task_title_textview
-        val checkBox: CheckBox = itemView.cbTask
-        val tapField: ConstraintLayout = itemView.tapField
-    }
+    class TodoTaskViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView)
 }
+

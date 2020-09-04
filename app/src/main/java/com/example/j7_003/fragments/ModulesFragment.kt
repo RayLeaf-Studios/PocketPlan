@@ -23,26 +23,26 @@ class ModulesFragment : Fragment() {
         val myView =  inflater.inflate(R.layout.fragment_modules, container, false)
 
         myView.menuPanelBirthdays.setOnClickListener{
-            MainActivity.myActivity.changeToBirthdays()
+            MainActivity.act.changeToBirthdays()
         }
 
         myView.menuPanelSettings.setOnClickListener{
-            MainActivity.myActivity.changeToSettings()
+            MainActivity.act.changeToSettings()
         }
 
         myView.menuPanelSleepReminder.setOnClickListener {
             val animationShow =
-                AnimationUtils.loadAnimation(MainActivity.myActivity, R.anim.spin)
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.spin)
             animationShow.duration = 300
             animationShow.fillAfter = true
             myView.sleepIcon.startAnimation(animationShow)
 
-            MainActivity.myActivity.changeToSleepReminder()
+            MainActivity.act.changeToSleepReminder()
 
         }
 
         myView.menuPanelShopping.setOnClickListener(){
-            MainActivity.myActivity.changeToShopping()
+            MainActivity.act.changeToShopping()
         }
        return myView
     }

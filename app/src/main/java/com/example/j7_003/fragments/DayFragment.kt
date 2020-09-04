@@ -56,7 +56,7 @@ class DayFragment : Fragment() {
 
         //initializes viewpager
         dayPager = myView.dayPager
-        val pagerAdapter = ScreenSlidePagerAdapter(MainActivity.myActivity)
+        val pagerAdapter = ScreenSlidePagerAdapter(MainActivity.act)
         dayPager.adapter = pagerAdapter
 
         //pageChangeCallback to react to scrolling
@@ -80,7 +80,7 @@ class DayFragment : Fragment() {
                 dayPager.currentItem = newPosition
                 updateDayViewTitle()
             }
-            val dpd = DatePickerDialog(MainActivity.myActivity, dateSetListener, date.year, date.monthValue-1, date.dayOfMonth)
+            val dpd = DatePickerDialog(MainActivity.act, dateSetListener, date.year, date.monthValue-1, date.dayOfMonth)
             dpd.show()
         }
 
@@ -139,7 +139,7 @@ class DayFragment : Fragment() {
     }
 
     private fun changeToCreateTermFragment() {
-        MainActivity.myActivity.changeToCreateTerm()
+        MainActivity.act.changeToCreateTerm()
     }
 
 }

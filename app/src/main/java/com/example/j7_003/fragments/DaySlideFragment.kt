@@ -47,7 +47,7 @@ class TestFragment : Fragment() {
         val myAdapter = TermAdapterDay()
         myAdapter.setDate(newDate)
         myRecycler.adapter = myAdapter
-        myRecycler.layoutManager = LinearLayoutManager(MainActivity.myActivity)
+        myRecycler.layoutManager = LinearLayoutManager(MainActivity.act)
 
         //return inflated View
         return myView
@@ -83,7 +83,7 @@ class TermAdapterDay :
 
         holder.itemView.setOnClickListener {
             //todo start CreateTermFragment in EDIT mode
-            MainActivity.myActivity.changeToCreateTerm()
+            MainActivity.act.changeToCreateTerm()
         }
 
         holder.tvTitle.text = currentTerm.title
