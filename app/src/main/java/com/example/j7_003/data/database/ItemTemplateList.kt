@@ -46,4 +46,4 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
     private class TMPTemplate(val n: String, val c: String, val s: String)
 }
 
-data class ItemTemplate(val n: String, val c: Tag, val s: String)
+data class ItemTemplate(var n: String, var c: Tag, var s: String)
