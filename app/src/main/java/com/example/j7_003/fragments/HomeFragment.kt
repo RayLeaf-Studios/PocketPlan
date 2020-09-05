@@ -2,6 +2,7 @@ package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,7 @@ import org.threeten.bp.LocalDate
 class HomeFragment : Fragment() {
 
     lateinit var myView: View
+    private lateinit var timer: CountDownTimer
 
     companion object{
         lateinit var homeTermRecyclerView: RecyclerView
@@ -46,9 +48,18 @@ class HomeFragment : Fragment() {
         SleepReminder.init()
         CalendarManager.init()
 
-
         //initializing layout
         myView = inflater.inflate(R.layout.fragment_home, container, false)
+
+        timer = object: CountDownTimer(Long.MAX_VALUE, 30000) {// creates a timer to update the clock
+            override fun onTick(millisUntilFinished: Long) {    // called on each tick (~30 sec)
+                updateWaketimePanel()
+            }
+
+            override fun onFinish() {   // restarts the timer if fragment isn't closed
+                this.start()    // should never happen (due to Long.MAX_VALUE duration)
+            }
+        }.start()
 
         //updating ui
         updateWaketimePanel()
@@ -85,6 +96,14 @@ class HomeFragment : Fragment() {
         homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
 
         return myView
+    }
+
+    /**
+     * Called when the fragment is stopped.
+     */
+    override fun onStop() {
+        timer.cancel()
+        super.onStop()
     }
 
     //Sets the text of tvTasks to the titles of the first 3 important tasks
