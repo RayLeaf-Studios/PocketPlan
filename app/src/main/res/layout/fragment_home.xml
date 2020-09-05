@@ -107,10 +107,20 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_accent"
         android:text="+ Note"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnNewTask"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btnNewTerm"-->
+    <!--        android:layout_width="70dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/round_corner_accent"-->
+    <!--        android:text="+ Term"-->
+    <!--        tools:layout_editor_absoluteX="261dp"-->
+    <!--        tools:layout_editor_absoluteY="545dp" />-->
 
     <Button
         android:id="@+id/btnNewTask"
@@ -118,24 +128,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_accent"
         android:text="+ Task"
-        app:layout_constraintEnd_toStartOf="@+id/btnNewTerm"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewItem"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnNewNote"
         app:layout_constraintTop_toTopOf="@+id/btnNewNote">
 
 
     </Button>
-
-    <Button
-        android:id="@+id/btnNewTerm"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_accent"
-        android:text="+ Term"
-        app:layout_constraintEnd_toStartOf="@+id/btnNewItem"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnNewTask"
-        app:layout_constraintTop_toTopOf="@+id/btnNewTask" />
 
     <Button
         android:id="@+id/btnNewItem"
@@ -145,8 +144,8 @@
         android:text="+ Item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnNewTerm"
-        app:layout_constraintTop_toTopOf="@+id/btnNewTerm" />
+        app:layout_constraintStart_toEndOf="@+id/btnNewTask"
+        app:layout_constraintTop_toTopOf="@+id/btnNewTask" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_home"

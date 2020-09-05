@@ -75,10 +75,10 @@ class NoteFragment : Fragment() {
         myRecycler.setHasFixedSize(true)
 
         //initialize item touch helper to support swipe to delete
-        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteN(noteAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.LEFT))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteN(noteAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.RIGHT))
         swipeHelperRight.attachToRecyclerView(myRecycler)
     }
 
@@ -151,20 +151,8 @@ class NoteAdapter :
 
 }
 
-class SwipeRightToDeleteN(var adapter: NoteAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        return false
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
-    }
-}
-
-class SwipeLeftToDeleteN(private var adapter: NoteAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+class SwipeToDeleteNote(var adapter: NoteAdapter, direction: Int):
+    ItemTouchHelper.SimpleCallback(0, direction){
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false
     }

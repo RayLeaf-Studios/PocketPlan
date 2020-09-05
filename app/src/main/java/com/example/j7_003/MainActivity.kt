@@ -34,8 +34,10 @@ class MainActivity : AppCompatActivity(){
     private lateinit var shoppingFragment: ShoppingFragment
     private lateinit var createNoteFragment: CreateNoteFragment
     private lateinit var createTermFragment: CreateTermFragment
+    private lateinit var aboutFragment: AboutFragment
     private lateinit var addItemFragment: AddItemFragment
     private lateinit var bottomNavigation: BottomNavigationView
+
 
     private var activeFragmentTag = ""
 
@@ -52,24 +54,22 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
         act = this
 
-        //initialization of time-API, Database and Settingsmanager
+        //inflate sleepView for faster loading time
+        sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
+
+        //initialization of time-API, Database and SettingsManager
         AndroidThreeTen.init(this)
         Database.init()
         SettingsManager.init()
-        //todo give all settings default values
-        if(SettingsManager.getSetting("noteColumns")==null){
-            SettingsManager.addSetting("noteColumns", "2")
-        }
-        if(SettingsManager.getSetting("noteLines")==null){
-            SettingsManager.addSetting("noteLines", "All")
-        }
 
-        myMenu = null
+        //load default values for settings in case none have been set yet
+        loadDefaultSettings()
+
+        //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
@@ -331,6 +331,21 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
+    fun changeToAbout(){
+        if(activeFragmentTag!="about") {
+            hideMenuIcons()
+            aboutFragment = AboutFragment()
+            bottomNavigation.selectedItemId = R.id.modules
+            supportActionBar?.title = "About"
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, aboutFragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            activeFragmentTag="about"
+        }
+    }
+
     /**
      * UI FUNCTIONS
      */
@@ -530,6 +545,18 @@ class MainActivity : AppCompatActivity(){
         }
         changeToHome()
         return true
+    }
+
+    private fun loadDefaultSettings(){
+        if(SettingsManager.getSetting("noteColumns")==null){
+            SettingsManager.addSetting("noteColumns", "2")
+        }
+        if(SettingsManager.getSetting("noteLines")==null){
+            SettingsManager.addSetting("noteLines", "All")
+        }
+        if(SettingsManager.getSetting("expandOneCategory")==null){
+            SettingsManager.addSetting("expandOneCategory", false)
+        }
     }
 
 }

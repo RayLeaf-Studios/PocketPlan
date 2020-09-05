@@ -41,8 +41,8 @@ class ModulesFragment : Fragment() {
 
         }
 
-        myView.menuPanelShopping.setOnClickListener(){
-            MainActivity.act.changeToShopping()
+        myView.menuPanelAbout.setOnClickListener(){
+            MainActivity.act.changeToAbout()
         }
        return myView
     }

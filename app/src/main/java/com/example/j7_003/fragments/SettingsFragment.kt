@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_settings.view.*
 class SettingsFragment : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
-    private lateinit var spDefaultCategories: Spinner
     private lateinit var swExpandOneCategory: Switch
 
     override fun onCreateView(
@@ -41,7 +40,6 @@ class SettingsFragment : Fragment() {
         //initialize references to view
         spNoteLines = myView.spNoteLines
         spNoteColumns = myView.spNoteColumns
-        spDefaultCategories = myView.spDefaultCategories
         swExpandOneCategory = myView.swExpandOneCategory
 
         /**
@@ -59,11 +57,6 @@ class SettingsFragment : Fragment() {
         val spAdapterNoteColumns = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.noteColumns))
         spAdapterNoteColumns.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spNoteColumns.adapter = spAdapterNoteColumns
-
-        //Spinner for showing categories as expanded / hidden
-        val spAdapterDefaultCategories = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, arrayOf("expanded", "hidden"))
-        spAdapterDefaultCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spDefaultCategories.adapter = spAdapterDefaultCategories
     }
 
     private fun initializeDisplayValues(){
@@ -74,8 +67,8 @@ class SettingsFragment : Fragment() {
         val columnOptions = resources.getStringArray(R.array.noteColumns)
         spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting("noteColumns")))
 
-        spDefaultCategories.setSelection(0)
-        swExpandOneCategory.isChecked = true
+        swExpandOneCategory.isChecked = SettingsManager.getSetting("expandOneCategory") as Boolean
+
     }
 
     private fun initializeListeners(){
@@ -101,25 +94,9 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        //Listener for category default display (hidden/expanded) spinner
-        spDefaultCategories.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val expanded = when(spNoteColumns.selectedItem as String){
-                    "expanded" -> true
-                    "hidden" -> false
-                    else -> false
-                }
-
-                //TODO save expanded to SettingsManager as Boolean
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-        }
-
         //Switch for only showing one category as expanded
         swExpandOneCategory.setOnClickListener{
-            //TODO save swExpandOneCategory.isChecked to SettingsManager as Boolean
+            SettingsManager.addSetting("expandOneCategory", swExpandOneCategory.isChecked)
         }
     }
 

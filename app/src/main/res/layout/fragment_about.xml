@@ -30,7 +30,7 @@
                     android:id="@+id/tvNoteHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Notes"
+                    android:text="Credits"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent"
                     android:textSize="17sp"
@@ -117,7 +117,7 @@
                     android:id="@+id/tvShoppingHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shopping-List"
+                    android:text="Special Thanks to"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent"
                     android:textSize="17sp"
@@ -140,15 +140,6 @@
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <Switch
-                    android:id="@+id/swExpandOneCategory"
-                    app:layout_constraintTop_toTopOf="@id/tvOneCategory"
-                    app:layout_constraintBottom_toBottomOf="@id/tvOneCategory"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
