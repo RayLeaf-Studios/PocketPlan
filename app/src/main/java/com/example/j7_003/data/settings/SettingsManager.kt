@@ -14,6 +14,12 @@ class SettingsManager {
             load()
         }
 
+        fun getSetting(name: String): Any? {
+            return if(settings.containsKey(name)){
+                settings[name]
+            } else null
+        }
+
         fun addSetting(name: String, any: Any) {
             settings[name] = any
             save()

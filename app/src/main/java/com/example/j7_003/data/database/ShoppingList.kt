@@ -90,13 +90,14 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag The tag of the sublist to flip.
      * @return True if the expansion state markers checked boolean is flipped, false otherwise.
      */
-    fun flipExpansionState(tag: Tag): Boolean {
+    fun flipExpansionState(tag: Tag): Boolean? {
         return try {
-            this[getTagIndex(tag)].second[0].checked = !this[getTagIndex(tag)].second[0].checked
+            val newState = !this[getTagIndex(tag)].second[0].checked
+            this[getTagIndex(tag)].second[0].checked = newState
             save()
-            true
+            newState
         } catch(e: Exception) {
-            false
+            null
         }
     }
 
@@ -238,6 +239,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     fun sortTag(tag: Tag): Pair<Int, Int>? {
         val oldPosition = getTagIndex(tag)
         this.sortBy { areAllChecked(it.first) }
+        save()
         val returnPair = Pair(oldPosition, getTagIndex(tag))
 
         return if (returnPair.first == returnPair.second) {

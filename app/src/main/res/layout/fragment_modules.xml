@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/menuPanelShopping">
+        app:layout_constraintStart_toEndOf="@+id/menuPanelAbout">
 
         <ImageView
             android:id="@+id/settingsIcon"
@@ -47,8 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/menuPanelShopping"
-        app:layout_constraintEnd_toStartOf="@+id/menuPanelShopping"
+        app:layout_constraintBottom_toBottomOf="@+id/menuPanelAbout"
+        app:layout_constraintEnd_toStartOf="@+id/menuPanelAbout"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/menuPanelSleepReminder">
 
@@ -110,7 +110,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/menuPanelShopping"
+        android:id="@+id/menuPanelAbout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -125,7 +125,7 @@
             android:layout_height="50dp"
             android:padding="10dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_action_shopping"
+            android:src="@drawable/ic_action_info"
             android:tint="@color/colorOnBackGround"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +134,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shopping"
+            android:text="About"
             android:textColor="@color/colorOnBackGround"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/shoppingIcon"

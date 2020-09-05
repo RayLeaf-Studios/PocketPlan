@@ -8,20 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Spinner
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.ItemTemplateList
 import com.example.j7_003.data.database.ShoppingList
+import com.example.j7_003.data.database.TagList
 import com.example.j7_003.data.database.database_objects.ShoppingItem
 import kotlinx.android.synthetic.main.fragment_add_item.*
 import kotlinx.android.synthetic.main.fragment_add_item.view.*
 
 class AddItemFragment : Fragment() {
 
-    lateinit var tags: Array<String>
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var tagNames: Array<String?>
+    private lateinit var itemTemplateList: ItemTemplateList
+    private lateinit var actvItem: AutoCompleteTextView
+    private lateinit var spItemUnit: Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +33,17 @@ class AddItemFragment : Fragment() {
         // Inflate the layout for this fragment
         val myView = inflater.inflate(R.layout.fragment_add_item, container, false)
 
+        actvItem = myView.actvItem
+        spItemUnit = myView.spItemUnit
+
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
 
         //todo get taglist here from shoppinglistinstance or something
-        tags = arrayOf("Sonstige","Obst und Gemüse", "Käse", "Molkereiprodukte")
+        val tagList = TagList()
+        tagNames = tagList.getTagNames()
+        itemTemplateList = ItemTemplateList()
+
         initializeComponents(myView)
 
         return myView
@@ -42,10 +51,9 @@ class AddItemFragment : Fragment() {
 
     private fun initializeComponents(myView: View){
 
-
-
+        //initialize spinner for categorys
         val spCategory = myView.spCategory
-        val categoryAdapter = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, tags)
+        val categoryAdapter = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, tagNames)
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = categoryAdapter
 
@@ -68,45 +76,14 @@ class AddItemFragment : Fragment() {
         autoCompleteTv.setAdapter(autoCompleteTvAdapter)
         autoCompleteTv.requestFocus()
 
-        val listInstance1 = ItemTemplateList()
         autoCompleteTv.setOnItemClickListener { parent, view, position, id ->
-            val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
-            if(template!=null){
-                //template.c.n "=" template.category.name
-//                tvCategoryField.text = template.c.n
-                //todo set correct selection in tvcategory
-                spCategory.setSelection(tags.indexOf(template.c.n))
-                val unitPointPos = when(template.s){
-                    "kg" -> 1
-                    "g" -> 2
-                    "L" -> 3
-                    "ml" -> 4
-                    else -> 0
-                }
-                spItemUnit.setSelection(unitPointPos)
-            }
-            else{
-                //todo set correct selection in tvcategory
-//                tvCategoryField.text = ""
-
-                spCategory.setSelection(0)
-            }
+            handleItemEntered()
         }
 
         autoCompleteTv.setOnKeyListener { v, keyCode, event ->
-            val template = listInstance1.getTemplateByName(autoCompleteTv.text.toString())
-            if(template!=null){
-                //todo set select correct selection
-//                tvCategoryField.text = template.c.n
-            }
-            else{
-                //todo set select correct selection
-//                tvCategoryField.text = ""
-            }
+            handleItemEntered()
             true
         }
-
-
 
         //initialize edit text for item amount string
         val etItemAmount = myView.etItemAmount
@@ -121,20 +98,42 @@ class AddItemFragment : Fragment() {
 
         //Button to Confirm adding Item to list
         myView.btnAddItemToList.setOnClickListener {
-            //TODO read values from name(autoText), amount textvield and unit spinner, then add item
-            val shoppingInstance = ShoppingList()
-            val listInstance = ItemTemplateList()
+            handleAddingItem()
+        }
+    }
 
-            val template = listInstance.getTemplateByName(autoCompleteTv.text.toString())
-            if(template!=null){
-                val item = ShoppingItem(
-                    template.n, template.c,
-                    template.s, etItemAmount.text.toString(), mySpinner.selectedItem.toString(), false)
-                shoppingInstance.add(item)
-            }else{
-                //TODO Handle unknown item
-            }
-            MainActivity.act.changeToShopping()
+    private fun handleAddingItem(){
+        val shoppingInstance = ShoppingList()
+        val template = itemTemplateList.getTemplateByName(actvItem.text.toString())
+        val tagList = TagList()
+        val tag = tagList.getTagByName(spCategory.selectedItem as String)
+
+        if(template!=null && tag!=null){
+            val item = ShoppingItem(
+                template.n, tag,
+                template.s, etItemAmount.text.toString(), spItemUnit.selectedItem.toString(), false)
+            shoppingInstance.add(item)
+        }else{
+//            val item = ShoppingItem(
+//                template.n, tag,
+//                template.s, etItemAmount.text.toString(), spItemUnit.selectedItem.toString(), false)
+//            shoppingInstance.add(item)
+        }
+        MainActivity.act.changeToShopping()
+    }
+
+    private fun handleItemEntered(){
+        val template = itemTemplateList.getTemplateByName(actvItem.text.toString())
+        if(template!=null){
+            //display correct category
+            spCategory.setSelection(tagNames.indexOf(template.c.n))
+
+            //display correct unit
+            val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)
+            spItemUnit.setSelection(unitPointPos)
+        }
+        else{
+            spCategory.setSelection(0)
         }
     }
 

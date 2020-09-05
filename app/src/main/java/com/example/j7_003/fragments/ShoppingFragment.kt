@@ -17,6 +17,7 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.ShoppingList
 import com.example.j7_003.data.database.database_objects.Tag
+import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
@@ -30,6 +31,7 @@ class ShoppingFragment : Fragment() {
     companion object{
         lateinit var shoppingListInstance: ShoppingList
         lateinit var shoppingListAdapter: ShoppingListAdapter
+        var expandOne: Boolean = false
     }
 
     override fun onCreateView(
@@ -37,6 +39,21 @@ class ShoppingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         shoppingListInstance = ShoppingList()
+        expandOne = SettingsManager.getSetting("expandOneCategory") as Boolean
+        //expand first category, contract all others, if setting says so
+        if(expandOne){
+            shoppingListInstance.forEach {
+                if(shoppingListInstance.getTagIndex(it.first)==0){
+                    if(!shoppingListInstance.isTagExpanded(it.first)){
+                        shoppingListInstance.flipExpansionState(it.first)
+                    }
+                }else{
+                    if(shoppingListInstance.isTagExpanded(it.first)){
+                        shoppingListInstance.flipExpansionState(it.first)
+                    }
+                }
+            }
+        }
 
         //TODO add button to empty the entire list
 
@@ -84,6 +101,7 @@ class ShoppingListAdapter:
        //get Number of unchecked items
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
+
         //Expand or contract recyclerview depending on its expansion state
         holder.subRecyclerView.visibility = when(shoppingListInstance.isTagExpanded(tag)) {
             true -> View.VISIBLE
@@ -111,7 +129,17 @@ class ShoppingListAdapter:
 
         //Onclick reaction to expand / contract this sublist
         holder.cvCategory.setOnClickListener {
-            shoppingListInstance.flipExpansionState(holder.tag)
+            val newState = shoppingListInstance.flipExpansionState(holder.tag)
+            //if the item gets expanded and the setting says to only expand one
+            if(newState == true && ShoppingFragment.expandOne){
+                //iterate through all categories and contract one if you find one that's expanded and not the current sublist
+               shoppingListInstance.forEach {
+                   if(shoppingListInstance.isTagExpanded(it.first) && it.first != holder.tag){
+                       shoppingListInstance.flipExpansionState(it.first)
+                       ShoppingFragment.shoppingListAdapter.notifyItemChanged(shoppingListInstance.getTagIndex(it.first))
+                   }
+               }
+            }
             notifyItemChanged(holder.adapterPosition)
         }
     }
@@ -146,7 +174,7 @@ class ShoppingListAdapter:
         val tvCategoryName: TextView = itemView.tvCategoryName
         var subRecyclerView: RecyclerView = itemView.subRecyclerView
         val cvCategory: CardView = itemView.cvCategory
-        val tvNumberOfItems = itemView.tvNumberOfItems
+        val tvNumberOfItems: TextView = itemView.tvNumberOfItems
     }
 }
 

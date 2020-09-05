@@ -69,10 +69,12 @@ class HomeFragment : Fragment() {
             MainActivity.act.changeToCreateNoteFragment()
         }
         myView.btnNewTask.setOnClickListener{ createTaskFromHome()}
-        myView.btnNewTerm.setOnClickListener {
-            MainActivity.fromHome = true
-            MainActivity.act.changeToCreateTerm()  }
         myView.btnNewItem.setOnClickListener { MainActivity.act.changeToAddItem() }
+
+        //Todo insert button for creating a new appointment
+//        myView.btnNewTerm.setOnClickListener {
+//            MainActivity.fromHome = true
+//            MainActivity.act.changeToCreateTerm()  }
 
 
         //recyclerview holding the terms for today

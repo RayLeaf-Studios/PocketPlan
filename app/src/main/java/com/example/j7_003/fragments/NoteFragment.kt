@@ -17,6 +17,7 @@ import com.example.j7_003.R
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.database_objects.Note
+import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 
@@ -29,6 +30,7 @@ class NoteFragment : Fragment() {
     companion object{
         var deletedNote: Note? = null
         lateinit var noteAdapter: NoteAdapter
+        var noteLines = 0
     }
 
     override fun onCreateView(
@@ -51,21 +53,32 @@ class NoteFragment : Fragment() {
         }
 
         //TODO READ THIS FROM SETTINGS MANAGER
-        val noteColumns = 3
+        val noteColumns = SettingsManager.getSetting("noteColumns") as String
+
+        val optionArray = resources.getStringArray(R.array.noteLines)
+        noteLines = when(SettingsManager.getSetting("noteLines")){
+            optionArray[1] -> 0
+            optionArray[2] -> 1
+            optionArray[3] -> 3
+            optionArray[4] -> 5
+            optionArray[5] -> 10
+            optionArray[6] -> 20
+            else -> -1
+        }
 
         //initialize Recyclerview and Adapter
         val myRecycler = myView.recycler_view_note
         noteAdapter = NoteAdapter()
         myRecycler.adapter = noteAdapter
-        val lm = StaggeredGridLayoutManager(noteColumns, 1)
+        val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
         myRecycler.setHasFixedSize(true)
 
         //initialize item touch helper to support swipe to delete
-        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDeleteN(noteAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.LEFT))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeRightToDeleteN(noteAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.RIGHT))
         swipeHelperRight.attachToRecyclerView(myRecycler)
     }
 
@@ -107,14 +120,11 @@ class NoteAdapter :
         holder.tvNoteContent.text = currentNote.content
 
         //TODO replace the following two values with custom settings
-        val displayedLines = 5
-        val limitDisplay = true
-
-        if(limitDisplay){
-            holder.tvNoteContent.maxLines = displayedLines
-            holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
-        }else{
+        if (NoteFragment.noteLines == -1){
             holder.tvNoteContent.maxLines = Int.MAX_VALUE
+        } else {
+            holder.tvNoteContent.maxLines = NoteFragment.noteLines
+            holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
         }
 
         val cardColor =  when(currentNote.color){
@@ -141,20 +151,8 @@ class NoteAdapter :
 
 }
 
-class SwipeRightToDeleteN(var adapter: NoteAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        return false
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
-    }
-}
-
-class SwipeLeftToDeleteN(private var adapter: NoteAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+class SwipeToDeleteNote(var adapter: NoteAdapter, direction: Int):
+    ItemTouchHelper.SimpleCallback(0, direction){
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
         return false
     }
