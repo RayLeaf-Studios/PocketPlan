@@ -6,6 +6,8 @@ import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.NullPointerException
+import java.util.*
+import kotlin.collections.ArrayList
 
 class UserItemTemplateList: ArrayList<ItemTemplate>() {
     init {
@@ -68,6 +70,15 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
                 return super.removeAt(i)
             }
         }
+        return null
+    }
+
+    fun getTemplateByName(name: String): ItemTemplate? {
+        this.forEach { e ->
+            if (e.n.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
+                return e
+            }
+        }
 
         return null
     }
@@ -83,18 +94,32 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
     }
 
     private fun save() {
+        val list = ArrayList<TMPTemplate>()
+        this.forEach { e ->
+            list.add(TMPTemplate(e.n, e.c.n, e.s))
+        }
+
         StorageHandler.saveAsJsonToFile(
             StorageHandler.files["USER_ITEM_TEMPLATES"],
-            this
+            list
         )
     }
 
     private fun fetchList() {
+        val list = ArrayList<TMPTemplate>()
         val jsonString = StorageHandler.files["USER_ITEM_TEMPLATES"]?.readText()
 
-        this.addAll(
+        list.addAll(
             GsonBuilder().create()
             .fromJson(jsonString,
-                object : TypeToken<ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>>() {}.type))
+                object : TypeToken<ArrayList<TMPTemplate>>() {}.type))
+
+
+        val tagList = TagList()
+        list.forEach { e ->
+            this.add(ItemTemplate(e.n, tagList.getTagByName(e.c), e.s))
+        }
     }
+
+    private class TMPTemplate(val n: String, val c: String, val s: String)
 }

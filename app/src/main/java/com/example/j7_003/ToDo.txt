@@ -1,19 +1,16 @@
 Todo:
 
 Important tasks:
-    - finalize shopping module
-    - live update sleep-reminder time (in home panel)
-    - implement setting functionality
+    - allow users to put already known items into different categories (and remember this decision)
     - dropdown menus into dark-mode
     - fix crashing tasks when deleting via mass delete and quickly swipe deleting a task
     - change layout without refreshing when swipe deleting item from shopping list (when all are
-    checked)
+      checked)
+      - annotations to use different serialized / displayed variable names
 
 Random tasks:
     - suggested amount for shopping items
     make all spinners / dropdowns / autotextviews darktheme
-    - add new icon
-    -optional auto retract sublists when allchecked
     - birthday undo insert animation
     - make shopping list presets save and loadable
     - button to go to current day in dayview
@@ -22,13 +19,15 @@ Random tasks:
     - make birthdays searchable
     - add listener to number picker for typing in numbers
     - replace all colors and values like text size with resource references
-    - decide what to do with terms in the past, (delete after week? even show them at all?)
-    - weekplanner / calendar
     - option to save year for birthday, tap birthday to expand more info, (how many days until?),
         Display age in notification? e.g. "Max Mustermann turns 20 today!"
+    - add new icon
 
 
 
+Add after release:
+    - weekplanner / calendar
+    - decide what to do with terms in the past, (delete after week? even show them at all?)
 
 Ideas:
     - small counter for accomplished tasks of tasklist

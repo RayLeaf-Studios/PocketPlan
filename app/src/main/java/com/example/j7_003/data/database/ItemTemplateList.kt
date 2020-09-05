@@ -37,9 +37,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
 
         val tagList = TagList()
         list.forEach { e ->
-            if (tagList.getTagByName(e.c) != null) {
-                this.add(ItemTemplate(e.n, tagList.getTagByName(e.c)!!, e.s))
-            }
+            this.add(ItemTemplate(e.n, tagList.getTagByName(e.c), e.s))
         }
     }
 

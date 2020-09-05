@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
@@ -27,10 +26,9 @@
                 android:paddingBottom="10dp"
                 >
                 <TextView
-                    android:id="@+id/tvNoteHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Credits"
+                    android:text="Developed by"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent"
                     android:textSize="17sp"
@@ -46,62 +44,15 @@
                 android:padding="20dp">
 
                 <TextView
-                    android:id="@+id/tvNoteLines"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Number of lines to display"
+                    android:text="Eugen S.:  Back-End / Data Management\n\nMicha N.:  Front-End / User Interface"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/spNoteLines"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    app:layout_constraintTop_toTopOf="@id/tvNoteLines"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNoteLines"
-                    app:layout_constraintEnd_toEndOf="parent">
 
-                </Spinner>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="409dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/viewNoteColumns"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
-
-                <TextView
-                    android:id="@+id/tvNoteColumns"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Number of note columns"
-                    android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Spinner
-                    android:id="@+id/spNoteColumns"
-                    android:layout_width="wrap_content"
-                    android:gravity="right"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/tvNoteColumns"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNoteColumns"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                </Spinner>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -114,10 +65,9 @@
                 android:paddingBottom="10dp"
                 >
                 <TextView
-                    android:id="@+id/tvShoppingHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Special Thanks to"
+                    android:text="Supported by"
                     android:textStyle="bold"
                     android:textColor="@color/colorAccent"
                     android:textSize="17sp"
@@ -132,10 +82,9 @@
                 android:padding="20dp">
 
                 <TextView
-                    android:id="@+id/tvOneCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Only expand one category"
+                    android:text="Kellai U.: Logo Design \n \nDorinda R.: Textual content and translation\n\nNico S.: Unpaid Intern"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -143,6 +92,39 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="10dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sourcecode"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="17sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="https://github.com/estep248/kalender-app"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
 

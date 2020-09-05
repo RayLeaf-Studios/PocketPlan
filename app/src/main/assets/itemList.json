@@ -1,4 +1,5 @@
 [
+  {"n":"Ananas","c":"Obst und Gemüse","s":"x"},
   {"n":"Aubergine","c":"Obst und Gemüse","s":"x"},
   {"n":"Avocado","c":"Obst und Gemüse","s":"x"},
   {"n":"Banane","c":"Obst und Gemüse","s":"x"},
@@ -91,7 +92,6 @@
   {"n":"Zwetschgen","c":"Obst und Gemüse","s":"x"},
   {"n":"Zwiebeln","c":"Obst und Gemüse","s":"x"},
   {"n":"Äpfel","c":"Obst und Gemüse","s":"x"},
-
   {"n":"Bergbauernkäse","c": "Käse", "s": "g"},
   {"n":"Bergkäse (Scheiben)","c": "Käse", "s": "g"},
   {"n":"Bergkäse (Stück)","c": "Käse", "s": "g"},
@@ -153,7 +153,6 @@
   {"n":"franz. Brie","c": "Käse", "s": "g"},
   {"n":"franz. Weichkäse","c": "Käse", "s": "g"},
   {"n":"franz. Ziegenweichkäse","c": "Käse", "s": "g"},
-
   {"n":"Ayran", "c": "Molkereiprodukte", "s": "x"},
   {"n":"Butter", "c": "Molkereiprodukte", "s": "x"},
   {"n":"Buttermilch", "c": "Molkereiprodukte", "s": "L"},
