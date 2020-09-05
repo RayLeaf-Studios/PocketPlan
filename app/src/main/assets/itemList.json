@@ -257,7 +257,7 @@
   {"n":"Schokoladenpudding", "c": "Molkereiprodukte", "s": "g"},
   {"n":"Skyr Himbeer-Cranberry", "c": "Molkereiprodukte", "s": "x"},
   {"n":"Skyr Honig", "c": "Molkereiprodukte", "s": "x"},
-  {"n":"Skyr Kirsche", "c": "Molkereiprodukte", "s": "x"}
+  {"n":"Skyr Kirsche", "c": "Molkereiprodukte", "s": "x"},
   {"n":"Skyr Laktosefrei", "c": "Molkereiprodukte", "s": "x"},
   {"n":"Skyr Natur", "c": "Molkereiprodukte", "s": "x"},
   {"n":"Skyr Schwarze Johannisbeere", "c": "Molkereiprodukte", "s": "x"},
@@ -276,5 +276,5 @@
   {"n":"Vanillepudding", "c": "Molkereiprodukte", "s": "g"},
   {"n":"Vollmilch", "c": "Molkereiprodukte", "s": "L"},
   {"n":"Zabaionenquark", "c": "Molkereiprodukte", "s": "x"},
-  {"n":"Zaziki", "c": "Molkereiprodukte", "s": "x"},
+  {"n":"Zaziki", "c": "Molkereiprodukte", "s": "x"}
 ]
