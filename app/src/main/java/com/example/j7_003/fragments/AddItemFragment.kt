@@ -41,7 +41,6 @@ class AddItemFragment : Fragment() {
         actvItem = myView.actvItem
         spItemUnit = myView.spItemUnit
 
-
         //initialize tagNames and itemTemplateList
         val tagList = TagList()
         tagNames = tagList.getTagNames()
@@ -101,7 +100,6 @@ class AddItemFragment : Fragment() {
         }
 
         autoCompleteTv.addTextChangedListener(textWatcher)
-
 
         //initialize edit text for item amount string
         val etItemAmount = myView.etItemAmount

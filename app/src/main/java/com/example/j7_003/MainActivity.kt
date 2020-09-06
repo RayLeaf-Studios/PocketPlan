@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var aboutFragment: AboutFragment
     private lateinit var addItemFragment: AddItemFragment
     private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var customItemFragment: CustomItemFragment
 
 
     private var activeFragmentTag = ""
@@ -138,6 +139,14 @@ class MainActivity : AppCompatActivity(){
             hideMenuIcons()
             addItemFragment = AddItemFragment()
             changeToFragment(addItemFragment, "addItem", "Add Item", -1)
+        }
+    }
+
+    fun changeToCustomItems(){
+        if(activeFragmentTag!="customItems") {
+            hideMenuIcons()
+            customItemFragment = CustomItemFragment()
+            changeToFragment(customItemFragment, "customItems", "Custom Items", -1)
         }
     }
 
@@ -406,6 +415,9 @@ class MainActivity : AppCompatActivity(){
             }
             "shopping" -> {
                 changeToShopping()
+            }
+            "settings" ->{
+                changeToSettings()
             }
             else -> {
                 super.onBackPressed()

@@ -8,10 +8,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Switch
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 /**
@@ -20,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_settings.view.*
 class SettingsFragment : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
+    private lateinit var clManageCustomItems: ConstraintLayout
     private lateinit var swExpandOneCategory: Switch
 
     override fun onCreateView(
@@ -41,6 +44,7 @@ class SettingsFragment : Fragment() {
         spNoteLines = myView.spNoteLines
         spNoteColumns = myView.spNoteColumns
         swExpandOneCategory = myView.swExpandOneCategory
+        clManageCustomItems = myView.clManageCustomItems
 
         /**
          * INITIALIZE ADAPTERS
@@ -57,6 +61,9 @@ class SettingsFragment : Fragment() {
         val spAdapterNoteColumns = ArrayAdapter<String>(MainActivity.act, android.R.layout.simple_list_item_1, resources.getStringArray(R.array.noteColumns))
         spAdapterNoteColumns.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spNoteColumns.adapter = spAdapterNoteColumns
+
+
+
     }
 
     private fun initializeDisplayValues(){
@@ -97,6 +104,10 @@ class SettingsFragment : Fragment() {
         //Switch for only showing one category as expanded
         swExpandOneCategory.setOnClickListener{
             SettingsManager.addSetting("expandOneCategory", swExpandOneCategory.isChecked)
+        }
+
+        clManageCustomItems.setOnClickListener {
+            MainActivity.act.changeToCustomItems()
         }
     }
 
