@@ -1,7 +1,9 @@
 package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +11,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,12 +23,15 @@ import com.example.j7_003.data.database.UserItemTemplateList
 import com.example.j7_003.data.database.database_objects.Task
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_custom_item.view.*
+import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
+import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
+import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class CustomItemFragment : Fragment() {
 
-    companion object {
+    companion object{
         lateinit var myFragment: CustomItemFragment
         lateinit var myAdapter: CustomItemAdapter
         lateinit var myRecycler: RecyclerView
@@ -76,22 +81,10 @@ class CustomItemFragment : Fragment() {
                 button.setOnClickListener {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
-                    if (title.isEmpty()) {
-                        Toast.makeText(
-                            MainActivity.act,
-                            "Can't create an empty task!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        myRecycler.adapter?.notifyItemInserted(
-                            Database.addFullTask(
-                                Task(
-                                    title,
-                                    index + 1,
-                                    false
-                                )
-                            )
-                        )
+                    if(title.isEmpty()){
+                        Toast.makeText(MainActivity.act, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
+                    }else{
+                        myRecycler.adapter?.notifyItemInserted(Database.addFullTask(Task(title, index+1, false)))
                     }
                 }
             }
@@ -109,11 +102,9 @@ class CustomItemFragment : Fragment() {
         myRecycler.setHasFixedSize(true)
 
 
-        val swipeHelperLeft =
-            ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
-        val swipeHelperRight =
-            ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
@@ -123,28 +114,22 @@ class CustomItemFragment : Fragment() {
     //Deletes all checked tasks and animates the deletion
 
 }
-
-class SwipeToDeleteCustomItem(direction: Int, val adapter: CustomItemAdapter) : ItemTouchHelper
-.SimpleCallback(0, direction) {
-    override fun onMove(
-        recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
-    ): Boolean {
+class SwipeToDeleteCustomItem(direction: Int,  val adapter: CustomItemAdapter): ItemTouchHelper
+.SimpleCallback(0, direction){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder): Boolean {
         return false
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val parsed = viewHolder as CustomItemAdapter.CustomItemViewHolder
-        MainActivity.act.titleDebug(
-            CustomItemFragment.userItemTemplateList.removeItem(parsed.itemView.tvName.text.toString())
-                .toString()
-        )
+        CustomItemFragment.userItemTemplateList.removeItem(parsed.itemView.tvName.text.toString())
         CustomItemFragment.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 }
 
 class CustomItemAdapter :
-    RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>() {
+    RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>(){
 
     override fun getItemCount() = CustomItemFragment.userItemTemplateList.size
 
@@ -222,5 +207,7 @@ class CustomItemAdapter :
 //
     }
 
-    class CustomItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+
+    class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView)
 }

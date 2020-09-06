@@ -1,10 +1,12 @@
 package com.example.j7_003.data.database
 
+import com.example.j7_003.MainActivity
 import com.example.j7_003.data.database.database_objects.ShoppingItem
 import com.example.j7_003.data.database.database_objects.Tag
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.fragment_add_item.*
 import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -66,8 +68,9 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
     fun removeItem(itemName: String): ItemTemplate? {
         for (i in 0 until this.size) {
             if (this[i].n == itemName) {
+                val item = super.removeAt(i)
                 save()
-                return super.removeAt(i)
+                return item
             }
         }
         return null
