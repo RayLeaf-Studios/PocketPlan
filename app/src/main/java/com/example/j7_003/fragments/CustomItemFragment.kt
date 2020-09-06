@@ -123,7 +123,7 @@ class SwipeToDeleteCustomItem(direction: Int,  val adapter: CustomItemAdapter): 
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val parsed = viewHolder as CustomItemAdapter.CustomItemViewHolder
-        MainActivity.act.titleDebug(CustomItemFragment.userItemTemplateList.removeItem(parsed.itemView.tvName.text.toString()).toString())
+        CustomItemFragment.userItemTemplateList.removeItem(parsed.itemView.tvName.text.toString())
         CustomItemFragment.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 }
