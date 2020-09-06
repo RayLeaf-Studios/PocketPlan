@@ -71,9 +71,12 @@ class MainActivity : AppCompatActivity(){
         Database.init()
         SettingsManager.init()
 
+
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
-
+        val rowview = layoutInflater.inflate(R.layout.actionbar, null, false)
+        supportActionBar?.setCustomView(rowview)
+        supportActionBar?.setDisplayShowCustomEnabled(true)
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -164,8 +167,9 @@ class MainActivity : AppCompatActivity(){
         hideMenuIcons()
         if(activeFragmentTag!="home"){
             homeFragment = HomeFragment()
-            changeToFragment(homeFragment, "home", "Pocket-Plan", R.id.home)
+            changeToFragment(homeFragment, "home", "", R.id.home)
         }
+        supportActionBar?.setDisplayShowCustomEnabled(true)
     }
 
     fun changeToCreateTerm(){
@@ -278,6 +282,7 @@ class MainActivity : AppCompatActivity(){
      */
 
     private fun changeToFragment(fragment: Fragment, activeFragmentTag: String, actionBarTitle: String, bottomNavigationId: Int){
+        supportActionBar?.setDisplayShowCustomEnabled(false)
         previousFragmentTag = this.activeFragmentTag
         this.activeFragmentTag = activeFragmentTag
         supportActionBar?.title = actionBarTitle
