@@ -1,7 +1,6 @@
 Todo:
 
 Priority 1 tasks:
-    - fix crashing tasks when deleting via mass delete and quickly swipe deleting a task
     - allow users to put already known items into different categories (and remember this decision)
 
 Priority 2 tasks:

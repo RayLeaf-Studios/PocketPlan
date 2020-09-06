@@ -1,6 +1,7 @@
 package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
+import android.content.ClipData
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -34,25 +35,31 @@ class TodoFragment : Fragment() {
         lateinit var myFragment: TodoFragment
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
+
         var deletedTask: Task? = null
         var deletedTaskList: ArrayList<Task> = arrayListOf()
+
+        var allowSwipe: Boolean = true
     }
 
     fun manageCheckedTaskDeletion(){
+
+        deletedTaskList.clear()
         deletedTask = null
         val oldSize = Database.taskList.size
         val newSize = Database.deleteCheckedTasks()
+        allowSwipe = false
         for(i in newSize until oldSize){
             val v = myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
             if(i == oldSize-1){
-                myRecycler.isClickable = false
-                v.itemView.animate().scaleX(0f).setDuration(250).scaleY(0f).withEndAction{
+                v.itemView.animate().scaleX(0f).setDuration(300).scaleY(0f).withEndAction{
                     myAdapter.notifyItemRangeRemoved(newSize, oldSize)
-                    myRecycler.isClickable = true
+                    allowSwipe = true
                 }
             }else{
-                v.itemView.animate().scaleX(0f).scaleY(0f).duration = 250
+                v.itemView.animate().scaleX(0f).scaleY(0f).duration = 300
             }
+
         }
         MainActivity.act.updateDeleteTaskIcon()
     }
@@ -120,19 +127,29 @@ class TodoFragment : Fragment() {
 
         val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.LEFT, myAdapter))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
-
         val swipeHelperRight = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.RIGHT, myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
         return myView
     }
-
 }
 
-class SwipeToDeleteTask(direction: Int,  val adapter: TodoTaskAdapter): ItemTouchHelper.SimpleCallback(0, direction){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+class SwipeToDeleteTask(direction: Int,  val adapter: TodoTaskAdapter): ItemTouchHelper
+.SimpleCallback(0, direction){
+    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder): Boolean {
         return false
+    }
+
+    override fun getSwipeDirs(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        if(!TodoFragment.allowSwipe){
+            return 0
+        }
+        return super.getSwipeDirs(recyclerView, viewHolder)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -175,12 +192,14 @@ class TodoTaskAdapter :
         if(Database.getTask(holder.adapterPosition).isChecked){
             holder.itemView.cbTask.isChecked = true
             holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.itemView.tvName.setTextColor(ContextCompat.getColor(MainActivity.act, color.colorHint))
+            holder.itemView.tvName.setTextColor(ContextCompat.getColor(MainActivity.act,
+                color.colorHint))
             holder.itemView.setBackgroundResource(drawable.round_corner_gray)
         }else{
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
-            holder.itemView.tvName.setTextColor(ContextCompat.getColor(MainActivity.act, color.colorOnBackGround))
+            holder.itemView.tvName.setTextColor(ContextCompat.getColor(MainActivity.act,
+                color.colorOnBackGround))
             when(currentTask.priority){
                 1 -> holder.itemView.setBackgroundResource(drawable.round_corner1)
                 2 -> holder.itemView.setBackgroundResource(drawable.round_corner2)
@@ -196,18 +215,24 @@ class TodoTaskAdapter :
 
         holder.itemView.tvName.setOnClickListener {
 
+            if(!TodoFragment.allowSwipe){
+                return@setOnClickListener
+            }
             //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
+            val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task,
+                null)
 
             //AlertDialogBuilder
             val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
-            val editTitle = LayoutInflater.from(activity).inflate(layout.title_dialog_add_task, null)
+            val editTitle = LayoutInflater.from(activity).inflate(layout.title_dialog_add_task,
+                null)
             editTitle.tvDialogTitle.text = "Edit task"
             myBuilder.setCustomTitle(editTitle)
 
             //show dialog
             val myAlertDialog = myBuilder.create()
-            myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+            myAlertDialog.window?.setSoftInputMode(WindowManager
+                .LayoutParams.SOFT_INPUT_STATE_VISIBLE)
             myAlertDialog.show()
 
             //write current task to textField
@@ -226,7 +251,9 @@ class TodoTaskAdapter :
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
                     myAlertDialog.dismiss()
-                    val newPos = Database.editTask(holder.adapterPosition, index + 1, myDialogView.etxTitleAddTask.text.toString(), Database.getTask(holder.adapterPosition).isChecked)
+                    val newPos = Database.editTask(holder.adapterPosition, index + 1,
+                        myDialogView.etxTitleAddTask.text.toString(),
+                        Database.getTask(holder.adapterPosition).isChecked)
                     this.notifyItemChanged(holder.adapterPosition)
                     this.notifyItemMoved(holder.adapterPosition, newPos)
                 }
@@ -236,10 +263,14 @@ class TodoTaskAdapter :
 
         //reacts to the user checking a task
         holder.itemView.tapField.setOnClickListener{
+            if(!TodoFragment.allowSwipe){
+                return@setOnClickListener
+            }
             val checkedStatus = !Database.getTask(holder.adapterPosition).isChecked
             holder.itemView.cbTask.isChecked = checkedStatus
             val task = Database.getTask(holder.adapterPosition)
-            val newPos = Database.editTask(holder.adapterPosition, task.priority, task.title, checkedStatus)
+            val newPos = Database.editTask(holder.adapterPosition, task.priority,
+                task.title, checkedStatus)
             MainActivity.act.updateDeleteTaskIcon()
 
             notifyItemChanged(holder.adapterPosition)
