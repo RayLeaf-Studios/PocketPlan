@@ -1,57 +1,36 @@
 Todo:
 
-Important tasks:
-    - allow users to put already known items into different categories (and remember this decision)
-    - dropdown menus into dark-mode
+Priority 1 tasks:
     - fix crashing tasks when deleting via mass delete and quickly swipe deleting a task
+    - allow users to put already known items into different categories (and remember this decision)
+
+Priority 2 tasks:
+    - remove scroll when checking / modifying tasks
     - change layout without refreshing when swipe deleting item from shopping list (when all are
       checked)
-      - annotations to use different serialized / displayed variable names
-
-Random tasks:
-    - suggested amount for shopping items
-    make all spinners / dropdowns / autotextviews darktheme
+    - change birthday date pickers to actual date pickers
+      make all spinners / dropDowns / autoTextViews darkTheme
     - birthday undo insert animation
-    - make shopping list presets save and loadable
-    - button to go to current day in dayview
-    - fix birthday scroll wheels (scrolling over february sets date to 29th)
-        (delete all unfitting months for chosen day)
     - make birthdays searchable
-    - add listener to number picker for typing in numbers
-    - replace all colors and values like text size with resource references
     - option to save year for birthday, tap birthday to expand more info, (how many days until?),
-        Display age in notification? e.g. "Max Mustermann turns 20 today!"
+      Display age in notification? e.g. "Max turns 20 today!"
+
+Priority 3 tasks:
     - add new icon
+    - replace all colors and values like text size with resource references
+    - annotations to use different serialized / displayed variable names
+
+
+Ideas:
+    - make shopping list presets save and loadable
+    - suggested amount for shopping items
+    - small counter for accomplished tasks of taskList
+    - add tags / sublist for different store/s?
 
 
 
 Add after release:
-    - weekplanner / calendar
+    - WeekPlanner / Calendar
     - decide what to do with terms in the past, (delete after week? even show them at all?)
-
-Ideas:
-    - small counter for accomplished tasks of tasklist
-    - add tags / sublist for different store/s?
-
-Shopping list details:
-    - custom prebuilt and save-able shopping list
-    - api created preloaded database of items, tagged with category like vegetables? for grouping
-    of similar items on shopping list for optimal pathing through supermarket
-    logical categories
-        1. vegetables, fruits
-        2. cooled meat
-        3. cooled dairy products
-        4. canned food
-        5. bread and pastry
-        6. pasta, rice
-        7. spices
-        8. hygiene
-        9. drinks
-        10. alcoholic drinks
-        11. international
-        12. frozen food
-        13. cereals
-        14. baking ingredients
-
-
+    - button to go to current day in DayView
 
