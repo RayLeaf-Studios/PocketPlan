@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.row_note.view.*
 
 class NoteFragment : Fragment() {
 
-    companion object{
+    companion object {
         var deletedNote: Note? = null
         lateinit var noteAdapter: NoteAdapter
         var noteLines = 0
@@ -44,8 +44,7 @@ class NoteFragment : Fragment() {
         return myView
     }
 
-    private fun initializeComponents(myView: View){
-
+    private fun initializeComponents(myView: View) {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener {
             MainActivity.act.changeToCreateNoteFragment()
@@ -56,7 +55,7 @@ class NoteFragment : Fragment() {
         val noteColumns = SettingsManager.getSetting("noteColumns") as String
 
         val optionArray = resources.getStringArray(R.array.noteLines)
-        noteLines = when(SettingsManager.getSetting("noteLines")){
+        noteLines = when (SettingsManager.getSetting("noteLines")) {
             optionArray[1] -> 0
             optionArray[2] -> 1
             optionArray[3] -> 3
@@ -78,7 +77,8 @@ class NoteFragment : Fragment() {
         val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.LEFT))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.RIGHT))
+        val swipeHelperRight =
+            ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.RIGHT))
         swipeHelperRight.attachToRecyclerView(myRecycler)
     }
 
@@ -86,9 +86,9 @@ class NoteFragment : Fragment() {
 
 
 class NoteAdapter :
-    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>(){
+    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
-    fun deleteItem(position: Int){
+    fun deleteItem(position: Int) {
         NoteFragment.deletedNote = Database.getNote(position)
         MainActivity.act.updateUndoNoteIcon()
         Database.deleteNote(position)
@@ -120,14 +120,14 @@ class NoteAdapter :
         holder.tvNoteContent.text = currentNote.content
 
         //TODO replace the following two values with custom settings
-        if (NoteFragment.noteLines == -1){
+        if (NoteFragment.noteLines == -1) {
             holder.tvNoteContent.maxLines = Int.MAX_VALUE
         } else {
             holder.tvNoteContent.maxLines = NoteFragment.noteLines
             holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
         }
 
-        val cardColor =  when(currentNote.color){
+        val cardColor = when (currentNote.color) {
             NoteColors.RED -> R.color.colorNoteRed
             NoteColors.YELLOW -> R.color.colorNoteYellow
             NoteColors.GREEN -> R.color.colorNoteGreen
@@ -135,25 +135,33 @@ class NoteAdapter :
             NoteColors.PURPLE -> R.color.colorNotePurple
         }
 
-        holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, cardColor))
+        holder.cvNoteCard.setCardBackgroundColor(
+            ContextCompat.getColor(
+                MainActivity.act,
+                cardColor
+            )
+        )
     }
 
     override fun getItemCount() = Database.noteList.size
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout
-
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvNoteTitle: TextView = itemView.tvNoteTitle
         val tvNoteContent: TextView = itemView.tvNoteContent
         var cvNoteCard: CardView = itemView.cvNoteCard
     }
-
 }
 
-class SwipeToDeleteNote(var adapter: NoteAdapter, direction: Int):
-    ItemTouchHelper.SimpleCallback(0, direction){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+class SwipeToDeleteNote(var adapter: NoteAdapter, direction: Int) :
+    ItemTouchHelper.SimpleCallback(0, direction) {
+
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         return false
     }
 

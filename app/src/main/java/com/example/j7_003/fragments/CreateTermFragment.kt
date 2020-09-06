@@ -51,16 +51,15 @@ class CreateTermFragment : Fragment() {
     private lateinit var startDateTime: LocalDateTime
     private lateinit var endLocalTime: LocalTime
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         myView = inflater.inflate(R.layout.fragment_create_term, container, false)
         initComponents()
-        if(MainActivity.editTerm==null){
+        if (MainActivity.editTerm == null) {
             showDefaultValues()
-        }else{
+        } else {
             showEditValues()
         }
         return myView
@@ -75,11 +74,11 @@ class CreateTermFragment : Fragment() {
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
 
-        startDateTime = LocalDateTime.of(year, month+1, day, hour, minute)
+        startDateTime = LocalDateTime.of(year, month + 1, day, hour, minute)
         endLocalTime = LocalTime.of(hour, minute)
 
 
-        tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
+        tvTermDate.text = day.toString().padStart(2, '0') + "." + (month + 1).toString()
             .padStart(2, '0') + "." + year.toString()
         tvTermTime.text = hour.toString()
             .padStart(2, '0') + ":" + minute.toString().padStart(2, '0')
@@ -96,11 +95,11 @@ class CreateTermFragment : Fragment() {
         val hour = editTerm.startTime.hour
         val minute = editTerm.startTime.minute
 
-        startDateTime = LocalDateTime.of(year, month+1, day, hour, minute)
+        startDateTime = LocalDateTime.of(year, month + 1, day, hour, minute)
         endLocalTime = LocalTime.of(hour, minute)
 
 
-        tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
+        tvTermDate.text = day.toString().padStart(2, '0') + "." + (month + 1).toString()
             .padStart(2, '0') + "." + year.toString()
         tvTermTime.text = hour.toString()
             .padStart(2, '0') + ":" + minute.toString().padStart(2, '0')
@@ -109,8 +108,9 @@ class CreateTermFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     fun setDuration(minutes: Int) {
-        val newEndTime = LocalTime.of(startDateTime.hour, startDateTime.minute).plusMinutes(minutes.toLong())
-        if(newEndTime.isAfter(LocalTime.of(startDateTime.hour, startDateTime.minute))){
+        val newEndTime =
+            LocalTime.of(startDateTime.hour, startDateTime.minute).plusMinutes(minutes.toLong())
+        if (newEndTime.isAfter(LocalTime.of(startDateTime.hour, startDateTime.minute))) {
             endLocalTime = LocalTime.of(newEndTime.hour, newEndTime.minute)
             tvTermEndTime.text = endLocalTime.hour.toString()
                 .padStart(2, '0') + ":" + endLocalTime.minute.toString().padStart(2, '0')
@@ -121,9 +121,9 @@ class CreateTermFragment : Fragment() {
         val termTitle = etTermTitle.text.toString()
         val termInfo = etTermInfo.text.toString()
         CalendarManager.addAppointment(termTitle, termInfo, startDateTime, endLocalTime)
-        if(MainActivity.fromHome){
+        if (MainActivity.fromHome) {
             MainActivity.act.changeToHome()
-        }else{
+        } else {
             MainActivity.act.changeToDayView()
         }
         MainActivity.fromHome = false
@@ -132,11 +132,17 @@ class CreateTermFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     fun openDatePicker() {
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            startDateTime = startDateTime.withYear(year).withMonth(month+1).withDayOfMonth(day)
-            tvTermDate.text = day.toString().padStart(2, '0') + "." + (month+1).toString()
+            startDateTime = startDateTime.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+            tvTermDate.text = day.toString().padStart(2, '0') + "." + (month + 1).toString()
                 .padStart(2, '0') + "." + year.toString()
         }
-        val dpd = DatePickerDialog(MainActivity.act, dateSetListener, startDateTime.year, startDateTime.monthValue-1, startDateTime.dayOfMonth)
+        val dpd = DatePickerDialog(
+            MainActivity.act,
+            dateSetListener,
+            startDateTime.year,
+            startDateTime.monthValue - 1,
+            startDateTime.dayOfMonth
+        )
         dpd.show()
     }
 
@@ -148,20 +154,33 @@ class CreateTermFragment : Fragment() {
             tvTermTime.text = h.toString()
                 .padStart(2, '0') + ":" + m.toString().padStart(2, '0')
         }
-        val tpd = TimePickerDialog(MainActivity.act, timeSetListener, startDateTime.hour, startDateTime.minute, true)
+        val tpd = TimePickerDialog(
+            MainActivity.act,
+            timeSetListener,
+            startDateTime.hour,
+            startDateTime.minute,
+            true
+        )
         tpd.show()
     }
+
     @SuppressLint("SetTextI18n")
     fun openTimePickerEnd() {
         val timeSetListener = TimePickerDialog.OnTimeSetListener { _: TimePicker?, h: Int, m: Int ->
-            endLocalTime = LocalTime.of(h,m)
-            if(endLocalTime.isBefore(LocalTime.of(startDateTime.hour, startDateTime.minute))){
-               endLocalTime = LocalTime.of(startDateTime.hour, startDateTime.minute)
+            endLocalTime = LocalTime.of(h, m)
+            if (endLocalTime.isBefore(LocalTime.of(startDateTime.hour, startDateTime.minute))) {
+                endLocalTime = LocalTime.of(startDateTime.hour, startDateTime.minute)
             }
             tvTermEndTime.text = endLocalTime.hour.toString()
                 .padStart(2, '0') + ":" + endLocalTime.minute.toString().padStart(2, '0')
         }
-        val tpd = TimePickerDialog(MainActivity.act, timeSetListener, startDateTime.hour, startDateTime.minute, true)
+        val tpd = TimePickerDialog(
+            MainActivity.act,
+            timeSetListener,
+            startDateTime.hour,
+            startDateTime.minute,
+            true
+        )
         tpd.show()
     }
 
@@ -196,7 +215,7 @@ class CreateTermFragment : Fragment() {
             setDuration(30)
         }
 
-        btnDuration60m.setOnClickListener{
+        btnDuration60m.setOnClickListener {
             setDuration(60)
         }
 
@@ -229,14 +248,12 @@ class CreateTermFragment : Fragment() {
         }
 
         btnDiscardTermChanges.setOnClickListener {
-            if(MainActivity.fromHome){
+            if (MainActivity.fromHome) {
                 MainActivity.act.changeToHome()
-            }else{
+            } else {
                 MainActivity.act.changeToDayView()
             }
             MainActivity.fromHome = false
         }
-
     }
-
 }

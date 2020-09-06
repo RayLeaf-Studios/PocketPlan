@@ -20,13 +20,13 @@ class ModulesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val myView =  inflater.inflate(R.layout.fragment_modules, container, false)
+        val myView = inflater.inflate(R.layout.fragment_modules, container, false)
 
-        myView.menuPanelBirthdays.setOnClickListener{
+        myView.menuPanelBirthdays.setOnClickListener {
             MainActivity.act.changeToBirthdays()
         }
 
-        myView.menuPanelSettings.setOnClickListener{
+        myView.menuPanelSettings.setOnClickListener {
             MainActivity.act.changeToSettings()
         }
 
@@ -41,10 +41,9 @@ class ModulesFragment : Fragment() {
 
         }
 
-        myView.menuPanelAbout.setOnClickListener(){
+        myView.menuPanelAbout.setOnClickListener {
             MainActivity.act.changeToAbout()
         }
-       return myView
+        return myView
     }
-
 }

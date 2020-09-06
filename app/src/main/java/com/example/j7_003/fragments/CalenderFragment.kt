@@ -1,12 +1,11 @@
 package com.example.j7_003.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_calender.view.*
 import kotlinx.android.synthetic.main.row_term.view.*
 import org.threeten.bp.LocalDate
+import java.util.*
 
 
 /**
@@ -61,9 +61,13 @@ class CalenderFragment : Fragment() {
 
 }
 
-class SwipeRightToDeleteTerm(var adapter: TermAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+class SwipeRightToDeleteTerm(var adapter: TermAdapter) :
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         return false
     }
 
@@ -73,9 +77,13 @@ class SwipeRightToDeleteTerm(var adapter: TermAdapter):
     }
 }
 
-class SwipeLeftToDeleteTerm(private var adapter: TermAdapter):
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+class SwipeLeftToDeleteTerm(private var adapter: TermAdapter) :
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         return false
     }
 
@@ -112,15 +120,17 @@ class TermAdapter() :
 
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
-        holder.tvTime.text = currentTerm.startTime.toString()+" - "+currentTerm.eTime.toString()
+        holder.tvTime.text = currentTerm.startTime.toString() + " - " + currentTerm.eTime.toString()
         val date: LocalDate = currentTerm.date
-        val dayOfWeekString = date.dayOfWeek.toString().substring(0,1)+date.dayOfWeek.toString()
-            .substring(1, 2).decapitalize()
+        val dayOfWeekString = date.dayOfWeek.toString().substring(0, 1) + date.dayOfWeek.toString()
+            .substring(1, 2).toLowerCase(Locale.ROOT)
         val month = date.monthValue.toString()
         val day = date.dayOfMonth.toString()
-        val year = date.year.toString().subSequence(2,4)
-        holder.tvDate.text = MainActivity.act.getString(R.string.termItemDate,
-        dayOfWeekString, day, month, year)
+        val year = date.year.toString().subSequence(2, 4)
+        holder.tvDate.text = MainActivity.act.getString(
+            R.string.termItemDate,
+            dayOfWeekString, day, month, year
+        )
     }
 
 

@@ -48,17 +48,17 @@ class SleepFragment : Fragment() {
 
         SleepReminder.init()
 
-        if(SleepReminder.isAnySet()){
+        if (SleepReminder.isAnySet()) {
             myView.switchEnableReminder.isChecked = true
         }
 
-        if(SleepReminder.daysAreCustom){
+        if (SleepReminder.daysAreCustom) {
             initializeCustomDaysDisplay(myView)
             myView.switchEnableCustomDays.isChecked = true
             updateCustomDisplay()
             myView.panelNotCustom.visibility = View.GONE
             myView.panelCustom.visibility = View.VISIBLE
-        }else{
+        } else {
             initializeRegularDayDisplay(myView)
             updateRegularDisplay()
             myView.panelNotCustom.visibility = View.VISIBLE
@@ -70,16 +70,16 @@ class SleepFragment : Fragment() {
         myView.switchEnableReminder.setOnClickListener {
             if (myView.switchEnableReminder.isChecked) {
                 SleepReminder.enableAll()
-                if(SleepReminder.daysAreCustom){
+                if (SleepReminder.daysAreCustom) {
                     updateCustomCheckBoxes()
-                }else{
+                } else {
                     updateRegularCheckboxes()
                 }
             } else {
                 SleepReminder.disableAll()
-                if(SleepReminder.daysAreCustom){
+                if (SleepReminder.daysAreCustom) {
                     updateCustomCheckBoxes()
-                }else{
+                } else {
                     updateRegularCheckboxes()
                 }
             }
@@ -88,12 +88,12 @@ class SleepFragment : Fragment() {
         //switch to enable use of custom days
         myView.switchEnableCustomDays.setOnClickListener {
             if (myView.switchEnableCustomDays.isChecked) {
-                if(!customIsInit) initializeCustomDaysDisplay(myView); customIsInit = true
+                if (!customIsInit) initializeCustomDaysDisplay(myView); customIsInit = true
                 SleepReminder.setCustom()
                 updateCustomDisplay()
                 animationShowCustom(myView)
             } else {
-                if(!regularIsInit) initializeRegularDayDisplay(myView); regularIsInit = true
+                if (!regularIsInit) initializeRegularDayDisplay(myView); regularIsInit = true
                 SleepReminder.setRegular()
                 updateRegularDisplay()
                 animationShowRegular(myView)
@@ -102,34 +102,42 @@ class SleepFragment : Fragment() {
         return myView
     }
 
-    private fun updateRegularDisplay(){
+    private fun updateRegularDisplay() {
         updateRegularTimes()
         updateRegularCheckboxes()
     }
 
-    private fun updateCustomDisplay(){
+    private fun updateCustomDisplay() {
         updateCustomTimes()
         updateCustomCheckBoxes()
     }
 
     @SuppressLint("SetTextI18n", "InflateParams")
-    private fun initializeCustomDaysDisplay(v: View){
+    private fun initializeCustomDaysDisplay(v: View) {
         /**
          * initialize lists of  custom panels, custom checkboxes, custom wake time text views and
          * custom duration text views
          */
-        customCheckBoxList = arrayListOf(v.checkBoxMo, v.checkBoxTu, v.checkBoxWe,
-            v.checkBoxTh, v.checkBoxFr, v.checkBoxSa, v.checkBoxSu)
+        customCheckBoxList = arrayListOf(
+            v.checkBoxMo, v.checkBoxTu, v.checkBoxWe,
+            v.checkBoxTh, v.checkBoxFr, v.checkBoxSa, v.checkBoxSu
+        )
 
-        customPanelList = arrayListOf(v.customMondayPanel, v.customTuesdayPanel,
+        customPanelList = arrayListOf(
+            v.customMondayPanel, v.customTuesdayPanel,
             v.customWednesdayPanel, v.customThursdayPanel, v.customFridayPanel,
-            v.customSaturdayPanel, v.customSundayPanel)
+            v.customSaturdayPanel, v.customSundayPanel
+        )
 
-        customWakeTimeTexts = arrayListOf(v.tvWakeTimeMo, v.tvWakeTimeTu, v.tvWakeTimeWe,
-            v.tvWakeTimeThu, v.tvWakeTimeFr, v.tvWakeTimeSa, v.tvWakeTimeSu)
+        customWakeTimeTexts = arrayListOf(
+            v.tvWakeTimeMo, v.tvWakeTimeTu, v.tvWakeTimeWe,
+            v.tvWakeTimeThu, v.tvWakeTimeFr, v.tvWakeTimeSa, v.tvWakeTimeSu
+        )
 
-        customDurationTexts = arrayListOf(v.tvSDurMo, v.tvSDurTu, v.tvSDurWe,
-            v.tvSDurThu, v.tvSDurFr, v.tvSDurSa, v.tvSDurSu)
+        customDurationTexts = arrayListOf(
+            v.tvSDurMo, v.tvSDurTu, v.tvSDurWe,
+            v.tvSDurThu, v.tvSDurFr, v.tvSDurSa, v.tvSDurSu
+        )
         /**
          * make custom panel visible, notCustom panel invisible, initialize custom switch as on
          */
@@ -139,19 +147,19 @@ class SleepFragment : Fragment() {
         /**
          * onclick listeners for custom checkboxes
          */
-        customCheckBoxList.forEachIndexed{ i, cb ->
-            cb.setOnClickListener{
+        customCheckBoxList.forEachIndexed { i, cb ->
+            cb.setOnClickListener {
                 val day = DayOfWeek.values()[i]
-                if(cb.isChecked){
+                if (cb.isChecked) {
                     SleepReminder.reminder[day]?.enable(day)
-                }else{
+                } else {
                     SleepReminder.reminder[day]?.disable(day)
                 }
             }
         }
 
-        customDurationTexts.forEachIndexed{i, p ->
-            p.setOnClickListener{
+        customDurationTexts.forEachIndexed { i, p ->
+            p.setOnClickListener {
                 val myDialogView = LayoutInflater.from(activity)
                     .inflate(R.layout.dialog_pick_time, null)
 
@@ -167,14 +175,17 @@ class SleepFragment : Fragment() {
                 val myBuilder2 = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
                 val customTitle2 =
                     LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-                customTitle2.tvDialogTitle.text = "Sleep Duration - "+DayOfWeek.values()[i].toString()
+                customTitle2.tvDialogTitle.text =
+                    "Sleep Duration - " + DayOfWeek.values()[i].toString()
                 myBuilder2.setCustomTitle(customTitle2)
 
                 val myAlertDialog2 = myBuilder2.create()
                 myAlertDialog2.show()
 
-                myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
-                myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
+                myDialogView.npHour.value =
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationHour()!!
+                myDialogView.npMinute.value =
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationMinute()!!
 
                 myDialogView.btnApplyTime.setOnClickListener {
                     SleepReminder.editDurationAtDay(
@@ -187,11 +198,10 @@ class SleepFragment : Fragment() {
 
                 }
             }
-
         }
 
-        customWakeTimeTexts.forEachIndexed{ i, p ->
-            p.setOnClickListener{
+        customWakeTimeTexts.forEachIndexed { i, p ->
+            p.setOnClickListener {
                 val myDialogView =
                     LayoutInflater.from(activity).inflate(R.layout.dialog_pick_time, null)
 
@@ -215,11 +225,13 @@ class SleepFragment : Fragment() {
                 val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
                 val customTitle =
                     LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-                customTitle.tvDialogTitle.text = "Wakeup Time - "+DayOfWeek.values()[i].toString()
+                customTitle.tvDialogTitle.text = "Wakeup Time - " + DayOfWeek.values()[i].toString()
                 myBuilder.setCustomTitle(customTitle)
 
-                myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeHour()!!
-                myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeMinute()!!
+                myDialogView.npHour.value =
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeHour()!!
+                myDialogView.npMinute.value =
+                    SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeMinute()!!
 
                 val myAlertDialog = myBuilder.create()
                 myAlertDialog.show()
@@ -239,7 +251,7 @@ class SleepFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n", "InflateParams")
-    private fun initializeRegularDayDisplay(v: View){
+    private fun initializeRegularDayDisplay(v: View) {
         /**
          * initialize lists of regular checkboxes, text view for regular wake time, and text view
          * for regular sleep duration
@@ -253,7 +265,7 @@ class SleepFragment : Fragment() {
             v.cbThursday, v.cbFriday, v.cbSaturday, v.cbSunday
         )
 
-        v.panelWakeTime.setOnClickListener{
+        v.panelWakeTime.setOnClickListener {
             val myDialogView =
                 LayoutInflater.from(activity).inflate(R.layout.dialog_pick_time, null)
 
@@ -266,8 +278,8 @@ class SleepFragment : Fragment() {
             myDialogView.tvHourMinuteDivider.text = ":"
             myDialogView.tvHourMinuteAttachment.text = ""
 
-            myDialogView.npHour.setFormatter   { i -> if (i < 10) "0$i" else "$i"}
-            myDialogView.npMinute.setFormatter { i -> if (i < 10) "0$i" else "$i"}
+            myDialogView.npHour.setFormatter { i -> if (i < 10) "0$i" else "$i" }
+            myDialogView.npMinute.setFormatter { i -> if (i < 10) "0$i" else "$i" }
 
             val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
             val customTitle = LayoutInflater.from(activity)
@@ -276,8 +288,10 @@ class SleepFragment : Fragment() {
             customTitle.tvDialogTitle.text = "Wakeup Time"
             myBuilder.setCustomTitle(customTitle)
 
-            myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeHour()!!
-            myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeMinute()!!
+            myDialogView.npHour.value =
+                SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeHour()!!
+            myDialogView.npMinute.value =
+                SleepReminder.reminder[DayOfWeek.values()[0]]?.getWakeMinute()!!
 
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()
@@ -292,7 +306,7 @@ class SleepFragment : Fragment() {
                     myDialogView.npMinute.value
                 )
                 myAlertDialog.dismiss()
-               updateRegularDisplay()
+                updateRegularDisplay()
             }
         }
 
@@ -322,16 +336,18 @@ class SleepFragment : Fragment() {
             val myAlertDialog = myBuilder.create()
             myAlertDialog.show()
 
-            myDialogView.npHour.value = SleepReminder.reminder[DayOfWeek.MONDAY]?.duration?.toHours()?.toInt()!!
-            myDialogView.npMinute.value = SleepReminder.reminder[DayOfWeek.MONDAY]?.duration?.toMinutes()?.toInt()!! % 60
+            myDialogView.npHour.value =
+                SleepReminder.reminder[DayOfWeek.MONDAY]?.duration?.toHours()?.toInt()!!
+            myDialogView.npMinute.value =
+                SleepReminder.reminder[DayOfWeek.MONDAY]?.duration?.toMinutes()?.toInt()!! % 60
 
-            myDialogView.btnApplyTime.setOnClickListener() {
+            myDialogView.btnApplyTime.setOnClickListener {
                 SleepReminder.editAllDuration(
                     myDialogView.npHour.value,
                     myDialogView.npMinute.value
                 )
                 myAlertDialog.dismiss()
-               updateRegularDisplay()
+                updateRegularDisplay()
             }
         }
 
@@ -347,38 +363,39 @@ class SleepFragment : Fragment() {
         }
     }
 
-    private fun updateCustomTimes(){
-        customWakeTimeTexts.forEachIndexed{ i, tv ->
+    private fun updateCustomTimes() {
+        customWakeTimeTexts.forEachIndexed { i, tv ->
             tv.text = SleepReminder.reminder[DayOfWeek.values()[i]]?.getWakeUpTimeString()
         }
-        customDurationTexts.forEachIndexed{ i, tv ->
+        customDurationTexts.forEachIndexed { i, tv ->
             tv.text = SleepReminder.reminder[DayOfWeek.values()[i]]?.getDurationTimeString()
         }
     }
 
-    private fun updateCustomCheckBoxes(){
-        customCheckBoxList.forEachIndexed{ i, cb ->
+    private fun updateCustomCheckBoxes() {
+        customCheckBoxList.forEachIndexed { i, cb ->
             cb.isChecked = SleepReminder.reminder[DayOfWeek.values()[i]]?.isSet!!
         }
     }
 
-    private fun updateRegularTimes(){
+    private fun updateRegularTimes() {
         regularWakeTimeText.text = SleepReminder.reminder[DayOfWeek.MONDAY]?.getWakeUpTimeString()
-        regularDurationTimeText.text = SleepReminder.reminder[DayOfWeek.MONDAY]?.getDurationTimeString()
+        regularDurationTimeText.text =
+            SleepReminder.reminder[DayOfWeek.MONDAY]?.getDurationTimeString()
     }
 
-    private fun updateRegularCheckboxes(){
+    private fun updateRegularCheckboxes() {
         regularCheckBoxList.forEachIndexed { i, cb ->
             cb.isChecked = SleepReminder.reminder[DayOfWeek.values()[i]]?.isSet!!
         }
     }
 
 
-    private fun animationShowCustom(v: View){
-        customPanelList.forEach{p -> p.isClickable = true}
-        customWakeTimeTexts.forEach{p -> p.isClickable = true}
-        customDurationTexts.forEach{p -> p.isClickable = true}
-        customCheckBoxList.forEach{p -> p.isClickable = true}
+    private fun animationShowCustom(v: View) {
+        customPanelList.forEach { p -> p.isClickable = true }
+        customWakeTimeTexts.forEach { p -> p.isClickable = true }
+        customDurationTexts.forEach { p -> p.isClickable = true }
+        customCheckBoxList.forEach { p -> p.isClickable = true }
         v.panelNotCustom.visibility = View.GONE
         val animationHide =
             AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down_reverse)
@@ -394,11 +411,11 @@ class SleepFragment : Fragment() {
         v.panelCustom.startAnimation(animationShow)
     }
 
-    private fun animationShowRegular(v: View){
-        customPanelList.forEach{p -> p.isClickable = false}
-        customWakeTimeTexts.forEach{p -> p.isClickable = false}
-        customDurationTexts.forEach{p -> p.isClickable = false}
-        customCheckBoxList.forEach{p -> p.isClickable = false}
+    private fun animationShowRegular(v: View) {
+        customPanelList.forEach { p -> p.isClickable = false }
+        customWakeTimeTexts.forEach { p -> p.isClickable = false }
+        customDurationTexts.forEach { p -> p.isClickable = false }
+        customCheckBoxList.forEach { p -> p.isClickable = false }
         v.panelCustom.visibility = View.GONE
         val animationHide =
             AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down_reverse)
@@ -414,7 +431,4 @@ class SleepFragment : Fragment() {
         animationShow.startOffset = 280
         v.panelNotCustom.startAnimation(animationShow)
     }
-
 }
-
-

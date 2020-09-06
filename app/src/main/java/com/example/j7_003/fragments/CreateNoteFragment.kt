@@ -3,7 +3,9 @@ package com.example.j7_003.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.fragment.app.Fragment
@@ -36,7 +38,7 @@ class CreateNoteFragment : Fragment() {
 
         myEtTitle.requestFocus()
 
-        if(MainActivity.editNoteHolder!=null){
+        if (MainActivity.editNoteHolder != null) {
             myEtTitle.setText(Database.getNote(MainActivity.editNoteHolder!!.adapterPosition).title)
             myEtContent.setText(Database.getNote(MainActivity.editNoteHolder!!.adapterPosition).content)
             myEtContent.requestFocus()

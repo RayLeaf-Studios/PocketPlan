@@ -25,7 +25,7 @@ class DayFragment : Fragment() {
     /*
         companion object holds reference to itself, its viewpager and current date
     */
-    companion object{
+    companion object {
         lateinit var dayFragment: DayFragment
         lateinit var dayPager: ViewPager2
         lateinit var date: LocalDate
@@ -69,18 +69,24 @@ class DayFragment : Fragment() {
 
 
         //starts in the middle for "infinite" scrolling left / right
-        dayPager.setCurrentItem(Int.MAX_VALUE/2, false)
+        dayPager.setCurrentItem(Int.MAX_VALUE / 2, false)
 
         //onclick listener to change current date by clicking on the date up top
         tvDayViewTitle.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                date = date.withYear(year).withMonth(month+1).withDayOfMonth(day)
+                date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val delta = ChronoUnit.DAYS.between(LocalDate.now(), date).toInt()
                 val newPosition = (Int.MAX_VALUE / 2) + delta
                 dayPager.currentItem = newPosition
                 updateDayViewTitle()
             }
-            val dpd = DatePickerDialog(MainActivity.act, dateSetListener, date.year, date.monthValue-1, date.dayOfMonth)
+            val dpd = DatePickerDialog(
+                MainActivity.act,
+                dateSetListener,
+                date.year,
+                date.monthValue - 1,
+                date.dayOfMonth
+            )
             dpd.show()
         }
 
@@ -95,20 +101,19 @@ class DayFragment : Fragment() {
     }
 
 
-
     //adapter for viewpager2
     private class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = Int.MAX_VALUE
 
-            override fun createFragment(position: Int): Fragment{
+        override fun createFragment(position: Int): Fragment {
             return TestFragment.newInstance(position)
         }
 
     }
 
     //switches the current dayList to the dayList of a date according to a position
-    fun changeToPosition(position: Int){
-        val delta = -(Int.MAX_VALUE/2 - position)
+    fun changeToPosition(position: Int) {
+        val delta = -(Int.MAX_VALUE / 2 - position)
         val newDate: LocalDate
         newDate = LocalDate.now().plusDays(delta.toLong())
         changeDateTo(newDate)
@@ -116,24 +121,24 @@ class DayFragment : Fragment() {
 
     //switches the current dayList to the dayList of the passed date
     @SuppressLint("SetTextI18n")
-    fun changeDateTo(newDate: LocalDate){
+    fun changeDateTo(newDate: LocalDate) {
         val monthString = newDate.month.toString()
 
-        tvDayViewTitle.text = newDate.dayOfWeek.toString().substring(0,1)+
-                newDate.dayOfWeek.toString().substring(1,2).toLowerCase(Locale.ROOT)+
-                " "+newDate.dayOfMonth+". "+ monthString.substring(0,1)+
-                monthString.substring(1,3).toLowerCase(Locale.ROOT)
+        tvDayViewTitle.text = newDate.dayOfWeek.toString().substring(0, 1) +
+                newDate.dayOfWeek.toString().substring(1, 2).toLowerCase(Locale.ROOT) +
+                " " + newDate.dayOfMonth + ". " + monthString.substring(0, 1) +
+                monthString.substring(1, 3).toLowerCase(Locale.ROOT)
         tvYear.text = newDate.year.toString()
         date = newDate
     }
 
     @SuppressLint("SetTextI18n")
-    fun updateDayViewTitle(){
+    fun updateDayViewTitle() {
         val monthString = date.month.toString()
 
-        tvDayViewTitle.text = date.dayOfWeek.toString().substring(0,1)+
-                date.dayOfWeek.toString().substring(1,2).toLowerCase(Locale.ROOT) +
-                " "+date.dayOfMonth+". "+ monthString.substring(0,1)+
+        tvDayViewTitle.text = date.dayOfWeek.toString().substring(0, 1) +
+                date.dayOfWeek.toString().substring(1, 2).toLowerCase(Locale.ROOT) +
+                " " + date.dayOfMonth + ". " + monthString.substring(0, 1) +
                 monthString.substring(1, 3).toLowerCase(Locale.ROOT)
         tvYear.text = date.year.toString()
     }
@@ -141,7 +146,6 @@ class DayFragment : Fragment() {
     private fun changeToCreateTermFragment() {
         MainActivity.act.changeToCreateTerm()
     }
-
 }
 
 

@@ -21,15 +21,13 @@ import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
-import java.util.*
-import kotlin.random.Random
 
 
 /**
  * A simple [Fragment] subclass.
  */
 class ShoppingFragment : Fragment() {
-    companion object{
+    companion object {
         lateinit var shoppingListInstance: ShoppingList
         lateinit var shoppingListAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
@@ -47,14 +45,14 @@ class ShoppingFragment : Fragment() {
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting("expandOneCategory") as Boolean
         //expand first category, contract all others, if setting says so
-        if(expandOne){
+        if (expandOne) {
             shoppingListInstance.forEach {
-                if(shoppingListInstance.getTagIndex(it.first)==0){
-                    if(!shoppingListInstance.isTagExpanded(it.first)){
+                if (shoppingListInstance.getTagIndex(it.first) == 0) {
+                    if (!shoppingListInstance.isTagExpanded(it.first)) {
                         shoppingListInstance.flipExpansionState(it.first)
                     }
-                }else{
-                    if(shoppingListInstance.isTagExpanded(it.first)){
+                } else {
+                    if (shoppingListInstance.isTagExpanded(it.first)) {
                         shoppingListInstance.flipExpansionState(it.first)
                     }
                 }
@@ -84,20 +82,24 @@ class ShoppingFragment : Fragment() {
         return myView
     }
 
-    fun prepareForMove(){
+    fun prepareForMove() {
         firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
         offsetTop = 0
-        if(firstPos >=0){
+        if (firstPos >= 0) {
             val firstView = layoutManager.findViewByPosition(firstPos)
-            offsetTop = layoutManager.getDecoratedTop(firstView!!)- layoutManager.getTopDecorationHeight(firstView)
+            offsetTop =
+                layoutManager.getDecoratedTop(firstView!!) - layoutManager.getTopDecorationHeight(
+                    firstView
+                )
         }
     }
-    fun reactToMove(){
+
+    fun reactToMove() {
         layoutManager.scrollToPositionWithOffset(firstPos, offsetTop)
     }
 }
 
-class ShoppingListAdapter:
+class ShoppingListAdapter :
     RecyclerView.Adapter<ShoppingListAdapter.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -117,12 +119,12 @@ class ShoppingListAdapter:
         //set tag for view holder
         holder.tag = tag
 
-       //get Number of unchecked items
+        //get Number of unchecked items
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
 
         //Expand or contract recyclerview depending on its expansion state
-        holder.subRecyclerView.visibility = when(shoppingListInstance.isTagExpanded(tag)) {
+        holder.subRecyclerView.visibility = when (shoppingListInstance.isTagExpanded(tag)) {
             true -> View.VISIBLE
             false -> View.GONE
         }
@@ -131,7 +133,12 @@ class ShoppingListAdapter:
         holder.tvCategoryName.text = tag.n
 
         //Sets background color of sublist according to the tag
-        manageCheckedCategory(holder, ShoppingFragment.shoppingListInstance.areAllChecked(tag), numberOfItems, tag)
+        manageCheckedCategory(
+            holder,
+            ShoppingFragment.shoppingListInstance.areAllChecked(tag),
+            numberOfItems,
+            tag
+        )
 
         //Setting adapter for this sublist
         val subAdapter = SublistAdapter(tag, holder)
@@ -150,22 +157,28 @@ class ShoppingListAdapter:
         holder.cvCategory.setOnClickListener {
             val newState = shoppingListInstance.flipExpansionState(holder.tag)
             //if the item gets expanded and the setting says to only expand one
-            if(newState == true && ShoppingFragment.expandOne){
+            if (newState == true && ShoppingFragment.expandOne) {
                 //iterate through all categories and contract one if you find one that's expanded and not the current sublist
-               shoppingListInstance.forEach {
-                   if(shoppingListInstance.isTagExpanded(it.first) && it.first != holder.tag){
-                       shoppingListInstance.flipExpansionState(it.first)
-                       ShoppingFragment.shoppingListAdapter.notifyItemChanged(shoppingListInstance.getTagIndex(it.first))
-                   }
-               }
+                shoppingListInstance.forEach {
+                    if (shoppingListInstance.isTagExpanded(it.first) && it.first != holder.tag) {
+                        shoppingListInstance.flipExpansionState(it.first)
+                        ShoppingFragment.shoppingListAdapter.notifyItemChanged(
+                            shoppingListInstance.getTagIndex(
+                                it.first
+                            )
+                        )
+                    }
+                }
             }
             notifyItemChanged(holder.adapterPosition)
         }
     }
 
-    fun manageCheckedCategory(holder: CategoryViewHolder,allChecked: Boolean,
-                              numberOfItems: Int, tag:Tag) {
-        if(!allChecked) {
+    fun manageCheckedCategory(
+        holder: CategoryViewHolder, allChecked: Boolean,
+        numberOfItems: Int, tag: Tag
+    ) {
+        if (!allChecked) {
             val colorBackground = ContextCompat
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
             holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
@@ -175,7 +188,8 @@ class ShoppingListAdapter:
         } else {
             val colorHint = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
             holder.cvCategory.setCardBackgroundColor(
-                ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated))
+                ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
+            )
             holder.tvCategoryName.setTextColor(colorHint)
             holder.tvNumberOfItems.setTextColor(colorHint)
             holder.tvNumberOfItems.text = "✔"
@@ -199,7 +213,7 @@ class ShoppingListAdapter:
 
 class SublistAdapter(
     private val tag: Tag, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
-): RecyclerView.Adapter<SublistAdapter.ItemViewHolder>(){
+) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -211,7 +225,7 @@ class SublistAdapter(
 
         val itemCheckedState = ShoppingFragment.shoppingListInstance.isItemChecked(tag, position)
 
-        if(itemCheckedState==null){
+        if (itemCheckedState == null) {
             MainActivity.act.sadToast("invalid checked state")
             return
         }
@@ -237,8 +251,12 @@ class SublistAdapter(
             val numberOfItems = ShoppingFragment.shoppingListInstance.getUncheckedSize(holder.tag)
 
             //If all are checked after the current item got flipped, the list has to go from color to gray
-            ShoppingFragment.shoppingListAdapter.manageCheckedCategory(parentHolder,
-                ShoppingFragment.shoppingListInstance.areAllChecked(holder.tag), numberOfItems, holder.tag)
+            ShoppingFragment.shoppingListAdapter.manageCheckedCategory(
+                parentHolder,
+                ShoppingFragment.shoppingListInstance.areAllChecked(holder.tag),
+                numberOfItems,
+                holder.tag
+            )
 
             notifyItemChanged(holder.adapterPosition)
             if (newPosition != -1) {
@@ -266,17 +284,19 @@ class SublistAdapter(
     /**
     one instance of this class will contain one instance of row_item and meta data like position
     also holds references to views inside the layout
-    */
-    class ItemViewHolder(itemView: View, val adapter: SublistAdapter):
+     */
+    class ItemViewHolder(itemView: View, val adapter: SublistAdapter) :
         RecyclerView.ViewHolder(itemView) {
 
         lateinit var tag: Tag
     }
-
 }
-class SwipeItemToDelete(direction: Int):ItemTouchHelper.SimpleCallback(0, direction){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target:
-    RecyclerView.ViewHolder): Boolean {
+
+class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, direction) {
+    override fun onMove(
+        recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target:
+        RecyclerView.ViewHolder
+    ): Boolean {
         return false
     }
 
@@ -293,7 +313,8 @@ class SwipeItemToDelete(direction: Int):ItemTouchHelper.SimpleCallback(0, direct
             if (positions != null) {
                 ShoppingFragment.shoppingFragment.prepareForMove()
                 ShoppingFragment.shoppingListAdapter.notifyItemMoved(
-                    positions.first, positions.second)
+                    positions.first, positions.second
+                )
                 ShoppingFragment.shoppingFragment.reactToMove()
             }
         }

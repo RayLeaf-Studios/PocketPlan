@@ -2,7 +2,6 @@ package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,10 +31,11 @@ import org.threeten.bp.LocalDate
 
 class BirthdayFragment : Fragment() {
 
-    companion object{
+    companion object {
         var deletedBirthday: Birthday? = null
         lateinit var myAdapter: BirthdayAdapter
     }
+
     @SuppressLint("InflateParams", "SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,9 +68,9 @@ class BirthdayFragment : Fragment() {
             npReminder.minValue = 0
             npReminder.maxValue = 30
 
-            npMonth.setOnValueChangedListener{ _, _, _ ->
-                when(npMonth.value){
-                    1,3,5,7,8,10,12 -> npDay.maxValue = 31
+            npMonth.setOnValueChangedListener { _, _, _ ->
+                when (npMonth.value) {
+                    1, 3, 5, 7, 8, 10, 12 -> npDay.maxValue = 31
                     2 -> npDay.maxValue = 29
                     else -> npDay.maxValue = 30
                 }
@@ -90,9 +91,13 @@ class BirthdayFragment : Fragment() {
             //button to confirm adding of birthday
             myDialogView.btnConfirmBirthday.setOnClickListener {
                 val name = nameField.text.toString()
-                if(name.isEmpty()){
-                    Toast.makeText(MainActivity.act, "Can't create an empty birthday!", Toast.LENGTH_SHORT).show()
-                }else{
+                if (name.isEmpty()) {
+                    Toast.makeText(
+                        MainActivity.act,
+                        "Can't create an empty birthday!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
                     val day = npDay.value
                     val month = npMonth.value
                     val reminderPeriod = npReminder.value
@@ -123,42 +128,58 @@ class BirthdayFragment : Fragment() {
 
 }
 
-class SwipeRightToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
+class SwipeRightToDelete(var adapter: BirthdayAdapter) :
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean = false
+
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        return if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
+        return if (Database.getBirthday(viewHolder.adapterPosition).daysToRemind < 0) {
             0
-        }else{
+        } else {
             super.getSwipeDirs(recyclerView, viewHolder)
         }
 
     }
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = adapter.deleteItem(viewHolder)
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
+        adapter.deleteItem(viewHolder)
 }
 
-class SwipeLeftToDelete(var adapter: BirthdayAdapter):ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT){
+class SwipeLeftToDelete(var adapter: BirthdayAdapter) :
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        return if(Database.getBirthday(viewHolder.adapterPosition).daysToRemind<0){
+        return if (Database.getBirthday(viewHolder.adapterPosition).daysToRemind < 0) {
             0
-        }else{
+        } else {
             super.getSwipeDirs(recyclerView, viewHolder)
         }
     }
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = false
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = adapter.deleteItem(viewHolder)
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean = false
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
+        adapter.deleteItem(viewHolder)
 }
 
 class BirthdayAdapter :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
 
-    fun deleteItem(viewHolder: RecyclerView.ViewHolder){
+    fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         BirthdayFragment.deletedBirthday = Database.getBirthday(viewHolder.adapterPosition)
         Database.deleteBirthday(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
@@ -183,14 +204,14 @@ class BirthdayAdapter :
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        if(currentBirthday.daysToRemind<0){
+        if (currentBirthday.daysToRemind < 0) {
             //initialize month divider design
-            holder.tvMonthLabel.text=currentBirthday.name
+            holder.tvMonthLabel.text = currentBirthday.name
             holder.tvMonthLabel.textSize = 22F
             holder.txvBirthdayLabelName.text = ""
             holder.myView.setBackgroundResource(R.color.colorBackground)
-            holder.itemView.setOnClickListener{}
-        }else{
+            holder.itemView.setOnClickListener {}
+        } else {
             //initialize regular birthday design
             holder.tvMonthLabel.textSize = 20F
             holder.tvMonthLabel.text = ""
@@ -214,9 +235,9 @@ class BirthdayAdapter :
                 npReminder.minValue = 0
                 npReminder.maxValue = 30
 
-                npMonth.setOnValueChangedListener{ _, _, _ ->
-                    when(npMonth.value){
-                        1,3,5,7,8,10,12 -> npDay.maxValue = 31
+                npMonth.setOnValueChangedListener { _, _, _ ->
+                    when (npMonth.value) {
+                        1, 3, 5, 7, 8, 10, 12 -> npDay.maxValue = 31
                         2 -> npDay.maxValue = 29
                         else -> npDay.maxValue = 30
                     }
@@ -225,8 +246,10 @@ class BirthdayAdapter :
                 val etName = myDialogView.etName
 
                 //AlertDialogBuilder
-                val myBuilder = activity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-                val myTitle = LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
+                val myBuilder =
+                    activity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+                val myTitle =
+                    LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
                 myTitle.tvDialogTitle.text = "Edit Birthday"
                 myBuilder?.setCustomTitle(myTitle)
 
@@ -236,13 +259,13 @@ class BirthdayAdapter :
                 npDay.value = currentBirthday.day
                 npReminder.value = currentBirthday.daysToRemind
 
-                when(npMonth.value){
-                    1,3,5,7,8,10,12 -> npDay.maxValue = 31
+                when (npMonth.value) {
+                    1, 3, 5, 7, 8, 10, 12 -> npDay.maxValue = 31
                     2 -> npDay.maxValue = 29
                     else -> npDay.maxValue = 30
                 }
 
-                myDialogView.btnConfirmBirthday.text ="CONFIRM EDIT"
+                myDialogView.btnConfirmBirthday.text = "CONFIRM EDIT"
 
                 //show dialog
                 val myAlertDialog = myBuilder?.create()
@@ -276,17 +299,16 @@ class BirthdayAdapter :
                 dayAddition + currentBirthday.day.toString() + "." +
                         monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
 
-            if(LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day){
+            if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
                 holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_winered)
-            }
-            else{
+            } else {
                 holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_gray)
             }
 
             //display bell if birthday has a reminder
-            if(currentBirthday.hasReminder()) {
+            if (currentBirthday.hasReminder()) {
                 holder.iconBell.visibility = View.VISIBLE
-            }else{
+            } else {
                 holder.iconBell.visibility = View.INVISIBLE
             }
         }
