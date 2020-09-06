@@ -1,6 +1,7 @@
 package com.example.j7_003
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
@@ -20,11 +22,12 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(){
     private lateinit var homeFragment: HomeFragment
     private lateinit var dayFragment: DayFragment
-    private lateinit var calenderFragment: CalenderFragment
+    private lateinit var calendarFragment: CalenderFragment
     private lateinit var birthdayFragment: BirthdayFragment
     private lateinit var settingsFragment: SettingsFragment
     private lateinit var todoFragment: TodoFragment
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity(){
 
 
     private var activeFragmentTag = ""
+    private var previousFragmentTag = ""
 
     companion object {
         lateinit var act: MainActivity
@@ -105,7 +109,7 @@ class MainActivity : AppCompatActivity(){
 
 
     fun sadToast(msg: String){
-        Toast.makeText(act, msg +" :(", Toast.LENGTH_LONG)
+        Toast.makeText(act, msg +" :(", Toast.LENGTH_LONG).show()
     }
 
     /**
@@ -116,14 +120,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="birthdays") {
             hideMenuIcons()
             birthdayFragment = BirthdayFragment()
-            bottomNavigation.selectedItemId = R.id.modules
-            supportActionBar?.title = "Birthdays"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, birthdayFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="birthdays"
+            changeToFragment(birthdayFragment, "birthdays", "Birthdays", -1)
 
         }
     }
@@ -132,14 +129,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="shopping") {
             hideMenuIcons()
             shoppingFragment = ShoppingFragment()
-            bottomNavigation.selectedItemId = R.id.modules
-            supportActionBar?.title = "Shopping"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, shoppingFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="shopping"
+            changeToFragment(shoppingFragment, "shopping", "Shopping", R.id.shopping)
         }
     }
 
@@ -147,14 +137,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="addItem") {
             hideMenuIcons()
             addItemFragment = AddItemFragment()
-            bottomNavigation.selectedItemId = R.id.modules
-            supportActionBar?.title = "Add Item"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, addItemFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="addItem"
+            changeToFragment(addItemFragment, "addItem", "Add Item", -1)
         }
     }
 
@@ -164,14 +147,7 @@ class MainActivity : AppCompatActivity(){
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
             updateDeleteTaskIcon()
             todoFragment = TodoFragment()
-            supportActionBar?.title = "To-Do"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, todoFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="todo"
-            bottomNavigation.selectedItemId = R.id.todolist
+            changeToFragment(todoFragment, "todo", "To-Do", R.id.todolist)
         }
     }
 
@@ -179,47 +155,7 @@ class MainActivity : AppCompatActivity(){
         hideMenuIcons()
         if(activeFragmentTag!="home"){
             homeFragment = HomeFragment()
-            supportActionBar?.title = "Pocket-Plan"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, homeFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="home"
-            bottomNavigation.selectedItemId=R.id.home
-        }
-    }
-
-    fun changeToDayView(){
-        if(activeFragmentTag!="dayView") {
-            hideMenuIcons()
-            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
-            myMenu?.getItem(0)?.setVisible(true)
-            dayFragment = DayFragment()
-            supportActionBar?.title = "Day-View"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, dayFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="dayView"
-            bottomNavigation.selectedItemId=R.id.modules
-        }
-    }
-
-    private fun changeToCalendar(){
-        if(activeFragmentTag!="calendar") {
-            hideMenuIcons()
-            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
-            myMenu?.getItem(0)?.setVisible(true)
-            calenderFragment = CalenderFragment()
-            supportActionBar?.title = "Calendar"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, calenderFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="calendar"
+            changeToFragment(homeFragment, "home", "Pocket-Plan", R.id.home)
         }
     }
 
@@ -227,13 +163,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="createTerm") {
             hideMenuIcons()
             createTermFragment = CreateTermFragment()
-            supportActionBar?.title = "Create Term"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, createTermFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="createTerm"
+            changeToFragment(createTermFragment, "createTerm", "Create Appointment", R.id.modules)
         }
     }
 
@@ -241,29 +171,16 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="modules") {
             hideMenuIcons()
             modulesFragment = ModulesFragment()
-            supportActionBar?.title = "Modules"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, modulesFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="modules"
-            bottomNavigation.selectedItemId=R.id.modules
+            changeToFragment(modulesFragment, "modules", "Menu", R.id.modules)
         }
     }
 
     fun changeToSettings(){
-
         if(activeFragmentTag!="settings") {
             hideMenuIcons()
             settingsFragment = SettingsFragment()
-            supportActionBar?.title = "Settings"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, settingsFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="settings"
+            changeToFragment(settingsFragment, "settings",
+                "Settings", -1)
         }
     }
 
@@ -271,13 +188,8 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="sleep") {
             hideMenuIcons()
             sleepFragment = SleepFragment()
-            supportActionBar?.title = "Sleep-Reminder"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, sleepFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="sleep"
+            changeToFragment(sleepFragment, "sleep",
+                "Sleep-Reminder", -1)
         }
     }
 
@@ -285,34 +197,23 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="notes") {
             hideMenuIcons()
             noteFragment = NoteFragment()
-            supportActionBar?.title = "Notes"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, noteFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="notes"
-            bottomNavigation.selectedItemId=R.id.notes
+            changeToFragment(noteFragment, "notes",
+                "Notes", R.id.notes)
         }
     }
 
     fun changeToCreateNoteFragment(){
-        myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
-        myMenu?.getItem(1)?.setIcon(R.drawable.ic_check_mark)
-        myMenu?.getItem(0)?.setVisible(true)
-        myMenu?.getItem(1)?.setVisible(true)
         if(activeFragmentTag!="createNote") {
-            supportActionBar?.title="Editor"
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
+            myMenu?.getItem(1)?.setIcon(R.drawable.ic_check_mark)
+            myMenu?.getItem(0)?.isVisible = true
+            myMenu?.getItem(1)?.isVisible = true
+
             createNoteFragment = CreateNoteFragment()
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, createNoteFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="createNote"
-            /**
-             * changing initial color of color choose button
-             */
+            changeToFragment(createNoteFragment, "createNote",
+                "Editor", -1)
+
+            //initialize button with color of note that is currently being edited
             if(editNoteHolder!=null){
                 val btnChooserColor = when(noteColor){
                     NoteColors.RED -> R.color.colorNoteRed
@@ -326,8 +227,6 @@ class MainActivity : AppCompatActivity(){
                 noteColor = NoteColors.YELLOW
                 myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, R.color.colorNoteYellow))
             }
-
-
         }
     }
 
@@ -335,15 +234,52 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="about") {
             hideMenuIcons()
             aboutFragment = AboutFragment()
-            bottomNavigation.selectedItemId = R.id.modules
-            supportActionBar?.title = "About"
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, aboutFragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            activeFragmentTag="about"
+            changeToFragment(aboutFragment, "about", "About", -1)
         }
+    }
+
+    fun changeToDayView(){
+        if(activeFragmentTag!="dayView") {
+            hideMenuIcons()
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
+            myMenu?.getItem(0)?.isVisible = true
+            dayFragment = DayFragment()
+            changeToFragment(dayFragment, "dayView", "Day-View", R.id.modules)
+        }
+    }
+
+    private fun changeToCalendar(){
+        if(activeFragmentTag!="calendar") {
+            hideMenuIcons()
+            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
+            myMenu?.getItem(0)?.isVisible = true
+            calendarFragment = CalenderFragment()
+            changeToFragment(calendarFragment, "calendar", "Calendar", R.id.modules)
+        }
+    }
+
+    /**
+     * Manages the change to a different fragment
+     * @param fragment the fragment that will be displayed
+     * @param activeFragmentTag String tag that will be saved to check which fragment is active
+     * @param actionBarTitle the title that will be displayed in the action bar, once this
+     * fragment is visible
+     * @param bottomNavigationId the id of the element that will be selected in the bottom
+     * navigation bar, if it is -1, the currently selected id will not change
+     */
+
+    private fun changeToFragment(fragment: Fragment, activeFragmentTag: String, actionBarTitle: String, bottomNavigationId: Int){
+        previousFragmentTag = this.activeFragmentTag
+        this.activeFragmentTag = activeFragmentTag
+        supportActionBar?.title = actionBarTitle
+        if(bottomNavigationId!=-1){
+            bottomNavigation.selectedItemId = bottomNavigationId
+        }
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.frame_layout, fragment)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .commit()
     }
 
     /**
@@ -460,12 +396,16 @@ class MainActivity : AppCompatActivity(){
 
     override fun onBackPressed() {
 
-        when {
-            activeFragmentTag=="createNote" -> {
+        Log.e("error", activeFragmentTag+" "+previousFragmentTag)
+        when (previousFragmentTag) {
+            "home" -> {
+                changeToHome()
+            }
+            "notes" -> {
                 changeToNotes()
             }
-            activeFragmentTag!="home" -> {
-                changeToHome()
+            "shopping" -> {
+                changeToShopping()
             }
             else -> {
                 super.onBackPressed()
