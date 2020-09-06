@@ -1,20 +1,19 @@
 [
-  {"n" : "Sonstige", "c" : "#7b7b7b"},
+  {"n" : "Sonstiges", "c" : "#292d57"},
   {"n" : "Obst und Gemüse", "c" : "#498020"},
-  {"n" : "Getränke", "c" : "#3275f9"},
-  {"n" : "Fleisch", "c" : "#8a0303"},
-  {"n" : "Milchprodukte", "c" : "#858583"},
-  {"n" : "Konserven", "c" : "#a8a8a8"},
+  {"n" : "Getränke", "c" : "#1a4cad"},
+  {"n" : "Fleisch", "c" : "#750505"},
+  {"n" : "Konserven", "c" : "#666666"},
   {"n" : "Gebäck", "c" : "#a16813"},
   {"n" : "Nudeln und Getreide", "c" : "#f2d70a"},
-  {"n" : "Hygiene", "c" : "#00ffae"},
-  {"n" : "Gewürze", "c" : "#ff0019"},
+  {"n" : "Hygiene", "c" : "#28947d"},
+  {"n" : "Gewürze", "c" : "#962506"},
   {"n" : "Alkohol", "c" : "#a605a0"},
   {"n" : "TK", "c" : "#00bd16"},
   {"n" : "Zerealien", "c" : "#ff9a17"},
   {"n" : "Gekühltes", "c" : "#b0c0ff"},
   {"n" : "Käse", "c" : "#c7ad18"},
   {"n" : "International", "c" : "#ffb5b0"},
-  {"n" : "Molkereiprodukte", "c" : "#858583"},
-  {"n" : "Sonstiges", "c" : "#ffffff"}]
+  {"n" : "Molkereiprodukte", "c" : "#858583"}
+]
 

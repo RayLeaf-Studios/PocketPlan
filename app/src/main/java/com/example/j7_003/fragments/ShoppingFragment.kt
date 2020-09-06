@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
 import java.util.*
+import kotlin.random.Random
 
 
 /**
@@ -31,6 +32,10 @@ class ShoppingFragment : Fragment() {
     companion object{
         lateinit var shoppingListInstance: ShoppingList
         lateinit var shoppingListAdapter: ShoppingListAdapter
+        lateinit var layoutManager: LinearLayoutManager
+        lateinit var shoppingFragment: ShoppingFragment
+        var offsetTop: Int = 0
+        var firstPos: Int = 0
         var expandOne: Boolean = false
     }
 
@@ -38,6 +43,7 @@ class ShoppingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        shoppingFragment = this
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting("expandOneCategory") as Boolean
         //expand first category, contract all others, if setting says so
@@ -71,10 +77,23 @@ class ShoppingFragment : Fragment() {
 
         //attach adapter to recycler and initialize parameters of recycler
         myRecycler.adapter = shoppingListAdapter
-        myRecycler.layoutManager = LinearLayoutManager(activity)
+        layoutManager = LinearLayoutManager(activity)
+        myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
 
         return myView
+    }
+
+    fun prepareForMove(){
+        firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
+        offsetTop = 0
+        if(firstPos >=0){
+            val firstView = layoutManager.findViewByPosition(firstPos)
+            offsetTop = layoutManager.getDecoratedTop(firstView!!)- layoutManager.getTopDecorationHeight(firstView)
+        }
+    }
+    fun reactToMove(){
+        layoutManager.scrollToPositionWithOffset(firstPos, offsetTop)
     }
 }
 
@@ -223,15 +242,20 @@ class SublistAdapter(
 
             notifyItemChanged(holder.adapterPosition)
             if (newPosition != -1) {
+                ShoppingFragment.shoppingFragment.prepareForMove()
                 notifyItemMoved(holder.adapterPosition, newPosition)
+                ShoppingFragment.shoppingFragment.reactToMove()
             } else {
                 MainActivity.act.sadToast("invalid item checked state")
             }
 
             val sublistMoveInfo = ShoppingFragment.shoppingListInstance.sortTag(tag)
             if (sublistMoveInfo != null) {
+                ShoppingFragment.shoppingFragment.prepareForMove()
                 ShoppingFragment.shoppingListAdapter
                     .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
+
+                ShoppingFragment.shoppingFragment.reactToMove()
             }
         }
         holder.tag = tag
@@ -267,8 +291,10 @@ class SwipeItemToDelete(direction: Int):ItemTouchHelper.SimpleCallback(0, direct
             val positions = ShoppingFragment.shoppingListInstance.sortTag(parsed.tag)
             ShoppingFragment.shoppingListAdapter.notifyItemChanged(tagPosition)
             if (positions != null) {
+                ShoppingFragment.shoppingFragment.prepareForMove()
                 ShoppingFragment.shoppingListAdapter.notifyItemMoved(
                     positions.first, positions.second)
+                ShoppingFragment.shoppingFragment.reactToMove()
             }
         }
         //Todo update undo delete icon?
