@@ -63,7 +63,7 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
      * @param itemName The name of item.
      * @return The item that was removed, null if there was no item with the given name.
      */
-    fun remove(itemName: String): ItemTemplate? {
+    fun removeItem(itemName: String): ItemTemplate? {
         for (i in 0 until this.size) {
             if (this[i].n == itemName) {
                 save()

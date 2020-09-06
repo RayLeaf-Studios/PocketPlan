@@ -73,11 +73,13 @@ class AddItemFragment : Fragment() {
         //initialize itemNameList
         val itemNameList: ArrayList<String> = ArrayList()
 
-        itemTemplateList.forEach{
-            itemNameList.add(it.n)
-        }
         userItemTemplateList.forEach{
             itemNameList.add(it.n)
+        }
+        itemTemplateList.forEach{
+            if(!itemNameList.contains(it.n)){
+                    itemNameList.add(it.n)
+                }
         }
 
         //initialize autocompleteTextView and its adapter
@@ -124,8 +126,9 @@ class AddItemFragment : Fragment() {
         //check if user template exists
         var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
         if(template==null){
+            //no user item with this name => check for regular template
             template = itemTemplateList.getTemplateByName(actvItem.text.toString())
-            if(template==null){
+            if(template==null||tag!=template.c){
                 //item unknown, use selected category, add item, and save it to userTemplate list
                 userItemTemplateList.add(ItemTemplate(actvItem.text.toString(), tag, spItemUnit.selectedItem.toString()))
                 val item = ShoppingItem(
@@ -135,6 +138,11 @@ class AddItemFragment : Fragment() {
                 MainActivity.act.changeToShopping()
                 return
             }
+        }
+        if(tag!=template.c){
+            //known as user item but with different tag
+            userItemTemplateList.removeItem(actvItem.text.toString())
+            userItemTemplateList.add(ItemTemplate(actvItem.text.toString(), tag, spItemUnit.selectedItem.toString()))
         }
         //add already known item to list
         val item = ShoppingItem(
