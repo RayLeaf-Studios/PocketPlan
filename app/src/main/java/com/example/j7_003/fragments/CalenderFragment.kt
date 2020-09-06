@@ -25,7 +25,7 @@ import java.util.*
 class CalenderFragment : Fragment() {
 
     lateinit var myView: View
-    lateinit var btnAddTerm: FloatingActionButton
+    private lateinit var btnAddTerm: FloatingActionButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +55,7 @@ class CalenderFragment : Fragment() {
         return myView
     }
 
-    fun changeToCreateTermFragment() {
+    private fun changeToCreateTermFragment() {
         MainActivity.act.changeToCreateTerm()
     }
 
@@ -93,7 +93,7 @@ class SwipeLeftToDeleteTerm(private var adapter: TermAdapter) :
     }
 }
 
-class TermAdapter() :
+class TermAdapter :
     RecyclerView.Adapter<TermAdapter.TermViewHolder>() {
 
     fun deleteItem(position: Int) {
@@ -112,7 +112,7 @@ class TermAdapter() :
 
         val currentTerm = CalendarManager.getAppointment(position)
 
-        holder.itemView.setOnClickListener() {
+        holder.itemView.setOnClickListener {
             //todo start createTermFragment in EDIT MODE
             MainActivity.editTerm = currentTerm
             MainActivity.act.changeToCreateTerm()
@@ -121,12 +121,14 @@ class TermAdapter() :
         holder.tvTitle.text = currentTerm.title
         holder.tvInfo.text = currentTerm.addInfo
         holder.tvTime.text = currentTerm.startTime.toString() + " - " + currentTerm.eTime.toString()
+
         val date: LocalDate = currentTerm.date
         val dayOfWeekString = date.dayOfWeek.toString().substring(0, 1) + date.dayOfWeek.toString()
             .substring(1, 2).toLowerCase(Locale.ROOT)
         val month = date.monthValue.toString()
         val day = date.dayOfMonth.toString()
         val year = date.year.toString().subSequence(2, 4)
+
         holder.tvDate.text = MainActivity.act.getString(
             R.string.termItemDate,
             dayOfWeekString, day, month, year
