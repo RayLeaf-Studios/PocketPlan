@@ -46,7 +46,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Eugen S.:  Back-End / Data Management\n\nMicha N.:  Front-End / User Interface"
+                    android:text="Estep248:  Back-End / Data Management\n\nJakeGonder:  Front-End / User Interface"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kellai U.: Logo Design \n \nDorinda R.: Textual content and translation\n\nNico S.: Unpaid Intern"
+                    android:text="Kellai U.: Logo Design \n \nDori R.: Textual content and translation\n\nLetsbeteem0: Unpaid Intern"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintStart_toStartOf="parent"

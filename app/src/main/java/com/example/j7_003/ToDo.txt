@@ -6,7 +6,6 @@ Priority 1 tasks:
 Priority 2 tasks:
     - change birthday date pickers to actual date pickers
       make all spinners / dropDowns / autoTextViews darkTheme
-    - make birthdays searchable
     - option to save year for birthday, tap birthday to expand more info, (how many days until?),
       Display age in notification? e.g. "Max turns 20 today!"
 
@@ -22,9 +21,7 @@ Priority 3 tasks:
 Ideas:
     - make shopping list presets save and loadable
     - suggested amount for shopping items
-    - small counter for accomplished tasks of taskList
     - add tags / sublist for different store/s?
-
 
 
 Add after release:
