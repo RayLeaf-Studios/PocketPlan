@@ -1,15 +1,11 @@
 Todo:
 
 Priority 1 tasks:
-    - allow users to put already known items into different categories (and remember this decision)
+    - finalize shopping contents / colors
 
 Priority 2 tasks:
-    - remove scroll when checking / modifying tasks
-    - change layout without refreshing when swipe deleting item from shopping list (when all are
-      checked)
     - change birthday date pickers to actual date pickers
       make all spinners / dropDowns / autoTextViews darkTheme
-    - birthday undo insert animation
     - make birthdays searchable
     - option to save year for birthday, tap birthday to expand more info, (how many days until?),
       Display age in notification? e.g. "Max turns 20 today!"
@@ -18,6 +14,9 @@ Priority 3 tasks:
     - add new icon
     - replace all colors and values like text size with resource references
     - annotations to use different serialized / displayed variable names
+    - birthday undo insert animation
+    - figure out if its possible to shrink category list without reloading when
+      deleting an item
 
 
 Ideas:

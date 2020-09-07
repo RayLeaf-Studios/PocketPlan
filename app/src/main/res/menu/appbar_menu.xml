@@ -10,5 +10,13 @@
         android:icon="@drawable/ic_check_mark"
         android:title="icon2"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/svBirthday"
+        android:icon="@drawable/ic_action_searc"
+        android:title="Search"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView">
+
+    </item>
 
 </menu>

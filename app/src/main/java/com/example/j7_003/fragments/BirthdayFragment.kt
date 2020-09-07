@@ -2,6 +2,7 @@ package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -33,7 +36,13 @@ class BirthdayFragment : Fragment() {
 
     companion object {
         var deletedBirthday: Birthday? = null
+
         lateinit var myAdapter: BirthdayAdapter
+
+        var searching: Boolean = false
+        lateinit var adjustedList: ArrayList<Birthday>
+
+        lateinit var myFragment: BirthdayFragment
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")
@@ -41,11 +50,13 @@ class BirthdayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        adjustedList = arrayListOf()
 
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
 
         val myRecycler = myView.recycler_view_birthday
 
+        myFragment = this
         //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
         myView.btnAddBirthday.setOnClickListener {
 
@@ -126,6 +137,16 @@ class BirthdayFragment : Fragment() {
         return myView
     }
 
+    fun search(query: String){
+        adjustedList.clear()
+        Database.birthdayList.forEach {
+            if (it.name.toLowerCase(Locale.ROOT).startsWith(query.toLowerCase(Locale.ROOT))&& it.daysToRemind >= 0){
+                adjustedList.add(it)
+            }
+        }
+        myAdapter.notifyDataSetChanged()
+    }
+
 }
 
 class SwipeRightToDelete(var adapter: BirthdayAdapter) :
@@ -196,7 +217,12 @@ class BirthdayAdapter :
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
-        val currentBirthday = Database.getBirthday(position)
+
+        val currentBirthday = when(BirthdayFragment.searching){
+            true -> BirthdayFragment.adjustedList[position]
+            false -> Database.getBirthday(position)
+        }
+
         val activity = MainActivity.act
 
         /**
@@ -316,7 +342,12 @@ class BirthdayAdapter :
 
     }
 
-    override fun getItemCount() = Database.birthdayList.size
+    override fun getItemCount(): Int{
+         return when(BirthdayFragment.searching){
+             true -> BirthdayFragment.adjustedList.size
+             false -> Database.birthdayList.size
+         }
+    }
 
     class BirthdayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         /**

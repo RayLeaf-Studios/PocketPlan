@@ -7,11 +7,13 @@
         android:id="@+id/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="45dp"
+        android:layout_width="40dp"
         android:background="@drawable/logo"
-        android:layout_height="45dp">
+        android:layout_height="40dp">
     </androidx.appcompat.widget.AppCompatImageView>
     <TextView
+        android:layout_marginLeft="3dp"
+        android:id="@+id/tvActionbarTitle"
         app:layout_constraintBottom_toBottomOf="@id/logo"
         app:layout_constraintTop_toTopOf="@id/logo"
         app:layout_constraintStart_toEndOf="@id/logo"
@@ -22,5 +24,12 @@
         android:textSize="20dp">
 
     </TextView>
+
+<!--    <androidx.appcompat.widget.SearchView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/tvActionbarTitle"-->
+<!--        app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widVjget.SearchView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

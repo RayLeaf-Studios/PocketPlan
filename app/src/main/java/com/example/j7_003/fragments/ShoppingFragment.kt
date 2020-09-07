@@ -31,7 +31,8 @@ class ShoppingFragment : Fragment() {
         lateinit var shoppingListInstance: ShoppingList
         lateinit var shoppingListAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
-        lateinit var shoppingFragment: ShoppingFragment
+        lateinit var myFragment: ShoppingFragment
+
         var offsetTop: Int = 0
         var firstPos: Int = 0
         var expandOne: Boolean = false
@@ -41,7 +42,7 @@ class ShoppingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        shoppingFragment = this
+        myFragment = this
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting("expandOneCategory") as Boolean
         //expand first category, contract all others, if setting says so
@@ -260,20 +261,20 @@ class SublistAdapter(
 
             notifyItemChanged(holder.adapterPosition)
             if (newPosition != -1) {
-                ShoppingFragment.shoppingFragment.prepareForMove()
+                ShoppingFragment.myFragment.prepareForMove()
                 notifyItemMoved(holder.adapterPosition, newPosition)
-                ShoppingFragment.shoppingFragment.reactToMove()
+                ShoppingFragment.myFragment.reactToMove()
             } else {
                 MainActivity.act.sadToast("invalid item checked state")
             }
 
             val sublistMoveInfo = ShoppingFragment.shoppingListInstance.sortTag(tag)
             if (sublistMoveInfo != null) {
-                ShoppingFragment.shoppingFragment.prepareForMove()
+                ShoppingFragment.myFragment.prepareForMove()
                 ShoppingFragment.shoppingListAdapter
                     .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
 
-                ShoppingFragment.shoppingFragment.reactToMove()
+                ShoppingFragment.myFragment.reactToMove()
             }
         }
         holder.tag = tag
@@ -305,17 +306,21 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
         val parsed = viewHolder as SublistAdapter.ItemViewHolder
         val tagPosition = ShoppingFragment.shoppingListInstance.getTagIndex(parsed.tag)
         if (ShoppingFragment.shoppingListInstance.removeItem(parsed.tag, position).second) {
+            //entire sublist is empty => remove sublist
             ShoppingFragment.shoppingListAdapter
                 .notifyItemRemoved(tagPosition)
         } else {
-            val positions = ShoppingFragment.shoppingListInstance.sortTag(parsed.tag)
+            //sublist changed length =>
             ShoppingFragment.shoppingListAdapter.notifyItemChanged(tagPosition)
+            //check if sublist moved
+            val positions = ShoppingFragment.shoppingListInstance.sortTag(parsed.tag)
             if (positions != null) {
-                ShoppingFragment.shoppingFragment.prepareForMove()
+                //sublist did move => animate movement
+                ShoppingFragment.myFragment.prepareForMove()
                 ShoppingFragment.shoppingListAdapter.notifyItemMoved(
                     positions.first, positions.second
                 )
-                ShoppingFragment.shoppingFragment.reactToMove()
+                ShoppingFragment.myFragment.reactToMove()
             }
         }
         //Todo update undo delete icon?

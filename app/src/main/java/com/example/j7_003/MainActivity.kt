@@ -6,10 +6,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.database.Database
@@ -19,6 +21,7 @@ import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
+import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
@@ -42,20 +45,20 @@ class MainActivity : AppCompatActivity(){
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var customItemFragment: CustomItemFragment
 
-
     private var activeFragmentTag = ""
     private var previousFragmentTag = ""
 
     companion object {
         lateinit var act: MainActivity
         lateinit var sleepView: View
+        lateinit var actionbarContent: View
+        lateinit var searchView: SearchView
         var editNoteHolder: NoteAdapter.NoteViewHolder? = null
         var editTerm: CalendarAppointment? = null
         var myMenu: Menu? = null
         var noteColor: NoteColors = NoteColors.YELLOW
         var fromHome: Boolean = false
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -73,9 +76,19 @@ class MainActivity : AppCompatActivity(){
 
 
         //load default values for settings in case none have been set yet
+
         loadDefaultSettings()
-        val rowview = layoutInflater.inflate(R.layout.actionbar, null, false)
-        supportActionBar?.setCustomView(rowview)
+        actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
+        var easterEggCounter = 0
+        actionbarContent.logo.setOnClickListener {
+            easterEggCounter += 1
+           if(easterEggCounter==10){
+              Toast.makeText(this, "Stop tapping!", Toast.LENGTH_SHORT).show()
+               easterEggCounter = 0
+           }
+        }
+        supportActionBar?.title = ""
+        supportActionBar?.customView = actionbarContent
         supportActionBar?.setDisplayShowCustomEnabled(true)
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
@@ -123,8 +136,10 @@ class MainActivity : AppCompatActivity(){
     fun changeToBirthdays(){
         if(activeFragmentTag!="birthdays") {
             hideMenuIcons()
+            myMenu?.getItem(2)?.isVisible = true
             birthdayFragment = BirthdayFragment()
             changeToFragment(birthdayFragment, "birthdays", "Birthdays", -1)
+            searchView.onActionViewCollapsed()
 
         }
     }
@@ -167,7 +182,7 @@ class MainActivity : AppCompatActivity(){
         hideMenuIcons()
         if(activeFragmentTag!="home"){
             homeFragment = HomeFragment()
-            changeToFragment(homeFragment, "home", "", R.id.home)
+            changeToFragment(homeFragment, "home", "Pocket Plan", R.id.home)
         }
         supportActionBar?.setDisplayShowCustomEnabled(true)
     }
@@ -282,10 +297,10 @@ class MainActivity : AppCompatActivity(){
      */
 
     private fun changeToFragment(fragment: Fragment, activeFragmentTag: String, actionBarTitle: String, bottomNavigationId: Int){
-        supportActionBar?.setDisplayShowCustomEnabled(false)
+
+        actionbarContent.tvActionbarTitle.text = actionBarTitle
         previousFragmentTag = this.activeFragmentTag
         this.activeFragmentTag = activeFragmentTag
-        supportActionBar?.title = actionBarTitle
         if(bottomNavigationId!=-1){
             bottomNavigation.selectedItemId = bottomNavigationId
         }
@@ -304,6 +319,7 @@ class MainActivity : AppCompatActivity(){
         if(myMenu!=null){
             myMenu!!.getItem(0).setVisible(false)
             myMenu!!.getItem(1).setVisible(false)
+            myMenu!!.getItem(2).setVisible(false)
         }
     }
 
@@ -497,9 +513,39 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
-        if (menu != null) {
-            myMenu = menu
+        searchView = menu!!.getItem(2).actionView as SearchView
+        val textListener = object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(BirthdayFragment.searching){
+                    BirthdayFragment.myFragment.search(newText.toString())
+                }
+                return true
+            }
         }
+        searchView.setOnQueryTextListener(textListener)
+        val onCloseListener = object: SearchView.OnCloseListener{
+            override fun onClose(): Boolean {
+                actionbarContent.tvActionbarTitle.text = "Birthdays"
+                searchView.onActionViewCollapsed()
+                BirthdayFragment.searching = false
+                BirthdayFragment.myAdapter.notifyDataSetChanged()
+                return true
+            }
+        }
+        searchView.setOnCloseListener(onCloseListener)
+
+        searchView.setOnSearchClickListener {
+            actionbarContent.tvActionbarTitle.text = ""
+            BirthdayFragment.searching = true
+            BirthdayFragment.adjustedList.clear()
+            BirthdayFragment.myAdapter.notifyDataSetChanged()
+        }
+
+        myMenu = menu
         changeToHome()
         return true
     }
