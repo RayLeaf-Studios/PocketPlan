@@ -186,6 +186,17 @@ class Database {
             editableBirthday.month = parMonth
             editableBirthday.daysToRemind = parReminder
 
+            sortAndSaveBirthdays()
+
+        }
+
+        fun sortAndSaveBirthdays(){
+            sortBirthday()
+            save(BLIST, birthdayList)
+        }
+
+        fun deleteBirthdayObject(birthday: Birthday){
+            birthdayList.remove(birthday)
             sortBirthday()
             save(BLIST, birthdayList)
         }

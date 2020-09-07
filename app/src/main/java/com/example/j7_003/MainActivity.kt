@@ -298,6 +298,10 @@ class MainActivity : AppCompatActivity(){
 
     private fun changeToFragment(fragment: Fragment, activeFragmentTag: String, actionBarTitle: String, bottomNavigationId: Int){
 
+        actionbarContent.logo.visibility = when(activeFragmentTag=="home"){
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
         actionbarContent.tvActionbarTitle.text = actionBarTitle
         previousFragmentTag = this.activeFragmentTag
         this.activeFragmentTag = activeFragmentTag
@@ -373,7 +377,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun updateUndoBirthdayIcon(){
-        if(BirthdayFragment.deletedBirthday!=null){
+        if(BirthdayFragment.deletedBirthday!=null&&!BirthdayFragment.searching){
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
         }else{
@@ -527,14 +531,13 @@ class MainActivity : AppCompatActivity(){
             }
         }
         searchView.setOnQueryTextListener(textListener)
-        val onCloseListener = object: SearchView.OnCloseListener{
-            override fun onClose(): Boolean {
-                actionbarContent.tvActionbarTitle.text = "Birthdays"
-                searchView.onActionViewCollapsed()
-                BirthdayFragment.searching = false
-                BirthdayFragment.myAdapter.notifyDataSetChanged()
-                return true
-            }
+        val onCloseListener = SearchView.OnCloseListener {
+            actionbarContent.tvActionbarTitle.text = "Birthdays"
+            searchView.onActionViewCollapsed()
+            BirthdayFragment.searching = false
+            updateUndoBirthdayIcon()
+            BirthdayFragment.myAdapter.notifyDataSetChanged()
+            true
         }
         searchView.setOnCloseListener(onCloseListener)
 
@@ -542,6 +545,7 @@ class MainActivity : AppCompatActivity(){
             actionbarContent.tvActionbarTitle.text = ""
             BirthdayFragment.searching = true
             BirthdayFragment.adjustedList.clear()
+            myMenu?.getItem(0)?.isVisible = false
             BirthdayFragment.myAdapter.notifyDataSetChanged()
         }
 

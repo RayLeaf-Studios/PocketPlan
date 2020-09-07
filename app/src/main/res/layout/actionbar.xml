@@ -11,17 +11,18 @@
         android:background="@drawable/logo"
         android:layout_height="40dp">
     </androidx.appcompat.widget.AppCompatImageView>
+
     <TextView
-        android:layout_marginLeft="3dp"
         android:id="@+id/tvActionbarTitle"
-        app:layout_constraintBottom_toBottomOf="@id/logo"
-        app:layout_constraintTop_toTopOf="@id/logo"
-        app:layout_constraintStart_toEndOf="@id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
         android:text=" Pocket Plan"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="20dp">
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/logo"
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 

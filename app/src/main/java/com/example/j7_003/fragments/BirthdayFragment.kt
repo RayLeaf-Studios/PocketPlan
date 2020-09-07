@@ -41,6 +41,7 @@ class BirthdayFragment : Fragment() {
 
         var searching: Boolean = false
         lateinit var adjustedList: ArrayList<Birthday>
+        lateinit var lastQuery: String
 
         lateinit var myFragment: BirthdayFragment
     }
@@ -128,16 +129,17 @@ class BirthdayFragment : Fragment() {
         myRecycler.setHasFixedSize(true)
 
         //initialize and attach swipe helpers
-        val swipeHelperLeft = ItemTouchHelper(SwipeLeftToDelete(myAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.LEFT))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeRightToDelete(myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.RIGHT))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
         return myView
     }
 
     fun search(query: String){
+        lastQuery = query
         adjustedList.clear()
         Database.birthdayList.forEach {
             if (it.name.toLowerCase(Locale.ROOT).startsWith(query.toLowerCase(Locale.ROOT))&& it.daysToRemind >= 0){
@@ -149,38 +151,14 @@ class BirthdayFragment : Fragment() {
 
 }
 
-class SwipeRightToDelete(var adapter: BirthdayAdapter) :
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-
-    override fun onMove(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
-    ): Boolean = false
-
+class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
+        ItemTouchHelper.SimpleCallback(0, direction){
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        return if (Database.getBirthday(viewHolder.adapterPosition).daysToRemind < 0) {
-            0
-        } else {
-            super.getSwipeDirs(recyclerView, viewHolder)
-        }
-
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
-        adapter.deleteItem(viewHolder)
-}
-
-class SwipeLeftToDelete(var adapter: BirthdayAdapter) :
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-    override fun getSwipeDirs(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder
-    ): Int {
-        return if (Database.getBirthday(viewHolder.adapterPosition).daysToRemind < 0) {
+        val parsed = viewHolder as BirthdayAdapter.BirthdayViewHolder
+        return if (parsed.birthday.daysToRemind < 0) {
             0
         } else {
             super.getSwipeDirs(recyclerView, viewHolder)
@@ -196,14 +174,18 @@ class SwipeLeftToDelete(var adapter: BirthdayAdapter) :
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
         adapter.deleteItem(viewHolder)
 }
+
 
 class BirthdayAdapter :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
+        val parsed = viewHolder as BirthdayViewHolder
         BirthdayFragment.deletedBirthday = Database.getBirthday(viewHolder.adapterPosition)
-        Database.deleteBirthday(viewHolder.adapterPosition)
-        notifyItemRemoved(viewHolder.adapterPosition)
+        Database.deleteBirthdayObject(parsed.birthday)
+        if(BirthdayFragment.searching){
+            BirthdayFragment.myFragment.search(BirthdayFragment.lastQuery)
+        }
         notifyDataSetChanged()
         MainActivity.act.updateUndoBirthdayIcon()
     }
@@ -222,6 +204,8 @@ class BirthdayAdapter :
             true -> BirthdayFragment.adjustedList[position]
             false -> Database.getBirthday(position)
         }
+
+        holder.birthday = currentBirthday
 
         val activity = MainActivity.act
 
@@ -301,11 +285,11 @@ class BirthdayAdapter :
                 //button to confirm editing of birthday
                 myDialogView.btnConfirmBirthday.setOnClickListener {
 
-                    val name = etName.text.toString()
-                    val day = npDay.value
-                    val month = npMonth.value
-                    val reminderPeriod = npReminder.value
-                    Database.editBirthday(name, day, month, reminderPeriod, holder.adapterPosition)
+                    holder.birthday.name = etName.text.toString()
+                    holder.birthday.day = npDay.value
+                    holder.birthday.month = npMonth.value
+                    holder.birthday.daysToRemind = npReminder.value
+                    Database.sortAndSaveBirthdays()
                     notifyItemChanged(position)
                     myAlertDialog?.dismiss()
                 }
@@ -354,6 +338,7 @@ class BirthdayAdapter :
          * One instance of this class will contain one "instance" of row_task and meta data
          * like position, it also holds references to views inside of the layout
          */
+        lateinit var birthday: Birthday
         val txvBirthdayLabelName: TextView = itemView.txvBirthdayLabelName
         val iconBell: ImageView = itemView.icon_bell
         val myView: View = itemView
