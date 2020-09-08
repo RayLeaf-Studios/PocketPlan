@@ -388,7 +388,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun updateDeleteTaskIcon(){
-        val checkedTasks = Database.taskList.filter{ t -> t.isChecked}.size
+        val checkedTasks = TodoFragment.todoListInstance.filter{ t -> t.isChecked}.size
         myMenu?.getItem(0)?.isVisible = checkedTasks > 0
     }
 
@@ -487,12 +487,12 @@ class MainActivity : AppCompatActivity(){
                     if(TodoFragment.deletedTaskList.size>0){
                         TodoFragment.deletedTaskList.forEach {
                             task ->
-                            val newPos = Database.addFullTask(task)
+                            val newPos = TodoFragment.todoListInstance.addFullTask(task)
                             TodoFragment.myAdapter.notifyItemInserted(newPos)
                         }
                         TodoFragment.deletedTaskList.clear()
                     }else{
-                        val newPos = Database.addFullTask(TodoFragment.deletedTask!!)
+                        val newPos = TodoFragment.todoListInstance.addFullTask(TodoFragment.deletedTask!!)
                         TodoFragment.deletedTask = null
                         TodoFragment.myAdapter.notifyItemInserted(newPos)
                     }

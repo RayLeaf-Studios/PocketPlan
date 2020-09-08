@@ -84,7 +84,7 @@ class CustomItemFragment : Fragment() {
                     if(title.isEmpty()){
                         Toast.makeText(MainActivity.act, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
                     }else{
-                        myRecycler.adapter?.notifyItemInserted(Database.addFullTask(Task(title, index+1, false)))
+                        myRecycler.adapter?.notifyItemInserted(TodoFragment.todoListInstance.addFullTask(Task(title, index+1, false)))
                     }
                 }
             }

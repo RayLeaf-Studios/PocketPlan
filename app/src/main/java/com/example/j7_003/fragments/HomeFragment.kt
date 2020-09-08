@@ -110,7 +110,7 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateTaskPanel() {
         var p1TaskCounter = 0
-        val taskList = Database.taskList
+        val taskList = TodoFragment.todoListInstance
 
         //sets p1TaskCounter to amount of Tasks with priority 1
         for (i in 0 until taskList.size) {
@@ -304,7 +304,7 @@ class HomeFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Database.addTask(title, index + 1, false)
+                    TodoFragment.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
             }

@@ -1,18 +1,13 @@
 package com.example.j7_003.data.database
 
-import android.animation.TimeAnimator
-import android.provider.ContactsContract
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.database_objects.Birthday
 import com.example.j7_003.data.database.database_objects.Note
-import com.example.j7_003.data.database.database_objects.Task
-import com.example.j7_003.fragments.TodoFragment
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.LocalDate
 import java.util.*
-import java.util.concurrent.BlockingDeque
 import kotlin.collections.ArrayList
 
 /**
@@ -21,11 +16,9 @@ import kotlin.collections.ArrayList
  */
 class Database {
     companion object {
-        lateinit var taskList: ArrayList<Task>
         lateinit var birthdayList: ArrayList<Birthday>
         lateinit var noteList: LinkedList<Note>
 
-        private const val TLIST = "TASKLIST"
         private const val BLIST = "BIRTHDAYLIST"
         private const val NLIST = "NOTELIST"
 
@@ -37,96 +30,7 @@ class Database {
         fun init() {
             initStorage()
             initLists()
-            sortTasks()
             sortBirthday()
-        }
-
-        /**
-         * Adds a task to the taskList and saves the taskList.
-         * @param title The title of the created task
-         * @param priority The priority the task will be set to
-         */
-        fun addTask(
-            title: String,
-            priority: Int,
-            isChecked: Boolean
-        ) {
-            taskList.add(Task(title, priority, isChecked))
-            sortTasks()
-            save(TLIST, taskList)
-        }
-
-        /**
-         * Helper function to add a task object, used for undoing deletions
-         */
-        fun addFullTask(task: Task): Int{
-            taskList.add(task)
-            sortTasks()
-            save(TLIST, taskList)
-            return taskList.indexOf(task)
-        }
-
-        /**
-         * Deletes a task at a given index.
-         * @param index The index of the list, which will be removed.
-         */
-        fun deleteTask(index: Int) {
-            taskList.removeAt(index)
-            save(TLIST, taskList)
-        }
-
-        /**
-         * Edits the requested task to have a new title and priority.
-         * @param position The tasks position in the list.
-         * @param priority The tasks new priority.
-         * @param title The new title of the task.
-         */
-        fun editTask(position: Int, priority: Int, title: String, isChecked: Boolean) : Int{
-            val editableTask: Task =
-                getTask(
-                    position
-                )
-            editableTask.title = title
-            editableTask.priority = priority
-            editableTask.isChecked = isChecked
-            sortTasks()
-            save(TLIST, taskList)
-            return taskList.indexOf(editableTask)
-        }
-
-        /**
-         * Returns a task at a given index in the taskList.
-         * @param index The index the task is at.
-         * @return Returns the requested task.
-         */
-        fun getTask(index: Int): Task = taskList[index]
-
-        private fun sortTasks() {
-            taskList.sortWith(compareBy({ it.isChecked }, { it.priority }))
-        }
-
-        fun deleteCheckedTasks(): Int{
-            val toBeDeleted = ArrayList<Task>()
-            taskList.forEach { n ->
-                if (n.isChecked) {
-                    toBeDeleted.add(n)
-                    TodoFragment.deletedTaskList?.add(n)
-                }
-            }
-
-            toBeDeleted.forEach { n ->
-                taskList.remove(n)
-            }
-
-            save(TLIST, taskList)
-            return taskList.size
-        }
-
-        private fun fetchTaskList() : ArrayList<Task> {
-            val jsonString = StorageHandler.files[TLIST]?.readText()
-
-            return GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<ArrayList<Task>>() {}.type)
         }
 
         //--------------------------------------------------------------------------------------------//
@@ -434,10 +338,6 @@ class Database {
 
         private fun initStorage() {
             StorageHandler.createJsonFile(
-                TLIST,
-                "TaskList.json"
-            )
-            StorageHandler.createJsonFile(
                 BLIST,
                 "BirthdayList.json"
             )
@@ -450,8 +350,6 @@ class Database {
         private fun initLists() {
             birthdayList =
                 fetchBList()
-            taskList =
-                fetchTaskList()
             noteList =
                 fetchNoteList()
         }
