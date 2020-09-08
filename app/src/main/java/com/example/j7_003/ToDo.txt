@@ -4,6 +4,8 @@ Priority 1 tasks:
     - finalize shopping contents / colors
 
 Priority 2 tasks:
+    - rename repository to pocket-plan
+    - git ignore .idea folder?
     - change birthday date pickers to actual date pickers
       make all spinners / dropDowns / autoTextViews darkTheme
     - option to save year for birthday, tap birthday to expand more info, (how many days until?),

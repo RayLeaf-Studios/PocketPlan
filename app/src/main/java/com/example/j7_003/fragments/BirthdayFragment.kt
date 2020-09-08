@@ -129,24 +129,27 @@ class BirthdayFragment : Fragment() {
         myRecycler.setHasFixedSize(true)
 
         //initialize and attach swipe helpers
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.LEFT))
+        val swipeHelperLeft =
+            ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.LEFT))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.RIGHT))
+        val swipeHelperRight =
+            ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.RIGHT))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
         return myView
     }
 
-    fun search(query: String){
-        if(query==""){
+    fun search(query: String) {
+        if (query == "") {
             adjustedList.clear()
-        }
-        else{
+        } else {
             lastQuery = query
             adjustedList.clear()
             Database.birthdayList.forEach {
-                if (it.name.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))&& it.daysToRemind >= 0){
+                if (it.name.toLowerCase(Locale.ROOT)
+                        .contains(query.toLowerCase(Locale.ROOT)) && it.daysToRemind >= 0
+                ) {
                     adjustedList.add(it)
                 }
             }
@@ -157,7 +160,7 @@ class BirthdayFragment : Fragment() {
 }
 
 class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
-        ItemTouchHelper.SimpleCallback(0, direction){
+    ItemTouchHelper.SimpleCallback(0, direction) {
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
@@ -188,7 +191,7 @@ class BirthdayAdapter :
         val parsed = viewHolder as BirthdayViewHolder
         BirthdayFragment.deletedBirthday = Database.getBirthday(viewHolder.adapterPosition)
         Database.deleteBirthdayObject(parsed.birthday)
-        if(BirthdayFragment.searching){
+        if (BirthdayFragment.searching) {
             BirthdayFragment.myFragment.search(BirthdayFragment.lastQuery)
         }
         notifyDataSetChanged()
@@ -205,7 +208,7 @@ class BirthdayAdapter :
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
 
-        val currentBirthday = when(BirthdayFragment.searching){
+        val currentBirthday = when (BirthdayFragment.searching) {
             true -> BirthdayFragment.adjustedList[position]
             false -> Database.getBirthday(position)
         }
@@ -284,8 +287,10 @@ class BirthdayAdapter :
 
                 //show dialog
                 val myAlertDialog = myBuilder?.create()
-                myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams
-                    .SOFT_INPUT_STATE_VISIBLE)
+                myAlertDialog?.window?.setSoftInputMode(
+                    WindowManager.LayoutParams
+                        .SOFT_INPUT_STATE_VISIBLE
+                )
                 myAlertDialog?.show()
 
                 //button to confirm editing of birthday
@@ -332,11 +337,11 @@ class BirthdayAdapter :
 
     }
 
-    override fun getItemCount(): Int{
-         return when(BirthdayFragment.searching){
-             true -> BirthdayFragment.adjustedList.size
-             false -> Database.birthdayList.size
-         }
+    override fun getItemCount(): Int {
+        return when (BirthdayFragment.searching) {
+            true -> BirthdayFragment.adjustedList.size
+            false -> Database.birthdayList.size
+        }
     }
 
     class BirthdayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

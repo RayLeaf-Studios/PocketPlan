@@ -38,6 +38,10 @@ class TodoFragment : Fragment() {
         var deletedTask: Task? = null
         var deletedTaskList: ArrayList<Task> = arrayListOf()
 
+        var offsetTop: Int = 0
+        var firstPos: Int = 0
+        lateinit var layoutManager: LinearLayoutManager
+
         var allowSwipe: Boolean = true
     }
 
@@ -107,7 +111,8 @@ class TodoFragment : Fragment() {
 
         myAdapter = TodoTaskAdapter()
         myRecycler.adapter = myAdapter
-        myRecycler.layoutManager = LinearLayoutManager(activity)
+        layoutManager = LinearLayoutManager(activity)
+        myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
 
         val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.LEFT, myAdapter))
@@ -118,26 +123,46 @@ class TodoFragment : Fragment() {
         return myView
     }
 
+    fun prepareForMove() {
+        firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
+        offsetTop = 0
+        if (firstPos >= 0) {
+            val firstView = layoutManager.findViewByPosition(firstPos)
+            offsetTop =
+                layoutManager.getDecoratedTop(firstView!!) - layoutManager.getTopDecorationHeight(
+                    firstView
+                )
+        }
+    }
+
+    fun reactToMove() {
+        layoutManager.scrollToPositionWithOffset(
+            firstPos,
+            offsetTop
+        )
+    }
+
     //Deletes all checked tasks and animates the deletion
     fun manageCheckedTaskDeletion() {
         deletedTaskList.clear()
         deletedTask = null
         val oldSize = Database.taskList.size
         val newSize = Database.deleteCheckedTasks()
-        allowSwipe = false
-        for (i in newSize until oldSize) {
-            val v =
-                myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
-            if (i == oldSize - 1) {
-                v.itemView.animate().scaleX(0f).setDuration(300).scaleY(0f).withEndAction {
-                    myAdapter.notifyItemRangeRemoved(newSize, oldSize)
-                    allowSwipe = true
-                }
-            } else {
-                v.itemView.animate().scaleX(0f).scaleY(0f).duration = 300
-            }
-
-        }
+//        allowSwipe = false
+//        for (i in newSize .. layoutManager.findLastVisibleItemPosition()) {
+//            val v =
+//                myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
+//            if (i == layoutManager.findLastVisibleItemPosition()) {
+//                v.itemView.animate().scaleX(0f).setDuration(300).scaleY(0f).withEndAction {
+//                    myAdapter.notifyItemRangeRemoved(newSize, oldSize)
+//                    allowSwipe = true
+//                }
+//            } else {
+//                v.itemView.animate().scaleX(0f).scaleY(0f).duration = 300
+//            }
+//
+//        }
+        myAdapter.notifyItemRangeRemoved(newSize, oldSize)
         MainActivity.act.updateDeleteTaskIcon()
     }
 }
@@ -280,7 +305,10 @@ class TodoTaskAdapter :
                         Database.getTask(holder.adapterPosition).isChecked
                     )
                     this.notifyItemChanged(holder.adapterPosition)
+                    TodoFragment.myFragment.prepareForMove()
                     this.notifyItemMoved(holder.adapterPosition, newPos)
+                    TodoFragment.myFragment.reactToMove()
+
                 }
             }
         }
@@ -301,7 +329,9 @@ class TodoTaskAdapter :
 
             notifyItemChanged(holder.adapterPosition)
             if (holder.adapterPosition != newPos) {
+                TodoFragment.myFragment.prepareForMove()
                 notifyItemMoved(holder.adapterPosition, newPos)
+                TodoFragment.myFragment.reactToMove()
             }
             //delays item change until list is reordered
         }

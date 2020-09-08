@@ -164,6 +164,7 @@ class AddItemFragment : Fragment() {
                 )
                 shoppingListInstance.add(item)
                 MainActivity.act.changeToShopping()
+                manageReturn(item)
                 return
             }
         }
@@ -186,8 +187,13 @@ class AddItemFragment : Fragment() {
         shoppingListInstance.add(item)
 
         //return to previously opened fragment
+        manageReturn(item)
+    }
+
+    private fun manageReturn(item: ShoppingItem){
         if(MainActivity.previousFragmentTag=="home"){
             MainActivity.act.changeToHome()
+            Toast.makeText(MainActivity.act, "Added "+item.amount+item.unit+" "+item.name, Toast.LENGTH_SHORT).show()
         }else{
             MainActivity.act.changeToShopping()
         }
