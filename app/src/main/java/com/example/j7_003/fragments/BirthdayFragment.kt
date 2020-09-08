@@ -139,11 +139,16 @@ class BirthdayFragment : Fragment() {
     }
 
     fun search(query: String){
-        lastQuery = query
-        adjustedList.clear()
-        Database.birthdayList.forEach {
-            if (it.name.toLowerCase(Locale.ROOT).startsWith(query.toLowerCase(Locale.ROOT))&& it.daysToRemind >= 0){
-                adjustedList.add(it)
+        if(query==""){
+            adjustedList.clear()
+        }
+        else{
+            lastQuery = query
+            adjustedList.clear()
+            Database.birthdayList.forEach {
+                if (it.name.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))&& it.daysToRemind >= 0){
+                    adjustedList.add(it)
+                }
             }
         }
         myAdapter.notifyDataSetChanged()
@@ -279,7 +284,8 @@ class BirthdayAdapter :
 
                 //show dialog
                 val myAlertDialog = myBuilder?.create()
-                myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+                myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams
+                    .SOFT_INPUT_STATE_VISIBLE)
                 myAlertDialog?.show()
 
                 //button to confirm editing of birthday

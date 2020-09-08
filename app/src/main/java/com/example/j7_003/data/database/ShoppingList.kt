@@ -43,7 +43,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         // aktuell wird eigene kategorie erstellt
 
         // creating the new sublist for the given tag, beginning with an marker
-        super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, false))))
+        super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, true))))
 
         this.forEach { e ->         // searching the newly added sublist and adding the element
             if (e.first == element.tag) {   // add element to tags sublist and save to file

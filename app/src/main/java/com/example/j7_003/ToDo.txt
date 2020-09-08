@@ -16,6 +16,8 @@ Priority 3 tasks:
     - birthday undo insert animation
     - figure out if its possible to shrink category list without reloading when
       deleting an item
+    - figure out how to put the icon in the appbar without resulting in long loading times when
+        switching to home panel (this only occurs on devices, not in the emulator!)
 
 
 Ideas:

@@ -45,10 +45,10 @@ class MainActivity : AppCompatActivity(){
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var customItemFragment: CustomItemFragment
 
-    private var activeFragmentTag = ""
-    private var previousFragmentTag = ""
 
     companion object {
+        var previousFragmentTag = ""
+        var activeFragmentTag = ""
         lateinit var act: MainActivity
         lateinit var sleepView: View
         lateinit var actionbarContent: View
@@ -79,14 +79,7 @@ class MainActivity : AppCompatActivity(){
 
         loadDefaultSettings()
         actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
-        var easterEggCounter = 0
-        actionbarContent.logo.setOnClickListener {
-            easterEggCounter += 1
-           if(easterEggCounter==10){
-              Toast.makeText(this, "Stop tapping!", Toast.LENGTH_SHORT).show()
-               easterEggCounter = 0
-           }
-        }
+
         supportActionBar?.title = ""
         supportActionBar?.customView = actionbarContent
         supportActionBar?.setDisplayShowCustomEnabled(true)
@@ -296,15 +289,15 @@ class MainActivity : AppCompatActivity(){
      * navigation bar, if it is -1, the currently selected id will not change
      */
 
-    private fun changeToFragment(fragment: Fragment, activeFragmentTag: String, actionBarTitle: String, bottomNavigationId: Int){
+    private fun changeToFragment(fragment: Fragment, fragmentTag: String, actionBarTitle: String, bottomNavigationId: Int){
 
-        actionbarContent.logo.visibility = when(activeFragmentTag=="home"){
-            true -> View.VISIBLE
-            else -> View.GONE
-        }
+//        actionbarContent.logo.visibility = when(activeFragmentTag=="home"){
+//            true -> View.VISIBLE
+//            else -> View.GONE
+//        }
         actionbarContent.tvActionbarTitle.text = actionBarTitle
-        previousFragmentTag = this.activeFragmentTag
-        this.activeFragmentTag = activeFragmentTag
+        previousFragmentTag = activeFragmentTag
+        activeFragmentTag = fragmentTag
         if(bottomNavigationId!=-1){
             bottomNavigation.selectedItemId = bottomNavigationId
         }

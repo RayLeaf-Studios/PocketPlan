@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
@@ -129,6 +130,15 @@ class AddItemFragment : Fragment() {
     }
 
     private fun handleAddingItem() {
+        if(actvItem.text.toString()==""){
+            if(MainActivity.previousFragmentTag=="home"){
+                MainActivity.act.changeToHome()
+            }else{
+                MainActivity.act.changeToShopping()
+            }
+            Toast.makeText(MainActivity.act, "Can't add empty item!", Toast.LENGTH_SHORT).show()
+            return
+        }
         val tagList = TagList()
         val tag = tagList.getTagByName(spCategory.selectedItem as String)
         //check if user template exists
@@ -174,7 +184,13 @@ class AddItemFragment : Fragment() {
             template.s, etItemAmount.text.toString(), spItemUnit.selectedItem.toString(), false
         )
         shoppingListInstance.add(item)
-        MainActivity.act.changeToShopping()
+
+        //return to previously opened fragment
+        if(MainActivity.previousFragmentTag=="home"){
+            MainActivity.act.changeToHome()
+        }else{
+            MainActivity.act.changeToShopping()
+        }
     }
 
     private fun handleItemEntered() {
