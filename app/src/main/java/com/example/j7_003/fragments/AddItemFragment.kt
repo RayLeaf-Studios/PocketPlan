@@ -163,7 +163,6 @@ class AddItemFragment : Fragment() {
                     false
                 )
                 shoppingListInstance.add(item)
-                MainActivity.act.changeToShopping()
                 manageReturn(item)
                 return
             }

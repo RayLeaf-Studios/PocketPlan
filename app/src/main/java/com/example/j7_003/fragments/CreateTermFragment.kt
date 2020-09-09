@@ -4,6 +4,7 @@ package com.example.j7_003.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
 import kotlinx.android.synthetic.main.fragment_create_term.view.*
+import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import java.util.*
@@ -77,7 +79,6 @@ class CreateTermFragment : Fragment() {
         startDateTime = LocalDateTime.of(year, month + 1, day, hour, minute)
         endLocalTime = LocalTime.of(hour, minute)
 
-
         tvTermDate.text = day.toString().padStart(2, '0') + "." + (month + 1).toString()
             .padStart(2, '0') + "." + year.toString()
         tvTermTime.text = hour.toString()
@@ -97,7 +98,6 @@ class CreateTermFragment : Fragment() {
 
         startDateTime = LocalDateTime.of(year, month + 1, day, hour, minute)
         endLocalTime = LocalTime.of(hour, minute)
-
 
         tvTermDate.text = day.toString().padStart(2, '0') + "." + (month + 1).toString()
             .padStart(2, '0') + "." + year.toString()

@@ -43,12 +43,9 @@ class Database {
          * @param parMonth The month of the birthday
          * @param parDay The day of the birthday
          */
-        fun addBirthday(name: String, day: Int, month: Int, daysToRemind: Int) {
-            birthdayList.add(Birthday(name, month, day, daysToRemind))
-
-            sortBirthday()
-
-            save(BLIST, birthdayList)
+        fun addBirthday(name: String, day: Int, month: Int, year: Int, daysToRemind: Int) {
+            birthdayList.add(Birthday(name, day, month, year, daysToRemind))
+            sortAndSaveBirthdays()
         }
 
         /**
@@ -56,8 +53,7 @@ class Database {
           */
         fun addFullBirthday(birthday: Birthday): Int{
             birthdayList.add(birthday)
-            sortBirthday()
-            save(BLIST, birthdayList)
+            sortAndSaveBirthdays()
             return birthdayList.indexOf(birthday)
         }
 
@@ -67,8 +63,7 @@ class Database {
          */
         fun deleteBirthday(index: Int) {
             birthdayList.removeAt(index)
-            sortBirthday()
-            save(BLIST, birthdayList)
+            sortAndSaveBirthdays()
         }
 
         /**
@@ -79,7 +74,7 @@ class Database {
          * @param parReminder Days to be reminded at prior to the birthday.
          * @param parPosition Position of the birthday object int he list.
          */
-        fun editBirthday(name: String, parDay: Int, parMonth: Int, parReminder: Int, parPosition: Int) {
+        fun editBirthday(name: String, parDay: Int, parMonth: Int, parYear: Int, parReminder: Int, parPosition: Int) {
             val editableBirthday: Birthday =
                 getBirthday(
                     parPosition
@@ -88,6 +83,7 @@ class Database {
             editableBirthday.name = name
             editableBirthday.day = parDay
             editableBirthday.month = parMonth
+            editableBirthday.year = parYear
             editableBirthday.daysToRemind = parReminder
 
             sortAndSaveBirthdays()
@@ -135,8 +131,9 @@ class Database {
                 birthdayList.add(
                     Birthday(
                         today.month.toString().toLowerCase().capitalize(),
-                        today.monthValue,
                         1,
+                        today.monthValue,
+                        0,
                         -1 * today.monthValue
                     )
                 )
@@ -146,8 +143,9 @@ class Database {
                 birthdayList.add(
                     Birthday(
                         today.month.toString().toLowerCase().capitalize(),
-                        today.monthValue,
                         today.dayOfMonth,
+                        today.monthValue,
+                        0,
                         -1 * today.monthValue
                     )
                 )
@@ -155,7 +153,7 @@ class Database {
 
             months.forEach { m ->
                 val name = LocalDate.of(2020, m, 1).month.toString()
-                birthdayList.add(Birthday(name.toLowerCase().capitalize(), m, 0, -1*m))
+                birthdayList.add(Birthday(name.toLowerCase().capitalize(), 0, m,0, -1*m))
             }
         }
 
@@ -168,7 +166,7 @@ class Database {
             birthdayList.sortWith(compareBy({ it.month }, { it.day }, {it.daysToRemind >= 0}, { it.name }))
 
             var i = 0
-            val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1, -200)
+            val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1,0, -200)
             cacheList.add(spacerBirthday)
             while(i < birthdayList.size) {
                 if (getBirthday(i).month < month ||

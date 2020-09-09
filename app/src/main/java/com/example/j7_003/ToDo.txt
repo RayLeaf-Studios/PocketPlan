@@ -4,12 +4,11 @@ Priority 1 tasks:
     - finalize shopping contents / colors
 
 Priority 2 tasks:
-    - rename repository to pocket-plan
-    - git ignore .idea folder?
-    - change birthday date pickers to actual date pickers
-      make all spinners / dropDowns / autoTextViews darkTheme
-    - option to save year for birthday, tap birthday to expand more info, (how many days until?),
+    - edit birthday fix
+    - tap birthday to expand more info, (how many days until?),
       Display age in notification? e.g. "Max turns 20 today!"
+     - color change for "remind me x days prior" in add birthday, when entered > 0
+     - added info for birthdays, sternzeichen, alter in tagen, alter in jahren usw
 
 Priority 3 tasks:
     - add new icon
@@ -20,7 +19,7 @@ Priority 3 tasks:
       deleting an item
     - figure out how to put the icon in the appbar without resulting in long loading times when
         switching to home panel (this only occurs on devices, not in the emulator!)
-
+      make all spinners / dropDowns / autoTextViews darkTheme
 
 Ideas:
     - make shopping list presets save and loadable

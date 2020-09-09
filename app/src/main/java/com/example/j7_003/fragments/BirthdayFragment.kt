@@ -1,8 +1,8 @@
 package com.example.j7_003.fragments
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,11 +21,13 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.database_objects.Birthday
+import kotlinx.android.synthetic.main.dialog_add_birthday.*
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,9 +37,16 @@ import kotlin.collections.ArrayList
 
 class BirthdayFragment : Fragment() {
 
+    private lateinit var myRecycler: RecyclerView
+
+    var date: LocalDate = LocalDate.now()
+    private var anyDateSet = false
+
+
     companion object {
         var deletedBirthday: Birthday? = null
 
+        var editBirthdayHolder: Birthday? = null
         lateinit var myAdapter: BirthdayAdapter
 
         var searching: Boolean = false
@@ -51,75 +61,15 @@ class BirthdayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        adjustedList = arrayListOf()
-
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
-
-        val myRecycler = myView.recycler_view_birthday
-
+        adjustedList = arrayListOf()
+        myRecycler = myView.recycler_view_birthday
         myFragment = this
+
         //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
         myView.btnAddBirthday.setOnClickListener {
-
-            //inflate the dialog with custom view
-            val myDialogView =
-                LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
-
-            val nameField = myDialogView.etName
-
-            //configure number pickers
-            val npMonth = myDialogView.npMonth
-            npMonth.minValue = 1
-            npMonth.maxValue = 12
-
-            val npDay = myDialogView.npDay
-            npDay.minValue = 1
-            npDay.maxValue = 31
-
-            val npReminder = myDialogView.npReminder
-            npReminder.minValue = 0
-            npReminder.maxValue = 30
-
-            npMonth.setOnValueChangedListener { _, _, _ ->
-                when (npMonth.value) {
-                    1, 3, 5, 7, 8, 10, 12 -> npDay.maxValue = 31
-                    2 -> npDay.maxValue = 29
-                    else -> npDay.maxValue = 30
-                }
-            }
-
-            //AlertDialogBuilder
-            val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-            myTitle.tvDialogTitle.text = "Add Birthday"
-            myBuilder?.setCustomTitle(myTitle)
-
-            //show dialog
-            val myAlertDialog = myBuilder?.create()
-            myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-            myAlertDialog?.show()
-
-
-            //button to confirm adding of birthday
-            myDialogView.btnConfirmBirthday.setOnClickListener {
-                val name = nameField.text.toString()
-                if (name.isEmpty()) {
-                    Toast.makeText(
-                        MainActivity.act,
-                        "Can't create an empty birthday!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    val day = npDay.value
-                    val month = npMonth.value
-                    val reminderPeriod = npReminder.value
-                    Database.addBirthday(name, day, month, reminderPeriod)
-                    myRecycler.adapter?.notifyDataSetChanged()
-                }
-                myAlertDialog?.dismiss()
-            }
-
-            nameField.requestFocus()
+            editBirthdayHolder = null
+            openBirthdayDialog()
         }
 
         //initialize recyclerview and adapter
@@ -139,6 +89,208 @@ class BirthdayFragment : Fragment() {
 
         return myView
     }
+
+
+    fun openBirthdayDialog() {
+        val editing = editBirthdayHolder != null
+        anyDateSet = false
+
+        if (editing) {
+            anyDateSet = true
+            date = LocalDate.of(
+                editBirthdayHolder!!.year,
+                editBirthdayHolder!!.month,
+                editBirthdayHolder!!.day
+            )
+        }else{
+            date = LocalDate.now()
+        }
+
+        //inflate the dialog with custom view
+        val myDialogView =
+            LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+
+        //initialize instances
+        val nameField = myDialogView.etName
+        val tvBirthdayDate = myDialogView.tvBirthdayDate
+        val cbSaveBirthdayYear = myDialogView.cbSaveBirthdayYear
+        val tvSaveYear = myDialogView.tvSaveYear
+        val etDaysToRemind = myDialogView.etDaysToRemind
+        val etName = myDialogView.etName
+
+        //initialize name field if editing
+        if (editing) {
+            etName.setText(editBirthdayHolder!!.name)
+            etName.setSelection(etName.text.length)
+        }
+
+        //initialize date text
+        val chooseDateText = when (editBirthdayHolder != null) {
+            true -> {
+                var yearString = ""
+                if (editBirthdayHolder!!.year != 0) {
+                    yearString = "."+editBirthdayHolder!!.year.toString()
+                }
+                editBirthdayHolder!!.day.toString().padStart(2, '0') + "." +
+                        editBirthdayHolder!!.month.toString()
+                            .padStart(2, '0') + yearString
+            }
+            false -> "Choose date"
+        }
+        tvBirthdayDate.text = chooseDateText
+
+
+        tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+
+        //initialize value of save year checkbox
+        if (editBirthdayHolder != null) {
+            if (editBirthdayHolder!!.year != 0) {
+                cbSaveBirthdayYear.isChecked = true
+            }
+        }
+        else{
+            cbSaveBirthdayYear.isChecked = false
+        }
+
+        //initialize reminder text
+        val daysToRemindText = when (editBirthdayHolder != null) {
+            true -> editBirthdayHolder!!.daysToRemind.toString()
+            else -> "0"
+        }
+        etDaysToRemind.setText(daysToRemindText)
+        etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                etDaysToRemind.setText("")
+            }
+        }
+
+        //on click listener to open date picker
+        tvBirthdayDate.setOnClickListener {
+            val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                anyDateSet = true
+                date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+                val dayMonthString =
+                    date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
+                        .padStart(2, '0')
+                tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
+                    false -> dayMonthString
+                    else -> dayMonthString + "." + date.year.toString()
+                }
+            }
+
+            var yearToDisplay = date.year
+            if(editing&&cbSaveBirthdayYear.isChecked){
+                yearToDisplay = LocalDate.now().year
+            }
+            else if(editing){
+                yearToDisplay = 2020
+            }
+            val dpd = DatePickerDialog(
+                MainActivity.act,
+                dateSetListener,
+                yearToDisplay,
+                date.monthValue - 1,
+                date.dayOfMonth
+            )
+            dpd.show()
+        }
+
+        //checkbox to include year
+        cbSaveBirthdayYear.setOnClickListener {
+            if(cbSaveBirthdayYear.isChecked){
+                if (editing && date.year==0) {
+                    date = LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
+                }
+            }
+
+            if (anyDateSet) {
+                val dayMonthString =
+                    date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
+                        .padStart(2, '0')
+                tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
+                    false -> dayMonthString
+                    else -> dayMonthString + "." + date.year.toString()
+                }
+            }
+            val color = when (cbSaveBirthdayYear.isChecked) {
+                true -> R.color.colorOnBackGround
+                false -> R.color.colorHint
+            }
+            tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, color))
+        }
+
+        //AlertDialogBuilder
+        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        myTitle.tvDialogTitle.text = when (editing) {
+            true -> "Edit Birthday"
+            else -> "Add Birthday"
+        }
+        myBuilder?.setCustomTitle(myTitle)
+
+
+        //initialize button text
+        myDialogView.btnConfirmBirthday.text = when (editing) {
+            true -> "Confirm edit"
+            else -> "Add Birthday"
+        }
+
+
+        //show dialog
+        val myAlertDialog = myBuilder?.create()
+        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        myAlertDialog?.show()
+
+        //button to confirm adding of birthday
+        myDialogView.btnConfirmBirthday.setOnClickListener {
+            val name = nameField.text.toString()
+            if (!anyDateSet) {
+                Toast.makeText(
+                    MainActivity.act,
+                    "No date entered!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (name.isEmpty()) {
+                Toast.makeText(
+                    MainActivity.act,
+                    "No name entered!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                //get day and month from date
+                val month = date.monthValue
+                val day = date.dayOfMonth
+
+                //set year to 0 if the year is not supposed to be saved, or to the actual value otherwise
+                val year = when (cbSaveBirthdayYear.isChecked) {
+                    false -> 0
+                    true -> date.year
+                }
+
+                //get value of daysToRemind, set it to 0 if the text field is empty
+                val daysToRemind = when (etDaysToRemind.text.toString()) {
+                    "" -> 0
+                    else -> etDaysToRemind.text.toString().toInt()
+                }
+                if (editing) {
+                    editBirthdayHolder!!.name = name
+                    editBirthdayHolder!!.day = day
+                    editBirthdayHolder!!.month = month
+                    editBirthdayHolder!!.year = year
+                    editBirthdayHolder!!.daysToRemind = daysToRemind
+                    Database.sortAndSaveBirthdays()
+                } else {
+                    Database.addBirthday(name, date.dayOfMonth, date.monthValue, year, daysToRemind)
+                }
+                myRecycler.adapter?.notifyDataSetChanged()
+            }
+            myAlertDialog?.dismiss()
+        }
+
+
+        nameField.requestFocus()
+    }
+
 
     fun search(query: String) {
         if (query == "") {
@@ -215,8 +367,6 @@ class BirthdayAdapter :
 
         holder.birthday = currentBirthday
 
-        val activity = MainActivity.act
-
         /**
          * Editing birthday via floating action button
          * Onclick-Listener on List items, opening the edit-task dialog
@@ -234,79 +384,11 @@ class BirthdayAdapter :
             holder.tvMonthLabel.textSize = 20F
             holder.tvMonthLabel.text = ""
             holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
-            holder.itemView.setOnClickListener {
-
-                //inflate the dialog with custom view
-                val myDialogView =
-                    LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
-
-                //configuring number pickers
-                val npMonth = myDialogView.npMonth
-                npMonth.minValue = 1
-                npMonth.maxValue = 12
-
-                val npDay = myDialogView.npDay
-                npDay.minValue = 1
-                npDay.maxValue = 31
-
-                val npReminder = myDialogView.npReminder
-                npReminder.minValue = 0
-                npReminder.maxValue = 30
-
-                npMonth.setOnValueChangedListener { _, _, _ ->
-                    when (npMonth.value) {
-                        1, 3, 5, 7, 8, 10, 12 -> npDay.maxValue = 31
-                        2 -> npDay.maxValue = 29
-                        else -> npDay.maxValue = 30
-                    }
-                }
-
-                val etName = myDialogView.etName
-
-                //AlertDialogBuilder
-                val myBuilder =
-                    activity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-                val myTitle =
-                    LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-                myTitle.tvDialogTitle.text = "Edit Birthday"
-                myBuilder?.setCustomTitle(myTitle)
-
-                //write current values to edit Text fields
-                etName.setText(currentBirthday.name)
-                npMonth.value = currentBirthday.month
-                npDay.value = currentBirthday.day
-                npReminder.value = currentBirthday.daysToRemind
-
-                when (npMonth.value) {
-                    1, 3, 5, 7, 8, 10, 12 -> npDay.maxValue = 31
-                    2 -> npDay.maxValue = 29
-                    else -> npDay.maxValue = 30
-                }
-
-                myDialogView.btnConfirmBirthday.text = "CONFIRM EDIT"
-
-                //show dialog
-                val myAlertDialog = myBuilder?.create()
-                myAlertDialog?.window?.setSoftInputMode(
-                    WindowManager.LayoutParams
-                        .SOFT_INPUT_STATE_VISIBLE
-                )
-                myAlertDialog?.show()
-
-                //button to confirm editing of birthday
-                myDialogView.btnConfirmBirthday.setOnClickListener {
-
-                    holder.birthday.name = etName.text.toString()
-                    holder.birthday.day = npDay.value
-                    holder.birthday.month = npMonth.value
-                    holder.birthday.daysToRemind = npReminder.value
-                    Database.sortAndSaveBirthdays()
-                    notifyItemChanged(position)
-                    myAlertDialog?.dismiss()
-                }
-
-                etName.requestFocus()
-                etName.setSelection(etName.text.length)
+            //opens dialog to edit this birthday
+            holder.itemView.setOnLongClickListener {
+                BirthdayFragment.editBirthdayHolder = holder.birthday
+                BirthdayFragment.myFragment.openBirthdayDialog()
+                true
             }
 
             //formatting date
@@ -316,10 +398,12 @@ class BirthdayAdapter :
             var dayAddition = ""
             if (currentBirthday.day < 10) dayAddition = "0"
 
+            //Display name and date
             holder.txvBirthdayLabelName.text =
                 dayAddition + currentBirthday.day.toString() + "." +
                         monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
 
+            // Red background if birthday is today
             if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
                 holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_winered)
             } else {

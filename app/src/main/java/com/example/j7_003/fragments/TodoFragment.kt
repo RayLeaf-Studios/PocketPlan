@@ -113,7 +113,9 @@ class TodoFragment : Fragment() {
 
         myAdapter = TodoTaskAdapter()
         myRecycler.adapter = myAdapter
-        myRecycler.layoutManager = LinearLayoutManager(activity)
+
+        layoutManager = LinearLayoutManager(activity)
+        myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
 
         val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.LEFT, myAdapter))
@@ -149,6 +151,7 @@ class TodoFragment : Fragment() {
         deletedTask = null
         val oldSize = todoListInstance.size
         val newSize = todoListInstance.deleteCheckedTasks()
+        //todo maybe add delete animation
 //        allowSwipe = false
 //        for (i in newSize .. layoutManager.findLastVisibleItemPosition()) {
 //            val v =
@@ -257,10 +260,10 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        holder.itemView.tvName.setOnClickListener {
+        holder.itemView.tvName.setOnLongClickListener {
 
             if (!TodoFragment.allowSwipe) {
-                return@setOnClickListener
+                return@setOnLongClickListener true
             }
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(
@@ -313,6 +316,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
 
                 }
             }
+            true
         }
 
         //reacts to the user checking a task
