@@ -378,8 +378,9 @@ class BirthdayAdapter :
             holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
             if(holder.birthday.year!=0){
                 //todo do this properly, whole if is only prototype
-                val age = LocalDate.now().year - holder.birthday.year
-                holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in"+
+                val birthday = holder.birthday
+                val age = LocalDate.of(birthday.year, birthday.month, birthday.day).until(LocalDate.now()).years
+                holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in "+
                         holder.birthday.year.toString()
             }
         } else {
