@@ -43,8 +43,8 @@ class Database {
          * @param parMonth The month of the birthday
          * @param parDay The day of the birthday
          */
-        fun addBirthday(name: String, day: Int, month: Int, year: Int, daysToRemind: Int) {
-            birthdayList.add(Birthday(name, day, month, year, daysToRemind))
+        fun addBirthday(name: String, day: Int, month: Int, year: Int, daysToRemind: Int, expanded: Boolean) {
+            birthdayList.add(Birthday(name, day, month, year, daysToRemind, expanded))
             sortAndSaveBirthdays()
         }
 
@@ -134,7 +134,8 @@ class Database {
                         1,
                         today.monthValue,
                         0,
-                        -1 * today.monthValue
+                        -1 * today.monthValue,
+                        false
                     )
                 )
             }
@@ -146,14 +147,15 @@ class Database {
                         today.dayOfMonth,
                         today.monthValue,
                         0,
-                        -1 * today.monthValue
+                        -1 * today.monthValue,
+                        false
                     )
                 )
             }
 
             months.forEach { m ->
                 val name = LocalDate.of(2020, m, 1).month.toString()
-                birthdayList.add(Birthday(name.toLowerCase().capitalize(), 0, m,0, -1*m))
+                birthdayList.add(Birthday(name.toLowerCase().capitalize(), 0, m,0, -1*m, false))
             }
         }
 
@@ -166,7 +168,7 @@ class Database {
             birthdayList.sortWith(compareBy({ it.month }, { it.day }, {it.daysToRemind >= 0}, { it.name }))
 
             var i = 0
-            val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1,0, -200)
+            val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1,0, -200, false)
             cacheList.add(spacerBirthday)
             while(i < birthdayList.size) {
                 if (getBirthday(i).month < month ||
@@ -205,7 +207,7 @@ class Database {
             birthdayList.forEach { n ->
                 if (n.month == localDate.monthValue  &&
                     n.day == localDate.dayOfMonth &&
-                    n.daysToRemind == 0
+                    n.daysToRemind >= 0
                 ) {
                     currentBirthdays.add(n)
                 }

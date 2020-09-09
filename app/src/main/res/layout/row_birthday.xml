@@ -4,15 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
     android:id="@+id/constr"
     android:layout_margin="8dp"
     android:background="@drawable/round_corner_gray">
 
     <TextView
-        android:padding="13dp"
         android:id="@+id/txvBirthdayLabelName"
         android:layout_width="wrap_content"
+        android:padding="13dp"
         android:layout_height="wrap_content"
         android:text="01.01. Max Mustermann"
         android:textSize="@dimen/font_size_list_items"
@@ -39,11 +38,35 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/txvBirthdayLabelName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.485"
+        app:layout_constraintTop_toTopOf="@+id/txvBirthdayLabelName"
         app:srcCompat="@drawable/ic_bell" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toBottomOf="@id/txvBirthdayLabelName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/cvBirthdayInfo"
+        android:visibility="gone"
+        android:paddingLeft="13dp"
+        android:paddingBottom="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+       <TextView
+           android:id="@+id/tvBirthdayInfo"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           android:paddingBottom="4dp"
+           android:textSize="14dp"
+           android:text=""
+           android:textColor="@color/colorHint"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+
+       </TextView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

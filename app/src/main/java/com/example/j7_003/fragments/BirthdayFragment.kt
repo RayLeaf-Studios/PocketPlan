@@ -3,6 +3,7 @@ package com.example.j7_003.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -280,7 +281,8 @@ class BirthdayFragment : Fragment() {
                     editBirthdayHolder!!.daysToRemind = daysToRemind
                     Database.sortAndSaveBirthdays()
                 } else {
-                    Database.addBirthday(name, date.dayOfMonth, date.monthValue, year, daysToRemind)
+                    Database.addBirthday(name, date.dayOfMonth, date.monthValue,
+                        year, daysToRemind, false)
                 }
                 myRecycler.adapter?.notifyDataSetChanged()
             }
@@ -372,6 +374,19 @@ class BirthdayAdapter :
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
+        if(currentBirthday.expanded){
+            holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
+            if(holder.birthday.year!=0){
+                //todo do this properly, whole if is only prototype
+                val starSign = "Scorpio"
+                val age = LocalDate.now().year - holder.birthday.year
+                holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in"+
+                        holder.birthday.year.toString() +", star sign "+starSign
+            }
+        } else {
+            holder.itemView.cvBirthdayInfo.visibility = View.GONE
+        }
+
         if (currentBirthday.daysToRemind < 0) {
             //initialize month divider design
             holder.tvMonthLabel.text = currentBirthday.name
@@ -389,6 +404,13 @@ class BirthdayAdapter :
                 BirthdayFragment.editBirthdayHolder = holder.birthday
                 BirthdayFragment.myFragment.openBirthdayDialog()
                 true
+            }
+
+            var expanded = false
+            holder.itemView.setOnClickListener{
+                holder.birthday.expanded = !holder.birthday.expanded
+                Database.sortAndSaveBirthdays()
+                notifyItemChanged(holder.adapterPosition)
             }
 
             //formatting date
