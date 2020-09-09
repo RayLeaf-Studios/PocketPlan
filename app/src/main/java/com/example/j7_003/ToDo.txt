@@ -4,14 +4,15 @@ Priority 1 tasks:
     - finalize shopping contents / colors
 
 Priority 2 tasks:
-    - edit birthday fix
     - tap birthday to expand more info, (how many days until?),
       Display age in notification? e.g. "Max turns 20 today!"
      - color change for "remind me x days prior" in add birthday, when entered > 0
-     - added info for birthdays, sternzeichen, alter in tagen, alter in jahren usw
+     - edit custom shopping items
+     - add custom categories?
 
 Priority 3 tasks:
     - add new icon
+     - added info for birthdays, star signs, age in years, age in days?
     - replace all colors and values like text size with resource references
     - annotations to use different serialized / displayed variable names
     - birthday undo insert animation
