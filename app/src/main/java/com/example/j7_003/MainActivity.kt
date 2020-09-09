@@ -400,7 +400,7 @@ class MainActivity : AppCompatActivity(){
     private fun manageEditNote(){
         val noteContent = createNoteFragment.etNoteContent.text.toString()
         val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-        Database.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
+        NoteFragment.noteListInstance.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
         editNoteHolder = null
         changeToNotes()
     }
@@ -408,7 +408,7 @@ class MainActivity : AppCompatActivity(){
     private fun manageAddNote(){
         val noteContent = createNoteFragment.etNoteContent.text.toString()
         val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-        Database.addNote(noteTitle, noteContent, noteColor)
+        NoteFragment.noteListInstance.addNote(noteTitle, noteContent, noteColor)
         if(!fromHome){
             changeToNotes()
         }else{
@@ -461,7 +461,7 @@ class MainActivity : AppCompatActivity(){
                 }else if(activeFragmentTag=="createNote"){
                     openColorChooser()
                 }else if(activeFragmentTag=="notes"){
-                    Database.addFullNote(NoteFragment.deletedNote!!)
+                    NoteFragment.noteListInstance.addFullNote(NoteFragment.deletedNote!!)
                     NoteFragment.deletedNote = null
                     NoteFragment.noteAdapter.notifyItemInserted(0)
                     updateUndoNoteIcon()
