@@ -17,10 +17,8 @@ import kotlin.collections.ArrayList
 class Database {
     companion object {
         lateinit var birthdayList: ArrayList<Birthday>
-        lateinit var noteList: LinkedList<Note>
 
         private const val BLIST = "BIRTHDAYLIST"
-        private const val NLIST = "NOTELIST"
 
         /**
          * Used to initialize the Database, i.e. setting up the storage
@@ -280,58 +278,6 @@ class Database {
          * @param content Contents of the note.
          * @param color Color of the note.
          */
-        fun addNote(title: String, content: String, color: NoteColors) {
-            noteList.push(Note(title, content, color))
-            save(NLIST, noteList)
-        }
-
-        /**
-         * Small helper function to add a note object, used for undoing deletions
-          */
-        fun addFullNote(note: Note){
-            addNote(note.title, note.content, note.color)
-        }
-
-        /**
-         * Changes the requested notes properties.
-         * @param index Position of the note in the noteList.
-         * @param title Title of the note.
-         * @param content Contents of the note color.
-         * @param color Color of the note.
-         */
-        fun editNote(index: Int, title: String, content: String, color: NoteColors) {
-            val editableNote =
-                getNote(
-                    index
-                )
-            editableNote.title = title
-            editableNote.content = content
-            editableNote.color = color
-            save(NLIST, noteList)
-        }
-
-        /**
-         * Deletes the requested note.
-         * @param index Position of the note in the noteList.
-         */
-        fun deleteNote(index: Int) {
-            noteList.removeAt(index)
-            save(NLIST, noteList)
-        }
-
-        /**
-         * Gets the requested note from the list.
-         * @return The requested noteObject.
-         */
-        fun getNote(index: Int): Note = noteList[index]
-
-        private fun fetchNoteList() : LinkedList<Note> {
-            val jsonString = StorageHandler.files[NLIST]?.readText()
-
-            return GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<LinkedList<Note>>() {}.type)
-        }
-
         //--------------------------------------------------------------------------------------------//
         //-------------------------------Database internal handling-----------------------------------//
         //--------------------------------------------------------------------------------------------//
@@ -341,17 +287,11 @@ class Database {
                 BLIST,
                 "BirthdayList.json"
             )
-            StorageHandler.createJsonFile(
-                NLIST,
-                "NoteFile.json"
-            )
         }
 
         private fun initLists() {
             birthdayList =
                 fetchBList()
-            noteList =
-                fetchNoteList()
         }
 
         private fun save(identifier: String, collection: Collection<Any>) {

@@ -16,6 +16,7 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.Database
+import com.example.j7_003.data.database.NoteList
 import com.example.j7_003.data.database.database_objects.Note
 import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
@@ -31,6 +32,7 @@ class NoteFragment : Fragment() {
         var deletedNote: Note? = null
         lateinit var noteAdapter: NoteAdapter
         var noteLines = 0
+        val noteListInstance: NoteList = NoteList()
     }
 
     override fun onCreateView(
@@ -87,11 +89,12 @@ class NoteFragment : Fragment() {
 
 class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+    val noteList = NoteFragment.noteListInstance
 
     fun deleteItem(position: Int) {
-        NoteFragment.deletedNote = Database.getNote(position)
+        NoteFragment.deletedNote = noteList.getNote(position)
         MainActivity.act.updateUndoNoteIcon()
-        Database.deleteNote(position)
+        noteList.deleteNote(position)
         notifyItemRemoved(position)
     }
 
@@ -103,13 +106,13 @@ class NoteAdapter :
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
-        val currentNote = Database.getNote(position)
+        val currentNote = noteList.getNote(position)
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
 
         holder.itemView.setOnClickListener {
             MainActivity.editNoteHolder = holder
-            MainActivity.noteColor = Database.getNote(holder.adapterPosition).color
+            MainActivity.noteColor = noteList.getNote(holder.adapterPosition).color
             MainActivity.act.changeToCreateNoteFragment()
         }
 
@@ -143,7 +146,7 @@ class NoteAdapter :
         )
     }
 
-    override fun getItemCount() = Database.noteList.size
+    override fun getItemCount() = noteList.size
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout
