@@ -374,7 +374,7 @@ class BirthdayAdapter :
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        if(currentBirthday.expanded){
+        if(currentBirthday.expanded&&currentBirthday.year!=0){
             holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
             if(holder.birthday.year!=0){
                 //todo do this properly, whole if is only prototype
