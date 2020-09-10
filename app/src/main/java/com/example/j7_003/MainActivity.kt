@@ -13,10 +13,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.j7_003.data.NoteColors
-import com.example.j7_003.data.database.database_objects.CalendarAppointment
+import com.example.j7_003.data.notelist.NoteColors
+import com.example.j7_003.data.about.AboutFragment
+import com.example.j7_003.data.birthdaylist.BirthdayFragment
+import com.example.j7_003.data.calendar.CalendarAppointment
+import com.example.j7_003.data.calendar.CalenderFragment
+import com.example.j7_003.data.calendar.CreateTermFragment
+import com.example.j7_003.data.calendar.DayFragment
+import com.example.j7_003.data.home.HomeFragment
+import com.example.j7_003.data.modules.ModulesFragment
+import com.example.j7_003.data.notelist.CreateNoteFragment
+import com.example.j7_003.data.notelist.NoteAdapter
+import com.example.j7_003.data.notelist.NoteFragment
+import com.example.j7_003.data.settings.SettingsFragment
 import com.example.j7_003.data.settings.SettingsManager
-import com.example.j7_003.fragments.*
+import com.example.j7_003.data.settings.shoppinglist.CustomItemFragment
+import com.example.j7_003.data.shoppinglist.ShoppingFragment
+import com.example.j7_003.data.todolist.TodoFragment
+import com.example.j7_003.data.sleepreminder.SleepFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
@@ -454,7 +468,8 @@ class MainActivity : AppCompatActivity(){
                     updateUndoNoteIcon()
                 }else if(activeFragmentTag=="birthdays"){
                     //TODO fix insert animation when undo
-                    val newPos = BirthdayFragment.birthdayListInstance.addFullBirthday(BirthdayFragment.deletedBirthday!!)
+                    val newPos = BirthdayFragment.birthdayListInstance.addFullBirthday(
+                        BirthdayFragment.deletedBirthday!!)
                     BirthdayFragment.deletedBirthday = null
                     updateUndoBirthdayIcon()
                     BirthdayFragment.myAdapter.notifyDataSetChanged()

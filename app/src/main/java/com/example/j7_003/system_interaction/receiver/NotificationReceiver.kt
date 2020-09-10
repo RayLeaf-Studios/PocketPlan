@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.j7_003.R
-import com.example.j7_003.data.database.SleepReminder
+import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.system_interaction.handler.NotificationHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
-import com.example.j7_003.data.database.database_objects.Birthday
+import com.example.j7_003.data.birthdaylist.Birthday
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 

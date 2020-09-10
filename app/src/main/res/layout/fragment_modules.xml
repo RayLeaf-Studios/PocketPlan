@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:paddingBottom="20dp"
-    tools:context=".fragments.ModulesFragment">
+    tools:context=".data.modules.ModulesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuPanelSettings"

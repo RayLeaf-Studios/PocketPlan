@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:padding="5dp"
-    tools:context=".fragments.SleepFragment">
+    tools:context=".data.sleepreminder.SleepFragment">
 
 
   <!-- non custom starts here -->
