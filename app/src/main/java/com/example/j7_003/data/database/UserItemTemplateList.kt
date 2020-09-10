@@ -6,7 +6,6 @@ import com.example.j7_003.data.database.database_objects.Tag
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlinx.android.synthetic.main.fragment_add_item.*
 import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.ArrayList

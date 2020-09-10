@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorBackground"
+    android:paddingTop="20dp"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <AutoCompleteTextView
+            android:textColorHint="@color/colorGoToSleep"
+            android:id="@+id/actvItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:completionThreshold="1"
+            android:popupTheme="@style/ThemeOverlay.AppCompat"
+            android:singleLine="true"
+            android:textColor="@color/colorOnBackGround"
+            android:theme="@style/CardView.Dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/spItemUnit"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </AutoCompleteTextView>
+
+
+        <Spinner
+            android:id="@+id/spCategory"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+
+            android:layout_marginTop="20dp"
+            android:background="@drawable/corner_input"
+            android:gravity="center"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+
+
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actvItem">
+
+        </Spinner>
+
+        <EditText
+            android:id="@+id/etItemAmount"
+            android:layout_width="50dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="4"
+            android:textColor="@color/colorOnBackGround"
+            android:textColorHint="@color/colorHint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spItemUnit"
+            android:layout_marginHorizontal="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+
+            android:background="@drawable/corner_input"
+            android:gravity="center"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+
+            app:layout_constraintBottom_toBottomOf="@+id/etItemAmount"
+            app:layout_constraintStart_toEndOf="@+id/etItemAmount"
+            app:layout_constraintTop_toTopOf="@+id/etItemAmount" />
+
+        <Button
+            android:id="@+id/btnAddItemToList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_corner_accent"
+            android:text="ADD"
+            app:layout_constraintTop_toBottomOf="@+id/spCategory"
+            tools:layout_editor_absoluteX="16dp">
+
+        </Button>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

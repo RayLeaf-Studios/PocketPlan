@@ -79,7 +79,9 @@ class HomeFragment : Fragment() {
             MainActivity.act.changeToCreateNoteFragment()
         }
         myView.btnNewTask.setOnClickListener { createTaskFromHome() }
-        myView.btnNewItem.setOnClickListener { MainActivity.act.changeToAddItem() }
+        myView.btnNewItem.setOnClickListener {
+            //todo open add item dialog
+        }
 
         //Todo insert button for creating a new appointment
 //        myView.btnNewTerm.setOnClickListener {

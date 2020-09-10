@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(){
     private lateinit var createNoteFragment: CreateNoteFragment
     private lateinit var createTermFragment: CreateTermFragment
     private lateinit var aboutFragment: AboutFragment
-    private lateinit var addItemFragment: AddItemFragment
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var customItemFragment: CustomItemFragment
 
@@ -138,14 +137,6 @@ class MainActivity : AppCompatActivity(){
             hideMenuIcons()
             shoppingFragment = ShoppingFragment()
             changeToFragment(shoppingFragment, "shopping", "Shopping", R.id.shopping)
-        }
-    }
-
-    fun changeToAddItem(){
-        if(activeFragmentTag!="addItem") {
-            hideMenuIcons()
-            addItemFragment = AddItemFragment()
-            changeToFragment(addItemFragment, "addItem", "Add Item", -1)
         }
     }
 
