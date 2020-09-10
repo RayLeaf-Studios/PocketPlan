@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R.*
-import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.TodoList
 import com.example.j7_003.data.database.database_objects.Task
 import kotlinx.android.synthetic.main.dialog_add_task.view.*

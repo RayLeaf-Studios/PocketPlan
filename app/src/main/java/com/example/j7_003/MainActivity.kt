@@ -11,10 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.NoteColors
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import com.example.j7_003.data.settings.SettingsManager
@@ -25,7 +23,6 @@ import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(){
     private lateinit var homeFragment: HomeFragment
@@ -71,7 +68,6 @@ class MainActivity : AppCompatActivity(){
 
         //initialization of time-API, Database and SettingsManager
         AndroidThreeTen.init(this)
-        Database.init()
         SettingsManager.init()
 
 
@@ -467,7 +463,7 @@ class MainActivity : AppCompatActivity(){
                     updateUndoNoteIcon()
                 }else if(activeFragmentTag=="birthdays"){
                     //TODO fix insert animation when undo
-                    val newPos = Database.addFullBirthday(BirthdayFragment.deletedBirthday!!)
+                    val newPos = BirthdayFragment.birthdayListInstance.addFullBirthday(BirthdayFragment.deletedBirthday!!)
                     BirthdayFragment.deletedBirthday = null
                     updateUndoBirthdayIcon()
                     BirthdayFragment.myAdapter.notifyDataSetChanged()

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.database.CalendarManager
-import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.SleepReminder
 import com.example.j7_003.data.database.database_objects.CalendarAppointment
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
@@ -179,7 +178,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateBirthdayPanel() {
-        val birthdaysToday = Database.getRelevantCurrentBirthdays()
+        val birthdaysToday = BirthdayFragment.birthdayListInstance.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
         if (birthdaysToDisplay == 0) {
             myView.tvBirthday.text = "\n   No birthdays today\n"

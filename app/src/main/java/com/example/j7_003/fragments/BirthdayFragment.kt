@@ -3,7 +3,6 @@ package com.example.j7_003.fragments
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,15 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.database.Database
+import com.example.j7_003.data.database.BirthdayList
 import com.example.j7_003.data.database.database_objects.Birthday
-import kotlinx.android.synthetic.main.dialog_add_birthday.*
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -55,6 +52,8 @@ class BirthdayFragment : Fragment() {
         lateinit var lastQuery: String
 
         lateinit var myFragment: BirthdayFragment
+
+        val birthdayListInstance: BirthdayList = BirthdayList()
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")
@@ -279,9 +278,9 @@ class BirthdayFragment : Fragment() {
                     editBirthdayHolder!!.month = month
                     editBirthdayHolder!!.year = year
                     editBirthdayHolder!!.daysToRemind = daysToRemind
-                    Database.sortAndSaveBirthdays()
+                    birthdayListInstance.sortAndSaveBirthdays()
                 } else {
-                    Database.addBirthday(name, date.dayOfMonth, date.monthValue,
+                    birthdayListInstance.addBirthday(name, date.dayOfMonth, date.monthValue,
                         year, daysToRemind, false)
                 }
                 myRecycler.adapter?.notifyDataSetChanged()
@@ -300,7 +299,7 @@ class BirthdayFragment : Fragment() {
         } else {
             lastQuery = query
             adjustedList.clear()
-            Database.birthdayList.forEach {
+            birthdayListInstance.forEach {
                 if (it.name.toLowerCase(Locale.ROOT)
                         .contains(query.toLowerCase(Locale.ROOT)) && it.daysToRemind >= 0
                 ) {
@@ -340,11 +339,12 @@ class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
 
 class BirthdayAdapter :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
+    private val listInstance = BirthdayFragment.birthdayListInstance
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
-        BirthdayFragment.deletedBirthday = Database.getBirthday(viewHolder.adapterPosition)
-        Database.deleteBirthdayObject(parsed.birthday)
+        BirthdayFragment.deletedBirthday = listInstance.getBirthday(viewHolder.adapterPosition)
+        listInstance.deleteBirthdayObject(parsed.birthday)
         if (BirthdayFragment.searching) {
             BirthdayFragment.myFragment.search(BirthdayFragment.lastQuery)
         }
@@ -364,7 +364,7 @@ class BirthdayAdapter :
 
         val currentBirthday = when (BirthdayFragment.searching) {
             true -> BirthdayFragment.adjustedList[position]
-            false -> Database.getBirthday(position)
+            false -> listInstance.getBirthday(position)
         }
 
         holder.birthday = currentBirthday
@@ -380,7 +380,7 @@ class BirthdayAdapter :
                 //todo do this properly, whole if is only prototype
                 val birthday = holder.birthday
                 val age = LocalDate.of(birthday.year, birthday.month, birthday.day).until(LocalDate.now()).years
-                holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in "+
+                holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in"+
                         holder.birthday.year.toString()
             }
         } else {
@@ -409,7 +409,7 @@ class BirthdayAdapter :
             var expanded = false
             holder.itemView.setOnClickListener{
                 holder.birthday.expanded = !holder.birthday.expanded
-                Database.sortAndSaveBirthdays()
+                listInstance.sortAndSaveBirthdays()
                 notifyItemChanged(holder.adapterPosition)
             }
 
@@ -446,7 +446,7 @@ class BirthdayAdapter :
     override fun getItemCount(): Int {
         return when (BirthdayFragment.searching) {
             true -> BirthdayFragment.adjustedList.size
-            false -> Database.birthdayList.size
+            false -> listInstance.size
         }
     }
 

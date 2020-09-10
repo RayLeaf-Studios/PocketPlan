@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.NoteColors
-import com.example.j7_003.data.database.Database
 import com.example.j7_003.data.database.NoteList
 import com.example.j7_003.data.database.database_objects.Note
 import com.example.j7_003.data.settings.SettingsManager

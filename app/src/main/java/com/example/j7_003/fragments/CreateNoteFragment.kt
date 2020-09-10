@@ -11,7 +11,6 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.database.Database
 import kotlinx.android.synthetic.main.fragment_write_note.view.*
 
 class CreateNoteFragment : Fragment() {
