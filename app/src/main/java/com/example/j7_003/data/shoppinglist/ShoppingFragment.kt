@@ -448,6 +448,11 @@ class SublistAdapter(
                 holder.tag
             )
 
+            if(ShoppingFragment.shoppingListInstance.areAllChecked(holder.tag)){
+                ShoppingFragment.shoppingListInstance.flipExpansionState(holder.tag)
+                ShoppingFragment.shoppingListAdapter.notifyItemChanged(parentHolder.adapterPosition)
+                }
+
             notifyItemChanged(holder.adapterPosition)
             if (newPosition != -1) {
                 ShoppingFragment.myFragment.prepareForMove()
