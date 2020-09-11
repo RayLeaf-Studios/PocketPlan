@@ -2,9 +2,9 @@ Todo:
 
 Priority 1 tasks:
     - finalize shopping contents / colors
+    - implement side nav instead of modules page
 
 Priority 2 tasks:
-     - color change for "remind me x days prior" in add birthday, when entered > 0
      - edit custom shopping items
      - add custom categories?
      - option to create / load backup files?
