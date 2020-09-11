@@ -759,7 +759,6 @@ class MainActivity : AppCompatActivity(){
                 false
             )
             ShoppingFr.shoppingListInstance.add(item)
-            ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
             myAlertDialog?.dismiss()
 
         }
