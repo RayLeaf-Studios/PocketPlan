@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
@@ -17,7 +16,7 @@
         android:inputType="textPersonName"
         android:textColor="@color/colorOnBackGround"
         android:textColorHint="@color/colorHint"
-        android:textSize="20sp"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </EditText>
@@ -25,13 +24,13 @@
     <TextView
         android:id="@+id/tvBirthdayDate"
         android:layout_width="wrap_content"
-        android:paddingVertical="12dp"
+        android:paddingVertical="10dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_accent"
         android:paddingHorizontal="11dp"
         android:text="Choose date"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="20dp"
+        android:textSize="17dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvSaveYear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etName" />
@@ -46,7 +45,7 @@
         android:layout_marginRight="10dp"
         android:text="Save year"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="20dp"
+        android:textSize="17dp"
         app:layout_constraintEnd_toStartOf="@+id/cbSaveBirthdayYear"
         app:layout_constraintTop_toBottomOf="@+id/etName">
 
@@ -60,7 +59,7 @@
         android:paddingVertical="20dp"
         android:text="Remind me"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="20dp"
+        android:textSize="17dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear"></TextView>
 
@@ -87,7 +86,7 @@
         android:paddingVertical="20dp"
         android:text="days prior"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="20dp"
+        android:textSize="17dp"
         app:layout_constraintEnd_toEndOf="@+id/cbSaveBirthdayYear"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear"></TextView>
 

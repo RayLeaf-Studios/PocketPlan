@@ -179,13 +179,34 @@ class BirthdayFragment : Fragment() {
             true -> editBirthdayHolder!!.daysToRemind.toString()
             else -> "0"
         }
+
+        val textWatcherReminder = object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val enteredText = etDaysToRemind.text.toString()
+                if(enteredText==""||enteredText.toInt()==0){
+                    tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                    etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                    tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                }else{
+                    tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                    etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                    tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+        etDaysToRemind.addTextChangedListener(textWatcherReminder)
+
         etDaysToRemind.setText(daysToRemindText)
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 etDaysToRemind.setText("")
-                tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-                etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-                tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
             }
             else{
                 val enteredText = etDaysToRemind.text.toString()

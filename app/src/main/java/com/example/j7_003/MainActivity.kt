@@ -12,9 +12,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SearchView
 import android.widget.Toast
+import android.widget.Toolbar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.notelist.NoteColors
@@ -42,6 +46,7 @@ import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
+import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity(){
@@ -60,6 +65,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var aboutFr: AboutFr
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var customItemFragment: CustomItemFragment
+
 
 
     companion object {
@@ -82,6 +88,31 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.main_panel)
         act = this
 
+
+        //initialize actionbar content
+        actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
+        supportActionBar?.title = ""
+        supportActionBar?.customView = actionbarContent
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+
+
+        nav_drawer.setNavigationItemSelectedListener { item ->
+            when(item.itemId){
+                R.id.menuItemSleepReminder -> changeToSleepReminder()
+                R.id.menuItemSettings -> changeToSettings()
+                R.id.menuItemBirthdays -> changeToBirthdays()
+                R.id.menuItemAbout -> changeToAbout()
+            }
+            drawer_layout.closeDrawer(GravityCompat.START)
+            true
+        }
+
+
+
+
+
+
+
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
@@ -93,11 +124,6 @@ class MainActivity : AppCompatActivity(){
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
 
-        //initialize actionbar content
-        actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
-        supportActionBar?.title = ""
-        supportActionBar?.customView = actionbarContent
-        supportActionBar?.setDisplayShowCustomEnabled(true)
 
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
@@ -107,7 +133,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.todolist -> changeToToDo()
                 R.id.home -> changeToHome()
                 R.id.shopping -> changeToShopping()
-                R.id.modules -> changeToModules()
+                R.id.modules -> drawer_layout.openDrawer(GravityCompat.START)
             }
             true
         }
