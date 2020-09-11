@@ -8,17 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import com.example.j7_003.data.shoppinglist.ItemTemplate
 import com.example.j7_003.data.shoppinglist.UserItemTemplateList
 import com.example.j7_003.data.todolist.Task
 import com.example.j7_003.data.todolist.TodoFr
+import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_custom_item.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
@@ -77,7 +76,7 @@ class CustomItemFragment : Fragment() {
                     myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
                     if(title.isEmpty()){
-                        Toast.makeText(MainActivity.act, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
+
                     }else{
                         myRecycler.adapter?.notifyItemInserted(
                             TodoFr.todoListInstance.addFullTask(

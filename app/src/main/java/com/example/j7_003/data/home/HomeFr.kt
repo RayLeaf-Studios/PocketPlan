@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +23,7 @@ import com.example.j7_003.data.calendar.CalendarManager
 import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.data.calendar.CalendarAppointment
 import com.example.j7_003.data.todolist.TodoFr
+import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
@@ -299,18 +301,17 @@ class HomeFr : Fragment() {
 
         taskConfirmButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
-                myAlertDialog?.dismiss()
                 val title = myDialogView.etxTitleAddTask.text.toString()
                 if (title.isEmpty()) {
-                    Toast.makeText(
-                        MainActivity.act,
-                        "Can't create an empty task!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val animationShake =
+                        AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                    myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                    return@setOnClickListener
                 } else {
                     TodoFr.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
+                myAlertDialog?.dismiss()
             }
         }
 

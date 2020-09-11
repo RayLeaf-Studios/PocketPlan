@@ -1,8 +1,6 @@
 package com.example.j7_003.data.birthdaylist
-
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -26,6 +25,7 @@ import com.example.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
+import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.LocalDate
@@ -121,6 +121,25 @@ class BirthdayFragment : Fragment() {
         val etDaysToRemind = myDialogView.etDaysToRemind
         val etName = myDialogView.etName
 
+        //initialize "Remind me" .. "Days prior" Text views
+        val tvRemindMe = myDialogView.tvRemindMe
+        val tvDaysPrior = myDialogView.tvDaysPrior
+
+        //set right color for RemindMe DaysPrior
+        if(!editing||(editing&&editBirthdayHolder!!.daysToRemind==0)){
+            tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+            etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+            tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+        }
+
+        if(editing){
+            val addition = when(editBirthdayHolder!!.daysToRemind==1){
+                true -> ""
+                false -> "s"
+            }
+            tvDaysPrior.text = "day"+addition+" prior"
+        }
+
         //initialize name field if editing
         if (editing) {
             etName.setText(editBirthdayHolder!!.name)
@@ -164,6 +183,24 @@ class BirthdayFragment : Fragment() {
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 etDaysToRemind.setText("")
+                tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            }
+            else{
+                val enteredText = etDaysToRemind.text.toString()
+                if(enteredText==""||enteredText.toInt()==0){
+                   etDaysToRemind.setText("0")
+                    tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                    etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                    tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                }
+                val addition = when(enteredText=="1"){
+                    true -> ""
+                    false -> "s"
+                }
+                tvDaysPrior.text = "day"+addition+" prior"
+
             }
         }
 
@@ -173,9 +210,9 @@ class BirthdayFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
                 nameField.background.mutate().setColorFilter(
-                    resources.getColor(R.color.colorOnBackGround),
+                    resources.getColor(R.color.colorAccent),
                     PorterDuff.Mode.SRC_ATOP
                 );
             }
@@ -269,17 +306,22 @@ class BirthdayFragment : Fragment() {
 
             //tell user to enter a name if none is entered
             if (name == "") {
-                nameField.hint = "Enter a name!"
-                nameField.background.mutate().setColorFilter(
-                    resources.getColor(R.color.colorGoToSleep),
-                    PorterDuff.Mode.SRC_ATOP
-                );
-                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorGoToSleep))
+                val animationShake =
+                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                nameField.startAnimation(animationShake)
+//                nameField.hint = "Enter a name!"
+//                nameField.background.mutate().setColorFilter(
+//                    resources.getColor(R.color.colorGoToSleep),
+//                    PorterDuff.Mode.SRC_ATOP
+//                );
+//                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorGoToSleep))
                 return@setOnClickListener
             }
 
             if(!anyDateSet){
-               tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorGoToSleep))
+                val animationShake =
+                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                tvBirthdayDate.startAnimation(animationShake)
                 return@setOnClickListener
             }
 

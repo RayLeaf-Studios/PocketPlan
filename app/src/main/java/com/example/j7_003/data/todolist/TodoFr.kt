@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
+import com.example.j7_003.R
 import com.example.j7_003.R.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
@@ -79,14 +81,12 @@ class TodoFr : Fragment() {
 
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
-                    myAlertDialog?.dismiss()
                     val title = myDialogView.etxTitleAddTask.text.toString()
                     if (title.isEmpty()) {
-                        Toast.makeText(
-                            MainActivity.act,
-                            "Can't create an empty task!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        val animationShake =
+                            AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                        myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                        return@setOnClickListener
                     } else {
                         myRecycler.adapter?.notifyItemInserted(
                             todoListInstance.addFullTask(
@@ -98,6 +98,7 @@ class TodoFr : Fragment() {
                             )
                         )
                     }
+                    myAlertDialog?.dismiss()
                 }
             }
 
@@ -300,7 +301,12 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
-                    myAlertDialog.dismiss()
+                    if(myDialogView.etxTitleAddTask.text.toString()==""){
+                        val animationShake =
+                            AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                        myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                        return@setOnClickListener
+                    }
                     val newPos = listInstance.editTask(
                         holder.adapterPosition, index + 1,
                         myDialogView.etxTitleAddTask.text.toString(),
@@ -310,6 +316,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
                     TodoFr.myFragment.prepareForMove()
                     this.notifyItemMoved(holder.adapterPosition, newPos)
                     TodoFr.myFragment.reactToMove()
+                    myAlertDialog.dismiss()
 
                 }
             }

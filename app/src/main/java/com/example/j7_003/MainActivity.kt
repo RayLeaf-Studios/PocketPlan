@@ -37,6 +37,7 @@ import com.example.j7_003.data.sleepreminder.SleepFr
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
+import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
@@ -588,6 +589,7 @@ class MainActivity : AppCompatActivity(){
         //initialize autocompleteTextView and spinner for item unit
         val actvItem = myView.actvItem
         val spItemUnit = myView.spItemUnit
+
 
         //initialize tagNames and itemTemplateList
         val tagList = TagList()
