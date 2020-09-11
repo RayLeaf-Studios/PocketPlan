@@ -25,7 +25,7 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class CreateTermFragment : Fragment() {
+class CreateTermFr : Fragment() {
 
     private lateinit var etTermTitle: EditText
     private lateinit var etTermInfo: EditText

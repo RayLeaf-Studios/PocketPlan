@@ -18,7 +18,7 @@ import com.example.j7_003.R
 import com.example.j7_003.data.shoppinglist.ItemTemplate
 import com.example.j7_003.data.shoppinglist.UserItemTemplateList
 import com.example.j7_003.data.todolist.Task
-import com.example.j7_003.data.todolist.TodoFragment
+import com.example.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_custom_item.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
@@ -80,7 +80,7 @@ class CustomItemFragment : Fragment() {
                         Toast.makeText(MainActivity.act, "Can't create an empty task!", Toast.LENGTH_SHORT).show()
                     }else{
                         myRecycler.adapter?.notifyItemInserted(
-                            TodoFragment.todoListInstance.addFullTask(
+                            TodoFr.todoListInstance.addFullTask(
                             Task(title, index+1, false)
                         ))
                     }

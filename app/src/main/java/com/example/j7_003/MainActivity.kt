@@ -17,23 +17,23 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.notelist.NoteColors
-import com.example.j7_003.data.about.AboutFragment
+import com.example.j7_003.data.about.AboutFr
 import com.example.j7_003.data.birthdaylist.BirthdayFragment
 import com.example.j7_003.data.calendar.CalendarAppointment
 import com.example.j7_003.data.calendar.CalenderFragment
-import com.example.j7_003.data.calendar.CreateTermFragment
-import com.example.j7_003.data.calendar.DayFragment
-import com.example.j7_003.data.home.HomeFragment
-import com.example.j7_003.data.modules.ModulesFragment
-import com.example.j7_003.data.notelist.CreateNoteFragment
+import com.example.j7_003.data.calendar.CreateTermFr
+import com.example.j7_003.data.calendar.DayFr
+import com.example.j7_003.data.home.HomeFr
+import com.example.j7_003.data.modules.ModulesFr
+import com.example.j7_003.data.notelist.CreateNoteFr
 import com.example.j7_003.data.notelist.NoteAdapter
-import com.example.j7_003.data.notelist.NoteFragment
-import com.example.j7_003.data.settings.SettingsFragment
+import com.example.j7_003.data.notelist.NoteFr
+import com.example.j7_003.data.settings.SettingsFr
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.data.settings.shoppinglist.CustomItemFragment
 import com.example.j7_003.data.shoppinglist.*
-import com.example.j7_003.data.todolist.TodoFragment
-import com.example.j7_003.data.sleepreminder.SleepFragment
+import com.example.j7_003.data.todolist.TodoFr
+import com.example.j7_003.data.sleepreminder.SleepFr
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
@@ -43,19 +43,19 @@ import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity(){
-    private lateinit var homeFragment: HomeFragment
-    private lateinit var dayFragment: DayFragment
+    private lateinit var homeFr: HomeFr
+    private lateinit var dayFragment: DayFr
     private lateinit var calendarFragment: CalenderFragment
     private lateinit var birthdayFragment: BirthdayFragment
-    private lateinit var settingsFragment: SettingsFragment
-    private lateinit var todoFragment: TodoFragment
-    private lateinit var modulesFragment: ModulesFragment
-    private lateinit var sleepFragment: SleepFragment
-    private lateinit var noteFragment: NoteFragment
-    private lateinit var shoppingFragment: ShoppingFragment
-    private lateinit var createNoteFragment: CreateNoteFragment
-    private lateinit var createTermFragment: CreateTermFragment
-    private lateinit var aboutFragment: AboutFragment
+    private lateinit var settingsFr: SettingsFr
+    private lateinit var todoFr: TodoFr
+    private lateinit var modulesFr: ModulesFr
+    private lateinit var sleepFr: SleepFr
+    private lateinit var noteFr: NoteFr
+    private lateinit var shoppingFr: ShoppingFr
+    private lateinit var createNoteFr: CreateNoteFr
+    private lateinit var createTermFr: CreateTermFr
+    private lateinit var aboutFr: AboutFr
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var customItemFragment: CustomItemFragment
 
@@ -154,8 +154,8 @@ class MainActivity : AppCompatActivity(){
     fun changeToShopping(){
         if(activeFragmentTag!="shopping") {
             hideMenuIcons()
-            shoppingFragment = ShoppingFragment()
-            changeToFragment(shoppingFragment, "shopping", "Shopping", R.id.shopping)
+            shoppingFr = ShoppingFr()
+            changeToFragment(shoppingFr, "shopping", "Shopping", R.id.shopping)
         }
     }
 
@@ -172,16 +172,16 @@ class MainActivity : AppCompatActivity(){
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
             updateDeleteTaskIcon()
-            todoFragment = TodoFragment()
-            changeToFragment(todoFragment, "todo", "To-Do", R.id.todolist)
+            todoFr = TodoFr()
+            changeToFragment(todoFr, "todo", "To-Do", R.id.todolist)
         }
     }
 
     fun changeToHome(){
         hideMenuIcons()
         if(activeFragmentTag!="home"){
-            homeFragment = HomeFragment()
-            changeToFragment(homeFragment, "home", "Pocket Plan", R.id.home)
+            homeFr = HomeFr()
+            changeToFragment(homeFr, "home", "Pocket Plan", R.id.home)
         }
         supportActionBar?.setDisplayShowCustomEnabled(true)
     }
@@ -189,24 +189,24 @@ class MainActivity : AppCompatActivity(){
     fun changeToCreateTerm(){
         if(activeFragmentTag!="createTerm") {
             hideMenuIcons()
-            createTermFragment = CreateTermFragment()
-            changeToFragment(createTermFragment, "createTerm", "Create Appointment", R.id.modules)
+            createTermFr = CreateTermFr()
+            changeToFragment(createTermFr, "createTerm", "Create Appointment", R.id.modules)
         }
     }
 
     private fun changeToModules(){
         if(activeFragmentTag!="modules") {
             hideMenuIcons()
-            modulesFragment = ModulesFragment()
-            changeToFragment(modulesFragment, "modules", "Menu", R.id.modules)
+            modulesFr = ModulesFr()
+            changeToFragment(modulesFr, "modules", "Menu", R.id.modules)
         }
     }
 
     fun changeToSettings(){
         if(activeFragmentTag!="settings") {
             hideMenuIcons()
-            settingsFragment = SettingsFragment()
-            changeToFragment(settingsFragment, "settings",
+            settingsFr = SettingsFr()
+            changeToFragment(settingsFr, "settings",
                 "Settings", -1)
         }
     }
@@ -214,8 +214,8 @@ class MainActivity : AppCompatActivity(){
     fun changeToSleepReminder(){
         if(activeFragmentTag!="sleep") {
             hideMenuIcons()
-            sleepFragment = SleepFragment()
-            changeToFragment(sleepFragment, "sleep",
+            sleepFr = SleepFr()
+            changeToFragment(sleepFr, "sleep",
                 "Sleep-Reminder", -1)
         }
     }
@@ -223,8 +223,8 @@ class MainActivity : AppCompatActivity(){
     private fun changeToNotes(){
         if(activeFragmentTag!="notes") {
             hideMenuIcons()
-            noteFragment = NoteFragment()
-            changeToFragment(noteFragment, "notes",
+            noteFr = NoteFr()
+            changeToFragment(noteFr, "notes",
                 "Notes", R.id.notes)
         }
     }
@@ -236,8 +236,8 @@ class MainActivity : AppCompatActivity(){
             myMenu?.getItem(0)?.isVisible = true
             myMenu?.getItem(1)?.isVisible = true
 
-            createNoteFragment = CreateNoteFragment()
-            changeToFragment(createNoteFragment, "createNote",
+            createNoteFr = CreateNoteFr()
+            changeToFragment(createNoteFr, "createNote",
                 "Editor", -1)
 
             //initialize button with color of note that is currently being edited
@@ -260,8 +260,8 @@ class MainActivity : AppCompatActivity(){
     fun changeToAbout(){
         if(activeFragmentTag!="about") {
             hideMenuIcons()
-            aboutFragment = AboutFragment()
-            changeToFragment(aboutFragment, "about", "About", -1)
+            aboutFr = AboutFr()
+            changeToFragment(aboutFr, "about", "About", -1)
         }
     }
 
@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity(){
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
             myMenu?.getItem(0)?.isVisible = true
-            dayFragment = DayFragment()
+            dayFragment = DayFr()
             changeToFragment(dayFragment, "dayView", "Day-View", R.id.modules)
         }
     }
@@ -358,7 +358,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun updateUndoTaskIcon(){
-        if(TodoFragment.deletedTask!=null || TodoFragment.deletedTaskList.size > 0){
+        if(TodoFr.deletedTask!=null || TodoFr.deletedTaskList.size > 0){
             myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(1)?.isVisible = true
         }else{
@@ -367,7 +367,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun updateUndoNoteIcon(){
-        if(NoteFragment.deletedNote!=null){
+        if(NoteFr.deletedNote!=null){
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
         }else{
@@ -394,7 +394,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun updateDeleteTaskIcon(){
-        val checkedTasks = TodoFragment.todoListInstance.filter{ t -> t.isChecked}.size
+        val checkedTasks = TodoFr.todoListInstance.filter{ t -> t.isChecked}.size
         myMenu?.getItem(0)?.isVisible = checkedTasks > 0
     }
 
@@ -404,17 +404,17 @@ class MainActivity : AppCompatActivity(){
      */
 
     private fun manageEditNote(){
-        val noteContent = createNoteFragment.etNoteContent.text.toString()
-        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-        NoteFragment.noteListInstance.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
+        val noteContent = createNoteFr.etNoteContent.text.toString()
+        val noteTitle = createNoteFr.etNoteTitle.text.toString()
+        NoteFr.noteListInstance.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
         editNoteHolder = null
         changeToNotes()
     }
 
     private fun manageAddNote(){
-        val noteContent = createNoteFragment.etNoteContent.text.toString()
-        val noteTitle = createNoteFragment.etNoteTitle.text.toString()
-        NoteFragment.noteListInstance.addNote(noteTitle, noteContent, noteColor)
+        val noteContent = createNoteFr.etNoteContent.text.toString()
+        val noteTitle = createNoteFr.etNoteTitle.text.toString()
+        NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
         if(!fromHome){
             changeToNotes()
         }else{
@@ -462,14 +462,14 @@ class MainActivity : AppCompatActivity(){
                 }else if(activeFragmentTag=="calendar"){
                     changeToDayView()
                 }else if(activeFragmentTag=="todo"){
-                    TodoFragment.myFragment.manageCheckedTaskDeletion()
+                    TodoFr.myFragment.manageCheckedTaskDeletion()
                     updateUndoTaskIcon()
                 }else if(activeFragmentTag=="createNote"){
                     openColorChooser()
                 }else if(activeFragmentTag=="notes"){
-                    NoteFragment.noteListInstance.addFullNote(NoteFragment.deletedNote!!)
-                    NoteFragment.deletedNote = null
-                    NoteFragment.noteAdapter.notifyItemInserted(0)
+                    NoteFr.noteListInstance.addFullNote(NoteFr.deletedNote!!)
+                    NoteFr.deletedNote = null
+                    NoteFr.noteAdapter.notifyItemInserted(0)
                     updateUndoNoteIcon()
                 }else if(activeFragmentTag=="birthdays"){
                     //TODO fix insert animation when undo
@@ -491,17 +491,17 @@ class MainActivity : AppCompatActivity(){
                     }
                     true
                 }else if(activeFragmentTag=="todo"){
-                    if(TodoFragment.deletedTaskList.size>0){
-                        TodoFragment.deletedTaskList.forEach {
+                    if(TodoFr.deletedTaskList.size>0){
+                        TodoFr.deletedTaskList.forEach {
                             task ->
-                            val newPos = TodoFragment.todoListInstance.addFullTask(task)
-                            TodoFragment.myAdapter.notifyItemInserted(newPos)
+                            val newPos = TodoFr.todoListInstance.addFullTask(task)
+                            TodoFr.myAdapter.notifyItemInserted(newPos)
                         }
-                        TodoFragment.deletedTaskList.clear()
+                        TodoFr.deletedTaskList.clear()
                     }else{
-                        val newPos = TodoFragment.todoListInstance.addFullTask(TodoFragment.deletedTask!!)
-                        TodoFragment.deletedTask = null
-                        TodoFragment.myAdapter.notifyItemInserted(newPos)
+                        val newPos = TodoFr.todoListInstance.addFullTask(TodoFr.deletedTask!!)
+                        TodoFr.deletedTask = null
+                        TodoFr.myAdapter.notifyItemInserted(newPos)
                     }
                     updateUndoTaskIcon()
                     updateDeleteTaskIcon()
@@ -595,7 +595,7 @@ class MainActivity : AppCompatActivity(){
         val tagNames = tagList.getTagNames()
         val itemTemplateList = ItemTemplateList()
         val userItemTemplateList = UserItemTemplateList()
-        ShoppingFragment.shoppingListInstance = ShoppingList()
+        ShoppingFr.shoppingListInstance = ShoppingList()
 
         val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
         myTitle.tvDialogTitle.text = "Add Item"
@@ -729,9 +729,9 @@ class MainActivity : AppCompatActivity(){
                         spItemUnit.selectedItem.toString(),
                         false
                     )
-                    ShoppingFragment.shoppingListInstance.add(item)
+                    ShoppingFr.shoppingListInstance.add(item)
                     if(activeFragmentTag=="shopping"){
-                        ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
+                        ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
                     }
                     myAlertDialog?.dismiss()
                     return@setOnClickListener
@@ -757,8 +757,8 @@ class MainActivity : AppCompatActivity(){
                 spItemUnit.selectedItem.toString(),
                 false
             )
-            ShoppingFragment.shoppingListInstance.add(item)
-            ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
+            ShoppingFr.shoppingListInstance.add(item)
+            ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
             myAlertDialog?.dismiss()
 
         }

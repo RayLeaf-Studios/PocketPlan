@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".data.settings.SettingsFragment">
+    tools:context=".data.settings.SettingsFr">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                     android:id="@+id/spNoteLines"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     app:layout_constraintTop_toTopOf="@id/tvNoteLines"
                     app:layout_constraintBottom_toBottomOf="@id/tvNoteLines"
                     app:layout_constraintEnd_toEndOf="parent">
@@ -95,7 +95,7 @@
                 <Spinner
                     android:id="@+id/spNoteColumns"
                     android:layout_width="wrap_content"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="@id/tvNoteColumns"
                     app:layout_constraintBottom_toBottomOf="@id/tvNoteColumns"

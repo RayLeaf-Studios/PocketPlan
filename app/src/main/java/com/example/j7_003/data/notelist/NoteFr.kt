@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.row_note.view.*
  * A simple [Fragment] subclass.
  */
 
-class NoteFragment : Fragment() {
+class NoteFr : Fragment() {
 
     companion object {
         var deletedNote: Note? = null
@@ -85,10 +85,10 @@ class NoteFragment : Fragment() {
 
 class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
-    val noteList = NoteFragment.noteListInstance
+    val noteList = NoteFr.noteListInstance
 
     fun deleteItem(position: Int) {
-        NoteFragment.deletedNote = noteList.getNote(position)
+        NoteFr.deletedNote = noteList.getNote(position)
         MainActivity.act.updateUndoNoteIcon()
         noteList.deleteNote(position)
         notifyItemRemoved(position)
@@ -119,10 +119,10 @@ class NoteAdapter :
         holder.tvNoteContent.text = currentNote.content
 
         //TODO replace the following two values with custom settings
-        if (NoteFragment.noteLines == -1) {
+        if (NoteFr.noteLines == -1) {
             holder.tvNoteContent.maxLines = Int.MAX_VALUE
         } else {
-            holder.tvNoteContent.maxLines = NoteFragment.noteLines
+            holder.tvNoteContent.maxLines = NoteFr.noteLines
             holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
         }
 

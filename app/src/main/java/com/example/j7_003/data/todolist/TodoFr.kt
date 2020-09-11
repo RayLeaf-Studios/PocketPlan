@@ -26,10 +26,10 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
  * A simple [Fragment] subclass.
  */
 
-class TodoFragment : Fragment() {
+class TodoFr : Fragment() {
 
     companion object {
-        lateinit var myFragment: TodoFragment
+        lateinit var myFragment: TodoFr
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
 
@@ -181,7 +181,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if (!TodoFragment.allowSwipe) {
+        if (!TodoFr.allowSwipe) {
             return 0
         }
         return super.getSwipeDirs(recyclerView, viewHolder)
@@ -195,11 +195,11 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
 }
 
 class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
-    val listInstance = TodoFragment.todoListInstance
+    val listInstance = TodoFr.todoListInstance
 
     fun deleteItem(position: Int) {
-        TodoFragment.deletedTaskList.clear()
-        TodoFragment.deletedTask = listInstance.getTask(position)
+        TodoFr.deletedTaskList.clear()
+        TodoFr.deletedTask = listInstance.getTask(position)
         MainActivity.act.updateUndoTaskIcon()
         listInstance.deleteTask(position)
         notifyItemRemoved(position)
@@ -259,7 +259,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
 
         holder.itemView.tvName.setOnLongClickListener {
 
-            if (!TodoFragment.allowSwipe) {
+            if (!TodoFr.allowSwipe) {
                 return@setOnLongClickListener true
             }
             //inflate the dialog with custom view
@@ -307,9 +307,9 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
                         listInstance.getTask(holder.adapterPosition).isChecked
                     )
                     this.notifyItemChanged(holder.adapterPosition)
-                    TodoFragment.myFragment.prepareForMove()
+                    TodoFr.myFragment.prepareForMove()
                     this.notifyItemMoved(holder.adapterPosition, newPos)
-                    TodoFragment.myFragment.reactToMove()
+                    TodoFr.myFragment.reactToMove()
 
                 }
             }
@@ -318,7 +318,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
 
         //reacts to the user checking a task
         holder.itemView.tapField.setOnClickListener {
-            if (!TodoFragment.allowSwipe) {
+            if (!TodoFr.allowSwipe) {
                 return@setOnClickListener
             }
             val checkedStatus = !listInstance.getTask(holder.adapterPosition).isChecked
@@ -332,15 +332,15 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
 
             notifyItemChanged(holder.adapterPosition)
             if (holder.adapterPosition != newPos) {
-                TodoFragment.myFragment.prepareForMove()
+                TodoFr.myFragment.prepareForMove()
                 notifyItemMoved(holder.adapterPosition, newPos)
-                TodoFragment.myFragment.reactToMove()
+                TodoFr.myFragment.reactToMove()
             }
             //delays item change until list is reordered
         }
     }
 
-    override fun getItemCount() = TodoFragment.todoListInstance.size
+    override fun getItemCount() = TodoFr.todoListInstance.size
 
     class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

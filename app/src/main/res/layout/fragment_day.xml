@@ -6,7 +6,7 @@
     android:background="@color/colorBackground"
     android:layout_height="match_parent"
     android:padding="4dp"
-    tools:context=".data.calendar.DayFragment">
+    tools:context=".data.calendar.DayFr">
 
     <TextView
         android:id="@+id/tvDayViewTitle"

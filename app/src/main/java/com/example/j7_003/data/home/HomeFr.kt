@@ -21,7 +21,7 @@ import com.example.j7_003.data.birthdaylist.BirthdayFragment
 import com.example.j7_003.data.calendar.CalendarManager
 import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.data.calendar.CalendarAppointment
-import com.example.j7_003.data.todolist.TodoFragment
+import com.example.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
@@ -33,7 +33,8 @@ import org.threeten.bp.LocalDate
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFragment : Fragment() {
+class HomeFr : Fragment() {
+
 
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
@@ -113,7 +114,7 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateTaskPanel() {
         var p1TaskCounter = 0
-        val taskList = TodoFragment.todoListInstance
+        val taskList = TodoFr.todoListInstance
 
         //sets p1TaskCounter to amount of Tasks with priority 1
         for (i in 0 until taskList.size) {
@@ -307,7 +308,7 @@ class HomeFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    TodoFragment.todoListInstance.addTask(title, index + 1, false)
+                    TodoFr.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
             }

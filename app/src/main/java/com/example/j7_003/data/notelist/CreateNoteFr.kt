@@ -13,7 +13,7 @@ import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import kotlinx.android.synthetic.main.fragment_write_note.view.*
 
-class CreateNoteFragment : Fragment() {
+class CreateNoteFr : Fragment() {
 
     private lateinit var myEtTitle: EditText
     private lateinit var myEtContent: EditText
@@ -39,10 +39,10 @@ class CreateNoteFragment : Fragment() {
 
         if (MainActivity.editNoteHolder != null) {
             myEtTitle.setText(
-                NoteFragment.noteListInstance.getNote(
+                NoteFr.noteListInstance.getNote(
                 MainActivity.editNoteHolder!!.adapterPosition).title)
             myEtContent.setText(
-                NoteFragment.noteListInstance.getNote(
+                NoteFr.noteListInstance.getNote(
                 MainActivity.editNoteHolder!!.adapterPosition).content)
             myEtContent.requestFocus()
             imm.hideSoftInputFromWindow(myView.windowToken, 0)

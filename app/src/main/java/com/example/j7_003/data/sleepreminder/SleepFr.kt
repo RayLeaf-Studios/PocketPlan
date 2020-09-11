@@ -22,7 +22,7 @@ import org.threeten.bp.DayOfWeek
  * A simple [Fragment] subclass.
  */
 
-class SleepFragment : Fragment() {
+class SleepFr : Fragment() {
     private lateinit var regularCheckBoxList: ArrayList<CheckBox>
     private lateinit var regularWakeTimeText: TextView
     private lateinit var regularDurationTimeText: TextView

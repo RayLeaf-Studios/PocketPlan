@@ -19,13 +19,13 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.temporal.ChronoUnit
 import java.util.*
 
-class DayFragment : Fragment() {
+class DayFr : Fragment() {
 
     /*
         companion object holds reference to itself, its viewpager and current date
     */
     companion object {
-        lateinit var dayFragment: DayFragment
+        lateinit var dayFragment: DayFr
         lateinit var dayPager: ViewPager2
         lateinit var date: LocalDate
     }

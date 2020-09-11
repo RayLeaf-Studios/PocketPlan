@@ -34,12 +34,12 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class ShoppingFragment : Fragment() {
+class ShoppingFr : Fragment() {
     companion object {
         lateinit var shoppingListInstance: ShoppingList
         lateinit var shoppingListAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
-        lateinit var myFragment: ShoppingFragment
+        lateinit var myFragment: ShoppingFr
 
         var offsetTop: Int = 0
         var firstPos: Int = 0
@@ -238,7 +238,6 @@ class ShoppingFragment : Fragment() {
                 );
                 return@setOnClickListener
             }
-            val tagList = TagList()
             val tag = tagList.getTagByName(spCategory.selectedItem as String)
             //check if user template exists
             var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
@@ -314,7 +313,7 @@ class ShoppingListAdapter :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
 
         //Get reference to currently used shopping list instance
-        val shoppingListInstance = ShoppingFragment.shoppingListInstance
+        val shoppingListInstance = ShoppingFr.shoppingListInstance
 
         //get Tag for current category element
         val tag = shoppingListInstance[position].first
@@ -338,7 +337,7 @@ class ShoppingListAdapter :
         //Sets background color of sublist according to the tag
         manageCheckedCategory(
             holder,
-            ShoppingFragment.shoppingListInstance.areAllChecked(tag),
+            ShoppingFr.shoppingListInstance.areAllChecked(tag),
             numberOfItems,
             tag
         )
@@ -360,12 +359,12 @@ class ShoppingListAdapter :
         holder.cvCategory.setOnClickListener {
             val newState = shoppingListInstance.flipExpansionState(holder.tag)
             //if the item gets expanded and the setting says to only expand one
-            if (newState == true && ShoppingFragment.expandOne) {
+            if (newState == true && ShoppingFr.expandOne) {
                 //iterate through all categories and contract one if you find one that's expanded and not the current sublist
                 shoppingListInstance.forEach {
                     if (shoppingListInstance.isTagExpanded(it.first) && it.first != holder.tag) {
                         shoppingListInstance.flipExpansionState(it.first)
-                        ShoppingFragment.shoppingListAdapter.notifyItemChanged(
+                        ShoppingFr.shoppingListAdapter.notifyItemChanged(
                             shoppingListInstance.getTagIndex(
                                 it.first
                             )
@@ -399,7 +398,7 @@ class ShoppingListAdapter :
         }
     }
 
-    override fun getItemCount() = ShoppingFragment.shoppingListInstance.size
+    override fun getItemCount() = ShoppingFr.shoppingListInstance.size
 
     /**
      * one instance of this class will contain one instance of row_category and meta data like
@@ -426,7 +425,7 @@ class SublistAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
-        val itemCheckedState = ShoppingFragment.shoppingListInstance.isItemChecked(tag, position)
+        val itemCheckedState = ShoppingFr.shoppingListInstance.isItemChecked(tag, position)
 
         if (itemCheckedState == null) {
             MainActivity.act.sadToast("invalid checked state")
@@ -444,55 +443,55 @@ class SublistAdapter(
                 .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
         }
 
-        val item = ShoppingFragment.shoppingListInstance.getItem(tag, position)!!
+        val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
         holder.itemView.tvItemTitle.text = item.amount + item.unit + " " + item.name
 
         holder.itemView.clItemTapfield.setOnClickListener {
-            val newPosition = ShoppingFragment.shoppingListInstance.flipItemCheckedState(
+            val newPosition = ShoppingFr.shoppingListInstance.flipItemCheckedState(
                 tag,
                 holder.adapterPosition
             )
 
-            val numberOfItems = ShoppingFragment.shoppingListInstance.getUncheckedSize(holder.tag)
+            val numberOfItems = ShoppingFr.shoppingListInstance.getUncheckedSize(holder.tag)
 
             //If all are checked after the current item got flipped, the list has to go from color to gray
-            ShoppingFragment.shoppingListAdapter.manageCheckedCategory(
+            ShoppingFr.shoppingListAdapter.manageCheckedCategory(
                 parentHolder,
-                ShoppingFragment.shoppingListInstance.areAllChecked(holder.tag),
+                ShoppingFr.shoppingListInstance.areAllChecked(holder.tag),
                 numberOfItems,
                 holder.tag
             )
 
-            if (ShoppingFragment.collapseCheckedSublists && ShoppingFragment.shoppingListInstance.areAllChecked(
+            if (ShoppingFr.collapseCheckedSublists && ShoppingFr.shoppingListInstance.areAllChecked(
                     holder.tag
                 )
             ) {
-                ShoppingFragment.shoppingListInstance.flipExpansionState(holder.tag)
-                ShoppingFragment.shoppingListAdapter.notifyItemChanged(parentHolder.adapterPosition)
+                ShoppingFr.shoppingListInstance.flipExpansionState(holder.tag)
+                ShoppingFr.shoppingListAdapter.notifyItemChanged(parentHolder.adapterPosition)
             }
 
             notifyItemChanged(holder.adapterPosition)
             if (newPosition != -1) {
-                ShoppingFragment.myFragment.prepareForMove()
+                ShoppingFr.myFragment.prepareForMove()
                 notifyItemMoved(holder.adapterPosition, newPosition)
-                ShoppingFragment.myFragment.reactToMove()
+                ShoppingFr.myFragment.reactToMove()
             } else {
                 MainActivity.act.sadToast("invalid item checked state")
             }
 
-            val sublistMoveInfo = ShoppingFragment.shoppingListInstance.sortTag(tag)
+            val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortTag(tag)
             if (sublistMoveInfo != null) {
-                ShoppingFragment.myFragment.prepareForMove()
-                ShoppingFragment.shoppingListAdapter
+                ShoppingFr.myFragment.prepareForMove()
+                ShoppingFr.shoppingListAdapter
                     .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
 
-                ShoppingFragment.myFragment.reactToMove()
+                ShoppingFr.myFragment.reactToMove()
             }
         }
         holder.tag = tag
     }
 
-    override fun getItemCount() = ShoppingFragment.shoppingListInstance.getSublistLength(tag)
+    override fun getItemCount() = ShoppingFr.shoppingListInstance.getSublistLength(tag)
 
     /**
     one instance of this class will contain one instance of row_item and meta data like position
@@ -516,23 +515,23 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         val parsed = viewHolder as SublistAdapter.ItemViewHolder
-        val tagPosition = ShoppingFragment.shoppingListInstance.getTagIndex(parsed.tag)
-        if (ShoppingFragment.shoppingListInstance.removeItem(parsed.tag, position).second) {
+        val tagPosition = ShoppingFr.shoppingListInstance.getTagIndex(parsed.tag)
+        if (ShoppingFr.shoppingListInstance.removeItem(parsed.tag, position).second) {
             //entire sublist is empty => remove sublist
-            ShoppingFragment.shoppingListAdapter
+            ShoppingFr.shoppingListAdapter
                 .notifyItemRemoved(tagPosition)
         } else {
             //sublist changed length =>
-            ShoppingFragment.shoppingListAdapter.notifyItemChanged(tagPosition)
+            ShoppingFr.shoppingListAdapter.notifyItemChanged(tagPosition)
             //check if sublist moved
-            val positions = ShoppingFragment.shoppingListInstance.sortTag(parsed.tag)
+            val positions = ShoppingFr.shoppingListInstance.sortTag(parsed.tag)
             if (positions != null) {
                 //sublist did move => animate movement
-                ShoppingFragment.myFragment.prepareForMove()
-                ShoppingFragment.shoppingListAdapter.notifyItemMoved(
+                ShoppingFr.myFragment.prepareForMove()
+                ShoppingFr.shoppingListAdapter.notifyItemMoved(
                     positions.first, positions.second
                 )
-                ShoppingFragment.myFragment.reactToMove()
+                ShoppingFr.myFragment.reactToMove()
             }
         }
         //Todo update undo delete icon?

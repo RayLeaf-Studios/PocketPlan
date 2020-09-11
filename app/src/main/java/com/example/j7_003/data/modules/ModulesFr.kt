@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_modules.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class ModulesFragment : Fragment() {
+class ModulesFr : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

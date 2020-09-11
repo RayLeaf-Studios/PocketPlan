@@ -11,7 +11,7 @@ import com.example.j7_003.R
  * A simple [Fragment] subclass.
  * create an instance of this fragment.
  */
-class AboutFragment : Fragment() {
+class AboutFr : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

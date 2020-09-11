@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_settings.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsFragment : Fragment() {
+class SettingsFr : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
     private lateinit var clManageCustomItems: ConstraintLayout

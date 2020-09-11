@@ -79,7 +79,7 @@ class TodoList: ArrayList<Task>() {
         this.forEach { n ->
             if (n.isChecked) {
                 toBeDeleted.add(n)
-                TodoFragment.deletedTaskList.add(n)
+                TodoFr.deletedTaskList.add(n)
             }
         }
 
