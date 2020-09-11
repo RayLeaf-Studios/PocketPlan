@@ -472,8 +472,7 @@ class MainActivity : AppCompatActivity(){
                     NoteFr.noteAdapter.notifyItemInserted(0)
                     updateUndoNoteIcon()
                 }else if(activeFragmentTag=="birthdays"){
-                    //TODO fix insert animation when undo
-                    val newPos = BirthdayFragment.birthdayListInstance.addFullBirthday(
+                    BirthdayFragment.birthdayListInstance.addFullBirthday(
                         BirthdayFragment.deletedBirthday!!)
                     BirthdayFragment.deletedBirthday = null
                     updateUndoBirthdayIcon()

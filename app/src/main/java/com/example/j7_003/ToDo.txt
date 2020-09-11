@@ -7,19 +7,13 @@ Priority 2 tasks:
      - color change for "remind me x days prior" in add birthday, when entered > 0
      - edit custom shopping items
      - add custom categories?
-      Display age in birthday notification? e.g. "Max turns 20 today!"
+     - option to create / load backup files?
 
 Priority 3 tasks:
     - add new icon
-     - added info for birthdays, star signs, age in years, age in days?
     - replace all colors and values like text size with resource references
     - annotations to use different serialized / displayed variable names
-    - birthday undo insert animation
-    - figure out if its possible to shrink category list without reloading when
-      deleting an item
-    - figure out how to put the icon in the appbar without resulting in long loading times when
-        switching to home panel (this only occurs on devices, not in the emulator!)
-      make all spinners / dropDowns / autoTextViews darkTheme
+    - Display age in birthday notification? e.g. "Max turns 20 today!"
 
 Ideas:
     - make shopping list presets save and loadable
