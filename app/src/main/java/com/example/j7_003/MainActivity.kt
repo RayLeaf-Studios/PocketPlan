@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SearchView
@@ -700,11 +701,10 @@ class MainActivity : AppCompatActivity(){
         //Button to Confirm adding Item to list
         myView.btnAddItemToList.setOnClickListener {
             if (actvItem.text.toString() == "") {
-                myView.actvItem.hint = "Enter an item!"
-                myView.actvItem.background.mutate().setColorFilter(
-                    resources.getColor(R.color.colorGoToSleep),
-                    PorterDuff.Mode.SRC_ATOP
-                );
+                //animation
+                val animationShake =
+                    AnimationUtils.loadAnimation(act, R.anim.shake)
+                myView.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
             val tagList = TagList()

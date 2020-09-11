@@ -309,12 +309,6 @@ class BirthdayFragment : Fragment() {
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
                 nameField.startAnimation(animationShake)
-//                nameField.hint = "Enter a name!"
-//                nameField.background.mutate().setColorFilter(
-//                    resources.getColor(R.color.colorGoToSleep),
-//                    PorterDuff.Mode.SRC_ATOP
-//                );
-//                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorGoToSleep))
                 return@setOnClickListener
             }
 
