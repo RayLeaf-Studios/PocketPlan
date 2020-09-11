@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
         }
         myView.btnNewTask.setOnClickListener { createTaskFromHome() }
         myView.btnNewItem.setOnClickListener {
-            //todo open add item dialog
+            MainActivity.act.openAddItemDialog()
         }
 
         //Todo insert button for creating a new appointment

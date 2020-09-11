@@ -44,6 +44,7 @@ class ShoppingFragment : Fragment() {
         var offsetTop: Int = 0
         var firstPos: Int = 0
         var expandOne: Boolean = false
+        var collapseCheckedSublists: Boolean = false
     }
 
     override fun onCreateView(
@@ -53,6 +54,7 @@ class ShoppingFragment : Fragment() {
         myFragment = this
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting("expandOneCategory") as Boolean
+        collapseCheckedSublists = SettingsManager.getSetting("collapseCheckedSublists") as Boolean
         //expand first category, contract all others, if setting says so
         if (expandOne) {
             shoppingListInstance.forEach {
@@ -75,7 +77,7 @@ class ShoppingFragment : Fragment() {
 
         val btnAddItem = myView.btnAddItem
         btnAddItem.setOnClickListener {
-            openAddItemDialog()
+            MainActivity.act.openAddItemDialog()
         }
 
         //Initialize references to recycler and its adapter
@@ -107,7 +109,7 @@ class ShoppingFragment : Fragment() {
         layoutManager.scrollToPositionWithOffset(firstPos, offsetTop)
     }
 
-    fun openAddItemDialog(){
+    fun openAddItemDialog() {
         val myView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_item, null)
 
         //AlertDialogBuilder
@@ -177,7 +179,10 @@ class ShoppingFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 myView.actvItem.hint = ""
-                myView.actvItem.background.mutate().setColorFilter(resources.getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+                myView.actvItem.background.mutate().setColorFilter(
+                    resources.getColor(R.color.colorAccent),
+                    PorterDuff.Mode.SRC_ATOP
+                );
                 //check for existing user template
                 var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
@@ -225,9 +230,12 @@ class ShoppingFragment : Fragment() {
         val myAlertDialog = myBuilder?.create()
         //Button to Confirm adding Item to list
         myView.btnAddItemToList.setOnClickListener {
-            if(actvItem.text.toString()==""){
+            if (actvItem.text.toString() == "") {
                 myView.actvItem.hint = "Enter an item!"
-                myView.actvItem.background.mutate().setColorFilter(resources.getColor(R.color.colorGoToSleep), PorterDuff.Mode.SRC_ATOP);
+                myView.actvItem.background.mutate().setColorFilter(
+                    resources.getColor(R.color.colorGoToSleep),
+                    PorterDuff.Mode.SRC_ATOP
+                );
                 return@setOnClickListener
             }
             val tagList = TagList()
@@ -272,8 +280,12 @@ class ShoppingFragment : Fragment() {
             }
             //add already known item to list
             val item = ShoppingItem(
-                template!!.n, tag,
-                template!!.s, etItemAmount.text.toString(), spItemUnit.selectedItem.toString(), false
+                template!!.n,
+                tag,
+                template!!.s,
+                etItemAmount.text.toString(),
+                spItemUnit.selectedItem.toString(),
+                false
             )
             shoppingListInstance.add(item)
             shoppingListAdapter.notifyDataSetChanged()
@@ -436,7 +448,10 @@ class SublistAdapter(
         holder.itemView.tvItemTitle.text = item.amount + item.unit + " " + item.name
 
         holder.itemView.clItemTapfield.setOnClickListener {
-            val newPosition = ShoppingFragment.shoppingListInstance.flipItemCheckedState(tag, holder.adapterPosition)
+            val newPosition = ShoppingFragment.shoppingListInstance.flipItemCheckedState(
+                tag,
+                holder.adapterPosition
+            )
 
             val numberOfItems = ShoppingFragment.shoppingListInstance.getUncheckedSize(holder.tag)
 
@@ -448,10 +463,13 @@ class SublistAdapter(
                 holder.tag
             )
 
-            if(ShoppingFragment.shoppingListInstance.areAllChecked(holder.tag)){
+            if (ShoppingFragment.collapseCheckedSublists && ShoppingFragment.shoppingListInstance.areAllChecked(
+                    holder.tag
+                )
+            ) {
                 ShoppingFragment.shoppingListInstance.flipExpansionState(holder.tag)
                 ShoppingFragment.shoppingListAdapter.notifyItemChanged(parentHolder.adapterPosition)
-                }
+            }
 
             notifyItemChanged(holder.adapterPosition)
             if (newPosition != -1) {

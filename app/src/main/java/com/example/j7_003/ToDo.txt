@@ -4,11 +4,10 @@ Priority 1 tasks:
     - finalize shopping contents / colors
 
 Priority 2 tasks:
-    - tap birthday to expand more info, (how many days until?),
-      Display age in notification? e.g. "Max turns 20 today!"
      - color change for "remind me x days prior" in add birthday, when entered > 0
      - edit custom shopping items
      - add custom categories?
+      Display age in birthday notification? e.g. "Max turns 20 today!"
 
 Priority 3 tasks:
     - add new icon

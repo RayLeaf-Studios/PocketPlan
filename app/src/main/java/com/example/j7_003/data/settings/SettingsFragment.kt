@@ -22,6 +22,7 @@ class SettingsFragment : Fragment() {
     lateinit var spNoteColumns: Spinner
     private lateinit var clManageCustomItems: ConstraintLayout
     private lateinit var swExpandOneCategory: Switch
+    private lateinit var swCollapseCheckedSublists: Switch
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +42,9 @@ class SettingsFragment : Fragment() {
         //initialize references to view
         spNoteLines = myView.spNoteLines
         spNoteColumns = myView.spNoteColumns
-        swExpandOneCategory = myView.swExpandOneCategory
         clManageCustomItems = myView.clManageCustomItems
+        swExpandOneCategory = myView.swExpandOneCategory
+        swCollapseCheckedSublists = myView.swCollapseCheckedSublists
 
         /**
          * INITIALIZE ADAPTERS
@@ -78,6 +80,7 @@ class SettingsFragment : Fragment() {
         spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting("noteColumns")))
 
         swExpandOneCategory.isChecked = SettingsManager.getSetting("expandOneCategory") as Boolean
+        swCollapseCheckedSublists.isChecked = SettingsManager.getSetting("collapseCheckedSublists") as Boolean
     }
 
     private fun initializeListeners() {
@@ -115,12 +118,17 @@ class SettingsFragment : Fragment() {
         }
 
         //Switch for only showing one category as expanded
+        clManageCustomItems.setOnClickListener {
+            MainActivity.act.changeToCustomItems()
+        }
+
         swExpandOneCategory.setOnClickListener {
             SettingsManager.addSetting("expandOneCategory", swExpandOneCategory.isChecked)
         }
 
-        clManageCustomItems.setOnClickListener {
-            MainActivity.act.changeToCustomItems()
+        swCollapseCheckedSublists.setOnClickListener {
+            SettingsManager.addSetting("collapseCheckedSublists", swCollapseCheckedSublists.isChecked)
         }
+
     }
 }

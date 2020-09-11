@@ -1,11 +1,14 @@
 package com.example.j7_003
 
+import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.WindowManager
+import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -28,12 +31,13 @@ import com.example.j7_003.data.notelist.NoteFragment
 import com.example.j7_003.data.settings.SettingsFragment
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.data.settings.shoppinglist.CustomItemFragment
-import com.example.j7_003.data.shoppinglist.ShoppingFragment
+import com.example.j7_003.data.shoppinglist.*
 import com.example.j7_003.data.todolist.TodoFragment
 import com.example.j7_003.data.sleepreminder.SleepFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
+import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
@@ -85,13 +89,14 @@ class MainActivity : AppCompatActivity(){
 
 
         //load default values for settings in case none have been set yet
-
         loadDefaultSettings()
-        actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
 
+        //initialize actionbar content
+        actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
         supportActionBar?.title = ""
         supportActionBar?.customView = actionbarContent
         supportActionBar?.setDisplayShowCustomEnabled(true)
+
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -515,7 +520,9 @@ class MainActivity : AppCompatActivity(){
         searchView = menu!!.getItem(2).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
+                //todo fix this
+                //close keyboard?
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -559,6 +566,206 @@ class MainActivity : AppCompatActivity(){
         if(SettingsManager.getSetting("expandOneCategory")==null){
             SettingsManager.addSetting("expandOneCategory", false)
         }
+        if(SettingsManager.getSetting("collapseCheckedSublists")==null){
+            SettingsManager.addSetting("collapseCheckedSublists", false)
+        }
+    }
+
+    fun openAddItemDialog() {
+        val myView = LayoutInflater.from(act).inflate(R.layout.dialog_add_item, null)
+
+        //AlertDialogBuilder
+        val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(myView) }
+        val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        customTitle.tvDialogTitle.text = "Add Item"
+        myBuilder?.setCustomTitle(customTitle)
+
+        val myAlertDialog = myBuilder?.create()
+
+        //show dialog
+        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        myAlertDialog?.show()
+
+        //initialize autocompleteTextView and spinner for item unit
+        val actvItem = myView.actvItem
+        val spItemUnit = myView.spItemUnit
+
+        //initialize tagNames and itemTemplateList
+        val tagList = TagList()
+        val tagNames = tagList.getTagNames()
+        val itemTemplateList = ItemTemplateList()
+        val userItemTemplateList = UserItemTemplateList()
+        ShoppingFragment.shoppingListInstance = ShoppingList()
+
+        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        myTitle.tvDialogTitle.text = "Add Item"
+        myBuilder?.setCustomTitle(myTitle)
+
+        //initialize spinner for categories
+        val spCategory = myView.spCategory
+        val categoryAdapter = ArrayAdapter<String>(
+            act, android.R.layout.simple_list_item_1, tagNames
+        )
+
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spCategory.adapter = categoryAdapter
+
+        //Initialize spinner and its adapter to choose its Unit
+        val mySpinner = myView.spItemUnit
+        val myAdapter = ArrayAdapter<String>(
+            act, android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.units)
+        )
+
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner.adapter = myAdapter
+
+        //initialize itemNameList
+        val itemNameList: ArrayList<String> = ArrayList()
+
+        userItemTemplateList.forEach {
+            itemNameList.add(it.n)
+        }
+
+        itemTemplateList.forEach {
+            if (!itemNameList.contains(it.n)) {
+                itemNameList.add(it.n)
+            }
+        }
+
+        //initialize autocompleteTextView and its adapter
+        val autoCompleteTv = myView.actvItem
+        val autoCompleteTvAdapter = ArrayAdapter<String>(
+            act, android.R.layout.simple_spinner_dropdown_item, itemNameList
+        )
+
+        autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+        autoCompleteTv.requestFocus()
+
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                myView.actvItem.hint = ""
+                myView.actvItem.background.mutate().setColorFilter(
+                    resources.getColor(R.color.colorAccent),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+                //check for existing user template
+                var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
+                if (template != null) {
+                    //display correct category
+                    spCategory.setSelection(tagNames.indexOf(template.c.n))
+
+                    //display correct unit
+                    val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)
+                    spItemUnit.setSelection(unitPointPos)
+                    return
+                }
+
+                //check for existing item template
+                template = itemTemplateList.getTemplateByName(actvItem.text.toString())
+                if (template != null) {
+                    //display correct category
+                    spCategory.setSelection(tagNames.indexOf(template.c.n))
+
+                    //display correct unit
+                    val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)
+                    spItemUnit.setSelection(unitPointPos)
+                } else {
+                    spCategory.setSelection(0)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+
+        autoCompleteTv.addTextChangedListener(textWatcher)
+
+        //initialize edit text for item amount string
+        val etItemAmount = myView.etItemAmount
+        etItemAmount.setText("1")
+
+        var firstTap = true
+        etItemAmount.setOnFocusChangeListener { _, _ ->
+            if (firstTap) {
+                etItemAmount.setText("")
+                firstTap = false
+            }
+        }
+
+        //Button to Confirm adding Item to list
+        myView.btnAddItemToList.setOnClickListener {
+            if (actvItem.text.toString() == "") {
+                myView.actvItem.hint = "Enter an item!"
+                myView.actvItem.background.mutate().setColorFilter(
+                    resources.getColor(R.color.colorGoToSleep),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+                return@setOnClickListener
+            }
+            val tagList = TagList()
+            val tag = tagList.getTagByName(spCategory.selectedItem as String)
+            //check if user template exists
+            var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
+
+            if (template == null) {
+                //no user item with this name => check for regular template
+                template = itemTemplateList.getTemplateByName(actvItem.text.toString())
+                if (template == null || tag != template!!.c) {
+                    //item unknown, use selected category, add item, and save it to userTemplate list
+                    userItemTemplateList.add(
+                        ItemTemplate(
+                            actvItem.text.toString(), tag,
+                            spItemUnit.selectedItem.toString()
+                        )
+                    )
+                    val item = ShoppingItem(
+                        actvItem.text.toString(), tag,
+                        spItemUnit.selectedItem.toString(),
+                        etItemAmount.text.toString(),
+                        spItemUnit.selectedItem.toString(),
+                        false
+                    )
+                    ShoppingFragment.shoppingListInstance.add(item)
+                    if(activeFragmentTag=="shopping"){
+                        ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
+                    }
+                    myAlertDialog?.dismiss()
+                    return@setOnClickListener
+                }
+            }
+
+            if (tag != template!!.c) {
+                //known as user item but with different tag
+                userItemTemplateList.removeItem(actvItem.text.toString())
+                userItemTemplateList.add(
+                    ItemTemplate(
+                        actvItem.text.toString(), tag,
+                        spItemUnit.selectedItem.toString()
+                    )
+                )
+            }
+            //add already known item to list
+            val item = ShoppingItem(
+                template!!.n,
+                tag,
+                template!!.s,
+                etItemAmount.text.toString(),
+                spItemUnit.selectedItem.toString(),
+                false
+            )
+            ShoppingFragment.shoppingListInstance.add(item)
+            ShoppingFragment.shoppingListAdapter.notifyDataSetChanged()
+            myAlertDialog?.dismiss()
+
+        }
+
+
+        val imm = act?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
     }
 
 }

@@ -2,7 +2,11 @@ package com.example.j7_003.data.birthdaylist
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
+import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
@@ -162,9 +167,28 @@ class BirthdayFragment : Fragment() {
             }
         }
 
+        //textWatcher to reset color of nameField after typing again
+        val textWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                nameField.background.mutate().setColorFilter(
+                    resources.getColor(R.color.colorOnBackGround),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+        nameField.addTextChangedListener(textWatcher)
+
         //on click listener to open date picker
         tvBirthdayDate.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
                 anyDateSet = true
                 date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val dayMonthString =
@@ -178,7 +202,7 @@ class BirthdayFragment : Fragment() {
 
             var yearToDisplay = date.year
             if(editing&&cbSaveBirthdayYear.isChecked){
-                yearToDisplay = LocalDate.now().year
+                yearToDisplay = editBirthdayHolder?.year!!
             }
             else if(editing){
                 yearToDisplay = 2020
@@ -242,6 +266,24 @@ class BirthdayFragment : Fragment() {
         //button to confirm adding of birthday
         myDialogView.btnConfirmBirthday.setOnClickListener {
             val name = nameField.text.toString()
+
+            //tell user to enter a name if none is entered
+            if (name == "") {
+                nameField.hint = "Enter a name!"
+                nameField.background.mutate().setColorFilter(
+                    resources.getColor(R.color.colorGoToSleep),
+                    PorterDuff.Mode.SRC_ATOP
+                );
+                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorGoToSleep))
+                return@setOnClickListener
+            }
+
+            if(!anyDateSet){
+               tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorGoToSleep))
+                return@setOnClickListener
+            }
+
+
             if (!anyDateSet) {
                 Toast.makeText(
                     MainActivity.act,
@@ -367,49 +409,41 @@ class BirthdayAdapter :
 
         holder.birthday = currentBirthday
 
-        /**
-         * Editing birthday via floating action button
-         * Onclick-Listener on List items, opening the edit-task dialog
-         */
 
-        if(currentBirthday.expanded&&currentBirthday.year!=0){
-            holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
-            if(holder.birthday.year!=0){
-                //todo do this properly, whole if is only prototype
-                val birthday = holder.birthday
-                val age = LocalDate.of(birthday.year, birthday.month, birthday.day).until(LocalDate.now()).years
-                holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in"+
-                        holder.birthday.year.toString()
-            }
-        } else {
-            holder.itemView.cvBirthdayInfo.visibility = View.GONE
-        }
-
+        //
         if (currentBirthday.daysToRemind < 0) {
             //initialize month divider design
             holder.tvMonthLabel.text = currentBirthday.name
             holder.tvMonthLabel.textSize = 22F
             holder.txvBirthdayLabelName.text = ""
             holder.myView.setBackgroundResource(R.color.colorBackground)
-            holder.itemView.setOnClickListener {}
+            holder.itemView.setOnLongClickListener {true}
         } else {
+            //display bell if birthday has a reminder
+            if (currentBirthday.hasReminder()) {
+                holder.iconBell.visibility = View.VISIBLE
+            } else {
+                holder.iconBell.visibility = View.INVISIBLE
+            }
+
+            //display info if birthday is expanded
+            if(currentBirthday.expanded&&currentBirthday.year!=0){
+                holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
+                if(holder.birthday.year!=0){
+                    //todo do this properly, whole if is only prototype
+                    val birthday = holder.birthday
+                    val age = LocalDate.of(birthday.year, birthday.month, birthday.day).until(LocalDate.now()).years
+                    holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in "+
+                            holder.birthday.year.toString()
+                }
+            } else {
+                holder.itemView.cvBirthdayInfo.visibility = View.GONE
+            }
+
             //initialize regular birthday design
             holder.tvMonthLabel.textSize = 20F
             holder.tvMonthLabel.text = ""
             holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
-            //opens dialog to edit this birthday
-            holder.itemView.setOnLongClickListener {
-                BirthdayFragment.editBirthdayHolder = holder.birthday
-                BirthdayFragment.myFragment.openBirthdayDialog()
-                true
-            }
-
-            var expanded = false
-            holder.itemView.setOnClickListener{
-                holder.birthday.expanded = !holder.birthday.expanded
-                listInstance.sortAndSaveBirthdays()
-                notifyItemChanged(holder.adapterPosition)
-            }
 
             //formatting date
             var monthAddition = ""
@@ -430,12 +464,21 @@ class BirthdayAdapter :
                 holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_gray)
             }
 
-            //display bell if birthday has a reminder
-            if (currentBirthday.hasReminder()) {
-                holder.iconBell.visibility = View.VISIBLE
-            } else {
-                holder.iconBell.visibility = View.INVISIBLE
+            //opens dialog to edit this birthday
+            holder.itemView.setOnLongClickListener {
+                BirthdayFragment.editBirthdayHolder = holder.birthday
+                BirthdayFragment.myFragment.openBirthdayDialog()
+                true
             }
+
+            //expands info
+            holder.itemView.setOnClickListener{
+                holder.birthday.expanded = !holder.birthday.expanded
+                listInstance.sortAndSaveBirthdays()
+                notifyItemChanged(holder.adapterPosition)
+            }
+
+
         }
 
 
