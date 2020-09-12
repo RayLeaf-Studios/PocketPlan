@@ -16,6 +16,9 @@ class AlarmHandler {
             val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "Birthday")
 
+            val hours = LocalDateTime.now().hour
+            val minutes = LocalDateTime.now().minute.plus(1)
+
             val pendingIntent =
                 PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             val alarmManager =
@@ -30,7 +33,7 @@ class AlarmHandler {
             }
 
             notificationTime = notificationTime
-                .withHour(hour).withMinute(minute)
+                .withHour(hours).withMinute(minutes)
                 .withSecond(0).withNano(0)
 
             alarmManager.setRepeating(
@@ -39,8 +42,6 @@ class AlarmHandler {
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent
             )
-
-            Log.e("debug", notificationTime.atZone(ZoneId.systemDefault()).toInstant().toString())
         }
 
         fun setNewSleepReminderAlarm(

@@ -6,8 +6,8 @@ import android.content.Intent
 import com.example.j7_003.R
 import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.system_interaction.handler.NotificationHandler
-import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.example.j7_003.data.birthdaylist.Birthday
+import com.example.j7_003.data.birthdaylist.BirthdayList
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
@@ -53,14 +53,14 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun birthdayNotifications() {
-        StorageHandler.createJsonFile("BIRTHDAYLIST", "BirthdayList.json", myContext)
-//        Database.birthdayList = Database.fetchBList()
-//        if (Database.birthdayList.size < 1) {
-//            return
-//        }
+        val birthdayList = BirthdayList()
 
-        val notifiableUpcomingBirthdays = getUpcomingBirthdays()
-        val notifiableCurrentBirthdays = getCurrentBirthdays()
+        if (birthdayList.isEmpty()) {
+            return
+        }
+
+        val notifiableUpcomingBirthdays = getUpcomingBirthdays(birthdayList)
+        val notifiableCurrentBirthdays = getCurrentBirthdays(birthdayList)
 
         if (notifiableCurrentBirthdays.size > 1) {
             notifyCurrentBirthdays(notifiableCurrentBirthdays.size)
@@ -75,28 +75,28 @@ class NotificationReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun getUpcomingBirthdays(): ArrayList<Birthday> {
+    private fun getUpcomingBirthdays(birthdayList: BirthdayList): ArrayList<Birthday> {
         val upcomingBirthdays = ArrayList<Birthday>()
-//        Database.birthdayList.forEach { n ->
-//            if (n.month == localDate.monthValue && (n.day - n.daysToRemind) ==
-//                localDate.dayOfMonth && n.daysToRemind > 0)
-//            {
-//                upcomingBirthdays.add(n)
-//            }
-//        }
+        birthdayList.forEach { n ->
+            if (n.month == localDate.monthValue && (n.day - n.daysToRemind) ==
+                localDate.dayOfMonth && n.daysToRemind > 0)
+            {
+                upcomingBirthdays.add(n)
+            }
+        }
         return upcomingBirthdays
     }
 
-    private fun getCurrentBirthdays(): ArrayList<Birthday> {
+    private fun getCurrentBirthdays(birthdayList: BirthdayList): ArrayList<Birthday> {
         val currentBirthdays = ArrayList<Birthday>()
-//        Database.birthdayList.forEach { n ->
-//            if (n.month == localDate.monthValue &&
-//                n.day == localDate.dayOfMonth &&
-//                n.daysToRemind == 0
-//            ) {
-//                currentBirthdays.add(n)
-//            }
-//        }
+        birthdayList.forEach { n ->
+            if (n.month == localDate.monthValue &&
+                n.day == localDate.dayOfMonth &&
+                n.daysToRemind == 0
+            ) {
+                currentBirthdays.add(n)
+            }
+        }
         return currentBirthdays
     }
 

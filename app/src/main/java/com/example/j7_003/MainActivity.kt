@@ -39,6 +39,7 @@ import com.example.j7_003.data.settings.shoppinglist.CustomItemFragment
 import com.example.j7_003.data.shoppinglist.*
 import com.example.j7_003.data.todolist.TodoFr
 import com.example.j7_003.data.sleepreminder.SleepFr
+import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
@@ -107,23 +108,16 @@ class MainActivity : AppCompatActivity(){
             true
         }
 
-
-
-
-
-
-
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
         //initialization of time-API, Database and SettingsManager
         AndroidThreeTen.init(this)
         SettingsManager.init()
-
+        AlarmHandler.setBirthdayAlarms(context = this)
 
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
-
 
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
@@ -148,7 +142,6 @@ class MainActivity : AppCompatActivity(){
             "SReminder" -> TODO("Decide where sleep reminder notification onclick should lead")
             else -> changeToHome()
         }
-
     }
 
     /**
@@ -167,7 +160,6 @@ class MainActivity : AppCompatActivity(){
     /**
      * CHANGE FRAGMENT METHODS
      */
-
     fun changeToBirthdays(){
         if(activeFragmentTag!="birthdays") {
             hideMenuIcons()
