@@ -90,6 +90,10 @@ class MainActivity : AppCompatActivity(){
         act = this
 
 
+        //initialization of time-API, Database and SettingsManager
+        AndroidThreeTen.init(this)
+        SettingsManager.init()
+
         //initialize actionbar content
         actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
         supportActionBar?.title = ""
@@ -97,6 +101,7 @@ class MainActivity : AppCompatActivity(){
         supportActionBar?.setDisplayShowCustomEnabled(true)
 
 
+        //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
             when(item.itemId){
                 R.id.menuItemSleepReminder -> changeToSleepReminder()
@@ -127,10 +132,13 @@ class MainActivity : AppCompatActivity(){
                 R.id.todolist -> changeToToDo()
                 R.id.home -> changeToHome()
                 R.id.shopping -> changeToShopping()
-                R.id.modules -> drawer_layout.openDrawer(GravityCompat.START)
+                R.id.modules ->  changeToModules()
             }
             true
         }
+
+        //inflate sleepView for faster loading time
+        sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
         /**
          * Checks intent for passed String-Value, indicating required switching into fragment
@@ -576,17 +584,16 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun loadDefaultSettings(){
-        if(SettingsManager.getSetting("noteColumns")==null){
-            SettingsManager.addSetting("noteColumns", "2")
-        }
-        if(SettingsManager.getSetting("noteLines")==null){
-            SettingsManager.addSetting("noteLines", "All")
-        }
-        if(SettingsManager.getSetting("expandOneCategory")==null){
-            SettingsManager.addSetting("expandOneCategory", false)
-        }
-        if(SettingsManager.getSetting("collapseCheckedSublists")==null){
-            SettingsManager.addSetting("collapseCheckedSublists", false)
+        setDefault("noteColumns", "2")
+        setDefault("noteLines", "All")
+        setDefault("expandOneCategory", false)
+        setDefault("collapseCheckedSublists", false)
+        setDefault("drawerLeftSide", false)
+    }
+
+    private fun setDefault(setting: String, value: Any){
+        if(SettingsManager.getSetting(setting)==null){
+            SettingsManager.addSetting(setting, value)
         }
     }
 

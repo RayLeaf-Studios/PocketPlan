@@ -16,8 +16,8 @@ class AlarmHandler {
             val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "Birthday")
 
-            val hours = LocalDateTime.now().hour
-            val minutes = LocalDateTime.now().minute.plus(1)
+//            val hours = LocalDateTime.now().hour
+//            val minutes = LocalDateTime.now().minute.plus(1)
 
             val pendingIntent =
                 PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -33,7 +33,7 @@ class AlarmHandler {
             }
 
             notificationTime = notificationTime
-                .withHour(hours).withMinute(minutes)
+                .withHour(hour).withMinute(minute)
                 .withSecond(0).withNano(0)
 
             alarmManager.setRepeating(

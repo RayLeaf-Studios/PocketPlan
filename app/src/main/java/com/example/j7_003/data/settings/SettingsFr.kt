@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 /**
@@ -23,6 +24,7 @@ class SettingsFr : Fragment() {
     private lateinit var clManageCustomItems: ConstraintLayout
     private lateinit var swExpandOneCategory: Switch
     private lateinit var swCollapseCheckedSublists: Switch
+    private lateinit var swLeftHanded: Switch
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +47,7 @@ class SettingsFr : Fragment() {
         clManageCustomItems = myView.clManageCustomItems
         swExpandOneCategory = myView.swExpandOneCategory
         swCollapseCheckedSublists = myView.swCollapseCheckedSublists
+        swLeftHanded = myView.swLeftHanded
 
         /**
          * INITIALIZE ADAPTERS
@@ -81,6 +84,8 @@ class SettingsFr : Fragment() {
 
         swExpandOneCategory.isChecked = SettingsManager.getSetting("expandOneCategory") as Boolean
         swCollapseCheckedSublists.isChecked = SettingsManager.getSetting("collapseCheckedSublists") as Boolean
+        swLeftHanded.isChecked = SettingsManager.getSetting("drawerLeftSide") as Boolean
+
     }
 
     private fun initializeListeners() {
@@ -128,6 +133,10 @@ class SettingsFr : Fragment() {
 
         swCollapseCheckedSublists.setOnClickListener {
             SettingsManager.addSetting("collapseCheckedSublists", swCollapseCheckedSublists.isChecked)
+        }
+
+        swLeftHanded.setOnClickListener {
+            SettingsManager.addSetting("drawerLeftSide", swCollapseCheckedSublists.isChecked)
         }
 
     }

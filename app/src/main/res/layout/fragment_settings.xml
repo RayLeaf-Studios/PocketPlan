@@ -21,19 +21,21 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:paddingStart="20dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="10dp"
                 >
+
                 <TextView
                     android:id="@+id/tvNoteHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Notes"
-                    android:textStyle="bold"
                     android:textColor="@color/colorAccent"
                     android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,8 +44,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewNoteLines"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:paddingHorizontal="20dp"
+
+                >
 
                 <TextView
                     android:id="@+id/tvNoteLines"
@@ -52,6 +56,7 @@
                     android:text="Number of lines to display"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,8 +86,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewNoteColumns"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:paddingHorizontal="20dp"
+                >
 
                 <TextView
                     android:id="@+id/tvNoteColumns"
@@ -91,6 +97,7 @@
                     android:text="Number of note columns"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -112,19 +119,21 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:paddingStart="20dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="10dp"
                 >
+
                 <TextView
                     android:id="@+id/tvShoppingHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Shopping-List"
-                    android:textStyle="bold"
                     android:textColor="@color/colorAccent"
                     android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,8 +143,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clManageCustomItems"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:paddingHorizontal="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,6 +152,7 @@
                     android:text="Manage custom items"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,8 +167,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="60dp"
+                android:paddingHorizontal="20dp">
 
                 <TextView
                     android:id="@+id/tvOneCategory"
@@ -167,6 +177,7 @@
                     android:text="Only expand one category"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -190,8 +201,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="50dp"
+                android:paddingHorizontal="20dp">
 
                 <TextView
                     android:id="@+id/tvCollapseCheckedCategories"
@@ -200,6 +211,7 @@
                     android:text="Collapse checked categories"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -207,6 +219,55 @@
                     android:id="@+id/swCollapseCheckedSublists"
                     app:layout_constraintTop_toTopOf="@id/tvCollapseCheckedCategories"
                     app:layout_constraintBottom_toBottomOf="@id/tvCollapseCheckedCategories"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingStart="20dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvNavigationDrawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Navigation drawer"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvNavDrawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Swipe from left to open"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Switch
+                    android:id="@+id/swLeftHanded"
+                    app:layout_constraintTop_toTopOf="@id/tvNavDrawer"
+                    app:layout_constraintBottom_toBottomOf="@id/tvNavDrawer"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
