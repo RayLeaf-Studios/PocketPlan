@@ -36,6 +36,9 @@ class AlarmHandler {
                 .withHour(hour).withMinute(minute)
                 .withSecond(0).withNano(0)
 
+            val logger = Logger(context)
+            logger.log("AlarmHandler", "Birthday Alarm Time set to $notificationTime")
+
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),

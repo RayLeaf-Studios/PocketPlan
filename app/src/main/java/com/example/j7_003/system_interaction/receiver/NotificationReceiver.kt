@@ -8,31 +8,27 @@ import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.system_interaction.handler.NotificationHandler
 import com.example.j7_003.data.birthdaylist.Birthday
 import com.example.j7_003.data.birthdaylist.BirthdayList
+import com.example.j7_003.system_interaction.handler.Logger
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
 
 class NotificationReceiver : BroadcastReceiver() {
-    private lateinit var myContext: Context
+    private lateinit var context: Context
     private val localDate = LocalDate.now()
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        if (context != null) {
-            myContext = context
-        } else {
-            return
-        }
+    override fun onReceive(context: Context, intent: Intent) {
+        val logger = Logger(context)
+        logger.log("BroadcastReceiver", "Notification broadcast received")
 
-        if (intent != null) {
-            when (intent.extras?.get("Notification")) {
-                "Birthday" -> birthdayNotifications()
-                "SReminder" -> checkSleepNotification(intent)
-            }
+        logger.log("BroadcastReceiver", "Received content: ${intent.extras?.get("Notification")}")
+        when (intent.extras?.get("Notification")) {
+            "Birthday" -> birthdayNotifications()
+            "SReminder" -> checkSleepNotification(intent)
         }
     }
 
     private fun checkSleepNotification(intent: Intent) {
-        SleepReminder.init()
         SleepReminder.reminder[intent.extras?.get("weekday")]?.updateAlarm(
             intent.extras?.getInt("requestCode")!!
         )
@@ -48,7 +44,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "It's time to go to bed, have a good nights sleep!",
             R.drawable.ic_action_sleepreminder,
             "SReminder",
-            myContext
+            context
         )
     }
 
@@ -109,7 +105,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "It's ${birthday.name}s birthday!",
             R.drawable.ic_action_birthday,
             "birthdays",
-            myContext
+            context
         )
     }
 
@@ -122,7 +118,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "There are $currentBirthdays birthdays today!",
             R.drawable.ic_action_birthday,
             "birthdays",
-            myContext
+            context
         )
     }
 
@@ -135,7 +131,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "${birthday.name}s birthday is coming up in ${birthday.daysToRemind} ${if(birthday.daysToRemind ==1 ) {"day"} else {"days"}}!",
             R.drawable.ic_action_birthday,
             "birthdays",
-            myContext
+            context
         )
     }
 
@@ -148,7 +144,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "$upcomingBirthdays birthdays are coming up!",
             R.drawable.ic_action_birthday,
             "birthdays",
-            myContext
+            context
         )
     }
 

@@ -5,23 +5,22 @@ import android.content.Context
 import android.content.Intent
 import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.system_interaction.handler.AlarmHandler
-import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.Logger
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 class RebootReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-        StorageHandler.createFile("REBOOTRECEIVER", "reboot_receiver.txt")
-        if (intent != null) {
-            StorageHandler.files["REBOOTRECEIVER"]?.appendText(intent.toString() + "\t\t" + intent.extras.toString() + "\n")
-        } else {
-            StorageHandler.files["REBOOTRECEIVER"]?.appendText("null\n")
+    override fun onReceive(context: Context, intent: Intent) {
+        AndroidThreeTen.init(context)
+
+        Logger(context).log("RebootReceive", "Device rebooted")
+
+        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
+            AlarmHandler.run {
+                setBirthdayAlarms(context = context)
+            }
+//            SleepReminder().updateReminder()
         }
 
-        if (Intent.ACTION_BOOT_COMPLETED == intent!!.action) {
-            AlarmHandler.run {
-                setBirthdayAlarms(context = context!!)
-            }
-            SleepReminder.init()
-            SleepReminder.updateReminder()
-        }
+        Logger(context).log("RebootReceiver", "Set new birthday alarm")
     }
 }
