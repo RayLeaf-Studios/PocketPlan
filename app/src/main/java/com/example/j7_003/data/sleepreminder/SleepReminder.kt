@@ -277,7 +277,6 @@ class SleepReminder {
         var wakeUpTime: LocalTime = LocalTime.of(9, 0)
         var duration: Duration = Duration.ofHours(8).plusMinutes(0)
         var nextReminder: LocalDateTime = getNextReminderCustom()
-        private val instance = SleepFr.sleepReminderInstance
 
         /**
          * @return The hour of the Reminders wakeUpTime as int.
@@ -326,7 +325,7 @@ class SleepReminder {
          * @see disable for the counterpart.
          */
         fun enable(day: DayOfWeek) {
-            isSet = true; Log.e("here", day.toString()); instance.updateSingleReminder(day)
+            isSet = true; Log.e("here", day.toString()); SleepFr.sleepReminderInstance.updateSingleReminder(day)
         }
 
         /**
@@ -334,7 +333,7 @@ class SleepReminder {
          * @see enable for the counterpart.
          */
         fun disable(day: DayOfWeek) {
-            isSet = false; instance.updateSingleReminder(day)
+            isSet = false; SleepFr.sleepReminderInstance.updateSingleReminder(day)
         }
 
         /**
