@@ -788,6 +788,9 @@ class MainActivity : AppCompatActivity(){
                 false
             )
             ShoppingFr.shoppingListInstance.add(item)
+            if(activeFragmentTag=="shopping"){
+                ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
+            }
             myAlertDialog?.dismiss()
 
         }

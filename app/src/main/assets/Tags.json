@@ -1,4 +1,5 @@
 [
+  {"n" : "Sonstiges", "c" : "#482f66"},
   {"n" : "Alkohol, Tabak", "c" : "#452463"},
   {"n" : "Backwaren", "c" : "#704a12"},
   {"n" : "Dressings, Saußen", "c" : "#686e01"},
@@ -13,7 +14,6 @@
   {"n" : "Kühlregal, Fleisch", "c" : "#750505"},
   {"n" : "Nudeln und Getreide", "c" : "#947601"},
   {"n" : "Obst und Gemüse", "c" : "#498020"},
-  {"n" : "Sonstiges", "c" : "#482f66"},
   {"n" : "Snacks", "c" : "#8a048a"},
   {"n" : "Tiefkühl", "c" : "#1a4cad"}
 ]
