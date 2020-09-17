@@ -1,6 +1,5 @@
 package com.example.j7_003.data.sleepreminder
 
-import android.util.Log
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
@@ -22,17 +21,10 @@ class SleepReminder {
 
     var reminder = HashMap<DayOfWeek, Reminder>(7)
 
-    /**
-     * Initializes the SleepReminder.
-     * @see initMap Initializes the Map for usage.
-     * @see createFile Makes the save file accessible.
-     * @see load Loads data from the save file into class.
-     */
     init {
         initMap()
         createFile()
         load()
-        Log.e("here", reminder.toString())
     }
 
     /**
@@ -325,7 +317,7 @@ class SleepReminder {
          * @see disable for the counterpart.
          */
         fun enable(day: DayOfWeek) {
-            isSet = true; Log.e("here", day.toString()); SleepFr.sleepReminderInstance.updateSingleReminder(day)
+            isSet = true; SleepFr.sleepReminderInstance.updateSingleReminder(day)
         }
 
         /**
