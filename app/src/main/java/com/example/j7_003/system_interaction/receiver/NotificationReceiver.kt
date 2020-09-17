@@ -18,6 +18,7 @@ class NotificationReceiver : BroadcastReceiver() {
     private val localDate = LocalDate.now()
 
     override fun onReceive(context: Context, intent: Intent) {
+        this.context = context
         val logger = Logger(context)
         logger.log("BroadcastReceiver", "Notification broadcast received")
 
@@ -29,7 +30,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun checkSleepNotification(intent: Intent) {
-        SleepReminder.reminder[intent.extras?.get("weekday")]?.updateAlarm(
+        SleepReminder().reminder[intent.extras?.get("weekday")]?.updateAlarm(
             intent.extras?.getInt("requestCode")!!
         )
         sRNotification()

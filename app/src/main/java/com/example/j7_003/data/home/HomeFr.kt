@@ -22,6 +22,7 @@ import com.example.j7_003.data.birthdaylist.BirthdayFragment
 import com.example.j7_003.data.calendar.CalendarManager
 import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.data.calendar.CalendarAppointment
+import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
@@ -49,7 +50,6 @@ class HomeFr : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        SleepReminder.init()
         CalendarManager.init()
 
         //initializing layout
@@ -231,7 +231,7 @@ class HomeFr : Fragment() {
 
     private fun updateWaketimePanel() {
 
-        val (message, status) = SleepReminder.getRemainingWakeDurationString()
+        val (message, status) = SleepFr.sleepReminderInstance.getRemainingWakeDurationString()
 
         //0 -> positive wake time, 1 -> negative wake time, 2 -> no reminder set
         when (status) {

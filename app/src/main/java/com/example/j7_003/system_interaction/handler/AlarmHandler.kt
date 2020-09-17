@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.j7_003.MainActivity
 import com.example.j7_003.system_interaction.receiver.NotificationReceiver
@@ -26,10 +25,10 @@ class AlarmHandler {
 
             var notificationTime = LocalDateTime.now()
 
-            if (notificationTime.hour >= hour) {
-                if (notificationTime.minute >= minute) {
-                    notificationTime = notificationTime.plusDays(1)
-                }
+            if (notificationTime.isAfter(LocalDateTime.now()
+                    .withHour(hour).withMinute(minute).withSecond(0))
+            ) {
+                notificationTime = notificationTime.plusDays(1)
             }
 
             notificationTime = notificationTime

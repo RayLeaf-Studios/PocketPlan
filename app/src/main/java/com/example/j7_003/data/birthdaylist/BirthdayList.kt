@@ -17,6 +17,7 @@ class BirthdayList: ArrayList<Birthday>() {
             "BirthdayList.json"
         )
         fetchFromFile()
+        sortBirthday()
     }
 
     /**
