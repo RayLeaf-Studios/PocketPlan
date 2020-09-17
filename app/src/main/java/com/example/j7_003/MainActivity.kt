@@ -432,6 +432,8 @@ class MainActivity : AppCompatActivity(){
      */
 
     private fun manageEditNote(){
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
         val noteContent = createNoteFr.etNoteContent.text.toString()
         val noteTitle = createNoteFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.editNote(editNoteHolder!!.adapterPosition,noteTitle, noteContent, noteColor)
@@ -440,6 +442,8 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun manageAddNote(){
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
         val noteContent = createNoteFr.etNoteContent.text.toString()
         val noteTitle = createNoteFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)

@@ -45,7 +45,6 @@ class CreateNoteFr : Fragment() {
                 NoteFr.noteListInstance.getNote(
                 MainActivity.editNoteHolder!!.adapterPosition).content)
             myEtContent.requestFocus()
-            imm.hideSoftInputFromWindow(myView.windowToken, 0)
         }
 
         return myView
