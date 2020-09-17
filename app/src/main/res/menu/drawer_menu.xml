@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Sleepreminder"
-        android:icon="@drawable/ic_action_sleepreminder"
-        android:id="@+id/menuItemSleepReminder"/>
-    <item
         android:title="Birthdays"
         android:icon="@drawable/ic_action_birthday"
         android:id="@+id/menuItemBirthdays"/>

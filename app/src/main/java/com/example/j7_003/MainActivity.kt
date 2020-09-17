@@ -29,7 +29,6 @@ import com.example.j7_003.data.calendar.CalenderFragment
 import com.example.j7_003.data.calendar.CreateTermFr
 import com.example.j7_003.data.calendar.DayFr
 import com.example.j7_003.data.home.HomeFr
-import com.example.j7_003.data.modules.ModulesFr
 import com.example.j7_003.data.notelist.CreateNoteFr
 import com.example.j7_003.data.notelist.NoteAdapter
 import com.example.j7_003.data.notelist.NoteFr
@@ -43,7 +42,6 @@ import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
-import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
@@ -57,7 +55,6 @@ class MainActivity : AppCompatActivity(){
     private lateinit var birthdayFragment: BirthdayFragment
     private lateinit var settingsFr: SettingsFr
     private lateinit var todoFr: TodoFr
-    private lateinit var modulesFr: ModulesFr
     private lateinit var sleepFr: SleepFr
     private lateinit var noteFr: NoteFr
     private lateinit var shoppingFr: ShoppingFr
@@ -104,7 +101,6 @@ class MainActivity : AppCompatActivity(){
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
             when(item.itemId){
-                R.id.menuItemSleepReminder -> changeToSleepReminder()
                 R.id.menuItemSettings -> changeToSettings()
                 R.id.menuItemBirthdays -> changeToBirthdays()
                 R.id.menuItemAbout -> changeToAbout()
@@ -132,7 +128,7 @@ class MainActivity : AppCompatActivity(){
                 R.id.todolist -> changeToToDo()
                 R.id.home -> changeToHome()
                 R.id.shopping -> changeToShopping()
-                R.id.modules ->  changeToModules()
+                R.id.sleepReminder ->  changeToSleepReminder()
             }
             true
         }
@@ -218,15 +214,7 @@ class MainActivity : AppCompatActivity(){
         if(activeFragmentTag!="createTerm") {
             hideMenuIcons()
             createTermFr = CreateTermFr()
-            changeToFragment(createTermFr, "createTerm", "Create Appointment", R.id.modules)
-        }
-    }
-
-    private fun changeToModules(){
-        if(activeFragmentTag!="modules") {
-            hideMenuIcons()
-            modulesFr = ModulesFr()
-            changeToFragment(modulesFr, "modules", "Menu", R.id.modules)
+            changeToFragment(createTermFr, "createTerm", "Create Appointment", R.id.home)
         }
     }
 
@@ -299,7 +287,7 @@ class MainActivity : AppCompatActivity(){
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
             myMenu?.getItem(0)?.isVisible = true
             dayFragment = DayFr()
-            changeToFragment(dayFragment, "dayView", "Day-View", R.id.modules)
+            changeToFragment(dayFragment, "dayView", "Day-View", R.id.home)
         }
     }
 
@@ -309,7 +297,7 @@ class MainActivity : AppCompatActivity(){
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
             myMenu?.getItem(0)?.isVisible = true
             calendarFragment = CalenderFragment()
-            changeToFragment(calendarFragment, "calendar", "Calendar", R.id.modules)
+            changeToFragment(calendarFragment, "calendar", "Calendar", R.id.home)
         }
     }
 

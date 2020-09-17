@@ -22,8 +22,8 @@
         android:title="@string/menuTitleShopping" />
 
     <item
-        android:id="@+id/modules"
-        android:icon="@drawable/ic_action_modules"
-        android:title="@string/menuTitleModules" />
+        android:id="@+id/sleepReminder"
+        android:icon="@drawable/ic_action_sleepreminder"
+        android:title="@string/menuTitleSleepReminder" />
 
 </menu>
