@@ -1,5 +1,5 @@
 [
-  {"n" : "Sonstiges", "c" : "#482f66"},
+  {"n" : "Sonstiges", "c" : "#293857"},
   {"n" : "Alkohol, Tabak", "c" : "#452463"},
   {"n" : "Backwaren", "c" : "#704a12"},
   {"n" : "Dressings, Saußen", "c" : "#686e01"},
@@ -8,13 +8,13 @@
   {"n" : "Getränke", "c" : "#0c2566"},
   {"n" : "Gewürze, Backzutaten", "c" : "#962506"},
   {"n" : "Haushalt", "c" : "#194539"},
-  {"n" : "Kaffee, Tee", "c" : "#472f0b"},
+  {"n" : "Kaffee, Tee", "c" : "#36240a"},
   {"n" : "Konserven, Fertiges", "c" : "#453b3b"},
   {"n" : "Kühlregal Milch", "c" : "#696964"},
   {"n" : "Kühlregal, Fleisch", "c" : "#750505"},
   {"n" : "Nudeln und Getreide", "c" : "#947601"},
   {"n" : "Obst und Gemüse", "c" : "#498020"},
-  {"n" : "Snacks", "c" : "#8a048a"},
+  {"n" : "Snacks", "c" : "#8a288a"},
   {"n" : "Tiefkühl", "c" : "#1a4cad"}
 ]
 
