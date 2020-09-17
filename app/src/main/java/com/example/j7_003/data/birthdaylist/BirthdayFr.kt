@@ -476,6 +476,7 @@ class BirthdayAdapter :
             holder.myView.setBackgroundResource(R.color.colorBackground)
             holder.itemView.setOnLongClickListener {true}
             holder.itemView.setOnClickListener{true}
+            holder.itemView.cvBirthdayInfo.visibility = View.GONE
         } else {
             //display bell if birthday has a reminder
             if (currentBirthday.hasReminder()) {
