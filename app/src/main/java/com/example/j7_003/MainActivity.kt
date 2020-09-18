@@ -80,20 +80,32 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_panel)
+
+        //Set a reference to this activity so its accessible in the companion object
         act = this
 
-
-        //initialization of time-API, Database and SettingsManager
-        AndroidThreeTen.init(this)
+        //Initialize Settings Manager and Time api and Alarmhandler
         SettingsManager.init()
+        AndroidThreeTen.init(this)
+        AlarmHandler.setBirthdayAlarms(context = this)
+
+        //load default values for settings in case none have been set yet
+        loadDefaultSettings()
+
+        //Check if layout should be right-handed or left-handed
+        val leftHandedMode = SettingsManager.getSetting("drawerLeftSide") as Boolean
+       if(leftHandedMode){
+           setContentView(R.layout.main_panel_lefthanded)
+       }else{
+           setContentView(R.layout.main_panel)
+       }
+
 
         //initialize actionbar content
         actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
         supportActionBar?.title = ""
         supportActionBar?.customView = actionbarContent
         supportActionBar?.setDisplayShowCustomEnabled(true)
-
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
@@ -102,21 +114,14 @@ class MainActivity : AppCompatActivity(){
                 R.id.menuItemBirthdays -> changeToBirthdays()
                 R.id.menuItemAbout -> changeToAbout()
             }
-            drawer_layout.closeDrawer(GravityCompat.START)
+            if(leftHandedMode){
+                drawer_layout.closeDrawer(GravityCompat.START)
+            }
+            else{
+                drawer_layout.closeDrawer(GravityCompat.END)
+            }
             true
         }
-
-        //inflate sleepView for faster loading time
-        sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
-
-        //initialization of time-API, Database and SettingsManager
-        AndroidThreeTen.init(this)
-        SettingsManager.init()
-        AlarmHandler.setBirthdayAlarms(context = this)
-
-        //load default values for settings in case none have been set yet
-        loadDefaultSettings()
-
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -132,6 +137,8 @@ class MainActivity : AppCompatActivity(){
 
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
+
+
 
         /**
          * Checks intent for passed String-Value, indicating required switching into fragment

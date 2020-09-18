@@ -264,6 +264,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/tvForcedRestart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Changing this will force a restart!"
+                    android:textColor="@color/colorHint"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvNavDrawer" />
+
                 <Switch
                     android:id="@+id/swLeftHanded"
                     app:layout_constraintTop_toTopOf="@id/tvNavDrawer"

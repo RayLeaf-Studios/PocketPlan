@@ -136,7 +136,9 @@ class SettingsFr : Fragment() {
         }
 
         swLeftHanded.setOnClickListener {
-            SettingsManager.addSetting("drawerLeftSide", swCollapseCheckedSublists.isChecked)
+            SettingsManager.addSetting("drawerLeftSide", swLeftHanded.isChecked)
+            MainActivity.act.finish()
+            startActivity(MainActivity.act.intent)
         }
 
     }
