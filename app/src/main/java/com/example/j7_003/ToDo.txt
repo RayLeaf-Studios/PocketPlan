@@ -10,13 +10,13 @@ Priority 2 tasks:
      - option to create / load backup files?
      - shorten go to sleep message
      - toggle reminder for birthday/birthdays
-     - button to open sidenav menu
      - preload shopping fragment content?
 
 
 
 Priority 3 tasks:
 
+     - button to open sidenav menu?
     - replace all colors and values like text size with resource references
     - annotations to use different serialized / displayed variable names
     - Display age in birthday notification? e.g. "Max turns 20 today!"

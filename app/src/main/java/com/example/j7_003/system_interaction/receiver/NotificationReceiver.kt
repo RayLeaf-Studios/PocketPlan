@@ -42,7 +42,7 @@ class NotificationReceiver : BroadcastReceiver() {
             "Sleep Reminder Notification",
             200,
             "Sleep Time",
-            "It's time to go to bed, have a good nights sleep!",
+            "It's time to go to bed, sleep well!",
             R.drawable.ic_action_sleepreminder,
             "SReminder",
             context
