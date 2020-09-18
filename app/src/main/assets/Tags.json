@@ -1,20 +1,20 @@
 [
   {"n" : "Sonstiges", "c" : "#293857"},
-  {"n" : "Alkohol, Tabak", "c" : "#452463"},
-  {"n" : "Backwaren", "c" : "#704a12"},
-  {"n" : "Dressings, Saußen", "c" : "#686e01"},
-  {"n" : "Drogerie, Kosmetik", "c" : "#28947d"},
-  {"n" : "Frühstück", "c" : "#bf6f06"},
+  {"n" : "Obst und Gemüse", "c" : "#498020"},
   {"n" : "Getränke", "c" : "#0c2566"},
+  {"n" : "Nudeln und Getreide", "c" : "#947601"},
+  {"n" : "Backwaren", "c" : "#704a12"},
+  {"n" : "Kühlregal Milch", "c" : "#696964"},
+  {"n" : "Kühlregal, Fleisch", "c" : "#750505"},
+  {"n" : "Tiefkühl", "c" : "#1a4cad"},
+  {"n" : "Konserven, Fertiges", "c" : "#453b3b"},
+  {"n" : "Frühstück", "c" : "#bf6f06"},
   {"n" : "Gewürze, Backzutaten", "c" : "#962506"},
   {"n" : "Haushalt", "c" : "#194539"},
   {"n" : "Kaffee, Tee", "c" : "#36240a"},
-  {"n" : "Konserven, Fertiges", "c" : "#453b3b"},
-  {"n" : "Kühlregal Milch", "c" : "#696964"},
-  {"n" : "Kühlregal, Fleisch", "c" : "#750505"},
-  {"n" : "Nudeln und Getreide", "c" : "#947601"},
-  {"n" : "Obst und Gemüse", "c" : "#498020"},
   {"n" : "Snacks", "c" : "#8a288a"},
-  {"n" : "Tiefkühl", "c" : "#1a4cad"}
+  {"n" : "Dressings, Saußen", "c" : "#686e01"},
+  {"n" : "Drogerie, Kosmetik", "c" : "#28947d"},
+  {"n" : "Alkohol, Tabak", "c" : "#452463"}
 ]
 
