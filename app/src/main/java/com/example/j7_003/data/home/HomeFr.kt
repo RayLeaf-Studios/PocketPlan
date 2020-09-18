@@ -311,6 +311,9 @@ class HomeFr : Fragment() {
                     TodoFr.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
+                if(MainActivity.activeFragmentTag=="home"){
+                    Toast.makeText(MainActivity.act, "Task was added!", Toast.LENGTH_SHORT).show()
+                }
                 myAlertDialog?.dismiss()
             }
         }

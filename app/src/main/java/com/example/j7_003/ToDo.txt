@@ -1,16 +1,22 @@
 Todo:
 
 Priority 1 tasks:
-    - finalize shopping contents / colors
-    - implement side nav instead of modules page
+    - add basic items of all categories to list
+    - setting for sidenav side
 
 Priority 2 tasks:
+     - optimize loading of itemlist (only once and after adding)
      - edit custom shopping items
      - add custom categories?
      - option to create / load backup files?
+     - shorten go to sleep message
+     - toggle reminder for birthday/birthdays
+     - button to open sidenav menu
+
+
 
 Priority 3 tasks:
-    - add new icon
+
     - replace all colors and values like text size with resource references
     - annotations to use different serialized / displayed variable names
     - Display age in birthday notification? e.g. "Max turns 20 today!"
