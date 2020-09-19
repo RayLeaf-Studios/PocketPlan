@@ -3,6 +3,7 @@ package com.example.j7_003.system_interaction.handler
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.LocalDateTime
 import java.io.File
 
@@ -10,6 +11,7 @@ class Logger(context: Context) {
     private val logFile: File
 
     init {
+        AndroidThreeTen.init(context)
         logFile = setStorageLocation(context)
     }
 
