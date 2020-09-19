@@ -1,4 +1,5 @@
 package com.example.j7_003.data.birthdaylist
+
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.PorterDuff
@@ -23,14 +24,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
-import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
-import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -105,7 +103,7 @@ class BirthdayFragment : Fragment() {
                 editBirthdayHolder!!.month,
                 editBirthdayHolder!!.day
             )
-        }else{
+        } else {
             date = LocalDate.now()
         }
 
@@ -120,7 +118,7 @@ class BirthdayFragment : Fragment() {
         val tvSaveYear = myDialogView.tvSaveYear
         val etDaysToRemind = myDialogView.etDaysToRemind
         val etName = myDialogView.etName
-        val tvNotifyMe  = myDialogView.tvNotifyMe
+        val tvNotifyMe = myDialogView.tvNotifyMe
         val cbNotifyMe = myDialogView.cbNotifyMe
 
         //initialize name field if editing
@@ -130,21 +128,36 @@ class BirthdayFragment : Fragment() {
         }
 
         //default checkbox for "Notify me" with true, if adding a new birthday
-        if(!editing){
+        if (!editing) {
             cbNotifyMe.isChecked = true
         }
 
-        //set checkbox and "Notify me" textColor to correct state depending on birthday that is being edited
-        if(editing){
-            //TODO replace following condition with editBirthdayHolder.notifications
-            if(true){
-                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+        cbNotifyMe.setOnClickListener {
+            if (cbNotifyMe.isChecked) {
+                tvNotifyMe.setTextColor(
+                    ContextCompat.getColor(
+                        MainActivity.act,
+                        R.color.colorOnBackGround
+                    )
+                )
             } else {
                 tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
             }
-            //TODO replace following condition with editBirthdayHolder.notifications
-            cbNotifyMe.isChecked = true
+        }
 
+        //set checkbox and "Notify me" textColor to correct state depending on birthday that is being edited
+        if (editing) {
+            if (editBirthdayHolder!!.notify) {
+                tvNotifyMe.setTextColor(
+                    ContextCompat.getColor(
+                        MainActivity.act,
+                        R.color.colorOnBackGround
+                    )
+                )
+            } else {
+                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+            }
+            cbNotifyMe.isChecked = editBirthdayHolder!!.notify
         }
 
         //initialize "Remind me" .. "Days prior" Text views
@@ -152,18 +165,18 @@ class BirthdayFragment : Fragment() {
         val tvDaysPrior = myDialogView.tvDaysPrior
 
         //set right color for RemindMe DaysPrior
-        if(!editing||(editing&&editBirthdayHolder!!.daysToRemind==0)){
+        if (!editing || (editing && editBirthdayHolder!!.daysToRemind == 0)) {
             tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
             etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
             tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
         }
 
-        if(editing){
-            val addition = when(editBirthdayHolder!!.daysToRemind==1){
+        if (editing) {
+            val addition = when (editBirthdayHolder!!.daysToRemind == 1) {
                 true -> ""
                 false -> "s"
             }
-            tvDaysPrior.text = "day"+addition+" prior"
+            tvDaysPrior.text = "day" + addition + " prior"
         }
 
 
@@ -172,7 +185,7 @@ class BirthdayFragment : Fragment() {
             true -> {
                 var yearString = ""
                 if (editBirthdayHolder!!.year != 0) {
-                    yearString = "."+ editBirthdayHolder!!.year.toString()
+                    yearString = "." + editBirthdayHolder!!.year.toString()
                 }
                 editBirthdayHolder!!.day.toString().padStart(2, '0') + "." +
                         editBirthdayHolder!!.month.toString()
@@ -189,10 +202,16 @@ class BirthdayFragment : Fragment() {
         if (editBirthdayHolder != null) {
             if (editBirthdayHolder!!.year != 0) {
                 cbSaveBirthdayYear.isChecked = true
+                tvSaveYear.setTextColor(
+                    ContextCompat.getColor(
+                        MainActivity.act,
+                        R.color.colorOnBackGround
+                    )
+                )
             }
-        }
-        else{
+        } else {
             cbSaveBirthdayYear.isChecked = false
+            tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
         }
 
         //initialize reminder text
@@ -208,20 +227,50 @@ class BirthdayFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val enteredText = etDaysToRemind.text.toString()
-                if(enteredText==""||enteredText.toInt()==0){
-                    tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-                    etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-                    tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                if (enteredText == "" || enteredText.toInt() == 0) {
+                    tvRemindMe.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorHint
+                        )
+                    )
+                    etDaysToRemind.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorHint
+                        )
+                    )
+                    tvDaysPrior.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorHint
+                        )
+                    )
                     tvDaysPrior.text = "days prior"
-                }else{
-                    tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-                    etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-                    tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-                    val addition = when(enteredText.toInt()==1){
+                } else {
+                    tvRemindMe.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
+                    etDaysToRemind.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
+                    tvDaysPrior.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
+                    val addition = when (enteredText.toInt() == 1) {
                         true -> ""
                         false -> "s"
                     }
-                    tvDaysPrior.text = "day"+addition+" prior"
+                    tvDaysPrior.text = "day" + addition + " prior"
                 }
             }
 
@@ -234,20 +283,34 @@ class BirthdayFragment : Fragment() {
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 etDaysToRemind.setText("")
-            }
-            else{
+            } else {
                 val enteredText = etDaysToRemind.text.toString()
-                if(enteredText==""||enteredText.toInt()==0){
-                   etDaysToRemind.setText("0")
-                    tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-                    etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-                    tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                if (enteredText == "" || enteredText.toInt() == 0) {
+                    etDaysToRemind.setText("0")
+                    tvRemindMe.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorHint
+                        )
+                    )
+                    etDaysToRemind.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorHint
+                        )
+                    )
+                    tvDaysPrior.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorHint
+                        )
+                    )
                 }
-                val addition = when(enteredText=="1"){
+                val addition = when (enteredText == "1") {
                     true -> ""
                     false -> "s"
                 }
-                tvDaysPrior.text = "day"+addition+" prior"
+                tvDaysPrior.text = "day" + addition + " prior"
 
             }
         }
@@ -258,11 +321,16 @@ class BirthdayFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                nameField.setHintTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                nameField.setHintTextColor(
+                    ContextCompat.getColor(
+                        MainActivity.act,
+                        R.color.colorHint
+                    )
+                )
                 nameField.background.mutate().setColorFilter(
                     resources.getColor(R.color.colorAccent),
                     PorterDuff.Mode.SRC_ATOP
-                );
+                )
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -273,7 +341,12 @@ class BirthdayFragment : Fragment() {
         //on click listener to open date picker
         tvBirthdayDate.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                tvBirthdayDate.setTextColor(
+                    ContextCompat.getColor(
+                        MainActivity.act,
+                        R.color.colorOnBackGround
+                    )
+                )
                 anyDateSet = true
                 date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val dayMonthString =
@@ -286,10 +359,9 @@ class BirthdayFragment : Fragment() {
             }
 
             var yearToDisplay = date.year
-            if(editing&&cbSaveBirthdayYear.isChecked){
+            if (editing && cbSaveBirthdayYear.isChecked) {
                 yearToDisplay = editBirthdayHolder?.year!!
-            }
-            else if(editing){
+            } else if (editing) {
                 yearToDisplay = 2020
             }
             val dpd = DatePickerDialog(
@@ -304,8 +376,8 @@ class BirthdayFragment : Fragment() {
 
         //checkbox to include year
         cbSaveBirthdayYear.setOnClickListener {
-            if(cbSaveBirthdayYear.isChecked){
-                if (editing && date.year==0) {
+            if (cbSaveBirthdayYear.isChecked) {
+                if (editing && date.year == 0) {
                     date = LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
                 }
             }
@@ -360,7 +432,7 @@ class BirthdayFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            if(!anyDateSet){
+            if (!anyDateSet) {
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
                 tvBirthdayDate.startAnimation(animationShake)
@@ -403,12 +475,13 @@ class BirthdayFragment : Fragment() {
                     editBirthdayHolder!!.month = month
                     editBirthdayHolder!!.year = year
                     editBirthdayHolder!!.daysToRemind = daysToRemind
-                    //TODO add editBirthdayHolder!!.notifyMe = notifyME
+                    editBirthdayHolder!!.notify = notifyMe
                     birthdayListInstance.sortAndSaveBirthdays()
                 } else {
-                    //TODO call following function with notifyMe
-                    birthdayListInstance.addBirthday(name, date.dayOfMonth, date.monthValue,
-                        year, daysToRemind, false)
+                    birthdayListInstance.addBirthday(
+                        name, date.dayOfMonth, date.monthValue,
+                        year, daysToRemind, false, notifyMe
+                    )
                 }
                 myRecycler.adapter?.notifyDataSetChanged()
             }
@@ -504,10 +577,10 @@ class BirthdayAdapter :
             holder.tvMonthLabel.textSize = 22F
             holder.txvBirthdayLabelName.text = ""
             holder.myView.setBackgroundResource(R.color.colorBackground)
-            holder.itemView.setOnLongClickListener {true}
-            holder.itemView.setOnClickListener{true}
+            holder.itemView.setOnLongClickListener { true }
+            holder.itemView.setOnClickListener { true }
             holder.itemView.cvBirthdayInfo.visibility = View.GONE
-            holder.itemView.icon_bell.visibility=View.GONE
+            holder.itemView.icon_bell.visibility = View.GONE
         } else {
             //display bell if birthday has a reminder
             if (currentBirthday.hasReminder()) {
@@ -517,13 +590,13 @@ class BirthdayAdapter :
             }
 
             //display info if birthday is expanded
-            if(currentBirthday.expanded&&currentBirthday.year!=0){
+            if (currentBirthday.expanded && currentBirthday.year != 0) {
                 holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
-                if(holder.birthday.year!=0){
-                    //todo do this properly, whole if is only prototype
+                if (holder.birthday.year != 0) {
                     val birthday = holder.birthday
-                    val age = LocalDate.of(birthday.year, birthday.month, birthday.day).until(LocalDate.now()).years
-                    holder.itemView.tvBirthdayInfo.text = age.toString()+" years old, born in "+
+                    val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
+                        .until(LocalDate.now()).years
+                    holder.itemView.tvBirthdayInfo.text = age.toString() + " years old, born in " +
                             holder.birthday.year.toString()
                 }
             } else {
@@ -562,7 +635,7 @@ class BirthdayAdapter :
             }
 
             //expands info
-            holder.itemView.setOnClickListener{
+            holder.itemView.setOnClickListener {
                 holder.birthday.expanded = !holder.birthday.expanded
                 listInstance.sortAndSaveBirthdays()
                 notifyItemChanged(holder.adapterPosition)

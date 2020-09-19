@@ -26,8 +26,8 @@ class BirthdayList: ArrayList<Birthday>() {
      * @param parMonth The month of the birthday
      * @param parDay The day of the birthday
      */
-    fun addBirthday(name: String, day: Int, month: Int, year: Int, daysToRemind: Int, expanded: Boolean) {
-        this.add(Birthday(name, day, month, year, daysToRemind, expanded))
+    fun addBirthday(name: String, day: Int, month: Int, year: Int, daysToRemind: Int, expanded: Boolean, notify: Boolean) {
+        this.add(Birthday(name, day, month, year, daysToRemind, expanded, notify))
         sortAndSaveBirthdays()
     }
 
@@ -118,7 +118,8 @@ class BirthdayList: ArrayList<Birthday>() {
                     today.monthValue,
                     0,
                     -1 * today.monthValue,
-                    false
+                    expanded = false,
+                    notify = false
                 )
             )
         }
@@ -131,14 +132,18 @@ class BirthdayList: ArrayList<Birthday>() {
                     today.monthValue,
                     0,
                     -1 * today.monthValue,
-                    false
+                    expanded = false,
+                    notify = false
                 )
             )
         }
 
         months.forEach { m ->
             val name = LocalDate.of(2020, m, 1).month.toString()
-            this.add(Birthday(name.toLowerCase().capitalize(), 0, m,0, -1*m, false))
+            this.add(Birthday(name.toLowerCase().capitalize(), 0, m,0, -1*m,
+                expanded = false,
+                notify = false
+            ))
         }
     }
 
@@ -151,7 +156,10 @@ class BirthdayList: ArrayList<Birthday>() {
         this.sortWith(compareBy({ it.month }, { it.day }, {it.daysToRemind >= 0}, { it.name }))
 
         var i = 0
-        val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1,0, -200, false)
+        val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1,0, -200,
+            expanded = false,
+            notify = false
+        )
         cacheList.add(spacerBirthday)
         while(i < this.size) {
             if (getBirthday(i).month < month ||
