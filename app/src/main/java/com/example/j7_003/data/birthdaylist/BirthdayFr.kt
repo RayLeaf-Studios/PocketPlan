@@ -191,10 +191,16 @@ class BirthdayFragment : Fragment() {
                     tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
                     etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
                     tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                    tvDaysPrior.text = "days prior"
                 }else{
                     tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
                     etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
                     tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                    val addition = when(enteredText.toInt()==1){
+                        true -> ""
+                        false -> "s"
+                    }
+                    tvDaysPrior.text = "day"+addition+" prior"
                 }
             }
 

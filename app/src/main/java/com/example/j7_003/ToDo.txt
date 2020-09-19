@@ -2,12 +2,12 @@ Todo:
 
 Priority 1 tasks:
     - add basic items of all categories to list
+    - functionality to toggle reminders for birthdays, add / edit
 
 Priority 2 tasks:
      - edit custom shopping items
      - add custom categories?
      - option to create / load backup files?
-     - toggle reminder for birthday/birthdays
      - preload shopping fragment content?
 
 

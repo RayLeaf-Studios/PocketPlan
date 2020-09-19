@@ -8,33 +8,57 @@
 
     <EditText
         android:id="@+id/etName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:hint="@string/addBirthdayNameHint"
-        android:maxLength="22"
         android:inputType="textPersonName"
+        android:maxLength="22"
         android:textColor="@color/colorOnBackGround"
+        android:layout_marginRight="16dp"
         android:textColorHint="@color/colorHint"
         android:textSize="17sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvNotifyMe"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </EditText>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNotifyMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="20dp"
+        android:layout_marginRight="10dp"
+        android:text="Notify me"
+        android:textColor="@color/colorOnBackGround"
+        android:textSize="17dp"
+        app:layout_constraintEnd_toStartOf="@+id/cbSaveBirthdayYear"
+        app:layout_constraintTop_toTopOf="@id/cbNotifyMe"
+        app:layout_constraintBottom_toBottomOf="@id/cbNotifyMe"
+        />
+
+    <CheckBox
+        android:id="@+id/cbNotifyMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/etName"
+        app:layout_constraintEnd_toEndOf="@+id/cbSaveBirthdayYear"
+        app:layout_constraintTop_toTopOf="@+id/etName" />
 
     <TextView
         android:id="@+id/tvBirthdayDate"
-        android:layout_width="wrap_content"
-        android:paddingVertical="10dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_accent"
+        android:gravity="center"
         android:paddingHorizontal="11dp"
+        android:paddingVertical="10dp"
         android:text="Choose date"
         android:textColor="@color/colorOnBackGround"
         android:textSize="17dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvSaveYear"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etName"
+        app:layout_constraintStart_toStartOf="@+id/etName"
         app:layout_constraintTop_toBottomOf="@id/etName" />
-
 
 
     <TextView
@@ -42,15 +66,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
-        android:layout_marginRight="10dp"
         android:text="Save year"
         android:textColor="@color/colorOnBackGround"
         android:textSize="17dp"
-        app:layout_constraintEnd_toStartOf="@+id/cbSaveBirthdayYear"
-        app:layout_constraintTop_toBottomOf="@+id/etName">
+        app:layout_constraintStart_toStartOf="@+id/tvNotifyMe"
+        app:layout_constraintTop_toBottomOf="@+id/tvNotifyMe" />
 
-
-    </TextView>
+    <CheckBox
+        android:id="@+id/cbSaveBirthdayYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSaveYear"
+        app:layout_constraintEnd_toEndOf="@+id/btnConfirmBirthday"
+        app:layout_constraintTop_toTopOf="@+id/tvSaveYear" />
 
     <TextView
         android:id="@+id/tvRemindMe"
@@ -61,7 +89,7 @@
         android:textColor="@color/colorOnBackGround"
         android:textSize="17dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSaveYear"></TextView>
+        app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
     <EditText
         android:id="@+id/etDaysToRemind"
@@ -87,7 +115,7 @@
         android:text="days prior"
         android:textColor="@color/colorOnBackGround"
         android:textSize="17dp"
-        app:layout_constraintEnd_toEndOf="@+id/cbSaveBirthdayYear"
+        app:layout_constraintStart_toStartOf="@+id/tvSaveYear"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear"></TextView>
 
     <Button
@@ -103,14 +131,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRemindMe" />
 
-    <CheckBox
-        android:id="@+id/cbSaveBirthdayYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSaveYear"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvSaveYear" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
