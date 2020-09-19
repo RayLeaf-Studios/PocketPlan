@@ -4,6 +4,7 @@ Priority 1 tasks:
     - functionality to toggle reminders for birthdays, add / edit
     - update itemlist instances of mainactivity when adding items
     - add basic items of all categories to list
+    - update bottom navigation bar from side menu bar
 
 Priority 2 tasks:
      - edit custom shopping items
