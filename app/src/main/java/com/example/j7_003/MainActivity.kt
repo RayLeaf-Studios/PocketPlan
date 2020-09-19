@@ -68,6 +68,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var userItemTemplateList: UserItemTemplateList
     private lateinit var itemNameList: ArrayList<String>
     private var addItemDialog: AlertDialog? = null
+    private var addItemDialogView: View? = null
 
     companion object {
         var previousFragmentTag = ""
@@ -184,6 +185,9 @@ class MainActivity : AppCompatActivity(){
             birthdayFragment = BirthdayFragment()
             changeToFragment(birthdayFragment, "birthdays", "Birthdays", -1)
             searchView.onActionViewCollapsed()
+            for (i in 0 until bottomNavigation.menu.size()){
+                bottomNavigation.menu.getItem(0).isChecked = false
+            }
 
         }
     }
@@ -661,10 +665,10 @@ class MainActivity : AppCompatActivity(){
         }
 
         //inflate view for this dialog
-        val myView = LayoutInflater.from(act).inflate(R.layout.dialog_add_item, null)
+        addItemDialogView = LayoutInflater.from(act).inflate(R.layout.dialog_add_item, null)
 
         //Initialize dialogBuilder and set its title
-        val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(myView) }
+        val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(addItemDialogView) }
         val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
         customTitle.tvDialogTitle.text = "Add Item"
         myBuilder?.setCustomTitle(customTitle)
@@ -672,15 +676,15 @@ class MainActivity : AppCompatActivity(){
 
 
         //initialize autocompleteTextView and spinner for item unit
-        val actvItem = myView.actvItem
-        val spItemUnit = myView.spItemUnit
+        val actvItem = addItemDialogView!!.actvItem
+        val spItemUnit = addItemDialogView!!.spItemUnit
 
         val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
         myTitle.tvDialogTitle.text = "Add Item"
         myBuilder?.setCustomTitle(myTitle)
 
         //initialize spinner for categories
-        val spCategory = myView.spCategory
+        val spCategory = addItemDialogView!!.spCategory
         val categoryAdapter = ArrayAdapter<String>(
             act, android.R.layout.simple_list_item_1, tagNames
         )
@@ -689,7 +693,7 @@ class MainActivity : AppCompatActivity(){
         spCategory.adapter = categoryAdapter
 
         //Initialize spinner and its adapter to choose its Unit
-        val mySpinner = myView.spItemUnit
+        val mySpinner = addItemDialogView!!.spItemUnit
         val myAdapter = ArrayAdapter<String>(
             act, android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.units)
@@ -700,7 +704,7 @@ class MainActivity : AppCompatActivity(){
 
 
         //initialize autocompleteTextView and its adapter
-        val autoCompleteTv = myView.actvItem
+        val autoCompleteTv = addItemDialogView!!.actvItem
         val autoCompleteTvAdapter = ArrayAdapter<String>(
             act, android.R.layout.simple_spinner_dropdown_item, itemNameList
         )
@@ -713,8 +717,8 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                myView.actvItem.hint = ""
-                myView.actvItem.background.mutate().setColorFilter(
+                addItemDialogView!!.actvItem.hint = ""
+                addItemDialogView!!.actvItem.background.mutate().setColorFilter(
                     resources.getColor(R.color.colorAccent),
                     PorterDuff.Mode.SRC_ATOP
                 );
@@ -751,7 +755,7 @@ class MainActivity : AppCompatActivity(){
         autoCompleteTv.addTextChangedListener(textWatcher)
 
         //initialize edit text for item amount string
-        val etItemAmount = myView.etItemAmount
+        val etItemAmount = addItemDialogView!!.etItemAmount
         etItemAmount.setText("1")
 
         var firstTap = true
@@ -763,12 +767,12 @@ class MainActivity : AppCompatActivity(){
         }
 
         //Button to Confirm adding Item to list
-        myView.btnAddItemToList.setOnClickListener {
+        addItemDialogView!!.btnAddItemToList.setOnClickListener {
             if (actvItem.text.toString() == "") {
                 //animation
                 val animationShake =
                     AnimationUtils.loadAnimation(act, R.anim.shake)
-                myView.actvItem.startAnimation(animationShake)
+                addItemDialogView!!.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
             val tagList = TagList()
@@ -820,7 +824,7 @@ class MainActivity : AppCompatActivity(){
                 template!!.n,
                 tag,
                 template!!.s,
-                etItemAmount.text.toString(),
+                etItemAmount!!.text.toString(),
                 spItemUnit.selectedItem.toString(),
                 false
             )
@@ -840,6 +844,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun openAddItemDialog() {
+        addItemDialogView!!.actvItem.setText("")
         //show dialog
         addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         addItemDialog?.show()
