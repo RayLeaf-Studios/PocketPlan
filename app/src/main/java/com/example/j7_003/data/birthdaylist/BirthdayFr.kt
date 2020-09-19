@@ -120,6 +120,32 @@ class BirthdayFragment : Fragment() {
         val tvSaveYear = myDialogView.tvSaveYear
         val etDaysToRemind = myDialogView.etDaysToRemind
         val etName = myDialogView.etName
+        val tvNotifyMe  = myDialogView.tvNotifyMe
+        val cbNotifyMe = myDialogView.cbNotifyMe
+
+        //initialize name field if editing
+        if (editing) {
+            etName.setText(editBirthdayHolder!!.name)
+            etName.setSelection(etName.text.length)
+        }
+
+        //default checkbox for "Notify me" with true, if adding a new birthday
+        if(!editing){
+            cbNotifyMe.isChecked = true
+        }
+
+        //set checkbox and "Notify me" textColor to correct state depending on birthday that is being edited
+        if(editing){
+            //TODO replace following condition with editBirthdayHolder.notifications
+            if(true){
+                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            } else {
+                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+            }
+            //TODO replace following condition with editBirthdayHolder.notifications
+            cbNotifyMe.isChecked = true
+
+        }
 
         //initialize "Remind me" .. "Days prior" Text views
         val tvRemindMe = myDialogView.tvRemindMe
@@ -140,11 +166,6 @@ class BirthdayFragment : Fragment() {
             tvDaysPrior.text = "day"+addition+" prior"
         }
 
-        //initialize name field if editing
-        if (editing) {
-            etName.setText(editBirthdayHolder!!.name)
-            etName.setSelection(etName.text.length)
-        }
 
         //initialize date text
         val chooseDateText = when (editBirthdayHolder != null) {
@@ -375,14 +396,17 @@ class BirthdayFragment : Fragment() {
                     "" -> 0
                     else -> etDaysToRemind.text.toString().toInt()
                 }
+                val notifyMe = cbNotifyMe.isChecked
                 if (editing) {
                     editBirthdayHolder!!.name = name
                     editBirthdayHolder!!.day = day
                     editBirthdayHolder!!.month = month
                     editBirthdayHolder!!.year = year
                     editBirthdayHolder!!.daysToRemind = daysToRemind
+                    //TODO add editBirthdayHolder!!.notifyMe = notifyME
                     birthdayListInstance.sortAndSaveBirthdays()
                 } else {
+                    //TODO call following function with notifyMe
                     birthdayListInstance.addBirthday(name, date.dayOfMonth, date.monthValue,
                         year, daysToRemind, false)
                 }
@@ -483,6 +507,7 @@ class BirthdayAdapter :
             holder.itemView.setOnLongClickListener {true}
             holder.itemView.setOnClickListener{true}
             holder.itemView.cvBirthdayInfo.visibility = View.GONE
+            holder.itemView.icon_bell.visibility=View.GONE
         } else {
             //display bell if birthday has a reminder
             if (currentBirthday.hasReminder()) {
