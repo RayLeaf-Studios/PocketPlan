@@ -4,11 +4,9 @@ Priority 1 tasks:
     - add basic items of all categories to list
 
 Priority 2 tasks:
-     - optimize loading of itemlist (only once and after adding)
      - edit custom shopping items
      - add custom categories?
      - option to create / load backup files?
-     - shorten go to sleep message
      - toggle reminder for birthday/birthdays
      - preload shopping fragment content?
 
@@ -16,7 +14,7 @@ Priority 2 tasks:
 
 Priority 3 tasks:
 
-     - button to open sidenav menu?
+    - button to open sidenav menu?
     - replace all colors and values like text size with resource references
     - annotations to use different serialized / displayed variable names
     - Display age in birthday notification? e.g. "Max turns 20 today!"

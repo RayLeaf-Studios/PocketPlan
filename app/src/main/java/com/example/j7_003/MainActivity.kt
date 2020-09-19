@@ -61,7 +61,13 @@ class MainActivity : AppCompatActivity(){
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var customItemFragment: CustomItemFragment
 
-
+    //contents for shopping list
+    private lateinit var tagList: TagList
+    private lateinit var tagNames: Array<String?>
+    private lateinit var itemTemplateList: ItemTemplateList
+    private lateinit var userItemTemplateList: UserItemTemplateList
+    private lateinit var itemNameList: ArrayList<String>
+    private var addItemDialog: AlertDialog? = null
 
     companion object {
         var previousFragmentTag = ""
@@ -83,6 +89,9 @@ class MainActivity : AppCompatActivity(){
 
         //Set a reference to this activity so its accessible in the companion object
         act = this
+
+
+        preloadAddItemDialog()
 
         //Initialize Settings Manager and Time api and Alarmhandler
         SettingsManager.init()
@@ -617,9 +626,9 @@ class MainActivity : AppCompatActivity(){
 
     private fun loadDefaultSettings(){
         setDefault("noteColumns", "2")
-        setDefault("noteLines", "All")
         setDefault("expandOneCategory", false)
         setDefault("collapseCheckedSublists", false)
+        setDefault("noteLines", "All")
         setDefault("drawerLeftSide", false)
     }
 
@@ -629,32 +638,42 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun openAddItemDialog() {
+    fun preloadAddItemDialog(){
+
+        //initialize shopping list data
+        tagList = TagList()
+        tagNames = tagList.getTagNames()
+        itemTemplateList = ItemTemplateList()
+        userItemTemplateList = UserItemTemplateList()
+        ShoppingFr.shoppingListInstance = ShoppingList()
+
+        //initialize itemNameList
+        itemNameList = ArrayList()
+
+        userItemTemplateList.forEach {
+            itemNameList.add(it.n)
+        }
+
+        itemTemplateList.forEach {
+            if (!itemNameList.contains(it.n)) {
+                itemNameList.add(it.n)
+            }
+        }
+
+        //inflate view for this dialog
         val myView = LayoutInflater.from(act).inflate(R.layout.dialog_add_item, null)
 
-        //AlertDialogBuilder
+        //Initialize dialogBuilder and set its title
         val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(myView) }
         val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
         customTitle.tvDialogTitle.text = "Add Item"
         myBuilder?.setCustomTitle(customTitle)
+        addItemDialog = myBuilder?.create()
 
-        val myAlertDialog = myBuilder?.create()
-
-        //show dialog
-        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        myAlertDialog?.show()
 
         //initialize autocompleteTextView and spinner for item unit
         val actvItem = myView.actvItem
         val spItemUnit = myView.spItemUnit
-
-
-        //initialize tagNames and itemTemplateList
-        val tagList = TagList()
-        val tagNames = tagList.getTagNames()
-        val itemTemplateList = ItemTemplateList()
-        val userItemTemplateList = UserItemTemplateList()
-        ShoppingFr.shoppingListInstance = ShoppingList()
 
         val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
         myTitle.tvDialogTitle.text = "Add Item"
@@ -679,18 +698,6 @@ class MainActivity : AppCompatActivity(){
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mySpinner.adapter = myAdapter
 
-        //initialize itemNameList
-        val itemNameList: ArrayList<String> = ArrayList()
-
-        userItemTemplateList.forEach {
-            itemNameList.add(it.n)
-        }
-
-        itemTemplateList.forEach {
-            if (!itemNameList.contains(it.n)) {
-                itemNameList.add(it.n)
-            }
-        }
 
         //initialize autocompleteTextView and its adapter
         val autoCompleteTv = myView.actvItem
@@ -793,7 +800,7 @@ class MainActivity : AppCompatActivity(){
                     }else{
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
                     }
-                    myAlertDialog?.dismiss()
+                    addItemDialog?.dismiss()
                     return@setOnClickListener
                 }
             }
@@ -823,13 +830,19 @@ class MainActivity : AppCompatActivity(){
             }else{
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
             }
-            myAlertDialog?.dismiss()
+            addItemDialog?.dismiss()
 
         }
 
 
         val imm = act?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
+    }
+
+    fun openAddItemDialog() {
+        //show dialog
+        addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        addItemDialog?.show()
     }
 
 }

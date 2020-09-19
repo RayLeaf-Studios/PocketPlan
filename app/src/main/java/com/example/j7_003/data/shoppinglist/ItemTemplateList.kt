@@ -12,7 +12,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
     }
 
     /**
-     * Returns an ItemTemplate if one was defined in the assets Tags.json file.
+     * Returns an ItemTemplate if one was defined in the assets itemList.json file.
      * @param name The name the ItemTemplate is supposed to have.
      * @return Returns the template if found, null otherwise.
      */
