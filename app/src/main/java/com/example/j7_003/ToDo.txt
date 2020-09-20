@@ -5,7 +5,9 @@ backend stuff:
 
 Priority 1 tasks:
     - add basic items of all categories to list
-    - manage onbackpress in createnotefrag
+    - undo shopping fragment
+    - button to clear shopping list
+
 
 Priority 3 tasks:
     - functionality that supports adding of categories?

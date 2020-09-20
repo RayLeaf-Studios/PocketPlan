@@ -1,5 +1,6 @@
 package com.example.j7_003
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Bundle
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var bottomNavigation: BottomNavigationView
     }
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -162,13 +164,8 @@ class MainActivity : AppCompatActivity() {
      * DEBUG FUNCTIONS
      */
 
-    fun titleDebug(debugMsg: String) {
-        supportActionBar?.title = debugMsg
-    }
-
-
     fun sadToast(msg: String) {
-        Toast.makeText(act, msg + " :(", Toast.LENGTH_LONG).show()
+        Toast.makeText(act, "$msg :(", Toast.LENGTH_LONG).show()
     }
 
     private fun setNavBarUnchecked() {
@@ -179,16 +176,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.menu.setGroupCheckable(0, true, true)
     }
 
-
-    /**
-     * Manages the change to a different fragment
-     * @param fragment the fragment that will be displayed
-     * @param activeFragmentTag String tag that will be saved to check which fragment is active
-     * @param actionBarTitle the title that will be displayed in the action bar, once this
-     * fragment is visible
-     * @param bottomNavigationId the id of the element that will be selected in the bottom
-     * navigation bar, if it is -1, the currently selected id will not change
-     */
 
     //change to fragment of specified tag
     fun changeToFragment(fragmentTag: FragmentTags) {
@@ -239,6 +226,7 @@ class MainActivity : AppCompatActivity() {
             FragmentTags.CUSTOM_ITEMS,
             FragmentTags.SETTINGS,
             FragmentTags.ABOUT -> setNavBarUnchecked()
+            else -> {/* no-op */}
         }
 
         //initialize icons
@@ -287,6 +275,7 @@ class MainActivity : AppCompatActivity() {
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
                 myMenu?.getItem(0)?.isVisible = true
             }
+            else -> {/* no-op, activeFragment does not have any icons*/}
 
         }
         //todo implement this cleaner
@@ -334,10 +323,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideMenuIcons() {
         if (myMenu != null) {
-            myMenu!!.getItem(0).setVisible(false)
-            myMenu!!.getItem(1).setVisible(false)
-            myMenu!!.getItem(2).setVisible(false)
-            myMenu!!.getItem(3).setVisible(false)
+            myMenu!!.getItem(0).isVisible = false
+            myMenu!!.getItem(1).isVisible = false
+            myMenu!!.getItem(2).isVisible = false
+            myMenu!!.getItem(3).isVisible = false
         }
     }
 
@@ -367,7 +356,7 @@ class MainActivity : AppCompatActivity() {
         /**
          * Onclick-listeners for every specific color button
          */
-        buttonList.forEachIndexed() { i, b ->
+        buttonList.forEachIndexed { i, b ->
             b.setOnClickListener() {
                 noteColor = NoteColors.values()[i]
                 myMenu?.getItem(1)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
@@ -770,6 +759,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun preloadAddItemDialog() {
 
         //initialize shopping list data
@@ -845,11 +835,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                addItemDialogView!!.actvItem.hint = ""
-                addItemDialogView!!.actvItem.background.mutate().setColorFilter(
-                    resources.getColor(R.color.colorAccent),
-                    PorterDuff.Mode.SRC_ATOP
-                );
                 //check for existing user template
                 var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
@@ -933,10 +918,10 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
                     }
                     itemNameList.add(actvItem.text.toString())
-                    val autoCompleteTvAdapter = ArrayAdapter<String>(
+                    val autoCompleteTvAdapter2 = ArrayAdapter<String>(
                         act, android.R.layout.simple_spinner_dropdown_item, itemNameList
                     )
-                    autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+                    autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
                     addItemDialog?.dismiss()
                     return@setOnClickListener
                 }

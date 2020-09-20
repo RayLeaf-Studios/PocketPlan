@@ -1,8 +1,6 @@
 package com.example.j7_003.system_interaction.handler
 
 import android.content.Context
-import android.os.Build
-import android.os.Environment
 import com.example.j7_003.MainActivity
 import com.google.gson.Gson
 import java.io.File
@@ -39,12 +37,7 @@ class StorageHandler {
             }
         }
 
-        private fun setStorageLocation(fileName: String, context: Context): File {
-            return if (Build.VERSION.SDK_INT < 29) {
-                File("${Environment.getDataDirectory()}/data/com.example.j7_003", fileName)
-            } else {
-                File(context.filesDir, fileName)
-            }
-        }
+        private fun setStorageLocation(fileName: String, context: Context): File =
+            File(context.filesDir, fileName)
     }
 }
