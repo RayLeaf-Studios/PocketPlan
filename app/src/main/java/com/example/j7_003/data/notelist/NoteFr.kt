@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -17,6 +18,7 @@ import com.example.j7_003.R
 import com.example.j7_003.data.fragmenttags.FragmentTags
 import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
+import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.row_note.view.*
 
 /**
@@ -103,6 +105,8 @@ class NoteAdapter :
             MainActivity.editNoteHolder = currentNote
             MainActivity.noteColor = noteList.getNote(holder.adapterPosition).color
             MainActivity.act.changeToFragment(FragmentTags.NOTE_EDITOR)
+//                myEtTitle.requestFocus()
+//                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
         }
 
         //specifying design of note rows here

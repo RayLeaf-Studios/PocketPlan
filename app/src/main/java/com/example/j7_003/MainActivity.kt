@@ -50,8 +50,8 @@ import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var noteEditorFr: NoteEditorFr
 
+    private lateinit var noteEditorFr: NoteEditorFr
     //contents for shopping list
     private lateinit var tagList: TagList
     private lateinit var tagNames: Array<String?>
@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var itemNameList: ArrayList<String>
     private var addItemDialog: AlertDialog? = null
     private var addItemDialogView: View? = null
+    private var dialogOpened = false
 
     companion object {
         var previousFragmentTag: FragmentTags = FragmentTags.EMPTY
@@ -155,8 +156,6 @@ class MainActivity : AppCompatActivity() {
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
-        //load reference for note editor fragment
-        noteEditorFr = NoteEditorFr()
     }
 
     /**
@@ -193,6 +192,10 @@ class MainActivity : AppCompatActivity() {
 
     //change to fragment of specified tag
     fun changeToFragment(fragmentTag: FragmentTags) {
+
+        if(activeFragmentTag==fragmentTag){
+            return
+        }
 
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
@@ -286,13 +289,26 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+        //todo implement this cleaner
+        if(fragmentTag==FragmentTags.NOTE_EDITOR){
+            noteEditorFr = NoteEditorFr()
+
+            //animate fragment change
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, noteEditorFr)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+            return
+        }
+
         //create fragment object
         val fragment = when(fragmentTag){
             FragmentTags.HOME -> HomeFr()
             FragmentTags.TASKS -> TodoFr()
             FragmentTags.SHOPPING -> ShoppingFr()
             FragmentTags.NOTES -> NoteFr()
-            FragmentTags.NOTE_EDITOR -> noteEditorFr
+            FragmentTags.NOTE_EDITOR -> NoteEditorFr()
             FragmentTags.BIRTHDAYS -> BirthdayFr()
             FragmentTags.ABOUT -> AboutFr()
             FragmentTags.SETTINGS -> SettingsFr()
@@ -499,6 +515,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun dialogDiscardNoteChanges(gotoFragment: FragmentTags) {
 
+        if(dialogOpened){
+            return
+        }
+        dialogOpened = true
+
         val myDialogView = LayoutInflater.from(act).inflate(R.layout.dialog_discard_note_edit, null)
 
         //AlertDialogBuilder
@@ -511,38 +532,24 @@ class MainActivity : AppCompatActivity() {
         myAlertDialog?.show()
         myAlertDialog?.setOnCancelListener {
             setNavBarUnchecked()
+            dialogOpened = false
         }
 
         myDialogView.btnDiscardChanges.setOnClickListener {
             activeFragmentTag = FragmentTags.EMPTY
+            dialogOpened = false
             myAlertDialog?.dismiss()
-            when (gotoFragment) {
-                FragmentTags.HOME -> changeToFragment(FragmentTags.HOME)
-                FragmentTags.NOTES -> changeToFragment(FragmentTags.NOTES)
-                FragmentTags.SHOPPING -> changeToFragment(FragmentTags.SHOPPING)
-                FragmentTags.SETTINGS -> changeToFragment(FragmentTags.SETTINGS)
-                FragmentTags.TASKS -> changeToFragment(FragmentTags.TASKS)
-                FragmentTags.SLEEP -> changeToFragment(FragmentTags.SLEEP)
-                FragmentTags.ABOUT -> changeToFragment(FragmentTags.ABOUT)
-                FragmentTags.BIRTHDAYS -> changeToFragment(FragmentTags.BIRTHDAYS)
-            }
+            changeToFragment(gotoFragment)
         }
         myDialogView.btnSaveChanges.setOnClickListener {
             activeFragmentTag=FragmentTags.EMPTY
             manageNoteConfirm()
-            when (gotoFragment) {
-                FragmentTags.HOME -> changeToFragment(FragmentTags.HOME)
-                FragmentTags.NOTES -> changeToFragment(FragmentTags.NOTES)
-                FragmentTags.SHOPPING -> changeToFragment(FragmentTags.SHOPPING)
-                FragmentTags.SETTINGS -> changeToFragment(FragmentTags.SETTINGS)
-                FragmentTags.TASKS -> changeToFragment(FragmentTags.TASKS)
-                FragmentTags.SLEEP -> changeToFragment(FragmentTags.SLEEP)
-                FragmentTags.ABOUT -> changeToFragment(FragmentTags.ABOUT)
-                FragmentTags.BIRTHDAYS -> changeToFragment(FragmentTags.BIRTHDAYS)
-            }
+            changeToFragment(gotoFragment)
+            dialogOpened = false
             myAlertDialog?.dismiss()
         }
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         /**
@@ -969,7 +976,6 @@ class MainActivity : AppCompatActivity() {
 
     fun openAddItemDialog() {
         addItemDialogView!!.actvItem.setText("")
-        //show dialog
         addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         addItemDialog?.show()
     }
