@@ -5,12 +5,13 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SearchView
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +27,7 @@ import com.example.j7_003.data.calendar.CreateTermFr
 import com.example.j7_003.data.calendar.DayFr
 import com.example.j7_003.data.home.HomeFr
 import com.example.j7_003.data.notelist.CreateNoteFr
-import com.example.j7_003.data.notelist.NoteAdapter
+import com.example.j7_003.data.notelist.Note
 import com.example.j7_003.data.notelist.NoteColors
 import com.example.j7_003.data.notelist.NoteFr
 import com.example.j7_003.data.settings.SettingsFr
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity(){
         lateinit var sleepView: View
         lateinit var actionbarContent: View
         lateinit var searchView: SearchView
-        var editNoteHolder: NoteAdapter.NoteViewHolder? = null
+        var editNoteHolder: Note? = null
         var editTerm: CalendarAppointment? = null
         var myMenu: Menu? = null
         var noteColor: NoteColors = NoteColors.YELLOW
@@ -147,7 +148,6 @@ class MainActivity : AppCompatActivity(){
 
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
-
 
 
         /**
@@ -323,8 +323,8 @@ class MainActivity : AppCompatActivity(){
         setNavBarUnchecked()
     }
 
-    fun changeToDayView(){
-        if(activeFragmentTag!="dayView") {
+    fun changeToDayView() {
+        if (activeFragmentTag != "dayView") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
             myMenu?.getItem(0)?.isVisible = true
@@ -333,8 +333,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToCalendar(){
-        if(activeFragmentTag!="calendar") {
+    private fun changeToCalendar() {
+        if (activeFragmentTag != "calendar") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
             myMenu?.getItem(0)?.isVisible = true
@@ -358,7 +358,7 @@ class MainActivity : AppCompatActivity(){
         fragmentTag: String,
         actionBarTitle: String,
         bottomNavigationId: Int
-    ){
+    ) {
 
 //        actionbarContent.logo.visibility = when(activeFragmentTag=="home"){
 //            true -> View.VISIBLE
@@ -367,7 +367,7 @@ class MainActivity : AppCompatActivity(){
         actionbarContent.tvActionbarTitle.text = actionBarTitle
         previousFragmentTag = activeFragmentTag
         activeFragmentTag = fragmentTag
-        if(bottomNavigationId!=-1){
+        if (bottomNavigationId != -1) {
             bottomNavigation.selectedItemId = bottomNavigationId
         }
         supportFragmentManager
@@ -381,15 +381,16 @@ class MainActivity : AppCompatActivity(){
      * UI FUNCTIONS
      */
 
-    private fun hideMenuIcons(){
-        if(myMenu!=null){
+    private fun hideMenuIcons() {
+        if (myMenu != null) {
             myMenu!!.getItem(0).setVisible(false)
             myMenu!!.getItem(1).setVisible(false)
             myMenu!!.getItem(2).setVisible(false)
+            myMenu!!.getItem(3).setVisible(false)
         }
     }
 
-    private fun openColorChooser(){
+    private fun openColorChooser() {
         //inflate the dialog with custom view
         val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
 
@@ -415,42 +416,43 @@ class MainActivity : AppCompatActivity(){
         /**
          * Onclick-listeners for every specific color button
          */
-        buttonList.forEachIndexed(){ i, b ->
-            b.setOnClickListener(){
+        buttonList.forEachIndexed() { i, b ->
+            b.setOnClickListener() {
                 noteColor = NoteColors.values()[i]
-                myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
+                myMenu?.getItem(1)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
                 myAlertDialog.dismiss()
             }
         }
     }
 
-    fun updateUndoTaskIcon(){
-        if(TodoFr.deletedTask!=null || TodoFr.deletedTaskList.size > 0){
+    fun updateUndoTaskIcon() {
+        if (TodoFr.deletedTask != null || TodoFr.deletedTaskList.size > 0) {
             myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(1)?.isVisible = true
-        }else{
+        } else {
             myMenu?.getItem(1)?.isVisible = false
         }
     }
 
-    fun updateUndoNoteIcon(){
-        if(NoteFr.deletedNote!=null){
+    fun updateUndoNoteIcon() {
+        if (NoteFr.deletedNote != null) {
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
-        }else{
+        } else {
             myMenu?.getItem(0)?.isVisible = false
         }
     }
 
-    fun updateUndoBirthdayIcon(){
-        if(BirthdayFragment.deletedBirthday!=null&&!BirthdayFragment.searching){
+    fun updateUndoBirthdayIcon() {
+        if (BirthdayFragment.deletedBirthday != null && !BirthdayFragment.searching) {
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
-        }else{
+        } else {
             myMenu?.getItem(0)?.isVisible = false
         }
     }
-    fun updateUndoItemIcon(){
+
+    fun updateUndoItemIcon() {
         //TODO uncomment this
 //        if(ShoppingFragment.deletedItem!=null){
 //            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
@@ -460,8 +462,8 @@ class MainActivity : AppCompatActivity(){
 //        }
     }
 
-    fun updateDeleteTaskIcon(){
-        val checkedTasks = TodoFr.todoListInstance.filter{ t -> t.isChecked}.size
+    fun updateDeleteTaskIcon() {
+        val checkedTasks = TodoFr.todoListInstance.filter { t -> t.isChecked }.size
         myMenu?.getItem(0)?.isVisible = checkedTasks > 0
     }
 
@@ -470,33 +472,31 @@ class MainActivity : AppCompatActivity(){
      * DATA MANAGEMENT FUNCTIONS
      */
 
-    private fun manageEditNote(){
+    private fun manageEditNote() {
         hideKeyboard()
         val noteContent = createNoteFr.etNoteContent.text.toString()
         val noteTitle = createNoteFr.etNoteTitle.text.toString()
-        NoteFr.noteListInstance.editNote(
-            editNoteHolder!!.adapterPosition,
-            noteTitle,
-            noteContent,
-            noteColor
-        )
+        editNoteHolder!!.title = noteTitle
+        editNoteHolder!!.content = noteContent
+        editNoteHolder!!.color = noteColor
         editNoteHolder = null
         changeToNotes()
     }
 
-    private fun manageAddNote(){
+    private fun manageAddNote() {
         hideKeyboard()
         val noteContent = createNoteFr.etNoteContent.text.toString()
         val noteTitle = createNoteFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
-        if(!fromHome){
+        if (!fromHome) {
             changeToNotes()
-        }else{
+        } else {
             changeToHome()
             Toast.makeText(act, "Note was added!", Toast.LENGTH_SHORT).show()
             fromHome = false
         }
     }
+
     fun hideKeyboard() {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -514,7 +514,13 @@ class MainActivity : AppCompatActivity(){
 
     override fun onBackPressed() {
 
-        Log.e("error", activeFragmentTag + " " + previousFragmentTag)
+        if (activeFragmentTag == "createNote") {
+            if (editNoteHolder != null) {
+                //todo open dialog asking if this edit should be confirmed or discarded
+            } else {
+                //todo open dialog asking if this note should be saved or discarded
+            }
+        }
         when (previousFragmentTag) {
             "home" -> {
                 changeToHome()
@@ -540,7 +546,7 @@ class MainActivity : AppCompatActivity(){
          * Manages onclick listeners for color picker and submit icon used when
          * editing or writing a note
          */
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.item_left -> {
                 if (activeFragmentTag == "dayView") {
                     changeToCalendar()
@@ -550,7 +556,8 @@ class MainActivity : AppCompatActivity(){
                     TodoFr.myFragment.manageCheckedTaskDeletion()
                     updateUndoTaskIcon()
                 } else if (activeFragmentTag == "createNote") {
-                    openColorChooser()
+                    //act as delete button to delete current note
+                    openDeleteNoteDialog()
                 } else if (activeFragmentTag == "notes") {
                     NoteFr.noteListInstance.addFullNote(NoteFr.deletedNote!!)
                     NoteFr.deletedNote = null
@@ -567,13 +574,10 @@ class MainActivity : AppCompatActivity(){
                 true
             }
 
-            R.id.item_right -> {
+            R.id.item_middle -> {
                 if (activeFragmentTag == "createNote") {
-                    if (editNoteHolder == null) {
-                        manageAddNote()
-                    } else {
-                        manageEditNote()
-                    }
+                    //open color chooser to change color of current note
+                    openColorChooser()
                     true
                 } else if (activeFragmentTag == "todo") {
                     if (TodoFr.deletedTaskList.size > 0) {
@@ -594,6 +598,18 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
             }
+            R.id.item_right -> {
+                if (activeFragmentTag == "createNote") {
+                    //act as check mark to add / confirm note edit
+                    if (editNoteHolder == null) {
+                        manageAddNote()
+                    } else {
+                        manageEditNote()
+                    }
+
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -601,8 +617,8 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
-        searchView = menu!!.getItem(2).actionView as SearchView
-        val textListener = object : SearchView.OnQueryTextListener{
+        searchView = menu!!.getItem(3).actionView as SearchView
+        val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 //todo fix this
                 //close keyboard?
@@ -610,7 +626,7 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(BirthdayFragment.searching){
+                if (BirthdayFragment.searching) {
                     BirthdayFragment.myFragment.search(newText.toString())
                 }
                 return true
@@ -640,7 +656,69 @@ class MainActivity : AppCompatActivity(){
         return true
     }
 
-    private fun loadDefaultSettings(){
+    fun openDeleteNoteDialog() {
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
+
+        //AlertDialogBuilder
+        val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
+        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        editTitle.tvDialogTitle.text = "Swipe right to delete this note"
+        myBuilder.setCustomTitle(editTitle)
+        val myAlertDialog = myBuilder.create()
+
+        val btnCancelNew = myDialogView.btnCancelNew
+        val btnDeleteNote = myDialogView.btnDelete
+        val mySeekbar = myDialogView.sbDeleteNote
+
+        var allowDelete = false
+
+        mySeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (progress == 100) {
+                    allowDelete = true
+                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner1)
+                    btnDeleteNote.setTextColor(ContextCompat.getColor(act, R.color.colorOnBackGround))
+                }else{
+                    if(allowDelete){
+                        allowDelete = false
+                        btnDeleteNote.setBackgroundResource(R.drawable.round_corner_gray)
+                        btnDeleteNote.setTextColor(ContextCompat.getColor(act, R.color.colorHint))
+                    }
+
+                }
+
+            }
+        })
+
+        btnDeleteNote.setOnClickListener {
+            if(!allowDelete){
+                return@setOnClickListener
+            }
+            NoteFr.noteListInstance.remove(editNoteHolder)
+            editNoteHolder=null
+            NoteFr.noteListInstance.save()
+            hideKeyboard()
+            myAlertDialog.dismiss()
+            changeToNotes()
+        }
+
+        btnCancelNew.setOnClickListener {
+            myAlertDialog.dismiss()
+        }
+
+        //show dialog
+        myAlertDialog.show()
+    }
+
+    private fun loadDefaultSettings() {
         setDefault("noteColumns", "2")
         setDefault("expandOneCategory", false)
         setDefault("collapseCheckedSublists", false)
@@ -648,13 +726,13 @@ class MainActivity : AppCompatActivity(){
         setDefault("drawerLeftSide", false)
     }
 
-    private fun setDefault(setting: String, value: Any){
-        if(SettingsManager.getSetting(setting)==null){
+    private fun setDefault(setting: String, value: Any) {
+        if (SettingsManager.getSetting(setting) == null) {
             SettingsManager.addSetting(setting, value)
         }
     }
 
-    fun preloadAddItemDialog(){
+    fun preloadAddItemDialog() {
 
         //initialize shopping list data
         tagList = TagList()
@@ -811,9 +889,9 @@ class MainActivity : AppCompatActivity(){
                         false
                     )
                     ShoppingFr.shoppingListInstance.add(item)
-                    if(activeFragmentTag=="shopping"){
+                    if (activeFragmentTag == "shopping") {
                         ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-                    }else{
+                    } else {
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
                     }
                     itemNameList.add(actvItem.text.toString())
@@ -846,9 +924,9 @@ class MainActivity : AppCompatActivity(){
                 false
             )
             ShoppingFr.shoppingListInstance.add(item)
-            if(activeFragmentTag=="shopping"){
+            if (activeFragmentTag == "shopping") {
                 ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-            }else{
+            } else {
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
             }
 
