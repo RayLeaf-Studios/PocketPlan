@@ -528,6 +528,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
+        if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
+            if(relevantNoteChanges()){
+                dialogDiscardNoteChanges(previousFragmentTag)
+                return
+            }
+        }
+
         when (previousFragmentTag) {
             FragmentTags.HOME -> changeToHome()
             FragmentTags.NOTES -> changeToNotes()
@@ -563,7 +570,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun dialogDiscardNoteChanges(gotoFragment: FragmentTags) {
 
-        activeFragmentTag = FragmentTags.EMPTY
         val myDialogView = LayoutInflater.from(act).inflate(R.layout.dialog_discard_note_edit, null)
 
         //AlertDialogBuilder
@@ -590,6 +596,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         myDialogView.btnSaveChanges.setOnClickListener {
+            activeFragmentTag=FragmentTags.EMPTY
             manageNoteConfirm()
             when (gotoFragment) {
                 FragmentTags.HOME -> changeToHome()
