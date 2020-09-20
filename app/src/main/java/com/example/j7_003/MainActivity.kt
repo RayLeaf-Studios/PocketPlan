@@ -49,8 +49,7 @@ import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
-
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var homeFr: HomeFr
     private lateinit var dayFragment: DayFr
     private lateinit var calendarFragment: CalenderFragment
@@ -95,7 +94,6 @@ class MainActivity : AppCompatActivity() {
 
         //Set a reference to this activity so its accessible in the companion object
         act = this
-
 
         preloadAddItemDialog()
 
@@ -161,7 +159,8 @@ class MainActivity : AppCompatActivity() {
         when (intent.getStringExtra("NotificationEntry")) {
             "birthdays" -> changeToBirthdays()
             "SReminder" -> TODO("Decide where sleep reminder notification onclick should lead")
-            else -> changeToHome()
+//            "settings"  -> changeToSettings()
+//            else -> {Log.e("here", "null"); changeToHome()}
         }
     }
 
@@ -178,6 +177,14 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(act, msg + " :(", Toast.LENGTH_LONG).show()
     }
 
+    fun setNavBarUnchecked() {
+        bottomNavigation.menu.setGroupCheckable(0, true, false)
+        for (i in 0 until bottomNavigation.menu.size()){
+            bottomNavigation.menu.getItem(i).isChecked = false
+        }
+        bottomNavigation.menu.setGroupCheckable(0, true, true)
+    }
+
     /**
      * CHANGE FRAGMENT METHODS
      */
@@ -188,10 +195,7 @@ class MainActivity : AppCompatActivity() {
             birthdayFragment = BirthdayFragment()
             changeToFragment(birthdayFragment, "birthdays", "Birthdays", -1)
             searchView.onActionViewCollapsed()
-            for (i in 0 until bottomNavigation.menu.size()) {
-                bottomNavigation.menu.getItem(0).isChecked = false
-            }
-
+            setNavBarUnchecked()
         }
     }
 
@@ -247,6 +251,7 @@ class MainActivity : AppCompatActivity() {
                 "Settings", -1
             )
         }
+        setNavBarUnchecked()
     }
 
     fun changeToSleepReminder() {
@@ -316,6 +321,7 @@ class MainActivity : AppCompatActivity() {
             aboutFr = AboutFr()
             changeToFragment(aboutFr, "about", "About", -1)
         }
+        setNavBarUnchecked()
     }
 
     fun changeToDayView() {
