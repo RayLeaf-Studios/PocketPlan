@@ -9,16 +9,19 @@ import com.example.j7_003.system_interaction.handler.NotificationHandler
 import com.example.j7_003.data.birthdaylist.Birthday
 import com.example.j7_003.data.birthdaylist.BirthdayList
 import com.example.j7_003.system_interaction.handler.Logger
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
 
 class NotificationReceiver : BroadcastReceiver() {
     private lateinit var context: Context
-    private val localDate = LocalDate.now()
+    private lateinit var localDate: LocalDate
 
     override fun onReceive(context: Context, intent: Intent) {
+        AndroidThreeTen.init(context)
         this.context = context
+        this.localDate = LocalDate.now()
         val logger = Logger(context)
         logger.log("BroadcastReceiver", "Notification broadcast received")
 

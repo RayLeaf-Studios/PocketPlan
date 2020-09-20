@@ -151,7 +151,8 @@ class MainActivity : AppCompatActivity(){
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
-        changeToHome()
+//        changeToHome()
+        activeFragmentTag = ""
 
         /**
          * Checks intent for passed String-Value, indicating required switching into fragment
@@ -160,9 +161,9 @@ class MainActivity : AppCompatActivity(){
 
         when (intent.extras?.get("NotificationEntry").toString()) {
             "birthdays" -> changeToBirthdays()
-            "SReminder" -> TODO("Decide where sleep reminder notification onclick should lead")
-            "settings"  -> {Log.e("here", "settings"); changeToSettings()}
-            else -> {Log.e("here", "null"); changeToHome()}
+            "SReminder" -> changeToHome()
+            "settings"  -> changeToSettings()
+            else -> changeToHome()
         }
     }
 

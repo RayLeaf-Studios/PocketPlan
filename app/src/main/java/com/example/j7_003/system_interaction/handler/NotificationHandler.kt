@@ -31,7 +31,6 @@ class NotificationHandler {
 
             repeatingIntent.putExtra("NotificationEntry", intentValue)
 
-
             repeatingIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
 
             val pendingIntent = PendingIntent.getActivity(
