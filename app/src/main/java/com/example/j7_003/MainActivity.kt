@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.about.AboutFr
@@ -91,7 +92,6 @@ class MainActivity : AppCompatActivity(){
         //Set a reference to this activity so its accessible in the companion object
         act = this
 
-
         preloadAddItemDialog()
 
         //Initialize Settings Manager and Time api and Alarmhandler
@@ -104,11 +104,11 @@ class MainActivity : AppCompatActivity(){
 
         //Check if layout should be right-handed or left-handed
         val leftHandedMode = SettingsManager.getSetting("drawerLeftSide") as Boolean
-       if(leftHandedMode){
-           setContentView(R.layout.main_panel_lefthanded)
-       }else{
-           setContentView(R.layout.main_panel)
-       }
+        if(leftHandedMode){
+            setContentView(R.layout.main_panel_lefthanded)
+        }else{
+            setContentView(R.layout.main_panel)
+        }
 
 
         //initialize actionbar content
@@ -158,7 +158,8 @@ class MainActivity : AppCompatActivity(){
         when(intent.getStringExtra("NotificationEntry")){
             "birthdays" -> changeToBirthdays()
             "SReminder" -> TODO("Decide where sleep reminder notification onclick should lead")
-            else -> changeToHome()
+//            "settings"  -> changeToSettings()
+//            else -> {Log.e("here", "null"); changeToHome()}
         }
     }
 
@@ -175,6 +176,14 @@ class MainActivity : AppCompatActivity(){
         Toast.makeText(act, msg + " :(", Toast.LENGTH_LONG).show()
     }
 
+    fun setNavBarUnchecked() {
+        bottomNavigation.menu.setGroupCheckable(0, true, false)
+        for (i in 0 until bottomNavigation.menu.size()){
+            bottomNavigation.menu.getItem(i).isChecked = false
+        }
+        bottomNavigation.menu.setGroupCheckable(0, true, true)
+    }
+
     /**
      * CHANGE FRAGMENT METHODS
      */
@@ -185,10 +194,7 @@ class MainActivity : AppCompatActivity(){
             birthdayFragment = BirthdayFragment()
             changeToFragment(birthdayFragment, "birthdays", "Birthdays", -1)
             searchView.onActionViewCollapsed()
-            for (i in 0 until bottomNavigation.menu.size()){
-                bottomNavigation.menu.getItem(0).isChecked = false
-            }
-
+            setNavBarUnchecked()
         }
     }
 
@@ -244,6 +250,7 @@ class MainActivity : AppCompatActivity(){
                 "Settings", -1
             )
         }
+        setNavBarUnchecked()
     }
 
     fun changeToSleepReminder(){
@@ -309,6 +316,7 @@ class MainActivity : AppCompatActivity(){
             aboutFr = AboutFr()
             changeToFragment(aboutFr, "about", "About", -1)
         }
+        setNavBarUnchecked()
     }
 
     fun changeToDayView(){
@@ -853,6 +861,5 @@ class MainActivity : AppCompatActivity(){
         addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         addItemDialog?.show()
     }
-
 }
 

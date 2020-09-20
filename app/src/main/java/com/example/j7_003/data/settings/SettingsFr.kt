@@ -1,5 +1,6 @@
 package com.example.j7_003.data.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -75,7 +76,6 @@ class SettingsFr : Fragment() {
     }
 
     private fun initializeDisplayValues() {
-        //TODO read the following 4 values from settings manager
         val lineOptions = resources.getStringArray(R.array.noteLines)
         spNoteLines.setSelection(lineOptions.indexOf(SettingsManager.getSetting("noteLines")))
 
@@ -138,8 +138,11 @@ class SettingsFr : Fragment() {
         swLeftHanded.setOnClickListener {
             SettingsManager.addSetting("drawerLeftSide", swLeftHanded.isChecked)
             MainActivity.act.finish()
-            startActivity(MainActivity.act.intent)
+            val launchIntent = Intent(activity, MainActivity::class.java)
+//            launchIntent.putExtra("NotificationEntry", "settings")
+//            launchIntent.action = "android.intent.action.MAIN"
+//            launchIntent.addCategory("android.intent.category.LAUNCHER")
+            startActivity(launchIntent)
         }
-
     }
 }
