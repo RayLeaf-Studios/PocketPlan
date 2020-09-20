@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -150,17 +151,18 @@ class MainActivity : AppCompatActivity(){
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
+        changeToHome()
 
         /**
          * Checks intent for passed String-Value, indicating required switching into fragment
          * that isn't the home fragment
          */
 
-        when (intent.getStringExtra("NotificationEntry")) {
+        when (intent.extras?.get("NotificationEntry").toString()) {
             "birthdays" -> changeToBirthdays()
             "SReminder" -> TODO("Decide where sleep reminder notification onclick should lead")
-//            "settings"  -> changeToSettings()
-//            else -> {Log.e("here", "null"); changeToHome()}
+            "settings"  -> {Log.e("here", "settings"); changeToSettings()}
+            else -> {Log.e("here", "null"); changeToHome()}
         }
     }
 
@@ -653,7 +655,6 @@ class MainActivity : AppCompatActivity(){
         }
 
         myMenu = menu
-        changeToHome()
         return true
     }
 

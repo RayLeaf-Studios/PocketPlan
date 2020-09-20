@@ -139,9 +139,7 @@ class SettingsFr : Fragment() {
             SettingsManager.addSetting("drawerLeftSide", swLeftHanded.isChecked)
             MainActivity.act.finish()
             val launchIntent = Intent(activity, MainActivity::class.java)
-//            launchIntent.putExtra("NotificationEntry", "settings")
-//            launchIntent.action = "android.intent.action.MAIN"
-//            launchIntent.addCategory("android.intent.category.LAUNCHER")
+            launchIntent.putExtra("NotificationEntry", "settings")
             startActivity(launchIntent)
         }
     }
