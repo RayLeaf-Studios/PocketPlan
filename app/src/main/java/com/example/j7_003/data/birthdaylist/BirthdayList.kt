@@ -1,6 +1,7 @@
 package com.example.j7_003.data.birthdaylist
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.LocalDate
@@ -12,10 +13,7 @@ import kotlin.collections.ArrayList
  */
 class BirthdayList: ArrayList<Birthday>() {
     init {
-        StorageHandler.createJsonFile(
-            "BIRTHDAYLIST",
-            "BirthdayList.json"
-        )
+        StorageHandler.createJsonFile(StorageId.BIRTHDAYS, "BirthdayList.json")
         fetchFromFile()
         sortBirthday()
     }
@@ -251,7 +249,7 @@ class BirthdayList: ArrayList<Birthday>() {
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files["BIRTHDAYLIST"]?.readText()
+        val jsonString = StorageHandler.files[StorageId.BIRTHDAYS]?.readText()
 
         this.addAll(GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type))
@@ -259,8 +257,6 @@ class BirthdayList: ArrayList<Birthday>() {
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files["BIRTHDAYLIST"],
-            this
-        )
+            StorageHandler.files[StorageId.BIRTHDAYS], this)
     }
 }

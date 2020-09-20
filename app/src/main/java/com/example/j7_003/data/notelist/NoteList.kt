@@ -1,6 +1,7 @@
 package com.example.j7_003.data.notelist
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
@@ -8,9 +9,7 @@ import java.util.*
 class NoteList: LinkedList<Note>() {
     init {
         StorageHandler.createJsonFile(
-            "NOTELIST",
-            "NoteFile.json"
-        )
+            StorageId.NOTES, "NoteFile.json")
         fetchFromFile()
     }
 
@@ -67,13 +66,11 @@ class NoteList: LinkedList<Note>() {
 
     fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files["NOTELIST"],
-            this
-        )
+            StorageHandler.files[StorageId.NOTES], this)
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files["NOTELIST"]?.readText()
+        val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
 
         this.addAll(
             GsonBuilder().create().fromJson(

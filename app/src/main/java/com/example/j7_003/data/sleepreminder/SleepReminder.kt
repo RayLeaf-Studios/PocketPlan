@@ -3,6 +3,7 @@ package com.example.j7_003.data.sleepreminder
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
@@ -18,8 +19,6 @@ import kotlin.math.abs
  */
 class SleepReminder {
     var daysAreCustom: Boolean = false
-    private val fileName: String = "SLEEP_REMINDER"
-
     var reminder = HashMap<DayOfWeek, Reminder>(7)
 
     init {
@@ -176,22 +175,20 @@ class SleepReminder {
 
     private fun createFile() {
         StorageHandler.createJsonFile(
-            fileName,
-            "SReminder.json",
-            text = Gson().toJson(reminder)
-        )
+            StorageId.SLEEP, "SReminder.json", text = Gson().toJson(reminder))
+
         if (SettingsManager.settings["daysAreCustom"] == null) {
             SettingsManager.addSetting("daysAreCustom", daysAreCustom)
         }
     }
 
     private fun save() {
-        StorageHandler.saveAsJsonToFile(StorageHandler.files[fileName], reminder)
+        StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
         SettingsManager.addSetting("daysAreCustom", daysAreCustom)
     }
 
     private fun load() {
-        val jsonString = StorageHandler.files[fileName]?.readText()
+        val jsonString = StorageHandler.files[StorageId.SLEEP]?.readText()
 
         reminder = GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)

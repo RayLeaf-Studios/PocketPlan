@@ -1,15 +1,15 @@
 package com.example.j7_003.data.todolist
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 class TodoList: ArrayList<Task>() {
    init {
        StorageHandler.createJsonFile(
-          "TASKLIST",
-          "TaskList.json"
-       )
+          StorageId.TASKS, "TaskList.json" )
+
        fetchFromFile()
    }
 
@@ -93,13 +93,13 @@ class TodoList: ArrayList<Task>() {
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files["TASKLIST"],
+            StorageHandler.files[StorageId.TASKS],
             this
         )
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files["TASKLIST"]?.readText()
+        val jsonString = StorageHandler.files[StorageId.TASKS]?.readText()
 
         this.addAll(
             GsonBuilder().create().fromJson(

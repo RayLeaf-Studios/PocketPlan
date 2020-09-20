@@ -1,13 +1,13 @@
 package com.example.j7_003.data.settings
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 class SettingsManager {
     companion object {
         var settings = HashMap<String, Any>()
-        private const val fileName = "SETTINGS"
 
         fun init() {
             createFile()
@@ -27,19 +27,19 @@ class SettingsManager {
 
         private fun save() {
             StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[fileName], settings
+                StorageHandler.files[StorageId.SETTINGS], settings
             )
         }
 
         private fun load() {
-            val jsonString = StorageHandler.files[fileName]?.readText()
+            val jsonString = StorageHandler.files[StorageId.SETTINGS]?.readText()
 
             settings = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<HashMap<String, Any>>() {}.type)
         }
 
         private fun createFile() {
-            StorageHandler.createJsonFile(fileName, "Settings.json")
+            StorageHandler.createJsonFile(StorageId.SETTINGS, "Settings.json")
         }
     }
 }

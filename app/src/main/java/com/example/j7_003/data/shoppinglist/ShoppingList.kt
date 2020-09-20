@@ -1,6 +1,7 @@
 package com.example.j7_003.data.shoppinglist
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.Exception
@@ -9,9 +10,7 @@ import kotlin.collections.ArrayList
 class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     init {
         StorageHandler.createJsonFile(
-            "SHOPPING_LIST",
-            "ShoppingList.json"
-        )
+            StorageId.SHOPPING, "ShoppingList.json")
 
         fetchList()
     }
@@ -258,13 +257,11 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files["SHOPPING_LIST"],
-            this
-        )
+            StorageHandler.files[StorageId.SHOPPING], this)
     }
 
     private fun fetchList() {
-        val jsonString = StorageHandler.files["SHOPPING_LIST"]?.readText()
+        val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
 
         this.addAll(GsonBuilder().create()
             .fromJson(jsonString,

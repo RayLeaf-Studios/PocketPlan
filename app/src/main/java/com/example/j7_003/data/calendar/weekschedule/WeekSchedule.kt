@@ -1,6 +1,7 @@
 package com.example.j7_003.data.calendar.weekschedule
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.DayOfWeek
@@ -10,13 +11,10 @@ import org.threeten.bp.LocalTime
 class WeekSchedule {
     companion object {
         val weekSchedule = HashMap<DayOfWeek, ArrayList<WeekAppointment>>()
-        private const val IDENTIFIER = "WEEK_SCHEDULE"
 
         fun init() {
             StorageHandler.createJsonFile(
-                IDENTIFIER,
-                "WeekSchedule.json"
-            )
+                StorageId.WEEK, "WeekSchedule.json")
 
             initMap()
             load()
@@ -73,13 +71,11 @@ class WeekSchedule {
 
         private fun save() {
             StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[IDENTIFIER],
-                weekSchedule
-            )
+                StorageHandler.files[StorageId.WEEK], weekSchedule)
         }
 
         private fun load() {
-            val jsonString = StorageHandler.files[IDENTIFIER]?.readText()
+            val jsonString = StorageHandler.files[StorageId.WEEK]?.readText()
 
             return GsonBuilder().create()
                 .fromJson(

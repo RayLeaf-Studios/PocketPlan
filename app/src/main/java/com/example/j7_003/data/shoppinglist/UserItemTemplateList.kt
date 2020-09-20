@@ -1,6 +1,7 @@
 package com.example.j7_003.data.shoppinglist
 
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.NullPointerException
@@ -10,9 +11,7 @@ import kotlin.collections.ArrayList
 class UserItemTemplateList: ArrayList<ItemTemplate>() {
     init {
         StorageHandler.createJsonFile(
-            "USER_ITEM_TEMPLATES",
-            "UserItemTemplates.json"
-        )
+            StorageId.USER_TEMPLATE_LIST, "UserItemTemplates.json")
 
         fetchList()
     }
@@ -99,14 +98,12 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
         }
 
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files["USER_ITEM_TEMPLATES"],
-            list
-        )
+            StorageHandler.files[StorageId.USER_TEMPLATE_LIST], list)
     }
 
     private fun fetchList() {
         val list = ArrayList<TMPTemplate>()
-        val jsonString = StorageHandler.files["USER_ITEM_TEMPLATES"]?.readText()
+        val jsonString = StorageHandler.files[StorageId.USER_TEMPLATE_LIST]?.readText()
 
         list.addAll(
             GsonBuilder().create()

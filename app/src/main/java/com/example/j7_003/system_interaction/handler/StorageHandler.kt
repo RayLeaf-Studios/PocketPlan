@@ -10,11 +10,11 @@ import java.io.File
 class StorageHandler {
 
     companion object {
-        val files = HashMap<String, File>()
+        val files = HashMap<StorageId, File>()
 
         fun saveAsJsonToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
 
-        fun createFile(identifier: String, fileName: String) {
+        fun createFile(identifier: StorageId, fileName: String) {
             files[identifier] =
                 setStorageLocation(
                     fileName,
@@ -26,12 +26,8 @@ class StorageHandler {
             }
         }
 
-        fun createJsonFile(
-            identifier: String,
-            fileName: String,
-            context: Context = MainActivity.act,
-            text: String = "[]"
-        ) {
+        fun createJsonFile(identifier: StorageId, fileName: String,
+            context: Context = MainActivity.act, text: String = "[]") {
             files[identifier] =
                 setStorageLocation(
                     fileName,

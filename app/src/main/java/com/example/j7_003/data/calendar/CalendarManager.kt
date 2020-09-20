@@ -2,6 +2,7 @@ package com.example.j7_003.data.calendar
 
 import com.example.j7_003.data.calendar.weekschedule.WeekSchedule
 import com.example.j7_003.system_interaction.handler.StorageHandler
+import com.example.j7_003.system_interaction.handler.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.LocalDate
@@ -20,7 +21,7 @@ class CalendarManager {
          * and sorts the list.
          */
         fun init() {
-            StorageHandler.createJsonFile("CALENDAR", "Calendar.json")
+            StorageHandler.createJsonFile(StorageId.CALENDAR, "Calendar.json")
             initCalendar()
             sort()
         }
@@ -114,13 +115,11 @@ class CalendarManager {
 
         private fun save() {
             StorageHandler.saveAsJsonToFile(
-                StorageHandler.files["CALENDAR"],
-                calendar
-            )
+                StorageHandler.files[StorageId.CALENDAR], calendar)
         }
 
         private fun initCalendar() {
-            val jsonString = StorageHandler.files["CALENDAR"]?.readText()
+            val jsonString = StorageHandler.files[StorageId.CALENDAR]?.readText()
 
             calendar = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<ArrayList<CalendarAppointment>>() {}.type)
