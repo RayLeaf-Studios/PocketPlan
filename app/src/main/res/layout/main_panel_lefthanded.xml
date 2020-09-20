@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btm_nav"
+            app:itemHorizontalTranslationEnabled="false"
             app:itemTextColor="@color/colorOnBackGround"
             app:itemIconTint="@color/colorOnBackGround"
             android:layout_alignParentBottom="true"

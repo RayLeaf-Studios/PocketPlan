@@ -25,6 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
+            app:itemHorizontalTranslationEnabled="false"
             android:layout_height="wrap_content"
             android:id="@+id/btm_nav"
             app:itemTextColor="@color/colorOnBackGround"
