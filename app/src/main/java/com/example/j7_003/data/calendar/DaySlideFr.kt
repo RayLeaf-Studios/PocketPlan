@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.fragmenttags.FragmentTags
 import kotlinx.android.synthetic.main.fragment_daypager.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
@@ -82,7 +83,7 @@ class TermAdapterDay :
 
         holder.itemView.setOnClickListener {
             //todo start CreateTermFragment in EDIT mode
-            MainActivity.act.changeToCreateTerm()
+            MainActivity.act.changeToFragment(FragmentTags.CREATE_TERM)
         }
 
         holder.tvTitle.text = currentTerm.title

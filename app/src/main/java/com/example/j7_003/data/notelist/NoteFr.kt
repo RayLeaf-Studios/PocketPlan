@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.fragmenttags.FragmentTags
 import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
@@ -46,7 +47,7 @@ class NoteFr : Fragment() {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener {
             MainActivity.editNoteHolder = null
-            MainActivity.act.changeToCreateNoteFragment()
+            MainActivity.act.changeToFragment(FragmentTags.NOTE_EDITOR)
         }
 
         //TODO READ THIS FROM SETTINGS MANAGER
@@ -101,7 +102,7 @@ class NoteAdapter :
         holder.itemView.setOnClickListener {
             MainActivity.editNoteHolder = currentNote
             MainActivity.noteColor = noteList.getNote(holder.adapterPosition).color
-            MainActivity.act.changeToCreateNoteFragment()
+            MainActivity.act.changeToFragment(FragmentTags.NOTE_EDITOR)
         }
 
         //specifying design of note rows here

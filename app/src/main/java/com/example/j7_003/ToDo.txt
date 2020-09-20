@@ -1,8 +1,6 @@
 Todo:
 
 backend stuff:
-    - Display age in birthday notification? e.g. "Max turns 20 today!"
-    - annotations to use different serialized / displayed variable names to save storage in json
     - functionality to save / load a backup file?
     - functionality that supports adding of categories?
 
@@ -11,7 +9,7 @@ Priority 1 tasks:
     - manage onbackpress in createnotefrag
 
 Priority 2 tasks:
-     - edit custom shopping items
+
 
 Priority 3 tasks:
     - button to open sidenav menu?

@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
+import com.example.j7_003.data.fragmenttags.FragmentTags
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
@@ -124,7 +125,7 @@ class SettingsFr : Fragment() {
 
         //Switch for only showing one category as expanded
         clManageCustomItems.setOnClickListener {
-            MainActivity.act.changeToCustomItems()
+            MainActivity.act.changeToFragment(FragmentTags.CUSTOM_ITEMS)
         }
 
         swExpandOneCategory.setOnClickListener {

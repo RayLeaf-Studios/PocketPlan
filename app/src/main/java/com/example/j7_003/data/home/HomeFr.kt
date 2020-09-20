@@ -73,16 +73,16 @@ class HomeFr : Fragment() {
         updateBirthdayPanel()
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
-        myView.panelTasks.setOnClickListener { MainActivity.act.changeToToDo() }
-        myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToBirthdays() }
-        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.act.changeToSleepReminder() }
-        myView.icSleepHome.setOnClickListener { MainActivity.act.changeToSleepReminder() }
+        myView.panelTasks.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.todolist }
+        myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FragmentTags.BIRTHDAYS) }
+        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.sleepReminder }
+        myView.icSleepHome.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.sleepReminder }
 
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.btnNewNote.setOnClickListener {
             MainActivity.fromHome = true
-            MainActivity.act.changeToCreateNoteFragment()
+            MainActivity.act.changeToFragment(FragmentTags.NOTE_EDITOR)
         }
         myView.btnNewTask.setOnClickListener { createTaskFromHome() }
         myView.btnNewItem.setOnClickListener {
