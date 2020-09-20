@@ -78,8 +78,9 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun getUpcomingBirthdays(birthdayList: BirthdayList): ArrayList<Birthday> {
         val upcomingBirthdays = ArrayList<Birthday>()
         birthdayList.forEach { n ->
-            if (n.notify && n.month == localDate.monthValue
-                && (n.day - n.daysToRemind) == localDate.dayOfMonth && n.daysToRemind > 0) {
+            val calculatedDate = LocalDate.now().plusDays(n.daysToRemind.toLong())
+            if (n.notify && calculatedDate.monthValue == n.month &&
+                calculatedDate.dayOfMonth == n.day && n.daysToRemind > 0) {
                 upcomingBirthdays.add(n)
             }
         }
@@ -90,7 +91,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val currentBirthdays = ArrayList<Birthday>()
         birthdayList.forEach { n ->
             if (n.notify && n.month == localDate.monthValue &&
-                n.day == localDate.dayOfMonth && n.daysToRemind == 0) {
+                n.day == localDate.dayOfMonth) {
                 currentBirthdays.add(n)
             }
         }
