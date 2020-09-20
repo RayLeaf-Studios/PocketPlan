@@ -40,7 +40,7 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
         if (index != -1) {
             this[index].n = name
 
-            if (tag.c.isNotEmpty()) {
+            if (tag.color.isNotEmpty()) {
                 this[index].c = tag
             }
 
@@ -95,7 +95,7 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
     private fun save() {
         val list = ArrayList<TMPTemplate>()
         this.forEach { e ->
-            list.add(TMPTemplate(e.n, e.c.n, e.s))
+            list.add(TMPTemplate(e.n, e.c.name, e.s))
         }
 
         StorageHandler.saveAsJsonToFile(

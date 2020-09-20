@@ -5,6 +5,7 @@ import com.example.j7_003.system_interaction.handler.AlarmHandler
 import com.example.j7_003.system_interaction.handler.StorageHandler
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
@@ -264,10 +265,20 @@ class SleepReminder {
      * A simple local class which instances are used to remind the user
      * of his sleeping habits.
      */
-    inner class Reminder(private val weekday: DayOfWeek) {
+    inner class Reminder(
+        @SerializedName(value = "w")
+        private val weekday: DayOfWeek) {
+
+        @SerializedName(value = "i")
         var isSet: Boolean = false
+
+        @SerializedName(value = "wT")
         var wakeUpTime: LocalTime = LocalTime.of(9, 0)
+
+        @SerializedName(value = "d")
         var duration: Duration = Duration.ofHours(8).plusMinutes(0)
+
+        @SerializedName(value = "n")
         var nextReminder: LocalDateTime = getNextReminderCustom()
 
         /**

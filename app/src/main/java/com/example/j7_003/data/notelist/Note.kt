@@ -1,3 +1,13 @@
 package com.example.j7_003.data.notelist
 
-data class Note(var title: String, var content: String, var color: NoteColors)
+import com.google.gson.annotations.SerializedName
+
+data class Note(
+    @SerializedName(value = "t")
+    var title: String,
+
+    @SerializedName(value = "ct")
+    var content: String,
+
+    @SerializedName(value = "cl")
+    var color: NoteColors)

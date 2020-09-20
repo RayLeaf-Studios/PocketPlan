@@ -142,7 +142,7 @@ class ShoppingListAdapter :
         }
 
         //Sets Text to Number of items in sublist + name of category of sublist
-        holder.tvCategoryName.text = tag.n
+        holder.tvCategoryName.text = tag.name
 
         //Sets background color of sublist according to the tag
         manageCheckedCategory(
@@ -193,7 +193,7 @@ class ShoppingListAdapter :
         if (!allChecked) {
             val colorBackground = ContextCompat
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
-            holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.c))
+            holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.color))
             holder.tvCategoryName.setTextColor(colorBackground)
             holder.tvNumberOfItems.setTextColor(colorBackground)
             holder.tvNumberOfItems.text = numberOfItems.toString()

@@ -918,7 +918,7 @@ class MainActivity : AppCompatActivity() {
                 var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
                     //display correct category
-                    spCategory.setSelection(tagNames.indexOf(template.c.n))
+                    spCategory.setSelection(tagNames.indexOf(template.c.name))
 
                     //display correct unit
                     val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)
@@ -930,7 +930,7 @@ class MainActivity : AppCompatActivity() {
                 template = itemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
                     //display correct category
-                    spCategory.setSelection(tagNames.indexOf(template.c.n))
+                    spCategory.setSelection(tagNames.indexOf(template.c.name))
 
                     //display correct unit
                     val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)

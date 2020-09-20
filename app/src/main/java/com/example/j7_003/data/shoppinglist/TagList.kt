@@ -15,7 +15,7 @@ class TagList : ArrayList<Tag>() {
 
     fun getTagByName(name: String): Tag {
         this.forEach { e ->
-            if (e.n.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
+            if (e.name.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
                 return e
             }
         }
@@ -25,7 +25,7 @@ class TagList : ArrayList<Tag>() {
     fun getTagNames(): Array<String?>{
         val a: Array<String?> = arrayOfNulls(this.size)
         this.forEach {
-            a[this.indexOf(it)] = it.n
+            a[this.indexOf(it)] = it.name
         }
         return a
     }
