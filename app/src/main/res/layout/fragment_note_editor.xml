@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".data.notelist.CreateNoteFr"
+    tools:context=".data.notelist.NoteEditorFr"
     android:background="@color/colorBackground"
     android:padding="5dp">
 

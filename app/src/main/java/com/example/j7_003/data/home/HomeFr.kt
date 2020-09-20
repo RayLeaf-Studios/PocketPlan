@@ -22,6 +22,7 @@ import com.example.j7_003.data.birthdaylist.BirthdayFragment
 import com.example.j7_003.data.calendar.CalendarManager
 import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.data.calendar.CalendarAppointment
+import com.example.j7_003.data.fragmenttags.FragmentTags
 import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.*
@@ -311,7 +312,7 @@ class HomeFr : Fragment() {
                     TodoFr.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
-                if(MainActivity.activeFragmentTag=="home"){
+                if(MainActivity.activeFragmentTag == FragmentTags.HOME){
                     Toast.makeText(MainActivity.act, "Task was added!", Toast.LENGTH_SHORT).show()
                 }
                 myAlertDialog?.dismiss()

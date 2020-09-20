@@ -11,9 +11,9 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import kotlinx.android.synthetic.main.fragment_write_note.view.*
+import kotlinx.android.synthetic.main.fragment_note_editor.view.*
 
-class CreateNoteFr : Fragment() {
+class NoteEditorFr : Fragment() {
 
     private lateinit var myEtTitle: EditText
     private lateinit var myEtContent: EditText
@@ -23,7 +23,7 @@ class CreateNoteFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val myView = inflater.inflate(R.layout.fragment_write_note, container, false)
+        val myView = inflater.inflate(R.layout.fragment_note_editor, container, false)
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         myEtTitle = myView.etNoteTitle
