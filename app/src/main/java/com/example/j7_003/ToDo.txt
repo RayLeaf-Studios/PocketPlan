@@ -8,10 +8,9 @@ Priority 1 tasks:
     - undo shopping fragment
     - button to clear shopping list
 
-
 Priority 3 tasks:
     - functionality that supports adding of categories?
-    - button to open sidenav menu?
+    - button to open sidebar menu?
     - replace all colors and values like text size with resource references
 
 

@@ -42,6 +42,7 @@
         android:background="@color/colorBackground"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:menu="@menu/drawer_menu"
         android:layout_gravity="end"
         android:fitsSystemWindows="true">

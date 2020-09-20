@@ -41,6 +41,7 @@
         android:id="@+id/nav_drawer"
         android:background="@color/colorBackground"
         android:layout_width="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:layout_height="match_parent"
         app:menu="@menu/drawer_menu"
         android:layout_gravity="start"
