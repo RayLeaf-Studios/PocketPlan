@@ -443,6 +443,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun manageAddNote() {
+        hideKeyboard()
         val noteContent = noteEditorFr.etNoteContent.text.toString()
         val noteTitle = noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
