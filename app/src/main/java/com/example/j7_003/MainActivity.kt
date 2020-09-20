@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.about.AboutFr
@@ -44,11 +45,14 @@ import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
+import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
+import kotlinx.android.synthetic.main.fragment_sleep.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import org.threeten.bp.DayOfWeek
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     private lateinit var homeFr: HomeFr
     private lateinit var dayFragment: DayFr
     private lateinit var calendarFragment: CalenderFragment
@@ -133,6 +137,23 @@ class MainActivity : AppCompatActivity(){
             }
             true
         }
+
+        drawer_layout.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                hideKeyboard()
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+
+            }
+
+            override fun onDrawerClosed(drawerView: View) {
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+            }
+
+        })
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -166,7 +187,7 @@ class MainActivity : AppCompatActivity(){
 
     fun setNavBarUnchecked() {
         bottomNavigation.menu.setGroupCheckable(0, true, false)
-        for (i in 0 until bottomNavigation.menu.size()){
+        for (i in 0 until bottomNavigation.menu.size()) {
             bottomNavigation.menu.getItem(i).isChecked = false
         }
         bottomNavigation.menu.setGroupCheckable(0, true, true)
@@ -225,7 +246,12 @@ class MainActivity : AppCompatActivity(){
         if (activeFragmentTag != FragmentTags.CREATE_TERM) {
             hideMenuIcons()
             createTermFr = CreateTermFr()
-            changeToFragment(createTermFr, FragmentTags.CREATE_TERM, "Create Appointment", R.id.home)
+            changeToFragment(
+                createTermFr,
+                FragmentTags.CREATE_TERM,
+                "Create Appointment",
+                R.id.home
+            )
         }
     }
 
@@ -329,11 +355,22 @@ class MainActivity : AppCompatActivity(){
      * navigation bar, if it is -1, the currently selected id will not change
      */
 
-    private fun changeToFragment(fragment: Fragment, fragmentTag: FragmentTags,
-        actionBarTitle: String, bottomNavigationId: Int) {
+    private fun changeToFragment(
+        fragment: Fragment, fragmentTag: FragmentTags,
+        actionBarTitle: String, bottomNavigationId: Int
+    ) {
+        if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
+            if(relevantNoteChanges()){
+                dialogDiscardNoteChanges(fragmentTag)
+                return
+            }
+        }
         actionbarContent.tvActionbarTitle.text = actionBarTitle
         previousFragmentTag = activeFragmentTag
         activeFragmentTag = fragmentTag
+
+
+
         if (bottomNavigationId != -1) {
             bottomNavigation.selectedItemId = bottomNavigationId
         }
@@ -447,7 +484,16 @@ class MainActivity : AppCompatActivity(){
         editNoteHolder!!.content = noteContent
         editNoteHolder!!.color = noteColor
         editNoteHolder = null
-        changeToNotes()
+//        activeFragmentTag=FragmentTags.EMPTY
+    }
+
+    private fun manageNoteConfirm() {
+
+        if (editNoteHolder == null) {
+            manageAddNote()
+        } else {
+            manageEditNote()
+        }
     }
 
     private fun manageAddNote() {
@@ -455,13 +501,14 @@ class MainActivity : AppCompatActivity(){
         val noteContent = noteEditorFr.etNoteContent.text.toString()
         val noteTitle = noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
-        if (!fromHome) {
-            changeToNotes()
-        } else {
-            changeToHome()
-            Toast.makeText(act, "Note was added!", Toast.LENGTH_SHORT).show()
-            fromHome = false
-        }
+//        activeFragmentTag=FragmentTags.EMPTY
+//        if (previousFragmentTag==FragmentTags.NOTES) {
+//            changeToNotes()
+//        } else {
+//            changeToHome()
+//            Toast.makeText(act, "Note was added!", Toast.LENGTH_SHORT).show()
+//            fromHome = false
+//        }
     }
 
     fun hideKeyboard() {
@@ -481,17 +528,9 @@ class MainActivity : AppCompatActivity(){
 
     override fun onBackPressed() {
 
-        if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
-            if (editNoteHolder != null) {
-                //todo open dialog asking if this edit should be confirmed or discarded
-            } else {
-                //todo open dialog asking if this note should be saved or discarded
-            }
-        }
-
         when (previousFragmentTag) {
             FragmentTags.HOME -> changeToHome()
-            FragmentTags.NOTE_EDITOR -> changeToNotes()
+            FragmentTags.NOTES -> changeToNotes()
             FragmentTags.SHOPPING -> changeToShopping()
             FragmentTags.SETTINGS -> changeToSettings()
             FragmentTags.TASKS -> changeToToDo()
@@ -499,6 +538,71 @@ class MainActivity : AppCompatActivity(){
             else -> super.onBackPressed()
         }
 
+
+    }
+
+    private fun relevantNoteChanges():Boolean{
+
+        var result = true
+        //check if note was edited, return otherwise
+        if (editNoteHolder != null && editNoteHolder!!.title == noteEditorFr.etNoteTitle.text.toString() &&
+            editNoteHolder!!.content == noteEditorFr.etNoteContent.text.toString() &&
+            editNoteHolder!!.color == noteColor) {
+            //no relevant note changes if the title, content and color did not get changed
+            result = false
+        }
+
+        //check if anything was written when adding new note, return otherwise
+        if(editNoteHolder==null && noteEditorFr.etNoteTitle.text.toString()=="" &&
+            noteEditorFr.etNoteContent.text.toString()==""){
+            //no relevant note changes if its a new empty note
+            result = false
+        }
+        return result
+    }
+
+    private fun dialogDiscardNoteChanges(gotoFragment: FragmentTags) {
+
+        activeFragmentTag = FragmentTags.EMPTY
+        val myDialogView = LayoutInflater.from(act).inflate(R.layout.dialog_discard_note_edit, null)
+
+        //AlertDialogBuilder
+        val myBuilder = act?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        customTitle.tvDialogTitle.text = "Save changes?"
+        myBuilder?.setCustomTitle(customTitle)
+
+        val myAlertDialog = myBuilder?.create()
+        myAlertDialog?.show()
+
+        myDialogView.btnDiscardChanges.setOnClickListener {
+            activeFragmentTag = FragmentTags.EMPTY
+            myAlertDialog?.dismiss()
+            when (gotoFragment) {
+                FragmentTags.HOME -> changeToHome()
+                FragmentTags.NOTES -> changeToNotes()
+                FragmentTags.SHOPPING -> changeToShopping()
+                FragmentTags.SETTINGS -> changeToSettings()
+                FragmentTags.TASKS -> changeToToDo()
+                FragmentTags.SLEEP -> changeToSleepReminder()
+                FragmentTags.ABOUT -> changeToAbout()
+                FragmentTags.BIRTHDAYS -> changeToBirthdays()
+            }
+        }
+        myDialogView.btnSaveChanges.setOnClickListener {
+            manageNoteConfirm()
+            when (gotoFragment) {
+                FragmentTags.HOME -> changeToHome()
+                FragmentTags.NOTES -> changeToNotes()
+                FragmentTags.SHOPPING -> changeToShopping()
+                FragmentTags.SETTINGS -> changeToSettings()
+                FragmentTags.TASKS -> changeToToDo()
+                FragmentTags.SLEEP -> changeToSleepReminder()
+                FragmentTags.ABOUT -> changeToAbout()
+                FragmentTags.BIRTHDAYS -> changeToBirthdays()
+            }
+            myAlertDialog?.dismiss()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -535,36 +639,41 @@ class MainActivity : AppCompatActivity(){
             }
 
             R.id.item_middle -> {
-                if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
-                    //open color chooser to change color of current note
-                    openColorChooser()
-                    true
-                } else if (activeFragmentTag == FragmentTags.TASKS) {
-                    if (TodoFr.deletedTaskList.size > 0) {
-                        TodoFr.deletedTaskList.forEach { task ->
-                            val newPos = TodoFr.todoListInstance.addFullTask(task)
+                when (activeFragmentTag) {
+                    FragmentTags.NOTE_EDITOR -> {
+                        //open color chooser to change color of current note
+                        openColorChooser()
+                        true
+                    }
+                    FragmentTags.TASKS -> {
+                        if (TodoFr.deletedTaskList.size > 0) {
+                            TodoFr.deletedTaskList.forEach { task ->
+                                val newPos = TodoFr.todoListInstance.addFullTask(task)
+                                TodoFr.myAdapter.notifyItemInserted(newPos)
+                            }
+                            TodoFr.deletedTaskList.clear()
+                        } else {
+                            val newPos = TodoFr.todoListInstance.addFullTask(TodoFr.deletedTask!!)
+                            TodoFr.deletedTask = null
                             TodoFr.myAdapter.notifyItemInserted(newPos)
                         }
-                        TodoFr.deletedTaskList.clear()
-                    } else {
-                        val newPos = TodoFr.todoListInstance.addFullTask(TodoFr.deletedTask!!)
-                        TodoFr.deletedTask = null
-                        TodoFr.myAdapter.notifyItemInserted(newPos)
+                        updateUndoTaskIcon()
+                        updateDeleteTaskIcon()
+                        true
                     }
-                    updateUndoTaskIcon()
-                    updateDeleteTaskIcon()
-                    true
-                } else {
-                    true
+                    else -> {
+                        true
+                    }
                 }
             }
             R.id.item_right -> {
                 if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
                     //act as check mark to add / confirm note edit
-                    if (editNoteHolder == null) {
-                        manageAddNote()
-                    } else {
-                        manageEditNote()
+                    manageNoteConfirm()
+                    activeFragmentTag=FragmentTags.EMPTY
+                    when(previousFragmentTag==FragmentTags.NOTES){
+                        true -> changeToNotes()
+                        else -> changeToHome()
                     }
 
                 }
@@ -622,7 +731,7 @@ class MainActivity : AppCompatActivity(){
         when (intent.extras?.get("NotificationEntry").toString()) {
             "birthdays" -> changeToBirthdays()
             "SReminder" -> changeToHome()
-            "settings"  -> changeToSettings()
+            "settings" -> changeToSettings()
             else -> changeToHome()
         }
         return true
@@ -656,10 +765,15 @@ class MainActivity : AppCompatActivity(){
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (progress == 100) {
                     allowDelete = true
-                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner1)
-                    btnDeleteNote.setTextColor(ContextCompat.getColor(act, R.color.colorOnBackGround))
-                }else{
-                    if(allowDelete){
+                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner_red)
+                    btnDeleteNote.setTextColor(
+                        ContextCompat.getColor(
+                            act,
+                            R.color.colorOnBackGround
+                        )
+                    )
+                } else {
+                    if (allowDelete) {
                         allowDelete = false
                         btnDeleteNote.setBackgroundResource(R.drawable.round_corner_gray)
                         btnDeleteNote.setTextColor(ContextCompat.getColor(act, R.color.colorHint))
@@ -671,7 +785,7 @@ class MainActivity : AppCompatActivity(){
         })
 
         btnDeleteNote.setOnClickListener {
-            if(!allowDelete){
+            if (!allowDelete) {
                 val animationShake =
                     AnimationUtils.loadAnimation(act, R.anim.shake)
                 mySeekbar.startAnimation(animationShake)
@@ -679,10 +793,11 @@ class MainActivity : AppCompatActivity(){
             }
 
             NoteFr.noteListInstance.remove(editNoteHolder)
-            editNoteHolder=null
+            editNoteHolder = null
             NoteFr.noteListInstance.save()
             hideKeyboard()
             myAlertDialog.dismiss()
+            activeFragmentTag = FragmentTags.EMPTY
             changeToNotes()
         }
 
@@ -708,7 +823,7 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun preloadAddItemDialog() {
+    private fun preloadAddItemDialog() {
 
         //initialize shopping list data
         tagList = TagList()
@@ -740,14 +855,14 @@ class MainActivity : AppCompatActivity(){
         myBuilder?.setCustomTitle(customTitle)
         addItemDialog = myBuilder?.create()
 
+        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        myTitle.tvDialogTitle.text = "Add Item"
+        myBuilder?.setCustomTitle(myTitle)
 
         //initialize autocompleteTextView and spinner for item unit
         val actvItem = addItemDialogView!!.actvItem
         val spItemUnit = addItemDialogView!!.spItemUnit
 
-        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        myTitle.tvDialogTitle.text = "Add Item"
-        myBuilder?.setCustomTitle(myTitle)
 
         //initialize spinner for categories
         val spCategory = addItemDialogView!!.spCategory
