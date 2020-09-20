@@ -660,7 +660,12 @@ class MainActivity : AppCompatActivity() {
         myBuilder.setCustomTitle(editTitle)
         val myAlertDialog = myBuilder.create()
 
+        val btnCancelNew = myDialogView.btnCancelNew
+        val btnDeleteNote = myDialogView.btnDelete
         val mySeekbar = myDialogView.sbDeleteNote
+
+        var allowDelete = false
+
         mySeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 // TODO Auto-generated method stub
@@ -672,19 +677,32 @@ class MainActivity : AppCompatActivity() {
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (progress == 100) {
-                    NoteFr.noteListInstance.remove(editNoteHolder)
-                    editNoteHolder=null
-                    NoteFr.noteListInstance.save()
-                    hideKeyboard()
-                    myAlertDialog.dismiss()
-                    changeToNotes()
+                    allowDelete = true
+                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner1)
+                    btnDeleteNote.setTextColor(ContextCompat.getColor(act, R.color.colorOnBackGround))
+                }else{
+                    if(allowDelete){
+                        allowDelete = false
+                        btnDeleteNote.setBackgroundResource(R.drawable.round_corner_gray)
+                        btnDeleteNote.setTextColor(ContextCompat.getColor(act, R.color.colorHint))
+                    }
 
                 }
 
             }
         })
 
-        val btnCancelNew = myDialogView.btnCancelNew
+        btnDeleteNote.setOnClickListener {
+            if(!allowDelete){
+                return@setOnClickListener
+            }
+            NoteFr.noteListInstance.remove(editNoteHolder)
+            editNoteHolder=null
+            NoteFr.noteListInstance.save()
+            hideKeyboard()
+            myAlertDialog.dismiss()
+            changeToNotes()
+        }
 
         btnCancelNew.setOnClickListener {
             myAlertDialog.dismiss()
