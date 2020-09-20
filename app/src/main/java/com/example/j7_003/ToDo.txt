@@ -2,16 +2,13 @@ Todo:
 
 backend stuff:
     - functionality to save / load a backup file?
-    - functionality that supports adding of categories?
 
 Priority 1 tasks:
     - add basic items of all categories to list
     - manage onbackpress in createnotefrag
 
-Priority 2 tasks:
-
-
 Priority 3 tasks:
+    - functionality that supports adding of categories?
     - button to open sidenav menu?
     - replace all colors and values like text size with resource references
 

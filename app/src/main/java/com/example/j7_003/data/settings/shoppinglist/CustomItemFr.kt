@@ -17,16 +17,15 @@ import com.example.j7_003.data.shoppinglist.ItemTemplate
 import com.example.j7_003.data.shoppinglist.UserItemTemplateList
 import com.example.j7_003.data.todolist.Task
 import com.example.j7_003.data.todolist.TodoFr
-import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_custom_item.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
-class CustomItemFragment : Fragment() {
+class CustomItemFr : Fragment() {
 
     companion object{
-        lateinit var myFragment: CustomItemFragment
+        lateinit var myFragment: CustomItemFr
         lateinit var myAdapter: CustomItemAdapter
         lateinit var myRecycler: RecyclerView
 
@@ -120,15 +119,15 @@ class SwipeToDeleteCustomItem(direction: Int,  val adapter: CustomItemAdapter): 
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val parsed = viewHolder as CustomItemAdapter.CustomItemViewHolder
-        CustomItemFragment.userItemTemplateList.removeItem(parsed.itemView.tvName.text.toString())
-        CustomItemFragment.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+        CustomItemFr.userItemTemplateList.removeItem(parsed.itemView.tvName.text.toString())
+        CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 }
 
 class CustomItemAdapter :
     RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>(){
 
-    override fun getItemCount() = CustomItemFragment.userItemTemplateList.size
+    override fun getItemCount() = CustomItemFr.userItemTemplateList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -140,7 +139,7 @@ class CustomItemAdapter :
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: CustomItemViewHolder, position: Int) {
 
-        val currentItem = CustomItemFragment.userItemTemplateList[holder.adapterPosition]
+        val currentItem = CustomItemFr.userItemTemplateList[holder.adapterPosition]
 
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentItem.n

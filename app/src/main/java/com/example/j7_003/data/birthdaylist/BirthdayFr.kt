@@ -34,7 +34,7 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
 
-class BirthdayFragment : Fragment() {
+class BirthdayFr : Fragment() {
 
     private lateinit var myRecycler: RecyclerView
 
@@ -52,7 +52,7 @@ class BirthdayFragment : Fragment() {
         lateinit var adjustedList: ArrayList<Birthday>
         lateinit var lastQuery: String
 
-        lateinit var myFragment: BirthdayFragment
+        lateinit var myFragment: BirthdayFr
 
         val birthdayListInstance: BirthdayList = BirthdayList()
     }
@@ -539,14 +539,14 @@ class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
 
 class BirthdayAdapter :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
-    private val listInstance = BirthdayFragment.birthdayListInstance
+    private val listInstance = BirthdayFr.birthdayListInstance
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
-        BirthdayFragment.deletedBirthday = listInstance.getBirthday(viewHolder.adapterPosition)
+        BirthdayFr.deletedBirthday = listInstance.getBirthday(viewHolder.adapterPosition)
         listInstance.deleteBirthdayObject(parsed.birthday)
-        if (BirthdayFragment.searching) {
-            BirthdayFragment.myFragment.search(BirthdayFragment.lastQuery)
+        if (BirthdayFr.searching) {
+            BirthdayFr.myFragment.search(BirthdayFr.lastQuery)
         }
         notifyDataSetChanged()
         MainActivity.act.updateUndoBirthdayIcon()
@@ -562,8 +562,8 @@ class BirthdayAdapter :
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
 
-        val currentBirthday = when (BirthdayFragment.searching) {
-            true -> BirthdayFragment.adjustedList[position]
+        val currentBirthday = when (BirthdayFr.searching) {
+            true -> BirthdayFr.adjustedList[position]
             false -> listInstance.getBirthday(position)
         }
 
@@ -636,8 +636,8 @@ class BirthdayAdapter :
 
             //opens dialog to edit this birthday
             holder.itemView.setOnLongClickListener {
-                BirthdayFragment.editBirthdayHolder = holder.birthday
-                BirthdayFragment.myFragment.openBirthdayDialog()
+                BirthdayFr.editBirthdayHolder = holder.birthday
+                BirthdayFr.myFragment.openBirthdayDialog()
                 true
             }
 
@@ -655,8 +655,8 @@ class BirthdayAdapter :
     }
 
     override fun getItemCount(): Int {
-        return when (BirthdayFragment.searching) {
-            true -> BirthdayFragment.adjustedList.size
+        return when (BirthdayFr.searching) {
+            true -> BirthdayFr.adjustedList.size
             false -> listInstance.size
         }
     }

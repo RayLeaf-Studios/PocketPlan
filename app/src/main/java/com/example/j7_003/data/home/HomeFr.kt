@@ -18,15 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.birthdaylist.BirthdayFragment
+import com.example.j7_003.data.birthdaylist.BirthdayFr
 import com.example.j7_003.data.calendar.CalendarManager
-import com.example.j7_003.data.sleepreminder.SleepReminder
 import com.example.j7_003.data.calendar.CalendarAppointment
 import com.example.j7_003.data.fragmenttags.FragmentTags
 import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
 import com.example.j7_003.system_interaction.handler.ShareHandler
-import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
@@ -191,7 +189,7 @@ class HomeFr : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateBirthdayPanel() {
-        val birthdaysToday = BirthdayFragment.birthdayListInstance.getRelevantCurrentBirthdays()
+        val birthdaysToday = BirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
         if (birthdaysToDisplay == 0) {
             myView.tvBirthday.text = "\n   No birthdays today\n"

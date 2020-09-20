@@ -22,7 +22,7 @@ import java.util.*
 /**
  * A simple [Fragment] subclass.
  */
-class CalenderFragment : Fragment() {
+class CalenderFr : Fragment() {
 
     lateinit var myView: View
     private lateinit var btnAddTerm: FloatingActionButton

@@ -20,9 +20,9 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.about.AboutFr
-import com.example.j7_003.data.birthdaylist.BirthdayFragment
+import com.example.j7_003.data.birthdaylist.BirthdayFr
 import com.example.j7_003.data.calendar.CalendarAppointment
-import com.example.j7_003.data.calendar.CalenderFragment
+import com.example.j7_003.data.calendar.CalenderFr
 import com.example.j7_003.data.calendar.CreateTermFr
 import com.example.j7_003.data.calendar.DayFr
 import com.example.j7_003.data.fragmenttags.FragmentTags
@@ -33,7 +33,7 @@ import com.example.j7_003.data.notelist.NoteColors
 import com.example.j7_003.data.notelist.NoteFr
 import com.example.j7_003.data.settings.SettingsFr
 import com.example.j7_003.data.settings.SettingsManager
-import com.example.j7_003.data.settings.shoppinglist.CustomItemFragment
+import com.example.j7_003.data.settings.shoppinglist.CustomItemFr
 import com.example.j7_003.data.shoppinglist.*
 import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
@@ -52,8 +52,8 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 class MainActivity : AppCompatActivity() {
     private lateinit var homeFr: HomeFr
     private lateinit var dayFragment: DayFr
-    private lateinit var calendarFragment: CalenderFragment
-    private lateinit var birthdayFragment: BirthdayFragment
+    private lateinit var calendarFr: CalenderFr
+    private lateinit var birthdayFr: BirthdayFr
     private lateinit var settingsFr: SettingsFr
     private lateinit var todoFr: TodoFr
     private lateinit var sleepFr: SleepFr
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var noteEditorFr: NoteEditorFr
     private lateinit var createTermFr: CreateTermFr
     private lateinit var aboutFr: AboutFr
-    private lateinit var customItemFragment: CustomItemFragment
+    private lateinit var customItemFr: CustomItemFr
 
     //contents for shopping list
     private lateinit var tagList: TagList
@@ -305,12 +305,12 @@ class MainActivity : AppCompatActivity() {
             FragmentTags.SHOPPING -> ShoppingFr()
             FragmentTags.NOTES -> NoteFr()
             FragmentTags.NOTE_EDITOR -> noteEditorFr
-            FragmentTags.BIRTHDAYS -> BirthdayFragment()
+            FragmentTags.BIRTHDAYS -> BirthdayFr()
             FragmentTags.ABOUT -> AboutFr()
             FragmentTags.SETTINGS -> SettingsFr()
-            FragmentTags.CUSTOM_ITEMS -> CustomItemFragment()
+            FragmentTags.CUSTOM_ITEMS -> CustomItemFr()
             FragmentTags.SLEEP -> SleepFr()
-            FragmentTags.CALENDAR -> CalenderFragment()
+            FragmentTags.CALENDAR -> CalenderFr()
             FragmentTags.CREATE_TERM -> CreateTermFr()
             FragmentTags.DAY_VIEW -> DayFr()
             else -> HomeFr()
@@ -391,7 +391,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateUndoBirthdayIcon() {
-        if (BirthdayFragment.deletedBirthday != null && !BirthdayFragment.searching) {
+        if (BirthdayFr.deletedBirthday != null && !BirthdayFr.searching) {
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
         } else {
@@ -580,12 +580,12 @@ class MainActivity : AppCompatActivity() {
                     NoteFr.noteAdapter.notifyItemInserted(0)
                     updateUndoNoteIcon()
                 } else if (activeFragmentTag == FragmentTags.BIRTHDAYS) {
-                    BirthdayFragment.birthdayListInstance.addFullBirthday(
-                        BirthdayFragment.deletedBirthday!!
+                    BirthdayFr.birthdayListInstance.addFullBirthday(
+                        BirthdayFr.deletedBirthday!!
                     )
-                    BirthdayFragment.deletedBirthday = null
+                    BirthdayFr.deletedBirthday = null
                     updateUndoBirthdayIcon()
-                    BirthdayFragment.myAdapter.notifyDataSetChanged()
+                    BirthdayFr.myAdapter.notifyDataSetChanged()
                 }
                 true
             }
@@ -647,8 +647,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (BirthdayFragment.searching) {
-                    BirthdayFragment.myFragment.search(newText.toString())
+                if (BirthdayFr.searching) {
+                    BirthdayFr.myFragment.search(newText.toString())
                 }
                 return true
             }
@@ -657,19 +657,19 @@ class MainActivity : AppCompatActivity() {
         val onCloseListener = SearchView.OnCloseListener {
             actionbarContent.tvActionbarTitle.text = "Birthdays"
             searchView.onActionViewCollapsed()
-            BirthdayFragment.searching = false
+            BirthdayFr.searching = false
             updateUndoBirthdayIcon()
-            BirthdayFragment.myAdapter.notifyDataSetChanged()
+            BirthdayFr.myAdapter.notifyDataSetChanged()
             true
         }
         searchView.setOnCloseListener(onCloseListener)
 
         searchView.setOnSearchClickListener {
             actionbarContent.tvActionbarTitle.text = ""
-            BirthdayFragment.searching = true
-            BirthdayFragment.adjustedList.clear()
+            BirthdayFr.searching = true
+            BirthdayFr.adjustedList.clear()
             myMenu?.getItem(0)?.isVisible = false
-            BirthdayFragment.myAdapter.notifyDataSetChanged()
+            BirthdayFr.myAdapter.notifyDataSetChanged()
         }
 
         myMenu = menu
