@@ -25,6 +25,7 @@ import com.example.j7_003.data.calendar.CalendarAppointment
 import com.example.j7_003.data.fragmenttags.FragmentTags
 import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
+import com.example.j7_003.system_interaction.handler.ShareHandler
 import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -90,7 +91,7 @@ class HomeFr : Fragment() {
         }
         myView.btnTestFileStuff.setOnClickListener {
             //TODO REMOVE THIS
-            Toast.makeText(MainActivity.act, "Test lol", Toast.LENGTH_SHORT).show()
+            ShareHandler().shareAll()
         }
 
         //Todo insert button for creating a new appointment
