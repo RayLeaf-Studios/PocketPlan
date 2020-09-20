@@ -70,14 +70,6 @@ class NoteFr : Fragment() {
         val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
         myRecycler.setHasFixedSize(true)
-
-        //initialize item touch helper to support swipe to delete
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.LEFT))
-        swipeHelperLeft.attachToRecyclerView(myRecycler)
-
-        val swipeHelperRight =
-            ItemTouchHelper(SwipeToDeleteNote(noteAdapter, ItemTouchHelper.RIGHT))
-        swipeHelperRight.attachToRecyclerView(myRecycler)
     }
 
 }
@@ -107,7 +99,7 @@ class NoteAdapter :
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
 
         holder.itemView.setOnClickListener {
-            MainActivity.editNoteHolder = holder
+            MainActivity.editNoteHolder = currentNote
             MainActivity.noteColor = noteList.getNote(holder.adapterPosition).color
             MainActivity.act.changeToCreateNoteFragment()
         }
@@ -153,19 +145,3 @@ class NoteAdapter :
     }
 }
 
-class SwipeToDeleteNote(var adapter: NoteAdapter, direction: Int) :
-    ItemTouchHelper.SimpleCallback(0, direction) {
-
-    override fun onMove(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
-    ): Boolean {
-        return false
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
-    }
-}

@@ -16,7 +16,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.j7_003.data.about.AboutFr
@@ -42,6 +41,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
+import kotlinx.android.synthetic.main.dialog_delete_note.*
+import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
@@ -104,9 +105,9 @@ class MainActivity : AppCompatActivity(){
 
         //Check if layout should be right-handed or left-handed
         val leftHandedMode = SettingsManager.getSetting("drawerLeftSide") as Boolean
-        if(leftHandedMode){
+        if (leftHandedMode) {
             setContentView(R.layout.main_panel_lefthanded)
-        }else{
+        } else {
             setContentView(R.layout.main_panel)
         }
 
@@ -119,15 +120,14 @@ class MainActivity : AppCompatActivity(){
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
-            when(item.itemId){
+            when (item.itemId) {
                 R.id.menuItemSettings -> changeToSettings()
                 R.id.menuItemBirthdays -> changeToBirthdays()
                 R.id.menuItemAbout -> changeToAbout()
             }
-            if(leftHandedMode){
+            if (leftHandedMode) {
                 drawer_layout.closeDrawer(GravityCompat.START)
-            }
-            else{
+            } else {
                 drawer_layout.closeDrawer(GravityCompat.END)
             }
             true
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(){
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId){
+            when (item.itemId) {
                 R.id.notes -> changeToNotes()
                 R.id.todolist -> changeToToDo()
                 R.id.home -> changeToHome()
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(){
          * that isn't the home fragment
          */
 
-        when(intent.getStringExtra("NotificationEntry")){
+        when (intent.getStringExtra("NotificationEntry")) {
             "birthdays" -> changeToBirthdays()
             "SReminder" -> TODO("Decide where sleep reminder notification onclick should lead")
 //            "settings"  -> changeToSettings()
@@ -167,12 +167,12 @@ class MainActivity : AppCompatActivity(){
      * DEBUG FUNCTIONS
      */
 
-    fun titleDebug(debugMsg: String){
+    fun titleDebug(debugMsg: String) {
         supportActionBar?.title = debugMsg
     }
 
 
-    fun sadToast(msg: String){
+    fun sadToast(msg: String) {
         Toast.makeText(act, msg + " :(", Toast.LENGTH_LONG).show()
     }
 
@@ -187,10 +187,10 @@ class MainActivity : AppCompatActivity(){
     /**
      * CHANGE FRAGMENT METHODS
      */
-    fun changeToBirthdays(){
-        if(activeFragmentTag!="birthdays") {
+    fun changeToBirthdays() {
+        if (activeFragmentTag != "birthdays") {
             hideMenuIcons()
-            myMenu?.getItem(2)?.isVisible = true
+            myMenu?.getItem(3)?.isVisible = true
             birthdayFragment = BirthdayFragment()
             changeToFragment(birthdayFragment, "birthdays", "Birthdays", -1)
             searchView.onActionViewCollapsed()
@@ -198,24 +198,24 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToShopping(){
-        if(activeFragmentTag!="shopping") {
+    fun changeToShopping() {
+        if (activeFragmentTag != "shopping") {
             hideMenuIcons()
             shoppingFr = ShoppingFr()
             changeToFragment(shoppingFr, "shopping", "Shopping", R.id.shopping)
         }
     }
 
-    fun changeToCustomItems(){
-        if(activeFragmentTag!="customItems") {
+    fun changeToCustomItems() {
+        if (activeFragmentTag != "customItems") {
             hideMenuIcons()
             customItemFragment = CustomItemFragment()
             changeToFragment(customItemFragment, "customItems", "Custom Items", -1)
         }
     }
 
-     fun changeToToDo(){
-        if(activeFragmentTag!="todo") {
+    fun changeToToDo() {
+        if (activeFragmentTag != "todo") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
             updateDeleteTaskIcon()
@@ -224,25 +224,25 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToHome(){
+    fun changeToHome() {
         hideMenuIcons()
-        if(activeFragmentTag!="home"){
+        if (activeFragmentTag != "home") {
             homeFr = HomeFr()
             changeToFragment(homeFr, "home", "Pocket Plan", R.id.home)
         }
         supportActionBar?.setDisplayShowCustomEnabled(true)
     }
 
-    fun changeToCreateTerm(){
-        if(activeFragmentTag!="createTerm") {
+    fun changeToCreateTerm() {
+        if (activeFragmentTag != "createTerm") {
             hideMenuIcons()
             createTermFr = CreateTermFr()
             changeToFragment(createTermFr, "createTerm", "Create Appointment", R.id.home)
         }
     }
 
-    fun changeToSettings(){
-        if(activeFragmentTag!="settings") {
+    fun changeToSettings() {
+        if (activeFragmentTag != "settings") {
             hideMenuIcons()
             settingsFr = SettingsFr()
             changeToFragment(
@@ -253,8 +253,8 @@ class MainActivity : AppCompatActivity(){
         setNavBarUnchecked()
     }
 
-    fun changeToSleepReminder(){
-        if(activeFragmentTag!="sleep") {
+    fun changeToSleepReminder() {
+        if (activeFragmentTag != "sleep") {
             hideMenuIcons()
             sleepFr = SleepFr()
             changeToFragment(
@@ -264,8 +264,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToNotes(){
-        if(activeFragmentTag!="notes") {
+    private fun changeToNotes() {
+        if (activeFragmentTag != "notes") {
             hideMenuIcons()
             noteFr = NoteFr()
             changeToFragment(
@@ -275,12 +275,16 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToCreateNoteFragment(){
-        if(activeFragmentTag!="createNote") {
-            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
-            myMenu?.getItem(1)?.setIcon(R.drawable.ic_check_mark)
-            myMenu?.getItem(0)?.isVisible = true
+    fun changeToCreateNoteFragment() {
+        if (activeFragmentTag != "createNote") {
+            if (editNoteHolder != null) {
+                myMenu?.getItem(0)?.isVisible = true
+                myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete)
+            }
+            myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_colorpicker)
+            myMenu?.getItem(2)?.setIcon(R.drawable.ic_check_mark)
             myMenu?.getItem(1)?.isVisible = true
+            myMenu?.getItem(2)?.isVisible = true
 
             createNoteFr = CreateNoteFr()
             changeToFragment(
@@ -289,18 +293,18 @@ class MainActivity : AppCompatActivity(){
             )
 
             //initialize button with color of note that is currently being edited
-            if(editNoteHolder!=null){
-                val btnChooserColor = when(noteColor){
+            if (editNoteHolder != null) {
+                val btnChooserColor = when (noteColor) {
                     NoteColors.RED -> R.color.colorNoteRed
                     NoteColors.YELLOW -> R.color.colorNoteYellow
                     NoteColors.GREEN -> R.color.colorNoteGreen
                     NoteColors.BLUE -> R.color.colorNoteBlue
                     NoteColors.PURPLE -> R.color.colorNotePurple
                 }
-                myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, btnChooserColor))
-            }else{
+                myMenu?.getItem(1)?.icon?.setTint(ContextCompat.getColor(this, btnChooserColor))
+            } else {
                 noteColor = NoteColors.YELLOW
-                myMenu?.getItem(0)?.icon?.setTint(
+                myMenu?.getItem(1)?.icon?.setTint(
                     ContextCompat.getColor(
                         this,
                         R.color.colorNoteYellow
@@ -310,8 +314,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToAbout(){
-        if(activeFragmentTag!="about") {
+    fun changeToAbout() {
+        if (activeFragmentTag != "about") {
             hideMenuIcons()
             aboutFr = AboutFr()
             changeToFragment(aboutFr, "about", "About", -1)
@@ -861,5 +865,6 @@ class MainActivity : AppCompatActivity(){
         addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         addItemDialog?.show()
     }
+
 }
 

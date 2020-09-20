@@ -6,8 +6,13 @@
         android:title="icon1"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/item_right"
+    <item android:id="@+id/item_middle"
         android:icon="@drawable/ic_check_mark"
+        android:title="icon2"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/item_right"
+        android:icon="@drawable/ic_action_delete"
         android:title="icon2"
         app:showAsAction="ifRoom"/>
     <item

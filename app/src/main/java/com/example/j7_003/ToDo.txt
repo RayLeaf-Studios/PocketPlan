@@ -1,21 +1,30 @@
 Todo:
 
+backend stuff:
+    - Display age in birthday notification? e.g. "Max turns 20 today!"
+    - annotations to use different serialized / displayed variable names to save storage in json
+    - functionality to save / load a backup file?
+    - functionality that supports adding of categories?
+
 Priority 1 tasks:
-    - functionality to toggle reminders for birthdays, add / edit
-    - update itemlist instances of mainactivity when adding items
     - add basic items of all categories to list
+    - manage onbackpress in createnotefrag
 
 Priority 2 tasks:
      - edit custom shopping items
-     - add custom categories?
-     - option to create / load backup files?
-     - preload shopping fragment content?
 
 Priority 3 tasks:
     - button to open sidenav menu?
     - replace all colors and values like text size with resource references
-    - annotations to use different serialized / displayed variable names
-    - Display age in birthday notification? e.g. "Max turns 20 today!"
+
+
+
+
+
+
+
+
+
 
 Ideas:
     - make shopping list presets save and loadable

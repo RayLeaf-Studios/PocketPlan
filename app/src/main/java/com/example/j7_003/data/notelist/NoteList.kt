@@ -65,7 +65,7 @@ class NoteList: LinkedList<Note>() {
      */
     fun getNote(index: Int): Note = this[index]
 
-    private fun save() {
+    fun save() {
         StorageHandler.saveAsJsonToFile(
             StorageHandler.files["NOTELIST"],
             this
