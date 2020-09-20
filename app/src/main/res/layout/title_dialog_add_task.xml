@@ -10,6 +10,7 @@
         android:textSize="@dimen/font_size_dialog_titles"
         android:textColor="@color/colorOnBackGround"
         android:background="@color/colorBackgroundElevated"
+        android:gravity="center"
         android:padding="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

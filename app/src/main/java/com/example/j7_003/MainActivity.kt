@@ -25,10 +25,7 @@ import com.example.j7_003.data.calendar.CalenderFragment
 import com.example.j7_003.data.calendar.CreateTermFr
 import com.example.j7_003.data.calendar.DayFr
 import com.example.j7_003.data.home.HomeFr
-import com.example.j7_003.data.notelist.CreateNoteFr
-import com.example.j7_003.data.notelist.NoteAdapter
-import com.example.j7_003.data.notelist.NoteColors
-import com.example.j7_003.data.notelist.NoteFr
+import com.example.j7_003.data.notelist.*
 import com.example.j7_003.data.settings.SettingsFr
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.data.settings.shoppinglist.CustomItemFragment
@@ -41,11 +38,12 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
+import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     private lateinit var homeFr: HomeFr
     private lateinit var dayFragment: DayFr
     private lateinit var calendarFragment: CalenderFragment
@@ -77,7 +75,7 @@ class MainActivity : AppCompatActivity(){
         lateinit var sleepView: View
         lateinit var actionbarContent: View
         lateinit var searchView: SearchView
-        var editNoteHolder: NoteAdapter.NoteViewHolder? = null
+        var editNoteHolder: Note? = null
         var editTerm: CalendarAppointment? = null
         var myMenu: Menu? = null
         var noteColor: NoteColors = NoteColors.YELLOW
@@ -104,11 +102,11 @@ class MainActivity : AppCompatActivity(){
 
         //Check if layout should be right-handed or left-handed
         val leftHandedMode = SettingsManager.getSetting("drawerLeftSide") as Boolean
-       if(leftHandedMode){
-           setContentView(R.layout.main_panel_lefthanded)
-       }else{
-           setContentView(R.layout.main_panel)
-       }
+        if (leftHandedMode) {
+            setContentView(R.layout.main_panel_lefthanded)
+        } else {
+            setContentView(R.layout.main_panel)
+        }
 
 
         //initialize actionbar content
@@ -119,15 +117,14 @@ class MainActivity : AppCompatActivity(){
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
-            when(item.itemId){
+            when (item.itemId) {
                 R.id.menuItemSettings -> changeToSettings()
                 R.id.menuItemBirthdays -> changeToBirthdays()
                 R.id.menuItemAbout -> changeToAbout()
             }
-            if(leftHandedMode){
+            if (leftHandedMode) {
                 drawer_layout.closeDrawer(GravityCompat.START)
-            }
-            else{
+            } else {
                 drawer_layout.closeDrawer(GravityCompat.END)
             }
             true
@@ -135,7 +132,7 @@ class MainActivity : AppCompatActivity(){
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when(item.itemId){
+            when (item.itemId) {
                 R.id.notes -> changeToNotes()
                 R.id.todolist -> changeToToDo()
                 R.id.home -> changeToHome()
@@ -149,13 +146,12 @@ class MainActivity : AppCompatActivity(){
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
 
-
         /**
          * Checks intent for passed String-Value, indicating required switching into fragment
          * that isn't the home fragment
          */
 
-        when(intent.getStringExtra("NotificationEntry")){
+        when (intent.getStringExtra("NotificationEntry")) {
             "birthdays" -> changeToBirthdays()
             "SReminder" -> TODO("Decide where sleep reminder notification onclick should lead")
             else -> changeToHome()
@@ -166,50 +162,50 @@ class MainActivity : AppCompatActivity(){
      * DEBUG FUNCTIONS
      */
 
-    fun titleDebug(debugMsg: String){
+    fun titleDebug(debugMsg: String) {
         supportActionBar?.title = debugMsg
     }
 
 
-    fun sadToast(msg: String){
+    fun sadToast(msg: String) {
         Toast.makeText(act, msg + " :(", Toast.LENGTH_LONG).show()
     }
 
     /**
      * CHANGE FRAGMENT METHODS
      */
-    fun changeToBirthdays(){
-        if(activeFragmentTag!="birthdays") {
+    fun changeToBirthdays() {
+        if (activeFragmentTag != "birthdays") {
             hideMenuIcons()
-            myMenu?.getItem(2)?.isVisible = true
+            myMenu?.getItem(3)?.isVisible = true
             birthdayFragment = BirthdayFragment()
             changeToFragment(birthdayFragment, "birthdays", "Birthdays", -1)
             searchView.onActionViewCollapsed()
-            for (i in 0 until bottomNavigation.menu.size()){
+            for (i in 0 until bottomNavigation.menu.size()) {
                 bottomNavigation.menu.getItem(0).isChecked = false
             }
 
         }
     }
 
-    fun changeToShopping(){
-        if(activeFragmentTag!="shopping") {
+    fun changeToShopping() {
+        if (activeFragmentTag != "shopping") {
             hideMenuIcons()
             shoppingFr = ShoppingFr()
             changeToFragment(shoppingFr, "shopping", "Shopping", R.id.shopping)
         }
     }
 
-    fun changeToCustomItems(){
-        if(activeFragmentTag!="customItems") {
+    fun changeToCustomItems() {
+        if (activeFragmentTag != "customItems") {
             hideMenuIcons()
             customItemFragment = CustomItemFragment()
             changeToFragment(customItemFragment, "customItems", "Custom Items", -1)
         }
     }
 
-     fun changeToToDo(){
-        if(activeFragmentTag!="todo") {
+    fun changeToToDo() {
+        if (activeFragmentTag != "todo") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
             updateDeleteTaskIcon()
@@ -218,25 +214,25 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToHome(){
+    fun changeToHome() {
         hideMenuIcons()
-        if(activeFragmentTag!="home"){
+        if (activeFragmentTag != "home") {
             homeFr = HomeFr()
             changeToFragment(homeFr, "home", "Pocket Plan", R.id.home)
         }
         supportActionBar?.setDisplayShowCustomEnabled(true)
     }
 
-    fun changeToCreateTerm(){
-        if(activeFragmentTag!="createTerm") {
+    fun changeToCreateTerm() {
+        if (activeFragmentTag != "createTerm") {
             hideMenuIcons()
             createTermFr = CreateTermFr()
             changeToFragment(createTermFr, "createTerm", "Create Appointment", R.id.home)
         }
     }
 
-    fun changeToSettings(){
-        if(activeFragmentTag!="settings") {
+    fun changeToSettings() {
+        if (activeFragmentTag != "settings") {
             hideMenuIcons()
             settingsFr = SettingsFr()
             changeToFragment(
@@ -246,8 +242,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToSleepReminder(){
-        if(activeFragmentTag!="sleep") {
+    fun changeToSleepReminder() {
+        if (activeFragmentTag != "sleep") {
             hideMenuIcons()
             sleepFr = SleepFr()
             changeToFragment(
@@ -257,8 +253,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToNotes(){
-        if(activeFragmentTag!="notes") {
+    private fun changeToNotes() {
+        if (activeFragmentTag != "notes") {
             hideMenuIcons()
             noteFr = NoteFr()
             changeToFragment(
@@ -268,12 +264,16 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToCreateNoteFragment(){
-        if(activeFragmentTag!="createNote") {
-            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_colorpicker)
-            myMenu?.getItem(1)?.setIcon(R.drawable.ic_check_mark)
-            myMenu?.getItem(0)?.isVisible = true
+    fun changeToCreateNoteFragment() {
+        if (activeFragmentTag != "createNote") {
+            if(editNoteHolder!=null){
+                myMenu?.getItem(0)?.isVisible = true
+                myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete)
+            }
+            myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_colorpicker)
+            myMenu?.getItem(2)?.setIcon(R.drawable.ic_check_mark)
             myMenu?.getItem(1)?.isVisible = true
+            myMenu?.getItem(2)?.isVisible = true
 
             createNoteFr = CreateNoteFr()
             changeToFragment(
@@ -282,18 +282,18 @@ class MainActivity : AppCompatActivity(){
             )
 
             //initialize button with color of note that is currently being edited
-            if(editNoteHolder!=null){
-                val btnChooserColor = when(noteColor){
+            if (editNoteHolder != null) {
+                val btnChooserColor = when (noteColor) {
                     NoteColors.RED -> R.color.colorNoteRed
                     NoteColors.YELLOW -> R.color.colorNoteYellow
                     NoteColors.GREEN -> R.color.colorNoteGreen
                     NoteColors.BLUE -> R.color.colorNoteBlue
                     NoteColors.PURPLE -> R.color.colorNotePurple
                 }
-                myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, btnChooserColor))
-            }else{
+                myMenu?.getItem(1)?.icon?.setTint(ContextCompat.getColor(this, btnChooserColor))
+            } else {
                 noteColor = NoteColors.YELLOW
-                myMenu?.getItem(0)?.icon?.setTint(
+                myMenu?.getItem(1)?.icon?.setTint(
                     ContextCompat.getColor(
                         this,
                         R.color.colorNoteYellow
@@ -303,16 +303,16 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun changeToAbout(){
-        if(activeFragmentTag!="about") {
+    fun changeToAbout() {
+        if (activeFragmentTag != "about") {
             hideMenuIcons()
             aboutFr = AboutFr()
             changeToFragment(aboutFr, "about", "About", -1)
         }
     }
 
-    fun changeToDayView(){
-        if(activeFragmentTag!="dayView") {
+    fun changeToDayView() {
+        if (activeFragmentTag != "dayView") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
             myMenu?.getItem(0)?.isVisible = true
@@ -321,8 +321,8 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun changeToCalendar(){
-        if(activeFragmentTag!="calendar") {
+    private fun changeToCalendar() {
+        if (activeFragmentTag != "calendar") {
             hideMenuIcons()
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
             myMenu?.getItem(0)?.isVisible = true
@@ -346,7 +346,7 @@ class MainActivity : AppCompatActivity(){
         fragmentTag: String,
         actionBarTitle: String,
         bottomNavigationId: Int
-    ){
+    ) {
 
 //        actionbarContent.logo.visibility = when(activeFragmentTag=="home"){
 //            true -> View.VISIBLE
@@ -355,7 +355,7 @@ class MainActivity : AppCompatActivity(){
         actionbarContent.tvActionbarTitle.text = actionBarTitle
         previousFragmentTag = activeFragmentTag
         activeFragmentTag = fragmentTag
-        if(bottomNavigationId!=-1){
+        if (bottomNavigationId != -1) {
             bottomNavigation.selectedItemId = bottomNavigationId
         }
         supportFragmentManager
@@ -369,15 +369,16 @@ class MainActivity : AppCompatActivity(){
      * UI FUNCTIONS
      */
 
-    private fun hideMenuIcons(){
-        if(myMenu!=null){
+    private fun hideMenuIcons() {
+        if (myMenu != null) {
             myMenu!!.getItem(0).setVisible(false)
             myMenu!!.getItem(1).setVisible(false)
             myMenu!!.getItem(2).setVisible(false)
+            myMenu!!.getItem(3).setVisible(false)
         }
     }
 
-    private fun openColorChooser(){
+    private fun openColorChooser() {
         //inflate the dialog with custom view
         val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
 
@@ -403,42 +404,43 @@ class MainActivity : AppCompatActivity(){
         /**
          * Onclick-listeners for every specific color button
          */
-        buttonList.forEachIndexed(){ i, b ->
-            b.setOnClickListener(){
+        buttonList.forEachIndexed() { i, b ->
+            b.setOnClickListener() {
                 noteColor = NoteColors.values()[i]
-                myMenu?.getItem(0)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
+                myMenu?.getItem(1)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
                 myAlertDialog.dismiss()
             }
         }
     }
 
-    fun updateUndoTaskIcon(){
-        if(TodoFr.deletedTask!=null || TodoFr.deletedTaskList.size > 0){
+    fun updateUndoTaskIcon() {
+        if (TodoFr.deletedTask != null || TodoFr.deletedTaskList.size > 0) {
             myMenu?.getItem(1)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(1)?.isVisible = true
-        }else{
+        } else {
             myMenu?.getItem(1)?.isVisible = false
         }
     }
 
-    fun updateUndoNoteIcon(){
-        if(NoteFr.deletedNote!=null){
+    fun updateUndoNoteIcon() {
+        if (NoteFr.deletedNote != null) {
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
-        }else{
+        } else {
             myMenu?.getItem(0)?.isVisible = false
         }
     }
 
-    fun updateUndoBirthdayIcon(){
-        if(BirthdayFragment.deletedBirthday!=null&&!BirthdayFragment.searching){
+    fun updateUndoBirthdayIcon() {
+        if (BirthdayFragment.deletedBirthday != null && !BirthdayFragment.searching) {
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
-        }else{
+        } else {
             myMenu?.getItem(0)?.isVisible = false
         }
     }
-    fun updateUndoItemIcon(){
+
+    fun updateUndoItemIcon() {
         //TODO uncomment this
 //        if(ShoppingFragment.deletedItem!=null){
 //            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
@@ -448,8 +450,8 @@ class MainActivity : AppCompatActivity(){
 //        }
     }
 
-    fun updateDeleteTaskIcon(){
-        val checkedTasks = TodoFr.todoListInstance.filter{ t -> t.isChecked}.size
+    fun updateDeleteTaskIcon() {
+        val checkedTasks = TodoFr.todoListInstance.filter { t -> t.isChecked }.size
         myMenu?.getItem(0)?.isVisible = checkedTasks > 0
     }
 
@@ -458,33 +460,31 @@ class MainActivity : AppCompatActivity(){
      * DATA MANAGEMENT FUNCTIONS
      */
 
-    private fun manageEditNote(){
+    private fun manageEditNote() {
         hideKeyboard()
         val noteContent = createNoteFr.etNoteContent.text.toString()
         val noteTitle = createNoteFr.etNoteTitle.text.toString()
-        NoteFr.noteListInstance.editNote(
-            editNoteHolder!!.adapterPosition,
-            noteTitle,
-            noteContent,
-            noteColor
-        )
+        editNoteHolder!!.title = noteTitle
+        editNoteHolder!!.content = noteContent
+        editNoteHolder!!.color = noteColor
         editNoteHolder = null
         changeToNotes()
     }
 
-    private fun manageAddNote(){
+    private fun manageAddNote() {
         hideKeyboard()
         val noteContent = createNoteFr.etNoteContent.text.toString()
         val noteTitle = createNoteFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
-        if(!fromHome){
+        if (!fromHome) {
             changeToNotes()
-        }else{
+        } else {
             changeToHome()
             Toast.makeText(act, "Note was added!", Toast.LENGTH_SHORT).show()
             fromHome = false
         }
     }
+
     fun hideKeyboard() {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -502,7 +502,13 @@ class MainActivity : AppCompatActivity(){
 
     override fun onBackPressed() {
 
-        Log.e("error", activeFragmentTag + " " + previousFragmentTag)
+        if(activeFragmentTag=="createNote"){
+           if(editNoteHolder!=null){
+               //todo open dialog asking if this edit should be confirmed or discarded
+           }else{
+               //todo open dialog asking if this note should be saved or discarded
+           }
+        }
         when (previousFragmentTag) {
             "home" -> {
                 changeToHome()
@@ -528,7 +534,7 @@ class MainActivity : AppCompatActivity(){
          * Manages onclick listeners for color picker and submit icon used when
          * editing or writing a note
          */
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.item_left -> {
                 if (activeFragmentTag == "dayView") {
                     changeToCalendar()
@@ -538,7 +544,8 @@ class MainActivity : AppCompatActivity(){
                     TodoFr.myFragment.manageCheckedTaskDeletion()
                     updateUndoTaskIcon()
                 } else if (activeFragmentTag == "createNote") {
-                    openColorChooser()
+                    //act as delete button to delete current note
+                    openDeleteNoteDialog()
                 } else if (activeFragmentTag == "notes") {
                     NoteFr.noteListInstance.addFullNote(NoteFr.deletedNote!!)
                     NoteFr.deletedNote = null
@@ -555,13 +562,10 @@ class MainActivity : AppCompatActivity(){
                 true
             }
 
-            R.id.item_right -> {
+            R.id.item_middle -> {
                 if (activeFragmentTag == "createNote") {
-                    if (editNoteHolder == null) {
-                        manageAddNote()
-                    } else {
-                        manageEditNote()
-                    }
+                    //open color chooser to change color of current note
+                    openColorChooser()
                     true
                 } else if (activeFragmentTag == "todo") {
                     if (TodoFr.deletedTaskList.size > 0) {
@@ -582,6 +586,18 @@ class MainActivity : AppCompatActivity(){
                     true
                 }
             }
+            R.id.item_right -> {
+                if (activeFragmentTag == "createNote") {
+                    //act as check mark to add / confirm note edit
+                    if (editNoteHolder == null) {
+                        manageAddNote()
+                    } else {
+                        manageEditNote()
+                    }
+
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -589,8 +605,8 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_menu, menu)
-        searchView = menu!!.getItem(2).actionView as SearchView
-        val textListener = object : SearchView.OnQueryTextListener{
+        searchView = menu!!.getItem(3).actionView as SearchView
+        val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 //todo fix this
                 //close keyboard?
@@ -598,7 +614,7 @@ class MainActivity : AppCompatActivity(){
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(BirthdayFragment.searching){
+                if (BirthdayFragment.searching) {
                     BirthdayFragment.myFragment.search(newText.toString())
                 }
                 return true
@@ -628,7 +644,36 @@ class MainActivity : AppCompatActivity(){
         return true
     }
 
-    private fun loadDefaultSettings(){
+    fun openDeleteNoteDialog() {
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
+
+        //AlertDialogBuilder
+        val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
+        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        editTitle.tvDialogTitle.text = "Delete this note?"
+        myBuilder.setCustomTitle(editTitle)
+        val myAlertDialog = myBuilder.create()
+
+        val btnDeleteNote = myDialogView.btnDeleteNote
+        val btnCancel = myDialogView.btnCancel
+
+        btnDeleteNote.setOnClickListener {
+            //todo manage deletion of notes
+            NoteFr.noteListInstance.remove(editNoteHolder)
+            NoteFr.noteListInstance.save()
+            hideKeyboard()
+            myAlertDialog.dismiss()
+            changeToNotes()
+        }
+        btnCancel.setOnClickListener {
+            myAlertDialog.dismiss()
+        }
+
+        //show dialog
+        myAlertDialog.show()
+    }
+
+    private fun loadDefaultSettings() {
         setDefault("noteColumns", "2")
         setDefault("expandOneCategory", false)
         setDefault("collapseCheckedSublists", false)
@@ -636,13 +681,13 @@ class MainActivity : AppCompatActivity(){
         setDefault("drawerLeftSide", false)
     }
 
-    private fun setDefault(setting: String, value: Any){
-        if(SettingsManager.getSetting(setting)==null){
+    private fun setDefault(setting: String, value: Any) {
+        if (SettingsManager.getSetting(setting) == null) {
             SettingsManager.addSetting(setting, value)
         }
     }
 
-    fun preloadAddItemDialog(){
+    fun preloadAddItemDialog() {
 
         //initialize shopping list data
         tagList = TagList()
@@ -799,9 +844,9 @@ class MainActivity : AppCompatActivity(){
                         false
                     )
                     ShoppingFr.shoppingListInstance.add(item)
-                    if(activeFragmentTag=="shopping"){
+                    if (activeFragmentTag == "shopping") {
                         ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-                    }else{
+                    } else {
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
                     }
                     addItemDialog?.dismiss()
@@ -829,9 +874,9 @@ class MainActivity : AppCompatActivity(){
                 false
             )
             ShoppingFr.shoppingListInstance.add(item)
-            if(activeFragmentTag=="shopping"){
+            if (activeFragmentTag == "shopping") {
                 ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-            }else{
+            } else {
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
             }
             addItemDialog?.dismiss()

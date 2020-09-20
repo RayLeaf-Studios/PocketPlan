@@ -38,12 +38,8 @@ class CreateNoteFr : Fragment() {
         myEtTitle.requestFocus()
 
         if (MainActivity.editNoteHolder != null) {
-            myEtTitle.setText(
-                NoteFr.noteListInstance.getNote(
-                MainActivity.editNoteHolder!!.adapterPosition).title)
-            myEtContent.setText(
-                NoteFr.noteListInstance.getNote(
-                MainActivity.editNoteHolder!!.adapterPosition).content)
+            myEtTitle.setText(MainActivity.editNoteHolder!!.title)
+            myEtContent.setText(MainActivity.editNoteHolder!!.content)
             myEtContent.requestFocus()
         }
 

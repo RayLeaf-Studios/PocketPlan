@@ -583,22 +583,29 @@ class BirthdayAdapter :
             holder.itemView.icon_bell.visibility = View.GONE
         } else {
             //display bell if birthday has a reminder
-            if (currentBirthday.hasReminder()) {
+            if (currentBirthday.notify) {
                 holder.iconBell.visibility = View.VISIBLE
             } else {
                 holder.iconBell.visibility = View.INVISIBLE
             }
 
             //display info if birthday is expanded
-            if (currentBirthday.expanded && currentBirthday.year != 0) {
+            if (currentBirthday.expanded) {
                 holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
+                var ageText = "age unkown, "
                 if (holder.birthday.year != 0) {
                     val birthday = holder.birthday
                     val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
                         .until(LocalDate.now()).years
-                    holder.itemView.tvBirthdayInfo.text = age.toString() + " years old, born in " +
-                            holder.birthday.year.toString()
+                    ageText = age.toString() + " years old, born in " +
+                            holder.birthday.year.toString()+", "
                 }
+                var dayExtension = ""
+                if(currentBirthday.daysToRemind!=1){
+                    dayExtension = "s"
+                }
+                var reminderText = "reminder "+currentBirthday.daysToRemind.toString()+" day"+dayExtension+" prior"
+                holder.itemView.tvBirthdayInfo.text = ageText+reminderText
             } else {
                 holder.itemView.cvBirthdayInfo.visibility = View.GONE
             }
