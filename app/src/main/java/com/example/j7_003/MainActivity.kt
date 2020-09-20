@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(act, msg + " :(", Toast.LENGTH_LONG).show()
     }
 
-    fun setNavBarUnchecked() {
+    private fun setNavBarUnchecked() {
         bottomNavigation.menu.setGroupCheckable(0, true, false)
         for (i in 0 until bottomNavigation.menu.size()) {
             bottomNavigation.menu.getItem(i).isChecked = false
@@ -203,7 +203,6 @@ class MainActivity : AppCompatActivity() {
             birthdayFragment = BirthdayFragment()
             changeToFragment(birthdayFragment, FragmentTags.BIRTHDAYS, "Birthdays", -1)
             searchView.onActionViewCollapsed()
-            setNavBarUnchecked()
         }
     }
 
@@ -322,7 +321,6 @@ class MainActivity : AppCompatActivity() {
             aboutFr = AboutFr()
             changeToFragment(aboutFr, FragmentTags.ABOUT, "About", -1)
         }
-        setNavBarUnchecked()
     }
 
     fun changeToDayView() {
@@ -373,6 +371,9 @@ class MainActivity : AppCompatActivity() {
 
         if (bottomNavigationId != -1) {
             bottomNavigation.selectedItemId = bottomNavigationId
+        }
+        else{
+            setNavBarUnchecked()
         }
         supportFragmentManager
             .beginTransaction()
@@ -580,6 +581,9 @@ class MainActivity : AppCompatActivity() {
 
         val myAlertDialog = myBuilder?.create()
         myAlertDialog?.show()
+        myAlertDialog?.setOnCancelListener {
+            setNavBarUnchecked()
+        }
 
         myDialogView.btnDiscardChanges.setOnClickListener {
             activeFragmentTag = FragmentTags.EMPTY
