@@ -45,8 +45,8 @@ class NoteFr : Fragment() {
     private fun initializeComponents(myView: View) {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener {
-            MainActivity.act.changeToCreateNoteFragment()
             MainActivity.editNoteHolder = null
+            MainActivity.act.changeToCreateNoteFragment()
         }
 
         //TODO READ THIS FROM SETTINGS MANAGER

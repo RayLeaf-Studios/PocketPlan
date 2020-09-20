@@ -151,20 +151,6 @@ class MainActivity : AppCompatActivity(){
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
-//        changeToHome()
-        activeFragmentTag = ""
-
-        /**
-         * Checks intent for passed String-Value, indicating required switching into fragment
-         * that isn't the home fragment
-         */
-
-        when (intent.extras?.get("NotificationEntry").toString()) {
-            "birthdays" -> changeToBirthdays()
-            "SReminder" -> changeToHome()
-            "settings"  -> changeToSettings()
-            else -> changeToHome()
-        }
     }
 
     /**
@@ -656,10 +642,23 @@ class MainActivity : AppCompatActivity(){
         }
 
         myMenu = menu
+        activeFragmentTag = ""
+
+        /**
+         * Checks intent for passed String-Value, indicating required switching into fragment
+         * that isn't the home fragment
+         */
+
+        when (intent.extras?.get("NotificationEntry").toString()) {
+            "birthdays" -> changeToBirthdays()
+            "SReminder" -> changeToHome()
+            "settings"  -> changeToSettings()
+            else -> changeToHome()
+        }
         return true
     }
 
-    fun openDeleteNoteDialog() {
+    private fun openDeleteNoteDialog() {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
 
         //AlertDialogBuilder
