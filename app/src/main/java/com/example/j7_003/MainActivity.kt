@@ -41,6 +41,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
+import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.dialog_delete_note.*
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
@@ -694,8 +695,12 @@ class MainActivity : AppCompatActivity() {
 
         btnDeleteNote.setOnClickListener {
             if(!allowDelete){
+                val animationShake =
+                    AnimationUtils.loadAnimation(act, R.anim.shake)
+                mySeekbar.startAnimation(animationShake)
                 return@setOnClickListener
             }
+
             NoteFr.noteListInstance.remove(editNoteHolder)
             editNoteHolder=null
             NoteFr.noteListInstance.save()
