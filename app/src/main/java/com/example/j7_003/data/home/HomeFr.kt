@@ -88,6 +88,10 @@ class HomeFr : Fragment() {
         myView.btnNewItem.setOnClickListener {
             MainActivity.act.openAddItemDialog()
         }
+        myView.btnTestFileStuff.setOnClickListener {
+            //TODO REMOVE THIS
+            Toast.makeText(MainActivity.act, "Test lol", Toast.LENGTH_SHORT).show()
+        }
 
         //Todo insert button for creating a new appointment
 //        myView.btnNewTerm.setOnClickListener {
