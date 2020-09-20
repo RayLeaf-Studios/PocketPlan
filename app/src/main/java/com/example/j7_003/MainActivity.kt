@@ -5,12 +5,13 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.SearchView
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +26,10 @@ import com.example.j7_003.data.calendar.CalenderFragment
 import com.example.j7_003.data.calendar.CreateTermFr
 import com.example.j7_003.data.calendar.DayFr
 import com.example.j7_003.data.home.HomeFr
-import com.example.j7_003.data.notelist.*
+import com.example.j7_003.data.notelist.CreateNoteFr
+import com.example.j7_003.data.notelist.Note
+import com.example.j7_003.data.notelist.NoteColors
+import com.example.j7_003.data.notelist.NoteFr
 import com.example.j7_003.data.settings.SettingsFr
 import com.example.j7_003.data.settings.SettingsManager
 import com.example.j7_003.data.settings.shoppinglist.CustomItemFragment
@@ -38,10 +42,12 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
+import kotlinx.android.synthetic.main.dialog_delete_note.*
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.fragment_write_note.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var homeFr: HomeFr
@@ -266,7 +272,7 @@ class MainActivity : AppCompatActivity() {
 
     fun changeToCreateNoteFragment() {
         if (activeFragmentTag != "createNote") {
-            if(editNoteHolder!=null){
+            if (editNoteHolder != null) {
                 myMenu?.getItem(0)?.isVisible = true
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete)
             }
@@ -502,12 +508,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if(activeFragmentTag=="createNote"){
-           if(editNoteHolder!=null){
-               //todo open dialog asking if this edit should be confirmed or discarded
-           }else{
-               //todo open dialog asking if this note should be saved or discarded
-           }
+        if (activeFragmentTag == "createNote") {
+            if (editNoteHolder != null) {
+                //todo open dialog asking if this edit should be confirmed or discarded
+            } else {
+                //todo open dialog asking if this note should be saved or discarded
+            }
         }
         when (previousFragmentTag) {
             "home" -> {
@@ -650,22 +656,37 @@ class MainActivity : AppCompatActivity() {
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        editTitle.tvDialogTitle.text = "Delete this note?"
+        editTitle.tvDialogTitle.text = "Swipe right to delete this note"
         myBuilder.setCustomTitle(editTitle)
         val myAlertDialog = myBuilder.create()
 
-        val btnDeleteNote = myDialogView.btnDeleteNote
-        val btnCancel = myDialogView.btnCancel
+        val mySeekbar = myDialogView.sbDeleteNote
+        mySeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
 
-        btnDeleteNote.setOnClickListener {
-            //todo manage deletion of notes
-            NoteFr.noteListInstance.remove(editNoteHolder)
-            NoteFr.noteListInstance.save()
-            hideKeyboard()
-            myAlertDialog.dismiss()
-            changeToNotes()
-        }
-        btnCancel.setOnClickListener {
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (progress == 100) {
+                    NoteFr.noteListInstance.remove(editNoteHolder)
+                    editNoteHolder=null
+                    NoteFr.noteListInstance.save()
+                    hideKeyboard()
+                    myAlertDialog.dismiss()
+                    changeToNotes()
+
+                }
+
+            }
+        })
+
+        val btnCancelNew = myDialogView.btnCancelNew
+
+        btnCancelNew.setOnClickListener {
             myAlertDialog.dismiss()
         }
 
