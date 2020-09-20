@@ -50,19 +50,7 @@ import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var homeFr: HomeFr
-    private lateinit var dayFragment: DayFr
-    private lateinit var calendarFr: CalenderFr
-    private lateinit var birthdayFr: BirthdayFr
-    private lateinit var settingsFr: SettingsFr
-    private lateinit var todoFr: TodoFr
-    private lateinit var sleepFr: SleepFr
-    private lateinit var noteFr: NoteFr
-    private lateinit var shoppingFr: ShoppingFr
     private lateinit var noteEditorFr: NoteEditorFr
-    private lateinit var createTermFr: CreateTermFr
-    private lateinit var aboutFr: AboutFr
-    private lateinit var customItemFr: CustomItemFr
 
     //contents for shopping list
     private lateinit var tagList: TagList
@@ -439,7 +427,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun manageAddNote() {
-        hideKeyboard()
         val noteContent = noteEditorFr.etNoteContent.text.toString()
         val noteTitle = noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
