@@ -849,6 +849,11 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
                     }
+                    itemNameList.add(actvItem.text.toString())
+                    val autoCompleteTvAdapter = ArrayAdapter<String>(
+                        act, android.R.layout.simple_spinner_dropdown_item, itemNameList
+                    )
+                    autoCompleteTv.setAdapter(autoCompleteTvAdapter)
                     addItemDialog?.dismiss()
                     return@setOnClickListener
                 }
@@ -879,10 +884,9 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
             }
+
             addItemDialog?.dismiss()
-
         }
-
 
         val imm = act?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
