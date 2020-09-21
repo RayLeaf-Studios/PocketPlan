@@ -491,17 +491,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateUndoItemIcon() {
-        //TODO uncomment this
-//        if(ShoppingFragment.deletedItem!=null){
-//            myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
-//            myMenu?.getItem(0)?.isVisible = true
-//        }else{
-//            myMenu?.getItem(0)?.isVisible = false
-//        }
+        if(ShoppingFr.deletedItem!=null){
+            myMenu?.getItem(2)?.setIcon(R.drawable.ic_action_undo)
+            myMenu?.getItem(2)?.isVisible = true
+        }else{
+            myMenu?.getItem(2)?.isVisible = false
+        }
     }
 
     fun updateDeleteTaskIcon() {
-        val checkedTasks = TodoFr.todoListInstance.filter { t -> t.isChecked }.size
+        val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
         myMenu?.getItem(0)?.isVisible = checkedTasks > 0
     }
 
@@ -727,9 +726,17 @@ class MainActivity : AppCompatActivity() {
                             else -> changeToFragment(FT.HOME)
                         }
                     }
+                    FT.SHOPPING -> {
+                        //undo the last deletion of a shopping item
+                        ShoppingFr.shoppingListInstance.add(ShoppingFr.deletedItem!!)
+                        ShoppingFr.deletedItem = null
+                        ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
+                        updateUndoItemIcon()
+                    }
                     else -> {/* no-op, this item should not be clickable in current fragment */
                     }
                 }
+
                 true
             }
             else -> super.onOptionsItemSelected(item)
