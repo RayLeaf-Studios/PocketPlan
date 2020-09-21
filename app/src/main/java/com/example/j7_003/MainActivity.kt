@@ -582,6 +582,11 @@ class MainActivity : AppCompatActivity() {
                         updateUndoBirthdayIcon()
                         BirthdayFr.myAdapter.notifyDataSetChanged()
                     }
+                    FT.SHOPPING -> {
+                       //clear shopping list
+                        ShoppingFr.shoppingListInstance.clear()
+                        ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
+                    }
                     else -> {/* no-op, this icon should not be visible / clickable in this fragment*/}
                 }
                 true
@@ -609,6 +614,10 @@ class MainActivity : AppCompatActivity() {
                         }
                         updateUndoTaskIcon()
                         updateDeleteTaskIcon()
+                    }
+                    FT.SHOPPING -> {
+                        //uncheck all shopping items
+                        ShoppingFr.shoppingListInstance.uncheckAll()
                     }
                     else -> {/* no-op, this item should not be clickable in current fragment */}
                 }
@@ -687,6 +696,77 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    private fun dialogShoppingClear() {
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
+
+        //AlertDialogBuilder
+        val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
+        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        editTitle.tvDialogTitle.text = "Swipe right to delete list"
+        myBuilder.setCustomTitle(editTitle)
+        val myAlertDialog = myBuilder.create()
+
+        val btnCancelNew = myDialogView.btnCancelNew
+        val btnDeleteNote = myDialogView.btnDelete
+        val mySeekbar = myDialogView.sbDeleteNote
+
+        var allowDelete = false
+
+        mySeekbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (progress == 100) {
+                    allowDelete = true
+                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner_red)
+                    btnDeleteNote.setTextColor(
+                        ContextCompat.getColor(
+                            act,
+                            R.color.colorOnBackGround
+                        )
+                    )
+                } else {
+                    if (allowDelete) {
+                        allowDelete = false
+                        btnDeleteNote.setBackgroundResource(R.drawable.round_corner_gray)
+                        btnDeleteNote.setTextColor(ContextCompat.getColor(act, R.color.colorHint))
+                    }
+
+                }
+
+            }
+        })
+
+        btnDeleteNote.setOnClickListener {
+            if (!allowDelete) {
+                val animationShake =
+                    AnimationUtils.loadAnimation(act, R.anim.shake)
+                mySeekbar.startAnimation(animationShake)
+                return@setOnClickListener
+            }
+
+            NoteFr.noteListInstance.remove(editNoteHolder)
+            editNoteHolder = null
+            NoteFr.noteListInstance.save()
+            hideKeyboard()
+            myAlertDialog.dismiss()
+            activeFragmentTag = FT.EMPTY
+            changeToFragment(FT.NOTES)
+        }
+
+        btnCancelNew.setOnClickListener {
+            myAlertDialog.dismiss()
+        }
+
+        //show dialog
+        myAlertDialog.show()
+    }
     private fun openDeleteNoteDialog() {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
 
