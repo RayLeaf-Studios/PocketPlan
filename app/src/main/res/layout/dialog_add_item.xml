@@ -17,7 +17,7 @@
             android:id="@+id/actvItem"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:completionThreshold="1"
+            android:completionThreshold="2"
             android:popupTheme="@style/ThemeOverlay.AppCompat"
             android:singleLine="true"
             android:textColor="@color/colorOnBackGround"
@@ -79,14 +79,26 @@
             app:layout_constraintTop_toTopOf="@+id/etItemAmount" />
 
         <Button
+            android:id="@+id/btnCancelItem"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_corner1"
+            android:text="Cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spCategory">
+
+        </Button>
+
+        <Button
             android:id="@+id/btnAddItemToList"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/round_corner_accent"
             android:text="ADD"
-            app:layout_constraintTop_toBottomOf="@+id/spCategory"
-            tools:layout_editor_absoluteX="16dp">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spCategory">
 
         </Button>
 

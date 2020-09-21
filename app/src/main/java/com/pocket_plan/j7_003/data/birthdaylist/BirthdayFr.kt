@@ -595,13 +595,13 @@ class BirthdayAdapter :
                     val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
                         .until(LocalDate.now()).years
                     ageText = age.toString() + " years old, born in " +
-                            holder.birthday.year.toString()+", "
+                            holder.birthday.year.toString()
                 }
                 var dayExtension = ""
                 if(currentBirthday.daysToRemind!=1){
                     dayExtension = "s"
                 }
-                var reminderText = "reminder "+currentBirthday.daysToRemind.toString()+" day"+dayExtension+" prior"
+                var reminderText = "\nreminder "+currentBirthday.daysToRemind.toString()+" day"+dayExtension+" prior"
                 holder.itemView.tvBirthdayInfo.text = ageText+reminderText
             } else {
                 holder.itemView.cvBirthdayInfo.visibility = View.GONE

@@ -441,14 +441,9 @@ class MainActivity : AppCompatActivity() {
         val noteContent = noteEditorFr.etNoteContent.text.toString()
         val noteTitle = noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
-//        activeFragmentTag=FragmentTags.EMPTY
-//        if (previousFragmentTag==FragmentTags.NOTES) {
-//            changeToFragment(FragmentTags.NOTES)
-//        } else {
-//            changeToFragment(FragmentTags.HOME)
-//            Toast.makeText(act, "Note was added!", Toast.LENGTH_SHORT).show()
-//            fromHome = false
-//        }
+        if(previousFragmentTag==FT.HOME){
+            Toast.makeText(act, "Note was added!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun hideKeyboard() {
@@ -975,6 +970,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        addItemDialogView!!.btnCancelItem.setOnClickListener {
+            addItemDialog?.dismiss()
+        }
         //Button to Confirm adding Item to list
         addItemDialogView!!.btnAddItemToList.setOnClickListener {
             if (actvItem.text.toString() == "") {
@@ -1014,11 +1012,12 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
                     }
                     itemNameList.add(actvItem.text.toString())
-                    val autoCompleteTvAdapter2 = ArrayAdapter<String>(
-                        act, android.R.layout.simple_spinner_dropdown_item, itemNameList
-                    )
-                    autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
-                    addItemDialog?.dismiss()
+//                    val autoCompleteTvAdapter2 = ArrayAdapter<String>(
+//                        act, android.R.layout.simple_spinner_dropdown_item, itemNameList
+//                    )
+//                    autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
+                    actvItem.setText("")
+//                    addItemDialog?.dismiss()
                     return@setOnClickListener
                 }
             }
@@ -1048,8 +1047,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
             }
-
-            addItemDialog?.dismiss()
+            actvItem.setText("")
+//            addItemDialog?.dismiss()
         }
 
         val imm = act.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

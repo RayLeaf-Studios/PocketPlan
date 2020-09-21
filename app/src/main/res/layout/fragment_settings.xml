@@ -45,9 +45,7 @@
                 android:id="@+id/viewNoteLines"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingHorizontal="20dp"
-
-                >
+                android:paddingHorizontal="20dp">
 
                 <TextView
                     android:id="@+id/tvNoteLines"
@@ -286,7 +284,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingHorizontal="20dp">
-
                 <TextView
                     android:id="@+id/tvNavDrawer"
                     android:layout_width="wrap_content"
@@ -306,8 +303,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -315,9 +310,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingHorizontal="20dp">
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
 

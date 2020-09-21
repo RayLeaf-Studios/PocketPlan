@@ -4,23 +4,17 @@ backend stuff:
     - functionality to save / load a backup file?
 
 Priority 1 tasks:
+    - scrollbuffer für notes, shopping, task, birthdays
     - add basic items of all categories to list
+    - language options
+    - detect year change in birthday add/edit => check save year
     - undo shopping fragment
-    - button to clear shopping list
-    - notification toast when adding note from home
 
-Priority 3 tasks:
+Priority 2 tasks:
     - functionality that supports adding of categories?
+    - darkthemed notes?
     - button to open sidebar menu?
     - replace all colors and values like text size with resource references
-
-
-
-
-
-
-
-
 
 
 Ideas:
