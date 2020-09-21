@@ -67,10 +67,10 @@ class BirthdayFr : Fragment() {
         birthdayListInstance.collapseAll()
 
         //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
-        myView.btnAddBirthday.setOnClickListener {
-            editBirthdayHolder = null
-            openBirthdayDialog()
-        }
+//        myView.btnAddBirthday.setOnClickListener {
+//            editBirthdayHolder = null
+//            openBirthdayDialog()
+//        }
 
         //initialize recyclerview and adapter
         myAdapter = BirthdayAdapter()

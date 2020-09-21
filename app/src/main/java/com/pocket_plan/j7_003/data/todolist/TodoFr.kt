@@ -57,55 +57,55 @@ class TodoFr : Fragment() {
          * Adding Task via floating action button
          * Onclick-Listener opening the add-task dialog
          */
-        myView.btnAddTodoTask.setOnClickListener {
-            //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
-
-            //AlertDialogBuilder
-            val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            myBuilder?.setCustomTitle(layoutInflater.inflate(layout.title_dialog_add_task, null))
-
-            //show dialog
-            val myAlertDialog = myBuilder?.create()
-            myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-            myAlertDialog?.show()
-
-            //adds listeners to confirmButtons in addTaskDialog
-            val taskConfirmButtons = arrayListOf<Button>(
-                myDialogView.btnConfirm1,
-                myDialogView.btnConfirm2,
-                myDialogView.btnConfirm3
-            )
-
-            taskConfirmButtons.forEachIndexed { index, button ->
-                button.setOnClickListener {
-                    val title = myDialogView.etxTitleAddTask.text.toString()
-                    if (title.isEmpty()) {
-                        val animationShake =
-                            AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
-                        myDialogView.etxTitleAddTask.startAnimation(animationShake)
-                        return@setOnClickListener
-                    } else {
-                        val newPos =
-                            todoListInstance.addFullTask(
-                                Task(
-                                    title,
-                                    index + 1,
-                                    false
-                                )
-                            )
-                        if(newPos == todoListInstance.size-1){
-                            myRecycler.adapter?.notifyDataSetChanged()
-                        }else{
-                            myRecycler.adapter?.notifyItemInserted(newPos)
-                        }
-                    }
-                    myAlertDialog?.dismiss()
-                }
-            }
-
-            myDialogView.etxTitleAddTask.requestFocus()
-        }
+//        myView.btnAddTodoTask.setOnClickListener {
+//            //inflate the dialog with custom view
+//            val myDialogView = LayoutInflater.from(activity).inflate(layout.dialog_add_task, null)
+//
+//            //AlertDialogBuilder
+//            val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+//            myBuilder?.setCustomTitle(layoutInflater.inflate(layout.title_dialog_add_task, null))
+//
+//            //show dialog
+//            val myAlertDialog = myBuilder?.create()
+//            myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+//            myAlertDialog?.show()
+//
+//            //adds listeners to confirmButtons in addTaskDialog
+//            val taskConfirmButtons = arrayListOf<Button>(
+//                myDialogView.btnConfirm1,
+//                myDialogView.btnConfirm2,
+//                myDialogView.btnConfirm3
+//            )
+//
+//            taskConfirmButtons.forEachIndexed { index, button ->
+//                button.setOnClickListener {
+//                    val title = myDialogView.etxTitleAddTask.text.toString()
+//                    if (title.isEmpty()) {
+//                        val animationShake =
+//                            AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+//                        myDialogView.etxTitleAddTask.startAnimation(animationShake)
+//                        return@setOnClickListener
+//                    } else {
+//                        val newPos =
+//                            todoListInstance.addFullTask(
+//                                Task(
+//                                    title,
+//                                    index + 1,
+//                                    false
+//                                )
+//                            )
+//                        if(newPos == todoListInstance.size-1){
+//                            myRecycler.adapter?.notifyDataSetChanged()
+//                        }else{
+//                            myRecycler.adapter?.notifyItemInserted(newPos)
+//                        }
+//                    }
+//                    myAlertDialog?.dismiss()
+//                }
+//            }
+//
+//            myDialogView.etxTitleAddTask.requestFocus()
+//        }
 
         /**
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements

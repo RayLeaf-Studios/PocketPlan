@@ -11,17 +11,18 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="match_parent">
-<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--            android:id="@+id/btnAddNote"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="120dp"-->
-<!--            android:clickable="true"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/btm_nav"-->
-<!--            android:layout_marginBottom="26dp"-->
-<!--            android:focusable="true"-->
-<!--            android:src="@drawable/ic_add_button" />-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="26dp"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btm_nav"
+            android:layout_marginBottom="26dp"
+            android:focusable="true"
+            android:src="@drawable/ic_add_button" />
 
         <FrameLayout
             android:layout_width="match_parent"

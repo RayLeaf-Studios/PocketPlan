@@ -44,10 +44,10 @@ class NoteFr : Fragment() {
 
     private fun initializeComponents(myView: View) {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
-        myView.btnAddNote.setOnClickListener {
-            MainActivity.editNoteHolder = null
-            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
-        }
+//        myView.btnAddNote.setOnClickListener {
+//            MainActivity.editNoteHolder = null
+//            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
+//        }
 
         //TODO READ THIS FROM SETTINGS MANAGER
         val noteColumns = SettingsManager.getSetting("noteColumns") as String

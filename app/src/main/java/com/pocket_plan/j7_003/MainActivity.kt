@@ -37,8 +37,12 @@ import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.pocket_plan.j7_003.data.todolist.Task
+import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.myRecycler
+import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.todoListInstance
 import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
+import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
@@ -60,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private var addItemDialog: AlertDialog? = null
     private var addItemDialogView: View? = null
     private var dialogOpened = false
+    private lateinit var birthdayFr: BirthdayFr
 
     companion object {
         var previousFragmentTag: FT = FT.EMPTY
@@ -158,6 +163,79 @@ class MainActivity : AppCompatActivity() {
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
+        btnAdd.setOnClickListener {
+            when (activeFragmentTag) {
+                FT.BIRTHDAYS -> {
+                    BirthdayFr.editBirthdayHolder = null
+                    birthdayFr.openBirthdayDialog()
+                }
+                FT.TASKS -> {
+
+                    //inflate the dialog with custom view
+                    val myDialogView =
+                        LayoutInflater.from(act).inflate(R.layout.dialog_add_task, null)
+
+                    //AlertDialogBuilder
+                    val myBuilder =
+                        act?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+                    myBuilder?.setCustomTitle(
+                        layoutInflater.inflate(
+                            R.layout.title_dialog_add_task,
+                            null
+                        )
+                    )
+
+                    //show dialog
+                    val myAlertDialog = myBuilder?.create()
+                    myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+                    myAlertDialog?.show()
+
+                    //adds listeners to confirmButtons in addTaskDialog
+                    val taskConfirmButtons = arrayListOf<Button>(
+                        myDialogView.btnConfirm1,
+                        myDialogView.btnConfirm2,
+                        myDialogView.btnConfirm3
+                    )
+
+                    taskConfirmButtons.forEachIndexed { index, button ->
+                        button.setOnClickListener {
+                            val title = myDialogView.etxTitleAddTask.text.toString()
+                            if (title.isEmpty()) {
+                                val animationShake =
+                                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                                myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                                return@setOnClickListener
+                            } else {
+                                val newPos =
+                                    todoListInstance.addFullTask(
+                                        Task(
+                                            title,
+                                            index + 1,
+                                            false
+                                        )
+                                    )
+                                if (newPos == todoListInstance.size - 1) {
+                                    myRecycler.adapter?.notifyDataSetChanged()
+                                } else {
+                                    myRecycler.adapter?.notifyItemInserted(newPos)
+                                }
+                            }
+                            myAlertDialog?.dismiss()
+                        }
+                    }
+
+                    myDialogView.etxTitleAddTask.requestFocus()
+                }
+                FT.NOTES -> {
+                    editNoteHolder = null
+                    changeToFragment(FT.NOTE_EDITOR)
+                }
+                FT.SHOPPING -> {
+                    openAddItemDialog()
+                }
+            }
+        }
+
     }
 
     /**
@@ -194,6 +272,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //display add button where it is needed
+        btnAdd.visibility = when (fragmentTag) {
+            FT.TASKS,
+            FT.SHOPPING,
+            FT.NOTES,
+            FT.BIRTHDAYS,
+            FT.CUSTOM_ITEMS -> View.VISIBLE
+            else -> View.INVISIBLE
+        }
 
         //Set the correct ActionbarTitle
         actionbarContent.tvActionbarTitle.text = when (fragmentTag) {
@@ -307,7 +394,10 @@ class MainActivity : AppCompatActivity() {
                 noteEditorFr = NoteEditorFr()
                 noteEditorFr
             }
-            FT.BIRTHDAYS -> BirthdayFr()
+            FT.BIRTHDAYS -> {
+                birthdayFr = BirthdayFr()
+                birthdayFr
+            }
             FT.ABOUT -> AboutFr()
             FT.SETTINGS -> SettingsFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
@@ -605,12 +695,12 @@ class MainActivity : AppCompatActivity() {
                         //sweep delete button was used
                         if (TodoFr.deletedTaskList.size > 0) {
                             TodoFr.deletedTaskList.forEach { task ->
-                                val newPos = TodoFr.todoListInstance.addFullTask(task)
+                                val newPos = todoListInstance.addFullTask(task)
                                 TodoFr.myAdapter.notifyItemInserted(newPos)
                             }
                             TodoFr.deletedTaskList.clear()
                         } else {
-                            val newPos = TodoFr.todoListInstance.addFullTask(TodoFr.deletedTask!!)
+                            val newPos = todoListInstance.addFullTask(TodoFr.deletedTask!!)
                             TodoFr.deletedTask = null
                             TodoFr.myAdapter.notifyItemInserted(newPos)
                         }

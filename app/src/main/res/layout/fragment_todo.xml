@@ -20,17 +20,4 @@
         tools:layout_editor_absoluteY="0dp"
         tools:listitem="@layout/row_task" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnAddTodoTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_add_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
