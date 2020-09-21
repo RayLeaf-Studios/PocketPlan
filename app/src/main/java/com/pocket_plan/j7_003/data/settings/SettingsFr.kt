@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.settings
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,7 @@ class SettingsFr : Fragment() {
 
     }
 
-    private fun initializeAdapters(){
+    private fun initializeAdapters() {
         //NOTES
         //Spinner for amount of noteLines to be displayed
         val spAdapterNoteLines = ArrayAdapter<String>(
@@ -98,7 +99,8 @@ class SettingsFr : Fragment() {
         spEditorFontsize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting("fontSize")))
 
         swExpandOneCategory.isChecked = SettingsManager.getSetting("expandOneCategory") as Boolean
-        swCollapseCheckedSublists.isChecked = SettingsManager.getSetting("collapseCheckedSublists") as Boolean
+        swCollapseCheckedSublists.isChecked =
+            SettingsManager.getSetting("collapseCheckedSublists") as Boolean
         swLeftHanded.isChecked = SettingsManager.getSetting("drawerLeftSide") as Boolean
 
     }
@@ -164,15 +166,20 @@ class SettingsFr : Fragment() {
         }
 
         swCollapseCheckedSublists.setOnClickListener {
-            SettingsManager.addSetting("collapseCheckedSublists", swCollapseCheckedSublists.isChecked)
+            SettingsManager.addSetting(
+                "collapseCheckedSublists",
+                swCollapseCheckedSublists.isChecked
+            )
         }
 
         swLeftHanded.setOnClickListener {
             SettingsManager.addSetting("drawerLeftSide", swLeftHanded.isChecked)
-            MainActivity.act.finish()
-            val launchIntent = Intent(activity, MainActivity::class.java)
-            launchIntent.putExtra("NotificationEntry", "settings")
-            startActivity(launchIntent)
+            val newDrawerGravity = when (swLeftHanded.isChecked) {
+                true -> Gravity.START
+                else -> Gravity.END
+            }
+            MainActivity.drawerGravity = newDrawerGravity
+            MainActivity.params.gravity = newDrawerGravity
         }
     }
 }

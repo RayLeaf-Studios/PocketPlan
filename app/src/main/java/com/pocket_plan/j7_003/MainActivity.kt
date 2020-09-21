@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         var noteColor: NoteColors = NoteColors.YELLOW
         var fromHome: Boolean = false
         lateinit var bottomNavigation: BottomNavigationView
+        lateinit var params: DrawerLayout.LayoutParams
     }
 
     @SuppressLint("InflateParams")
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         loadDefaultSettings()
         setContentView(R.layout.main_panel)
 
-        val params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
+        params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
         if (SettingsManager.getSetting("drawerLeftSide") as Boolean) {
             params.gravity = Gravity.START
@@ -115,12 +116,6 @@ class MainActivity : AppCompatActivity() {
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
-            when(params.gravity){
-                Gravity.START -> {params.gravity = Gravity.END
-                    drawerGravity = Gravity.END}
-                Gravity.END ->{ params.gravity = Gravity.START
-                drawerGravity = Gravity.START}
-            }
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
                 R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
