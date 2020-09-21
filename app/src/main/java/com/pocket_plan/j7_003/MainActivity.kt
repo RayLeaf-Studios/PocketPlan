@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var sleepView: View
         lateinit var actionbarContent: View
         lateinit var searchView: SearchView
+        var drawerGravity = 0
         var editNoteHolder: Note? = null
         var editTerm: CalendarAppointment? = null
         var myMenu: Menu? = null
@@ -96,11 +97,12 @@ class MainActivity : AppCompatActivity() {
         loadDefaultSettings()
 
         //Check if layout should be right-handed or left-handed
-        val leftHandedMode = SettingsManager.getSetting("drawerLeftSide") as Boolean
-        if (leftHandedMode) {
+        if (SettingsManager.getSetting("drawerLeftSide") as Boolean) {
             setContentView(R.layout.main_panel_lefthanded)
+            drawerGravity = GravityCompat.START
         } else {
             setContentView(R.layout.main_panel)
+            drawerGravity = GravityCompat.END
         }
 
 
@@ -116,12 +118,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
                 R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
                 R.id.menuItemAbout -> changeToFragment(FT.ABOUT)
+                R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
             }
-            if (leftHandedMode) {
-                drawer_layout.closeDrawer(GravityCompat.START)
-            } else {
-                drawer_layout.closeDrawer(GravityCompat.END)
-            }
+            drawer_layout.closeDrawer(drawerGravity)
             true
         }
 
@@ -149,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.todolist -> changeToFragment(FT.TASKS)
                 R.id.home -> changeToFragment(FT.HOME)
                 R.id.shopping -> changeToFragment(FT.SHOPPING)
-                R.id.sleepReminder -> changeToFragment(FT.SLEEP)
+                R.id.menu -> drawer_layout.openDrawer(drawerGravity)
             }
             true
         }

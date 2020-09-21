@@ -103,14 +103,14 @@
 
     <Button
         android:id="@+id/btnTestFileStuff"
-        android:layout_width="70dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_accent"
-        android:text="Test"
         android:layout_marginBottom="50dp"
+        android:background="@drawable/round_corner_gray"
+        android:text="Test"
         app:layout_constraintBottom_toTopOf="@id/btnNewNote"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/btnNewItem"
+        app:layout_constraintStart_toStartOf="@+id/btnNewNote" />
 
     <Button
         android:id="@+id/btnNewNote"

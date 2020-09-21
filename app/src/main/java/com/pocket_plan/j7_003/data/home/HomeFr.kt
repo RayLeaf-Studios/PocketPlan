@@ -74,8 +74,8 @@ class HomeFr : Fragment() {
         //Onclick listeners for task panel, birthday panel and sleep panel,
         myView.panelTasks.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.todolist }
         myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FT.BIRTHDAYS) }
-        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.sleepReminder }
-        myView.icSleepHome.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.sleepReminder }
+        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP)}
+        myView.icSleepHome.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP)}
 
 
         //buttons to create new notes, tasks, terms or items from the home panel
