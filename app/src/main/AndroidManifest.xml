@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.j7_003">
+    package="com.pocket_plan.j7_003">
     
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"        >
         <provider
-            android:name=".system_interaction.handler.share.ShareHandler"
+            android:name="com.pocket_plan.j7_003.system_interaction.handler.share.ShareHandler"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -25,7 +25,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <activity android:name=".MainActivity"
+        <activity android:name="com.pocket_plan.j7_003.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan"
@@ -36,13 +36,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.example.j7_003.system_interaction.receiver.RebootReceiver" >
+        <receiver android:name="com.pocket_plan.j7_003.system_interaction.receiver.RebootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.example.j7_003.system_interaction.receiver.NotificationReceiver" />
+        <receiver android:name="com.pocket_plan.j7_003.system_interaction.receiver.NotificationReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"
