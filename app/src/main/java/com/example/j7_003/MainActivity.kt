@@ -618,6 +618,7 @@ class MainActivity : AppCompatActivity() {
                     FT.SHOPPING -> {
                         //uncheck all shopping items
                         ShoppingFr.shoppingListInstance.uncheckAll()
+                        ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
                     }
                     else -> {/* no-op, this item should not be clickable in current fragment */}
                 }
