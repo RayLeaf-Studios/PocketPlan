@@ -277,8 +277,7 @@ class MainActivity : AppCompatActivity() {
             FT.TASKS,
             FT.SHOPPING,
             FT.NOTES,
-            FT.BIRTHDAYS,
-            FT.CUSTOM_ITEMS -> View.VISIBLE
+            FT.BIRTHDAYS -> View.VISIBLE
             else -> View.INVISIBLE
         }
 
@@ -1112,12 +1111,14 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
                     }
                     itemNameList.add(actvItem.text.toString())
-//                    val autoCompleteTvAdapter2 = ArrayAdapter<String>(
-//                        act, android.R.layout.simple_spinner_dropdown_item, itemNameList
-//                    )
-//                    autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
+                    val autoCompleteTvAdapter2 = ArrayAdapter<String>(
+                        act, android.R.layout.simple_spinner_dropdown_item, itemNameList
+                    )
+                    autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
                     actvItem.setText("")
-//                    addItemDialog?.dismiss()
+                    if(activeFragmentTag==FT.HOME){
+                       addItemDialog?.dismiss()
+                    }
                     return@setOnClickListener
                 }
             }
@@ -1148,7 +1149,9 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
             }
             actvItem.setText("")
-//            addItemDialog?.dismiss()
+            if(activeFragmentTag==FT.HOME){
+                addItemDialog?.dismiss()
+            }
         }
 
         val imm = act.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

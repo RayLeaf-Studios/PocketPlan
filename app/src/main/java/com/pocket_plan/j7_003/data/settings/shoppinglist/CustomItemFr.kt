@@ -46,49 +46,6 @@ class CustomItemFr : Fragment() {
         userItemTemplateList = UserItemTemplateList()
 
         /**
-         * Adding Task via floating action button
-         * Onclick-Listener opening the add-task dialog
-         */
-        myView.btnAddCustomItem.setOnClickListener {
-            //todo change this into an add custom item dialog
-            //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_task, null)
-
-            //AlertDialogBuilder
-            val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-            myBuilder?.setCustomTitle(layoutInflater.inflate(R.layout.title_dialog_add_task, null))
-
-            //show dialog
-            val myAlertDialog = myBuilder?.create()
-            myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-            myAlertDialog?.show()
-
-            //adds listeners to confirmButtons in addTaskDialog
-            val taskConfirmButtons = arrayListOf<Button>(
-                myDialogView.btnConfirm1,
-                myDialogView.btnConfirm2,
-                myDialogView.btnConfirm3
-            )
-
-            taskConfirmButtons.forEachIndexed { index, button ->
-                button.setOnClickListener {
-                    myAlertDialog?.dismiss()
-                    val title = myDialogView.etxTitleAddTask.text.toString()
-                    if(title.isEmpty()){
-
-                    }else{
-                        myRecycler.adapter?.notifyItemInserted(
-                            TodoFr.todoListInstance.addFullTask(
-                            Task(title, index+1, false)
-                        ))
-                    }
-                }
-            }
-
-            myDialogView.etxTitleAddTask.requestFocus()
-        }
-
-        /**
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
@@ -144,63 +101,6 @@ class CustomItemAdapter :
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentItem.n
         holder.itemView.tvCategory.text = currentItem.c.name
-
-        //User Interactions with Task List Item below
-        /**
-         * EDITING task
-         * Onclick-Listener on List items, opening the edit-task dialog
-         */
-
-//        holder.itemView.tvName.setOnClickListener {
-//
-//            if(!TodoFragment.allowSwipe){
-//                return@setOnClickListener
-//            }
-//            //inflate the dialog with custom view
-//            val myDialogView = LayoutInflater.from(activity).inflate(
-//                R.layout.dialog_add_task,
-//                null)
-//
-//            //AlertDialogBuilder
-//            val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
-//            val editTitle = LayoutInflater.from(activity).inflate(
-//                R.layout.title_dialog_add_task,
-//                null)
-//            editTitle.tvDialogTitle.text = "Edit task"
-//            myBuilder.setCustomTitle(editTitle)
-//
-//            //show dialog
-//            val myAlertDialog = myBuilder.create()
-//            myAlertDialog.window?.setSoftInputMode(WindowManager
-//                .LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-//            myAlertDialog.show()
-//
-//            //write current task to textField
-//            myDialogView.etxTitleAddTask.requestFocus()
-//            myDialogView.etxTitleAddTask.setText(Database.getTask(holder.adapterPosition).title)
-//            myDialogView.etxTitleAddTask.setSelection(myDialogView.etxTitleAddTask.text.length)
-//
-//            //adds listeners to confirmButtons in addTaskDialog
-//            val taskConfirmButtons = arrayListOf<Button>(
-//                myDialogView.btnConfirm1,
-//                myDialogView.btnConfirm2,
-//                myDialogView.btnConfirm3
-//            )
-//
-//            //Three buttons to create tasks with priorities 1-3
-//            taskConfirmButtons.forEachIndexed { index, button ->
-//                button.setOnClickListener {
-//                    myAlertDialog.dismiss()
-//                    val newPos = Database.editTask(holder.adapterPosition, index + 1,
-//                        myDialogView.etxTitleAddTask.text.toString(),
-//                        Database.getTask(holder.adapterPosition).isChecked)
-//                    this.notifyItemChanged(holder.adapterPosition)
-//                    this.notifyItemMoved(holder.adapterPosition, newPos)
-//                }
-//            }
-//
-//        }
-//
     }
 
 

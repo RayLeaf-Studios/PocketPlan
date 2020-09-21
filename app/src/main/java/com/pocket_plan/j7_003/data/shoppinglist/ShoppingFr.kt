@@ -60,15 +60,8 @@ class ShoppingFr : Fragment() {
             }
         }
 
-        //TODO add button to empty the entire list
-
         // Inflate the layout for this fragment
         val myView = inflater.inflate(R.layout.fragment_shopping, container, false)
-
-//        val btnAddItem = myView.btnAddItem
-//        btnAddItem.setOnClickListener {
-//            MainActivity.act.openAddItemDialog()
-//        }
 
         //Initialize references to recycler and its adapter
         val myRecycler = myView.recycler_view_shopping
@@ -114,7 +107,7 @@ class ShoppingListAdapter :
 
         if(position == ShoppingFr.shoppingListInstance.size){
             holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.layoutParams.height = 200
+            holder.itemView.layoutParams.height = 250
             holder.itemView.setOnClickListener{}
             return
         }

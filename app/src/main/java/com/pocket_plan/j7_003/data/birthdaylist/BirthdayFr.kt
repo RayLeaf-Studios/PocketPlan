@@ -66,12 +66,6 @@ class BirthdayFr : Fragment() {
 
         birthdayListInstance.collapseAll()
 
-        //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
-//        myView.btnAddBirthday.setOnClickListener {
-//            editBirthdayHolder = null
-//            openBirthdayDialog()
-//        }
-
         //initialize recyclerview and adapter
         myAdapter = BirthdayAdapter()
         myRecycler.adapter = myAdapter
@@ -562,7 +556,7 @@ class BirthdayAdapter :
 
         if (position == BirthdayFr.birthdayListInstance.size) {
             holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.layoutParams.height = 200
+            holder.itemView.layoutParams.height = 280
             holder.itemView.setOnLongClickListener { true }
             holder.itemView.setOnClickListener{}
             return

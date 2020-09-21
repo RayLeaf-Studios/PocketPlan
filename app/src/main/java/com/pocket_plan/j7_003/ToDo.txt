@@ -4,10 +4,9 @@ backend stuff:
     - functionality to save / load a backup file?
 
 Stuff to get done today:
-    - implement only one add button that does not reload when switching fragments
-    - fix custom item fragment
     - detect year change in birthday add/edit => check save year
     - undo shopping fragment
+    - drawer setting as spinner
 
 Priority 1 tasks:
     - add basic items of all categories to list
