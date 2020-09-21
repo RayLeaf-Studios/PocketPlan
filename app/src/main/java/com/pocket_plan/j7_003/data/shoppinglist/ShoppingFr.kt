@@ -112,6 +112,15 @@ class ShoppingListAdapter :
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
 
+        if(position == ShoppingFr.shoppingListInstance.size){
+            holder.itemView.visibility = View.INVISIBLE
+            holder.itemView.layoutParams.height = 200
+            holder.itemView.setOnClickListener{}
+            return
+        }
+        holder.itemView.visibility = View.VISIBLE
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+
         //Get reference to currently used shopping list instance
         val shoppingListInstance = ShoppingFr.shoppingListInstance
 
@@ -198,7 +207,7 @@ class ShoppingListAdapter :
         }
     }
 
-    override fun getItemCount() = ShoppingFr.shoppingListInstance.size
+    override fun getItemCount() = ShoppingFr.shoppingListInstance.size + 1
 
     /**
      * one instance of this class will contain one instance of row_category and meta data like

@@ -4,11 +4,10 @@ backend stuff:
     - functionality to save / load a backup file?
 
 Stuff to get done today:
-    - scrollbuffer für notes, shopping, task, birthdays
+    - implement only one add button that does not reload when switching fragments
     - fix custom item fragment
     - detect year change in birthday add/edit => check save year
     - undo shopping fragment
-    - implement only one add button that does not reload when switching fragments
 
 Priority 1 tasks:
     - add basic items of all categories to list
@@ -19,6 +18,8 @@ Priority 2 tasks:
     - darkthemed notes?
     - button to open sidebar menu?
     - replace all colors and values like text size with resource references
+    - scroll buffer für notes??
+    - dialog confirm clear list?
 
 
 Ideas:

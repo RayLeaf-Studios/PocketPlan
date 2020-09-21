@@ -518,7 +518,7 @@ class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val parsed = viewHolder as BirthdayAdapter.BirthdayViewHolder
-        return if (parsed.birthday.daysToRemind < 0) {
+        return if (viewHolder.adapterPosition==BirthdayFr.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
             0
         } else {
             super.getSwipeDirs(recyclerView, viewHolder)
@@ -560,6 +560,16 @@ class BirthdayAdapter :
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
+        if (position == BirthdayFr.birthdayListInstance.size) {
+            holder.itemView.visibility = View.INVISIBLE
+            holder.itemView.layoutParams.height = 200
+            holder.itemView.setOnLongClickListener { true }
+            holder.itemView.setOnClickListener{}
+            return
+        }
+
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        holder.itemView.visibility = View.VISIBLE
 
         val currentBirthday = when (BirthdayFr.searching) {
             true -> BirthdayFr.adjustedList[position]
@@ -568,8 +578,6 @@ class BirthdayAdapter :
 
         holder.birthday = currentBirthday
 
-
-        //
         if (currentBirthday.daysToRemind < 0) {
             //initialize month divider design
             holder.tvMonthLabel.text = currentBirthday.name
@@ -600,11 +608,12 @@ class BirthdayAdapter :
                             holder.birthday.year.toString()
                 }
                 var dayExtension = ""
-                if(currentBirthday.daysToRemind!=1){
+                if (currentBirthday.daysToRemind != 1) {
                     dayExtension = "s"
                 }
-                var reminderText = "\nreminder "+currentBirthday.daysToRemind.toString()+" day"+dayExtension+" prior"
-                holder.itemView.tvBirthdayInfo.text = ageText+reminderText
+                var reminderText =
+                    "\nreminder " + currentBirthday.daysToRemind.toString() + " day" + dayExtension + " prior"
+                holder.itemView.tvBirthdayInfo.text = ageText + reminderText
             } else {
                 holder.itemView.cvBirthdayInfo.visibility = View.GONE
             }
@@ -656,7 +665,7 @@ class BirthdayAdapter :
     override fun getItemCount(): Int {
         return when (BirthdayFr.searching) {
             true -> BirthdayFr.adjustedList.size
-            false -> listInstance.size
+            false -> listInstance.size + 1
         }
     }
 

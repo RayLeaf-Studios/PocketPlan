@@ -114,6 +114,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <View
+                android:layout_width="409dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewEditorvFontsize"
                 android:layout_width="match_parent"
