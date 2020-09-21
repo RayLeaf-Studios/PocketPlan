@@ -223,6 +223,16 @@ class BirthdayList: ArrayList<Birthday>() {
     }
 
     /**
+     * Saves all birthdays as collapsed.
+     */
+    fun collapseAll() {
+        this.forEach { e ->
+            e.expanded = false
+        }
+        save()
+    }
+
+    /**
      * Returns the x next birthdays from the this as a list. If the requested
      * size is larger than the this size the whole list is returned.
      * @param index Amount of birthdays to return.
