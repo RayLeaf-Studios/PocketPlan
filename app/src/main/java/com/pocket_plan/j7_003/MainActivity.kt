@@ -52,6 +52,7 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var noteEditorFr: NoteEditorFr
+
     //contents for shopping list
     private lateinit var tagList: TagList
     private lateinit var tagNames: Array<String?>
@@ -178,7 +179,7 @@ class MainActivity : AppCompatActivity() {
     //change to fragment of specified tag
     fun changeToFragment(fragmentTag: FT) {
 
-        if(activeFragmentTag==fragmentTag){
+        if (activeFragmentTag == fragmentTag) {
             return
         }
 
@@ -186,7 +187,7 @@ class MainActivity : AppCompatActivity() {
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
         if (activeFragmentTag == FT.NOTE_EDITOR) {
-            if(relevantNoteChanges()){
+            if (relevantNoteChanges()) {
                 dialogDiscardNoteChanges(fragmentTag)
                 return
             }
@@ -194,7 +195,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //Set the correct ActionbarTitle
-        actionbarContent.tvActionbarTitle.text = when(fragmentTag){
+        actionbarContent.tvActionbarTitle.text = when (fragmentTag) {
             FT.HOME -> "Pocket Plan"
             FT.TASKS -> "To-Do"
             FT.SHOPPING -> "Shopping"
@@ -218,28 +219,30 @@ class MainActivity : AppCompatActivity() {
         activeFragmentTag = fragmentTag
 
         //deselect bottom nav items if current item does not have an icon there
-        when(fragmentTag){
+        when (fragmentTag) {
             FT.BIRTHDAYS,
             FT.NOTE_EDITOR,
+            FT.SLEEP,
             FT.CUSTOM_ITEMS,
             FT.SETTINGS,
             FT.ABOUT -> setNavBarUnchecked()
-            else -> {/* no-op */}
+            else -> {/* no-op */
+            }
         }
 
         //hide all icons
         hideMenuIcons()
 
         //set all icons to showAsAction if not in Shopping
-        if(activeFragmentTag!=FT.SHOPPING){
-            for(i in 0 until myMenu!!.size()){
+        if (activeFragmentTag != FT.SHOPPING) {
+            for (i in 0 until myMenu!!.size()) {
                 myMenu?.getItem(i)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
         }
 
         //set the correct items to visible and set their correct icons, depending on current fragment
-        when(activeFragmentTag){
-            FT.NOTE_EDITOR ->{
+        when (activeFragmentTag) {
+            FT.NOTE_EDITOR -> {
                 if (editNoteHolder != null) {
                     myMenu?.getItem(0)?.isVisible = true
                     myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete)
@@ -267,33 +270,34 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
             }
-            FT.BIRTHDAYS ->{
+            FT.BIRTHDAYS -> {
                 myMenu?.getItem(3)?.isVisible = true
             }
-            FT.TASKS ->{
+            FT.TASKS -> {
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
                 updateDeleteTaskIcon()
             }
-            FT.CALENDAR ->{
+            FT.CALENDAR -> {
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
                 myMenu?.getItem(0)?.isVisible = true
             }
-            FT.DAY_VIEW ->{
+            FT.DAY_VIEW -> {
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
                 myMenu?.getItem(0)?.isVisible = true
             }
-            FT.SHOPPING ->{
-               myMenu?.getItem(0)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
-               myMenu?.getItem(0)?.isVisible = true
-               myMenu?.getItem(1)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
-               myMenu?.getItem(1)?.isVisible = true
+            FT.SHOPPING -> {
+                myMenu?.getItem(0)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+                myMenu?.getItem(0)?.isVisible = true
+                myMenu?.getItem(1)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+                myMenu?.getItem(1)?.isVisible = true
             }
-            else -> {/* no-op, activeFragment does not have any icons*/}
+            else -> {/* no-op, activeFragment does not have any icons*/
+            }
 
         }
 
         //create fragment object
-        val fragment = when(fragmentTag){
+        val fragment = when (fragmentTag) {
             FT.HOME -> HomeFr()
             FT.TASKS -> TodoFr()
             FT.SHOPPING -> ShoppingFr()
@@ -440,7 +444,7 @@ class MainActivity : AppCompatActivity() {
         val noteContent = noteEditorFr.etNoteContent.text.toString()
         val noteTitle = noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
-        if(previousFragmentTag==FT.HOME){
+        if (previousFragmentTag == FT.HOME) {
             Toast.makeText(act, "Note was added!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -463,7 +467,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         if (activeFragmentTag == FT.NOTE_EDITOR) {
-            if(relevantNoteChanges()){
+            if (relevantNoteChanges()) {
                 dialogDiscardNoteChanges(previousFragmentTag)
                 return
             }
@@ -482,20 +486,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun relevantNoteChanges():Boolean{
+    private fun relevantNoteChanges(): Boolean {
 
         var result = true
         //check if note was edited, return otherwise
         if (editNoteHolder != null && editNoteHolder!!.title == noteEditorFr.etNoteTitle.text.toString() &&
             editNoteHolder!!.content == noteEditorFr.etNoteContent.text.toString() &&
-            editNoteHolder!!.color == noteColor) {
+            editNoteHolder!!.color == noteColor
+        ) {
             //no relevant note changes if the title, content and color did not get changed
             result = false
         }
 
         //check if anything was written when adding new note, return otherwise
-        if(editNoteHolder==null && noteEditorFr.etNoteTitle.text.toString()=="" &&
-            noteEditorFr.etNoteContent.text.toString()==""){
+        if (editNoteHolder == null && noteEditorFr.etNoteTitle.text.toString() == "" &&
+            noteEditorFr.etNoteContent.text.toString() == ""
+        ) {
             //no relevant note changes if its a new empty note
             result = false
         }
@@ -504,7 +510,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun dialogDiscardNoteChanges(gotoFragment: FT) {
 
-        if(dialogOpened){
+        if (dialogOpened) {
             return
         }
         dialogOpened = true
@@ -531,7 +537,7 @@ class MainActivity : AppCompatActivity() {
             changeToFragment(gotoFragment)
         }
         myDialogView.btnSaveChanges.setOnClickListener {
-            activeFragmentTag=FT.EMPTY
+            activeFragmentTag = FT.EMPTY
             manageNoteConfirm()
             changeToFragment(gotoFragment)
             dialogOpened = false
@@ -577,11 +583,12 @@ class MainActivity : AppCompatActivity() {
                         BirthdayFr.myAdapter.notifyDataSetChanged()
                     }
                     FT.SHOPPING -> {
-                       //clear shopping list
+                        //clear shopping list
                         ShoppingFr.shoppingListInstance.clear()
                         ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
                     }
-                    else -> {/* no-op, this icon should not be visible / clickable in this fragment*/}
+                    else -> {/* no-op, this icon should not be visible / clickable in this fragment*/
+                    }
                 }
                 true
             }
@@ -614,7 +621,8 @@ class MainActivity : AppCompatActivity() {
                         ShoppingFr.shoppingListInstance.uncheckAll()
                         ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
                     }
-                    else -> {/* no-op, this item should not be clickable in current fragment */}
+                    else -> {/* no-op, this item should not be clickable in current fragment */
+                    }
                 }
                 true
             }
@@ -629,7 +637,8 @@ class MainActivity : AppCompatActivity() {
                             else -> changeToFragment(FT.HOME)
                         }
                     }
-                    else -> {/* no-op, this item should not be clickable in current fragment */}
+                    else -> {/* no-op, this item should not be clickable in current fragment */
+                    }
                 }
                 true
             }
@@ -762,6 +771,7 @@ class MainActivity : AppCompatActivity() {
         //show dialog
         myAlertDialog.show()
     }
+
     private fun openDeleteNoteDialog() {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
 

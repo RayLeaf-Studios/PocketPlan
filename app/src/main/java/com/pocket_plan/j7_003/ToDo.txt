@@ -3,12 +3,16 @@ Todo:
 backend stuff:
     - functionality to save / load a backup file?
 
-Priority 1 tasks:
+Stuff to get done today:
     - scrollbuffer für notes, shopping, task, birthdays
-    - add basic items of all categories to list
-    - language options
     - detect year change in birthday add/edit => check save year
     - undo shopping fragment
+    - default all birthdays to not be expanded
+    - implement only one add button that does not reload when switching fragments
+
+Priority 1 tasks:
+    - add basic items of all categories to list
+    - language options
 
 Priority 2 tasks:
     - functionality that supports adding of categories?

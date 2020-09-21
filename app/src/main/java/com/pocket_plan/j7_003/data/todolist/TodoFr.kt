@@ -148,21 +148,6 @@ class TodoFr : Fragment() {
         deletedTask = null
         val oldSize = todoListInstance.size
         val newSize = todoListInstance.deleteCheckedTasks()
-        //todo maybe add delete animation
-//        allowSwipe = false
-//        for (i in newSize .. layoutManager.findLastVisibleItemPosition()) {
-//            val v =
-//                myRecycler.findViewHolderForAdapterPosition(i) as TodoTaskAdapter.TodoTaskViewHolder
-//            if (i == layoutManager.findLastVisibleItemPosition()) {
-//                v.itemView.animate().scaleX(0f).setDuration(300).scaleY(0f).withEndAction {
-//                    myAdapter.notifyItemRangeRemoved(newSize, oldSize)
-//                    allowSwipe = true
-//                }
-//            } else {
-//                v.itemView.animate().scaleX(0f).scaleY(0f).duration = 300
-//            }
-//
-//        }
         myAdapter.notifyItemRangeRemoved(newSize, oldSize)
         MainActivity.act.updateDeleteTaskIcon()
     }
@@ -214,6 +199,14 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
 
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
+
+        if(position == TodoFr.todoListInstance.size){
+            holder.itemView.visibility = View.INVISIBLE
+            holder.itemView.tvName.setOnLongClickListener { true }
+            holder.itemView.tapField.setOnClickListener {  }
+            return
+        }
+        holder.itemView.visibility = View.VISIBLE
 
         val currentTask = listInstance.getTask(holder.adapterPosition)
         val activity = MainActivity.act
@@ -346,8 +339,10 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
         }
     }
 
-    override fun getItemCount() = TodoFr.todoListInstance.size
+    override fun getItemCount() = TodoFr.todoListInstance.size + 1
 
     class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
+
+
 

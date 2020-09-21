@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         app:layout_constraintEnd_toEndOf="parent"
+        android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -24,12 +25,12 @@
         android:id="@+id/btnAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="26dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_add_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
