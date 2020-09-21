@@ -8,11 +8,8 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.SearchView
-import android.widget.SeekBar
+import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -47,6 +44,7 @@ import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.main_panel.*
+import kotlinx.android.synthetic.main.main_panel.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity() {
@@ -96,14 +94,16 @@ class MainActivity : AppCompatActivity() {
 
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
+        setContentView(R.layout.main_panel)
 
+        val params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
         if (SettingsManager.getSetting("drawerLeftSide") as Boolean) {
-            setContentView(R.layout.main_panel_lefthanded)
-            drawerGravity = GravityCompat.START
+            params.gravity = Gravity.START
+            drawerGravity = Gravity.START
         } else {
-            setContentView(R.layout.main_panel)
-            drawerGravity = GravityCompat.END
+            //navigation view drawer layout already is defaulted to END
+            drawerGravity = Gravity.END
         }
 
 
@@ -115,6 +115,12 @@ class MainActivity : AppCompatActivity() {
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
+            when(params.gravity){
+                Gravity.START -> {params.gravity = Gravity.END
+                    drawerGravity = Gravity.END}
+                Gravity.END ->{ params.gravity = Gravity.START
+                drawerGravity = Gravity.START}
+            }
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
                 R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
