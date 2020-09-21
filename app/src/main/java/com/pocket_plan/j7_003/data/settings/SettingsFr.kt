@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Switch
+import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
@@ -25,9 +26,9 @@ class SettingsFr : Fragment() {
     lateinit var spNoteColumns: Spinner
     lateinit var spEditorFontsize: Spinner
     private lateinit var clManageCustomItems: ConstraintLayout
-    private lateinit var swExpandOneCategory: Switch
-    private lateinit var swCollapseCheckedSublists: Switch
-    private lateinit var swLeftHanded: Switch
+    private lateinit var swExpandOneCategory: SwitchCompat
+    private lateinit var swCollapseCheckedSublists: SwitchCompat
+    private lateinit var swLeftHanded: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

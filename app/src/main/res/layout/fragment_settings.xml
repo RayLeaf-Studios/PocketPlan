@@ -214,7 +214,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swExpandOneCategory"
                     app:layout_constraintTop_toTopOf="@id/tvOneCategory"
                     app:layout_constraintBottom_toBottomOf="@id/tvOneCategory"
@@ -248,13 +248,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swCollapseCheckedSublists"
                     app:layout_constraintTop_toTopOf="@id/tvCollapseCheckedCategories"
                     app:layout_constraintBottom_toBottomOf="@id/tvCollapseCheckedCategories"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -297,27 +298,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tvForcedRestart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Changing this will force a restart!"
-                    android:textColor="@color/colorHint"
-                    android:textSize="11sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvNavDrawer" />
-
-                <Switch
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swLeftHanded"
                     app:layout_constraintTop_toTopOf="@id/tvNavDrawer"
                     app:layout_constraintBottom_toBottomOf="@id/tvNavDrawer"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewScrollPlaceHolder"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingHorizontal="20dp">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
 
