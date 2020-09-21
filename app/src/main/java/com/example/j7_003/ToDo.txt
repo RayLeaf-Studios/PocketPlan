@@ -7,6 +7,7 @@ Priority 1 tasks:
     - add basic items of all categories to list
     - undo shopping fragment
     - button to clear shopping list
+    - notification toast when adding note from home
 
 Priority 3 tasks:
     - functionality that supports adding of categories?

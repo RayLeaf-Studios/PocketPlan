@@ -13,7 +13,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.fragmenttags.FragmentTags
+import com.example.j7_003.data.fragmenttags.FT
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_day.view.*
 import org.threeten.bp.LocalDate
@@ -144,7 +144,7 @@ class DayFr : Fragment() {
     }
 
     private fun changeToCreateTermFragment() {
-        MainActivity.act.changeToFragment(FragmentTags.CREATE_TERM)
+        MainActivity.act.changeToFragment(FT.CREATE_TERM)
     }
 }
 

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.fragmenttags.FragmentTags
+import com.example.j7_003.data.fragmenttags.FT
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_calender.view.*
 import kotlinx.android.synthetic.main.row_term.view.*
@@ -56,7 +56,7 @@ class CalenderFr : Fragment() {
     }
 
     private fun changeToCreateTermFragment() {
-        MainActivity.act.changeToFragment(FragmentTags.CREATE_TERM)
+        MainActivity.act.changeToFragment(FT.CREATE_TERM)
     }
 
 }
@@ -115,7 +115,7 @@ class TermAdapter :
         holder.itemView.setOnClickListener {
             //todo start createTermFragment in EDIT MODE
             MainActivity.editTerm = currentTerm
-            MainActivity.act.changeToFragment(FragmentTags.CREATE_TERM)
+            MainActivity.act.changeToFragment(FT.CREATE_TERM)
         }
 
         holder.tvTitle.text = currentTerm.title

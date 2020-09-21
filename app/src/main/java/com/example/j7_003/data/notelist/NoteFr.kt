@@ -5,20 +5,17 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.fragmenttags.FragmentTags
+import com.example.j7_003.data.fragmenttags.FT
 import com.example.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
-import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.row_note.view.*
 
 /**
@@ -49,7 +46,7 @@ class NoteFr : Fragment() {
         //ADDING NOTE VIA FLOATING ACTION BUTTON
         myView.btnAddNote.setOnClickListener {
             MainActivity.editNoteHolder = null
-            MainActivity.act.changeToFragment(FragmentTags.NOTE_EDITOR)
+            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
         }
 
         //TODO READ THIS FROM SETTINGS MANAGER
@@ -104,7 +101,7 @@ class NoteAdapter :
         holder.itemView.setOnClickListener {
             MainActivity.editNoteHolder = currentNote
             MainActivity.noteColor = noteList.getNote(holder.adapterPosition).color
-            MainActivity.act.changeToFragment(FragmentTags.NOTE_EDITOR)
+            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
 //                myEtTitle.requestFocus()
 //                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
         }

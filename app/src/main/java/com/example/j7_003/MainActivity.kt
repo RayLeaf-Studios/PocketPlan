@@ -2,7 +2,6 @@ package com.example.j7_003
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,7 +25,7 @@ import com.example.j7_003.data.calendar.CalendarAppointment
 import com.example.j7_003.data.calendar.CalenderFr
 import com.example.j7_003.data.calendar.CreateTermFr
 import com.example.j7_003.data.calendar.DayFr
-import com.example.j7_003.data.fragmenttags.FragmentTags
+import com.example.j7_003.data.fragmenttags.FT
 import com.example.j7_003.data.home.HomeFr
 import com.example.j7_003.data.notelist.NoteEditorFr
 import com.example.j7_003.data.notelist.Note
@@ -64,8 +63,8 @@ class MainActivity : AppCompatActivity() {
     private var dialogOpened = false
 
     companion object {
-        var previousFragmentTag: FragmentTags = FragmentTags.EMPTY
-        var activeFragmentTag: FragmentTags = FragmentTags.EMPTY
+        var previousFragmentTag: FT = FT.EMPTY
+        var activeFragmentTag: FT = FT.EMPTY
         lateinit var act: MainActivity
         lateinit var sleepView: View
         lateinit var actionbarContent: View
@@ -114,9 +113,9 @@ class MainActivity : AppCompatActivity() {
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.menuItemSettings -> changeToFragment(FragmentTags.SETTINGS)
-                R.id.menuItemBirthdays -> changeToFragment(FragmentTags.BIRTHDAYS)
-                R.id.menuItemAbout -> changeToFragment(FragmentTags.ABOUT)
+                R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
+                R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
+                R.id.menuItemAbout -> changeToFragment(FT.ABOUT)
             }
             if (leftHandedMode) {
                 drawer_layout.closeDrawer(GravityCompat.START)
@@ -146,11 +145,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.notes -> changeToFragment(FragmentTags.NOTES)
-                R.id.todolist -> changeToFragment(FragmentTags.TASKS)
-                R.id.home -> changeToFragment(FragmentTags.HOME)
-                R.id.shopping -> changeToFragment(FragmentTags.SHOPPING)
-                R.id.sleepReminder -> changeToFragment(FragmentTags.SLEEP)
+                R.id.notes -> changeToFragment(FT.NOTES)
+                R.id.todolist -> changeToFragment(FT.TASKS)
+                R.id.home -> changeToFragment(FT.HOME)
+                R.id.shopping -> changeToFragment(FT.SHOPPING)
+                R.id.sleepReminder -> changeToFragment(FT.SLEEP)
             }
             true
         }
@@ -178,7 +177,7 @@ class MainActivity : AppCompatActivity() {
 
 
     //change to fragment of specified tag
-    fun changeToFragment(fragmentTag: FragmentTags) {
+    fun changeToFragment(fragmentTag: FT) {
 
         if(activeFragmentTag==fragmentTag){
             return
@@ -187,7 +186,7 @@ class MainActivity : AppCompatActivity() {
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
-        if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
+        if (activeFragmentTag == FT.NOTE_EDITOR) {
             if(relevantNoteChanges()){
                 dialogDiscardNoteChanges(fragmentTag)
                 return
@@ -197,19 +196,19 @@ class MainActivity : AppCompatActivity() {
 
         //Set the correct ActionbarTitle
         actionbarContent.tvActionbarTitle.text = when(fragmentTag){
-            FragmentTags.HOME -> "Pocket Plan"
-            FragmentTags.TASKS -> "To-Do"
-            FragmentTags.SHOPPING -> "Shopping"
-            FragmentTags.NOTES -> "Notes"
-            FragmentTags.NOTE_EDITOR -> "Editor"
-            FragmentTags.BIRTHDAYS -> "Birthdays"
-            FragmentTags.ABOUT -> "About"
-            FragmentTags.SETTINGS -> "Settings"
-            FragmentTags.CUSTOM_ITEMS -> "Custom Items"
-            FragmentTags.SLEEP -> "Sleep-Reminder"
-            FragmentTags.CALENDAR -> "Calendar"
-            FragmentTags.CREATE_TERM -> "Create term"
-            FragmentTags.DAY_VIEW -> "Day-View"
+            FT.HOME -> "Pocket Plan"
+            FT.TASKS -> "To-Do"
+            FT.SHOPPING -> "Shopping"
+            FT.NOTES -> "Notes"
+            FT.NOTE_EDITOR -> "Editor"
+            FT.BIRTHDAYS -> "Birthdays"
+            FT.ABOUT -> "About"
+            FT.SETTINGS -> "Settings"
+            FT.CUSTOM_ITEMS -> "Custom Items"
+            FT.SLEEP -> "Sleep-Reminder"
+            FT.CALENDAR -> "Calendar"
+            FT.CREATE_TERM -> "Create term"
+            FT.DAY_VIEW -> "Day-View"
             else -> ""
         }
 
@@ -221,18 +220,27 @@ class MainActivity : AppCompatActivity() {
 
         //deselect bottom nav items if current item does not have an icon there
         when(fragmentTag){
-            FragmentTags.BIRTHDAYS,
-            FragmentTags.NOTE_EDITOR,
-            FragmentTags.CUSTOM_ITEMS,
-            FragmentTags.SETTINGS,
-            FragmentTags.ABOUT -> setNavBarUnchecked()
+            FT.BIRTHDAYS,
+            FT.NOTE_EDITOR,
+            FT.CUSTOM_ITEMS,
+            FT.SETTINGS,
+            FT.ABOUT -> setNavBarUnchecked()
             else -> {/* no-op */}
         }
 
-        //initialize icons
+        //hide all icons
         hideMenuIcons()
+
+        //set all icons to showAsAction if not in Shopping
+        if(activeFragmentTag!=FT.SHOPPING){
+            for(i in 0 until myMenu!!.size()){
+                myMenu?.getItem(i)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
+        }
+
+        //set the correct items to visible and set their correct icons, depending on current fragment
         when(activeFragmentTag){
-            FragmentTags.NOTE_EDITOR ->{
+            FT.NOTE_EDITOR ->{
                 if (editNoteHolder != null) {
                     myMenu?.getItem(0)?.isVisible = true
                     myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete)
@@ -260,52 +268,49 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
             }
-            FragmentTags.BIRTHDAYS ->{
+            FT.BIRTHDAYS ->{
                 myMenu?.getItem(3)?.isVisible = true
             }
-            FragmentTags.TASKS ->{
+            FT.TASKS ->{
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_delete_sweep)
                 updateDeleteTaskIcon()
             }
-            FragmentTags.CALENDAR ->{
+            FT.CALENDAR ->{
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_calendar)
                 myMenu?.getItem(0)?.isVisible = true
             }
-            FragmentTags.DAY_VIEW ->{
+            FT.DAY_VIEW ->{
                 myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_all_terms)
                 myMenu?.getItem(0)?.isVisible = true
+            }
+            FT.SHOPPING ->{
+               myMenu?.getItem(0)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+               myMenu?.getItem(0)?.isVisible = true
+               myMenu?.getItem(1)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+               myMenu?.getItem(1)?.isVisible = true
             }
             else -> {/* no-op, activeFragment does not have any icons*/}
 
         }
-        //todo implement this cleaner
-        if(fragmentTag==FragmentTags.NOTE_EDITOR){
-            noteEditorFr = NoteEditorFr()
-
-            //animate fragment change
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, noteEditorFr)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-            return
-        }
 
         //create fragment object
         val fragment = when(fragmentTag){
-            FragmentTags.HOME -> HomeFr()
-            FragmentTags.TASKS -> TodoFr()
-            FragmentTags.SHOPPING -> ShoppingFr()
-            FragmentTags.NOTES -> NoteFr()
-            FragmentTags.NOTE_EDITOR -> NoteEditorFr()
-            FragmentTags.BIRTHDAYS -> BirthdayFr()
-            FragmentTags.ABOUT -> AboutFr()
-            FragmentTags.SETTINGS -> SettingsFr()
-            FragmentTags.CUSTOM_ITEMS -> CustomItemFr()
-            FragmentTags.SLEEP -> SleepFr()
-            FragmentTags.CALENDAR -> CalenderFr()
-            FragmentTags.CREATE_TERM -> CreateTermFr()
-            FragmentTags.DAY_VIEW -> DayFr()
+            FT.HOME -> HomeFr()
+            FT.TASKS -> TodoFr()
+            FT.SHOPPING -> ShoppingFr()
+            FT.NOTES -> NoteFr()
+            FT.NOTE_EDITOR -> {
+                noteEditorFr = NoteEditorFr()
+                noteEditorFr
+            }
+            FT.BIRTHDAYS -> BirthdayFr()
+            FT.ABOUT -> AboutFr()
+            FT.SETTINGS -> SettingsFr()
+            FT.CUSTOM_ITEMS -> CustomItemFr()
+            FT.SLEEP -> SleepFr()
+            FT.CALENDAR -> CalenderFr()
+            FT.CREATE_TERM -> CreateTermFr()
+            FT.DAY_VIEW -> DayFr()
             else -> HomeFr()
         }
 
@@ -463,7 +468,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
-        if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
+        if (activeFragmentTag == FT.NOTE_EDITOR) {
             if(relevantNoteChanges()){
                 dialogDiscardNoteChanges(previousFragmentTag)
                 return
@@ -471,12 +476,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         when (previousFragmentTag) {
-            FragmentTags.HOME -> changeToFragment(FragmentTags.HOME)
-            FragmentTags.NOTES -> changeToFragment(FragmentTags.NOTES)
-            FragmentTags.SHOPPING -> changeToFragment(FragmentTags.SHOPPING)
-            FragmentTags.SETTINGS -> changeToFragment(FragmentTags.SETTINGS)
-            FragmentTags.TASKS -> changeToFragment(FragmentTags.TASKS)
-            FragmentTags.SLEEP -> changeToFragment(FragmentTags.SLEEP)
+            FT.HOME -> changeToFragment(FT.HOME)
+            FT.NOTES -> changeToFragment(FT.NOTES)
+            FT.SHOPPING -> changeToFragment(FT.SHOPPING)
+            FT.SETTINGS -> changeToFragment(FT.SETTINGS)
+            FT.TASKS -> changeToFragment(FT.TASKS)
+            FT.SLEEP -> changeToFragment(FT.SLEEP)
             else -> super.onBackPressed()
         }
 
@@ -503,7 +508,7 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun dialogDiscardNoteChanges(gotoFragment: FragmentTags) {
+    private fun dialogDiscardNoteChanges(gotoFragment: FT) {
 
         if(dialogOpened){
             return
@@ -526,13 +531,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         myDialogView.btnDiscardChanges.setOnClickListener {
-            activeFragmentTag = FragmentTags.EMPTY
+            activeFragmentTag = FT.EMPTY
             dialogOpened = false
             myAlertDialog?.dismiss()
             changeToFragment(gotoFragment)
         }
         myDialogView.btnSaveChanges.setOnClickListener {
-            activeFragmentTag=FragmentTags.EMPTY
+            activeFragmentTag=FT.EMPTY
             manageNoteConfirm()
             changeToFragment(gotoFragment)
             dialogOpened = false
@@ -541,47 +546,56 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    //Reacts to the user clicking an options icon in the actionbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /**
-         * Manages onclick listeners for color picker and submit icon used when
-         * editing or writing a note
-         */
         return when (item.itemId) {
+            //behavior for the item on the left
             R.id.item_left -> {
-                if (activeFragmentTag == FragmentTags.DAY_VIEW) {
-                    changeToFragment(FragmentTags.CALENDAR)
-                } else if (activeFragmentTag == FragmentTags.CALENDAR) {
-                    changeToFragment(FragmentTags.DAY_VIEW)
-                } else if (activeFragmentTag == FragmentTags.TASKS) {
-                    TodoFr.myFragment.manageCheckedTaskDeletion()
-                    updateUndoTaskIcon()
-                } else if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
-                    //act as delete button to delete current note
-                    openDeleteNoteDialog()
-                } else if (activeFragmentTag == FragmentTags.NOTES) {
-                    NoteFr.noteListInstance.addFullNote(NoteFr.deletedNote!!)
-                    NoteFr.deletedNote = null
-                    NoteFr.noteAdapter.notifyItemInserted(0)
-                    updateUndoNoteIcon()
-                } else if (activeFragmentTag == FragmentTags.BIRTHDAYS) {
-                    BirthdayFr.birthdayListInstance.addFullBirthday(
-                        BirthdayFr.deletedBirthday!!
-                    )
-                    BirthdayFr.deletedBirthday = null
-                    updateUndoBirthdayIcon()
-                    BirthdayFr.myAdapter.notifyDataSetChanged()
+                //actions for this item depending on the current fragment
+                when (activeFragmentTag) {
+                    FT.DAY_VIEW -> {
+                        //takes the user to the calendar fragment
+                        changeToFragment(FT.CALENDAR)
+                    }
+                    FT.TASKS -> {
+                        //delete checked tasks and update the undoTask icon
+                        TodoFr.myFragment.manageCheckedTaskDeletion()
+                        updateUndoTaskIcon()
+                    }
+                    FT.NOTE_EDITOR -> {
+                        //ote Editor open the Delete note dialog
+                        openDeleteNoteDialog()
+                    }
+                    FT.NOTES -> {
+                        //undo the last deletion
+                        NoteFr.noteListInstance.addFullNote(NoteFr.deletedNote!!)
+                        NoteFr.deletedNote = null
+                        NoteFr.noteAdapter.notifyItemInserted(0)
+                        updateUndoNoteIcon()
+                    }
+                    FT.BIRTHDAYS -> {
+                        //undo the last deletion
+                        BirthdayFr.birthdayListInstance.addFullBirthday(
+                            BirthdayFr.deletedBirthday!!
+                        )
+                        BirthdayFr.deletedBirthday = null
+                        updateUndoBirthdayIcon()
+                        BirthdayFr.myAdapter.notifyDataSetChanged()
+                    }
+                    else -> {/* no-op, this icon should not be visible / clickable in this fragment*/}
                 }
                 true
             }
 
             R.id.item_middle -> {
                 when (activeFragmentTag) {
-                    FragmentTags.NOTE_EDITOR -> {
+                    FT.NOTE_EDITOR -> {
                         //open color chooser to change color of current note
                         openColorChooser()
-                        true
                     }
-                    FragmentTags.TASKS -> {
+                    FT.TASKS -> {
+                        //undo deletion of last deleted task (or multiple deleted tasks, if
+                        //sweep delete button was used
                         if (TodoFr.deletedTaskList.size > 0) {
                             TodoFr.deletedTaskList.forEach { task ->
                                 val newPos = TodoFr.todoListInstance.addFullTask(task)
@@ -595,23 +609,23 @@ class MainActivity : AppCompatActivity() {
                         }
                         updateUndoTaskIcon()
                         updateDeleteTaskIcon()
-                        true
                     }
-                    else -> {
-                        true
-                    }
+                    else -> {/* no-op, this item should not be clickable in current fragment */}
                 }
+                true
             }
             R.id.item_right -> {
-                if (activeFragmentTag == FragmentTags.NOTE_EDITOR) {
-                    //act as check mark to add / confirm note edit
-                    manageNoteConfirm()
-                    activeFragmentTag=FragmentTags.EMPTY
-                    when(previousFragmentTag==FragmentTags.NOTES){
-                        true -> changeToFragment(FragmentTags.NOTES)
-                        else -> changeToFragment(FragmentTags.HOME)
+                when (activeFragmentTag) {
+                    FT.NOTE_EDITOR -> {
+                        //act as check mark to add / confirm note edit
+                        manageNoteConfirm()
+                        activeFragmentTag = FT.EMPTY
+                        when (previousFragmentTag == FT.NOTES) {
+                            true -> changeToFragment(FT.NOTES)
+                            else -> changeToFragment(FT.HOME)
+                        }
                     }
-
+                    else -> {/* no-op, this item should not be clickable in current fragment */}
                 }
                 true
             }
@@ -657,7 +671,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         myMenu = menu
-        activeFragmentTag = FragmentTags.EMPTY
+        activeFragmentTag = FT.EMPTY
 
         /**
          * Checks intent for passed String-Value, indicating required switching into fragment
@@ -665,9 +679,9 @@ class MainActivity : AppCompatActivity() {
          */
 
         when (intent.extras?.get("NotificationEntry").toString()) {
-            "birthdays" -> changeToFragment(FragmentTags.BIRTHDAYS)
-            "SReminder" -> changeToFragment(FragmentTags.HOME)
-            "settings" -> changeToFragment(FragmentTags.SETTINGS)
+            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder" -> changeToFragment(FT.HOME)
+            "settings" -> changeToFragment(FT.SETTINGS)
             else -> bottomNavigation.selectedItemId = R.id.home
         }
         return true
@@ -733,8 +747,8 @@ class MainActivity : AppCompatActivity() {
             NoteFr.noteListInstance.save()
             hideKeyboard()
             myAlertDialog.dismiss()
-            activeFragmentTag = FragmentTags.EMPTY
-            changeToFragment(FragmentTags.NOTES)
+            activeFragmentTag = FT.EMPTY
+            changeToFragment(FT.NOTES)
         }
 
         btnCancelNew.setOnClickListener {
@@ -912,7 +926,7 @@ class MainActivity : AppCompatActivity() {
                         false
                     )
                     ShoppingFr.shoppingListInstance.add(item)
-                    if (activeFragmentTag == FragmentTags.SHOPPING) {
+                    if (activeFragmentTag == FT.SHOPPING) {
                         ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
                     } else {
                         Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
@@ -947,7 +961,7 @@ class MainActivity : AppCompatActivity() {
                 false
             )
             ShoppingFr.shoppingListInstance.add(item)
-            if (activeFragmentTag == FragmentTags.SHOPPING) {
+            if (activeFragmentTag == FT.SHOPPING) {
                 ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()

@@ -1,10 +1,10 @@
 package com.example.j7_003.data.about
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.j7_003.MainActivity
 import com.example.j7_003.R
 
 /**

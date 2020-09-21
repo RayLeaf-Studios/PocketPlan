@@ -16,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.j7_003.MainActivity
 import com.example.j7_003.R
-import com.example.j7_003.data.fragmenttags.FragmentTags
+import com.example.j7_003.data.fragmenttags.FT
 import kotlinx.android.synthetic.main.fragment_create_term.view.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -120,9 +120,9 @@ class CreateTermFr : Fragment() {
         val termInfo = etTermInfo.text.toString()
         CalendarManager.addAppointment(termTitle, termInfo, startDateTime, endLocalTime)
         if (MainActivity.fromHome) {
-            MainActivity.act.changeToFragment(FragmentTags.HOME)
+            MainActivity.act.changeToFragment(FT.HOME)
         } else {
-            MainActivity.act.changeToFragment(FragmentTags.DAY_VIEW)
+            MainActivity.act.changeToFragment(FT.DAY_VIEW)
         }
         MainActivity.fromHome = false
     }
@@ -247,9 +247,9 @@ class CreateTermFr : Fragment() {
 
         btnDiscardTermChanges.setOnClickListener {
             if (MainActivity.fromHome) {
-                MainActivity.act.changeToFragment(FragmentTags.HOME)
+                MainActivity.act.changeToFragment(FT.HOME)
             } else {
-                MainActivity.act.changeToFragment(FragmentTags.DAY_VIEW)
+                MainActivity.act.changeToFragment(FT.DAY_VIEW)
             }
             MainActivity.fromHome = false
         }

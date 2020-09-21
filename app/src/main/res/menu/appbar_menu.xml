@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/item_left"
         android:icon="@drawable/ic_action_colorpicker"
-        android:title="icon1"
+        android:title="Clear list"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/item_middle"
         android:icon="@drawable/ic_check_mark"
-        android:title="icon2"
+        android:title="Uncheck all"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/item_right"
         android:icon="@drawable/ic_action_delete"
-        android:title="icon2"
+        android:title="item_right"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/svBirthday"

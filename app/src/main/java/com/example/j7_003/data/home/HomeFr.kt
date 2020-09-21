@@ -21,7 +21,7 @@ import com.example.j7_003.R
 import com.example.j7_003.data.birthdaylist.BirthdayFr
 import com.example.j7_003.data.calendar.CalendarManager
 import com.example.j7_003.data.calendar.CalendarAppointment
-import com.example.j7_003.data.fragmenttags.FragmentTags
+import com.example.j7_003.data.fragmenttags.FT
 import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
 import com.example.j7_003.system_interaction.handler.ShareHandler
@@ -73,7 +73,7 @@ class HomeFr : Fragment() {
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
         myView.panelTasks.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.todolist }
-        myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FragmentTags.BIRTHDAYS) }
+        myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FT.BIRTHDAYS) }
         myView.tvRemainingWakeTime.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.sleepReminder }
         myView.icSleepHome.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.sleepReminder }
 
@@ -81,7 +81,7 @@ class HomeFr : Fragment() {
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.btnNewNote.setOnClickListener {
             MainActivity.fromHome = true
-            MainActivity.act.changeToFragment(FragmentTags.NOTE_EDITOR)
+            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
         }
         myView.btnNewTask.setOnClickListener { createTaskFromHome() }
         myView.btnNewItem.setOnClickListener {
@@ -315,7 +315,7 @@ class HomeFr : Fragment() {
                     TodoFr.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
-                if(MainActivity.activeFragmentTag == FragmentTags.HOME){
+                if(MainActivity.activeFragmentTag == FT.HOME){
                     Toast.makeText(MainActivity.act, "Task was added!", Toast.LENGTH_SHORT).show()
                 }
                 myAlertDialog?.dismiss()
