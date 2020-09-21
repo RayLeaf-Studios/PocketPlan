@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note_editor.view.*
 
 class NoteEditorFr : Fragment() {
@@ -26,8 +27,12 @@ class NoteEditorFr : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_note_editor, container, false)
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
+
         myEtTitle = myView.etNoteTitle
         myEtContent = myView.etNoteContent
+
+        myEtTitle.textSize = SettingsManager.getSetting("fontSize").toString().toFloat()
+        myEtContent.textSize = SettingsManager.getSetting("fontSize").toString().toFloat()
 
         /**
          * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when

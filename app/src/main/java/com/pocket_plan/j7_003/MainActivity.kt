@@ -842,9 +842,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadDefaultSettings() {
         setDefault("noteColumns", "2")
+        setDefault("noteLines", "All")
+        setDefault("fontSize", "18")
         setDefault("expandOneCategory", false)
         setDefault("collapseCheckedSublists", false)
-        setDefault("noteLines", "All")
         setDefault("drawerLeftSide", false)
     }
 

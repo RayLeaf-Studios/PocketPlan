@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 /**
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_settings.view.*
 class SettingsFr : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
+    lateinit var spEditorFontsize: Spinner
     private lateinit var clManageCustomItems: ConstraintLayout
     private lateinit var swExpandOneCategory: Switch
     private lateinit var swCollapseCheckedSublists: Switch
@@ -34,6 +36,7 @@ class SettingsFr : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_settings, container, false)
 
         initializeComponents(myView)
+        initializeAdapters()
         initializeDisplayValues()
         initializeListeners()
 
@@ -49,11 +52,11 @@ class SettingsFr : Fragment() {
         swExpandOneCategory = myView.swExpandOneCategory
         swCollapseCheckedSublists = myView.swCollapseCheckedSublists
         swLeftHanded = myView.swLeftHanded
+        spEditorFontsize = myView.spEditorFontsize
 
-        /**
-         * INITIALIZE ADAPTERS
-         */
+    }
 
+    private fun initializeAdapters(){
         //NOTES
         //Spinner for amount of noteLines to be displayed
         val spAdapterNoteLines = ArrayAdapter<String>(
@@ -64,7 +67,6 @@ class SettingsFr : Fragment() {
         spAdapterNoteLines.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spNoteLines.adapter = spAdapterNoteLines
 
-        //SHOPPING-LIST
         //Spinner for amount of note columns
         val spAdapterNoteColumns = ArrayAdapter<String>(
             MainActivity.act,
@@ -73,6 +75,15 @@ class SettingsFr : Fragment() {
         )
         spAdapterNoteColumns.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spNoteColumns.adapter = spAdapterNoteColumns
+
+        //Spinner for amount of note columns
+        val spAdapterEditorFontSize = ArrayAdapter<String>(
+            MainActivity.act,
+            android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.fontSizes)
+        )
+        spAdapterEditorFontSize.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spEditorFontsize.adapter = spAdapterEditorFontSize
     }
 
     private fun initializeDisplayValues() {
@@ -81,6 +92,9 @@ class SettingsFr : Fragment() {
 
         val columnOptions = resources.getStringArray(R.array.noteColumns)
         spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting("noteColumns")))
+
+        val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
+        spEditorFontsize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting("fontSize")))
 
         swExpandOneCategory.isChecked = SettingsManager.getSetting("expandOneCategory") as Boolean
         swCollapseCheckedSublists.isChecked = SettingsManager.getSetting("collapseCheckedSublists") as Boolean
@@ -115,6 +129,23 @@ class SettingsFr : Fragment() {
             ) {
                 val value = spNoteColumns.selectedItem as String
                 SettingsManager.addSetting("noteColumns", value)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
+        //Listener for note editor font size spinner
+        spEditorFontsize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val value = spEditorFontsize.selectedItem as String
+                SettingsManager.addSetting("fontSize", value)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

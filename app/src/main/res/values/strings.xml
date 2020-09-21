@@ -48,4 +48,15 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+
+    <string-array name="fontSizes">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+    </string-array>
 </resources>
