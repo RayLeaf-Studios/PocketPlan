@@ -233,7 +233,7 @@ class SublistAdapter(
         val itemCheckedState = ShoppingFr.shoppingListInstance.isItemChecked(tag, position)
 
         if (itemCheckedState == null) {
-            MainActivity.act.sadToast("invalid checked state")
+            MainActivity.act.toast("invalid checked state")
             return
         }
 
@@ -281,7 +281,7 @@ class SublistAdapter(
                 notifyItemMoved(holder.adapterPosition, newPosition)
                 ShoppingFr.myFragment.reactToMove()
             } else {
-                MainActivity.act.sadToast("invalid item checked state")
+                MainActivity.act.toast("invalid item checked state")
             }
 
             val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortTag(tag)

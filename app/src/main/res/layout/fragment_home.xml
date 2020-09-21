@@ -104,8 +104,9 @@
     <Button
         android:id="@+id/btnTestFileStuff"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginBottom="50dp"
+        android:visibility="visible"
         android:background="@drawable/round_corner_gray"
         android:text="Test"
         app:layout_constraintBottom_toTopOf="@id/btnNewNote"
@@ -116,7 +117,7 @@
         android:id="@+id/btnNewNote"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_accent"
+        android:background="@drawable/round_corner_gray"
         android:text="+ Note"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -124,20 +125,20 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!--    <Button-->
-    <!--        android:id="@+id/btnNewTerm"-->
-    <!--        android:layout_width="70dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="@drawable/round_corner_accent"-->
-    <!--        android:text="+ Term"-->
-    <!--        tools:layout_editor_absoluteX="261dp"-->
-    <!--        tools:layout_editor_absoluteY="545dp" />-->
+<!--        <Button-->
+<!--            android:id="@+id/btnNewTerm"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/round_corner_accent"-->
+<!--            android:text="+ Term"-->
+<!--            tools:layout_editor_absoluteX="261dp"-->
+<!--            tools:layout_editor_absoluteY="545dp" />-->
 
     <Button
         android:id="@+id/btnNewTask"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_accent"
+        android:background="@drawable/round_corner_gray"
         android:text="+ Task"
         app:layout_constraintEnd_toStartOf="@+id/btnNewItem"
         app:layout_constraintHorizontal_bias="0.5"
@@ -151,7 +152,7 @@
         android:id="@+id/btnNewItem"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_accent"
+        android:background="@drawable/round_corner_gray"
         android:text="+ Item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

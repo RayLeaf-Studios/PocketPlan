@@ -3,7 +3,7 @@
 <color name="colorPriority1">#1E3B7A</color>
 <color name="colorPriority2">#2E857B</color>
 <color name="colorPriority3">#0F5523</color>
-<color name="colorOnBackGround">#FFFFFF</color>
+<color name="colorOnBackGround">#F1F1F1</color>
 <color name="colorHint">#757272</color>
 <color name="colorPrimary">#1C1C1C</color>
 <color name="colorPrimaryDark">#000000</color>

@@ -242,8 +242,8 @@ class MainActivity : AppCompatActivity() {
      * DEBUG FUNCTIONS
      */
 
-    fun sadToast(msg: String) {
-        Toast.makeText(act, "$msg :(", Toast.LENGTH_LONG).show()
+    fun toast(msg: String) {
+        Toast.makeText(act, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun setNavBarUnchecked() {
@@ -491,10 +491,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateUndoItemIcon() {
-        if(ShoppingFr.deletedItem!=null){
+        if (ShoppingFr.deletedItem != null) {
             myMenu?.getItem(2)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(2)?.isVisible = true
-        }else{
+        } else {
             myMenu?.getItem(2)?.isVisible = false
         }
     }
@@ -673,8 +673,11 @@ class MainActivity : AppCompatActivity() {
                     }
                     FT.SHOPPING -> {
                         //clear shopping list
-                        ShoppingFr.shoppingListInstance.clear()
-                        ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
+                        if (!ShoppingFr.shoppingListInstance.isEmpty()) {
+                            dialogShoppingClear()
+                        } else {
+                            toast("List is already empty!")
+                        }
                     }
                     else -> {/* no-op, this icon should not be visible / clickable in this fragment*/
                     }
@@ -707,8 +710,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     FT.SHOPPING -> {
                         //uncheck all shopping items
-                        ShoppingFr.shoppingListInstance.uncheckAll()
-                        ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
+                        if (!ShoppingFr.shoppingListInstance.allItemUnchecked()) {
+                            ShoppingFr.shoppingListInstance.uncheckAll()
+                            ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
+                        }
+                        else{
+                           toast("Nothing to uncheck!")
+                        }
                     }
                     else -> {/* no-op, this item should not be clickable in current fragment */
                     }
@@ -851,14 +859,9 @@ class MainActivity : AppCompatActivity() {
                 mySeekbar.startAnimation(animationShake)
                 return@setOnClickListener
             }
-
-            NoteFr.noteListInstance.remove(editNoteHolder)
-            editNoteHolder = null
-            NoteFr.noteListInstance.save()
-            hideKeyboard()
+            ShoppingFr.shoppingListInstance.clear()
+            ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
             myAlertDialog.dismiss()
-            activeFragmentTag = FT.EMPTY
-            changeToFragment(FT.NOTES)
         }
 
         btnCancelNew.setOnClickListener {
@@ -1123,8 +1126,8 @@ class MainActivity : AppCompatActivity() {
                     )
                     autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
                     actvItem.setText("")
-                    if(activeFragmentTag==FT.HOME){
-                       addItemDialog?.dismiss()
+                    if (activeFragmentTag == FT.HOME) {
+                        addItemDialog?.dismiss()
                     }
                     return@setOnClickListener
                 }
@@ -1156,7 +1159,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
             }
             actvItem.setText("")
-            if(activeFragmentTag==FT.HOME){
+            if (activeFragmentTag == FT.HOME) {
                 addItemDialog?.dismiss()
             }
         }
