@@ -5,7 +5,6 @@ backend stuff:
 
 Stuff to get done today:
     - detect year change in birthday add/edit => check save year
-    - undo shopping fragment
     - drawer setting as spinner
 
 Priority 1 tasks:

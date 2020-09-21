@@ -26,6 +26,9 @@ import kotlinx.android.synthetic.main.row_item.view.*
  */
 class ShoppingFr : Fragment() {
     companion object {
+
+        var deletedItem: ShoppingItem? = null
+
         lateinit var shoppingListInstance: ShoppingList
         lateinit var shoppingListAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
@@ -318,7 +321,8 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
         val position = viewHolder.adapterPosition
         val parsed = viewHolder as SublistAdapter.ItemViewHolder
         val tagPosition = ShoppingFr.shoppingListInstance.getTagIndex(parsed.tag)
-        if (ShoppingFr.shoppingListInstance.removeItem(parsed.tag, position).second) {
+        val removeInfo = ShoppingFr.shoppingListInstance.removeItem(parsed.tag, position)
+        if (removeInfo.second) {
             //entire sublist is empty => remove sublist
             ShoppingFr.shoppingListAdapter
                 .notifyItemRemoved(tagPosition)
@@ -336,6 +340,8 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
                 ShoppingFr.myFragment.reactToMove()
             }
         }
-        //Todo update undo delete icon?
+        ShoppingFr.deletedItem = removeInfo.first
+        MainActivity.act.updateUndoItemIcon()
+
     }
 }
