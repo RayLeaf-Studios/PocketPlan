@@ -19,11 +19,5 @@ class Logger(context: Context) {
         logFile.appendText("[${LocalDateTime.now()}], \\$location,\t$msg\n")
     }
 
-    private fun setStorageLocation(context: Context): File {
-        return if (Build.VERSION.SDK_INT < 29) {
-            File("${Environment.getDataDirectory()}/data/com.example.j7_003", "Log.txt")
-        } else {
-            File(context.filesDir, "Log.txt")
-        }
-    }
+    private fun setStorageLocation(context: Context): File = File(context.filesDir, "Log.txt")
 }
