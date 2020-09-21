@@ -64,6 +64,8 @@ class BirthdayFr : Fragment() {
         myRecycler = myView.recycler_view_birthday
         myFragment = this
 
+        birthdayListInstance.collapseAll()
+
         //ADDING BIRTHDAY VIA FLOATING ACTION BUTTON
         myView.btnAddBirthday.setOnClickListener {
             editBirthdayHolder = null

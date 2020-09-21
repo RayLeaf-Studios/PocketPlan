@@ -7,7 +7,6 @@ Stuff to get done today:
     - scrollbuffer für notes, shopping, task, birthdays
     - detect year change in birthday add/edit => check save year
     - undo shopping fragment
-    - default all birthdays to not be expanded
     - implement only one add button that does not reload when switching fragments
 
 Priority 1 tasks:

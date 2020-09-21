@@ -42,7 +42,6 @@ class TodoFr : Fragment() {
         var firstPos: Int = 0
         lateinit var layoutManager: LinearLayoutManager
 
-        var allowSwipe: Boolean = true
     }
 
     override fun onCreateView(
@@ -87,7 +86,7 @@ class TodoFr : Fragment() {
                         myDialogView.etxTitleAddTask.startAnimation(animationShake)
                         return@setOnClickListener
                     } else {
-                        myRecycler.adapter?.notifyItemInserted(
+                        val newPos =
                             todoListInstance.addFullTask(
                                 Task(
                                     title,
@@ -95,7 +94,11 @@ class TodoFr : Fragment() {
                                     false
                                 )
                             )
-                        )
+                        if(newPos == todoListInstance.size-1){
+                            myRecycler.adapter?.notifyDataSetChanged()
+                        }else{
+                            myRecycler.adapter?.notifyItemInserted(newPos)
+                        }
                     }
                     myAlertDialog?.dismiss()
                 }
@@ -166,7 +169,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if (!TodoFr.allowSwipe) {
+        if (viewHolder.adapterPosition==TodoFr.todoListInstance.size) {
             return 0
         }
         return super.getSwipeDirs(recyclerView, viewHolder)
@@ -204,8 +207,10 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.tvName.setOnLongClickListener { true }
             holder.itemView.tapField.setOnClickListener {  }
+            holder.itemView.layoutParams.height = 200
             return
         }
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
 
         val currentTask = listInstance.getTask(holder.adapterPosition)
@@ -252,9 +257,6 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
 
         holder.itemView.tvName.setOnLongClickListener {
 
-            if (!TodoFr.allowSwipe) {
-                return@setOnLongClickListener true
-            }
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(
                 layout.dialog_add_task,
@@ -317,9 +319,6 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
 
         //reacts to the user checking a task
         holder.itemView.tapField.setOnClickListener {
-            if (!TodoFr.allowSwipe) {
-                return@setOnClickListener
-            }
             val checkedStatus = !listInstance.getTask(holder.adapterPosition).isChecked
             holder.itemView.cbTask.isChecked = checkedStatus
             val task = listInstance.getTask(holder.adapterPosition)
