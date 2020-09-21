@@ -49,8 +49,23 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
                 save()
             }
         }
+    }
 
-        // TODO sort the list as needed
+    /**
+     * Checks whether all items of the list are unchecked, unrelated to their tag.
+     * @return  `true` when no items are checked, `false` otherwise
+     */
+    fun allItemUnchecked(): Boolean {
+        this.forEach { e ->     // go through this list
+            e.second.forEach { a ->     // go through the sublist
+                if (e.second.indexOf(a) != 0) {     // checks if the current item is a marker
+                    if (a.checked) {            // check if the current item is checked
+                        return false
+                    }
+                }
+            }
+        }
+        return true
     }
 
     /**
