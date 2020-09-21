@@ -5,6 +5,7 @@ backend stuff:
 
 Stuff to get done today:
     - scrollbuffer für notes, shopping, task, birthdays
+    - fix custom item fragment
     - detect year change in birthday add/edit => check save year
     - undo shopping fragment
     - implement only one add button that does not reload when switching fragments

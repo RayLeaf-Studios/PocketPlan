@@ -183,7 +183,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
 }
 
 class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
-    val listInstance = TodoFr.todoListInstance
+    private val listInstance = TodoFr.todoListInstance
 
     fun deleteItem(position: Int) {
         TodoFr.deletedTaskList.clear()

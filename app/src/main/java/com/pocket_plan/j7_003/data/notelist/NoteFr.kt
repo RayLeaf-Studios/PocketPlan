@@ -77,7 +77,7 @@ class NoteFr : Fragment() {
 
 class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
-    val noteList = NoteFr.noteListInstance
+    private val noteList = NoteFr.noteListInstance
 
     fun deleteItem(position: Int) {
         NoteFr.deletedNote = noteList.getNote(position)
