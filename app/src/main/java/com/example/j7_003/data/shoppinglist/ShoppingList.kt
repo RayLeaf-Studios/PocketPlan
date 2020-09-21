@@ -36,9 +36,6 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
             }
         }
 
-        // TODO erstellen eigener kategorie oder in sonstige packen?
-        // aktuell wird eigene kategorie erstellt
-
         // creating the new sublist for the given tag, beginning with an marker
         super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, true))))
 
@@ -117,6 +114,20 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     }
 
     /**
+     * Unchecks all items currently present in the given sublists.
+     */
+    fun uncheckAll() {
+        this.forEach { e ->
+            e.second.forEach { s ->
+                if (e.second.indexOf(s) != 0) {
+                    s.checked = false
+                }
+            }
+        }
+        save()
+    }
+
+    /**
      * Tries to fetch the length of the sublist with given tag if the sublist exists.
      * @param tag The tag the sublist is supposed to have.
      * @return Either the size of the list or zero if it doesn't exist.
@@ -136,7 +147,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @return The amount of unchecked items in the given tags sublist.
      */
     fun getUncheckedSize(tag: Tag): Int {
-        var counter: Int = 0
+        var counter = 0
         for (i in 1 until this[getTagIndex(tag)].second.size) {
             if (!this[getTagIndex(tag)].second[i].checked) {
                 counter++
@@ -162,17 +173,10 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     }
 
     /**
-     * Gathers all tags present in this list. An empty list is returned if there are no tags.
-     * @return A list containing all tags of this list.
+     * Returns whether all items are checked or not, in the given tags list.
+     * @param tag   The tag to search.
+     * @return      `true` if all items are checked in the sublist, `false` otherwise.
      */
-    fun getTags(): ArrayList<Tag> {
-        val tagList: ArrayList<Tag> = ArrayList()
-        this.forEach { e ->
-            tagList.add(e.first)
-        }
-        return tagList
-    }
-
     fun areAllChecked(tag: Tag) : Boolean {
         return try {
             getUncheckedSize(tag) == 0
@@ -180,8 +184,13 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
             false
         }
     }
-    
-     fun getTagIndex(tag: Tag): Int {
+
+    /**
+     * Returns the index of a given tag inside this list.
+     * @param tag   The tag, of the returned index.
+     * @return      Returns the index of the given tag.
+     */
+    fun getTagIndex(tag: Tag): Int {
         for (i in 0 until this.size) {
             if (this[i].first == tag) {
                 return i
