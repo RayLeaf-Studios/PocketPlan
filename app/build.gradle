@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.j7_003"
+        applicationId "com.pocket_plan.j7_003"
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
