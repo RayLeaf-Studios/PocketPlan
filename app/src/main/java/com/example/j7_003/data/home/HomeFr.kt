@@ -24,7 +24,7 @@ import com.example.j7_003.data.calendar.CalendarAppointment
 import com.example.j7_003.data.fragmenttags.FT
 import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
-import com.example.j7_003.system_interaction.handler.ShareHandler
+import com.example.j7_003.system_interaction.handler.share.ShareHandler
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo

@@ -1,10 +1,11 @@
-package com.example.j7_003.system_interaction.handler
+package com.example.j7_003.system_interaction.handler.share
 
 import android.content.Intent
 import android.net.Uri
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.example.j7_003.MainActivity
+import com.example.j7_003.system_interaction.handler.storage.StorageHandler
+import com.example.j7_003.system_interaction.handler.storage.StorageId
 
 class ShareHandler: FileProvider() {
     fun shareAll() {

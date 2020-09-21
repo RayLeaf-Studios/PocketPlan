@@ -1,4 +1,4 @@
-package com.example.j7_003.system_interaction.handler
+package com.example.j7_003.system_interaction
 
 import android.content.Context
 import android.os.Build

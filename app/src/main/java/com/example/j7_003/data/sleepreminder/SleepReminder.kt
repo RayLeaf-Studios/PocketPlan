@@ -1,9 +1,9 @@
 package com.example.j7_003.data.sleepreminder
 
 import com.example.j7_003.data.settings.SettingsManager
-import com.example.j7_003.system_interaction.handler.AlarmHandler
-import com.example.j7_003.system_interaction.handler.StorageHandler
-import com.example.j7_003.system_interaction.handler.StorageId
+import com.example.j7_003.system_interaction.handler.notifications.AlarmHandler
+import com.example.j7_003.system_interaction.handler.storage.StorageHandler
+import com.example.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName

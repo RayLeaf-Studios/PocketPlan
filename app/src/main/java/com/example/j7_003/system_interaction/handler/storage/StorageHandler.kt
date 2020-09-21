@@ -1,4 +1,4 @@
-package com.example.j7_003.system_interaction.handler
+package com.example.j7_003.system_interaction.handler.storage
 
 import android.content.Context
 import com.example.j7_003.MainActivity
@@ -25,7 +25,7 @@ class StorageHandler {
         }
 
         fun createJsonFile(identifier: StorageId, fileName: String,
-            context: Context = MainActivity.act, text: String = "[]") {
+                           context: Context = MainActivity.act, text: String = "[]") {
             files[identifier] =
                 setStorageLocation(
                     fileName,

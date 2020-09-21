@@ -37,7 +37,7 @@ import com.example.j7_003.data.settings.shoppinglist.CustomItemFr
 import com.example.j7_003.data.shoppinglist.*
 import com.example.j7_003.data.sleepreminder.SleepFr
 import com.example.j7_003.data.todolist.TodoFr
-import com.example.j7_003.system_interaction.handler.AlarmHandler
+import com.example.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.actionbar.view.*

@@ -1,8 +1,8 @@
 package com.example.j7_003.data.calendar
 
 import com.example.j7_003.data.calendar.weekschedule.WeekSchedule
-import com.example.j7_003.system_interaction.handler.StorageHandler
-import com.example.j7_003.system_interaction.handler.StorageId
+import com.example.j7_003.system_interaction.handler.storage.StorageHandler
+import com.example.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.threeten.bp.LocalDate

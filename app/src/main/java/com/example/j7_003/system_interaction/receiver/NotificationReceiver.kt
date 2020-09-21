@@ -5,10 +5,10 @@ import android.content.Context
 import android.content.Intent
 import com.example.j7_003.R
 import com.example.j7_003.data.sleepreminder.SleepReminder
-import com.example.j7_003.system_interaction.handler.NotificationHandler
+import com.example.j7_003.system_interaction.handler.notifications.NotificationHandler
 import com.example.j7_003.data.birthdaylist.Birthday
 import com.example.j7_003.data.birthdaylist.BirthdayList
-import com.example.j7_003.system_interaction.handler.Logger
+import com.example.j7_003.system_interaction.Logger
 import com.jakewharton.threetenabp.AndroidThreeTen
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList

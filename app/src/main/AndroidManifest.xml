@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"        >
         <provider
-            android:name=".system_interaction.handler.ShareHandler"
+            android:name=".system_interaction.handler.share.ShareHandler"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

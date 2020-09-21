@@ -1,4 +1,4 @@
-package com.example.j7_003.system_interaction.handler
+package com.example.j7_003.system_interaction.handler.notifications
 
 import android.app.Notification
 import android.app.NotificationChannel

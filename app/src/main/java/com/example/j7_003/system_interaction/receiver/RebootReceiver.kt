@@ -3,9 +3,8 @@ package com.example.j7_003.system_interaction.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.example.j7_003.data.sleepreminder.SleepReminder
-import com.example.j7_003.system_interaction.handler.AlarmHandler
-import com.example.j7_003.system_interaction.handler.Logger
+import com.example.j7_003.system_interaction.handler.notifications.AlarmHandler
+import com.example.j7_003.system_interaction.Logger
 import com.jakewharton.threetenabp.AndroidThreeTen
 
 class RebootReceiver : BroadcastReceiver() {
