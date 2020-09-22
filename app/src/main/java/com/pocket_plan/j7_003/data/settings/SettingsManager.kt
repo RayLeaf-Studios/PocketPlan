@@ -7,21 +7,21 @@ import com.google.gson.reflect.TypeToken
 
 class SettingsManager {
     companion object {
-        var settings = HashMap<String, Any>()
+        var settings = HashMap<SettingId, Any>()
 
         fun init() {
             createFile()
             load()
         }
 
-        fun getSetting(name: String): Any? {
-            return if(settings.containsKey(name)){
-                settings[name]
+        fun getSetting(id: SettingId): Any? {
+            return if(settings.containsKey(id)){
+                settings[id]
             } else null
         }
 
-        fun addSetting(name: String, any: Any) {
-            settings[name] = any
+        fun addSetting(id: SettingId, any: Any) {
+            settings[id] = any
             save()
         }
 
@@ -35,7 +35,7 @@ class SettingsManager {
             val jsonString = StorageHandler.files[StorageId.SETTINGS]?.readText()
 
             settings = GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<HashMap<String, Any>>() {}.type)
+                .fromJson(jsonString, object : TypeToken<HashMap<SettingId, Any>>() {}.type)
         }
 
         private fun createFile() {

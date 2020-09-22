@@ -37,6 +37,7 @@ import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.todolist.Task
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.myRecycler
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.todoListInstance
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
         params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
-        when(SettingsManager.getSetting("drawerSide") as String){
+        when(SettingsManager.getSetting(SettingId.DRAWER_SIDE) as String){
             "right" -> drawerGravity = Gravity.END
             "left" -> {
                 params.gravity = Gravity.START
@@ -176,7 +177,7 @@ class MainActivity : AppCompatActivity() {
 
                     //AlertDialogBuilder
                     val myBuilder =
-                        act?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+                        act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
                     myBuilder?.setCustomTitle(
                         layoutInflater.inflate(
                             R.layout.title_dialog_add_task,
@@ -225,13 +226,17 @@ class MainActivity : AppCompatActivity() {
 
                     myDialogView.etxTitleAddTask.requestFocus()
                 }
+
                 FT.NOTES -> {
                     editNoteHolder = null
                     changeToFragment(FT.NOTE_EDITOR)
                 }
+
                 FT.SHOPPING -> {
                     openAddItemDialog()
                 }
+
+                else -> {/* no-op */}
             }
         }
 
@@ -610,7 +615,7 @@ class MainActivity : AppCompatActivity() {
         val myDialogView = LayoutInflater.from(act).inflate(R.layout.dialog_discard_note_edit, null)
 
         //AlertDialogBuilder
-        val myBuilder = act?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
         customTitle.tvDialogTitle.text = "Save changes?"
         myBuilder?.setCustomTitle(customTitle)
@@ -948,15 +953,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadDefaultSettings() {
-        setDefault("noteColumns", "2")
-        setDefault("noteLines", "All")
-        setDefault("fontSize", "18")
-        setDefault("expandOneCategory", false)
-        setDefault("collapseCheckedSublists", false)
-        setDefault("drawerSide", "right")
+        setDefault(SettingId.NOTE_COLUMNS, "2")
+        setDefault(SettingId.NOTE_LINES, "All")
+        setDefault(SettingId.FONT_SIZE, "18")
+        setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
+        setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
+        setDefault(SettingId.DRAWER_SIDE, "right")
     }
 
-    private fun setDefault(setting: String, value: Any) {
+    private fun setDefault(setting: SettingId, value: Any) {
         if (SettingsManager.getSetting(setting) == null) {
             SettingsManager.addSetting(setting, value)
         }

@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.data.settings.SettingId
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
 import org.threeten.bp.temporal.ChronoUnit
@@ -177,14 +178,14 @@ class SleepReminder {
         StorageHandler.createJsonFile(
             StorageId.SLEEP, "SReminder.json", text = Gson().toJson(reminder))
 
-        if (SettingsManager.settings["daysAreCustom"] == null) {
-            SettingsManager.addSetting("daysAreCustom", daysAreCustom)
+        if (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
+            SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
         }
     }
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
-        SettingsManager.addSetting("daysAreCustom", daysAreCustom)
+        SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
     }
 
     private fun load() {
@@ -193,7 +194,7 @@ class SleepReminder {
         reminder = GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
 
-        daysAreCustom = SettingsManager.settings["daysAreCustom"] as Boolean
+        daysAreCustom = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
 
         updateReminder()
     }

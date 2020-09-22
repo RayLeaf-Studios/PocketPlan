@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
@@ -50,10 +51,10 @@ class NoteFr : Fragment() {
 //        }
 
         //TODO READ THIS FROM SETTINGS MANAGER
-        val noteColumns = SettingsManager.getSetting("noteColumns") as String
+        val noteColumns = SettingsManager.getSetting(SettingId.NOTE_COLUMNS) as String
 
         val optionArray = resources.getStringArray(R.array.noteLines)
-        noteLines = when (SettingsManager.getSetting("noteLines")) {
+        noteLines = when (SettingsManager.getSetting(SettingId.NOTE_LINES)) {
             optionArray[1] -> 0
             optionArray[2] -> 1
             optionArray[3] -> 3

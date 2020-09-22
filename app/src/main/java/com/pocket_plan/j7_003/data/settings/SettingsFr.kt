@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.settings
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -9,14 +8,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Switch
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 /**
@@ -100,20 +97,20 @@ class SettingsFr : Fragment() {
 
     private fun initializeDisplayValues() {
         val lineOptions = resources.getStringArray(R.array.noteLines)
-        spNoteLines.setSelection(lineOptions.indexOf(SettingsManager.getSetting("noteLines")))
+        spNoteLines.setSelection(lineOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_LINES)))
 
         val columnOptions = resources.getStringArray(R.array.noteColumns)
-        spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting("noteColumns")))
+        spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS)))
 
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
-        spEditorFontsize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting("fontSize")))
+        spEditorFontsize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE)))
 
         val drawerSideOptions = resources.getStringArray(R.array.drawerSides)
-        spDrawerSide.setSelection(drawerSideOptions.indexOf(SettingsManager.getSetting("drawerSide")))
+        spDrawerSide.setSelection(drawerSideOptions.indexOf(SettingsManager.getSetting(SettingId.DRAWER_SIDE)))
 
-        swExpandOneCategory.isChecked = SettingsManager.getSetting("expandOneCategory") as Boolean
+        swExpandOneCategory.isChecked = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
         swCollapseCheckedSublists.isChecked =
-            SettingsManager.getSetting("collapseCheckedSublists") as Boolean
+            SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
 
     }
 
@@ -127,7 +124,7 @@ class SettingsFr : Fragment() {
                 id: Long
             ) {
                 val value = spNoteLines.selectedItem as String
-                SettingsManager.addSetting("noteLines", value)
+                SettingsManager.addSetting(SettingId.NOTE_LINES, value)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -143,7 +140,7 @@ class SettingsFr : Fragment() {
                 id: Long
             ) {
                 val value = spNoteColumns.selectedItem as String
-                SettingsManager.addSetting("noteColumns", value)
+                SettingsManager.addSetting(SettingId.NOTE_COLUMNS, value)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -160,7 +157,7 @@ class SettingsFr : Fragment() {
                 id: Long
             ) {
                 val value = spEditorFontsize.selectedItem as String
-                SettingsManager.addSetting("fontSize", value)
+                SettingsManager.addSetting(SettingId.FONT_SIZE, value)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -177,7 +174,7 @@ class SettingsFr : Fragment() {
                 id: Long
             ) {
                 val value = spDrawerSide.selectedItem as String
-                SettingsManager.addSetting("drawerSide", value)
+                SettingsManager.addSetting(SettingId.DRAWER_SIDE, value)
 
                 val newGravity =  when (value) {
                     "right" -> Gravity.END
@@ -199,12 +196,12 @@ class SettingsFr : Fragment() {
         }
 
         swExpandOneCategory.setOnClickListener {
-            SettingsManager.addSetting("expandOneCategory", swExpandOneCategory.isChecked)
+            SettingsManager.addSetting(SettingId.EXPAND_ONE_CATEGORY, swExpandOneCategory.isChecked)
         }
 
         swCollapseCheckedSublists.setOnClickListener {
             SettingsManager.addSetting(
-                "collapseCheckedSublists",
+                SettingId.COLLAPSE_CHECKED_SUBLISTS,
                 swCollapseCheckedSublists.isChecked
             )
         }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
@@ -46,8 +47,8 @@ class ShoppingFr : Fragment() {
     ): View? {
         myFragment = this
         shoppingListInstance = ShoppingList()
-        expandOne = SettingsManager.getSetting("expandOneCategory") as Boolean
-        collapseCheckedSublists = SettingsManager.getSetting("collapseCheckedSublists") as Boolean
+        expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
+        collapseCheckedSublists = SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
         //expand first category, contract all others, if setting says so
         if (expandOne) {
             shoppingListInstance.forEach {
