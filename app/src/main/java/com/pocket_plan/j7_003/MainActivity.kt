@@ -13,7 +13,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.pocket_plan.j7_003.data.about.AboutFr
@@ -94,7 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         preloadAddItemDialog()
 
-        //Initialize Settings Manager and Time api and Alarmhandler
+        //Initialize Settings Manager and Time api and AlarmHandler
         SettingsManager.init()
         AndroidThreeTen.init(this)
         AlarmHandler.setBirthdayAlarms(context = this)
@@ -169,8 +168,8 @@ class MainActivity : AppCompatActivity() {
                     BirthdayFr.editBirthdayHolder = null
                     birthdayFr.openBirthdayDialog()
                 }
-                FT.TASKS -> {
 
+                FT.TASKS -> {
                     //inflate the dialog with custom view
                     val myDialogView =
                         LayoutInflater.from(act).inflate(R.layout.dialog_add_task, null)
@@ -202,8 +201,9 @@ class MainActivity : AppCompatActivity() {
                             val title = myDialogView.etxTitleAddTask.text.toString()
                             if (title.isEmpty()) {
                                 val animationShake =
-                                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                                    AnimationUtils.loadAnimation(this, R.anim.shake)
                                 myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                                @Suppress("LABEL_NAME_CLASH")
                                 return@setOnClickListener
                             } else {
                                 val newPos =
