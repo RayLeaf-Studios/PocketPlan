@@ -11,7 +11,6 @@
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_width="94dp"
         android:layout_height="wrap_content"
-        android:text="Editor"
         android:textColor="@color/colorOnBackGround"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
