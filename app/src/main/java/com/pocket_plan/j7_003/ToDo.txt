@@ -5,7 +5,6 @@ backend stuff:
 
 Stuff to get done today:
     - detect year change in birthday add/edit => check save year
-    - drawer setting as spinner
 
 Priority 1 tasks:
     - add basic items of all categories to list

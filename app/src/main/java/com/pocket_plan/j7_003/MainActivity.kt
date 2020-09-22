@@ -553,6 +553,10 @@ class MainActivity : AppCompatActivity() {
      */
 
     override fun onBackPressed() {
+        if(drawer_layout.isDrawerOpen(nav_drawer)){
+            drawer_layout.closeDrawer(drawerGravity)
+            return
+        }
 
         if (activeFragmentTag == FT.NOTE_EDITOR) {
             if (relevantNoteChanges()) {
