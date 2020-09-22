@@ -14,6 +14,7 @@ Priority 1 tasks:
 Priority 2 tasks:
     - replace all colors and values like text size with resource references
     - scroll buffer für notes??
+    - drawer menu should cover titel bar and settings and about should be at the bottom of the menu
 
 
 Ideas:
