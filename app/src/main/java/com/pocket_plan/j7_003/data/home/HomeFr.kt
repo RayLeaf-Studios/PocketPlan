@@ -117,7 +117,6 @@ class HomeFr : Fragment() {
     }
 
     //Sets the text of tvTasks to the titles of the first 3 important tasks
-    @SuppressLint("SetTextI18n")
     private fun updateTaskPanel() {
         var p1TaskCounter = 0
         val taskList = TodoFr.todoListInstance
@@ -135,7 +134,7 @@ class HomeFr : Fragment() {
 
         //displays "No important tasks" if there aren't any
         if (displayTaskCount == 0) {
-            myView.tvTasks.text = "\n   No important tasks\n"
+            myView.tvTasks.text = resources.getText(R.string.homeNoTasks)
             myView.tvTasks.setTextColor(
                 ContextCompat.getColor(
                     MainActivity.act,
@@ -192,7 +191,7 @@ class HomeFr : Fragment() {
         val birthdaysToday = BirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
         if (birthdaysToDisplay == 0) {
-            myView.tvBirthday.text = "\n   No birthdays today\n"
+            myView.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)
             myView.tvBirthday.setTextColor(
                 ContextCompat.getColor(
                     MainActivity.act,

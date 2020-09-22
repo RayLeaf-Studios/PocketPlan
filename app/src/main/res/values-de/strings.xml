@@ -77,7 +77,7 @@
     <string name="homeAddItem">+ Item</string>
     <string name="menuTitleNotesEditor">Bearbeitung</string>
     <string name="menuTitleAbout">Über</string>
-    <string name="menuTitleSleep">Schlaf Rythmus</string>
+    <string name="menuTitleSleep">Schlaf Rhythmus</string>
     <string name="menuTitleCustomItem">Benutzerdef. Items</string>
     <string name="menuTitleDayView">Tagesansicht</string>
     <string name="menuTitleCreateTerm">Termin erstellen</string>
@@ -90,4 +90,17 @@
     <string name="noteDeleteDialogText">Ziehe nach rechts um zu löschen</string>
     <string name="shoppingClearList">Liste löschen</string>
     <string name="shoppingUncheckAll">Abhaken umkehren</string>
+    <string name="sleepWakeUpTime">Aufstehzeit</string>
+    <string name="sleepDuration">Schlafdauer</string>
+    <string name="sleepEnable">Erinnerungen einschalten</string>
+    <string name="sleepCustomDays">Tageweise einstellen</string>
+    <string name="sleepMon">Mo</string>
+    <string name="sleepTue">Di</string>
+    <string name="sleepWed">Mi</string>
+    <string name="sleepThu">Do</string>
+    <string name="sleepFri">Fr</string>
+    <string name="sleepSat">Sa</string>
+    <string name="sleepSun">So</string>
+    <string name="homeNoTasks">\n\tKeine wichtigen Aufgaben\n</string>
+    <string name="homeNoBirthdays">\n\tHeute stehen keine Geburtstage an\n</string>
 </resources>

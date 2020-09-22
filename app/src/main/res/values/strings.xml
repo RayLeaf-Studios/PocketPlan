@@ -20,6 +20,7 @@
     <string name="menuTitleCustomItem">Custom Items</string>
     <string name="menuTitleDayView">Day View</string>
     <string name="menuTitleCreateTerm">Create Term</string>
+    <string name="menuTitleSaveChanges">Save Changes?</string>
 
     <!-- Notes -->
     <string name="noteEditorTitle">Title</string>
@@ -47,6 +48,8 @@
     <string name="homeAddNote">+ Note</string>
     <string name="homeAddTask">+ Task</string>
     <string name="homeAddItem">+ Item</string>
+    <string name="homeNoTasks">\n\tNo important tasks\n</string>
+    <string name="homeNoBirthdays">\n\tNo birthdays today\n</string>
 
     <!-- Birthdays -->
     <string name="birthdaysNotify">notify me</string>
@@ -65,9 +68,20 @@
     <string name="addBirthdayNameHint">Name</string>
     <string name="addBirthdayDayHint">Day</string>
     <string name="addBirthdayMonthHint">Month</string>
-    <string name="termItemDate" translatable="false">%1$s %2$s.%3$s.%4$s</string>
-    <string name="menuTitleSaveChanges">Save Changes?</string>
+    <string name="birthdayLabelName" translatable="false">%1$s%2$s.%3$s%4$s\t\t\t%5$s</string>
 
+    <!-- Sleep -->
+    <string name="sleepWakeUpTime">Wakeup Time</string>
+    <string name="sleepDuration">Sleep duration</string>
+    <string name="sleepEnable">Enable Reminder</string>
+    <string name="sleepCustomDays">Enable Custom Days</string>
+    <string name="sleepMon">Mon</string>
+    <string name="sleepTue">Tue</string>
+    <string name="sleepWed">Wed</string>
+    <string name="sleepThu">Thu</string>
+    <string name="sleepFri">Fri</string>
+    <string name="sleepSat">Sat</string>
+    <string name="sleepSun">Sun</string>
 
     <!-- Settings -->
     <string name="settingsNotesTitle">Notes</string>
@@ -90,6 +104,7 @@
         \n\nLetsbeteem0: Unpaid Intern</string>
     <string name="aboutSrc" translatable="false">Sourcecode</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
+    <string name="termItemDate" translatable="false" />
 
     <string-array name="units">
         <item>x</item>

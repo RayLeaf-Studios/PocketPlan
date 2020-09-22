@@ -54,7 +54,7 @@ class BirthdayFr : Fragment() {
         val birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
     }
 
-    @SuppressLint("InflateParams", "SetTextI18n")
+    @SuppressLint("InflateParams")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,6 +85,7 @@ class BirthdayFr : Fragment() {
     }
 
 
+    @SuppressLint("InflateParams")
     fun openBirthdayDialog() {
         val editing = editBirthdayHolder != null
         anyDateSet = false
@@ -169,7 +170,8 @@ class BirthdayFr : Fragment() {
                 true -> ""
                 false -> "s"
             }
-            tvDaysPrior.text = "day" + addition + " prior"
+            tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+//                "day" + addition + " prior"
         }
 
 
@@ -262,7 +264,8 @@ class BirthdayFr : Fragment() {
                         true -> ""
                         false -> "s"
                     }
-                    tvDaysPrior.text = "day" + addition + " prior"
+//                    tvDaysPrior.text = "day" + addition + " prior"
+                    tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
                 }
             }
 
@@ -302,7 +305,8 @@ class BirthdayFr : Fragment() {
                     true -> ""
                     false -> "s"
                 }
-                tvDaysPrior.text = "day" + addition + " prior"
+//                tvDaysPrior.text = "day" + addition + " prior"
+                tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
 
             }
         }
@@ -550,7 +554,7 @@ class BirthdayAdapter :
         return BirthdayViewHolder(itemView)
     }
 
-    @SuppressLint("SetTextI18n", "InflateParams")
+    @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
         if (position == BirthdayFr.birthdayListInstance.size) {
@@ -625,9 +629,9 @@ class BirthdayAdapter :
             if (currentBirthday.day < 10) dayAddition = "0"
 
             //Display name and date
-            holder.txvBirthdayLabelName.text =
-                dayAddition + currentBirthday.day.toString() + "." +
-                        monthAddition + currentBirthday.month.toString() + "      " + currentBirthday.name
+            holder.txvBirthdayLabelName.text = MainActivity.act.resources.getString(
+                R.string.birthdayLabelName, dayAddition, currentBirthday.day.toString(),
+                monthAddition, currentBirthday.month.toString(), currentBirthday.name)
 
             // Red background if birthday is today
             if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
