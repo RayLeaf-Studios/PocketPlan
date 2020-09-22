@@ -3,9 +3,10 @@ Todo:
 backend stuff:
     - functionality to save / load a backup file?
 
-
 Priority 1 tasks:
     - detect year change in birthday add/edit => check save year
+    - geburtstag ohne jahr speichern -> editieren, save year abhaken -> datepicker is jahr 1
+    - dont allow entering reminder days when notify me is not checked
     - restore icon after opening menu
     - add basic items of all categories to list
     - language options
@@ -15,12 +16,8 @@ Priority 2 tasks:
     - scroll buffer für notes??
 
 
-
-
-
-
 Ideas:
-    - darkthemed notes?
+    - dark themed notes?
     - functionality that supports adding of categories?
     - make shopping list presets save and loadable
     - suggested amount for shopping items
