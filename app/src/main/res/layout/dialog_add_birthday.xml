@@ -52,7 +52,6 @@
         android:gravity="center"
         android:paddingHorizontal="11dp"
         android:paddingVertical="10dp"
-        android:text="@string/birthdayChooseDate"
         android:textColor="@color/colorOnBackGround"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvSaveYear"

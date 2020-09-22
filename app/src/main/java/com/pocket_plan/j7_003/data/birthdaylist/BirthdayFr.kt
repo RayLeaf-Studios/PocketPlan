@@ -51,7 +51,7 @@ class BirthdayFr : Fragment() {
 
         lateinit var myFragment: BirthdayFr
 
-        val birthdayListInstance: BirthdayList = BirthdayList()
+        val birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
     }
 
     @SuppressLint("InflateParams", "SetTextI18n")
@@ -184,7 +184,7 @@ class BirthdayFr : Fragment() {
                         editBirthdayHolder!!.month.toString()
                             .padStart(2, '0') + yearString
             }
-            false -> "Choose date"
+            false -> resources.getText(R.string.birthdayChooseDate)
         }
         tvBirthdayDate.text = chooseDateText
 
@@ -592,20 +592,21 @@ class BirthdayAdapter :
             //display info if birthday is expanded
             if (currentBirthday.expanded) {
                 holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
-                var ageText = "age unkown, "
+                var ageText = MainActivity.act.resources.getString(R.string.birthdayAgeUnknown)
                 if (holder.birthday.year != 0) {
                     val birthday = holder.birthday
                     val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
                         .until(LocalDate.now()).years
-                    ageText = age.toString() + " years old, born in " +
-                            holder.birthday.year.toString()
+                    ageText = MainActivity.act.resources.getString(
+                        R.string.birthdayAge, age, holder.birthday.year)
                 }
                 var dayExtension = ""
                 if (currentBirthday.daysToRemind != 1) {
                     dayExtension = "s"
                 }
-                var reminderText =
-                    "\nreminder " + currentBirthday.daysToRemind.toString() + " day" + dayExtension + " prior"
+                val reminderText =
+                    MainActivity.act.resources.getString(
+                        R.string.birthdayReminder, currentBirthday.daysToRemind, dayExtension)
                 holder.itemView.tvBirthdayInfo.text = ageText + reminderText
             } else {
                 holder.itemView.cvBirthdayInfo.visibility = View.GONE

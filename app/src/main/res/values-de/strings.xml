@@ -58,4 +58,22 @@
     <string name="birthdayDialogEdit">Speichern</string>
     <string name="birthdayDialogAddTitle">Geb. hinzufügen</string>
     <string name="birthdayDialogEditTitle">Bearbeiten</string>
+    <string name="birthdayAgeUnknown">"unbekanntes Alter, "</string>
+    <string name="birthdayAge">%1$d Jahre alt, %2$d geboren.</string>
+    <string name="birthdayReminder">"\nErinnert %1$d Tage%2$s vorher."</string>
+
+    <string-array name="months">
+        <item>Januar</item>
+        <item>Februar</item>
+        <item>März</item>
+        <item>April</item>
+        <item>Mai</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>August</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Dezember</item>
+    </string-array>
 </resources>

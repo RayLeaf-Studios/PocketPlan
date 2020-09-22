@@ -1,9 +1,11 @@
 package com.pocket_plan.j7_003.data.birthdaylist
 
+import android.content.Context
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.R
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
@@ -11,7 +13,9 @@ import kotlin.collections.ArrayList
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList: ArrayList<Birthday>() {
+class BirthdayList(val context: Context?): ArrayList<Birthday>() {
+    constructor() : this(null)
+
     init {
         StorageHandler.createJsonFile(StorageId.BIRTHDAYS, "BirthdayList.json")
         fetchFromFile()
@@ -108,16 +112,13 @@ class BirthdayList: ArrayList<Birthday>() {
             else if (m.month == today.monthValue && m.day >= today.dayOfMonth) afterMonth = true
         }
 
+        val month = today.month.toString().toLowerCase().capitalize()
+
         if (beforeMonth) {
             this.add(
                 Birthday(
-                    today.month.toString().toLowerCase().capitalize(),
-                    1,
-                    today.monthValue,
-                    0,
-                    -1 * today.monthValue,
-                    expanded = false,
-                    notify = false
+                    month, 1, today.monthValue, 0, -1 * today.monthValue,
+                    expanded = false, notify = false
                 )
             )
         }
@@ -125,22 +126,20 @@ class BirthdayList: ArrayList<Birthday>() {
         if (afterMonth) {
             this.add(
                 Birthday(
-                    today.month.toString().toLowerCase().capitalize(),
-                    today.dayOfMonth,
-                    today.monthValue,
-                    0,
-                    -1 * today.monthValue,
-                    expanded = false,
-                    notify = false
+                    month, today.dayOfMonth, today.monthValue, 0, -1 * today.monthValue,
+                    expanded = false, notify = false
                 )
             )
         }
 
         months.forEach { m ->
-            val name = LocalDate.of(2020, m, 1).month.toString()
-            this.add(Birthday(name.toLowerCase().capitalize(), 0, m,0, -1*m,
-                expanded = false,
-                notify = false
+            val month = LocalDate.of(2020, m, 1).month
+            val name = if (context != null) {
+                context.resources.getStringArray(R.array.months)[month.value - 1]
+            } else month.toString().toLowerCase().capitalize()
+
+            this.add(Birthday(name, 0, m,0, -1*m,
+                expanded = false, notify = false
             ))
         }
     }

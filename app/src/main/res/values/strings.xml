@@ -47,6 +47,10 @@
     <string name="birthdayRemindMe">Remind me</string>
     <string name="birthdaySaveYear">save year</string>
     <string name="birthdayChooseDate">Choose date</string>
+    <string name="birthdayAgeUnknown">age unknown, </string>
+    <string name="birthdayAge">%1$d years old, born in %2$d.</string>
+    <!-- TODO use plurals here and in translation -->
+    <string name="birthdayReminder">\nReminds %1$d day%2$s prior.</string>
 
     <!-- Settings -->
     <string name="settingsNotesTitle">Notes</string>
@@ -108,5 +112,20 @@
     <string-array name="drawerSides">
         <item>left</item>
         <item>right</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
     </string-array>
 </resources>
