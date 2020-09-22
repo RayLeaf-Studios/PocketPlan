@@ -177,7 +177,7 @@ class SettingsFr : Fragment() {
                 SettingsManager.addSetting(SettingId.DRAWER_SIDE, value)
 
                 val newGravity =  when (value) {
-                    "right" -> Gravity.END
+                    resources.getStringArray(R.array.drawerSides)[1] -> Gravity.END
                     else -> Gravity.START
                 }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="addTaskTitleHint">Titel</string>
+    <string name="menuTitleBirthdays">Geburtstage</string>
+    <string name="menuTitleCalendar">Kalender</string>
+    <string name="menuTitleSettings">Einstellungen</string>
+    <string name="menuTitleColorChoose">Pick eine Farbe</string>
+    <string name="addBirthdayDayHint">Tag</string>
+    <string name="addBirthdayMonthHint">Monat</string>
+    <string name="addBirthdayNameHint">Name</string>
+    <string name="menuTitleShopping">Shopping</string>
+    <string name="menuTitleHome">Home</string>
+    <string name="menuTitleTodo">To-Do</string>
+    <string name="menuTitleModules">Module</string>
+    <string name="menuTitleNotes">Notizen</string>
+    <string name="menuTitleSaveChanges">Speichern?</string>
+    <string name="navigation_drawer_open">Sidebar öffnen</string>
+    <string name="navigation_drawer_close">Sidebar schließen</string>
+
+    <string-array name="noteLines">
+        <item>alle</item>
+        <item>keine</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="drawerSides">
+        <item>links</item>
+        <item>rechts</item>
+    </string-array>
+    <string name="to_do">To-do</string>
+</resources>

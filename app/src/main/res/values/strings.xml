@@ -1,30 +1,31 @@
 <resources>
-    <string name="app_name">PocketPlan</string>
+    <string name="app_name" translatable="false">PocketPlan</string>
     <string name="to_do">To-do</string>
-    <string name="prioDisplay1">1</string>
-    <string name="prioDisplay3">3</string>
-    <string name="prioDisplay2">2</string>
+    <string name="prioDisplay1" translatable="false">1</string>
+    <string name="prioDisplay3" translatable="false">3</string>
+    <string name="prioDisplay2" translatable="false">2</string>
     <string name="addTaskTitleHint">Title</string>
-    <string name="sampleText">Lorem Ipsum</string>
-    <string name="checkMark">✔</string>
+    <string name="sampleText" translatable="false">Lorem Ipsum</string>
+    <string name="checkMark" translatable="false">✔</string>
     <string name="menuTitleBirthdays">Birthdays</string>
     <string name="menuTitleTodo">To-Do</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleCalendar">Calendar</string>
     <string name="menuTitleSettings">Settings</string>
     <string name="menuTitleShopping">Shopping</string>
+    <string name="menuTitleColorChoose">Choose color</string>
     <string name="addBirthdayNameHint">Name</string>
     <string name="addBirthdayDayHint">Day</string>
     <string name="addBirthdayMonthHint">Month</string>
     <string name="menuTitleModules">Modules</string>
     <string name="menuTitleNotes">Notes</string>
-    <string name="termItemDate">%1$s %2$s.%3$s.%4$s</string>
+    <string name="termItemDate" translatable="false">%1$s %2$s.%3$s.%4$s</string>
+    <string name="menuTitleSaveChanges">Save Changes?</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="menuTitleSleepReminder">Sleep</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string-array name="units">
         <item>x</item>
         <item>kg</item>
@@ -34,8 +35,8 @@
     </string-array>
 
     <string-array name="noteLines">
-        <item>All</item>
-        <item>None</item>
+        <item>all</item>
+        <item>none</item>
         <item>1</item>
         <item>3</item>
         <item>5</item>

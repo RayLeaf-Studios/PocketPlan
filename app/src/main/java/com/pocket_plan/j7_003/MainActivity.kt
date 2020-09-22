@@ -105,8 +105,8 @@ class MainActivity : AppCompatActivity() {
         params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
         when(SettingsManager.getSetting(SettingId.DRAWER_SIDE) as String){
-            "right" -> drawerGravity = Gravity.END
-            "left" -> {
+            resources.getStringArray(R.array.drawerSides)[1] -> drawerGravity = Gravity.END
+            resources.getStringArray(R.array.drawerSides)[0] -> {
                 params.gravity = Gravity.START
                 drawerGravity = Gravity.START
             }
@@ -432,6 +432,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun openColorChooser() {
         //inflate the dialog with custom view
         val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
@@ -459,7 +460,7 @@ class MainActivity : AppCompatActivity() {
          * Onclick-listeners for every specific color button
          */
         buttonList.forEachIndexed { i, b ->
-            b.setOnClickListener() {
+            b.setOnClickListener {
                 noteColor = NoteColors.values()[i]
                 myMenu?.getItem(1)?.icon?.setTint(ContextCompat.getColor(this, colorList[i]))
                 myAlertDialog.dismiss()
@@ -605,6 +606,7 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
+    @SuppressLint("InflateParams")
     private fun dialogDiscardNoteChanges(gotoFragment: FT) {
 
         if (dialogOpened) {
@@ -813,6 +815,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    @SuppressLint("InflateParams")
     private fun dialogShoppingClear() {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
 
@@ -880,6 +883,7 @@ class MainActivity : AppCompatActivity() {
         myAlertDialog.show()
     }
 
+    @SuppressLint("InflateParams")
     private fun openDeleteNoteDialog() {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
 
