@@ -10,6 +10,7 @@ Priority 1 tasks:
     - restore icon after opening menu
     - add basic items of all categories to list
     - language options
+    - think about translation of tag lists and templates
 
 Priority 2 tasks:
     - replace all colors and values like text size with resource references
