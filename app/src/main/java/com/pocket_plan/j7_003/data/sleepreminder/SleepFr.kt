@@ -113,7 +113,7 @@ class SleepFr : Fragment() {
         updateCustomCheckBoxes()
     }
 
-    @SuppressLint("SetTextI18n", "InflateParams")
+    @SuppressLint("InflateParams")
     private fun initializeCustomDaysDisplay(v: View) {
         /**
          * initialize lists of  custom panels, custom checkboxes, custom wake time text views and
@@ -176,8 +176,8 @@ class SleepFr : Fragment() {
                 val myBuilder2 = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
                 val customTitle2 =
                     LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-                customTitle2.tvDialogTitle.text =
-                    "Sleep Duration - " + DayOfWeek.values()[i].toString()
+                customTitle2.tvDialogTitle.text = resources.getString(
+                    R.string.sleepDurationDay, DayOfWeek.values()[i].toString())
                 myBuilder2.setCustomTitle(customTitle2)
 
                 val myAlertDialog2 = myBuilder2.create()
@@ -226,7 +226,8 @@ class SleepFr : Fragment() {
                 val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
                 val customTitle =
                     LayoutInflater.from(activity).inflate(R.layout.title_dialog_add_task, null)
-                customTitle.tvDialogTitle.text = "Wakeup Time - " + DayOfWeek.values()[i].toString()
+                customTitle.tvDialogTitle.text = resources.getString(
+                    R.string.sleepWakeUpTimeDay, DayOfWeek.values()[i].toString())
                 myBuilder.setCustomTitle(customTitle)
 
                 myDialogView.npHour.value =
@@ -251,7 +252,7 @@ class SleepFr : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n", "InflateParams")
+    @SuppressLint("InflateParams")
     private fun initializeRegularDayDisplay(v: View) {
         /**
          * initialize lists of regular checkboxes, text view for regular wake time, and text view
@@ -286,7 +287,7 @@ class SleepFr : Fragment() {
             val customTitle = LayoutInflater.from(activity)
                 .inflate(R.layout.title_dialog_add_task, null)
 
-            customTitle.tvDialogTitle.text = "Wakeup Time"
+            customTitle.tvDialogTitle.text = resources.getText(R.string.sleepWakeUpTime)
             myBuilder.setCustomTitle(customTitle)
 
             myDialogView.npHour.value =
@@ -331,7 +332,7 @@ class SleepFr : Fragment() {
             val customTitle = LayoutInflater.from(activity)
                 .inflate(R.layout.title_dialog_add_task, null)
 
-            customTitle.tvDialogTitle.text = "Sleep Duration"
+            customTitle.tvDialogTitle.text = resources.getText(R.string.sleepDuration)
             myBuilder.setCustomTitle(customTitle)
 
             val myAlertDialog = myBuilder.create()

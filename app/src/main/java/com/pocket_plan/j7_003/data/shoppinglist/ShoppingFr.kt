@@ -250,7 +250,8 @@ class SublistAdapter(
         }
 
         val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
-        holder.itemView.tvItemTitle.text = item.amount + item.unit + " " + item.name
+        holder.itemView.tvItemTitle.text = MainActivity.act.getString(
+            R.string.shoppingItemTitle, item.amount, item.unit, item.name)
 
         holder.itemView.clItemTapfield.setOnClickListener {
             val newPosition = ShoppingFr.shoppingListInstance.flipItemCheckedState(

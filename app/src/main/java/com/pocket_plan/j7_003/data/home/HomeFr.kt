@@ -186,7 +186,6 @@ class HomeFr : Fragment() {
 
     }
 
-    @SuppressLint("SetTextI18n")
     private fun updateBirthdayPanel() {
         val birthdaysToday = BirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)

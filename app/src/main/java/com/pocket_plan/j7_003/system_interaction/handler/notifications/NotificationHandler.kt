@@ -16,15 +16,9 @@ class NotificationHandler {
     companion object {
         @Suppress("DEPRECATION")
         fun createNotification(
-            channelId: String,
-            name: String,
-            requestCode: Int,
-            contentTitle: String,
-            contentText: String,
-            icon: Int,
-            intentValue: String,
-            myContext: Context
-        ) {
+            channelId: String, name: String, requestCode: Int, contentTitle: String,
+            contentText: String, icon: Int, intentValue: String, myContext: Context) {
+
             val notificationManager =
                 myContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val repeatingIntent = Intent(myContext, MainActivity::class.java)

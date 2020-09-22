@@ -41,14 +41,10 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun sRNotification() {
         NotificationHandler.createNotification(
-            "Sleep Reminder",
-            "Sleep Reminder Notification",
-            200,
-            "Sleep Time",
-            "It's time to go to bed, sleep well!",
-            R.drawable.ic_action_sleepreminder,
-            "SReminder",
-            context
+            "Sleep Reminder", context.resources.getString(R.string.menuTitleSleep),
+            200, context.resources.getString(R.string.sleepNotificationTitle),
+            context.resources.getString(R.string.sleepNotificationText),
+            R.drawable.ic_action_sleepreminder, "SReminder", context
         )
     }
 
@@ -100,53 +96,37 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun notifyBirthdayNow(birthday: Birthday) {
         NotificationHandler.createNotification(
-            "Birthday Notification",
-            "Birthdays",
-            100,
-            "Birthday",
-            "It's ${birthday.name}s birthday!",
-            R.drawable.ic_action_birthday,
-            "birthdays",
-            context
+            "Birthday Notification", context.resources.getString(R.string.menuTitleBirthdays),
+            100, context.resources.getString(R.string.birthdayNotificationTitle),
+            context.resources.getString(R.string.birthdayNotificationSingleText, birthday.name),
+            R.drawable.ic_action_birthday, "birthdays", context
         )
     }
 
     private fun notifyCurrentBirthdays(currentBirthdays: Int) {
         NotificationHandler.createNotification(
-            "Birthday Notification",
-            "Birthdays",
-            102,
-            "Birthdays",
-            "There are $currentBirthdays birthdays today!",
-            R.drawable.ic_action_birthday,
-            "birthdays",
-            context
+            "Birthday Notification", context.resources.getString(R.string.menuTitleBirthdays),
+            102, context.resources.getString(R.string.birthdayNotificationTitle),
+            context.resources.getString(R.string.birthdayNotificationMultText, currentBirthdays),
+            R.drawable.ic_action_birthday, "birthdays", context
         )
     }
 
     private fun notifyUpcomingBirthday(birthday: Birthday) {
         NotificationHandler.createNotification(
-            "Birthday Notification",
-            "Upcoming Birthdays",
-            101,
-            "Upcoming Birthday",
-            "${birthday.name}s birthday is coming up in ${birthday.daysToRemind} ${if(birthday.daysToRemind ==1 ) {"day"} else {"days"}}!",
-            R.drawable.ic_action_birthday,
-            "birthdays",
-            context
+            "Birthday Notification", context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            101, context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            context.resources.getString(R.string.birthdayNotificationSingleUpcText, birthday.name, birthday.daysToRemind),
+            R.drawable.ic_action_birthday, "birthdays", context
         )
     }
 
     private fun notifyUpcomingBirthdays(upcomingBirthdays: Int) {
         NotificationHandler.createNotification(
-            "Birthday Notification",
-            "Upcoming Birthdays",
-            103,
-            "Upcoming Birthdays",
-            "$upcomingBirthdays birthdays are coming up!",
-            R.drawable.ic_action_birthday,
-            "birthdays",
-            context
+            "Birthday Notification", context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            103, context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            context.resources.getString(R.string.birthdayNotificationMultUpcText, upcomingBirthdays),
+            R.drawable.ic_action_birthday, "birthdays", context
         )
     }
 

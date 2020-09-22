@@ -43,6 +43,7 @@
     <string name="checkMark" translatable="false">✔</string>
     <string name="shoppingClearList">Clear list</string>
     <string name="shoppingUncheckAll">Uncheck all</string>
+    <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
 
     <!-- Home -->
     <string name="homeAddNote">+ Note</string>
@@ -72,7 +73,9 @@
 
     <!-- Sleep -->
     <string name="sleepWakeUpTime">Wakeup Time</string>
+    <string name="sleepWakeUpTimeDay">Wakeup Time - %1$s</string>
     <string name="sleepDuration">Sleep duration</string>
+    <string name="sleepDurationDay">Sleep Duration - %1$s</string>
     <string name="sleepEnable">Enable Reminder</string>
     <string name="sleepCustomDays">Enable Custom Days</string>
     <string name="sleepMon">Mon</string>
@@ -105,6 +108,17 @@
     <string name="aboutSrc" translatable="false">Sourcecode</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
     <string name="termItemDate" translatable="false" />
+
+    <!-- Notifications -->
+    <string name="sleepNotificationTitle">Sleep Time</string>
+    <string name="sleepNotificationText">It\'s time to go to bed, sleep well!</string>
+    <string name="birthdayNotificationTitle">Birthdays</string>
+    <string name="birthdayNotificationTitleUpc">Upcoming Birthdays</string>
+    <string name="birthdayNotificationSingleText">It\'s %1$ss birthday!</string>
+    <string name="birthdayNotificationMultText">There are %1$d birthdays today!</string>
+    <!-- TODO use plurals for "day" as above -->
+    <string name="birthdayNotificationSingleUpcText">%1$ss birthday is coming up in %2$d days!</string>
+    <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
 
     <string-array name="units">
         <item>x</item>

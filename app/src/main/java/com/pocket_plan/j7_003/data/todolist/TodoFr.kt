@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
-import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.R.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
@@ -151,7 +150,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
     }
 
 
-    @SuppressLint("SetTextI18n", "InflateParams")
+    @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
         if(position == TodoFr.todoListInstance.size){
@@ -220,7 +219,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
                 layout.title_dialog_add_task,
                 null
             )
-            editTitle.tvDialogTitle.text = "Edit task"
+            editTitle.tvDialogTitle.text = MainActivity.act.resources.getText(string.menuTitleTasks)
             myBuilder.setCustomTitle(editTitle)
 
             //show dialog
@@ -248,7 +247,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
                 button.setOnClickListener {
                     if(myDialogView.etxTitleAddTask.text.toString()==""){
                         val animationShake =
-                            AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                            AnimationUtils.loadAnimation(MainActivity.act, anim.shake)
                         myDialogView.etxTitleAddTask.startAnimation(animationShake)
                         return@setOnClickListener
                     }
