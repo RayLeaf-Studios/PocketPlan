@@ -59,4 +59,9 @@
         <item>22</item>
         <item>24</item>
     </string-array>
+
+    <string-array name="drawerSides">
+        <item>left</item>
+        <item>right</item>
+    </string-array>
 </resources>

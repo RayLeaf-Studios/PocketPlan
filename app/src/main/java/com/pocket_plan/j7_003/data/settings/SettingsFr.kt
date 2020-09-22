@@ -26,10 +26,10 @@ class SettingsFr : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
     lateinit var spEditorFontsize: Spinner
+    lateinit var spDrawerSide: Spinner
     private lateinit var clManageCustomItems: ConstraintLayout
     private lateinit var swExpandOneCategory: SwitchCompat
     private lateinit var swCollapseCheckedSublists: SwitchCompat
-    private lateinit var swLeftHanded: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +48,14 @@ class SettingsFr : Fragment() {
     private fun initializeComponents(myView: View) {
 
         //initialize references to view
+
         spNoteLines = myView.spNoteLines
         spNoteColumns = myView.spNoteColumns
         clManageCustomItems = myView.clManageCustomItems
         swExpandOneCategory = myView.swExpandOneCategory
         swCollapseCheckedSublists = myView.swCollapseCheckedSublists
-        swLeftHanded = myView.swLeftHanded
         spEditorFontsize = myView.spEditorFontsize
+        spDrawerSide = myView.spDrawerSide
 
     }
 
@@ -86,6 +87,15 @@ class SettingsFr : Fragment() {
         )
         spAdapterEditorFontSize.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spEditorFontsize.adapter = spAdapterEditorFontSize
+
+        //Spinner for drawer side
+        val spAdapterDrawerSide = ArrayAdapter<String>(
+            MainActivity.act,
+            android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.drawerSides)
+        )
+        spAdapterDrawerSide.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spDrawerSide.adapter = spAdapterDrawerSide
     }
 
     private fun initializeDisplayValues() {
@@ -98,10 +108,12 @@ class SettingsFr : Fragment() {
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
         spEditorFontsize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting("fontSize")))
 
+        val drawerSideOptions = resources.getStringArray(R.array.drawerSides)
+        spDrawerSide.setSelection(drawerSideOptions.indexOf(SettingsManager.getSetting("drawerSide")))
+
         swExpandOneCategory.isChecked = SettingsManager.getSetting("expandOneCategory") as Boolean
         swCollapseCheckedSublists.isChecked =
             SettingsManager.getSetting("collapseCheckedSublists") as Boolean
-        swLeftHanded.isChecked = SettingsManager.getSetting("drawerLeftSide") as Boolean
 
     }
 
@@ -156,6 +168,31 @@ class SettingsFr : Fragment() {
             }
         }
 
+        //Listener for drawerSide spinner
+        spDrawerSide.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val value = spDrawerSide.selectedItem as String
+                SettingsManager.addSetting("drawerSide", value)
+
+                val newGravity =  when (value) {
+                    "right" -> Gravity.END
+                    else -> Gravity.START
+                }
+
+                MainActivity.drawerGravity = newGravity
+                MainActivity.params.gravity = newGravity
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
         //Switch for only showing one category as expanded
         clManageCustomItems.setOnClickListener {
             MainActivity.act.changeToFragment(FT.CUSTOM_ITEMS)
@@ -172,14 +209,5 @@ class SettingsFr : Fragment() {
             )
         }
 
-        swLeftHanded.setOnClickListener {
-            SettingsManager.addSetting("drawerLeftSide", swLeftHanded.isChecked)
-            val newDrawerGravity = when (swLeftHanded.isChecked) {
-                true -> Gravity.START
-                else -> Gravity.END
-            }
-            MainActivity.drawerGravity = newDrawerGravity
-            MainActivity.params.gravity = newDrawerGravity
-        }
     }
 }

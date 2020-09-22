@@ -104,14 +104,13 @@ class MainActivity : AppCompatActivity() {
 
         params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
-        if (SettingsManager.getSetting("drawerLeftSide") as Boolean) {
-            params.gravity = Gravity.START
-            drawerGravity = Gravity.START
-        } else {
-            //navigation view drawer layout already is defaulted to END
-            drawerGravity = Gravity.END
+        when(SettingsManager.getSetting("drawerSide") as String){
+            "right" -> drawerGravity = Gravity.END
+            "left" -> {
+                params.gravity = Gravity.START
+                drawerGravity = Gravity.START
+            }
         }
-
 
         //initialize actionbar content
         actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
@@ -950,7 +949,7 @@ class MainActivity : AppCompatActivity() {
         setDefault("fontSize", "18")
         setDefault("expandOneCategory", false)
         setDefault("collapseCheckedSublists", false)
-        setDefault("drawerLeftSide", false)
+        setDefault("drawerSide", "right")
     }
 
     private fun setDefault(setting: String, value: Any) {
