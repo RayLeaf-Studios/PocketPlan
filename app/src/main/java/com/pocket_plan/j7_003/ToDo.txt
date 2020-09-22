@@ -3,23 +3,25 @@ Todo:
 backend stuff:
     - functionality to save / load a backup file?
 
-Stuff to get done today:
-    - detect year change in birthday add/edit => check save year
 
 Priority 1 tasks:
+    - detect year change in birthday add/edit => check save year
+    - restore icon after opening menu
     - add basic items of all categories to list
     - language options
 
 Priority 2 tasks:
-    - functionality that supports adding of categories?
-    - darkthemed notes?
-    - button to open sidebar menu?
     - replace all colors and values like text size with resource references
     - scroll buffer für notes??
-    - dialog confirm clear list?
+
+
+
+
 
 
 Ideas:
+    - darkthemed notes?
+    - functionality that supports adding of categories?
     - make shopping list presets save and loadable
     - suggested amount for shopping items
     - add tags / sublist for different store/s?
