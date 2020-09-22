@@ -14,10 +14,16 @@ class StorageHandler {
 
         fun createFile(identifier: StorageId, fileName: String) {
             files[identifier] =
-                setStorageLocation(
-                    fileName,
-                    MainActivity.act
-                )
+                setStorageLocation(fileName, MainActivity.act)
+
+            if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
+                files[identifier]?.createNewFile()
+            }
+        }
+
+        fun createTMPFile(identifier: StorageId, prefix: String, suffix: String) {
+            files[identifier] =
+                File.createTempFile(prefix, suffix)
 
             if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
                 files[identifier]?.createNewFile()
