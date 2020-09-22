@@ -32,10 +32,15 @@
     <string name="noteEditorTitle">Title</string>
     <string name="noteEditorText">Note</string>
 
-    <!-- Shopping -->
-
     <!-- Tasks -->
     <string name="tasksAddTitle">Add Task</string>
+
+    <!-- Shopping -->
+
+    <!-- Home -->
+    <string name="homeAddNote">+ Note</string>
+    <string name="homeAddTask">+ Task</string>
+    <string name="homeAddItem">+ Item</string>
 
     <!-- Birthdays -->
     <string name="birthdaysNotify">notify me</string>

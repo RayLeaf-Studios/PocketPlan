@@ -76,4 +76,7 @@
         <item>November</item>
         <item>Dezember</item>
     </string-array>
+    <string name="homeAddNote">+ Notiz</string>
+    <string name="homeAddTask">+ To Do</string>
+    <string name="homeAddItem">+ Item</string>
 </resources>
