@@ -82,4 +82,10 @@
     <string name="menuTitleDayView">Tagesansicht</string>
     <string name="menuTitleCreateTerm">Termin erstellen</string>
     <string name="tasksAddHint">Titel</string>
+    <string name="noteDiscardDialogSave">SPEICHERN</string>
+    <string name="noteDiscardDialogDiscard">VERWERFEN</string>
+    <string name="noteDiscardDialogTitle">Änderungen speichern?</string>
+    <string name="noteDeleteDialogCancel">Abbrechen</string>
+    <string name="noteDeleteDialogDelete">LÖSCHEN</string>
+    <string name="noteDeleteDialogText">Ziehe nach rechts um zu löschen</string>
 </resources>

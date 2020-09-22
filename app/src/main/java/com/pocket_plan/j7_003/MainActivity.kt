@@ -619,7 +619,7 @@ class MainActivity : AppCompatActivity() {
         //AlertDialogBuilder
         val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        customTitle.tvDialogTitle.text = "Save changes?"
+        customTitle.tvDialogTitle.text = resources.getText(R.string.noteDiscardDialogTitle)
         myBuilder?.setCustomTitle(customTitle)
 
         val myAlertDialog = myBuilder?.create()
@@ -890,7 +890,7 @@ class MainActivity : AppCompatActivity() {
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        editTitle.tvDialogTitle.text = "Swipe right to delete this note"
+        editTitle.tvDialogTitle.text = resources.getText(R.string.noteDeleteDialogText)
         myBuilder.setCustomTitle(editTitle)
         val myAlertDialog = myBuilder.create()
 

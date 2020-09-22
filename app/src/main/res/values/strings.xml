@@ -24,6 +24,12 @@
     <!-- Notes -->
     <string name="noteEditorTitle">Title</string>
     <string name="noteEditorText">Note</string>
+    <string name="noteDiscardDialogSave">Save</string>
+    <string name="noteDiscardDialogDiscard">DISCARD</string>
+    <string name="noteDiscardDialogTitle">Save changes?</string>
+    <string name="noteDeleteDialogCancel">Cancel</string>
+    <string name="noteDeleteDialogDelete">DELETE</string>
+    <string name="noteDeleteDialogText">Swipe right to delete this note</string>
 
     <!-- Tasks -->
     <string name="tasksAddTitle">Add Task</string>
