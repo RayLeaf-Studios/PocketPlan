@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/item_left"
         android:icon="@drawable/ic_action_colorpicker"
-        android:title="Clear list"
+        android:title="@string/shoppingClearList"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/item_middle"
         android:icon="@drawable/ic_check_mark"
-        android:title="Uncheck all"
+        android:title="@string/shoppingUncheckAll"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/item_right"
         android:icon="@drawable/ic_action_delete"
-        android:title="item_right"
+        android:title=""
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/svBirthday"
         android:icon="@drawable/ic_action_searc"
-        android:title="Search"
+        android:title=""
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView">
 

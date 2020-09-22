@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Birthdays"
+        android:title="@string/menuTitleBirthdays"
         android:icon="@drawable/ic_action_birthday"
         android:id="@+id/menuItemBirthdays"/>
     <item
-        android:title="Sleepreminder"
+        android:title="@string/menuTitleSleep"
         android:icon="@drawable/ic_action_sleepreminder"
         android:id="@+id/menuSleepReminder"/>
     <item
-        android:title="About"
+        android:title="@string/menuTitleAbout"
         android:icon="@drawable/ic_action_info"
         android:id="@+id/menuItemAbout"/>
     <item
-        android:title="Settings"
+        android:title="@string/menuTitleSettings"
         android:icon="@drawable/ic_action_settings"
         android:id="@+id/menuItemSettings"/>
 

@@ -88,4 +88,6 @@
     <string name="noteDeleteDialogCancel">Abbrechen</string>
     <string name="noteDeleteDialogDelete">LÖSCHEN</string>
     <string name="noteDeleteDialogText">Ziehe nach rechts um zu löschen</string>
+    <string name="shoppingClearList">Liste löschen</string>
+    <string name="shoppingUncheckAll">Abhaken umkehren</string>
 </resources>

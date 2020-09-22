@@ -40,6 +40,8 @@
 
     <!-- Shopping -->
     <string name="checkMark" translatable="false">✔</string>
+    <string name="shoppingClearList">Clear list</string>
+    <string name="shoppingUncheckAll">Uncheck all</string>
 
     <!-- Home -->
     <string name="homeAddNote">+ Note</string>
