@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <string name="app_name" translatable="false">PocketPlan</string>
     <string name="to_do">To-do</string>
@@ -24,8 +25,35 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <!-- General-->
+
+    <!-- Notes -->
+    <string name="noteEditorTitle">Title</string>
+    <string name="noteEditorText">Note</string>
+
+    <!-- Settings -->
+    <string name="settingsNotesTitle">Notes</string>
+    <string name="settingsNumOfLines">Number of lines to display</string>
+    <string name="settingsNumOfCols">Number of note columns</string>
+    <string name="settingsFontSize">Fontsize in Editor</string>
+    <string name="settingsShoListTitle">Shopping List</string>
+    <string name="settingsCusItems">Manage custom items</string>
+    <string name="settingsOnlyExpandOne">Only expand one category</string>
+    <string name="settingsCollapseChecked">Collapse checked categories</string>
+    <string name="settingsNavDrawerTitle">Navigation drawer</string>
+    <string name="settingsNavDrawerPick">Slide side</string>
+
+    <!-- About Fragment -->
+    <string name="aboutDevs">Developed by</string>
+    <string name="aboutDevsDesc" translatable="false">Estep248:  Back-End / Data Management\n
+        \nJakeGonder;:  Front-End / User Interface</string>
+    <string name="aboutSup">Supported by</string>
+    <string name="aboutSubDesc">Kellai U.: Logo Design \n \nDori R.: Textual content and translation
+        \n\nLetsbeteem0: Unpaid Intern</string>
+    <string name="aboutSrc" translatable="false">Sourcecode</string>
+    <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
+
     <string-array name="units">
         <item>x</item>
         <item>kg</item>

@@ -17,7 +17,7 @@
         android:textColor="@color/colorOnBackGround"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:hint="Title"
+        android:hint="@string/noteEditorTitle"
         android:ems="10"
         android:textColorHint="@color/colorHint"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
     <EditText
         android:padding="4dp"
         android:id="@+id/etNoteContent"
-        android:hint="Note"
+        android:hint="@string/noteEditorText"
         android:textSize="20sp"
         android:textColorHint="@color/colorHint"
         android:layout_width="match_parent"

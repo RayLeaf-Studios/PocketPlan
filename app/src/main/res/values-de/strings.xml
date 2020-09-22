@@ -32,4 +32,20 @@
         <item>rechts</item>
     </string-array>
     <string name="to_do">To-do</string>
+    <string name="aboutDevs">Entwickelt von</string>
+    <string name="aboutSup">Unterstützt von</string>
+    <string name="aboutSubDesc">Kellai U.: Logo Design \n \nDori R.: Textual content and translation
+        \n\nLetsbeteem0: unbezahlter Praktikant</string>
+    <string name="noteEditorTitle">Titel</string>
+    <string name="noteEditorText">Notiz</string>
+    <string name="settingsNotesTitle">Notizen</string>
+    <string name="settingsNumOfLines">Zeilenanzahl</string>
+    <string name="settingsNumOfCols">Spaltenanzahl</string>
+    <string name="settingsFontSize">Schriftgröße im Editor</string>
+    <string name="settingsShoListTitle">Einkaufsliste</string>
+    <string name="settingsCusItems">Benutzerdefinierte Items</string>
+    <string name="settingsOnlyExpandOne">Nur eine Kategorie gleichzeitig ausfahren</string>
+    <string name="settingsCollapseChecked">Abgehakte Kategorien einfahren</string>
+    <string name="settingsNavDrawerTitle">Sidemenu</string>
+    <string name="settingsNavDrawerPick">Seite des menüs</string>
 </resources>
