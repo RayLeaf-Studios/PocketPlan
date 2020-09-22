@@ -9,7 +9,7 @@
     <item
         android:id="@+id/todolist"
         android:icon="@drawable/ic_action_todo"
-        android:title="@string/menuTitleTodo" />
+        android:title="@string/menuTitleTasks" />
 
     <item
         android:id="@+id/home"

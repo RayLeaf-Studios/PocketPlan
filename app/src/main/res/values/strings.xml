@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
+
+    <!-- General-->
     <string name="app_name" translatable="false">PocketPlan</string>
-    <string name="to_do">To-do</string>
-    <string name="prioDisplay1" translatable="false">1</string>
-    <string name="prioDisplay3" translatable="false">3</string>
-    <string name="prioDisplay2" translatable="false">2</string>
-    <string name="addTaskTitleHint">Title</string>
-    <string name="sampleText" translatable="false">Lorem Ipsum</string>
-    <string name="checkMark" translatable="false">✔</string>
+
+    <!-- Menu Titles -->
     <string name="menuTitleBirthdays">Birthdays</string>
-    <string name="menuTitleTodo">To-Do</string>
+    <string name="menuTitleTasks">To-Do</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleCalendar">Calendar</string>
     <string name="menuTitleSettings">Settings</string>
     <string name="menuTitleShopping">Shopping</string>
     <string name="menuTitleColorChoose">Choose color</string>
-    <string name="addBirthdayNameHint">Name</string>
-    <string name="addBirthdayDayHint">Day</string>
-    <string name="addBirthdayMonthHint">Month</string>
     <string name="menuTitleModules">Modules</string>
     <string name="menuTitleNotes">Notes</string>
-    <string name="termItemDate" translatable="false">%1$s %2$s.%3$s.%4$s</string>
-    <string name="menuTitleSaveChanges">Save Changes?</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <!-- General-->
+    <string name="menuTitleNotesEditor">Editor</string>
+    <string name="menuTitleAbout">About</string>
+    <string name="menuTitleSleep">Sleep Reminder</string>
+    <string name="menuTitleCustomItem">Custom Items</string>
+    <string name="menuTitleDayView">Day View</string>
+    <string name="menuTitleCreateTerm">Create Term</string>
 
     <!-- Notes -->
     <string name="noteEditorTitle">Title</string>
@@ -34,8 +27,13 @@
 
     <!-- Tasks -->
     <string name="tasksAddTitle">Add Task</string>
+    <string name="tasksAddHint">Title</string>
+    <string name="prioDisplay1" translatable="false">1</string>
+    <string name="prioDisplay3" translatable="false">3</string>
+    <string name="prioDisplay2" translatable="false">2</string>
 
     <!-- Shopping -->
+    <string name="checkMark" translatable="false">✔</string>
 
     <!-- Home -->
     <string name="homeAddNote">+ Note</string>
@@ -56,6 +54,12 @@
     <string name="birthdayAge">%1$d years old, born in %2$d.</string>
     <!-- TODO use plurals here and in translation -->
     <string name="birthdayReminder">\nReminds %1$d day%2$s prior.</string>
+    <string name="addBirthdayNameHint">Name</string>
+    <string name="addBirthdayDayHint">Day</string>
+    <string name="addBirthdayMonthHint">Month</string>
+    <string name="termItemDate" translatable="false">%1$s %2$s.%3$s.%4$s</string>
+    <string name="menuTitleSaveChanges">Save Changes?</string>
+
 
     <!-- Settings -->
     <string name="settingsNotesTitle">Notes</string>

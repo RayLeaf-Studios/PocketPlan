@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="addTaskTitleHint">Titel</string>
     <string name="menuTitleBirthdays">Geburtstage</string>
     <string name="menuTitleCalendar">Kalender</string>
     <string name="menuTitleSettings">Einstellungen</string>
@@ -8,14 +7,12 @@
     <string name="addBirthdayDayHint">Tag</string>
     <string name="addBirthdayMonthHint">Monat</string>
     <string name="addBirthdayNameHint">Name</string>
-    <string name="menuTitleShopping">Shopping</string>
+    <string name="menuTitleShopping">Einkauf</string>
     <string name="menuTitleHome">Home</string>
-    <string name="menuTitleTodo">To-Do</string>
+    <string name="menuTitleTasks">To-Do</string>
     <string name="menuTitleModules">Module</string>
     <string name="menuTitleNotes">Notizen</string>
     <string name="menuTitleSaveChanges">Speichern?</string>
-    <string name="navigation_drawer_open">Sidebar öffnen</string>
-    <string name="navigation_drawer_close">Sidebar schließen</string>
 
     <string-array name="noteLines">
         <item>alle</item>
@@ -31,7 +28,6 @@
         <item>links</item>
         <item>rechts</item>
     </string-array>
-    <string name="to_do">To-do</string>
     <string name="aboutDevs">Entwickelt von</string>
     <string name="aboutSup">Unterstützt von</string>
     <string name="aboutSubDesc">Kellai U.: Logo Design \n \nDori R.: Textual content and translation
@@ -79,4 +75,11 @@
     <string name="homeAddNote">+ Notiz</string>
     <string name="homeAddTask">+ To Do</string>
     <string name="homeAddItem">+ Item</string>
+    <string name="menuTitleNotesEditor">Bearbeitung</string>
+    <string name="menuTitleAbout">Über</string>
+    <string name="menuTitleSleep">Schlaf Rythmus</string>
+    <string name="menuTitleCustomItem">Benutzerdef. Items</string>
+    <string name="menuTitleDayView">Tagesansicht</string>
+    <string name="menuTitleCreateTerm">Termin erstellen</string>
+    <string name="tasksAddHint">Titel</string>
 </resources>

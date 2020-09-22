@@ -287,19 +287,19 @@ class MainActivity : AppCompatActivity() {
 
         //Set the correct ActionbarTitle
         actionbarContent.tvActionbarTitle.text = when (fragmentTag) {
-            FT.HOME -> "Pocket Plan"
-            FT.TASKS -> "To-Do"
-            FT.SHOPPING -> "Shopping"
-            FT.NOTES -> "Notes"
-            FT.NOTE_EDITOR -> "Editor"
-            FT.BIRTHDAYS -> "Birthdays"
-            FT.ABOUT -> "About"
-            FT.SETTINGS -> "Settings"
-            FT.CUSTOM_ITEMS -> "Custom Items"
-            FT.SLEEP -> "Sleep-Reminder"
-            FT.CALENDAR -> "Calendar"
-            FT.CREATE_TERM -> "Create term"
-            FT.DAY_VIEW -> "Day-View"
+            FT.HOME -> resources.getText(R.string.menuTitleHome)
+            FT.TASKS -> resources.getText(R.string.menuTitleTasks)
+            FT.SHOPPING -> resources.getText(R.string.menuTitleShopping)
+            FT.NOTES -> resources.getText(R.string.menuTitleNotes)
+            FT.NOTE_EDITOR -> resources.getText(R.string.menuTitleNotesEditor)
+            FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
+            FT.ABOUT -> resources.getText(R.string.menuTitleAbout)
+            FT.SETTINGS -> resources.getText(R.string.menuTitleSettings)
+            FT.CUSTOM_ITEMS -> resources.getText(R.string.menuTitleCustomItem)
+            FT.SLEEP -> resources.getText(R.string.menuTitleSleep)
+            FT.CALENDAR -> resources.getText(R.string.menuTitleCalendar)
+            FT.CREATE_TERM -> resources.getText(R.string.menuTitleCreateTerm)
+            FT.DAY_VIEW -> resources.getText(R.string.menuTitleDayView)
             else -> ""
         }
 
