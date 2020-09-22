@@ -48,4 +48,5 @@
     <string name="settingsCollapseChecked">Abgehakte Kategorien einfahren</string>
     <string name="settingsNavDrawerTitle">Sidemenu</string>
     <string name="settingsNavDrawerPick">Seite des menüs</string>
+    <string name="tasksAddTitle">Aufgabe hinzufügen</string>
 </resources>

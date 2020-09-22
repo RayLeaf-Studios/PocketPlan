@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:padding="13dp"
         android:layout_height="wrap_content"
-        android:text="01.01. Max Mustermann"
         android:textSize="@dimen/font_size_list_items"
         android:textColor="@color/colorOnBackGround"
         app:layout_constraintStart_toStartOf="parent"

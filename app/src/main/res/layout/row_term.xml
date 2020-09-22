@@ -13,7 +13,7 @@
         android:background="@color/colorBackgroundListElement"
         android:padding="5dp"
         android:paddingStart="3dp"
-        android:paddingRight="3dp"
+        android:paddingEnd="3dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="Mo 25.07"
             android:textColor="@color/colorOnBackGround"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -35,7 +34,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:text="12:39"
             android:textColor="@color/colorOnBackGround"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTermItemDate" />
@@ -44,7 +42,6 @@
             android:id="@+id/tvTermItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Programmierpraktikum Abgabe"
             android:textColor="@color/colorOnBackGround"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -55,7 +52,6 @@
             android:id="@+id/tvTermItemInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Raum: B403, Blatt C-2 bis C-5"
             android:textColor="@color/colorOnBackGround"
             app:layout_constraintStart_toStartOf="@+id/guideLineTermItem"
             app:layout_constraintTop_toBottomOf="@+id/tvTermItemTitle" />

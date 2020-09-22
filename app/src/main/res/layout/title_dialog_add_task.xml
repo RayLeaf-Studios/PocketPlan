@@ -14,6 +14,6 @@
         android:padding="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="Add Task" />
+        android:text="@string/tasksAddTitle" />
 
 </LinearLayout>
