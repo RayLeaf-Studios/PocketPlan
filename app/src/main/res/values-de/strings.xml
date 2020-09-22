@@ -49,4 +49,13 @@
     <string name="settingsNavDrawerTitle">Sidemenu</string>
     <string name="settingsNavDrawerPick">Seite des menüs</string>
     <string name="tasksAddTitle">Aufgabe hinzufügen</string>
+    <string name="birthdaysNotify">erinnern</string>
+    <string name="birthdaysDaysPrior">Tage vorher.</string>
+    <string name="birthdayDialogAdd">Hinzufügen</string>
+    <string name="birthdayRemindMe">Erinnere mich</string>
+    <string name="birthdaySaveYear">mit Jahr</string>
+    <string name="birthdayChooseDate">Datum wählen</string>
+    <string name="birthdayDialogEdit">Speichern</string>
+    <string name="birthdayDialogAddTitle">Geb. hinzufügen</string>
+    <string name="birthdayDialogEditTitle">Bearbeiten</string>
 </resources>

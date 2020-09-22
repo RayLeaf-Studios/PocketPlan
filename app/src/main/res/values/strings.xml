@@ -37,6 +37,17 @@
     <!-- Tasks -->
     <string name="tasksAddTitle">Add Task</string>
 
+    <!-- Birthdays -->
+    <string name="birthdaysNotify">notify me</string>
+    <string name="birthdaysDaysPrior">days prior.</string>
+    <string name="birthdayDialogAdd">Add Birthday</string>
+    <string name="birthdayDialogAddTitle">Add Birthday</string>
+    <string name="birthdayDialogEdit">Confirm Edit</string>
+    <string name="birthdayDialogEditTitle">Edit</string>
+    <string name="birthdayRemindMe">Remind me</string>
+    <string name="birthdaySaveYear">save year</string>
+    <string name="birthdayChooseDate">Choose date</string>
+
     <!-- Settings -->
     <string name="settingsNotesTitle">Notes</string>
     <string name="settingsNumOfLines">Number of lines to display</string>

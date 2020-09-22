@@ -239,7 +239,6 @@ class BirthdayFr : Fragment() {
                             R.color.colorHint
                         )
                     )
-                    tvDaysPrior.text = "days prior"
                 } else {
                     tvRemindMe.setTextColor(
                         ContextCompat.getColor(
@@ -395,16 +394,16 @@ class BirthdayFr : Fragment() {
         val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
         myTitle.tvDialogTitle.text = when (editing) {
-            true -> "Edit Birthday"
-            else -> "Add Birthday"
+            true -> resources.getText(R.string.birthdayDialogEditTitle)
+            else -> resources.getText(R.string.birthdayDialogAddTitle)
         }
         myBuilder?.setCustomTitle(myTitle)
 
 
         //initialize button text
         myDialogView.btnConfirmBirthday.text = when (editing) {
-            true -> "Confirm edit"
-            else -> "Add Birthday"
+            true -> resources.getText(R.string.birthdayDialogEdit)
+            else -> resources.getText(R.string.birthdayDialogAdd)
         }
 
 
