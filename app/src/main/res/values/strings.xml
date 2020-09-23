@@ -123,6 +123,7 @@
     
     <!-- Content descriptions -->
     <string name="contentDescriptionSun">Sun</string>
+    <string name="zero">0</string>
 
     <string-array name="units">
         <item>x</item>
