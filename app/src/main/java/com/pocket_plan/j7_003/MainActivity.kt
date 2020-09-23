@@ -104,9 +104,9 @@ class MainActivity : AppCompatActivity() {
 
         params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
-        when(SettingsManager.getSetting(SettingId.DRAWER_SIDE) as String){
-            resources.getStringArray(R.array.drawerSides)[1] -> drawerGravity = Gravity.END
-            resources.getStringArray(R.array.drawerSides)[0] -> {
+        when(SettingsManager.getSetting(SettingId.DRAWER_SIDE)){
+            true -> drawerGravity = Gravity.END
+            false -> {
                 params.gravity = Gravity.START
                 drawerGravity = Gravity.START
             }
@@ -440,7 +440,7 @@ class MainActivity : AppCompatActivity() {
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        editTitle.tvDialogTitle.text = "Choose color"
+        editTitle.tvDialogTitle.text = getString(R.string.menuTitleColorChoose)
         myBuilder.setCustomTitle(editTitle)
 
         //show dialog
@@ -781,7 +781,7 @@ class MainActivity : AppCompatActivity() {
         }
         searchView.setOnQueryTextListener(textListener)
         val onCloseListener = SearchView.OnCloseListener {
-            actionbarContent.tvActionbarTitle.text = "Birthdays"
+            actionbarContent.tvActionbarTitle.text = getString(R.string.menuTitleBirthdays)
             searchView.onActionViewCollapsed()
             BirthdayFr.searching = false
             updateUndoBirthdayIcon()
@@ -822,7 +822,7 @@ class MainActivity : AppCompatActivity() {
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        editTitle.tvDialogTitle.text = "Swipe right to delete list"
+        editTitle.tvDialogTitle.text = getString(R.string.noteDeleteDialogText)
         myBuilder.setCustomTitle(editTitle)
         val myAlertDialog = myBuilder.create()
 
@@ -958,11 +958,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadDefaultSettings() {
         setDefault(SettingId.NOTE_COLUMNS, "2")
-        setDefault(SettingId.NOTE_LINES, "All")
+        setDefault(SettingId.NOTE_LINES, -1.0)
         setDefault(SettingId.FONT_SIZE, "18")
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
-        setDefault(SettingId.DRAWER_SIDE, "right")
+        setDefault(SettingId.DRAWER_SIDE, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
@@ -1000,13 +1000,9 @@ class MainActivity : AppCompatActivity() {
         //Initialize dialogBuilder and set its title
         val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(addItemDialogView) }
         val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        customTitle.tvDialogTitle.text = "Add Item"
+        customTitle.tvDialogTitle.text = getString(R.string.shoppingAddItemTitle)
         myBuilder?.setCustomTitle(customTitle)
         addItemDialog = myBuilder?.create()
-
-        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        myTitle.tvDialogTitle.text = "Add Item"
-        myBuilder?.setCustomTitle(myTitle)
 
         //initialize autocompleteTextView and spinner for item unit
         val actvItem = addItemDialogView!!.actvItem

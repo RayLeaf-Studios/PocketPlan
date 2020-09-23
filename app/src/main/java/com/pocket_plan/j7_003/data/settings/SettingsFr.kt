@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
@@ -96,8 +97,20 @@ class SettingsFr : Fragment() {
     }
 
     private fun initializeDisplayValues() {
-        val lineOptions = resources.getStringArray(R.array.noteLines)
-        spNoteLines.setSelection(lineOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_LINES)))
+        spNoteLines.setSelection(
+            when (SettingsManager.getSetting(SettingId.NOTE_LINES)) {
+                //0 = show no lines
+                0.0 -> 1
+                //n = show n lines
+                1.0 -> 2
+                3.0 -> 3
+                5.0 -> 4
+                10.0 -> 5
+                20.0 -> 6
+                //else case is -1 => show all lines
+                else -> 0
+            }
+        )
 
         val columnOptions = resources.getStringArray(R.array.noteColumns)
         spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS)))
@@ -105,10 +118,17 @@ class SettingsFr : Fragment() {
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
         spEditorFontsize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE)))
 
-        val drawerSideOptions = resources.getStringArray(R.array.drawerSides)
-        spDrawerSide.setSelection(drawerSideOptions.indexOf(SettingsManager.getSetting(SettingId.DRAWER_SIDE)))
+        spDrawerSide.setSelection(
+            when (SettingsManager.getSetting(SettingId.DRAWER_SIDE)) {
+                //false = left side
+                false -> 0
+                //true = right side
+                else -> 1
+            }
+        )
 
-        swExpandOneCategory.isChecked = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
+        swExpandOneCategory.isChecked =
+            SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
         swCollapseCheckedSublists.isChecked =
             SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
 
@@ -123,8 +143,16 @@ class SettingsFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val value = spNoteLines.selectedItem as String
-                SettingsManager.addSetting(SettingId.NOTE_LINES, value)
+                val setTo = when(spNoteLines.selectedItemPosition){
+                    0 -> -1.0
+                    1 -> 0.0
+                    2 -> 1.0
+                    3 -> 3.0
+                    4 -> 5.0
+                    5 -> 10.0
+                    else -> 20.0
+                }
+                SettingsManager.addSetting(SettingId.NOTE_LINES, setTo)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -173,16 +201,14 @@ class SettingsFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val value = spDrawerSide.selectedItem as String
-                SettingsManager.addSetting(SettingId.DRAWER_SIDE, value)
-
-                val newGravity =  when (value) {
-                    resources.getStringArray(R.array.drawerSides)[1] -> Gravity.END
-                    else -> Gravity.START
+                val setTo = when (spDrawerSide.selectedItemPosition) {
+                    1 -> Pair(true, Gravity.END)
+                    else -> Pair(false, Gravity.START)
                 }
+                SettingsManager.addSetting(SettingId.DRAWER_SIDE, setTo.first)
 
-                MainActivity.drawerGravity = newGravity
-                MainActivity.params.gravity = newGravity
+                MainActivity.drawerGravity = setTo.second
+                MainActivity.params.gravity = setTo.second
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

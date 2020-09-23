@@ -310,7 +310,8 @@
                 android:src="@drawable/ic_action_sun"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeMo"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/contentDescriptionSun" />
 
             <TextView
                 android:id="@+id/tvWakeTimeMo"

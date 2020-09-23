@@ -44,6 +44,7 @@
     <string name="shoppingClearList">Clear list</string>
     <string name="shoppingUncheckAll">Uncheck all</string>
     <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
+    <string name="shoppingAddItemTitle">Add item</string>
 
     <!-- Home -->
     <string name="homeAddNote">+ Note</string>
@@ -119,6 +120,9 @@
     <!-- TODO use plurals for "day" as above -->
     <string name="birthdayNotificationSingleUpcText">%1$ss birthday is coming up in %2$d days!</string>
     <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
+    
+    <!-- Content descriptions -->
+    <string name="contentDescriptionSun">Sun</string>
 
     <string-array name="units">
         <item>x</item>

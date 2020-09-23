@@ -49,12 +49,13 @@
 
                 <TextView
                     android:id="@+id/tvNoteLines"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsNumOfLines"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/spNoteLines"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,12 +91,13 @@
 
                 <TextView
                     android:id="@+id/tvNoteColumns"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsNumOfCols"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/spNoteColumns"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -210,12 +212,13 @@
 
                 <TextView
                     android:id="@+id/tvOneCategory"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsOnlyExpandOne"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swExpandOneCategory"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -244,12 +247,13 @@
 
                 <TextView
                     android:id="@+id/tvCollapseCheckedCategories"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsCollapseChecked"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swCollapseCheckedSublists"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -291,14 +295,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingHorizontal="20dp">
+
                 <TextView
                     android:id="@+id/tvNavDrawer"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsNavDrawerPick"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/spDrawerSide"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <Spinner

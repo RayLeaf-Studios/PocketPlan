@@ -4,19 +4,23 @@ backend stuff:
     - functionality to save / load a backup file?
 
 Priority 1 tasks:
-    - detect year change in birthday add/edit => check save year
     - geburtstag ohne jahr speichern -> editieren, save year abhaken -> datepicker is jahr 1
     - dont allow entering reminder days when notify me is not checked
     - restore icon after opening menu
-    - add basic items of all categories to list
-    - language options
+
+    - change scrollers to timepickers in sleepreminder
+    - detect year change in birthday add/edit => check save year
+    - drawer menu should cover titel bar and settings and about should be at the bottom of the menu
+    - setting to choose if additem stays open or closed
+
     - think about translation of tag lists and templates
+    - button to copy github link / make it a hyperlink
+    - add basic items of all categories to list
 
 Priority 2 tasks:
     - replace all colors and values like text size with resource references
     - scroll buffer für notes??
-    - drawer menu should cover titel bar and settings and about should be at the bottom of the menu
-
+    - figure out if its possible to save note lines as integer instead of double
 
 Ideas:
     - dark themed notes?

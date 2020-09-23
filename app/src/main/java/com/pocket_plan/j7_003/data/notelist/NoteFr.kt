@@ -44,25 +44,11 @@ class NoteFr : Fragment() {
     }
 
     private fun initializeComponents(myView: View) {
-        //ADDING NOTE VIA FLOATING ACTION BUTTON
-//        myView.btnAddNote.setOnClickListener {
-//            MainActivity.editNoteHolder = null
-//            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
-//        }
-
         //TODO READ THIS FROM SETTINGS MANAGER
         val noteColumns = SettingsManager.getSetting(SettingId.NOTE_COLUMNS) as String
 
-        val optionArray = resources.getStringArray(R.array.noteLines)
-        noteLines = when (SettingsManager.getSetting(SettingId.NOTE_LINES)) {
-            optionArray[1] -> 0
-            optionArray[2] -> 1
-            optionArray[3] -> 3
-            optionArray[4] -> 5
-            optionArray[5] -> 10
-            optionArray[6] -> 20
-            else -> -1
-        }
+        val setting = SettingsManager.getSetting(SettingId.NOTE_LINES) as Double
+        noteLines = setting.toInt()
 
         //initialize Recyclerview and Adapter
         val myRecycler = myView.recycler_view_note
@@ -80,13 +66,6 @@ class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val noteList = NoteFr.noteListInstance
 
-    fun deleteItem(position: Int) {
-        NoteFr.deletedNote = noteList.getNote(position)
-        MainActivity.act.updateUndoNoteIcon()
-        noteList.deleteNote(position)
-        notifyItemRemoved(position)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_note, parent, false)
@@ -103,8 +82,6 @@ class NoteAdapter :
             MainActivity.editNoteHolder = currentNote
             MainActivity.noteColor = noteList.getNote(holder.adapterPosition).color
             MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
-//                myEtTitle.requestFocus()
-//                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
         }
 
         //specifying design of note rows here
