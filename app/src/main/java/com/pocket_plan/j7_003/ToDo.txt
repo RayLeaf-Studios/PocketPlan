@@ -16,6 +16,7 @@ Priority 1 tasks:
     - think about translation of tag lists and templates
     - button to copy github link / make it a hyperlink
     - add basic items of all categories to list
+    - cleanup sleepreminder layout, maybe use a recyclerview
 
 Priority 2 tasks:
     - replace all colors and values like text size with resource references
