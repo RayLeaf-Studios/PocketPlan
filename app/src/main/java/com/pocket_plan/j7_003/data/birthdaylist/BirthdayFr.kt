@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -88,7 +87,7 @@ class BirthdayFr : Fragment() {
         //Mark that user changed year
         val anyDateSet = true
         var yearChanged = false
-        var chosenYear = 2020
+        var chosenYear = -1
 
         //set date to birthdays date
         date = LocalDate.of(
@@ -183,9 +182,9 @@ class BirthdayFr : Fragment() {
 
 
         //correct focusable state of etDaysToRemind
-        if(editBirthdayHolder!!.notify){
+        if (editBirthdayHolder!!.notify) {
             etDaysToRemind.isFocusableInTouchMode = true
-        }else{
+        } else {
             etDaysToRemind.isFocusable = false
         }
 
@@ -205,11 +204,11 @@ class BirthdayFr : Fragment() {
                     ContextCompat.getColor(MainActivity.act, R.color.colorHint)
                 }
             )
-            when(cbNotifyMe.isChecked){
-                 true -> etDaysToRemind.isFocusableInTouchMode = true
+            when (cbNotifyMe.isChecked) {
+                true -> etDaysToRemind.isFocusableInTouchMode = true
                 else -> etDaysToRemind.isFocusable = false
             }
-            when(cbNotifyMe.isChecked){
+            when (cbNotifyMe.isChecked) {
                 true -> etDaysToRemind.setText(cachedRemindText)
                 else -> {
                     val temp = etDaysToRemind.text.toString()
@@ -229,7 +228,15 @@ class BirthdayFr : Fragment() {
                     )
                 )
                 yearChanged = true
+                if (year != 2020 && !cbSaveBirthdayYear.isChecked&&year !=chosenYear) {
+                    cbSaveBirthdayYear.isChecked = true
+                    MainActivity.act.toast("first")
+                }
+
                 chosenYear = year
+                if (date.year!=0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
+                    cbSaveBirthdayYear.isChecked = true
+                }
                 date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val dayMonthString =
                     date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
@@ -241,8 +248,8 @@ class BirthdayFr : Fragment() {
             }
 
             var yearToDisplay = 2020
-            if (cbSaveBirthdayYear.isChecked&&yearChanged) {
-               yearToDisplay = date.year
+            if (cbSaveBirthdayYear.isChecked && yearChanged) {
+                yearToDisplay = date.year
             }
             val dpd = DatePickerDialog(
                 MainActivity.act,
@@ -259,13 +266,13 @@ class BirthdayFr : Fragment() {
             //if year is supposed to be included,
             date = if (cbSaveBirthdayYear.isChecked) {
                 //if user wants so include year, set it to 2020 as default or chosenYear if he changed the year in the date setter before
-                if(!yearChanged){
-                    if(editBirthdayHolder!!.year!=0){
+                if (!yearChanged) {
+                    if (editBirthdayHolder!!.year != 0) {
                         LocalDate.of(editBirthdayHolder!!.year, date.month, date.dayOfMonth)
-                    }else{
+                    } else {
                         LocalDate.of(2020, date.month, date.dayOfMonth)
                     }
-                } else{
+                } else {
                     LocalDate.of(chosenYear, date.month, date.dayOfMonth)
                 }
             } else {
@@ -334,7 +341,7 @@ class BirthdayFr : Fragment() {
         }
 
         etDaysToRemind.setOnClickListener {
-            if(!cbNotifyMe.isChecked){
+            if (!cbNotifyMe.isChecked) {
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake2)
                 tvNotifyMe.startAnimation(animationShake)
