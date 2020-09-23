@@ -2,9 +2,7 @@ package com.pocket_plan.j7_003.data.sleepreminder
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.CheckBox
 import android.widget.TextView
@@ -336,6 +334,9 @@ class SleepFr : Fragment() {
             myBuilder.setCustomTitle(customTitle)
 
             val myAlertDialog = myBuilder.create()
+            val dialogWindow = myAlertDialog.window
+            dialogWindow?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            dialogWindow?.setGravity(Gravity.CENTER)
             myAlertDialog.show()
 
             myDialogView.npHour.value =

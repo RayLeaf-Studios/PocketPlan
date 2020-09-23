@@ -1,16 +1,12 @@
 Todo:
 
-backend stuff:
-    - functionality to save / load a backup file?
 
 Priority 1 tasks:
-    - dont allow entering reminder days when notify me is not checked
-    - restore icon after opening menu
 
-    - change scrollers to timepickers in sleepreminder
-    - detect year change in birthday add/edit => check save year
+    - restore icon after opening menu
     - drawer menu should cover titel bar and settings and about should be at the bottom of the menu
-    - setting to choose if additem stays open or closed
+
+    - create real settings menu with subfragments for every category
 
     - think about translation of tag lists and templates
     - shopping list collapse all / expand all ?
@@ -20,10 +16,14 @@ Priority 1 tasks:
     - cleanup sleepreminder layout, maybe use a recyclerview
     - option to remember fragment
 
+
+    - import single files and zip files
+
 Priority 2 tasks:
     - replace all colors and values like text size with resource references
     - scroll buffer für notes??
     - figure out if its possible to save note lines as integer instead of double
+    - change scrollers to timepickers in sleepreminder
 
 Ideas:
     - dark themed notes?

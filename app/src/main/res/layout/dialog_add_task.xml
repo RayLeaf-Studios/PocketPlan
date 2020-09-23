@@ -11,7 +11,7 @@
         android:id="@+id/etxTitleAddTask"
         android:layout_width="0dp"
         android:textColor="@color/colorOnBackGround"
-        android:layout_height="42dp"
+        android:layout_height="wrap_content"
         android:autofillHints=""
         android:isScrollContainer="false"
         android:hint="@string/tasksAddHint"
