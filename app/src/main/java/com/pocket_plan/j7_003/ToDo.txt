@@ -17,6 +17,7 @@ Priority 1 tasks:
     - button to copy github link / make it a hyperlink
     - add basic items of all categories to list
     - cleanup sleepreminder layout, maybe use a recyclerview
+    - option to remember fragment
 
 Priority 2 tasks:
     - replace all colors and values like text size with resource references

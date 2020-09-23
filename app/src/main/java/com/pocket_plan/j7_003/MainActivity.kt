@@ -166,7 +166,8 @@ class MainActivity : AppCompatActivity() {
             when (activeFragmentTag) {
                 FT.BIRTHDAYS -> {
                     BirthdayFr.editBirthdayHolder = null
-                    birthdayFr.openBirthdayDialog()
+                    //todo uncomment and fix this
+//                    birthdayFr.openAddBirthdayDialog()
                 }
 
                 FT.TASKS -> {

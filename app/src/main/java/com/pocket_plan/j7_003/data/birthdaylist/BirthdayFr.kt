@@ -36,7 +36,6 @@ class BirthdayFr : Fragment() {
     private lateinit var myRecycler: RecyclerView
 
     var date: LocalDate = LocalDate.now()
-    private var anyDateSet = false
 
 
     companion object {
@@ -85,256 +84,142 @@ class BirthdayFr : Fragment() {
     }
 
 
-    @SuppressLint("InflateParams")
-    fun openBirthdayDialog() {
-        val editing = editBirthdayHolder != null
-        anyDateSet = false
+    fun openEditBirthdayDialog() {
+        //Mark that user changed year
+        val anyDateSet = true
+        var yearChanged = false
+        var chosenYear = 2020
 
-        if (editing) {
-            anyDateSet = true
-            date = LocalDate.of(
-                editBirthdayHolder!!.year,
-                editBirthdayHolder!!.month,
-                editBirthdayHolder!!.day
-            )
-        } else {
-            date = LocalDate.now()
-        }
+        //set date to birthdays date
+        date = LocalDate.of(
+            editBirthdayHolder!!.year,
+            editBirthdayHolder!!.month,
+            editBirthdayHolder!!.day
+        )
 
         //inflate the dialog with custom view
         val myDialogView =
             LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
 
-        //initialize instances
-        val nameField = myDialogView.etName
-        val tvBirthdayDate = myDialogView.tvBirthdayDate
-        val cbSaveBirthdayYear = myDialogView.cbSaveBirthdayYear
-        val tvSaveYear = myDialogView.tvSaveYear
-        val etDaysToRemind = myDialogView.etDaysToRemind
+        //initialize references to ui elements
         val etName = myDialogView.etName
+        val etDaysToRemind = myDialogView.etDaysToRemind
+
+        val tvBirthdayDate = myDialogView.tvBirthdayDate
+        val tvSaveYear = myDialogView.tvSaveYear
         val tvNotifyMe = myDialogView.tvNotifyMe
-        val cbNotifyMe = myDialogView.cbNotifyMe
-
-        //initialize name field if editing
-        if (editing) {
-            etName.setText(editBirthdayHolder!!.name)
-            etName.setSelection(etName.text.length)
-        }
-
-        //default checkbox for "Notify me" with true, if adding a new birthday
-        if (!editing) {
-            cbNotifyMe.isChecked = true
-        }
-
-        cbNotifyMe.setOnClickListener {
-            if (cbNotifyMe.isChecked) {
-                tvNotifyMe.setTextColor(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorOnBackGround
-                    )
-                )
-            } else {
-                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-            }
-        }
-
-        //set checkbox and "Notify me" textColor to correct state depending on birthday that is being edited
-        if (editing) {
-            if (editBirthdayHolder!!.notify) {
-                tvNotifyMe.setTextColor(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorOnBackGround
-                    )
-                )
-            } else {
-                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-            }
-            cbNotifyMe.isChecked = editBirthdayHolder!!.notify
-        }
-
-        //initialize "Remind me" .. "Days prior" Text views
         val tvRemindMe = myDialogView.tvRemindMe
         val tvDaysPrior = myDialogView.tvDaysPrior
 
-        //set right color for RemindMe DaysPrior
-        if (!editing || (editing && editBirthdayHolder!!.daysToRemind == 0)) {
-            tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-            etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-            tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+        val cbSaveBirthdayYear = myDialogView.cbSaveBirthdayYear
+        val cbNotifyMe = myDialogView.cbNotifyMe
+
+        /**
+         * INITIALIZE DISPLAY VALUES
+         */
+
+        //initialize name edit text with birthday name
+        etName.setText(editBirthdayHolder!!.name)
+        etName.setSelection(etName.text.length)
+
+        //initialize color of tvNotifyMe with
+        if (editBirthdayHolder!!.notify) {
+            tvNotifyMe.setTextColor(
+                ContextCompat.getColor(
+                    MainActivity.act,
+                    R.color.colorOnBackGround
+                )
+            )
+        } else {
+            tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
         }
 
-        if (editing) {
-            val addition = when (editBirthdayHolder!!.daysToRemind == 1) {
-                true -> ""
-                false -> "s"
-            }
-            tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
-//                "day" + addition + " prior"
-        }
-
+        //initialize cbNotifyMe with correct checked state
+        cbNotifyMe.isChecked = editBirthdayHolder!!.notify
 
         //initialize date text
-        val chooseDateText = when (editBirthdayHolder != null) {
-            true -> {
-                var yearString = ""
-                if (editBirthdayHolder!!.year != 0) {
-                    yearString = "." + editBirthdayHolder!!.year.toString()
-                }
-                editBirthdayHolder!!.day.toString().padStart(2, '0') + "." +
-                        editBirthdayHolder!!.month.toString()
-                            .padStart(2, '0') + yearString
-            }
-            false -> resources.getText(R.string.birthdayChooseDate)
+        var yearString = ""
+        if (editBirthdayHolder!!.year != 0) {
+            yearString = "." + editBirthdayHolder!!.year.toString()
         }
-        tvBirthdayDate.text = chooseDateText
+        val dateText = editBirthdayHolder!!.day.toString().padStart(2, '0') + "." +
+                editBirthdayHolder!!.month.toString()
+                    .padStart(2, '0') + yearString
 
+        tvBirthdayDate.text = dateText
 
-        tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+        //initialize color of tvSaveYear
+        val hasYear = editBirthdayHolder!!.year != 0
+        val tvSaveYearColor = when (hasYear) {
+            true -> R.color.colorOnBackGround
+            else -> R.color.colorHint
+        }
+        tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, tvSaveYearColor))
 
         //initialize value of save year checkbox
-        if (editBirthdayHolder != null) {
-            if (editBirthdayHolder!!.year != 0) {
-                cbSaveBirthdayYear.isChecked = true
-                tvSaveYear.setTextColor(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorOnBackGround
-                    )
-                )
-            }
-        } else {
-            cbSaveBirthdayYear.isChecked = false
-            tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+        cbSaveBirthdayYear.isChecked = hasYear
+
+        //set correct color for RemindMe DaysPrior
+        val remindMeColor = when (editBirthdayHolder!!.daysToRemind) {
+            0 -> R.color.colorHint
+            else -> R.color.colorOnBackGround
+        }
+        tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, remindMeColor))
+        etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, remindMeColor))
+        tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, remindMeColor))
+
+        //todo fix this with plurals
+        //Set text of reminder (day/ days)
+        val addition = when (editBirthdayHolder!!.daysToRemind == 1) {
+            true -> ""
+            false -> "s"
+        }
+        tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+
+
+        //set the correct daysToRemind text
+        var cachedRemindText = editBirthdayHolder!!.daysToRemind.toString()
+        etDaysToRemind.setText(cachedRemindText)
+
+
+        //correct focusable state of etDaysToRemind
+        if(editBirthdayHolder!!.notify){
+            etDaysToRemind.isFocusableInTouchMode = true
+        }else{
+            etDaysToRemind.isFocusable = false
         }
 
-        //initialize reminder text
-        val daysToRemindText = when (editBirthdayHolder != null) {
-            true -> editBirthdayHolder!!.daysToRemind.toString()
-            else -> "0"
-        }
+        //initialize button text
+        myDialogView.btnConfirmBirthday.text = resources.getText(R.string.birthdayDialogEdit)
 
-        val textWatcherReminder = object : TextWatcher {
+        /**
+         * INITIALIZE LISTENERS
+         */
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val enteredText = etDaysToRemind.text.toString()
-                if (enteredText == "" || enteredText.toInt() == 0) {
-                    tvRemindMe.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorHint
-                        )
-                    )
-                    etDaysToRemind.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorHint
-                        )
-                    )
-                    tvDaysPrior.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorHint
-                        )
-                    )
+        //listener for cbNotifyMe to change color of tvNotifyMe depending on checked state
+        cbNotifyMe.setOnClickListener {
+            tvNotifyMe.setTextColor(
+                if (cbNotifyMe.isChecked) {
+                    ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround)
                 } else {
-                    tvRemindMe.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorOnBackGround
-                        )
-                    )
-                    etDaysToRemind.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorOnBackGround
-                        )
-                    )
-                    tvDaysPrior.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorOnBackGround
-                        )
-                    )
-                    val addition = when (enteredText.toInt() == 1) {
-                        true -> ""
-                        false -> "s"
-                    }
-//                    tvDaysPrior.text = "day" + addition + " prior"
-                    tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+                    ContextCompat.getColor(MainActivity.act, R.color.colorHint)
                 }
+            )
+            when(cbNotifyMe.isChecked){
+                 true -> etDaysToRemind.isFocusableInTouchMode = true
+                else -> etDaysToRemind.isFocusable = false
             }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-        }
-        etDaysToRemind.addTextChangedListener(textWatcherReminder)
-
-        etDaysToRemind.setText(daysToRemindText)
-        etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                etDaysToRemind.setText("")
-            } else {
-                val enteredText = etDaysToRemind.text.toString()
-                if (enteredText == "" || enteredText.toInt() == 0) {
+            when(cbNotifyMe.isChecked){
+                true -> etDaysToRemind.setText(cachedRemindText)
+                else -> {
+                    val temp = etDaysToRemind.text.toString()
                     etDaysToRemind.setText("0")
-                    tvRemindMe.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorHint
-                        )
-                    )
-                    etDaysToRemind.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorHint
-                        )
-                    )
-                    tvDaysPrior.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorHint
-                        )
-                    )
+                    cachedRemindText = temp
                 }
-                val addition = when (enteredText == "1") {
-                    true -> ""
-                    false -> "s"
-                }
-//                tvDaysPrior.text = "day" + addition + " prior"
-                tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
-
             }
         }
 
-        //textWatcher to reset color of nameField after typing again
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                nameField.setHintTextColor(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorHint
-                    )
-                )
-                nameField.background.mutate().setColorFilter(
-                    resources.getColor(R.color.colorAccent),
-                    PorterDuff.Mode.SRC_ATOP
-                )
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-        }
-        nameField.addTextChangedListener(textWatcher)
-
-        //on click listener to open date picker
+        //onclick listener for tvBirthday
         tvBirthdayDate.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 tvBirthdayDate.setTextColor(
@@ -343,7 +228,8 @@ class BirthdayFr : Fragment() {
                         R.color.colorOnBackGround
                     )
                 )
-                anyDateSet = true
+                yearChanged = true
+                chosenYear = year
                 date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val dayMonthString =
                     date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
@@ -354,11 +240,9 @@ class BirthdayFr : Fragment() {
                 }
             }
 
-            var yearToDisplay = date.year
-            if (editing && cbSaveBirthdayYear.isChecked) {
-                yearToDisplay = editBirthdayHolder?.year!!
-            } else if (editing) {
-                yearToDisplay = 2020
+            var yearToDisplay = 2020
+            if (cbSaveBirthdayYear.isChecked&&yearChanged) {
+               yearToDisplay = date.year
             }
             val dpd = DatePickerDialog(
                 MainActivity.act,
@@ -372,21 +256,34 @@ class BirthdayFr : Fragment() {
 
         //checkbox to include year
         cbSaveBirthdayYear.setOnClickListener {
-            if (cbSaveBirthdayYear.isChecked) {
-                if (editing && date.year == 0) {
-                    date = LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
+            //if year is supposed to be included,
+            date = if (cbSaveBirthdayYear.isChecked) {
+                //if user wants so include year, set it to 2020 as default or chosenYear if he changed the year in the date setter before
+                if(!yearChanged){
+                    if(editBirthdayHolder!!.year!=0){
+                        LocalDate.of(editBirthdayHolder!!.year, date.month, date.dayOfMonth)
+                    }else{
+                        LocalDate.of(2020, date.month, date.dayOfMonth)
+                    }
+                } else{
+                    LocalDate.of(chosenYear, date.month, date.dayOfMonth)
                 }
+            } else {
+                LocalDate.of(0, date.month, date.dayOfMonth)
             }
 
-            if (anyDateSet) {
-                val dayMonthString =
-                    date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
-                        .padStart(2, '0')
-                tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
-                    false -> dayMonthString
-                    else -> dayMonthString + "." + date.year.toString()
-                }
+            //set correct text of tvBirthdayDate (add / remove year)
+            val dayMonthString =
+                date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
+                    .padStart(2, '0')
+
+            tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
+                false -> dayMonthString
+                else -> dayMonthString + "." + date.year.toString()
             }
+
+
+            //color tvSaveYear gray or white depending on checkedState
             val color = when (cbSaveBirthdayYear.isChecked) {
                 true -> R.color.colorOnBackGround
                 false -> R.color.colorHint
@@ -394,21 +291,65 @@ class BirthdayFr : Fragment() {
             tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, color))
         }
 
+
+        val textWatcherReminder = object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                cachedRemindText = etDaysToRemind.text.toString()
+                val color = if (cachedRemindText == "" || cachedRemindText.toInt() == 0) {
+                    ContextCompat.getColor(MainActivity.act, R.color.colorHint)
+                } else {
+                    ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround)
+                }
+                tvRemindMe.setTextColor(color)
+                etDaysToRemind.setTextColor(color)
+                tvDaysPrior.setTextColor(color)
+
+                //todo fix this with plurals
+                val addition = when (cachedRemindText == "") {
+                    true -> ""
+                    false -> "s"
+                }
+                tvDaysPrior.text = "day" + addition + " prior"
+                tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+
+        //attach a listener that adjusts the color and text of surrounding text views
+        etDaysToRemind.addTextChangedListener(textWatcherReminder)
+
+
+        //clear text in etDaysToRemind when it is clicked on
+        etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                etDaysToRemind.setText("")
+            }
+        }
+
+        etDaysToRemind.setOnClickListener {
+            if(!cbNotifyMe.isChecked){
+                val animationShake =
+                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake2)
+                tvNotifyMe.startAnimation(animationShake)
+                val animationShakeCb =
+                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake2)
+                cbNotifyMe.startAnimation(animationShakeCb)
+            }
+        }
+
+
         //AlertDialogBuilder
         val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        myTitle.tvDialogTitle.text = when (editing) {
-            true -> resources.getText(R.string.birthdayDialogEditTitle)
-            else -> resources.getText(R.string.birthdayDialogAddTitle)
-        }
+        myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogEditTitle)
         myBuilder?.setCustomTitle(myTitle)
-
-
-        //initialize button text
-        myDialogView.btnConfirmBirthday.text = when (editing) {
-            true -> resources.getText(R.string.birthdayDialogEdit)
-            else -> resources.getText(R.string.birthdayDialogAdd)
-        }
 
 
         //show dialog
@@ -418,13 +359,13 @@ class BirthdayFr : Fragment() {
 
         //button to confirm adding of birthday
         myDialogView.btnConfirmBirthday.setOnClickListener {
-            val name = nameField.text.toString()
+            val name = etName.text.toString()
 
             //tell user to enter a name if none is entered
             if (name == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
-                nameField.startAnimation(animationShake)
+                etName.startAnimation(animationShake)
                 return@setOnClickListener
             }
 
@@ -435,58 +376,411 @@ class BirthdayFr : Fragment() {
                 return@setOnClickListener
             }
 
+            //get day and month from date
+            val month = date.monthValue
+            val day = date.dayOfMonth
+            val year = date.year
 
-            if (!anyDateSet) {
-                Toast.makeText(
-                    MainActivity.act,
-                    "No date entered!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else if (name.isEmpty()) {
-                Toast.makeText(
-                    MainActivity.act,
-                    "No name entered!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                //get day and month from date
-                val month = date.monthValue
-                val day = date.dayOfMonth
-
-                //set year to 0 if the year is not supposed to be saved, or to the actual value otherwise
-                val year = when (cbSaveBirthdayYear.isChecked) {
-                    false -> 0
-                    true -> date.year
-                }
-
-                //get value of daysToRemind, set it to 0 if the text field is empty
-                val daysToRemind = when (etDaysToRemind.text.toString()) {
-                    "" -> 0
-                    else -> etDaysToRemind.text.toString().toInt()
-                }
-                val notifyMe = cbNotifyMe.isChecked
-                if (editing) {
-                    editBirthdayHolder!!.name = name
-                    editBirthdayHolder!!.day = day
-                    editBirthdayHolder!!.month = month
-                    editBirthdayHolder!!.year = year
-                    editBirthdayHolder!!.daysToRemind = daysToRemind
-                    editBirthdayHolder!!.notify = notifyMe
-                    birthdayListInstance.sortAndSaveBirthdays()
-                } else {
-                    birthdayListInstance.addBirthday(
-                        name, date.dayOfMonth, date.monthValue,
-                        year, daysToRemind, false, notifyMe
-                    )
-                }
-                myRecycler.adapter?.notifyDataSetChanged()
+            //get value of daysToRemind, set it to 0 if the text field is empty
+            val daysToRemind = when (etDaysToRemind.text.toString()) {
+                "" -> 0
+                else -> etDaysToRemind.text.toString().toInt()
             }
+            val notifyMe = cbNotifyMe.isChecked
+
+            editBirthdayHolder!!.name = name
+            editBirthdayHolder!!.day = day
+            editBirthdayHolder!!.month = month
+            editBirthdayHolder!!.year = year
+            editBirthdayHolder!!.daysToRemind = daysToRemind
+            editBirthdayHolder!!.notify = notifyMe
+
+            birthdayListInstance.sortAndSaveBirthdays()
+            myRecycler.adapter?.notifyDataSetChanged()
             myAlertDialog?.dismiss()
         }
-
-
-        nameField.requestFocus()
     }
+
+    @SuppressLint("InflateParams")
+//    fun openAddBirthdayDialog() {
+//        val editing = editBirthdayHolder != null
+//         var anyDateSet = false
+//
+//        if (editing) {
+//            anyDateSet = true
+//            date = LocalDate.of(
+//                editBirthdayHolder!!.year,
+//                editBirthdayHolder!!.month,
+//                editBirthdayHolder!!.day
+//            )
+//        } else {
+//            date = LocalDate.now()
+//        }
+//
+//        //inflate the dialog with custom view
+//        val myDialogView =
+//            LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+//
+//        //initialize instances
+//        val nameField = myDialogView.etName
+//        val tvBirthdayDate = myDialogView.tvBirthdayDate
+//        val cbSaveBirthdayYear = myDialogView.cbSaveBirthdayYear
+//        val tvSaveYear = myDialogView.tvSaveYear
+//        val etDaysToRemind = myDialogView.etDaysToRemind
+//        val etName = myDialogView.etName
+//        val tvNotifyMe = myDialogView.tvNotifyMe
+//        val cbNotifyMe = myDialogView.cbNotifyMe
+//
+//        //initialize name edit text with birthday name if editing
+//        if (editing) {
+//            etName.setText(editBirthdayHolder!!.name)
+//            etName.setSelection(etName.text.length)
+//        }
+//
+//        //initialize checkbox for "Notify me" with true, if adding a new birthday
+//        if (!editing) {
+//            cbNotifyMe.isChecked = true
+//        }
+//
+//        cbNotifyMe.setOnClickListener {
+//            if (cbNotifyMe.isChecked) {
+//                tvNotifyMe.setTextColor(
+//                    ContextCompat.getColor(
+//                        MainActivity.act,
+//                        R.color.colorOnBackGround
+//                    )
+//                )
+//
+//            } else {
+//                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+//            }
+//        }
+//
+//        //set checkbox and "Notify me" textColor to correct state depending on birthday that is being edited
+//        if (editing) {
+//            if (editBirthdayHolder!!.notify) {
+//                tvNotifyMe.setTextColor(
+//                    ContextCompat.getColor(
+//                        MainActivity.act,
+//                        R.color.colorOnBackGround
+//                    )
+//                )
+//            } else {
+//                tvNotifyMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+//            }
+//            cbNotifyMe.isChecked = editBirthdayHolder!!.notify
+//        }
+//
+//        //initialize "Remind me" .. "Days prior" Text views
+//        val tvRemindMe = myDialogView.tvRemindMe
+//        val tvDaysPrior = myDialogView.tvDaysPrior
+//
+//        //set correct color for RemindMe DaysPrior
+//        if (!editing || (editing && editBirthdayHolder!!.daysToRemind == 0)) {
+//            tvRemindMe.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+//            etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+//            tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+//        }
+//
+//        if (editing) {
+//            val addition = when (editBirthdayHolder!!.daysToRemind == 1) {
+//                true -> ""
+//                false -> "s"
+//            }
+//            tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+//        }
+//
+//
+//        //initialize date text
+//        val chooseDateText = when (editBirthdayHolder != null) {
+//            true -> {
+//                var yearString = ""
+//                if (editBirthdayHolder!!.year != 0) {
+//                    yearString = "." + editBirthdayHolder!!.year.toString()
+//                }
+//                editBirthdayHolder!!.day.toString().padStart(2, '0') + "." +
+//                        editBirthdayHolder!!.month.toString()
+//                            .padStart(2, '0') + yearString
+//            }
+//            false -> resources.getText(R.string.birthdayChooseDate)
+//        }
+//        tvBirthdayDate.text = chooseDateText
+//
+//
+//        tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+//
+//        //initialize value of save year checkbox
+//        if (editBirthdayHolder != null) {
+//            if (editBirthdayHolder!!.year != 0) {
+//                cbSaveBirthdayYear.isChecked = true
+//                tvSaveYear.setTextColor(
+//                    ContextCompat.getColor(
+//                        MainActivity.act,
+//                        R.color.colorOnBackGround
+//                    )
+//                )
+//            }
+//        } else {
+//            cbSaveBirthdayYear.isChecked = false
+//            tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+//        }
+//
+//        //initialize reminder text
+//        val daysToRemindText = when (editBirthdayHolder != null) {
+//            true -> editBirthdayHolder!!.daysToRemind.toString()
+//            else -> "0"
+//        }
+//
+//        val textWatcherReminder = object : TextWatcher {
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                val enteredText = etDaysToRemind.text.toString()
+//                if (enteredText == "" || enteredText.toInt() == 0) {
+//                    tvRemindMe.setTextColor(
+//                        ContextCompat.getColor(
+//                            MainActivity.act,
+//                            R.color.colorHint
+//                        )
+//                    )
+//                    etDaysToRemind.setTextColor(
+//                        ContextCompat.getColor(
+//                            MainActivity.act,
+//                            R.color.colorHint
+//                        )
+//                    )
+//                    tvDaysPrior.setTextColor(
+//                        ContextCompat.getColor(
+//                            MainActivity.act,
+//                            R.color.colorHint
+//                        )
+//                    )
+//                } else {
+//                    tvRemindMe.setTextColor(
+//                        ContextCompat.getColor(
+//                            MainActivity.act,
+//                            R.color.colorOnBackGround
+//                        )
+//                    )
+//                    etDaysToRemind.setTextColor(
+//                        ContextCompat.getColor(
+//                            MainActivity.act,
+//                            R.color.colorOnBackGround
+//                        )
+//                    )
+//                    tvDaysPrior.setTextColor(
+//                        ContextCompat.getColor(
+//                            MainActivity.act,
+//                            R.color.colorOnBackGround
+//                        )
+//                    )
+//                    val addition = when (enteredText.toInt() == 1) {
+//                        true -> ""
+//                        false -> "s"
+//                    }
+////                    tvDaysPrior.text = "day" + addition + " prior"
+//                    tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+//                }
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//            }
+//        }
+//
+//        //attach a listener that adjusts the color and text of surrounding text views
+//        etDaysToRemind.addTextChangedListener(textWatcherReminder)
+//
+//        //set the correct daysToRemind text
+//        etDaysToRemind.setText(daysToRemindText)
+//
+//        //clear text in etDaysToRemind when it is clicked on
+//        etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
+//            if (hasFocus) {
+//                etDaysToRemind.setText("")
+//            }
+//        }
+//
+//        etDaysToRemind.isFocusable = cbNotifyMe.isChecked
+//
+//
+//        //textWatcher to reset color of nameField after typing again
+//        val textWatcher = object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                nameField.setHintTextColor(
+//                    ContextCompat.getColor(
+//                        MainActivity.act,
+//                        R.color.colorHint
+//                    )
+//                )
+//                nameField.background.mutate().setColorFilter(
+//                    resources.getColor(R.color.colorAccent),
+//                    PorterDuff.Mode.SRC_ATOP
+//                )
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//            }
+//        }
+//        nameField.addTextChangedListener(textWatcher)
+//
+//        //on click listener to open date picker
+//        tvBirthdayDate.setOnClickListener {
+//            val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+//                tvBirthdayDate.setTextColor(
+//                    ContextCompat.getColor(
+//                        MainActivity.act,
+//                        R.color.colorOnBackGround
+//                    )
+//                )
+//                anyDateSet = true
+//                date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+//                val dayMonthString =
+//                    date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
+//                        .padStart(2, '0')
+//                tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
+//                    false -> dayMonthString
+//                    else -> dayMonthString + "." + date.year.toString()
+//                }
+//            }
+//
+//            var yearToDisplay = date.year
+//            if (editing && cbSaveBirthdayYear.isChecked) {
+//                yearToDisplay = editBirthdayHolder?.year!!
+//            } else if (editing) {
+//                yearToDisplay = 2020
+//            }
+//            val dpd = DatePickerDialog(
+//                MainActivity.act,
+//                dateSetListener,
+//                yearToDisplay,
+//                date.monthValue - 1,
+//                date.dayOfMonth
+//            )
+//            dpd.show()
+//        }
+//
+//        //checkbox to include year
+//        cbSaveBirthdayYear.setOnClickListener {
+//            if (cbSaveBirthdayYear.isChecked) {
+//                if (editing && date.year == 0) {
+//                    date = LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
+//                }
+//            }
+//
+//            if (anyDateSet) {
+//                val dayMonthString =
+//                    date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
+//                        .padStart(2, '0')
+//                tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
+//                    false -> dayMonthString
+//                    else -> dayMonthString + "." + date.year.toString()
+//                }
+//            }
+//            val color = when (cbSaveBirthdayYear.isChecked) {
+//                true -> R.color.colorOnBackGround
+//                false -> R.color.colorHint
+//            }
+//            tvSaveYear.setTextColor(ContextCompat.getColor(MainActivity.act, color))
+//        }
+//
+//        //AlertDialogBuilder
+//        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+//        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+//        myTitle.tvDialogTitle.text = when (editing) {
+//            true -> resources.getText(R.string.birthdayDialogEditTitle)
+//            else -> resources.getText(R.string.birthdayDialogAddTitle)
+//        }
+//        myBuilder?.setCustomTitle(myTitle)
+//
+//
+//        //initialize button text
+//        myDialogView.btnConfirmBirthday.text = when (editing) {
+//            true -> resources.getText(R.string.birthdayDialogEdit)
+//            else -> resources.getText(R.string.birthdayDialogAdd)
+//        }
+//
+//
+//        //show dialog
+//        val myAlertDialog = myBuilder?.create()
+//        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+//        myAlertDialog?.show()
+//
+//        //button to confirm adding of birthday
+//        myDialogView.btnConfirmBirthday.setOnClickListener {
+//            val name = nameField.text.toString()
+//
+//            //tell user to enter a name if none is entered
+//            if (name == "") {
+//                val animationShake =
+//                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+//                nameField.startAnimation(animationShake)
+//                return@setOnClickListener
+//            }
+//
+//            if (!anyDateSet) {
+//                val animationShake =
+//                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+//                tvBirthdayDate.startAnimation(animationShake)
+//                return@setOnClickListener
+//            }
+//
+//
+//            if (!anyDateSet) {
+//                Toast.makeText(
+//                    MainActivity.act,
+//                    "No date entered!",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            } else if (name.isEmpty()) {
+//                Toast.makeText(
+//                    MainActivity.act,
+//                    "No name entered!",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            } else {
+//                //get day and month from date
+//                val month = date.monthValue
+//                val day = date.dayOfMonth
+//
+//                //set year to 0 if the year is not supposed to be saved, or to the actual value otherwise
+//                val year = when (cbSaveBirthdayYear.isChecked) {
+//                    false -> 0
+//                    true -> date.year
+//                }
+//
+//                //get value of daysToRemind, set it to 0 if the text field is empty
+//                val daysToRemind = when (etDaysToRemind.text.toString()) {
+//                    "" -> 0
+//                    else -> etDaysToRemind.text.toString().toInt()
+//                }
+//                val notifyMe = cbNotifyMe.isChecked
+//                if (editing) {
+//                    editBirthdayHolder!!.name = name
+//                    editBirthdayHolder!!.day = day
+//                    editBirthdayHolder!!.month = month
+//                    editBirthdayHolder!!.year = year
+//                    editBirthdayHolder!!.daysToRemind = daysToRemind
+//                    editBirthdayHolder!!.notify = notifyMe
+//                    birthdayListInstance.sortAndSaveBirthdays()
+//                } else {
+//                    birthdayListInstance.addBirthday(
+//                        name, date.dayOfMonth, date.monthValue,
+//                        year, daysToRemind, false, notifyMe
+//                    )
+//                }
+//                myRecycler.adapter?.notifyDataSetChanged()
+//            }
+//            myAlertDialog?.dismiss()
+//        }
+//
+//
+//        nameField.requestFocus()
+//    }
 
 
     fun search(query: String) {
@@ -515,7 +809,7 @@ class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val parsed = viewHolder as BirthdayAdapter.BirthdayViewHolder
-        return if (viewHolder.adapterPosition==BirthdayFr.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
+        return if (viewHolder.adapterPosition == BirthdayFr.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
             0
         } else {
             super.getSwipeDirs(recyclerView, viewHolder)
@@ -561,7 +855,7 @@ class BirthdayAdapter :
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.layoutParams.height = 280
             holder.itemView.setOnLongClickListener { true }
-            holder.itemView.setOnClickListener{}
+            holder.itemView.setOnClickListener {}
             return
         }
 
@@ -602,7 +896,8 @@ class BirthdayAdapter :
                     val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
                         .until(LocalDate.now()).years
                     ageText = MainActivity.act.resources.getString(
-                        R.string.birthdayAge, age, holder.birthday.year)
+                        R.string.birthdayAge, age, holder.birthday.year
+                    )
                 }
                 var dayExtension = ""
                 if (currentBirthday.daysToRemind != 1) {
@@ -610,7 +905,8 @@ class BirthdayAdapter :
                 }
                 val reminderText =
                     MainActivity.act.resources.getString(
-                        R.string.birthdayReminder, currentBirthday.daysToRemind, dayExtension)
+                        R.string.birthdayReminder, currentBirthday.daysToRemind, dayExtension
+                    )
                 holder.itemView.tvBirthdayInfo.text = ageText + reminderText
             } else {
                 holder.itemView.cvBirthdayInfo.visibility = View.GONE
@@ -631,7 +927,8 @@ class BirthdayAdapter :
             //Display name and date
             holder.txvBirthdayLabelName.text = MainActivity.act.resources.getString(
                 R.string.birthdayLabelName, dayAddition, currentBirthday.day.toString(),
-                monthAddition, currentBirthday.month.toString(), currentBirthday.name)
+                monthAddition, currentBirthday.month.toString(), currentBirthday.name
+            )
 
             // Red background if birthday is today
             if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
@@ -643,7 +940,7 @@ class BirthdayAdapter :
             //opens dialog to edit this birthday
             holder.itemView.setOnLongClickListener {
                 BirthdayFr.editBirthdayHolder = holder.birthday
-                BirthdayFr.myFragment.openBirthdayDialog()
+                BirthdayFr.myFragment.openEditBirthdayDialog()
                 true
             }
 
