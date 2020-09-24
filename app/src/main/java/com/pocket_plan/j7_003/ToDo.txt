@@ -31,6 +31,7 @@ Priority 2 tasks:
 
 Ideas:
     - if year in the future is set, set birthday info text to ("will be born in... years")
+    - update birthdayfragment and birthdaypanel home when 00:00 is passed
     - scroll buffer für notes??
     - dark themed notes?
     - functionality that supports adding of categories?

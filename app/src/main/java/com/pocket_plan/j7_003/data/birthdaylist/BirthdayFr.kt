@@ -52,6 +52,8 @@ class BirthdayFr : Fragment() {
         val birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
     }
 
+
+
     @SuppressLint("InflateParams")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +84,16 @@ class BirthdayFr : Fragment() {
         return myView
     }
 
+
+    /**
+     * Refreshes the birthdayList to ensure correct order of birthdays, in case a user leaves
+     * the app without closing it (before 00:00) and then re-enters (after 00:00)
+     */
+    override fun onResume() {
+        birthdayListInstance.sortAndSaveBirthdays()
+        myAdapter.notifyDataSetChanged()
+        super.onResume()
+    }
 
     fun openEditBirthdayDialog() {
         //Mark that user changed year
@@ -607,6 +619,7 @@ class BirthdayFr : Fragment() {
                 etName.startAnimation(animationShake)
                 return@setOnClickListener
             }
+
 
             if (!yearChanged) {
                 val animationShake =
