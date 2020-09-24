@@ -27,17 +27,30 @@
                 android:paddingVertical="15dp"
                 tools:ignore="RtlSymmetry">
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_notes"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorAccent" />
+
+
                 <TextView
+                    android:paddingLeft="20dp"
                     android:id="@+id/tvNoteHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsNotesTitle"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorOnBackGround"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.483" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -59,17 +72,29 @@
                 android:paddingVertical="15dp"
                 >
 
+                <ImageView
+                    android:id="@+id/ivShopping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_shopping"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorAccent" />
+
                 <TextView
                     android:id="@+id/tvShoppingHeader"
+                    android:paddingLeft="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsShoListTitle"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorOnBackGround"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/ivShopping"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.516" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,17 +116,29 @@
                 android:paddingVertical="15dp"
                 >
 
+                <ImageView
+                    android:id="@+id/ivNavigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_backup"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorAccent" />
+
                 <TextView
                     android:id="@+id/tvNavigationDrawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsNavDrawerTitle"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorOnBackGround"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/ivNavigation"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingLeft="20dp"
+                    app:layout_constraintVertical_bias="0.516" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <View
@@ -120,17 +157,29 @@
                 android:paddingVertical="15dp"
                 >
 
+                <ImageView
+                    android:id="@+id/ivBackup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_menu"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorAccent" />
+
                 <TextView
                     android:id="@+id/tvBackup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/backup"
-                    android:textColor="@color/colorAccent"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/colorOnBackGround"
                     android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/ivBackup"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.483" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <View
@@ -150,17 +199,29 @@
                 android:paddingVertical="15dp"
                 >
 
+                <ImageView
+                    android:id="@+id/ivAbout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_info"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorAccent" />
+
                 <TextView
                     android:id="@+id/tvAbout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menuTitleAbout"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorOnBackGround"
                     android:textSize="17sp"
+                    android:paddingLeft="20dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/ivAbout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.483" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
