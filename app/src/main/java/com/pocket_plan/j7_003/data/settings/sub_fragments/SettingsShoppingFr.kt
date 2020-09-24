@@ -1,20 +1,18 @@
-package com.pocket_plan.j7_003.data.settings
+package com.pocket_plan.j7_003.data.settings.sub_fragments
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
-import kotlinx.android.synthetic.main.fragment_settings.view.*
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.fragment_settings_shopping.view.*
 
 /**
  * A simple [Fragment] subclass.
