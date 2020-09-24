@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.main_panel)
 
         //Set a reference to this activity so its accessible in the companion object
         act = this
@@ -103,17 +104,9 @@ class MainActivity : AppCompatActivity() {
 
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
-        setContentView(R.layout.main_panel)
 
+        //initialize layout parameters for drawer layout
         layoutParamsNavDrawer = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
-        //Check if layout should be right-handed or left-handed
-        when (SettingsManager.getSetting(SettingId.DRAWER_SIDE)) {
-            true -> drawerGravity = Gravity.END
-            false -> {
-                layoutParamsNavDrawer.gravity = Gravity.START
-                drawerGravity = Gravity.START
-            }
-        }
 
 
         //initialize toolbar
@@ -123,9 +116,19 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
 
 
+        //initialize drawer toggle button
         mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
         drawer_layout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
+
+        //Check if layout should be right-handed or left-handed
+        when (SettingsManager.getSetting(SettingId.DRAWER_SIDE)) {
+            true -> drawerGravity = Gravity.END
+            false -> {
+                layoutParamsNavDrawer.gravity = Gravity.START
+                drawerGravity = Gravity.START
+            }
+        }
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
@@ -154,6 +157,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -979,7 +983,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.CLOSE_ITEM_DIALOG, false)
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
-        setDefault(SettingId.DRAWER_SIDE, true)
+        setDefault(SettingId.DRAWER_SIDE, false)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
