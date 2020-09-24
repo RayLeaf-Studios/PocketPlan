@@ -35,7 +35,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorNoteYellow" />
 
 
                 <TextView
@@ -80,7 +80,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorNoteRed" />
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
@@ -124,7 +124,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorNoteGreen" />
 
                 <TextView
                     android:id="@+id/tvNavigationDrawer"
@@ -165,7 +165,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorNotePurple" />
 
                 <TextView
                     android:id="@+id/tvBackup"
@@ -207,7 +207,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorAccent" />
+                    app:tint="@color/colorNoteBlue" />
 
                 <TextView
                     android:id="@+id/tvAbout"
