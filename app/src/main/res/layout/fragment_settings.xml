@@ -44,7 +44,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewNoteLines"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
+                android:paddingVertical="15dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -85,7 +86,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewNoteColumns"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
+                android:paddingVertical="15dp"
                 android:paddingHorizontal="20dp"
                 >
 
@@ -127,6 +129,7 @@
                 android:id="@+id/viewEditorvFontsize"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:paddingVertical="15dp"
                 android:paddingHorizontal="20dp"
                 >
 
@@ -161,6 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingStart="20dp"
+                android:paddingEnd="0dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="10dp"
                 >
@@ -183,7 +187,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clManageCustomItems"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:paddingVertical="20dp"
+                android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -207,7 +212,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:paddingVertical="15dp"
+                android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -242,7 +248,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:paddingVertical="15dp"
+                android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -269,10 +276,48 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <View
+                android:layout_width="409dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvCloseAddItemDialog"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settingsCloseItemDialog"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swCloseAddItemDialog"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swCloseAddItemDialog"
+                    app:layout_constraintTop_toTopOf="@id/tvCloseAddItemDialog"
+                    app:layout_constraintBottom_toBottomOf="@id/tvCloseAddItemDialog"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingStart="20dp"
+                android:paddingEnd="0dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="10dp"
                 >
@@ -293,7 +338,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
+                android:paddingVertical="15dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView

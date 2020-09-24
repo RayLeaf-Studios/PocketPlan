@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
@@ -23,11 +22,12 @@ import kotlinx.android.synthetic.main.fragment_settings.view.*
 class SettingsFr : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
-    lateinit var spEditorFontsize: Spinner
+    lateinit var spEditorFontSize: Spinner
     lateinit var spDrawerSide: Spinner
-    private lateinit var clManageCustomItems: ConstraintLayout
-    private lateinit var swExpandOneCategory: SwitchCompat
-    private lateinit var swCollapseCheckedSublists: SwitchCompat
+    lateinit var clManageCustomItems: ConstraintLayout
+    lateinit var swExpandOneCategory: SwitchCompat
+    lateinit var swCollapseCheckedSublists: SwitchCompat
+    lateinit var swCloseItemDialog: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,11 +49,15 @@ class SettingsFr : Fragment() {
 
         spNoteLines = myView.spNoteLines
         spNoteColumns = myView.spNoteColumns
+        spEditorFontSize = myView.spEditorFontsize
+        spDrawerSide = myView.spDrawerSide
+
         clManageCustomItems = myView.clManageCustomItems
+
         swExpandOneCategory = myView.swExpandOneCategory
         swCollapseCheckedSublists = myView.swCollapseCheckedSublists
-        spEditorFontsize = myView.spEditorFontsize
-        spDrawerSide = myView.spDrawerSide
+        swCloseItemDialog = myView.swCloseAddItemDialog
+
 
     }
 
@@ -84,7 +88,7 @@ class SettingsFr : Fragment() {
             resources.getStringArray(R.array.fontSizes)
         )
         spAdapterEditorFontSize.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spEditorFontsize.adapter = spAdapterEditorFontSize
+        spEditorFontSize.adapter = spAdapterEditorFontSize
 
         //Spinner for drawer side
         val spAdapterDrawerSide = ArrayAdapter<String>(
@@ -116,7 +120,7 @@ class SettingsFr : Fragment() {
         spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS)))
 
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
-        spEditorFontsize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE)))
+        spEditorFontSize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE)))
 
         spDrawerSide.setSelection(
             when (SettingsManager.getSetting(SettingId.DRAWER_SIDE)) {
@@ -132,6 +136,8 @@ class SettingsFr : Fragment() {
         swCollapseCheckedSublists.isChecked =
             SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
 
+        swCloseItemDialog.isChecked =
+            SettingsManager.getSetting(SettingId.CLOSE_ITEM_DIALOG) as Boolean
     }
 
     private fun initializeListeners() {
@@ -177,14 +183,14 @@ class SettingsFr : Fragment() {
         }
 
         //Listener for note editor font size spinner
-        spEditorFontsize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spEditorFontSize.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                val value = spEditorFontsize.selectedItem as String
+                val value = spEditorFontSize.selectedItem as String
                 SettingsManager.addSetting(SettingId.FONT_SIZE, value)
             }
 
@@ -216,15 +222,17 @@ class SettingsFr : Fragment() {
             }
         }
 
-        //Switch for only showing one category as expanded
+        //changing to custom item fragment via onclick listener
         clManageCustomItems.setOnClickListener {
             MainActivity.act.changeToFragment(FT.CUSTOM_ITEMS)
         }
 
+        //Switch for only showing one category as expanded
         swExpandOneCategory.setOnClickListener {
             SettingsManager.addSetting(SettingId.EXPAND_ONE_CATEGORY, swExpandOneCategory.isChecked)
         }
 
+        //Switch to collapse sublists when they are fully checked
         swCollapseCheckedSublists.setOnClickListener {
             SettingsManager.addSetting(
                 SettingId.COLLAPSE_CHECKED_SUBLISTS,
@@ -232,5 +240,12 @@ class SettingsFr : Fragment() {
             )
         }
 
+        //Switch to close item dialog after adding a single item
+        swCloseItemDialog.setOnClickListener {
+            SettingsManager.addSetting(
+                SettingId.CLOSE_ITEM_DIALOG,
+                swCloseItemDialog.isChecked
+            )
+        }
     }
 }

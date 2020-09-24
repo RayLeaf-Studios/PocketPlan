@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -229,11 +230,13 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
                 if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
+                    tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
                 }
 
                 chosenYear = year
                 if (date.year != 0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
                     cbSaveBirthdayYear.isChecked = true
+                    tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
                 }
                 date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val dayMonthString =
@@ -471,6 +474,7 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
                 if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
+                    tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
                 }
 
                 chosenYear = year

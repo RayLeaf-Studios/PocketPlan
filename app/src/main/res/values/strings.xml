@@ -124,6 +124,7 @@
     <!-- Content descriptions -->
     <string name="contentDescriptionSun">Sun</string>
     <string name="zero">0</string>
+    <string name="settingsCloseItemDialog">Close item dialog after adding</string>
 
     <string-array name="units">
         <item>x</item>
