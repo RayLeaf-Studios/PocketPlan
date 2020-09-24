@@ -377,13 +377,6 @@ class BirthdayFr : Fragment() {
                 return@setOnClickListener
             }
 
-            if (!anyDateSet) {
-                val animationShake =
-                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
-                tvBirthdayDate.startAnimation(animationShake)
-                return@setOnClickListener
-            }
-
             //get day and month from date
             val month = date.monthValue
             val day = date.dayOfMonth
@@ -410,7 +403,6 @@ class BirthdayFr : Fragment() {
     }
 
     fun openAddBirthdayDialog() {
-        val anyDateSet = true
         var yearChanged = false
         var chosenYear = -1
 
@@ -616,7 +608,7 @@ class BirthdayFr : Fragment() {
                 return@setOnClickListener
             }
 
-            if (!anyDateSet) {
+            if (!yearChanged) {
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
                 tvBirthdayDate.startAnimation(animationShake)

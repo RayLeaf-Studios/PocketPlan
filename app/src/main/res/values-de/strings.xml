@@ -3,16 +3,14 @@
     <string name="menuTitleBirthdays">Geburtstage</string>
     <string name="menuTitleCalendar">Kalender</string>
     <string name="menuTitleSettings">Einstellungen</string>
-    <string name="menuTitleColorChoose">Pick eine Farbe</string>
+    <string name="menuTitleColorChoose">Wähle eine Farbe</string>
     <string name="addBirthdayDayHint">Tag</string>
     <string name="addBirthdayMonthHint">Monat</string>
     <string name="addBirthdayNameHint">Name</string>
     <string name="menuTitleShopping">Einkauf</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleTasks">To-Do</string>
-    <string name="menuTitleModules">Module</string>
     <string name="menuTitleNotes">Notizen</string>
-    <string name="menuTitleSaveChanges">Speichern?</string>
 
     <string-array name="noteLines">
         <item>alle</item>
@@ -30,8 +28,6 @@
     </string-array>
     <string name="aboutDevs">Entwickelt von</string>
     <string name="aboutSup">Unterstützt von</string>
-    <string name="aboutSubDesc">Kellai U.: Logo Design \n \nDori R.: Textual content and translation
-        \n\nLetsbeteem0: unbezahlter Praktikant</string>
     <string name="noteEditorTitle">Titel</string>
     <string name="noteEditorText">Notiz</string>
     <string name="settingsNotesTitle">Notizen</string>
@@ -75,21 +71,21 @@
     <string name="homeAddNote">+ Notiz</string>
     <string name="homeAddTask">+ To Do</string>
     <string name="homeAddItem">+ Item</string>
-    <string name="menuTitleNotesEditor">Bearbeitung</string>
-    <string name="menuTitleAbout">Über</string>
+    <string name="menuTitleNotesEditor">Editor</string>
+    <string name="menuTitleAbout">Über die App</string>
     <string name="menuTitleSleep">Schlaf Rhythmus</string>
     <string name="menuTitleCustomItem">Benutzerdef. Items</string>
     <string name="menuTitleDayView">Tagesansicht</string>
     <string name="menuTitleCreateTerm">Termin erstellen</string>
     <string name="tasksAddHint">Titel</string>
-    <string name="noteDiscardDialogSave">SPEICHERN</string>
-    <string name="noteDiscardDialogDiscard">VERWERFEN</string>
+    <string name="noteDiscardDialogSave">Speichern</string>
+    <string name="noteDiscardDialogDiscard">Verwerfen</string>
     <string name="noteDiscardDialogTitle">Änderungen speichern?</string>
     <string name="noteDeleteDialogCancel">Abbrechen</string>
-    <string name="noteDeleteDialogDelete">LÖSCHEN</string>
+    <string name="noteDeleteDialogDelete">Löschen</string>
     <string name="noteDeleteDialogText">Ziehe nach rechts um zu löschen</string>
     <string name="shoppingClearList">Liste löschen</string>
-    <string name="shoppingUncheckAll">Abhaken umkehren</string>
+    <string name="shoppingUncheckAll">Haken entfernen</string>
     <string name="sleepWakeUpTime">Aufstehzeit</string>
     <string name="sleepDuration">Schlafdauer</string>
     <string name="sleepEnable">Erinnerungen einschalten</string>
@@ -122,4 +118,10 @@
     <string name="aboutSrc">Quellcode auf GitHub</string>
     <string name="open">öffnen</string>
     <string name="close">schließen</string>
+    <string name="view_on_github">Auf GitHub</string>
+    <string name="sourcecode">Sourcecode</string>
+    <string name="about_nico_description">Unbezahlter Praktikant</string>
+    <string name="about_dori_description">Textual content and translation</string>
+    <string name="about_jake_description">Front-End / Benutzeroberfläche</string>
+    <string name="about_estep_description">Back-End / Daten Management</string>
 </resources>

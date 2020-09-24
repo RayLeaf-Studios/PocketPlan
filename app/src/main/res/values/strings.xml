@@ -12,7 +12,6 @@
     <string name="menuTitleSettings">Settings</string>
     <string name="menuTitleShopping">Shopping</string>
     <string name="menuTitleColorChoose">Choose color</string>
-    <string name="menuTitleModules">Modules</string>
     <string name="menuTitleNotes">Notes</string>
     <string name="menuTitleNotesEditor">Editor</string>
     <string name="menuTitleAbout">About</string>
@@ -20,16 +19,15 @@
     <string name="menuTitleCustomItem">Custom Items</string>
     <string name="menuTitleDayView">Day View</string>
     <string name="menuTitleCreateTerm">Create Term</string>
-    <string name="menuTitleSaveChanges">Save Changes?</string>
 
     <!-- Notes -->
     <string name="noteEditorTitle">Title</string>
     <string name="noteEditorText">Note</string>
     <string name="noteDiscardDialogSave">Save</string>
-    <string name="noteDiscardDialogDiscard">DISCARD</string>
+    <string name="noteDiscardDialogDiscard">Discard</string>
     <string name="noteDiscardDialogTitle">Save changes?</string>
     <string name="noteDeleteDialogCancel">Cancel</string>
-    <string name="noteDeleteDialogDelete">DELETE</string>
+    <string name="noteDeleteDialogDelete">Delete</string>
     <string name="noteDeleteDialogText">Swipe right to delete this note</string>
 
     <!-- Tasks -->
@@ -104,8 +102,6 @@
     <string name="aboutDevsDesc" translatable="false">Estep248:  Back-End / Data Management\n
         \nJakeGonder;:  Front-End / User Interface</string>
     <string name="aboutSup">Supported by</string>
-    <string name="aboutSubDesc">Kellai U.: Logo Design \n \nDori R.: Textual content and translation
-        \n\nLetsbeteem0: Unpaid Intern</string>
     <string name="aboutSrc">Sourcecode on GitHub</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
     <string name="termItemDate" translatable="false" />
@@ -185,4 +181,16 @@
     <string name="navigationDrawer">Navigation drawer</string>
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="view_on_github">View on GitHub</string>
+    <string name="sourcecode">Sourcecode</string>
+    <string name="about_nico_description">Unpaid intern</string>
+    <string name="about_nico_name" translatable="false">Letsbeteem0</string>
+    <string name="about_dori_description">Textual content and translation</string>
+    <string name="about_dori_name" translatable="false">Dori R.</string>
+    <string name="about_kellai_description" translatable="false">Logo Design</string>
+    <string name="about_kellai_name" translatable="false">Kellai U.</string>
+    <string name="about_jake_description">Front-End / User Interface</string>
+    <string name="about_jake_name" translatable="false">JakeGonder</string>
+    <string name="about_estep_description">Back-End / Data Management</string>
+    <string name="about_estep_name" translatable="false">Estep248</string>
 </resources>
