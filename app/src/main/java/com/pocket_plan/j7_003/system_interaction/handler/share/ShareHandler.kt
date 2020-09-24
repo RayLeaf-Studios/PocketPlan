@@ -44,7 +44,21 @@ class ShareHandler() {
             "${MainActivity.act.applicationContext.packageName}.provider", StorageHandler.files[id]!!)
         val sharingIntent = Intent(Intent.ACTION_SEND)
 
-        sharingIntent.data = uri
+        sharingIntent.type = "application/json"
+        sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+        MainActivity.act.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+    }
+
+    fun shareShoppingList() {
+        val uri = FileProvider.getUriForFile(MainActivity.act,
+            "${MainActivity.act.applicationContext.packageName}.provider",
+            StorageHandler.files[StorageId.SHOPPING]!!)
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+
+        sharingIntent.type = "application/json"
+        sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
         MainActivity.act.startActivity(Intent.createChooser(sharingIntent, "Share via"))

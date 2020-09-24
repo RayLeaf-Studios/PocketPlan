@@ -25,6 +25,7 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.share.ShareHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
@@ -89,7 +90,7 @@ class HomeFr : Fragment() {
         }
         myView.btnTestFileStuff.setOnClickListener {
             //TODO REMOVE THIS
-            ShareHandler().shareAll()
+            ShareHandler().shareById(StorageId.SHOPPING)
         }
 
         //Todo insert button for creating a new appointment

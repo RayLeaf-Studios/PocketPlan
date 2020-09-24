@@ -2,6 +2,7 @@ Todo:
 
 backend stuff:
     - functionality to save / load a backup file?
+    - check all streams for closure
 
 Priority 1 tasks:
     - dont allow entering reminder days when notify me is not checked
