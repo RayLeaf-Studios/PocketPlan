@@ -1,6 +1,8 @@
 package com.pocket_plan.j7_003
 
+import SettingsNavigationFr
 import android.annotation.SuppressLint
+
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -27,8 +29,6 @@ import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.notelist.Note
 import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteFr
-import com.pocket_plan.j7_003.data.settings.SettingsFr
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
@@ -36,7 +36,8 @@ import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.*
+import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsBackupFr
 import com.pocket_plan.j7_003.data.todolist.Task
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.myRecycler
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.todoListInstance
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
         params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
-        when(SettingsManager.getSetting(SettingId.DRAWER_SIDE)){
+        when (SettingsManager.getSetting(SettingId.DRAWER_SIDE)) {
             true -> drawerGravity = Gravity.END
             false -> {
                 params.gravity = Gravity.START
@@ -123,7 +124,6 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
                 R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
-                R.id.menuItemAbout -> changeToFragment(FT.ABOUT)
                 R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
             }
             drawer_layout.closeDrawer(drawerGravity)
@@ -236,7 +236,8 @@ class MainActivity : AppCompatActivity() {
                     openAddItemDialog()
                 }
 
-                else -> {/* no-op */}
+                else -> {/* no-op */
+                }
             }
         }
 
@@ -289,17 +290,19 @@ class MainActivity : AppCompatActivity() {
         actionbarContent.tvActionbarTitle.text = when (fragmentTag) {
             FT.HOME -> resources.getText(R.string.menuTitleHome)
             FT.TASKS -> resources.getText(R.string.menuTitleTasks)
-            FT.SHOPPING -> resources.getText(R.string.menuTitleShopping)
-            FT.NOTES -> resources.getText(R.string.menuTitleNotes)
+            FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
+            FT.SHOPPING, FT.SETTINGS_SHOPPING -> resources.getText(R.string.menuTitleShopping)
+            FT.NOTES, FT.SETTINGS_NOTES -> resources.getText(R.string.menuTitleNotes)
+            FT.SETTINGS_NAVIGATION -> resources.getText(R.string.navigationDrawer)
+            FT.SETTINGS -> resources.getText(R.string.menuTitleSettings)
             FT.NOTE_EDITOR -> resources.getText(R.string.menuTitleNotesEditor)
             FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
-            FT.ABOUT -> resources.getText(R.string.menuTitleAbout)
-            FT.SETTINGS -> resources.getText(R.string.menuTitleSettings)
             FT.CUSTOM_ITEMS -> resources.getText(R.string.menuTitleCustomItem)
             FT.SLEEP -> resources.getText(R.string.menuTitleSleep)
             FT.CALENDAR -> resources.getText(R.string.menuTitleCalendar)
             FT.CREATE_TERM -> resources.getText(R.string.menuTitleCreateTerm)
             FT.DAY_VIEW -> resources.getText(R.string.menuTitleDayView)
+            FT.SETTINGS_BACKUP -> resources.getText(R.string.backup)
             else -> ""
         }
 
@@ -311,14 +314,13 @@ class MainActivity : AppCompatActivity() {
 
         //deselect bottom nav items if current item does not have an icon there
         when (fragmentTag) {
-            FT.BIRTHDAYS,
-            FT.NOTE_EDITOR,
-            FT.SLEEP,
-            FT.CUSTOM_ITEMS,
-            FT.SETTINGS,
-            FT.ABOUT -> setNavBarUnchecked()
-            else -> {/* no-op */
+            FT.HOME,
+            FT.SHOPPING,
+            FT.TASKS,
+            FT.NOTES
+            -> {/* no-op */
             }
+            else -> setNavBarUnchecked()
         }
 
         //hide all icons
@@ -401,8 +403,12 @@ class MainActivity : AppCompatActivity() {
                 birthdayFr = BirthdayFr()
                 birthdayFr
             }
-            FT.ABOUT -> AboutFr()
-            FT.SETTINGS -> SettingsFr()
+            FT.SETTINGS_ABOUT -> AboutFr()
+            FT.SETTINGS_NAVIGATION -> SettingsNavigationFr()
+            FT.SETTINGS_NOTES -> SettingsNotesFr()
+            FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
+            FT.SETTINGS_BACKUP -> SettingsBackupFr()
+            FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> SleepFr()
             FT.CALENDAR -> CalenderFr()
@@ -559,7 +565,7 @@ class MainActivity : AppCompatActivity() {
      */
 
     override fun onBackPressed() {
-        if(drawer_layout.isDrawerOpen(nav_drawer)){
+        if (drawer_layout.isDrawerOpen(nav_drawer)) {
             drawer_layout.closeDrawer(drawerGravity)
             return
         }
@@ -723,9 +729,8 @@ class MainActivity : AppCompatActivity() {
                         if (!ShoppingFr.shoppingListInstance.allItemUnchecked()) {
                             ShoppingFr.shoppingListInstance.uncheckAll()
                             ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-                        }
-                        else{
-                           toast("Nothing to uncheck!")
+                        } else {
+                            toast("Nothing to uncheck!")
                         }
                     }
                     else -> {/* no-op, this item should not be clickable in current fragment */

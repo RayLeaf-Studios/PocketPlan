@@ -6,26 +6,31 @@ backend stuff:
 
 Priority 1 tasks:
 
-    - restore icon after opening menu
     - drawer menu should cover titel bar and settings and about should be at the bottom of the menu
+    - restore icon after opening menu
 
-    - create real settings menu with subfragments for every category
+    - option to remember fragment (in navigation settings)
+    - option to default to a specific fragment
 
-    - think about translation of tag lists and templates
     - shopping list collapse all / expand all ?
     - tasklist check all / clear all ?
-    - button to copy github link / make it a hyperlink
-    - add basic items of all categories to list
-    - cleanup sleepreminder layout, maybe use a recyclerview
-    - option to remember fragment
+
+    - import single files and zip files
 
 Priority 2 tasks:
-    - replace all colors and values like text size with resource references
-    - scroll buffer für notes??
-    - figure out if its possible to save note lines as integer instead of double
+    - button to copy github link / make it a hyperlink
+
+    - option to change language
+    - think about translation of tag lists and templates
+    - add basic items of all categories to list
+
+    - cleanup sleepreminder layout, maybe use a recyclerview
     - change scrollers to timepickers in sleepreminder
 
+    - replace all colors and values like text size with resource references
+
 Ideas:
+    - scroll buffer für notes??
     - dark themed notes?
     - functionality that supports adding of categories?
     - make shopping list presets save and loadable
