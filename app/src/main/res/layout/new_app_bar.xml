@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/myNewToolbar"
+        app:title="My Drawer App"
+        android:background="@color/colorBackgroundElevated"
+        app:titleTextColor="@color/colorOnBackGround"
+        android:elevation="6dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

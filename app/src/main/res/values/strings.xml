@@ -106,7 +106,7 @@
     <string name="aboutSup">Supported by</string>
     <string name="aboutSubDesc">Kellai U.: Logo Design \n \nDori R.: Textual content and translation
         \n\nLetsbeteem0: Unpaid Intern</string>
-    <string name="aboutSrc" translatable="false">Sourcecode</string>
+    <string name="aboutSrc">Sourcecode on GitHub</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
     <string name="termItemDate" translatable="false" />
 
@@ -181,21 +181,8 @@
         <item>November</item>
         <item>December</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="navigationDrawer">Navigation drawer</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 </resources>

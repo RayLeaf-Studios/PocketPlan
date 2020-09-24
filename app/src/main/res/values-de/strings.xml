@@ -119,4 +119,7 @@
     <string name="settingsCloseItemDialog">Schließe Itemdialog nach hinzufügen</string>
     <string name="backup">Backup</string>
     <string name="navigationDrawer">Navigation</string>
+    <string name="aboutSrc">Quellcode auf GitHub</string>
+    <string name="open">öffnen</string>
+    <string name="close">schließen</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorBackgroundElevated</item>
@@ -8,6 +8,8 @@
         <item name="android:colorForeground">@color/colorOnBackGround</item>
         <item name="android:textColorPrimary">@color/colorOnBackGround</item>
         <item name="colorControlNormal">@color/colorOnBackGround</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/colorBackgroundElevated</item>
         <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
     </style>

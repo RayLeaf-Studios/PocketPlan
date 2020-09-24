@@ -77,7 +77,7 @@ class SettingsNavigationFr : Fragment() {
                 SettingsManager.addSetting(SettingId.DRAWER_SIDE, setTo.first)
 
                 MainActivity.drawerGravity = setTo.second
-                MainActivity.params.gravity = setTo.second
+                MainActivity.layoutParamsNavDrawer.gravity = setTo.second
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

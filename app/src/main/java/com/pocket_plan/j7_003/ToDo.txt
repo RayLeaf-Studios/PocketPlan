@@ -15,11 +15,12 @@ Priority 1 tasks:
     - shopping list collapse all / expand all ?
     - tasklist check all / clear all ?
 
-    - import single files and zip files
+    - frontend for sharing
+
+    - re adjust color scheme for blue accent colort
+
 
 Priority 2 tasks:
-    - button to copy github link / make it a hyperlink
-
     - option to change language
     - think about translation of tag lists and templates
     - add basic items of all categories to list

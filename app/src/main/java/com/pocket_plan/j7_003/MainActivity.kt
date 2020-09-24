@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -42,7 +43,6 @@ import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.todolist.Task
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.myRecycler
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.todoListInstance
-import kotlinx.android.synthetic.main.actionbar.view.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
@@ -51,11 +51,13 @@ import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.main_panel.view.*
+import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var noteEditorFr: NoteEditorFr
+    private lateinit var mDrawerToggle: ActionBarDrawerToggle
 
     //contents for shopping list
     private lateinit var tagList: TagList
@@ -73,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         var activeFragmentTag: FT = FT.EMPTY
         lateinit var act: MainActivity
         lateinit var sleepView: View
-        lateinit var actionbarContent: View
         lateinit var searchView: SearchView
         var drawerGravity = 0
         var editNoteHolder: Note? = null
@@ -82,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         var noteColor: NoteColors = NoteColors.YELLOW
         var fromHome: Boolean = false
         lateinit var bottomNavigation: BottomNavigationView
-        lateinit var params: DrawerLayout.LayoutParams
+        lateinit var layoutParamsNavDrawer: DrawerLayout.LayoutParams
     }
 
     @SuppressLint("InflateParams")
@@ -104,21 +105,27 @@ class MainActivity : AppCompatActivity() {
         loadDefaultSettings()
         setContentView(R.layout.main_panel)
 
-        params = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
+        layoutParamsNavDrawer = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
         //Check if layout should be right-handed or left-handed
         when (SettingsManager.getSetting(SettingId.DRAWER_SIDE)) {
             true -> drawerGravity = Gravity.END
             false -> {
-                params.gravity = Gravity.START
+                layoutParamsNavDrawer.gravity = Gravity.START
                 drawerGravity = Gravity.START
             }
         }
 
-        //initialize actionbar content
-        actionbarContent = layoutInflater.inflate(R.layout.actionbar, null, false)
-        supportActionBar?.title = ""
-        supportActionBar?.customView = actionbarContent
-        supportActionBar?.setDisplayShowCustomEnabled(true)
+
+        //initialize toolbar
+        setSupportActionBar(myNewToolbar)
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
+
+
+        mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
+        drawer_layout.addDrawerListener(mDrawerToggle)
+        mDrawerToggle.syncState()
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
@@ -288,7 +295,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Set the correct ActionbarTitle
-        actionbarContent.tvActionbarTitle.text = when (fragmentTag) {
+        myNewToolbar.title = when (fragmentTag) {
             FT.HOME -> resources.getText(R.string.menuTitleHome)
             FT.TASKS -> resources.getText(R.string.menuTitleTasks)
             FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
@@ -654,6 +661,9 @@ class MainActivity : AppCompatActivity() {
 
     //Reacts to the user clicking an options icon in the actionbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(mDrawerToggle.onOptionsItemSelected(item)){
+           return true
+        }
         return when (item.itemId) {
             //behavior for the item on the left
             R.id.item_left -> {
@@ -787,7 +797,7 @@ class MainActivity : AppCompatActivity() {
         }
         searchView.setOnQueryTextListener(textListener)
         val onCloseListener = SearchView.OnCloseListener {
-            actionbarContent.tvActionbarTitle.text = getString(R.string.menuTitleBirthdays)
+            myNewToolbar.title = getString(R.string.menuTitleBirthdays)
             searchView.onActionViewCollapsed()
             BirthdayFr.searching = false
             updateUndoBirthdayIcon()
@@ -797,7 +807,7 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnCloseListener(onCloseListener)
 
         searchView.setOnSearchClickListener {
-            actionbarContent.tvActionbarTitle.text = ""
+            myNewToolbar.title = ""
             BirthdayFr.searching = true
             BirthdayFr.adjustedList.clear()
             myMenu?.getItem(0)?.isVisible = false
@@ -1188,6 +1198,7 @@ class MainActivity : AppCompatActivity() {
         addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         addItemDialog?.show()
     }
+
 
 }
 
