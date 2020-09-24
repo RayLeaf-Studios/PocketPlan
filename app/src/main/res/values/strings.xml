@@ -120,11 +120,12 @@
     <!-- TODO use plurals for "day" as above -->
     <string name="birthdayNotificationSingleUpcText">%1$ss birthday is coming up in %2$d days!</string>
     <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
-    
+
     <!-- Content descriptions -->
     <string name="contentDescriptionSun">Sun</string>
     <string name="zero">0</string>
     <string name="settingsCloseItemDialog">Close item dialog after adding</string>
+    <string name="backup">Backup</string>
 
     <string-array name="units">
         <item>x</item>
@@ -180,4 +181,21 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="navigationDrawer">Navigation drawer</string>
 </resources>

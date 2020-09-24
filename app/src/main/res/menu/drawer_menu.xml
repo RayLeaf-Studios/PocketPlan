@@ -9,10 +9,6 @@
         android:icon="@drawable/ic_action_sleepreminder"
         android:id="@+id/menuSleepReminder"/>
     <item
-        android:title="@string/menuTitleAbout"
-        android:icon="@drawable/ic_action_info"
-        android:id="@+id/menuItemAbout"/>
-    <item
         android:title="@string/menuTitleSettings"
         android:icon="@drawable/ic_action_settings"
         android:id="@+id/menuItemSettings"/>

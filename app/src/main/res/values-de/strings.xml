@@ -117,4 +117,6 @@
     <string name="shoppingAddItemTitle">Item hinzufügen</string>
     <string name="zero">0</string>
     <string name="settingsCloseItemDialog">Schließe Itemdialog nach hinzufügen</string>
+    <string name="backup">Backup</string>
+    <string name="navigationDrawer">Navigation drawer</string>
 </resources>
