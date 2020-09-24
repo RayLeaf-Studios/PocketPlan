@@ -2,28 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/notes"
+        android:id="@+id/bottom1"
         android:icon="@drawable/ic_action_notes"
         android:title="@string/menuTitleNotes" />
 
     <item
-        android:id="@+id/todolist"
+        android:id="@+id/bottom2"
         android:icon="@drawable/ic_action_todo"
         android:title="@string/menuTitleTasks" />
 
     <item
-        android:id="@+id/home"
+        android:id="@+id/bottom3"
         android:icon="@drawable/ic_action_home"
         android:title="@string/menuTitleHome" />
 
     <item
-        android:id="@+id/shopping"
+        android:id="@+id/bottom4"
         android:icon="@drawable/ic_action_shopping"
         android:title="@string/menuTitleShopping" />
 
     <item
-        android:id="@+id/menu"
-        android:icon="@drawable/ic_action_menu"
-        android:title="@string/menuTitleModules" />
+        android:id="@+id/bottom5"
+        android:icon="@drawable/ic_action_birthday"
+        android:title="@string/menuTitleBirthdays" />
 
 </menu>

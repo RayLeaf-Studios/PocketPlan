@@ -162,11 +162,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.notes -> changeToFragment(FT.NOTES)
-                R.id.todolist -> changeToFragment(FT.TASKS)
-                R.id.home -> changeToFragment(FT.HOME)
-                R.id.shopping -> changeToFragment(FT.SHOPPING)
-                R.id.menu -> drawer_layout.openDrawer(drawerGravity)
+                R.id.bottom1 -> changeToFragment(FT.NOTES)
+                R.id.bottom2 -> changeToFragment(FT.TASKS)
+                R.id.bottom3 -> changeToFragment(FT.HOME)
+                R.id.bottom4 -> changeToFragment(FT.SHOPPING)
+                R.id.bottom5 -> changeToFragment(FT.BIRTHDAYS)
             }
             true
         }
@@ -174,6 +174,7 @@ class MainActivity : AppCompatActivity() {
         //inflate sleepView for faster loading time
         sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
+        //initialize btn to add elements, depending on which fragment is active
         btnAdd.setOnClickListener {
             when (activeFragmentTag) {
                 FT.BIRTHDAYS -> {
@@ -495,7 +496,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateUndoNoteIcon() {
+    private fun updateUndoNoteIcon() {
         if (NoteFr.deletedNote != null) {
             myMenu?.getItem(0)?.setIcon(R.drawable.ic_action_undo)
             myMenu?.getItem(0)?.isVisible = true
@@ -830,7 +831,7 @@ class MainActivity : AppCompatActivity() {
             "birthdays" -> changeToFragment(FT.BIRTHDAYS)
             "SReminder" -> changeToFragment(FT.HOME)
             "settings" -> changeToFragment(FT.SETTINGS)
-            else -> bottomNavigation.selectedItemId = R.id.home
+            else -> bottomNavigation.selectedItemId = R.id.bottom3
         }
         return true
     }

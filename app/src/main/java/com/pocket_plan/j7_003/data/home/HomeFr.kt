@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -20,7 +19,6 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.calendar.CalendarManager
-import com.pocket_plan.j7_003.data.calendar.CalendarAppointment
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
@@ -28,9 +26,6 @@ import com.pocket_plan.j7_003.system_interaction.handler.share.ShareHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.row_term.view.tvTermItemInfo
-import kotlinx.android.synthetic.main.row_term.view.tvTermItemTitle
-import kotlinx.android.synthetic.main.row_term_day.view.*
 import org.threeten.bp.LocalDate
 
 
@@ -59,7 +54,7 @@ class HomeFr : Fragment() {
         timer = object : CountDownTimer(Long.MAX_VALUE, 30000) {
             // creates a timer to update the clock
             override fun onTick(millisUntilFinished: Long) {    // called on each tick (~30 sec)
-                updateWaketimePanel()
+                updateWakeTimePanel()
             }
 
             override fun onFinish() {   // restarts the timer if fragment isn't closed
@@ -68,15 +63,21 @@ class HomeFr : Fragment() {
         }.start()
 
         //updating ui
-        updateWaketimePanel()
+        updateWakeTimePanel()
         updateTaskPanel()
         updateBirthdayPanel()
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
-        myView.panelTasks.setOnClickListener { MainActivity.bottomNavigation.selectedItemId = R.id.todolist }
+        myView.panelTasks.setOnClickListener {
+
+            ShareHandler().shareById(StorageId.SHOPPING)
+
+            //TODO restore old functionality of this panel
+//            MainActivity.act.changeToFragment(FT.TASKS)
+        }
         myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FT.BIRTHDAYS) }
-        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP)}
-        myView.icSleepHome.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP)}
+        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP) }
+        myView.icSleepHome.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP) }
 
 
         //buttons to create new notes, tasks, terms or items from the home panel
@@ -88,23 +89,18 @@ class HomeFr : Fragment() {
         myView.btnNewItem.setOnClickListener {
             MainActivity.act.openAddItemDialog()
         }
-        myView.btnTestFileStuff.setOnClickListener {
-            //TODO REMOVE THIS
-            ShareHandler().shareById(StorageId.SHOPPING)
-        }
 
-        //Todo insert button for creating a new appointment
+//        TODO V.2 Calendar feature
 //        myView.btnNewTerm.setOnClickListener {
 //            MainActivity.fromHome = true
 //            MainActivity.act.changeToCreateTerm()  }
 
-
-        //recyclerview holding the terms for today
-        homeTermRecyclerView = myView.recycler_view_home
-        val myAdapter = HomeTermAdapterDay()
-        myAdapter.setDate(LocalDate.now())
-        homeTermRecyclerView.adapter = myAdapter
-        homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
+//        recyclerview holding the terms for today
+//        homeTermRecyclerView = myView.recycler_view_home
+//        val myAdapter = HomeTermAdapterDay()
+//        myAdapter.setDate(LocalDate.now())
+//        homeTermRecyclerView.adapter = myAdapter
+//        homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
 
         return myView
     }
@@ -232,7 +228,7 @@ class HomeFr : Fragment() {
         myView.tvBirthday.text = birthdayText
     }
 
-    private fun updateWaketimePanel() {
+    private fun updateWakeTimePanel() {
 
         val (message, status) = SleepFr.sleepReminderInstance.getRemainingWakeDurationString()
 
@@ -314,7 +310,7 @@ class HomeFr : Fragment() {
                     TodoFr.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
-                if(MainActivity.activeFragmentTag == FT.HOME){
+                if (MainActivity.activeFragmentTag == FT.HOME) {
                     Toast.makeText(MainActivity.act, "Task was added!", Toast.LENGTH_SHORT).show()
                 }
                 myAlertDialog?.dismiss()
@@ -326,55 +322,55 @@ class HomeFr : Fragment() {
 }
 
 
-class HomeTermAdapterDay :
-    RecyclerView.Adapter<HomeTermAdapterDay.HomeTermViewHolderDay>() {
-
-    private lateinit var daylist: ArrayList<CalendarAppointment>
-    fun setDate(date: LocalDate) {
-        daylist = CalendarManager.getDayView(date)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTermViewHolderDay {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_term_day, parent, false)
-        return HomeTermViewHolderDay(itemView)
-    }
-
-    override fun onBindViewHolder(holder: HomeTermViewHolderDay, position: Int) {
-
-        val currentTerm = daylist[position]
-
-        holder.itemView.setOnClickListener {
-            //todo start CreateTermFragment in EDIT mode
-//            MainActivity.myActivity.changeToDayView()
-        }
-
-        holder.tvTitle.text = currentTerm.title
-        holder.tvInfo.text = currentTerm.addInfo
-
-        //hides end time of a term if its identical to start time
-        if (currentTerm.startTime == currentTerm.eTime) {
-            holder.tvStartTime.text = currentTerm.startTime.toString()
-            holder.tvEndTime.text = ""
-            holder.tvDashUntil.visibility = View.INVISIBLE
-        } else {
-            holder.tvStartTime.text = currentTerm.startTime.toString()
-            holder.tvEndTime.text = currentTerm.eTime.toString()
-            holder.tvDashUntil.visibility = View.VISIBLE
-        }
-    }
-
-    override fun getItemCount() = daylist.size
-
-    class HomeTermViewHolderDay(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        /**
-         * One instance of this class will contain one "instance" of row_term_day and meta data
-         * like position, it also holds references to views inside of the layout
-         */
-        val tvTitle: TextView = itemView.tvTermItemTitle
-        val tvInfo: TextView = itemView.tvTermItemInfo
-        val tvStartTime: TextView = itemView.tvTermItemStartTime
-        val tvEndTime: TextView = itemView.tvTermItemEndTime
-        val tvDashUntil: TextView = itemView.tvDashUntil
-    }
-}
+//class HomeTermAdapterDay :
+//    RecyclerView.Adapter<HomeTermAdapterDay.HomeTermViewHolderDay>() {
+//
+//    private lateinit var daylist: ArrayList<CalendarAppointment>
+//    fun setDate(date: LocalDate) {
+//        daylist = CalendarManager.getDayView(date)
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTermViewHolderDay {
+//        val itemView = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.row_term_day, parent, false)
+//        return HomeTermViewHolderDay(itemView)
+//    }
+//
+//    override fun onBindViewHolder(holder: HomeTermViewHolderDay, position: Int) {
+//
+//        val currentTerm = daylist[position]
+//
+//        holder.itemView.setOnClickListener {
+//            //todo start CreateTermFragment in EDIT mode
+////            MainActivity.myActivity.changeToDayView()
+//        }
+//
+//        holder.tvTitle.text = currentTerm.title
+//        holder.tvInfo.text = currentTerm.addInfo
+//
+//        //hides end time of a term if its identical to start time
+//        if (currentTerm.startTime == currentTerm.eTime) {
+//            holder.tvStartTime.text = currentTerm.startTime.toString()
+//            holder.tvEndTime.text = ""
+//            holder.tvDashUntil.visibility = View.INVISIBLE
+//        } else {
+//            holder.tvStartTime.text = currentTerm.startTime.toString()
+//            holder.tvEndTime.text = currentTerm.eTime.toString()
+//            holder.tvDashUntil.visibility = View.VISIBLE
+//        }
+//    }
+//
+//    override fun getItemCount() = daylist.size
+//
+//    class HomeTermViewHolderDay(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//        /**
+//         * One instance of this class will contain one "instance" of row_term_day and meta data
+//         * like position, it also holds references to views inside of the layout
+//         */
+//        val tvTitle: TextView = itemView.tvTermItemTitle
+//        val tvInfo: TextView = itemView.tvTermItemInfo
+//        val tvStartTime: TextView = itemView.tvTermItemStartTime
+//        val tvEndTime: TextView = itemView.tvTermItemEndTime
+//        val tvDashUntil: TextView = itemView.tvDashUntil
+//    }
+//}
