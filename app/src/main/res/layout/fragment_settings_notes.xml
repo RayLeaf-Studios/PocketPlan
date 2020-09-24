@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".data.settings.SettingsFr">
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:id="@+id/viewNoteLines"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="12dp"
+                android:paddingVertical="5dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -65,8 +65,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewNoteColumns"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingVertical="15dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
                 android:paddingHorizontal="20dp"
                 >
 
@@ -107,8 +107,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewEditorvFontsize"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingVertical="15dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
                 android:paddingHorizontal="20dp"
                 >
 

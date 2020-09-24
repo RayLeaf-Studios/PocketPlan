@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".data.settings.SettingsFr">
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:id="@+id/clSettingNotes"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingVertical="15dp"
                 tools:ignore="RtlSymmetry">
@@ -52,7 +52,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:id="@+id/clSettingShopping"
                 android:paddingEnd="0dp"
@@ -84,7 +84,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:id="@+id/clSettingNavigation"
                 android:paddingEnd="0dp"
@@ -113,7 +113,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:id="@+id/clSettingBackup"
                 android:paddingEnd="0dp"
@@ -143,7 +143,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp"
                 android:id="@+id/clSEttingAbout"

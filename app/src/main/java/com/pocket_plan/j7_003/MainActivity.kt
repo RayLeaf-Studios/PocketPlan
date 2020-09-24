@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
-import com.pocket_plan.j7_003.data.about.AboutFr
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.calendar.CalendarAppointment
 import com.pocket_plan.j7_003.data.calendar.CalenderFr
@@ -37,7 +36,9 @@ import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHand
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.settings.*
+import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsAboutFr
 import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsBackupFr
+import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.todolist.Task
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.myRecycler
 import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.todoListInstance
@@ -403,7 +404,7 @@ class MainActivity : AppCompatActivity() {
                 birthdayFr = BirthdayFr()
                 birthdayFr
             }
-            FT.SETTINGS_ABOUT -> AboutFr()
+            FT.SETTINGS_ABOUT -> SettingsAboutFr()
             FT.SETTINGS_NAVIGATION -> SettingsNavigationFr()
             FT.SETTINGS_NOTES -> SettingsNotesFr()
             FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
