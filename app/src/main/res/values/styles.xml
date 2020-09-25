@@ -29,6 +29,7 @@
 
     <style name="MyTimePickerStyle" parent="android:Widget.Material.TimePicker">
         <item name="android:headerBackground">@color/colorAccent</item>
+        <item name="android:numbersSelectorColor">@color/colorAccent</item>
     </style>
 
     <style name="WhiteCheck">

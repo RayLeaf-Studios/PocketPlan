@@ -40,16 +40,10 @@ import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsBackupFr
 import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
-import com.pocket_plan.j7_003.data.todolist.Task
 import com.pocket_plan.j7_003.data.todolist.TodoFr
-import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.myRecycler
-import com.pocket_plan.j7_003.data.todolist.TodoFr.Companion.todoListInstance
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
-import kotlinx.android.synthetic.main.dialog_add_task.view.*
-import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.main_panel.*
-import kotlinx.android.synthetic.main.main_panel.view.*
 import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
@@ -72,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         var previousFragmentTag: FT = FT.EMPTY
         var activeFragmentTag: FT = FT.EMPTY
         lateinit var act: MainActivity
-        lateinit var sleepView: View
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
         var editTerm: CalendarAppointment? = null
@@ -151,9 +144,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        //inflate sleepView for faster loading time
-        sleepView = layoutInflater.inflate(R.layout.fragment_sleep, null, false)
 
         //initialize btn to add elements, depending on which fragment is active
         btnAdd.setOnClickListener {

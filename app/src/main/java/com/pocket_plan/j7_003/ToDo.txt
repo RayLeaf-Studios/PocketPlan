@@ -5,9 +5,6 @@ backend stuff:
     - check all streams for closure
 
 Priority 1 tasks:
-    - make settings layouts uniformly spaced
-    - change scrollers to timepickers in sleepreminder
-
     - option to remember fragment (in navigation settings)
     - option to default to a specific fragment
     - option to choose which icons are where (in bottom navigation)
@@ -18,14 +15,15 @@ Priority 1 tasks:
     - consistent fontsizes for titles, content, etc
 
 
+
 Priority 2 tasks:
     - option to change language
     - think about translation of tag lists and templates
     - add basic items of all categories to list
     - replace all colors and values like text size with resource references
+    - figure out how to preload sleep fragment without disappearing custom days
+    - add banner in navigation view
 
-Priority 3 tasks:
-    - cleanup sleepreminder layout, maybe use a recyclerview
 
 
 Ideas:
