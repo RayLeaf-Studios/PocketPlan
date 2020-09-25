@@ -87,7 +87,7 @@ class HomeFr : Fragment() {
         }
         myView.btnNewTask.setOnClickListener { createTaskFromHome() }
         myView.btnNewItem.setOnClickListener {
-            MainActivity.act.openAddItemDialog()
+            MainActivity.tempShoppingFr.openAddItemDialog()
         }
 
 //        TODO V.2 Calendar feature

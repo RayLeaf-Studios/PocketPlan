@@ -4,12 +4,8 @@ import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -42,26 +38,29 @@ import com.pocket_plan.j7_003.data.shoppinglist.*
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
-import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
-import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
 
-    //contents for shopping list
-    private lateinit var tagList: TagList
-    private lateinit var tagNames: Array<String?>
-    private lateinit var itemTemplateList: ItemTemplateList
-    private lateinit var userItemTemplateList: UserItemTemplateList
-    private lateinit var itemNameList: ArrayList<String>
-    private var addItemDialog: AlertDialog? = null
-    private var addItemDialogView: View? = null
     private lateinit var birthdayFr: BirthdayFr
 
     companion object {
+        //contents for shopping list
+        lateinit var tagList: TagList
+        lateinit var tagNames: Array<String?>
+        lateinit var itemTemplateList: ItemTemplateList
+        lateinit var userItemTemplateList: UserItemTemplateList
+        lateinit var itemNameList: ArrayList<String>
+
+        var addItemDialog: AlertDialog? = null
+        var addItemDialogView: View? = null
+
+        lateinit var tempShoppingFr: ShoppingFr
+
+
         lateinit var noteEditorFr: NoteEditorFr
         var previousFragmentTag: FT = FT.EMPTY
         var activeFragmentTag: FT = FT.EMPTY
@@ -82,7 +81,8 @@ class MainActivity : AppCompatActivity() {
         //Set a reference to this activity so its accessible in the companion object
         act = this
 
-        preloadAddItemDialog()
+        tempShoppingFr = ShoppingFr()
+
 
         //Initialize Settings Manager and Time api and AlarmHandler
         SettingsManager.init()
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.SHOPPING -> {
-                    openAddItemDialog()
+                    tempShoppingFr.openAddItemDialog()
                 }
 
                 else -> {/* no-op */
@@ -179,6 +179,10 @@ class MainActivity : AppCompatActivity() {
                 changeToFragment(FT.HOME)
             }
         }
+
+        tempShoppingFr.preloadAddItemDialog(layoutInflater)
+
+
 
     }
 
@@ -311,6 +315,8 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.frame_layout, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
+
+
     }
 
     /**
@@ -349,10 +355,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(mDrawerToggle.onOptionsItemSelected(item)){
-           return true
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true
         }
         return super.onOptionsItemSelected(item)
     }
@@ -375,218 +380,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("InflateParams")
-    private fun preloadAddItemDialog() {
 
-        //initialize shopping list data
-        tagList = TagList()
-        tagNames = tagList.getTagNames()
-        itemTemplateList = ItemTemplateList()
-        userItemTemplateList = UserItemTemplateList()
-        ShoppingFr.shoppingListInstance = ShoppingList()
-
-        //initialize itemNameList
-        itemNameList = ArrayList()
-
-        userItemTemplateList.forEach {
-            itemNameList.add(it.n)
-        }
-
-        itemTemplateList.forEach {
-            if (!itemNameList.contains(it.n)) {
-                itemNameList.add(it.n)
-            }
-        }
-
-        //inflate view for this dialog
-        addItemDialogView = LayoutInflater.from(act).inflate(R.layout.dialog_add_item, null)
-
-        //Initialize dialogBuilder and set its title
-        val myBuilder = act.let { it1 -> AlertDialog.Builder(it1).setView(addItemDialogView) }
-        val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        customTitle.tvDialogTitle.text = getString(R.string.shoppingAddItemTitle)
-        myBuilder?.setCustomTitle(customTitle)
-        addItemDialog = myBuilder?.create()
-
-        //initialize autocompleteTextView and spinner for item unit
-        val actvItem = addItemDialogView!!.actvItem
-        val spItemUnit = addItemDialogView!!.spItemUnit
-
-
-        //initialize spinner for categories
-        val spCategory = addItemDialogView!!.spCategory
-        val categoryAdapter = ArrayAdapter<String>(
-            act, android.R.layout.simple_list_item_1, tagNames
-        )
-
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spCategory.adapter = categoryAdapter
-
-        //Initialize spinner and its adapter to choose its Unit
-        val mySpinner = addItemDialogView!!.spItemUnit
-        val myAdapter = ArrayAdapter<String>(
-            act, android.R.layout.simple_list_item_1,
-            resources.getStringArray(R.array.units)
-        )
-
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mySpinner.adapter = myAdapter
-
-
-        //initialize autocompleteTextView and its adapter
-        val autoCompleteTv = addItemDialogView!!.actvItem
-        val autoCompleteTvAdapter = ArrayAdapter<String>(
-            act, android.R.layout.simple_spinner_dropdown_item, itemNameList
-        )
-
-        autoCompleteTv.setAdapter(autoCompleteTvAdapter)
-        autoCompleteTv.requestFocus()
-
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //check for existing user template
-                var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
-                if (template != null) {
-                    //display correct category
-                    spCategory.setSelection(tagNames.indexOf(template.c.name))
-
-                    //display correct unit
-                    val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)
-                    spItemUnit.setSelection(unitPointPos)
-                    return
-                }
-
-                //check for existing item template
-                template = itemTemplateList.getTemplateByName(actvItem.text.toString())
-                if (template != null) {
-                    //display correct category
-                    spCategory.setSelection(tagNames.indexOf(template.c.name))
-
-                    //display correct unit
-                    val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)
-                    spItemUnit.setSelection(unitPointPos)
-                } else {
-                    spCategory.setSelection(0)
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-        }
-
-        autoCompleteTv.addTextChangedListener(textWatcher)
-
-        //initialize edit text for item amount string
-        val etItemAmount = addItemDialogView!!.etItemAmount
-        etItemAmount.setText("1")
-
-        var firstTap = true
-        etItemAmount.setOnFocusChangeListener { _, _ ->
-            if (firstTap) {
-                etItemAmount.setText("")
-                firstTap = false
-            }
-        }
-
-        addItemDialogView!!.btnCancelItem.setOnClickListener {
-            addItemDialog?.dismiss()
-        }
-        //Button to Confirm adding Item to list
-        addItemDialogView!!.btnAddItemToList.setOnClickListener {
-            if (actvItem.text.toString() == "") {
-                //animation
-                val animationShake =
-                    AnimationUtils.loadAnimation(act, R.anim.shake)
-                addItemDialogView!!.actvItem.startAnimation(animationShake)
-                return@setOnClickListener
-            }
-            val tagList = TagList()
-            val tag = tagList.getTagByName(spCategory.selectedItem as String)
-            //check if user template exists
-            var template = userItemTemplateList.getTemplateByName(actvItem.text.toString())
-
-            if (template == null) {
-                //no user item with this name => check for regular template
-                template = itemTemplateList.getTemplateByName(actvItem.text.toString())
-                if (template == null || tag != template!!.c) {
-                    //item unknown, use selected category, add item, and save it to userTemplate list
-                    userItemTemplateList.add(
-                        ItemTemplate(
-                            actvItem.text.toString(), tag,
-                            spItemUnit.selectedItem.toString()
-                        )
-                    )
-                    val item = ShoppingItem(
-                        actvItem.text.toString(), tag,
-                        spItemUnit.selectedItem.toString(),
-                        etItemAmount.text.toString(),
-                        spItemUnit.selectedItem.toString(),
-                        false
-                    )
-                    ShoppingFr.shoppingListInstance.add(item)
-                    ShoppingFr.myFragment.updateShoppingMenu()
-                    if (activeFragmentTag == FT.SHOPPING) {
-                        ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-                    } else {
-                        Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
-                    }
-                    itemNameList.add(actvItem.text.toString())
-                    val autoCompleteTvAdapter2 = ArrayAdapter<String>(
-                        act, android.R.layout.simple_spinner_dropdown_item, itemNameList
-                    )
-                    autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
-                    actvItem.setText("")
-                    if (activeFragmentTag == FT.HOME || SettingsManager.getSetting(SettingId.CLOSE_ITEM_DIALOG) as Boolean) {
-                        addItemDialog?.dismiss()
-                    }
-                    return@setOnClickListener
-                }
-            }
-
-            if (tag != template!!.c) {
-                //known as user item but with different tag
-                userItemTemplateList.removeItem(actvItem.text.toString())
-                userItemTemplateList.add(
-                    ItemTemplate(
-                        actvItem.text.toString(), tag,
-                        spItemUnit.selectedItem.toString()
-                    )
-                )
-            }
-            //add already known item to list
-            val item = ShoppingItem(
-                template!!.n,
-                tag,
-                template!!.s,
-                etItemAmount!!.text.toString(),
-                spItemUnit.selectedItem.toString(),
-                false
-            )
-            ShoppingFr.shoppingListInstance.add(item)
-            ShoppingFr.myFragment.updateShoppingMenu()
-            if (activeFragmentTag == FT.SHOPPING) {
-                ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-            } else {
-                Toast.makeText(act, "Item was added!", Toast.LENGTH_SHORT).show()
-            }
-            actvItem.setText("")
-            if (activeFragmentTag == FT.HOME) {
-                addItemDialog?.dismiss()
-            }
-        }
-
-        val imm = act.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
-    }
-
-    fun openAddItemDialog() {
-        addItemDialogView!!.actvItem.setText("")
-        addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        addItemDialog?.show()
-    }
 
 }
 
