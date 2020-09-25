@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:id="@+id/clSettingNotes"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
                 android:paddingStart="20dp"
                 android:paddingVertical="15dp"
                 tools:ignore="RtlSymmetry">
@@ -68,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:id="@+id/clSettingShopping"
+                android:background="?attr/selectableItemBackground"
                 android:paddingEnd="0dp"
                 android:paddingVertical="15dp"
                 >
@@ -112,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:id="@+id/clSettingNavigation"
+                android:background="?attr/selectableItemBackground"
                 android:paddingEnd="0dp"
                 android:paddingVertical="15dp"
                 >
@@ -155,6 +158,7 @@
                 android:id="@+id/clSettingBackup"
                 android:paddingEnd="0dp"
                 android:paddingVertical="15dp"
+                android:background="?attr/selectableItemBackground"
                 >
 
                 <ImageView
@@ -194,6 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
+                android:background="?attr/selectableItemBackground"
                 android:paddingEnd="0dp"
                 android:id="@+id/clSEttingAbout"
                 android:paddingVertical="15dp"

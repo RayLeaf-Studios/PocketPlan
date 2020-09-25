@@ -5,25 +5,28 @@ backend stuff:
     - check all streams for closure
 
 Priority 1 tasks:
+    - make settings layouts uniformly spaced
+    - change scrollers to timepickers in sleepreminder
 
     - option to remember fragment (in navigation settings)
     - option to default to a specific fragment
     - option to choose which icons are where (in bottom navigation)
-    - make settings layouts uniformly spaced
 
     - frontend for sharing
     - re adjust color scheme for blue accent color
+
+    - consistent fontsizes for titles, content, etc
 
 
 Priority 2 tasks:
     - option to change language
     - think about translation of tag lists and templates
     - add basic items of all categories to list
-
-    - cleanup sleepreminder layout, maybe use a recyclerview
-    - change scrollers to timepickers in sleepreminder
-
     - replace all colors and values like text size with resource references
+
+Priority 3 tasks:
+    - cleanup sleepreminder layout, maybe use a recyclerview
+
 
 Ideas:
     - if year in the future is set, set birthday info text to ("will be born in... years")
