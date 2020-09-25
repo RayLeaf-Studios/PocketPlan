@@ -54,23 +54,15 @@ class ShoppingFr : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.appbar_menu, menu)
-
-        for(i in 0 until menu.size()){
-            menu.getItem(i).isVisible = false
-        }
-
+        inflater.inflate(R.menu.menu_shopping, menu)
         myMenu = menu
-        myMenu.findItem(R.id.item_left)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
-        myMenu.findItem(R.id.item_left)?.isVisible = true
-        myMenu.findItem(R.id.item_middle)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
-        myMenu.findItem(R.id.item_middle)?.isVisible = true
+        updateUndoItemIcon()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_left -> {
+            R.id.item_shopping_clear_list -> {
                 //clear shopping list
                 if (!shoppingListInstance.isEmpty()) {
                     dialogShoppingClear()
@@ -79,7 +71,7 @@ class ShoppingFr : Fragment() {
                 }
             }
 
-            R.id.item_middle -> {
+            R.id.item_shopping_uncheck_all -> {
                 //uncheck all shopping items
                 if (!shoppingListInstance.allItemUnchecked()) {
                     shoppingListInstance.uncheckAll()
@@ -90,7 +82,7 @@ class ShoppingFr : Fragment() {
 
             }
 
-            R.id.item_right -> {
+            R.id.item_shopping_undo -> {
                 //undo the last deletion of a shopping item
                 shoppingListInstance.add(deletedItem!!)
                 deletedItem = null
@@ -145,10 +137,10 @@ class ShoppingFr : Fragment() {
 
     fun updateUndoItemIcon() {
         if (deletedItem != null) {
-            myMenu.findItem(R.id.item_right)?.setIcon(R.drawable.ic_action_undo)
-            myMenu.findItem(R.id.item_right)?.isVisible = true
+            myMenu.findItem(R.id.item_shopping_undo)?.setIcon(R.drawable.ic_action_undo)
+            myMenu.findItem(R.id.item_shopping_undo)?.isVisible = true
         } else {
-            myMenu.findItem(R.id.item_right)?.isVisible = false
+            myMenu.findItem(R.id.item_shopping_undo)?.isVisible = false
         }
     }
 

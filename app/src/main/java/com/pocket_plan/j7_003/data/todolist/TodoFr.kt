@@ -48,27 +48,21 @@ class TodoFr : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.appbar_menu, menu)
+        inflater.inflate(R.menu.menu_tasks, menu)
         myMenu = menu
 
-        //hide all icons
-        for (i in 0 until menu.size()) {
-            menu.getItem(i).isVisible = false
-        }
-        myMenu.findItem(R.id.item_left)?.setIcon(drawable.ic_action_delete_sweep)
         updateDeleteTaskIcon()
-
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_left -> {
+            R.id.item_tasks_delete_checked -> {
                 //delete checked tasks and update the undoTask icon
                 myFragment.manageCheckedTaskDeletion()
                 updateUndoTaskIcon()
             }
-            R.id.item_middle -> {
+            R.id.item_tasks_undo -> {
 
                 //undo deletion of last deleted task (or multiple deleted tasks, if
                 //sweep delete button was used
@@ -125,10 +119,10 @@ class TodoFr : Fragment() {
 
     fun updateUndoTaskIcon() {
         if (deletedTask != null || deletedTaskList.size > 0) {
-            myMenu.findItem(R.id.item_middle)?.setIcon(drawable.ic_action_undo)
-            myMenu.findItem(R.id.item_middle)?.isVisible = true
+            myMenu.findItem(R.id.item_tasks_undo)?.setIcon(drawable.ic_action_undo)
+            myMenu.findItem(R.id.item_tasks_undo)?.isVisible = true
         } else {
-            myMenu.findItem(R.id.item_middle)?.isVisible = false
+            myMenu.findItem(R.id.item_tasks_undo)?.isVisible = false
         }
     }
 
@@ -153,11 +147,11 @@ class TodoFr : Fragment() {
 
     fun updateDeleteTaskIcon() {
         val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
-        myMenu.findItem(R.id.item_left)?.isVisible = checkedTasks > 0
+        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = checkedTasks > 0
     }
 
     //Deletes all checked tasks and animates the deletion
-    fun manageCheckedTaskDeletion() {
+    private fun manageCheckedTaskDeletion() {
         deletedTaskList.clear()
         deletedTask = null
         val oldSize = todoListInstance.size

@@ -10,6 +10,7 @@ Priority 1 tasks:
 
     - shopping list collapse all / expand all ?
     - tasklist check all / clear all ?
+    - change error toasts to removing impossible actions completely from options menu
 
     - option to remember fragment (in navigation settings)
     - option to default to a specific fragment
