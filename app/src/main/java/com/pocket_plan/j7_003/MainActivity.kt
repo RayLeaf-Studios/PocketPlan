@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         nav_drawer.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
-                R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
+//                R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
                 R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
             }
             drawer_layout.closeDrawer(drawerGravity)

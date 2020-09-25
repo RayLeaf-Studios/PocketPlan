@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:title="@string/menuTitleBirthdays"
-        android:icon="@drawable/ic_action_birthday"
-        android:id="@+id/menuItemBirthdays"/>
+<!--    <item-->
+<!--        android:title="@string/menuTitleBirthdays"-->
+<!--        android:icon="@drawable/ic_action_birthday"-->
+<!--        android:id="@+id/menuItemBirthdays"/>-->
     <item
         android:title="@string/menuTitleSleep"
         android:icon="@drawable/ic_action_sleepreminder"
