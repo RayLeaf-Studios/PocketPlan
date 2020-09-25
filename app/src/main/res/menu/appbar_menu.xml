@@ -17,7 +17,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/item_sv_birthday"
-        android:icon="@drawable/ic_action_searc"
+        android:icon="@drawable/ic_action_search"
         android:title=""
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView">

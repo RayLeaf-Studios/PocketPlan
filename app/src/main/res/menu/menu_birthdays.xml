@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_birthdays_undo"
+        android:icon="@drawable/ic_action_undo"
+        android:title=""
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@+id/item_birthdays_search"
+        android:icon="@drawable/ic_action_search"
+        android:title=""
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView">
+    </item>
+</menu>

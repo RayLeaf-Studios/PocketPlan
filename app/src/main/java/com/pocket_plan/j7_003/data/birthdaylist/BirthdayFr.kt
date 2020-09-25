@@ -46,6 +46,7 @@ class BirthdayFr : Fragment() {
         super.onCreate(savedInstanceState)
 
     }
+
     companion object {
         var deletedBirthday: Birthday? = null
 
@@ -64,18 +65,10 @@ class BirthdayFr : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.appbar_menu, menu)
+        inflater.inflate(R.menu.menu_birthdays, menu)
         myMenu = menu
 
-        //hide all icons
-        for(i in 0 until menu.size()){
-            menu.getItem(i).isVisible = false
-        }
-
-        //make search item visible
-        menu.findItem(R.id.item_sv_birthday).isVisible = true
-
-        searchView = menu.findItem(R.id.item_sv_birthday).actionView as SearchView
+        searchView = menu.findItem(R.id.item_birthdays_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 //todo fix this
@@ -111,17 +104,29 @@ class BirthdayFr : Fragment() {
             myAdapter.notifyDataSetChanged()
         }
 
+        updateUndoBirthdayIcon()
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.item_sv_birthday -> MainActivity.act.toast("lol")
+        when (item.itemId) {
+            R.id.item_birthdays_search -> {/* no-op, listeners for this searchView are set
+             in on create options menu*/
+            }
+            R.id.item_birthdays_undo -> {
+                //undo the last deletion
+                birthdayListInstance.addFullBirthday(
+                    deletedBirthday!!
+                )
+                deletedBirthday = null
+                updateUndoBirthdayIcon()
+                myAdapter.notifyDataSetChanged()
+            }
         }
 
         return super.onOptionsItemSelected(item)
     }
-
 
 
     @SuppressLint("InflateParams")
@@ -167,10 +172,10 @@ class BirthdayFr : Fragment() {
 
     fun updateUndoBirthdayIcon() {
         if (deletedBirthday != null && !searching) {
-            myMenu.findItem(R.id.item_left)?.setIcon(R.drawable.ic_action_undo)
-            myMenu.findItem(R.id.item_left)?.isVisible = true
+            myMenu.findItem(R.id.item_birthdays_undo)?.setIcon(R.drawable.ic_action_undo)
+            myMenu.findItem(R.id.item_birthdays_undo)?.isVisible = true
         } else {
-            myMenu.findItem(R.id.item_left)?.isVisible = false
+            myMenu.findItem(R.id.item_birthdays_undo)?.isVisible = false
         }
     }
 
@@ -321,13 +326,23 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
                 if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
-                    tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                    tvBirthdayDate.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
                 }
 
                 chosenYear = year
                 if (date.year != 0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
                     cbSaveBirthdayYear.isChecked = true
-                    tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                    tvBirthdayDate.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
                 }
                 date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val dayMonthString =
@@ -558,7 +573,12 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
                 if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
-                    tvBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                    tvBirthdayDate.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
                 }
 
                 chosenYear = year
