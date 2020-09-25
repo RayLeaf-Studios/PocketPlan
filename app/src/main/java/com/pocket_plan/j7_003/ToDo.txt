@@ -6,22 +6,13 @@ backend stuff:
 
 Priority 1 tasks:
 
-    - add specific menu files for every fragments options menu
-
     - shopping list collapse all / expand all ?
-    - tasklist check all / clear all ?
-    - change error toasts to removing impossible actions completely from options menu
-
     - option to remember fragment (in navigation settings)
     - option to default to a specific fragment
     - option to choose which icons are where (in bottom navigation)
     - hide birthday search when theres no birthdays
 
-
-    - Redesign About Fragment
-
     - frontend for sharing
-
     - re adjust color scheme for blue accent color
 
 
