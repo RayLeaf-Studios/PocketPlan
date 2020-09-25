@@ -56,30 +56,20 @@ class ShoppingFr : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_shopping, menu)
         myMenu = menu
-        updateUndoItemIcon()
+        updateShoppingMenu()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_shopping_clear_list -> {
-                //clear shopping list
-                if (!shoppingListInstance.isEmpty()) {
-                    dialogShoppingClear()
-                } else {
-                    MainActivity.act.toast("List is already empty!")
-                }
+                dialogShoppingClear()
             }
 
             R.id.item_shopping_uncheck_all -> {
                 //uncheck all shopping items
-                if (!shoppingListInstance.allItemUnchecked()) {
-                    shoppingListInstance.uncheckAll()
-                    shoppingListAdapter.notifyDataSetChanged()
-                } else {
-                    MainActivity.act.toast("Nothing to uncheck!")
-                }
-
+                shoppingListInstance.uncheckAll()
+                shoppingListAdapter.notifyDataSetChanged()
             }
 
             R.id.item_shopping_undo -> {
@@ -87,10 +77,10 @@ class ShoppingFr : Fragment() {
                 shoppingListInstance.add(deletedItem!!)
                 deletedItem = null
                 shoppingListAdapter.notifyDataSetChanged()
-                updateUndoItemIcon()
 
             }
         }
+        updateShoppingMenu()
 
         return super.onOptionsItemSelected(item)
     }
@@ -135,13 +125,24 @@ class ShoppingFr : Fragment() {
         return myView
     }
 
-    fun updateUndoItemIcon() {
-        if (deletedItem != null) {
-            myMenu.findItem(R.id.item_shopping_undo)?.setIcon(R.drawable.ic_action_undo)
-            myMenu.findItem(R.id.item_shopping_undo)?.isVisible = true
-        } else {
-            myMenu.findItem(R.id.item_shopping_undo)?.isVisible = false
-        }
+    fun updateShoppingMenu() {
+        updateUndoItemIcon()
+        updateDeleteShoppingListIcon()
+        updateUncheckShoppingListIcon()
+    }
+
+    private fun updateUndoItemIcon() {
+        myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
+    }
+
+    private fun updateDeleteShoppingListIcon() {
+        myMenu.findItem(R.id.item_shopping_clear_list)?.isVisible = shoppingListInstance.size > 0
+    }
+
+    private fun updateUncheckShoppingListIcon() {
+        myMenu.findItem(R.id.item_shopping_uncheck_all)?.isVisible =
+            shoppingListInstance.somethingIsChecked()
+
     }
 
 
@@ -207,6 +208,7 @@ class ShoppingFr : Fragment() {
             }
             shoppingListInstance.clear()
             shoppingListAdapter.notifyDataSetChanged()
+            myFragment.updateShoppingMenu()
             myAlertDialog.dismiss()
         }
 
@@ -398,6 +400,7 @@ class SublistAdapter(
                 holder.adapterPosition
             )
 
+            ShoppingFr.myFragment.updateShoppingMenu()
             val numberOfItems = ShoppingFr.shoppingListInstance.getUncheckedSize(holder.tag)
 
             //If all are checked after the current item got flipped, the list has to go from color to gray
@@ -482,7 +485,7 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
             }
         }
         ShoppingFr.deletedItem = removeInfo.first
-        ShoppingFr.myFragment.updateUndoItemIcon()
+        ShoppingFr.myFragment.updateShoppingMenu()
 
     }
 }
