@@ -10,7 +10,8 @@ Priority 1 tasks:
     - option to remember fragment (in navigation settings)
     - option to default to a specific fragment
     - option to choose which icons are where (in bottom navigation)
-    - hide birthday search when theres no birthdays
+    - hide birthday search when there is no birthday
+    - make settings layouts uniformly spaced
 
     - frontend for sharing
     - re adjust color scheme for blue accent color

@@ -10,7 +10,6 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -193,6 +192,15 @@ class MainActivity : AppCompatActivity() {
 
                 else -> {/* no-op */
                 }
+            }
+        }
+        when (intent.extras?.get("NotificationEntry").toString()) {
+            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder" -> changeToFragment(FT.HOME)
+            "settings" -> changeToFragment(FT.SETTINGS)
+            else -> {
+                bottomNavigation.menu.getItem(2).isChecked = true
+                changeToFragment(FT.HOME)
             }
         }
 
