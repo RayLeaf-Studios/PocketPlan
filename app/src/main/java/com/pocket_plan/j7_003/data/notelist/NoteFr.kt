@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.notelist.NoteEditorFr.Companion.noteColor
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
@@ -80,7 +81,7 @@ class NoteAdapter :
 
         holder.itemView.setOnClickListener {
             MainActivity.editNoteHolder = currentNote
-            MainActivity.noteColor = noteList.getNote(holder.adapterPosition).color
+            noteColor = noteList.getNote(holder.adapterPosition).color
             MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
         }
 

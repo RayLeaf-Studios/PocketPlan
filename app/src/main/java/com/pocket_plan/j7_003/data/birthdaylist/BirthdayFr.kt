@@ -9,10 +9,12 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +23,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
+import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.LocalDate
@@ -35,8 +38,14 @@ class BirthdayFr : Fragment() {
     private lateinit var myRecycler: RecyclerView
 
     var date: LocalDate = LocalDate.now()
+    lateinit var myMenu: Menu
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+
+    }
     companion object {
         var deletedBirthday: Birthday? = null
 
@@ -49,7 +58,68 @@ class BirthdayFr : Fragment() {
 
         lateinit var myFragment: BirthdayFr
 
+        lateinit var searchView: SearchView
+
         val birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.appbar_menu, menu)
+        myMenu = menu
+
+        //hide all icons
+        for(i in 0 until menu.size()){
+            menu.getItem(i).isVisible = false
+        }
+
+        //make search item visible
+        menu.findItem(R.id.item_sv_birthday).isVisible = true
+
+        searchView = menu.findItem(R.id.item_sv_birthday).actionView as SearchView
+        val textListener = object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                //todo fix this
+                //close keyboard?
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (searching) {
+                    myFragment.search(newText.toString())
+                }
+                return true
+            }
+        }
+
+        searchView.setOnQueryTextListener(textListener)
+
+        val onCloseListener = SearchView.OnCloseListener {
+            MainActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
+            searchView.onActionViewCollapsed()
+            searching = false
+            updateUndoBirthdayIcon()
+            myAdapter.notifyDataSetChanged()
+            true
+        }
+
+        searchView.setOnCloseListener(onCloseListener)
+
+        searchView.setOnSearchClickListener {
+            MainActivity.toolBar.title = ""
+            searching = true
+            adjustedList.clear()
+            myAdapter.notifyDataSetChanged()
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.item_sv_birthday -> MainActivity.act.toast("lol")
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -95,9 +165,18 @@ class BirthdayFr : Fragment() {
         super.onResume()
     }
 
+    fun updateUndoBirthdayIcon() {
+        if (deletedBirthday != null && !searching) {
+            myMenu.findItem(R.id.item_left)?.setIcon(R.drawable.ic_action_undo)
+            myMenu.findItem(R.id.item_left)?.isVisible = true
+        } else {
+            myMenu.findItem(R.id.item_left)?.isVisible = false
+        }
+    }
+
+    @SuppressLint("InflateParams")
     fun openEditBirthdayDialog() {
         //Mark that user changed year
-        val anyDateSet = true
         var yearChanged = false
         var chosenYear = -1
 
@@ -329,11 +408,11 @@ class BirthdayFr : Fragment() {
                 tvDaysPrior.setTextColor(color)
 
                 //todo fix this with plurals
-                val addition = when (cachedRemindText == "") {
+                val dayAddition = when (cachedRemindText == "") {
                     true -> ""
                     false -> "s"
                 }
-                tvDaysPrior.text = "day" + addition + " prior"
+                tvDaysPrior.text = "day" + dayAddition + " prior"
                 tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
 
             }
@@ -414,6 +493,7 @@ class BirthdayFr : Fragment() {
         }
     }
 
+    @SuppressLint("InflateParams")
     fun openAddBirthdayDialog() {
         var yearChanged = false
         var chosenYear = -1
@@ -702,7 +782,7 @@ class BirthdayAdapter :
             BirthdayFr.myFragment.search(BirthdayFr.lastQuery)
         }
         notifyDataSetChanged()
-        MainActivity.act.updateUndoBirthdayIcon()
+        BirthdayFr.myFragment.updateUndoBirthdayIcon()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
@@ -739,7 +819,7 @@ class BirthdayAdapter :
             holder.txvBirthdayLabelName.text = ""
             holder.myView.setBackgroundResource(R.color.colorBackground)
             holder.itemView.setOnLongClickListener { true }
-            holder.itemView.setOnClickListener { true }
+            holder.itemView.setOnClickListener { }
             holder.itemView.cvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
         } else {

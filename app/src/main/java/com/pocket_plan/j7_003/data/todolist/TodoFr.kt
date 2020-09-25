@@ -3,10 +3,7 @@ package com.pocket_plan.j7_003.data.todolist
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.R.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
@@ -27,6 +25,7 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
  */
 
 class TodoFr : Fragment() {
+    lateinit var myMenu: Menu
 
     companion object {
         lateinit var myFragment: TodoFr
@@ -41,6 +40,54 @@ class TodoFr : Fragment() {
         var firstPos: Int = 0
         lateinit var layoutManager: LinearLayoutManager
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.appbar_menu, menu)
+        myMenu = menu
+
+        //hide all icons
+        for (i in 0 until menu.size()) {
+            menu.getItem(i).isVisible = false
+        }
+        myMenu.findItem(R.id.item_left)?.setIcon(drawable.ic_action_delete_sweep)
+        updateDeleteTaskIcon()
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_left -> {
+                //delete checked tasks and update the undoTask icon
+                myFragment.manageCheckedTaskDeletion()
+                updateUndoTaskIcon()
+            }
+            R.id.item_middle -> {
+
+                //undo deletion of last deleted task (or multiple deleted tasks, if
+                //sweep delete button was used
+                if (deletedTaskList.size > 0) {
+                    deletedTaskList.forEach { task ->
+                        val newPos = todoListInstance.addFullTask(task)
+                        myAdapter.notifyItemInserted(newPos)
+                    }
+                    deletedTaskList.clear()
+                } else {
+                    val newPos = todoListInstance.addFullTask(deletedTask!!)
+                    deletedTask = null
+                    myAdapter.notifyItemInserted(newPos)
+                }
+                updateUndoTaskIcon()
+                updateDeleteTaskIcon()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateView(
@@ -76,6 +123,15 @@ class TodoFr : Fragment() {
         return myView
     }
 
+    fun updateUndoTaskIcon() {
+        if (deletedTask != null || deletedTaskList.size > 0) {
+            myMenu.findItem(R.id.item_middle)?.setIcon(drawable.ic_action_undo)
+            myMenu.findItem(R.id.item_middle)?.isVisible = true
+        } else {
+            myMenu.findItem(R.id.item_middle)?.isVisible = false
+        }
+    }
+
     fun prepareForMove() {
         firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
         offsetTop = 0
@@ -95,6 +151,11 @@ class TodoFr : Fragment() {
         )
     }
 
+    fun updateDeleteTaskIcon() {
+        val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
+        myMenu.findItem(R.id.item_left)?.isVisible = checkedTasks > 0
+    }
+
     //Deletes all checked tasks and animates the deletion
     fun manageCheckedTaskDeletion() {
         deletedTaskList.clear()
@@ -102,7 +163,7 @@ class TodoFr : Fragment() {
         val oldSize = todoListInstance.size
         val newSize = todoListInstance.deleteCheckedTasks()
         myAdapter.notifyItemRangeRemoved(newSize, oldSize)
-        MainActivity.act.updateDeleteTaskIcon()
+        updateDeleteTaskIcon()
     }
 }
 
@@ -119,7 +180,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
-        if (viewHolder.adapterPosition==TodoFr.todoListInstance.size) {
+        if (viewHolder.adapterPosition == TodoFr.todoListInstance.size) {
             return 0
         }
         return super.getSwipeDirs(recyclerView, viewHolder)
@@ -128,17 +189,17 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
-        MainActivity.act.updateDeleteTaskIcon()
+        TodoFr.myFragment.updateDeleteTaskIcon()
     }
 }
 
-class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
+class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val listInstance = TodoFr.todoListInstance
 
     fun deleteItem(position: Int) {
         TodoFr.deletedTaskList.clear()
         TodoFr.deletedTask = listInstance.getTask(position)
-        MainActivity.act.updateUndoTaskIcon()
+        TodoFr.myFragment.updateUndoTaskIcon()
         listInstance.deleteTask(position)
         notifyItemRemoved(position)
     }
@@ -153,10 +214,10 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
-        if(position == TodoFr.todoListInstance.size){
+        if (position == TodoFr.todoListInstance.size) {
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.tvName.setOnLongClickListener { true }
-            holder.itemView.tapField.setOnClickListener {  }
+            holder.itemView.tapField.setOnClickListener { }
             holder.itemView.layoutParams.height = 280
             return
         }
@@ -245,7 +306,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener {
-                    if(myDialogView.etxTitleAddTask.text.toString()==""){
+                    if (myDialogView.etxTitleAddTask.text.toString() == "") {
                         val animationShake =
                             AnimationUtils.loadAnimation(MainActivity.act, anim.shake)
                         myDialogView.etxTitleAddTask.startAnimation(animationShake)
@@ -276,7 +337,7 @@ class TodoTaskAdapter: RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>(
                 holder.adapterPosition, task.priority,
                 task.title, checkedStatus
             )
-            MainActivity.act.updateDeleteTaskIcon()
+            TodoFr.myFragment.updateDeleteTaskIcon()
 
             notifyItemChanged(holder.adapterPosition)
             if (holder.adapterPosition != newPos) {

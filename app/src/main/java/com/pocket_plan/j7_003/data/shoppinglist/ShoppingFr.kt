@@ -1,12 +1,14 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.animation.AnimationUtils
+import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,15 +19,20 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.todolist.TodoFr
+import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
+import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
 class ShoppingFr : Fragment() {
+    lateinit var myMenu: Menu
+
     companion object {
 
         var deletedItem: ShoppingItem? = null
@@ -41,6 +48,61 @@ class ShoppingFr : Fragment() {
         var collapseCheckedSublists: Boolean = false
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.appbar_menu, menu)
+
+        for(i in 0 until menu.size()){
+            menu.getItem(i).isVisible = false
+        }
+
+        myMenu = menu
+        myMenu.findItem(R.id.item_left)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+        myMenu.findItem(R.id.item_left)?.isVisible = true
+        myMenu.findItem(R.id.item_middle)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+        myMenu.findItem(R.id.item_middle)?.isVisible = true
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_left -> {
+                //clear shopping list
+                if (!shoppingListInstance.isEmpty()) {
+                    dialogShoppingClear()
+                } else {
+                    MainActivity.act.toast("List is already empty!")
+                }
+            }
+
+            R.id.item_middle -> {
+                //uncheck all shopping items
+                if (!shoppingListInstance.allItemUnchecked()) {
+                    shoppingListInstance.uncheckAll()
+                    shoppingListAdapter.notifyDataSetChanged()
+                } else {
+                    MainActivity.act.toast("Nothing to uncheck!")
+                }
+
+            }
+
+            R.id.item_right -> {
+                //undo the last deletion of a shopping item
+                shoppingListInstance.add(deletedItem!!)
+                deletedItem = null
+                shoppingListAdapter.notifyDataSetChanged()
+                updateUndoItemIcon()
+
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,8 +110,9 @@ class ShoppingFr : Fragment() {
         myFragment = this
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
-        collapseCheckedSublists = SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
-        //expand first category, contract all others, if setting says so
+        collapseCheckedSublists =
+            SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
+        //if expandOne Setting = true, expand one category, contract all others, if setting says so
         if (expandOne) {
             shoppingListInstance.forEach {
                 if (shoppingListInstance.getTagIndex(it.first) == 0) {
@@ -78,6 +141,89 @@ class ShoppingFr : Fragment() {
         myRecycler.setHasFixedSize(true)
 
         return myView
+    }
+
+    fun updateUndoItemIcon() {
+        if (deletedItem != null) {
+            myMenu.findItem(R.id.item_right)?.setIcon(R.drawable.ic_action_undo)
+            myMenu.findItem(R.id.item_right)?.isVisible = true
+        } else {
+            myMenu.findItem(R.id.item_right)?.isVisible = false
+        }
+    }
+
+
+    @SuppressLint("InflateParams")
+    private fun dialogShoppingClear() {
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
+
+        //AlertDialogBuilder
+        val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
+        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        editTitle.tvDialogTitle.text = getString(R.string.noteDeleteDialogText)
+        myBuilder.setCustomTitle(editTitle)
+        val myAlertDialog = myBuilder.create()
+
+        val btnCancelNew = myDialogView.btnCancelNew
+        val btnDeleteNote = myDialogView.btnDelete
+        val mySeekbar = myDialogView.sbDeleteNote
+
+        var allowDelete = false
+
+        mySeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (progress == 100) {
+                    allowDelete = true
+                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner_red)
+                    btnDeleteNote.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
+                } else {
+                    if (allowDelete) {
+                        allowDelete = false
+                        btnDeleteNote.setBackgroundResource(R.drawable.round_corner_gray)
+                        btnDeleteNote.setTextColor(
+                            ContextCompat.getColor(
+                                MainActivity.act,
+                                R.color.colorHint
+                            )
+                        )
+                    }
+
+                }
+
+            }
+        })
+
+        btnDeleteNote.setOnClickListener {
+            if (!allowDelete) {
+                val animationShake =
+                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                mySeekbar.startAnimation(animationShake)
+                return@setOnClickListener
+            }
+            shoppingListInstance.clear()
+            shoppingListAdapter.notifyDataSetChanged()
+            myAlertDialog.dismiss()
+        }
+
+        btnCancelNew.setOnClickListener {
+            myAlertDialog.dismiss()
+        }
+
+        //show dialog
+        myAlertDialog.show()
     }
 
     fun prepareForMove() {
@@ -109,10 +255,10 @@ class ShoppingListAdapter :
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
 
-        if(position == ShoppingFr.shoppingListInstance.size){
+        if (position == ShoppingFr.shoppingListInstance.size) {
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.layoutParams.height = 250
-            holder.itemView.setOnClickListener{}
+            holder.itemView.setOnClickListener {}
             return
         }
         holder.itemView.visibility = View.VISIBLE
@@ -251,7 +397,8 @@ class SublistAdapter(
 
         val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
         holder.itemView.tvItemTitle.text = MainActivity.act.getString(
-            R.string.shoppingItemTitle, item.amount, item.unit, item.name)
+            R.string.shoppingItemTitle, item.amount, item.unit, item.name
+        )
 
         holder.itemView.clItemTapfield.setOnClickListener {
             val newPosition = ShoppingFr.shoppingListInstance.flipItemCheckedState(
@@ -343,7 +490,7 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
             }
         }
         ShoppingFr.deletedItem = removeInfo.first
-        MainActivity.act.updateUndoItemIcon()
+        ShoppingFr.myFragment.updateUndoItemIcon()
 
     }
 }

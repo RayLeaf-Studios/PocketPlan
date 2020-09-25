@@ -5,12 +5,16 @@ backend stuff:
     - check all streams for closure
 
 Priority 1 tasks:
+
+    - add specific menu files for every fragments options menu
+
+    - shopping list collapse all / expand all ?
+    - tasklist check all / clear all ?
+
     - option to remember fragment (in navigation settings)
     - option to default to a specific fragment
     - option to choose which icons are where (in bottom navigation)
 
-    - shopping list collapse all / expand all ?
-    - tasklist check all / clear all ?
 
     - Redesign About Fragment
 

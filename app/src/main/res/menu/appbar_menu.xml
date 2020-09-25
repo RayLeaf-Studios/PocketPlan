@@ -16,7 +16,7 @@
         android:title=""
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/svBirthday"
+        android:id="@+id/item_sv_birthday"
         android:icon="@drawable/ic_action_searc"
         android:title=""
         app:showAsAction="always"
