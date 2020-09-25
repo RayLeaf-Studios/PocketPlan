@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +21,6 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
-import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
 import org.threeten.bp.LocalDate
@@ -104,7 +101,9 @@ class BirthdayFr : Fragment() {
             myAdapter.notifyDataSetChanged()
         }
 
+        editBirthdayHolder = null
         updateUndoBirthdayIcon()
+        updateSearchBirthdaysIcon()
 
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -168,6 +167,10 @@ class BirthdayFr : Fragment() {
         birthdayListInstance.sortAndSaveBirthdays()
         myAdapter.notifyDataSetChanged()
         super.onResume()
+    }
+
+    fun updateSearchBirthdaysIcon(){
+        myMenu.findItem(R.id.item_birthdays_search).isVisible = birthdayListInstance.size > 0
     }
 
     fun updateUndoBirthdayIcon() {
@@ -326,7 +329,7 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
                 if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
-                    tvBirthdayDate.setTextColor(
+                    tvSaveYear.setTextColor(
                         ContextCompat.getColor(
                             MainActivity.act,
                             R.color.colorOnBackGround
@@ -337,7 +340,7 @@ class BirthdayFr : Fragment() {
                 chosenYear = year
                 if (date.year != 0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
                     cbSaveBirthdayYear.isChecked = true
-                    tvBirthdayDate.setTextColor(
+                    tvSaveYear.setTextColor(
                         ContextCompat.getColor(
                             MainActivity.act,
                             R.color.colorOnBackGround
@@ -573,7 +576,7 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
                 if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
-                    tvBirthdayDate.setTextColor(
+                    tvSaveYear.setTextColor(
                         ContextCompat.getColor(
                             MainActivity.act,
                             R.color.colorOnBackGround
@@ -584,6 +587,12 @@ class BirthdayFr : Fragment() {
                 chosenYear = year
                 if (date.year != 0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
                     cbSaveBirthdayYear.isChecked = true
+                    tvSaveYear.setTextColor(
+                        ContextCompat.getColor(
+                            MainActivity.act,
+                            R.color.colorOnBackGround
+                        )
+                    )
                 }
                 date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                 val dayMonthString =
@@ -628,9 +637,11 @@ class BirthdayFr : Fragment() {
                 date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
                     .padStart(2, '0')
 
-            tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
-                false -> dayMonthString
-                else -> dayMonthString + "." + date.year.toString()
+            if(yearChanged){
+                tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
+                    false -> dayMonthString
+                    else -> dayMonthString + "." + date.year.toString()
+                }
             }
 
 
@@ -699,7 +710,7 @@ class BirthdayFr : Fragment() {
         //AlertDialogBuilder
         val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogEditTitle)
+        myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogAddTitle)
         myBuilder?.setCustomTitle(myTitle)
 
 
@@ -741,6 +752,7 @@ class BirthdayFr : Fragment() {
             )
 
             myRecycler.adapter?.notifyDataSetChanged()
+            updateSearchBirthdaysIcon()
             myAlertDialog?.dismiss()
         }
         etName.requestFocus()
@@ -803,6 +815,7 @@ class BirthdayAdapter :
         }
         notifyDataSetChanged()
         BirthdayFr.myFragment.updateUndoBirthdayIcon()
+        BirthdayFr.myFragment.updateSearchBirthdaysIcon()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
