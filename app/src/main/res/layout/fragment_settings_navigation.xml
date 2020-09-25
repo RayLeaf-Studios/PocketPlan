@@ -20,36 +20,6 @@
             android:orientation="vertical">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingVertical="15dp"
-                android:paddingHorizontal="20dp">
-
-                <TextView
-                    android:id="@+id/tvNavDrawer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settingsNavDrawerPick"
-                    android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/spDrawerSide"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <Spinner
-                    android:id="@+id/spDrawerSide"
-                    android:layout_width="wrap_content"
-                    android:gravity="end"
-                    android:layout_height="wrap_content"
-                    android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:layout_constraintTop_toTopOf="@id/tvNavDrawer"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNavDrawer"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/viewScrollPlaceHolder"

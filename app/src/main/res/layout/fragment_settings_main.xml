@@ -130,7 +130,7 @@
                     android:id="@+id/tvNavigationDrawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/settingsNavDrawerTitle"
+                    android:text="@string/settingsNavigationTitle"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="17sp"
                     android:textStyle="bold"

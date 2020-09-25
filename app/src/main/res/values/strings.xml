@@ -94,8 +94,7 @@
     <string name="settingsCusItems">Manage custom items</string>
     <string name="settingsOnlyExpandOne">Only expand one category</string>
     <string name="settingsCollapseChecked">Collapse checked categories</string>
-    <string name="settingsNavDrawerTitle">Navigation</string>
-    <string name="settingsNavDrawerPick">Slide side</string>
+    <string name="settingsNavigationTitle">Navigation</string>
 
     <!-- About Fragment -->
     <string name="aboutDevs">Developed by</string>

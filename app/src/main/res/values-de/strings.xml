@@ -38,8 +38,7 @@
     <string name="settingsCusItems">Benutzerdefinierte Items</string>
     <string name="settingsOnlyExpandOne">Nur eine Kategorie gleichzeitig ausfahren</string>
     <string name="settingsCollapseChecked">Abgehakte Kategorien einfahren</string>
-    <string name="settingsNavDrawerTitle">Sidemenu</string>
-    <string name="settingsNavDrawerPick">Seite des menüs</string>
+    <string name="settingsNavigationTitle">Navigation</string>
     <string name="tasksAddTitle">Aufgabe hinzufügen</string>
     <string name="birthdaysNotify">erinnern</string>
     <string name="birthdaysDaysPrior">Tage vorher.</string>

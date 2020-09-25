@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         var editTerm: CalendarAppointment? = null
         var fromHome: Boolean = false
         lateinit var bottomNavigation: BottomNavigationView
-        lateinit var layoutParamsNavDrawer: DrawerLayout.LayoutParams
     }
 
     @SuppressLint("InflateParams")
@@ -100,10 +99,6 @@ class MainActivity : AppCompatActivity() {
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
 
-        //initialize layout parameters for drawer layout
-        layoutParamsNavDrawer = drawer_layout.nav_drawer.layoutParams as DrawerLayout.LayoutParams
-
-
         //initialize toolbar
         setSupportActionBar(myNewToolbar)
         toolBar = myNewToolbar
@@ -116,15 +111,6 @@ class MainActivity : AppCompatActivity() {
         mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
         drawer_layout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
-
-        //Check if layout should be right-handed or left-handed
-        when (SettingsManager.getSetting(SettingId.DRAWER_SIDE)) {
-            true -> drawerGravity = Gravity.END
-            false -> {
-                layoutParamsNavDrawer.gravity = Gravity.START
-                drawerGravity = Gravity.START
-            }
-        }
 
         //initialize navigation drawer
         nav_drawer.setNavigationItemSelectedListener { item ->
@@ -391,7 +377,6 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.CLOSE_ITEM_DIALOG, false)
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
-        setDefault(SettingId.DRAWER_SIDE, false)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
