@@ -15,6 +15,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -73,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var act: MainActivity
         lateinit var sleepView: View
         lateinit var toolBar: Toolbar
-        var drawerGravity = 0
         var editNoteHolder: Note? = null
         var editTerm: CalendarAppointment? = null
         var fromHome: Boolean = false
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
 //                R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
                 R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
             }
-            drawer_layout.closeDrawer(drawerGravity)
+            drawer_layout.closeDrawer(GravityCompat.START)
             true
         }
 
@@ -334,7 +334,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(nav_drawer)) {
-            drawer_layout.closeDrawer(drawerGravity)
+            drawer_layout.closeDrawer(GravityCompat.START)
             return
         }
 
@@ -537,6 +537,7 @@ class MainActivity : AppCompatActivity() {
                         false
                     )
                     ShoppingFr.shoppingListInstance.add(item)
+                    ShoppingFr.myFragment.updateShoppingMenu()
                     if (activeFragmentTag == FT.SHOPPING) {
                         ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
                     } else {
@@ -575,6 +576,7 @@ class MainActivity : AppCompatActivity() {
                 false
             )
             ShoppingFr.shoppingListInstance.add(item)
+            ShoppingFr.myFragment.updateShoppingMenu()
             if (activeFragmentTag == FT.SHOPPING) {
                 ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
             } else {

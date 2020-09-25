@@ -4,6 +4,8 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
@@ -36,8 +38,16 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
             }
         }
 
-        // creating the new sublist for the given tag, beginning with an marker
-        super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, true))))
+        /**
+         * creating the new sublist for the given tag, beginning with an marker
+         *
+         * decide if the new category should start as collapsed or expanded, depending on
+         * the setting COLLAPSE_CHECKED_SUBLISTS
+         */
+
+        val sublistExpanded = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean && !somethingIsExpanded()
+
+        super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, sublistExpanded))))
 
         this.forEach { e ->         // searching the newly added sublist and adding the element
             if (e.first == element.tag) {   // add element to tags sublist and save to file

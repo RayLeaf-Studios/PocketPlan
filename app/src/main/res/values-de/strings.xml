@@ -31,13 +31,13 @@
     <string name="noteEditorTitle">Titel</string>
     <string name="noteEditorText">Notiz</string>
     <string name="settingsNotesTitle">Notizen</string>
-    <string name="settingsNumOfLines">Zeilenanzahl</string>
-    <string name="settingsNumOfCols">Spaltenanzahl</string>
+    <string name="settingsNumOfLines">Sichtbare Zeilen</string>
+    <string name="settingsNumOfCols">Notizen nebeneinander</string>
     <string name="settingsFontSize">Schriftgröße im Editor</string>
     <string name="settingsShoListTitle">Einkaufsliste</string>
     <string name="settingsCusItems">Benutzerdefinierte Items</string>
-    <string name="settingsOnlyExpandOne">Nur eine Kategorie gleichzeitig ausfahren</string>
-    <string name="settingsCollapseChecked">Abgehakte Kategorien einfahren</string>
+    <string name="settingsOnlyExpandOne">Nur eine Kategorie ausklappbar</string>
+    <string name="settingsCollapseChecked">Abgehakte Kategorien einklappen</string>
     <string name="settingsNavigationTitle">Navigation</string>
     <string name="tasksAddTitle">Aufgabe hinzufügen</string>
     <string name="birthdaysNotify">erinnern</string>
@@ -49,7 +49,7 @@
     <string name="birthdayDialogEdit">Speichern</string>
     <string name="birthdayDialogAddTitle">Geb. hinzufügen</string>
     <string name="birthdayDialogEditTitle">Bearbeiten</string>
-    <string name="birthdayAgeUnknown">"unbekanntes Alter, "</string>
+    <string name="birthdayAgeUnknown">Alter unbekannt,</string>
     <string name="birthdayAge">%1$d Jahre alt, %2$d geboren.</string>
     <string name="birthdayReminder">"\nErinnert %1$d Tage%2$s vorher."</string>
 
@@ -88,7 +88,7 @@
     <string name="sleepWakeUpTime">Aufstehzeit</string>
     <string name="sleepDuration">Schlafdauer</string>
     <string name="sleepEnable">Erinnerungen einschalten</string>
-    <string name="sleepCustomDays">Tageweise einstellen</string>
+    <string name="sleepCustomDays">Tagesabhängige Zeit</string>
     <string name="sleepMon">Mo</string>
     <string name="sleepTue">Di</string>
     <string name="sleepWed">Mi</string>
@@ -98,8 +98,8 @@
     <string name="sleepSun">So</string>
     <string name="homeNoTasks">\n\tKeine wichtigen Aufgaben\n</string>
     <string name="homeNoBirthdays">\n\tHeute stehen keine Geburtstage an\n</string>
-    <string name="sleepWakeUpTimeDay">Wakeup TIme - %1$s</string>
-    <string name="sleepDurationDay">Sleep Duration - %1$s</string>
+    <string name="sleepWakeUpTimeDay">Aufstehzeit - %1$s</string>
+    <string name="sleepDurationDay">Schlafdauer - %1$s</string>
     <string name="sleepNotificationTitle">Schlafenszeit</string>
     <string name="sleepNotificationText">Zeit schlafen zu gehen, schönen Schlaf!</string>
     <string name="birthdayNotificationTitle">Geburtstage</string>
@@ -120,7 +120,7 @@
     <string name="view_on_github">Auf GitHub</string>
     <string name="sourcecode">Sourcecode</string>
     <string name="about_nico_description">Unbezahlter Praktikant</string>
-    <string name="about_dori_description">Textual content and translation</string>
+    <string name="about_dori_description">Textliche Inhalte und Übersetzung</string>
     <string name="about_jake_description">Front-End / Benutzeroberfläche</string>
     <string name="about_estep_description">Back-End / Daten Management</string>
 </resources>

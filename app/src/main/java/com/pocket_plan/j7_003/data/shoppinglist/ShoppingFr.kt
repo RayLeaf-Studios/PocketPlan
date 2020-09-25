@@ -19,7 +19,6 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
@@ -149,11 +148,15 @@ class ShoppingFr : Fragment() {
     private fun updateUndoItemIcon() {
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
     }
+
     fun updateExpandAllIcon() {
-        myMenu.findItem(R.id.item_shopping_expand_all)?.isVisible = shoppingListInstance.somethingsCollapsed()
+        myMenu.findItem(R.id.item_shopping_expand_all)?.isVisible =
+            shoppingListInstance.somethingsCollapsed() && !(SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean)
     }
+
     fun updateCollapseAllIcon() {
-        myMenu.findItem(R.id.item_shopping_collapse_all)?.isVisible = shoppingListInstance.somethingIsExpanded()
+        myMenu.findItem(R.id.item_shopping_collapse_all)?.isVisible =
+            shoppingListInstance.somethingIsExpanded()
     }
 
     private fun updateDeleteShoppingListIcon() {
@@ -179,7 +182,7 @@ class ShoppingFr : Fragment() {
         val myAlertDialog = myBuilder.create()
 
         val btnCancelNew = myDialogView.btnCancelNew
-        val btnDeleteNote = myDialogView.btnDelete
+        val btnClearShoppingList = myDialogView.btnDelete
         val mySeekbar = myDialogView.sbDeleteNote
 
         var allowDelete = false
@@ -196,8 +199,8 @@ class ShoppingFr : Fragment() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (progress == 100) {
                     allowDelete = true
-                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner_red)
-                    btnDeleteNote.setTextColor(
+                    btnClearShoppingList.setBackgroundResource(R.drawable.round_corner_red)
+                    btnClearShoppingList.setTextColor(
                         ContextCompat.getColor(
                             MainActivity.act,
                             R.color.colorOnBackGround
@@ -206,8 +209,8 @@ class ShoppingFr : Fragment() {
                 } else {
                     if (allowDelete) {
                         allowDelete = false
-                        btnDeleteNote.setBackgroundResource(R.drawable.round_corner_gray)
-                        btnDeleteNote.setTextColor(
+                        btnClearShoppingList.setBackgroundResource(R.drawable.round_corner_gray)
+                        btnClearShoppingList.setTextColor(
                             ContextCompat.getColor(
                                 MainActivity.act,
                                 R.color.colorHint
@@ -220,7 +223,7 @@ class ShoppingFr : Fragment() {
             }
         })
 
-        btnDeleteNote.setOnClickListener {
+        btnClearShoppingList.setOnClickListener {
             if (!allowDelete) {
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
