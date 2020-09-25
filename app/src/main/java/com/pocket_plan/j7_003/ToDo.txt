@@ -15,6 +15,7 @@ Priority 1 tasks:
     - option to remember fragment (in navigation settings)
     - option to default to a specific fragment
     - option to choose which icons are where (in bottom navigation)
+    - hide birthday search when theres no birthdays
 
 
     - Redesign About Fragment

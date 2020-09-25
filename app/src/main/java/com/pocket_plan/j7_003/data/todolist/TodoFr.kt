@@ -51,7 +51,7 @@ class TodoFr : Fragment() {
         inflater.inflate(R.menu.menu_tasks, menu)
         myMenu = menu
 
-        updateDeleteTaskIcon()
+        updateTodoIcons()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -60,7 +60,6 @@ class TodoFr : Fragment() {
             R.id.item_tasks_delete_checked -> {
                 //delete checked tasks and update the undoTask icon
                 myFragment.manageCheckedTaskDeletion()
-                updateUndoTaskIcon()
             }
             R.id.item_tasks_undo -> {
 
@@ -77,10 +76,20 @@ class TodoFr : Fragment() {
                     deletedTask = null
                     myAdapter.notifyItemInserted(newPos)
                 }
-                updateUndoTaskIcon()
-                updateDeleteTaskIcon()
+            }
+            R.id.item_tasks_clear -> {
+                //delete ALL tasks in list
+                //todo put a dialog here
+                todoListInstance.clear()
+                myAdapter.notifyDataSetChanged()
+            }
+            R.id.item_tasks_uncheck_all -> {
+                //uncheck all tasks
+                todoListInstance.uncheckAll()
+                myAdapter.notifyDataSetChanged()
             }
         }
+        updateTodoIcons()
         return super.onOptionsItemSelected(item)
     }
 
@@ -117,13 +126,28 @@ class TodoFr : Fragment() {
         return myView
     }
 
+
+    fun updateTodoIcons(){
+        updateUncheckTaskListIcon()
+        updateClearTaskListIcon()
+        updateUndoTaskIcon()
+        updateDeleteCheckedTasksIcon()
+    }
+
     fun updateUndoTaskIcon() {
-        if (deletedTask != null || deletedTaskList.size > 0) {
-            myMenu.findItem(R.id.item_tasks_undo)?.setIcon(drawable.ic_action_undo)
-            myMenu.findItem(R.id.item_tasks_undo)?.isVisible = true
-        } else {
-            myMenu.findItem(R.id.item_tasks_undo)?.isVisible = false
-        }
+        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTask != null || deletedTaskList.size > 0
+    }
+
+    private fun updateClearTaskListIcon() {
+        myMenu.findItem(R.id.item_tasks_clear)?.isVisible = todoListInstance.size > 0
+    }
+
+    private fun updateUncheckTaskListIcon() {
+        myMenu.findItem(R.id.item_tasks_uncheck_all)?.isVisible = todoListInstance.somethingIsChecked()
+    }
+
+    private fun updateDeleteCheckedTasksIcon() {
+        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = todoListInstance.somethingIsChecked()
     }
 
     fun prepareForMove() {
@@ -145,7 +169,7 @@ class TodoFr : Fragment() {
         )
     }
 
-    fun updateDeleteTaskIcon() {
+    private fun updateDeleteTaskIcon() {
         val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
         myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = checkedTasks > 0
     }
@@ -241,7 +265,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
-        TodoFr.myFragment.updateDeleteTaskIcon()
+        TodoFr.myFragment.updateTodoIcons()
     }
 }
 
@@ -251,7 +275,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
     fun deleteItem(position: Int) {
         TodoFr.deletedTaskList.clear()
         TodoFr.deletedTask = listInstance.getTask(position)
-        TodoFr.myFragment.updateUndoTaskIcon()
+        TodoFr.myFragment.updateTodoIcons()
         listInstance.deleteTask(position)
         notifyItemRemoved(position)
     }
@@ -389,7 +413,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                 holder.adapterPosition, task.priority,
                 task.title, checkedStatus
             )
-            TodoFr.myFragment.updateDeleteTaskIcon()
+            TodoFr.myFragment.updateUndoTaskIcon()
 
             notifyItemChanged(holder.adapterPosition)
             if (holder.adapterPosition != newPos) {
@@ -397,7 +421,8 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                 notifyItemMoved(holder.adapterPosition, newPos)
                 TodoFr.myFragment.reactToMove()
             }
-            //delays item change until list is reordered
+            TodoFr.myFragment.updateTodoIcons()
+
         }
     }
 

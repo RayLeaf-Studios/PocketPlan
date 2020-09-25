@@ -73,6 +73,21 @@ class TodoList: ArrayList<Task>() {
         this.sortWith(compareBy({ it.isChecked }, { it.priority }))
     }
 
+    fun somethingIsChecked(): Boolean{
+        this.forEach { task ->
+            if(task.isChecked){
+                return true
+            }
+        }
+        return false
+    }
+
+    fun uncheckAll(){
+        this.forEach { task ->
+            task.isChecked = false
+        }
+    }
+
     fun deleteCheckedTasks(): Int{
         val toBeDeleted = ArrayList<Task>()
 

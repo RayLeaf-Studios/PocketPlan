@@ -7,9 +7,16 @@
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/item_tasks_delete_checked"
-        android:icon="@drawable/ic_action_delete_sweep"
-        android:title=""
-        app:showAsAction="ifRoom"/>
+        android:title="Clear checked tasks"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_tasks_clear"
+        android:title="Clear list"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_tasks_uncheck_all"
+        android:title="Uncheck all"
+        app:showAsAction="never"/>
 
 <!--    <item android:id="@+id/item_shopping_undo"-->
 <!--        android:title=""-->
