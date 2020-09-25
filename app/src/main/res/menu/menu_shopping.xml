@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-    <item android:id="@+id/item_shopping_clear_list"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_shopping_clear_list"
         android:title="@string/shoppingClearList"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
-    <item android:id="@+id/item_shopping_uncheck_all"
+    <item
+        android:id="@+id/item_shopping_uncheck_all"
         android:title="@string/shoppingUncheckAll"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
-    <item android:id="@+id/item_shopping_undo"
-        android:title=""
+    <item
+        android:id="@+id/item_shopping_undo"
         android:icon="@drawable/ic_action_undo"
-        app:showAsAction="ifRoom"/>
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_shopping_collapse_all"
+        android:title="Collapse all"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/item_shopping_expand_all"
+        android:title="Expand all"
+        app:showAsAction="never" />
 
 </menu>

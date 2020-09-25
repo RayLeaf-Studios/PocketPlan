@@ -79,6 +79,18 @@ class ShoppingFr : Fragment() {
                 shoppingListAdapter.notifyDataSetChanged()
 
             }
+            R.id.item_shopping_collapse_all -> {
+                //collapse all categories
+                shoppingListInstance.collapseAllTags()
+                shoppingListAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
+
+            }
+            R.id.item_shopping_expand_all -> {
+                //expand all categories
+                shoppingListInstance.expandAllTags()
+                shoppingListAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
+
+            }
         }
         updateShoppingMenu()
 
@@ -90,6 +102,7 @@ class ShoppingFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         myFragment = this
+        deletedItem = null
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
         collapseCheckedSublists =
@@ -129,10 +142,18 @@ class ShoppingFr : Fragment() {
         updateUndoItemIcon()
         updateDeleteShoppingListIcon()
         updateUncheckShoppingListIcon()
+        updateExpandAllIcon()
+        updateCollapseAllIcon()
     }
 
     private fun updateUndoItemIcon() {
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
+    }
+    fun updateExpandAllIcon() {
+        myMenu.findItem(R.id.item_shopping_expand_all)?.isVisible = shoppingListInstance.somethingsCollapsed()
+    }
+    fun updateCollapseAllIcon() {
+        myMenu.findItem(R.id.item_shopping_collapse_all)?.isVisible = shoppingListInstance.somethingIsExpanded()
     }
 
     private fun updateDeleteShoppingListIcon() {
@@ -207,6 +228,7 @@ class ShoppingFr : Fragment() {
                 return@setOnClickListener
             }
             shoppingListInstance.clear()
+            shoppingListInstance.save()
             shoppingListAdapter.notifyDataSetChanged()
             myFragment.updateShoppingMenu()
             myAlertDialog.dismiss()
@@ -319,6 +341,8 @@ class ShoppingListAdapter :
                 }
             }
             notifyItemChanged(holder.adapterPosition)
+            ShoppingFr.myFragment.updateExpandAllIcon()
+            ShoppingFr.myFragment.updateCollapseAllIcon()
         }
     }
 
@@ -400,7 +424,6 @@ class SublistAdapter(
                 holder.adapterPosition
             )
 
-            ShoppingFr.myFragment.updateShoppingMenu()
             val numberOfItems = ShoppingFr.shoppingListInstance.getUncheckedSize(holder.tag)
 
             //If all are checked after the current item got flipped, the list has to go from color to gray
@@ -436,6 +459,7 @@ class SublistAdapter(
 
                 ShoppingFr.myFragment.reactToMove()
             }
+            ShoppingFr.myFragment.updateShoppingMenu()
         }
         holder.tag = tag
     }

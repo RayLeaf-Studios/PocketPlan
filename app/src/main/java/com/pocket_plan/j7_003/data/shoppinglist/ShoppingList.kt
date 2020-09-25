@@ -51,6 +51,36 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         }
     }
 
+    fun expandAllTags(){
+       this.forEach { e ->
+           e.second[0].checked = true
+       }
+    }
+
+    fun collapseAllTags(){
+        this.forEach { e ->
+            e.second[0].checked = false
+        }
+    }
+
+    fun somethingIsExpanded(): Boolean{
+        this.forEach { e ->
+            if(e.second[0].checked){
+                return true
+            }
+        }
+        return false
+    }
+
+    fun somethingsCollapsed(): Boolean{
+        this.forEach { e ->
+            if(!e.second[0].checked){
+                return true
+            }
+        }
+        return false
+    }
+
     /**
      * Checks whether all items of the list are unchecked, unrelated to their tag.
      * @return  `true` when no items are checked, `false` otherwise
@@ -279,7 +309,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
         list.addAll(markerList)
     }
 
-    private fun save() {
+    fun save() {
         StorageHandler.saveAsJsonToFile(
             StorageHandler.files[StorageId.SHOPPING], this)
     }
