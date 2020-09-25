@@ -179,61 +179,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.TASKS -> {
-                    //inflate the dialog with custom view
-                    val myDialogView =
-                        LayoutInflater.from(act).inflate(R.layout.dialog_add_task, null)
-
-                    //AlertDialogBuilder
-                    val myBuilder =
-                        act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-                    myBuilder?.setCustomTitle(
-                        layoutInflater.inflate(
-                            R.layout.title_dialog_add_task,
-                            null
-                        )
-                    )
-
-                    //show dialog
-                    val myAlertDialog = myBuilder?.create()
-                    myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-                    myAlertDialog?.show()
-
-                    //adds listeners to confirmButtons in addTaskDialog
-                    val taskConfirmButtons = arrayListOf<Button>(
-                        myDialogView.btnConfirm1,
-                        myDialogView.btnConfirm2,
-                        myDialogView.btnConfirm3
-                    )
-
-                    taskConfirmButtons.forEachIndexed { index, button ->
-                        button.setOnClickListener {
-                            val title = myDialogView.etxTitleAddTask.text.toString()
-                            if (title.isEmpty()) {
-                                val animationShake =
-                                    AnimationUtils.loadAnimation(this, R.anim.shake)
-                                myDialogView.etxTitleAddTask.startAnimation(animationShake)
-                                @Suppress("LABEL_NAME_CLASH")
-                                return@setOnClickListener
-                            } else {
-                                val newPos =
-                                    todoListInstance.addFullTask(
-                                        Task(
-                                            title,
-                                            index + 1,
-                                            false
-                                        )
-                                    )
-                                if (newPos == todoListInstance.size - 1) {
-                                    myRecycler.adapter?.notifyDataSetChanged()
-                                } else {
-                                    myRecycler.adapter?.notifyItemInserted(newPos)
-                                }
-                            }
-                            myAlertDialog?.dismiss()
-                        }
-                    }
-
-                    myDialogView.etxTitleAddTask.requestFocus()
+                    TodoFr.myFragment.dialogAddTask()
                 }
 
                 FT.NOTES -> {
@@ -260,6 +206,21 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(act, msg, Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * UI FUNCTIONS
+     */
+
+    fun hideKeyboard() {
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view: View? = act.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(act)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
     fun setNavBarUnchecked() {
         bottomNavigation.menu.setGroupCheckable(0, true, false)
         for (i in 0 until bottomNavigation.menu.size()) {
@@ -280,7 +241,7 @@ class MainActivity : AppCompatActivity() {
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
         if (activeFragmentTag == FT.NOTE_EDITOR) {
-            if (relevantNoteChanges()) {
+            if (NoteEditorFr.myFragment.relevantNoteChanges()) {
                 NoteEditorFr.myFragment.dialogDiscardNoteChanges(fragmentTag)
                 return
             }
@@ -372,16 +333,6 @@ class MainActivity : AppCompatActivity() {
      * DATA MANAGEMENT FUNCTIONS
      */
 
-    fun hideKeyboard() {
-        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        //Find the currently focused view, so we can grab the correct window token from it.
-        var view: View? = act.currentFocus
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = View(act)
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
 
     /**
      * OVERRIDE FUNCTIONS
@@ -394,7 +345,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (activeFragmentTag == FT.NOTE_EDITOR) {
-            if (relevantNoteChanges()) {
+            if (NoteEditorFr.myFragment.relevantNoteChanges()) {
                 NoteEditorFr.myFragment.dialogDiscardNoteChanges(previousFragmentTag)
                 return
             }
@@ -413,27 +364,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun relevantNoteChanges(): Boolean {
-
-        var result = true
-        //check if note was edited, return otherwise
-        if (editNoteHolder != null && editNoteHolder!!.title == noteEditorFr.etNoteTitle.text.toString() &&
-            editNoteHolder!!.content == noteEditorFr.etNoteContent.text.toString() &&
-            editNoteHolder!!.color == NoteEditorFr.noteColor
-        ) {
-            //no relevant note changes if the title, content and color did not get changed
-            result = false
-        }
-
-        //check if anything was written when adding new note, return otherwise
-        if (editNoteHolder == null && noteEditorFr.etNoteTitle.text.toString() == "" &&
-            noteEditorFr.etNoteContent.text.toString() == ""
-        ) {
-            //no relevant note changes if its a new empty note
-            result = false
-        }
-        return result
-    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

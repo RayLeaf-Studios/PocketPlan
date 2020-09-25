@@ -159,6 +159,64 @@ class TodoFr : Fragment() {
         myAdapter.notifyItemRangeRemoved(newSize, oldSize)
         updateDeleteTaskIcon()
     }
+
+    fun dialogAddTask(){
+        //inflate the dialog with custom view
+        val myDialogView =
+            LayoutInflater.from(MainActivity.act).inflate(R.layout.dialog_add_task, null)
+
+        //AlertDialogBuilder
+        val myBuilder =
+            MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        myBuilder?.setCustomTitle(
+            layoutInflater.inflate(
+                R.layout.title_dialog_add_task,
+                null
+            )
+        )
+
+        //show dialog
+        val myAlertDialog = myBuilder?.create()
+        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        myAlertDialog?.show()
+
+        //adds listeners to confirmButtons in addTaskDialog
+        val taskConfirmButtons = arrayListOf<Button>(
+            myDialogView.btnConfirm1,
+            myDialogView.btnConfirm2,
+            myDialogView.btnConfirm3
+        )
+
+        taskConfirmButtons.forEachIndexed { index, button ->
+            button.setOnClickListener {
+                val title = myDialogView.etxTitleAddTask.text.toString()
+                if (title.isEmpty()) {
+                    val animationShake =
+                        AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                    myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                    @Suppress("LABEL_NAME_CLASH")
+                    return@setOnClickListener
+                } else {
+                    val newPos =
+                        todoListInstance.addFullTask(
+                            Task(
+                                title,
+                                index + 1,
+                                false
+                            )
+                        )
+                    if (newPos == todoListInstance.size - 1) {
+                        myRecycler.adapter?.notifyDataSetChanged()
+                    } else {
+                        myRecycler.adapter?.notifyItemInserted(newPos)
+                    }
+                }
+                myAlertDialog?.dismiss()
+            }
+        }
+
+        myDialogView.etxTitleAddTask.requestFocus()
+    }
 }
 
 class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouchHelper

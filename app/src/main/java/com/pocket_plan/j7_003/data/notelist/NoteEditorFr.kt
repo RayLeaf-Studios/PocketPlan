@@ -120,6 +120,28 @@ class NoteEditorFr : Fragment() {
         }
     }
 
+    fun relevantNoteChanges(): Boolean {
+
+        var result = true
+        //check if note was edited, return otherwise
+        if (MainActivity.editNoteHolder != null && MainActivity.editNoteHolder!!.title == MainActivity.noteEditorFr.etNoteTitle.text.toString() &&
+            MainActivity.editNoteHolder!!.content == MainActivity.noteEditorFr.etNoteContent.text.toString() &&
+            MainActivity.editNoteHolder!!.color == NoteEditorFr.noteColor
+        ) {
+            //no relevant note changes if the title, content and color did not get changed
+            result = false
+        }
+
+        //check if anything was written when adding new note, return otherwise
+        if (MainActivity.editNoteHolder == null && MainActivity.noteEditorFr.etNoteTitle.text.toString() == "" &&
+            MainActivity.noteEditorFr.etNoteContent.text.toString() == ""
+        ) {
+            //no relevant note changes if its a new empty note
+            result = false
+        }
+        return result
+    }
+
     @SuppressLint("InflateParams")
      fun dialogDiscardNoteChanges(gotoFragment: FT) {
 
