@@ -212,7 +212,7 @@ class HomeFr : Fragment() {
             myView.icBirthdaysHome.setColorFilter(
                 ContextCompat.getColor(
                     MainActivity.act,
-                    R.color.colorOnBackGround
+                    R.color.colorAccent
                 )
             )
         }
