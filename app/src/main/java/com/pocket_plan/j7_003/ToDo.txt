@@ -7,7 +7,6 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - 2 textFields for birthdayHolder for uniform spacing between date and name
     - re adjust color scheme
         priority colors,
          ,item add cancel buttons
