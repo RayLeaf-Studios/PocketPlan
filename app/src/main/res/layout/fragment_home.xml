@@ -188,8 +188,8 @@
         <ImageView
             android:id="@+id/ivItem"
             android:layout_width="40dp"
-            android:tint="@color/colorNoteRed"
             android:layout_height="40dp"
+            android:tint="@color/colorNotePurple"
             android:src="@drawable/ic_action_shopping"
             app:layout_constraintStart_toEndOf="@id/ivAdd3"
             app:layout_constraintTop_toTopOf="parent" />
