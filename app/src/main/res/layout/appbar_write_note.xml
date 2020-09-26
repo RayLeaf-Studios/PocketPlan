@@ -23,7 +23,7 @@
         android:background="@android:color/transparent"
         app:layout_constraintStart_toEndOf="@+id/btnSaveNote"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_action_colorpicker" />
+        app:srcCompat="@drawable/ic_action_color_picker" />
 
     <ImageButton
         android:id="@+id/btnSaveNote"

@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/item_editor_delete"
-        android:title="@string/noteDeleteDialogDelete"
+        android:title=""
         android:icon="@drawable/ic_action_delete"
         app:showAsAction="ifRoom"
         />
     <item android:id="@+id/item_editor_color"
-        android:title="@string/menuTitleColorChoose"
-        android:icon="@drawable/ic_action_colorpicker"
+        android:title=""
+        android:icon="@drawable/ic_action_color_picker"
         app:showAsAction="ifRoom"
         />
     <item android:id="@+id/item_editor_save"
-        android:title="@string/noteDiscardDialogSave"
+        android:title=""
         android:icon="@drawable/ic_check_mark"
         app:showAsAction="ifRoom"
         />

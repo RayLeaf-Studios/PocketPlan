@@ -39,8 +39,8 @@
 
     <!-- Shopping -->
     <string name="checkMark" translatable="false">✔</string>
-    <string name="shoppingClearList">Clear list</string>
-    <string name="shoppingUncheckAll">Uncheck all</string>
+    <string name="options_shopping_clear_list">Clear list</string>
+    <string name="options_shopping_uncheck_all">Uncheck all</string>
     <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
     <string name="shoppingAddItemTitle">Add item</string>
 
@@ -118,7 +118,7 @@
 
     <!-- Content descriptions -->
     <string name="contentDescriptionSun">Sun</string>
-    <string name="zero">0</string>
+    <string name="zero" translatable="false">0</string>
     <string name="settingsCloseItemDialog">Close item dialog after adding</string>
     <string name="backup">Backup</string>
 
@@ -192,4 +192,9 @@
     <string name="about_jake_name" translatable="false">JakeGonder</string>
     <string name="about_estep_description">Back-End / Data Management</string>
     <string name="about_estep_name" translatable="false">Estep248</string>
+    <string name="options_tasks_uncheck_all">Uncheck all</string>
+    <string name="options_task_clear_list">Clear list</string>
+    <string name="options_task_delete_checked">Clear checked tasks</string>
+    <string name="options_shopping_expand_all">Expand all</string>
+    <string name="options_shopping_collapse_all">Collapse all</string>
 </resources>

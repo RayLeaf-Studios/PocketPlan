@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_shopping_clear_list"
-        android:title="@string/shoppingClearList"
+        android:title="@string/options_shopping_clear_list"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/item_shopping_uncheck_all"
-        android:title="@string/shoppingUncheckAll"
+        android:title="@string/options_shopping_uncheck_all"
         app:showAsAction="never" />
 
     <item
@@ -18,11 +18,11 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_shopping_collapse_all"
-        android:title="Collapse all"
+        android:title="@string/options_shopping_collapse_all"
         app:showAsAction="never" />
     <item
         android:id="@+id/item_shopping_expand_all"
-        android:title="Expand all"
+        android:title="@string/options_shopping_expand_all"
         app:showAsAction="never" />
 
 </menu>
