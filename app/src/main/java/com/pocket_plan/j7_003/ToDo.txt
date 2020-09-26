@@ -1,27 +1,34 @@
 Todo:
 
-Backend stuff:
+Back-End stuff before release:
+
     - functionality to save / load a backup file
     - check all streams for closure
 
-Stuff before release:
-    - option to remove all custom items
+Front-End stuff to-do before release in following order:
+
+    - make notes searchable
+    - re adjust color scheme (date picker etc) for blue accent color
+    - 2 textFields for birthdayHolder for uniform spacing between date and name
+
+    - Front-End / Back-End ? option to change language
+
+    - Finish ItemList and TagList in german
+    - Translate ItemList and TagList to english
+
+    - FrontEnd / for sharing
+
+    - replace all colors with resource values
+    - replace all strings with resource values
+    - fix all strings with plurals etc
+    - use consistent fontSizes across all UI Interfaces
+
     - add banner in navigation view
 
-    - frontend for sharing
-    - re adjust color scheme for blue accent color
-    - consistent fontSizes for titles, content, etc
-    - two textFields for birthdayHolder
-
-    - option to change language
-    - think about translation of tag lists and templates
-    - add basic items of all categories to list
-    - replace all colors and values like text size with resource references
-
-    -fix all strings / plurals etc
 
 
 Add after release:
+    - Add more languages
     - WeekPlanner / Calendar
     - decide what to do with terms in the past, (delete after week? even show them at all?)
     - button to go to current day in DayView
@@ -34,7 +41,7 @@ Add after release:
 
 Ideas:
     - if year in the future is set, set birthday info text to ("will be born in... years")
-    - update birthdayfragment and birthdaypanel home when 00:00 is passed
+    - update birthdayFragment and birthdayPanel home when 00:00 is passed
     - scroll buffer für notes??
     - dark themed notes?
     - functionality that supports adding of categories?
