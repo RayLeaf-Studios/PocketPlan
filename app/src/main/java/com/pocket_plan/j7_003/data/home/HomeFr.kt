@@ -81,12 +81,12 @@ class HomeFr : Fragment() {
 
 
         //buttons to create new notes, tasks, terms or items from the home panel
-        myView.btnNewNote.setOnClickListener {
+        myView.clAddNote.setOnClickListener {
             MainActivity.fromHome = true
             MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
         }
-        myView.btnNewTask.setOnClickListener { createTaskFromHome() }
-        myView.btnNewItem.setOnClickListener {
+        myView.clAddTask.setOnClickListener { createTaskFromHome() }
+        myView.clAddItem.setOnClickListener {
             MainActivity.tempShoppingFr.openAddItemDialog()
         }
 

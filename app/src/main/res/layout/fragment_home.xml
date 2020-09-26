@@ -98,59 +98,154 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="80dp" />
 
-    <Button
-        android:id="@+id/btnNewNote"
-        android:layout_width="70dp"
+
+    <!--    buttons-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAddNote"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_gray"
-        android:text="@string/homeAddNote"
-        android:layout_marginBottom="20dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/corner_input"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnNewTask"
+        app:layout_constraintEnd_toStartOf="@+id/clAddTask"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
 
-<!--        <Button-->
-<!--            android:id="@+id/btnNewTerm"-->
-<!--            android:layout_width="70dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@drawable/round_corner_accent"-->
-<!--            android:text="+ Term"-->
-<!--            tools:layout_editor_absoluteX="261dp"-->
-<!--            tools:layout_editor_absoluteY="545dp" />-->
+        <ImageView
+            android:id="@+id/ivAdd"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_add_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnNewTask"
-        android:layout_width="70dp"
+        <ImageView
+            android:id="@+id/ivNote"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_action_notes"
+            app:layout_constraintStart_toEndOf="@id/ivAdd"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAddTask"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_gray"
-        android:text="@string/homeAddTask"
-        app:layout_constraintEnd_toStartOf="@+id/btnNewItem"
+        android:layout_margin="20dp"
+        android:background="@drawable/corner_input"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/clAddItem"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnNewNote"
-        app:layout_constraintTop_toTopOf="@+id/btnNewNote">
+        app:layout_constraintStart_toEndOf="@+id/clAddNote">
 
+        <ImageView
+            android:id="@+id/ivAdd2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_add_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </Button>
+        <ImageView
+            android:id="@+id/ivTask"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_action_todo"
+            app:layout_constraintStart_toEndOf="@id/ivAdd2"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnNewItem"
-        android:layout_width="70dp"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clAddItem"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_gray"
-        android:text="@string/homeAddItem"
+        android:layout_margin="20dp"
+        android:background="@drawable/corner_input"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnNewTask"
-        app:layout_constraintTop_toTopOf="@+id/btnNewTask" />
+        app:layout_constraintStart_toEndOf="@+id/clAddTask">
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/recycler_view_home"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/btnNewNote"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/panelBirthdays"-->
-<!--        tools:layout_editor_absoluteX="10dp" />-->
+        <ImageView
+            android:id="@+id/ivAdd3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_add_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivItem"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_action_shopping"
+            app:layout_constraintStart_toEndOf="@id/ivAdd3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btnNewNote"-->
+    <!--        android:layout_width="70dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/corner_input"-->
+    <!--        android:text="@string/homeAddNote"-->
+    <!--        android:layout_marginBottom="20dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/btnNewTask"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/btnNewTerm"-->
+    <!--            android:layout_width="70dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/round_corner_accent"-->
+    <!--            android:text="+ Term"-->
+    <!--            tools:layout_editor_absoluteX="261dp"-->
+    <!--            tools:layout_editor_absoluteY="545dp" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btnNewTask"-->
+    <!--        android:layout_width="70dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/corner_input"-->
+    <!--        android:text="@string/homeAddTask"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/btnNewItem"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/btnNewNote"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/btnNewNote">-->
+
+
+    <!--    </Button>-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/btnNewItem"-->
+    <!--        android:layout_width="70dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/corner_input"-->
+    <!--        android:text="@string/homeAddItem"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/btnNewTask"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/btnNewTask" />-->
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/recycler_view_home"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginBottom="10dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/btnNewNote"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/panelBirthdays"-->
+    <!--        tools:layout_editor_absoluteX="10dp" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
