@@ -366,7 +366,7 @@ class ShoppingFr : Fragment() {
                     spCategory.setSelection(MainActivity.tagNames.indexOf(template.c.name))
 
                     //display correct unit
-                    val unitPointPos = resources.getStringArray(R.array.units).indexOf(template.s)
+                    val unitPointPos = MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
                     spItemUnit.setSelection(unitPointPos)
                 } else {
                     spCategory.setSelection(0)

@@ -15,7 +15,8 @@ class SettingsMainFr : Fragment() {
 
     private lateinit var clSettingNotes: ConstraintLayout
     private lateinit var clSettingShopping: ConstraintLayout
-    private lateinit var clSettingNavigation: ConstraintLayout
+    //TODO V2 ADD NAVIGATION OPTIONS
+//    private lateinit var clSettingNavigation: ConstraintLayout
     private lateinit var clSettingBackup: ConstraintLayout
     private lateinit var clSettingAbout: ConstraintLayout
 
@@ -34,7 +35,8 @@ class SettingsMainFr : Fragment() {
     private fun initializeComponents(myView: View){
         clSettingAbout = myView.clSEttingAbout
         clSettingBackup = myView.clSettingBackup
-        clSettingNavigation = myView.clSettingNavigation
+        //TODO V2 ADD NAVIGATION OPTIONS
+//        clSettingNavigation = myView.clSettingNavigation
         clSettingShopping = myView.clSettingShopping
         clSettingNotes = myView.clSettingNotes
     }
@@ -42,7 +44,8 @@ class SettingsMainFr : Fragment() {
     private fun initializeListeners(){
         clSettingNotes.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NOTES)}
         clSettingBackup.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_BACKUP)}
-        clSettingNavigation.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NAVIGATION)}
+        //TODO V2 ADD NAVIGATION OPTIONS
+//        clSettingNavigation.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NAVIGATION)}
         clSettingShopping.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_SHOPPING)}
         clSettingAbout.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_ABOUT)}
     }

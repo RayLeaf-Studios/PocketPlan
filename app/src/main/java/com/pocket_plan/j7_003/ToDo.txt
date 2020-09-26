@@ -19,8 +19,6 @@ Stuff before release:
     - replace all colors and values like text size with resource references
 
 
-
-
 Add after release:
     - WeekPlanner / Calendar
     - decide what to do with terms in the past, (delete after week? even show them at all?)

@@ -100,50 +100,50 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="409dp"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
+<!--            <View-->
+<!--                android:layout_width="409dp"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:background="?android:attr/listDivider"-->
+<!--                tools:layout_editor_absoluteX="1dp"-->
+<!--                tools:layout_editor_absoluteY="56dp" />-->
 
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:id="@+id/clSettingNavigation"
-                android:background="?attr/selectableItemBackground"
-                android:paddingEnd="0dp"
-                android:paddingVertical="15dp"
-                >
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingStart="20dp"-->
+<!--                android:id="@+id/clSettingNavigation"-->
+<!--                android:background="?attr/selectableItemBackground"-->
+<!--                android:paddingEnd="0dp"-->
+<!--                android:paddingVertical="15dp"-->
+<!--                >-->
 
-                <ImageView
-                    android:id="@+id/ivNavigation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_menu"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNoteGreen" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/ivNavigation"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:src="@drawable/ic_action_menu"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:tint="@color/colorNoteGreen" />-->
 
-                <TextView
-                    android:id="@+id/tvNavigationDrawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settingsNavigationTitle"
-                    android:textColor="@color/colorOnBackGround"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/ivNavigation"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:paddingStart="20dp"
-                    app:layout_constraintVertical_bias="0.516" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tvNavigationDrawer"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/settingsNavigationTitle"-->
+<!--                    android:textColor="@color/colorOnBackGround"-->
+<!--                    android:textSize="17sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@+id/ivNavigation"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    android:paddingStart="20dp"-->
+<!--                    app:layout_constraintVertical_bias="0.516" />-->
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
             <View
                 android:layout_width="409dp"
                 android:layout_height="1dp"
@@ -169,7 +169,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNotePurple" />
+                    app:tint="@color/colorNoteGreen" />
 
                 <TextView
                     android:id="@+id/tvBackup"

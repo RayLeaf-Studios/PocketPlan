@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
+import android.provider.Settings
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
@@ -45,7 +46,11 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
          * the setting COLLAPSE_CHECKED_SUBLISTS
          */
 
-        val sublistExpanded = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean && !somethingIsExpanded()
+        var sublistExpanded = true
+
+        if(SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean && somethingIsExpanded()){
+            sublistExpanded = false
+        }
 
         super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, sublistExpanded))))
 
