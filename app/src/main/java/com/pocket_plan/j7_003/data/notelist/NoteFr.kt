@@ -6,13 +6,11 @@ import android.view.*
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr.Companion.noteColor
 import com.pocket_plan.j7_003.data.settings.SettingId
@@ -48,8 +46,7 @@ class NoteFr : Fragment() {
         searchView = menu.findItem(R.id.item_notes_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                //todo fix this
-                //close keyboard?
+                MainActivity.act.hideKeyboard()
                 return true
             }
 
@@ -180,9 +177,11 @@ class NoteAdapter :
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener {
+            NoteFr.searching = false
             MainActivity.editNoteHolder = currentNote
             noteColor = NoteFr.noteListInstance.getNote(holder.adapterPosition).color
             MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
+            MainActivity.act.hideKeyboard()
         }
 
         //specifying design of note rows here

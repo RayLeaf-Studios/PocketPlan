@@ -7,7 +7,7 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - make notes searchable
+     - fix link for github
     - re adjust color scheme
         priority colors,
          ,item add cancel buttons
@@ -43,6 +43,7 @@ Add after release:
     - option to choose which icons are where (in bottom navigation)
 
     - figure out how to preload sleep fragment without disappearing custom days
+    - detect keyboard close in editor and clear focus
 
 Ideas:
     - if year in the future is set, set birthday info text to ("will be born in... years")

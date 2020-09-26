@@ -3,8 +3,11 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -24,6 +27,7 @@ import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.fragment_note_editor.view.*
 import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+
 
 class NoteEditorFr : Fragment() {
 
@@ -58,10 +62,10 @@ class NoteEditorFr : Fragment() {
          * called from an editing context
          */
 
-
         if (MainActivity.editNoteHolder != null) {
             myEtTitle.setText(MainActivity.editNoteHolder!!.title)
             myEtContent.setText(MainActivity.editNoteHolder!!.content)
+            myEtTitle.clearFocus()
         } else {
             myEtTitle.requestFocus()
             imm.toggleSoftInput(
@@ -150,7 +154,10 @@ class NoteEditorFr : Fragment() {
         }
         dialogOpened = true
 
-        val myDialogView = LayoutInflater.from(MainActivity.act).inflate(R.layout.dialog_discard_note_edit, null)
+        val myDialogView = LayoutInflater.from(MainActivity.act).inflate(
+            R.layout.dialog_discard_note_edit,
+            null
+        )
 
         //AlertDialogBuilder
         val myBuilder = MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
