@@ -12,6 +12,7 @@
 <color name="colorBackgroundElevated">#1C1C1C</color>
 <color name="colorBackgroundListElement">#252525</color>
 <color name="colorNoteRed">#DD727B</color>
+    <color name="colorIconShopping">#039499</color>
 <color name="colorGoToSleep">#CC212F</color>
 <color name="colorNoteYellow">#D5B83E</color>
 <color name="colorNoteGreen">#5EB14D</color>
