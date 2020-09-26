@@ -91,7 +91,7 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
         return -1
     }
 
-    private fun save() {
+    fun save() {
         val list = ArrayList<TMPTemplate>()
         this.forEach { e ->
             list.add(TMPTemplate(e.n, e.c.name, e.s))

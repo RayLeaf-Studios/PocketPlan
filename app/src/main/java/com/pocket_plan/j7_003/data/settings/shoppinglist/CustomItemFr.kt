@@ -2,28 +2,20 @@ package com.pocket_plan.j7_003.data.settings.shoppinglist
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.Button
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
-import com.pocket_plan.j7_003.data.todolist.Task
-import com.pocket_plan.j7_003.data.todolist.TodoFr
-import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_custom_item.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
 class CustomItemFr : Fragment() {
 
+    lateinit var myMenu: Menu
     companion object{
         lateinit var myFragment: CustomItemFr
         lateinit var myAdapter: CustomItemAdapter
@@ -31,7 +23,6 @@ class CustomItemFr : Fragment() {
 
         lateinit var userItemTemplateList: UserItemTemplateList
 
-        var deletedItem: ItemTemplate? = null
     }
 
     override fun onCreateView(
@@ -62,6 +53,34 @@ class CustomItemFr : Fragment() {
 
 
         return myView
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+           R.id.item_custom_clear -> {
+              userItemTemplateList.clear()
+               userItemTemplateList.save()
+               myAdapter.notifyDataSetChanged()
+               updateClearCustomListIcon()
+           }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
+
+    private fun updateClearCustomListIcon(){
+       myMenu.findItem(R.id.item_custom_clear).isVisible = userItemTemplateList.size > 0
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        myMenu = menu
+        inflater.inflate(R.menu.menu_custom_items, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+        updateClearCustomListIcon()
     }
 
     //Deletes all checked tasks and animates the deletion
@@ -102,8 +121,6 @@ class CustomItemAdapter :
         holder.itemView.tvName.text = currentItem.n
         holder.itemView.tvCategory.text = currentItem.c.name
     }
-
-
 
     class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView)
 }
