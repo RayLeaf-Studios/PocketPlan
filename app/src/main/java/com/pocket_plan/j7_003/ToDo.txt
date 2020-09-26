@@ -18,6 +18,8 @@ Stuff before release:
     - add basic items of all categories to list
     - replace all colors and values like text size with resource references
 
+    -fix all strings / plurals etc
+
 
 Add after release:
     - WeekPlanner / Calendar

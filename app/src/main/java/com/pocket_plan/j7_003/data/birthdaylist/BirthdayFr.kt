@@ -348,7 +348,10 @@ class BirthdayFr : Fragment() {
                         )
                     )
                 }
-                date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+                date = when(cbSaveBirthdayYear.isChecked){
+                    true -> date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+                    else -> date.withYear(0).withMonth(month + 1).withDayOfMonth(day)
+                }
                 val dayMonthString =
                     date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
                         .padStart(2, '0')
@@ -595,7 +598,10 @@ class BirthdayFr : Fragment() {
                         )
                     )
                 }
-                date = date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+                date = when(cbSaveBirthdayYear.isChecked){
+                    true -> date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+                    else -> date.withYear(0).withMonth(month + 1).withDayOfMonth(day)
+                }
                 val dayMonthString =
                     date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
                         .padStart(2, '0')
