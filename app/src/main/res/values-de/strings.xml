@@ -51,7 +51,7 @@
     <string name="birthdayDialogEditTitle">Bearbeiten</string>
     <string name="birthdayAgeUnknown">Alter unbekannt,</string>
     <string name="birthdayAge">%1$d Jahre alt, %2$d geboren.</string>
-    <string name="birthdayReminder">"\nErinnert %1$d Tage%2$s vorher."</string>
+    <string name="birthdayReminder">"\nErinnert %1$d %2$s vorher."</string>
 
     <string-array name="months">
         <item>Januar</item>
@@ -129,4 +129,14 @@
     <string name="options_shopping_collapse_all">Alles einklappen</string>
     <string name="swipe_right">Ziehe nach rechts</string>
     <string name="shopping_dialog_clear_title">Einkaufsliste löschen?</string>
+    <string name="birthdayOldBornIn">" alt, geboren "</string>
+
+    <plurals name="year">
+        <item quantity="one">Jahr</item>
+        <item quantity="other">Jahre</item>
+    </plurals>
+    <plurals name="day">
+        <item quantity="one">Tag</item>
+        <item quantity="other">Tage</item>
+    </plurals>
 </resources>

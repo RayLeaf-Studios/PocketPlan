@@ -7,14 +7,13 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-     - fix link for github
+    - 2 textFields for birthdayHolder for uniform spacing between date and name
     - re adjust color scheme
         priority colors,
          ,item add cancel buttons
          , birthday date picker
 
     - redesign home add buttons
-    - 2 textFields for birthdayHolder for uniform spacing between date and name
 
     - Front-End / Back-End ? option to change language
 

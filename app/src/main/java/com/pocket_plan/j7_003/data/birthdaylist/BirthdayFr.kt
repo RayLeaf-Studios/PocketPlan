@@ -856,7 +856,8 @@ class BirthdayAdapter :
             //initialize month divider design
             holder.tvMonthLabel.text = currentBirthday.name
             holder.tvMonthLabel.textSize = 22F
-            holder.txvBirthdayLabelName.text = ""
+            holder.tvRowBirthdayDate.text = ""
+            holder.tvRowBirthdayName.text = ""
             holder.myView.setBackgroundResource(R.color.colorBackground)
             holder.itemView.setOnLongClickListener { true }
             holder.itemView.setOnClickListener { }
@@ -878,17 +879,13 @@ class BirthdayAdapter :
                     val birthday = holder.birthday
                     val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
                         .until(LocalDate.now()).years
-                    ageText = MainActivity.act.resources.getString(
-                        R.string.birthdayAge, age, holder.birthday.year
-                    )
+                    val ageYearText = MainActivity.act.resources.getQuantityString(R.plurals.year, age)
+                    ageText = age.toString()+ageYearText+MainActivity.act.resources.getString(R.string.birthdayOldBornIn)+birthday.year
                 }
-                var dayExtension = ""
-                if (currentBirthday.daysToRemind != 1) {
-                    dayExtension = "s"
-                }
+                val reminderDayString = MainActivity.act.resources.getQuantityString(R.plurals.day, currentBirthday.daysToRemind)
                 val reminderText =
                     MainActivity.act.resources.getString(
-                        R.string.birthdayReminder, currentBirthday.daysToRemind, dayExtension
+                        R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
                     )
                 holder.itemView.tvBirthdayInfo.text = ageText + reminderText
             } else {
@@ -900,22 +897,15 @@ class BirthdayAdapter :
             holder.tvMonthLabel.text = ""
             holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
 
-            //formatting date
-            var monthAddition = ""
-            if (currentBirthday.month < 10) monthAddition = "0"
-
-            var dayAddition = ""
-            if (currentBirthday.day < 10) dayAddition = "0"
+            val dateString = currentBirthday.day.toString().padStart(2, '0')+"."+currentBirthday.month.toString().padStart(2,'0')
 
             //Display name and date
-            holder.txvBirthdayLabelName.text = MainActivity.act.resources.getString(
-                R.string.birthdayLabelName, dayAddition, currentBirthday.day.toString(),
-                monthAddition, currentBirthday.month.toString(), currentBirthday.name
-            )
+            holder.tvRowBirthdayDate.text = dateString
+            holder.tvRowBirthdayName.text = currentBirthday.name
 
-            // Red background if birthday is today
+            // Blue background if birthday is today
             if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
-                holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_winered)
+                holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_accent)
             } else {
                 holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_gray)
             }
@@ -953,10 +943,11 @@ class BirthdayAdapter :
          * like position, it also holds references to views inside of the layout
          */
         lateinit var birthday: Birthday
-        val txvBirthdayLabelName: TextView = itemView.txvBirthdayLabelName
+        val tvRowBirthdayName: TextView = itemView.tvRowBirthdayName
+        val tvRowBirthdayDate: TextView = itemView.tvRowBirthdayDate
         val iconBell: ImageView = itemView.icon_bell
         val myView: View = itemView
-        val tvMonthLabel: TextView = itemView.tvMonthLabel
+        val tvMonthLabel: TextView = itemView.tvRowDividerLabel
         val myConstraintLayout: ConstraintLayout = itemView.constr
     }
 

@@ -62,13 +62,14 @@
     <string name="birthdaySaveYear">save year</string>
     <string name="birthdayChooseDate">Choose date</string>
     <string name="birthdayAgeUnknown">"Age unknown, "</string>
-    <string name="birthdayAge">%1$d years old, born in %2$d.</string>
+    <string name="birthdayAge">%1$d%2$s old, born in %3$d.</string>
     <!-- TODO use plurals here and in translation -->
-    <string name="birthdayReminder">\nReminds %1$d day%2$s prior.</string>
+    <string name="birthdayReminder">\nReminds %1$d %2$s prior.</string>
     <string name="addBirthdayNameHint">Name</string>
     <string name="addBirthdayDayHint">Day</string>
     <string name="addBirthdayMonthHint">Month</string>
     <string name="birthdayLabelName" translatable="false">%1$s%2$s.%3$s%4$s\t\t\t%5$s</string>
+    <string name="birthdayRowDate" translatable="false">%1$s.%2$s</string>
 
     <!-- Sleep -->
     <string name="sleepWakeUpTime">Wakeup Time</string>
@@ -199,4 +200,14 @@
     <string name="options_shopping_collapse_all">Collapse all</string>
     <string name="swipe_right">Swipe right</string>
     <string name="shopping_dialog_clear_title">Clear shopping list?</string>
+    <string name="birthdayOldBornIn">" old, born in "</string>
+
+    <plurals name="year">
+       <item quantity="one">year</item>
+        <item quantity="other">years</item>
+    </plurals>
+    <plurals name="day">
+        <item quantity="one">year</item>
+        <item quantity="other">days</item>
+    </plurals>
 </resources>
