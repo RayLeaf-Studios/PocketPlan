@@ -514,9 +514,11 @@ class ShoppingListAdapter :
         if (position == ShoppingFr.shoppingListInstance.size) {
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.layoutParams.height = 250
+            holder.itemView.subRecyclerView.visibility = View.GONE
             holder.itemView.setOnClickListener {}
             return
         }
+        holder.itemView.subRecyclerView.visibility = View.VISIBLE
         holder.itemView.visibility = View.VISIBLE
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
 

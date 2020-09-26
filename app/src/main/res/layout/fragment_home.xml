@@ -144,13 +144,13 @@
         app:layout_constraintStart_toEndOf="@+id/btnNewTask"
         app:layout_constraintTop_toTopOf="@+id/btnNewTask" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_home"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnNewNote"
-        app:layout_constraintTop_toBottomOf="@+id/panelBirthdays"
-        tools:layout_editor_absoluteX="10dp" />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recycler_view_home"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/btnNewNote"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/panelBirthdays"-->
+<!--        tools:layout_editor_absoluteX="10dp" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
