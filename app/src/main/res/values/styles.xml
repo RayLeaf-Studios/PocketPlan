@@ -20,7 +20,21 @@
     </style>
 
     <style name="MyDatePickerStyle" parent="android:Widget.Material.DatePicker">
-        <item name="android:headerBackground">@color/colorAccent</item>
+        <item name="android:headerBackground">@color/colorNotePurple</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="colorBackgroundFloating">@color/colorAccent</item>
+<!--        <item name="android:dayOfWeekBackground">@color/colorAccent</item>-->
+<!--        <item name="android:dayOfWeekTextAppearance">@color/colorAccent</item>-->
+<!--        <item name="android:headerMonthTextAppearance">@color/colorAccent</item>-->
+<!--        <item name="android:headerDayOfMonthTextAppearance">@color/colorAccent</item>-->
+<!--        <item name="android:headerYearTextAppearance">@color/colorAccent</item>-->
+<!--        <item name="android:state_selected">@color/colorAccent</item>-->
+<!--        <item name="android:selectedDateVerticalBar">@color/colorAccent</item>-->
+<!--        <item name="android:yearListItemTextAppearance">@color/colorAccent</item>-->
+<!--        <item name="android:yearListSelectorColor">@color/colorAccent</item>-->
+<!--        <item name="android:calendarTextColor">@color/colorAccent</item>-->
+<!--        <item name="android:calendarViewShown">@color/colorAccent</item>-->
     </style>
 
     <style name="MyTimePickerDialogTheme" parent="android:Theme.Material.Dialog">

@@ -11,6 +11,8 @@ import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDialog
+import androidx.appcompat.widget.AlertDialogLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -367,12 +369,17 @@ class BirthdayFr : Fragment() {
             }
             val dpd = DatePickerDialog(
                 MainActivity.act,
+                R.style.MyDatePickerStyle,
                 dateSetListener,
                 yearToDisplay,
                 date.monthValue - 1,
                 date.dayOfMonth
             )
             dpd.show()
+            dpd.getButton(AlertDialog.BUTTON_NEGATIVE)
+                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            dpd.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
         }
 
         //checkbox to include year
@@ -614,6 +621,8 @@ class BirthdayFr : Fragment() {
             var yearToDisplay = 2020
             if (cbSaveBirthdayYear.isChecked && yearChanged) {
                 yearToDisplay = date.year
+            }else if(cbSaveBirthdayYear.isChecked){
+                yearToDisplay = LocalDate.now().year
             }
             val dpd = DatePickerDialog(
                 MainActivity.act,
@@ -880,7 +889,7 @@ class BirthdayAdapter :
                     val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
                         .until(LocalDate.now()).years
                     val ageYearText = MainActivity.act.resources.getQuantityString(R.plurals.year, age)
-                    ageText = age.toString()+ageYearText+MainActivity.act.resources.getString(R.string.birthdayOldBornIn)+birthday.year
+                    ageText = age.toString()+" "+ageYearText+MainActivity.act.resources.getString(R.string.birthdayOldBornIn)+birthday.year
                 }
                 val reminderDayString = MainActivity.act.resources.getQuantityString(R.plurals.day, currentBirthday.daysToRemind)
                 val reminderText =
