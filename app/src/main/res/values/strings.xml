@@ -197,4 +197,6 @@
     <string name="options_task_delete_checked">Clear checked tasks</string>
     <string name="options_shopping_expand_all">Expand all</string>
     <string name="options_shopping_collapse_all">Collapse all</string>
+    <string name="swipe_right">Swipe right</string>
+    <string name="shopping_dialog_clear_title">Clear shopping list?</string>
 </resources>

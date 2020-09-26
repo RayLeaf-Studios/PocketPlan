@@ -185,7 +185,7 @@ class ShoppingFr : Fragment() {
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
         val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        editTitle.tvDialogTitle.text = getString(R.string.noteDeleteDialogText)
+        editTitle.tvDialogTitle.text = getString(R.string.shopping_dialog_clear_title)
         myBuilder.setCustomTitle(editTitle)
         val myAlertDialog = myBuilder.create()
 

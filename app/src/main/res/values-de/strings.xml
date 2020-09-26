@@ -82,7 +82,7 @@
     <string name="noteDiscardDialogTitle">Änderungen speichern?</string>
     <string name="noteDeleteDialogCancel">Abbrechen</string>
     <string name="noteDeleteDialogDelete">Löschen</string>
-    <string name="noteDeleteDialogText">Ziehe nach rechts um zu löschen</string>
+    <string name="noteDeleteDialogText">Notiz löschen?</string>
     <string name="options_shopping_clear_list">Liste löschen</string>
     <string name="options_shopping_uncheck_all">Haken entfernen</string>
     <string name="sleepWakeUpTime">Aufstehzeit</string>
@@ -127,4 +127,6 @@
     <string name="options_task_delete_checked">Abgehaktes löschen</string>
     <string name="options_shopping_expand_all">Alles aufklappen</string>
     <string name="options_shopping_collapse_all">Alles einklappen</string>
+    <string name="swipe_right">Ziehe nach rechts</string>
+    <string name="shopping_dialog_clear_title">Einkaufsliste löschen?</string>
 </resources>
