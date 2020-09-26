@@ -626,6 +626,7 @@ class BirthdayFr : Fragment() {
             }
             val dpd = DatePickerDialog(
                 MainActivity.act,
+                R.style.MyDatePickerStyle,
                 dateSetListener,
                 yearToDisplay,
                 date.monthValue - 1,
