@@ -201,7 +201,6 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:paddingVertical="10dp"
-                android:id="@+id/clGithubLink"
                 android:focusable="true">
 
                 <TextView
@@ -217,9 +216,11 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/clGithubLink"
                 android:layout_marginStart="10dp"
                 android:paddingVertical="10dp"
                 >
@@ -237,7 +238,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutSrcLink"
-                    android:textColor="@color/colorHint"
+                    android:textColor="@color/colorNoteBlue"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvViewOn" />
