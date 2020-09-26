@@ -130,6 +130,7 @@
     <string name="swipe_right">Ziehe nach rechts</string>
     <string name="shopping_dialog_clear_title">Einkaufsliste löschen?</string>
     <string name="birthdayOldBornIn">" alt, geboren "</string>
+    <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
 
     <plurals name="year">
         <item quantity="one">Jahr</item>

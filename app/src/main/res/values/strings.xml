@@ -201,6 +201,7 @@
     <string name="swipe_right">Swipe right</string>
     <string name="shopping_dialog_clear_title">Clear shopping list?</string>
     <string name="birthdayOldBornIn">" old, born in "</string>
+    <string name="settings_shopping_close_sub">(In shopping fragment)</string>
 
     <plurals name="year">
        <item quantity="one">year</item>

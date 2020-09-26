@@ -12,8 +12,6 @@ Front-End stuff to-do before release in following order:
          ,item add cancel buttons
          , birthday date picker
 
-    - redesign home add buttons
-
     - Front-End / Back-End ? option to change language
 
     - Finish ItemList and TagList in german

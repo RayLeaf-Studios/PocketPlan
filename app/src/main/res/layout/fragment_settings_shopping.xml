@@ -47,7 +47,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:paddingVertical="10dp"
+                android:paddingVertical="15dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp">
 
@@ -83,7 +83,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:paddingVertical="10dp"
+                android:paddingVertical="15dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp">
 
@@ -120,8 +120,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingVertical="10dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="0dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -144,6 +144,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tvCloseAddItemDialog"
+                    android:text="@string/settings_shopping_close_sub"
+                    android:textColor="@color/colorHint"
+                    app:layout_constraintStart_toStartOf="@id/tvCloseAddItemDialog"/>
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
