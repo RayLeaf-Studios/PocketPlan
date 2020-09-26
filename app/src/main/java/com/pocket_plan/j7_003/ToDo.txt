@@ -1,30 +1,36 @@
 Todo:
 
-backend stuff:
+Backend stuff:
     - functionality to save / load a backup file
     - check all streams for closure
 
-Priority 1 tasks:
-    - option to remember fragment (in navigation settings)
-    - option to default to a specific fragment
-    - option to choose which icons are where (in bottom navigation)
+Stuff before release:
+    - option to remove all custom items
+    - add banner in navigation view
 
     - frontend for sharing
     - re adjust color scheme for blue accent color
+    - consistent fontSizes for titles, content, etc
+    - two textFields for birthdayHolder
 
-    - consistent fontsizes for titles, content, etc
-
-
-
-Priority 2 tasks:
     - option to change language
     - think about translation of tag lists and templates
     - add basic items of all categories to list
     - replace all colors and values like text size with resource references
+
+
+
+
+Add after release:
+    - WeekPlanner / Calendar
+    - decide what to do with terms in the past, (delete after week? even show them at all?)
+    - button to go to current day in DayView
+
+    - option to remember fragment (in navigation settings)
+    - option to default to a specific fragment
+    - option to choose which icons are where (in bottom navigation)
+
     - figure out how to preload sleep fragment without disappearing custom days
-    - add banner in navigation view
-
-
 
 Ideas:
     - if year in the future is set, set birthday info text to ("will be born in... years")
@@ -35,9 +41,3 @@ Ideas:
     - make shopping list presets save and loadable
     - suggested amount for shopping items
     - add tags / sublist for different store/s?
-
-Add after release:
-    - WeekPlanner / Calendar
-    - decide what to do with terms in the past, (delete after week? even show them at all?)
-    - button to go to current day in DayView
-

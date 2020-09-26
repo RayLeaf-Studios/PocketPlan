@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         var addItemDialogView: View? = null
 
         lateinit var tempShoppingFr: ShoppingFr
+        var justRestarted = false
 
 
         lateinit var noteEditorFr: NoteEditorFr
@@ -175,13 +176,13 @@ class MainActivity : AppCompatActivity() {
             "SReminder" -> changeToFragment(FT.HOME)
             "settings" -> changeToFragment(FT.SETTINGS)
             else -> {
+                justRestarted = true
                 bottomNavigation.menu.getItem(2).isChecked = true
                 changeToFragment(FT.HOME)
             }
         }
 
         tempShoppingFr.preloadAddItemDialog(layoutInflater)
-
 
 
     }
@@ -221,10 +222,12 @@ class MainActivity : AppCompatActivity() {
     //change to fragment of specified tag
     fun changeToFragment(fragmentTag: FT) {
 
-        if (activeFragmentTag == fragmentTag) {
-            return
+        if(!justRestarted){
+            if (activeFragmentTag == fragmentTag) {
+                return
+            }
         }
-
+        justRestarted = false
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
@@ -329,17 +332,42 @@ class MainActivity : AppCompatActivity() {
      */
 
     override fun onBackPressed() {
+        //close drawer when its open
         if (drawer_layout.isDrawerOpen(nav_drawer)) {
             drawer_layout.closeDrawer(GravityCompat.START)
             return
         }
 
+
+        //handles going back from editor
         if (activeFragmentTag == FT.NOTE_EDITOR) {
             if (NoteEditorFr.myFragment.relevantNoteChanges()) {
                 NoteEditorFr.myFragment.dialogDiscardNoteChanges(previousFragmentTag)
                 return
             }
         }
+
+        //handles going back from sub settings to settings
+        when (activeFragmentTag) {
+            FT.SETTINGS_SHOPPING, FT.SETTINGS_BACKUP, FT.SETTINGS_ABOUT,
+            FT.SETTINGS_NOTES, FT.SETTINGS_NAVIGATION -> {
+                changeToFragment(FT.SETTINGS)
+                return
+            }
+            FT.CUSTOM_ITEMS -> {
+                changeToFragment(FT.SETTINGS_SHOPPING)
+                return
+            }
+            FT.SETTINGS -> {
+                changeToFragment(FT.HOME)
+                return
+            }
+            FT.HOME -> {
+                super.onBackPressed()
+                return
+            }
+        }
+
 
         when (previousFragmentTag) {
             FT.HOME -> changeToFragment(FT.HOME)
@@ -353,6 +381,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+//    override fun onDestroy() {
+//        startActivity(Intent(this, MainActivity::class.java))
+//        super.onDestroy()
+//    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -379,7 +412,6 @@ class MainActivity : AppCompatActivity() {
             SettingsManager.addSetting(setting, value)
         }
     }
-
 
 
 }

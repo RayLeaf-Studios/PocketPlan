@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="6dp"
     android:background="@drawable/round_corner_gray"
     android:clickable="false"
-    android:paddingVertical="15dp"
-    android:layout_margin="6dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingVertical="10dp">
 
 
     <TextView
@@ -27,19 +26,19 @@
         android:id="@+id/clTapFieldWakeUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/round_corner_accent"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/clTapFieldDuration"
+        app:layout_constraintEnd_toStartOf="@+id/clTapFieldDuration"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/icWakeup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_sun"
             android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_action_sun"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeRow"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,23 +60,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clTapFieldDuration"
         android:layout_width="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/round_corner_accent"
         android:paddingVertical="10dp"
         android:paddingStart="10dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_accent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="290dp">
+        app:layout_constraintEnd_toStartOf="@+id/cbRemindMe"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/icDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:src="@drawable/ic_action_duration"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toStartOf="@+id/tvDurationRow"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -95,13 +93,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <CheckBox
-            android:id="@+id/cbRemindMe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvDayString"
-            app:layout_constraintTop_toTopOf="parent" />
+    <CheckBox
+        android:id="@+id/cbRemindMe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

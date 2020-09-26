@@ -62,6 +62,7 @@ class BirthdayFr : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        deletedBirthday = null
         inflater.inflate(R.menu.menu_birthdays, menu)
         myMenu = menu
 
