@@ -41,7 +41,7 @@
     <string name="settingsNavigationTitle">Navigation</string>
     <string name="tasksAddTitle">Aufgabe hinzufügen</string>
     <string name="birthdaysNotify">erinnern</string>
-    <string name="birthdaysDaysPrior">Tage vorher.</string>
+    <string name="birthdaysDaysPrior"> vorher.</string>
     <string name="birthdayDialogAdd">Hinzufügen</string>
     <string name="birthdayRemindMe">Erinnere mich</string>
     <string name="birthdaySaveYear">mit Jahr</string>

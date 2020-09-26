@@ -53,7 +53,7 @@
 
     <!-- Birthdays -->
     <string name="birthdaysNotify">notify me</string>
-    <string name="birthdaysDaysPrior">days prior.</string>
+    <string name="birthdaysDaysPrior"> prior.</string>
     <string name="birthdayDialogAdd">Add Birthday</string>
     <string name="birthdayDialogAddTitle">Add Birthday</string>
     <string name="birthdayDialogEdit">Confirm Edit</string>
@@ -208,7 +208,7 @@
         <item quantity="other">years</item>
     </plurals>
     <plurals name="day">
-        <item quantity="one">year</item>
+        <item quantity="one">day</item>
         <item quantity="other">days</item>
     </plurals>
 </resources>

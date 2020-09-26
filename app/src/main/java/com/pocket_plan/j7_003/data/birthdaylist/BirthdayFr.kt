@@ -269,14 +269,14 @@ class BirthdayFr : Fragment() {
         etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, remindMeColor))
         tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, remindMeColor))
 
-        //todo fix this with plurals
-        //Set text of reminder (day/ days)
-        val addition = when (editBirthdayHolder!!.daysToRemind == 1) {
-            true -> ""
-            false -> "s"
+        val daysToRemind = when(etDaysToRemind.text.toString()==""){
+            true -> 0
+            else -> etDaysToRemind.text.toString().toInt()
         }
-        tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
 
+        val daysPriorTextEdit = MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
+            .toString()+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+        tvDaysPrior.text = daysPriorTextEdit
 
         //set the correct daysToRemind text
         var cachedRemindText = editBirthdayHolder!!.daysToRemind.toString()
@@ -435,14 +435,14 @@ class BirthdayFr : Fragment() {
                 tvRemindMe.setTextColor(color)
                 etDaysToRemind.setTextColor(color)
                 tvDaysPrior.setTextColor(color)
-
-                //todo fix this with plurals
-                val dayAddition = when (cachedRemindText == "") {
-                    true -> ""
-                    false -> "s"
+                val daysToRemind = when(etDaysToRemind.text.toString()==""){
+                    true -> 0
+                    else -> etDaysToRemind.text.toString().toInt()
                 }
-                tvDaysPrior.text = "day" + dayAddition + " prior"
-                tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+
+                val daysPriorTextEdit = MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
+                    .toString()+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+                tvDaysPrior.text = daysPriorTextEdit
 
             }
 
@@ -453,11 +453,14 @@ class BirthdayFr : Fragment() {
         //attach a listener that adjusts the color and text of surrounding text views
         etDaysToRemind.addTextChangedListener(textWatcherReminder)
 
-
         //clear text in etDaysToRemind when it is clicked on
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 etDaysToRemind.setText("")
+            }else{
+                if(etDaysToRemind.text.toString()==""){
+                    etDaysToRemind.setText("0")
+                }
             }
         }
 
@@ -709,6 +712,10 @@ class BirthdayFr : Fragment() {
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 etDaysToRemind.setText("")
+            }else{
+                if(etDaysToRemind.text.toString()==""){
+                    etDaysToRemind.setText("0")
+                }
             }
         }
 
