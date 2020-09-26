@@ -126,6 +126,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_action_notes"
+            android:tint="@color/colorNoteYellow"
             app:layout_constraintStart_toEndOf="@id/ivAdd"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,6 +155,7 @@
         <ImageView
             android:id="@+id/ivTask"
             android:layout_width="50dp"
+            android:tint="@color/colorNoteGreen"
             android:layout_height="50dp"
             android:src="@drawable/ic_action_todo"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -186,6 +188,7 @@
         <ImageView
             android:id="@+id/ivItem"
             android:layout_width="40dp"
+            android:tint="@color/colorNoteRed"
             android:layout_height="40dp"
             android:src="@drawable/ic_action_shopping"
             app:layout_constraintStart_toEndOf="@id/ivAdd3"
