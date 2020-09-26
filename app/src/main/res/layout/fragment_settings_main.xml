@@ -82,7 +82,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNoteRed" />
+                    app:tint="@color/colorIconShopping" />
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
@@ -212,7 +212,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNoteBlue" />
+                    app:tint="@color/colorNotePurple" />
 
                 <TextView
                     android:id="@+id/tvAbout"
