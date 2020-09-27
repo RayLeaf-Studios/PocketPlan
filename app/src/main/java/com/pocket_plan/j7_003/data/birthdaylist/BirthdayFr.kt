@@ -906,12 +906,13 @@ class BirthdayAdapter :
 
             holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
             if(currentBirthday.daysToRemind!=-200){
-                holder.clColorMonth.setBackgroundColor(ContextCompat.getColor(MainActivity.act, textColorId))
                 holder.tvRowBirthdayDivider.textSize = 20f
+                holder.clColorMonth.visibility = View.GONE
             }else{
                 holder.itemView.layoutParams.height = 300
                 holder.clColorMonth.setBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorBackground))
                 holder.tvRowBirthdayDivider.textSize = 22f
+                holder.clColorMonth.visibility = View.VISIBLE
             }
 
             holder.myView.setBackgroundResource(R.color.colorBackground)
@@ -931,6 +932,8 @@ class BirthdayAdapter :
             holder.myDividerLeft.visibility = dividerVisibility
             return
         }
+
+        holder.clColorMonth.visibility = View.GONE
 
         holder.myConstraintLayout.visibility = View.VISIBLE
         //initialize regular birthday design
