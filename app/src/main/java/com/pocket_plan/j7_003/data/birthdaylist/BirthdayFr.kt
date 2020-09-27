@@ -503,7 +503,7 @@ class BirthdayFr : Fragment() {
             //get day and month from date
             val month = date.monthValue
             val day = date.dayOfMonth
-            val year = when(cbSaveBirthdayYear.isChecked){
+            val year = when (cbSaveBirthdayYear.isChecked) {
                 true -> date.year
                 else -> 0
             }
@@ -772,7 +772,7 @@ class BirthdayFr : Fragment() {
             }
             val notifyMe = cbNotifyMe.isChecked
 
-            val yearToSave = when(cbSaveBirthdayYear.isChecked){
+            val yearToSave = when (cbSaveBirthdayYear.isChecked) {
                 true -> date.year
                 else -> 0
             }
@@ -857,6 +857,7 @@ class BirthdayAdapter :
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
+        //Last birthday is spacer birthday
         if (position == BirthdayFr.birthdayListInstance.size) {
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.layoutParams.height = 280
@@ -865,14 +866,18 @@ class BirthdayAdapter :
             return
         }
 
+        //reset parameters visibility and height, to undo spacer birthday values (recycler view)
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
 
+        //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
+        //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
         val currentBirthday = when (BirthdayFr.searching) {
             true -> BirthdayFr.adjustedList[position]
             false -> listInstance.getBirthday(position)
         }
 
+        //save a reference for the birthday saved in this holder
         holder.birthday = currentBirthday
 
         if (currentBirthday.daysToRemind < 0) {
@@ -886,12 +891,22 @@ class BirthdayAdapter :
             holder.itemView.setOnClickListener { }
             holder.itemView.cvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
+
+            //check if its a year divider, and display divider lines if its the case
+            val dividerVisibility = when(currentBirthday.daysToRemind == -200){
+                true -> View.VISIBLE
+                else -> View.GONE
+            }
+            holder.myDividerRight.visibility = dividerVisibility
+            holder.myDividerLeft.visibility = dividerVisibility
             return
         }
 
         //initialize regular birthday design
         holder.tvMonthLabel.visibility = View.GONE
         holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
+        holder.myDividerLeft.visibility = View.GONE
+        holder.myDividerRight.visibility = View.GONE
 
         //display bell if birthday has a reminder
         if (currentBirthday.notify) {
@@ -975,8 +990,10 @@ class BirthdayAdapter :
         val tvRowBirthdayDate: TextView = itemView.tvRowBirthdayDate
         val iconBell: ImageView = itemView.icon_bell
         val myView: View = itemView
-        val tvMonthLabel: TextView = itemView.tvRowDividerLabel
+        val tvMonthLabel: TextView = itemView.tvRowBirthdayDivider
         val myConstraintLayout: ConstraintLayout = itemView.constr
+        val myDividerLeft: View = itemView.viewDividerLeft
+        val myDividerRight: View = itemView.viewDividerRight
     }
 
 }

@@ -6,14 +6,15 @@ Back-End stuff before release:
     - check all streams for closure
 
 Front-End stuff to-do before release in following order:
+    - 2 redesign birthday divider
+    - 2 color birthday months?
+    - 2 color birthday years?
+
     - 3 Finish ItemList and TagList in german
     - 3 Translate ItemList and TagList to english
 
     - 4 think about how to handle different language item lists (change after existing list?)
 
-    - 2 redesign birthday divider
-    - 2 color birthday months?
-    - 2 color birthday years?
 
     - 2 FrontEnd / for sharing
 

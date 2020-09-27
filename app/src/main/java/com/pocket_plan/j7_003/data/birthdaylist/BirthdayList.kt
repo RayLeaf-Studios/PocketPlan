@@ -153,7 +153,7 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
         this.sortWith(compareBy({ it.month }, { it.day }, {it.daysToRemind >= 0}, { it.name }))
 
         var i = 0
-        val spacerBirthday = Birthday("---    ${localDate.year + 1}    ---", 1, 1,0, -200,
+        val spacerBirthday = Birthday("${localDate.year + 1}", 1, 1,0, -200,
             expanded = false,
             notify = false
         )
