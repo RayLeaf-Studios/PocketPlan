@@ -42,6 +42,8 @@ import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
+import kotlinx.android.synthetic.main.header_navigation_drawer.*
+import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
@@ -109,6 +111,14 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
+
+        val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
+        val mySpinner = header.ivSpinner
+        mySpinner.setOnClickListener {
+            val animationShake =
+                AnimationUtils.loadAnimation(act, R.anim.icon_easter_egg)
+            mySpinner.startAnimation(animationShake)
+        }
 
 
         //initialize drawer toggle button
@@ -232,7 +242,7 @@ class MainActivity : AppCompatActivity() {
     //change to fragment of specified tag
     fun changeToFragment(fragmentTag: FT) {
 
-        if(!justRestarted){
+        if (!justRestarted) {
             if (activeFragmentTag == fragmentTag) {
                 return
             }
@@ -432,7 +442,7 @@ class MainActivity : AppCompatActivity() {
      */
 
     @SuppressLint("InflateParams")
-    fun dialogConfirmDelete(titleId: Int, action: () -> Unit){
+    fun dialogConfirmDelete(titleId: Int, action: () -> Unit) {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
 
         //AlertDialogBuilder
