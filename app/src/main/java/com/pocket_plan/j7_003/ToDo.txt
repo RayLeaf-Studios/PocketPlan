@@ -7,18 +7,19 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-
     - Finish ItemList and TagList in german
     - Translate ItemList and TagList to english
 
+    - think about how to handle different language item lists (change after existing list?)
+
     -cleanup add birthday logic
+    - redesign birthday divider
+    - color birthday months?
+    - color birthday years?
 
     - FrontEnd / for sharing
 
     - add banner in navigation view
-
-    - replace all strings with resource values
-    - replace all fontSizes across all UI Interfaces
 
     - final code cleanup
 
