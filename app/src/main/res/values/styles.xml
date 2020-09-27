@@ -7,7 +7,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorForeground">@color/colorOnBackGround</item>
         <item name="colorControlHighlight">@color/colorBackground</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:textColorPrimary">@color/colorOnBackGround</item>
         <item name="colorControlNormal">@color/colorOnBackGround</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
