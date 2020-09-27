@@ -6,27 +6,27 @@ Back-End stuff before release:
     - check all streams for closure
 
 Front-End stuff to-do before release in following order:
-    - dialog for clear custom user item
-    - dialog for clear taskList checked
-    - dialog for clear taskList
+    - 1 dialog for clear custom user item
+    - 1 dialog for clear taskList checked
+    - 1 dialog for clear taskList
+    - 2 redesign custom user item row (bigger, maybe color?)
+    - 3 cleanup add birthday logic
 
-    - redesign custom user item row (bigger, maybe color?)
+    - 3 Finish ItemList and TagList in german
+    - 3 Translate ItemList and TagList to english
 
-    - Finish ItemList and TagList in german
-    - Translate ItemList and TagList to english
+    - 4 think about how to handle different language item lists (change after existing list?)
 
-    - think about how to handle different language item lists (change after existing list?)
+    -2 redesign home add buttons
+    - 2 redesign birthday divider
+    - 2 color birthday months?
+    - 2 color birthday years?
 
-    -cleanup add birthday logic
-    - redesign birthday divider
-    - color birthday months?
-    - color birthday years?
+    - 2 FrontEnd / for sharing
 
-    - FrontEnd / for sharing
+    - 1 add banner in navigation view
 
-    - add banner in navigation view
-
-    - final code cleanup
+    - 2 final code cleanup
 
 
 
