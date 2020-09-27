@@ -1,46 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constr"
-    android:layout_margin="8dp"
-    android:background="@drawable/round_corner_gray">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvRowBirthdayDate"
-        android:layout_width="wrap_content"
-        android:padding="13dp"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_medium"
-        tools:text="14.03"
-        android:textColor="@color/colorOnBackGround"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:background="@drawable/round_corner_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvRowBirthdayDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="13dp"
+            android:textColor="@color/colorOnBackGround"
+            android:textSize="@dimen/font_size_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="14.03" />
+
+        <TextView
+            android:id="@+id/tvRowBirthdayName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="13dp"
+            android:textColor="@color/colorOnBackGround"
+            android:textSize="@dimen/font_size_medium"
+            app:layout_constraintEnd_toStartOf="@+id/icon_bell"
+            app:layout_constraintStart_toEndOf="@id/tvRowBirthdayDate"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Albert Einstein" />
+
+        <ImageView
+            android:id="@+id/icon_bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tvRowBirthdayName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvRowBirthdayName"
+            app:srcCompat="@drawable/ic_bell" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cvBirthdayInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="13dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="3dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRowBirthdayName">
+
+            <TextView
+                android:id="@+id/tvBirthdayInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4dp"
+                android:text=""
+                android:textColor="@color/colorOnBackGround"
+                android:textSize="@dimen/font_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/clColorMonth"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <TextView
-        android:id="@+id/tvRowBirthdayName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="13dp"
-        android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_medium"
-        tools:text="Albert Einstein"
-        app:layout_constraintEnd_toStartOf="@+id/icon_bell"
-        app:layout_constraintStart_toEndOf="@id/tvRowBirthdayDate"
-        app:layout_constraintTop_toTopOf="parent" />
-    <TextView
-        android:padding="13dp"
         android:id="@+id/tvRowBirthdayDivider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:gravity="center"
+        android:padding="13dp"
         android:textSize="@dimen/font_size_big"
-        android:textColor="@color/colorOnBackGround"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="September" />
+
 
 
     <View
@@ -48,64 +110,24 @@
         android:layout_width="100dp"
         android:layout_height="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:paddingStart="0dp"
-        android:paddingEnd="20dp"
-        app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
-        app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
         app:layout_constraintEnd_toStartOf="@id/tvRowBirthdayDivider"
         android:background="?android:attr/listDivider"
-        tools:layout_editor_absoluteX="5dp" />
+        app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
+        app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
+        tools:layout_editor_absoluteX="1dp" />
 
     <View
         android:id="@+id/viewDividerRight"
         android:layout_width="100dp"
-        android:layout_height="2dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="0dp"
         app:layout_constraintStart_toEndOf="@id/tvRowBirthdayDivider"
-        app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
-        app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="2dp"
         android:background="?android:attr/listDivider"
-        tools:layout_editor_absoluteX="5dp" />
+        app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
+        app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
+        tools:layout_editor_absoluteX="206dp" />
 
 
-    <ImageView
-        android:id="@+id/icon_bell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/tvRowBirthdayName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvRowBirthdayName"
-        app:srcCompat="@drawable/ic_bell" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintTop_toBottomOf="@id/tvRowBirthdayName"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/cvBirthdayInfo"
-        android:visibility="gone"
-        android:paddingEnd="10dp"
-        android:paddingStart="13dp"
-        android:paddingBottom="3dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-       <TextView
-           android:id="@+id/tvBirthdayInfo"
-           app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           android:paddingBottom="4dp"
-           android:textSize="@dimen/font_size_small"
-           android:text=""
-           android:textColor="@color/colorOnBackGround"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content">
-
-       </TextView>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

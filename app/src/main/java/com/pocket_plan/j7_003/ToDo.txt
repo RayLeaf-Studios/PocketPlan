@@ -7,7 +7,6 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
     - 2 color birthday months?
-    - 2 color birthday years?
 
     - 3 Finish ItemList and TagList in german
     - 3 Translate ItemList and TagList to english

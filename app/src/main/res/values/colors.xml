@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<color name="colorPriority1">#1E3B7A</color>
-<color name="colorPriority2">#2E857B</color>
-<color name="colorPriority3">#0F5523</color>
-<color name="colorOnBackGround">#F1F1F1</color>
-<color name="colorHint">#757272</color>
-<color name="colorPrimary">#1C1C1C</color>
-<color name="colorPrimaryDark">#000000</color>
-<color name="colorAccent">#0652A5</color>
-<color name="colorBackground">#121212</color>
-<color name="colorBackgroundElevated">#1C1C1C</color>
-<color name="colorBackgroundListElement">#252525</color>
-<color name="colorNoteRed">#DD727B</color>
+    <color name="colorBackground">#121212</color>
+    <color name="colorBackgroundElevated">#1C1C1C</color>
+
+    <color name="colorOnBackGround">#F1F1F1</color>
+    <color name="colorHint">#757272</color>
+
+    <color name="colorPrimary">#1C1C1C</color>
+    <color name="colorPrimaryDark">#000000</color>
+
+    <color name="colorAccent">#0652A5</color>
+
+    <color name="colorPriority1">#1E3B7A</color>
+    <color name="colorPriority2">#2E857B</color>
+    <color name="colorPriority3">#0F5523</color>
+
+    <color name="colorNoteRed">#DD727B</color>
+    <color name="colorNoteYellow">#D5B83E</color>
+    <color name="colorNoteGreen">#5EB14D</color>
+    <color name="colorNoteBlue">#43A8B1</color>
+    <color name="colorNotePurple">#9E6CD1</color>
+
+    <color name="colorBackgroundListElement">#252525</color>
+    <color name="colorBirthdayLabel">#1E3B7A</color>
     <color name="colorIconShopping">#039499</color>
-<color name="colorGoToSleep">#CC212F</color>
-<color name="colorNoteYellow">#D5B83E</color>
-<color name="colorNoteGreen">#5EB14D</color>
-<color name="colorBirthdayLabel">#1E3B7A</color>
-<color name="colorNoteBlue">#43A8B1</color>
-<color name="colorNotePurple">#9E6CD1</color>
+    <color name="colorGoToSleep">#CC212F</color>
+
+    <color name="colorMonth1">#065FBD</color>
+    <color name="colorMonth2">#136B9C</color>
+    <color name="colorMonth3">#036C3B</color>
+    <color name="colorMonth4">#4AB642</color>
+    <color name="colorMonth5">#98B80D</color>
+    <color name="colorMonth6">#D89F0C</color>
+    <color name="colorMonth7">#EA8408</color>
+    <color name="colorMonth8">#B53705</color>
+    <color name="colorMonth9">#B10B4D</color>
+    <color name="colorMonth10">#972C8C</color>
+    <color name="colorMonth11">#8935DC</color>
+    <color name="colorMonth12">#4F36A8</color>
 </resources>

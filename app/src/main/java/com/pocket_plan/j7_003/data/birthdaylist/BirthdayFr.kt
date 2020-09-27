@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -882,15 +883,44 @@ class BirthdayAdapter :
 
         if (currentBirthday.daysToRemind < 0) {
             //initialize month divider design
-            holder.tvMonthLabel.visibility = View.VISIBLE
-            holder.tvMonthLabel.text = currentBirthday.name
+            holder.tvRowBirthdayDivider.visibility = View.VISIBLE
+            holder.tvRowBirthdayDivider.text = currentBirthday.name
             holder.tvRowBirthdayDate.text = ""
             holder.tvRowBirthdayName.text = ""
+
+            val textColorId = when(currentBirthday.daysToRemind){
+                -200 -> R.color.colorOnBackGround
+                -1 -> R.color.colorMonth1
+                -2 -> R.color.colorMonth2
+                -3 -> R.color.colorMonth3
+                -4 -> R.color.colorMonth4
+                -5 -> R.color.colorMonth5
+                -6 -> R.color.colorMonth6
+                -7 -> R.color.colorMonth7
+                -8 -> R.color.colorMonth8
+                -9 -> R.color.colorMonth9
+                -10 -> R.color.colorMonth10
+                -11 -> R.color.colorMonth11
+                else -> R.color.colorMonth12
+            }
+
+            holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            if(currentBirthday.daysToRemind!=-200){
+                holder.clColorMonth.setBackgroundColor(ContextCompat.getColor(MainActivity.act, textColorId))
+                holder.tvRowBirthdayDivider.textSize = 20f
+            }else{
+                holder.itemView.layoutParams.height = 300
+                holder.clColorMonth.setBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorBackground))
+                holder.tvRowBirthdayDivider.textSize = 22f
+            }
+
             holder.myView.setBackgroundResource(R.color.colorBackground)
             holder.itemView.setOnLongClickListener { true }
             holder.itemView.setOnClickListener { }
             holder.itemView.cvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
+
+            holder.myConstraintLayout.visibility = View.GONE
 
             //check if its a year divider, and display divider lines if its the case
             val dividerVisibility = when(currentBirthday.daysToRemind == -200){
@@ -902,9 +932,9 @@ class BirthdayAdapter :
             return
         }
 
+        holder.myConstraintLayout.visibility = View.VISIBLE
         //initialize regular birthday design
-        holder.tvMonthLabel.visibility = View.GONE
-        holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
+        holder.tvRowBirthdayDivider.visibility = View.GONE
         holder.myDividerLeft.visibility = View.GONE
         holder.myDividerRight.visibility = View.GONE
 
@@ -990,10 +1020,11 @@ class BirthdayAdapter :
         val tvRowBirthdayDate: TextView = itemView.tvRowBirthdayDate
         val iconBell: ImageView = itemView.icon_bell
         val myView: View = itemView
-        val tvMonthLabel: TextView = itemView.tvRowBirthdayDivider
+        val tvRowBirthdayDivider: TextView = itemView.tvRowBirthdayDivider
         val myConstraintLayout: ConstraintLayout = itemView.constr
         val myDividerLeft: View = itemView.viewDividerLeft
         val myDividerRight: View = itemView.viewDividerRight
+        val clColorMonth: ConstraintLayout = itemView.clColorMonth
     }
 
 }
