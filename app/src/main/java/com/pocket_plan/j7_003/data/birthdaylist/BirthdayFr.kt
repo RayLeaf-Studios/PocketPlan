@@ -390,13 +390,13 @@ class BirthdayFr : Fragment() {
                     if (editBirthdayHolder!!.year != 0) {
                         LocalDate.of(editBirthdayHolder!!.year, date.month, date.dayOfMonth)
                     } else {
-                        LocalDate.of(2020, date.month, date.dayOfMonth)
+                        LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
                     }
                 } else {
                     LocalDate.of(chosenYear, date.month, date.dayOfMonth)
                 }
             } else {
-                LocalDate.of(0, date.month, date.dayOfMonth)
+                LocalDate.of(2020, date.month, date.dayOfMonth)
             }
 
             //set correct text of tvBirthdayDate (add / remove year)
@@ -503,7 +503,10 @@ class BirthdayFr : Fragment() {
             //get day and month from date
             val month = date.monthValue
             val day = date.dayOfMonth
-            val year = date.year
+            val year = when(cbSaveBirthdayYear.isChecked){
+                true -> date.year
+                else -> 0
+            }
 
             //get value of daysToRemind, set it to 0 if the text field is empty
             val daysToRemind = when (etDaysToRemind.text.toString()) {
@@ -644,7 +647,7 @@ class BirthdayFr : Fragment() {
             date = if (cbSaveBirthdayYear.isChecked) {
                 //if user wants so include year, set it to 2020 as default or chosenYear if he changed the year in the date setter before
                 if (!yearChanged) {
-                    LocalDate.of(2020, date.month, date.dayOfMonth)
+                    LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
                 } else {
                     LocalDate.of(chosenYear, date.month, date.dayOfMonth)
                 }
@@ -769,9 +772,13 @@ class BirthdayFr : Fragment() {
             }
             val notifyMe = cbNotifyMe.isChecked
 
+            val yearToSave = when(cbSaveBirthdayYear.isChecked){
+                true -> date.year
+                else -> 0
+            }
             birthdayListInstance.addBirthday(
                 name, date.dayOfMonth, date.monthValue,
-                date.year, daysToRemind, false, notifyMe
+                yearToSave, daysToRemind, false, notifyMe
             )
 
             myRecycler.adapter?.notifyDataSetChanged()
