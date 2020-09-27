@@ -142,4 +142,5 @@
     <string name="home_notification_add_task">Aufgabe hinzugefügt!</string>
     <string name="home_notification_add_item">Item hinzugefügt!</string>
     <string name="home_notification_add_note">Notiz hinzugefügt!</string>
+    <string name="shopping_item_added">Item hinzugefügt!</string>
 </resources>

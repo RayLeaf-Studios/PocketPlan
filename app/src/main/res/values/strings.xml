@@ -199,6 +199,7 @@
     <string name="options_shopping_collapse_all">Collapse all</string>
     <string name="swipe_right">Swipe right</string>
     <string name="shopping_dialog_clear_title">Clear shopping list?</string>
+    <string name="shopping_item_added">Item added!</string>
     <string name="birthdayOldBornIn">" old, born in "</string>
     <string name="settings_shopping_close_sub">(In shopping fragment)</string>
     <string name="home_notification_add_task">Task added!</string>

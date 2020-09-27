@@ -433,7 +433,7 @@ class ShoppingFr : Fragment() {
                         shoppingListAdapter.notifyDataSetChanged()
                         myFragment.updateShoppingMenu()
                     } else {
-                        Toast.makeText(MainActivity.act, "Item was added!", Toast.LENGTH_SHORT)
+                        Toast.makeText(MainActivity.act, MainActivity.act.getString(R.string.shopping_item_added), Toast.LENGTH_SHORT)
                             .show()
                     }
                     MainActivity.itemNameList.add(actvItem.text.toString())
@@ -478,7 +478,7 @@ class ShoppingFr : Fragment() {
                 shoppingListAdapter.notifyDataSetChanged()
                 myFragment.updateShoppingMenu()
             } else {
-                Toast.makeText(MainActivity.act, "Item was added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(MainActivity.act, MainActivity.act.getString(R.string.shopping_item_added), Toast.LENGTH_SHORT).show()
             }
             actvItem.setText("")
             if (MainActivity.activeFragmentTag == FT.HOME) {
