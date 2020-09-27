@@ -139,4 +139,7 @@
         <item quantity="one">Tag</item>
         <item quantity="other">Tage</item>
     </plurals>
+    <string name="home_notification_add_task">Aufgabe hinzugefügt!</string>
+    <string name="home_notification_add_item">Item hinzugefügt!</string>
+    <string name="home_notification_add_note">Notiz hinzugefügt!</string>
 </resources>

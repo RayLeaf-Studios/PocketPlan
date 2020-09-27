@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/aboutDevs"
                     android:textColor="@color/colorAccent"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +50,7 @@
                     android:id="@+id/tvEstep"
                     android:text="@string/about_estep_name"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/about_estep_description"
                     android:textColor="@color/colorHint"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvEstep" />
 
@@ -78,7 +78,7 @@
                     android:id="@+id/tvJake"
                     android:text="@string/about_jake_name"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/about_jake_description"
                     android:textColor="@color/colorHint"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvJake" />
 
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/aboutSup"
                     android:textColor="@color/colorAccent"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -125,7 +125,7 @@
                     android:id="@+id/tvKellai"
                     android:text="@string/about_kellai_name"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/about_kellai_description"
                     android:textColor="@color/colorHint"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvKellai" />
 
@@ -153,7 +153,7 @@
                     android:id="@+id/tvDori"
                     android:text="@string/about_dori_name"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/about_dori_description"
                     android:textColor="@color/colorHint"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvDori" />
 
@@ -181,7 +181,7 @@
                     android:id="@+id/tvNigo"
                     android:text="@string/about_nico_name"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/about_nico_description"
                     android:textColor="@color/colorHint"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvNigo" />
 
@@ -209,7 +209,7 @@
                     android:id="@+id/tvSource"
                     android:text="@string/sourcecode"
                     android:textColor="@color/colorAccent"
-                    android:textSize="17sp"
+                    android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -231,7 +231,7 @@
                     android:id="@+id/tvViewOn"
                     android:text="@string/view_on_github"
                     android:textColor="@color/colorOnBackGround"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
@@ -239,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/aboutSrcLink"
                     android:textColor="@color/colorNoteBlue"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvViewOn" />
 

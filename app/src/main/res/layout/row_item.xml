@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="10dp"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_list_items"
+        android:textSize="@dimen/font_size_medium"
         android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/clItemTapfield"

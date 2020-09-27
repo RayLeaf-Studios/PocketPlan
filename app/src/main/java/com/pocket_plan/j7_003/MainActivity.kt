@@ -3,8 +3,10 @@ package com.pocket_plan.j7_003
 import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.*
+import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -18,9 +20,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.calendar.CalendarAppointment
-import com.pocket_plan.j7_003.data.calendar.CalenderFr
-import com.pocket_plan.j7_003.data.calendar.CreateTermFr
-import com.pocket_plan.j7_003.data.calendar.DayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.notelist.Note
@@ -34,12 +33,17 @@ import com.pocket_plan.j7_003.data.settings.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsAboutFr
 import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsBackupFr
 import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.*
+import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplateList
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
+import com.pocket_plan.j7_003.data.shoppinglist.TagList
+import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,9 +72,10 @@ class MainActivity : AppCompatActivity() {
         lateinit var act: MainActivity
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
-        var editTerm: CalendarAppointment? = null
         var fromHome: Boolean = false
         lateinit var bottomNavigation: BottomNavigationView
+//        V.2
+//        var editTerm: CalendarAppointment? = null
     }
 
     @SuppressLint("InflateParams")
@@ -79,8 +84,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
 
-        //Set a reference to this activity so its accessible in the companion object
         act = this
+        //TODO REMOVE THIS AND IMPLEMENT PROPERLY LOADING SHOPPING LIST
+//        Toast.makeText(act,Locale.getDefault().language, Toast.LENGTH_SHORT).show()
+
+        //Set a reference to this activity so its accessible in the companion object
 
         tempShoppingFr = ShoppingFr()
 
@@ -306,9 +314,10 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> SleepFr()
-            FT.CALENDAR -> CalenderFr()
-            FT.CREATE_TERM -> CreateTermFr()
-            FT.DAY_VIEW -> DayFr()
+//            V.2
+//            FT.CALENDAR -> CalenderFr()
+//            FT.CREATE_TERM -> CreateTermFr()
+//            FT.DAY_VIEW -> DayFr()
             else -> HomeFr()
         }
 

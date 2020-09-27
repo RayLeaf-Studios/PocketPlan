@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Mo 12.3"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_size_big"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/tvYear"
-        android:textSize="12sp"
+        android:textSize="@dimen/font_size_very_small"
         android:textColor="@color/colorHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

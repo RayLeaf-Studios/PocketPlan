@@ -14,7 +14,7 @@
         android:padding="13dp"
         android:text=""
         android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_list_items"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tapField"
         app:layout_constraintStart_toStartOf="parent"

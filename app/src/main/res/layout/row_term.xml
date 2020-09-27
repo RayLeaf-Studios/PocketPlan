@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideLineTermItem"
             app:layout_constraintTop_toTopOf="parent" />

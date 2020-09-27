@@ -13,8 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
@@ -26,7 +24,6 @@ import com.pocket_plan.j7_003.system_interaction.handler.share.ShareHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import org.threeten.bp.LocalDate
 
 
 /**
@@ -38,9 +35,10 @@ class HomeFr : Fragment() {
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
 
-    companion object {
-        lateinit var homeTermRecyclerView: RecyclerView
-    }
+//    V.2
+//    companion object {
+//        lateinit var homeTermRecyclerView: RecyclerView
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +70,7 @@ class HomeFr : Fragment() {
 
             ShareHandler().shareById(StorageId.SHOPPING)
 
-            //TODO restore old functionality of this panel
+//            V.2
 //            MainActivity.act.changeToFragment(FT.TASKS)
         }
         myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FT.BIRTHDAYS) }
@@ -90,7 +88,7 @@ class HomeFr : Fragment() {
             MainActivity.tempShoppingFr.openAddItemDialog()
         }
 
-//        TODO V.2 Calendar feature
+//        V.2
 //        myView.btnNewTerm.setOnClickListener {
 //            MainActivity.fromHome = true
 //            MainActivity.act.changeToCreateTerm()  }
@@ -222,10 +220,10 @@ class HomeFr : Fragment() {
         }
         val excess = birthdaysToday.size - birthdaysToDisplay
         if (excess > 0) {
-            birthdayText += "   + $excess more\n"
+            birthdayText += "   + $excess\n"
         }
-
         myView.tvBirthday.text = birthdayText
+
     }
 
     private fun updateWakeTimePanel() {
@@ -311,7 +309,7 @@ class HomeFr : Fragment() {
                     updateTaskPanel()
                 }
                 if (MainActivity.activeFragmentTag == FT.HOME) {
-                    Toast.makeText(MainActivity.act, "Task was added!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(MainActivity.act, resources.getString(R.string.home_notification_add_task), Toast.LENGTH_SHORT).show()
                 }
                 myAlertDialog?.dismiss()
             }
@@ -322,12 +320,13 @@ class HomeFr : Fragment() {
 }
 
 
+//V2
 //class HomeTermAdapterDay :
 //    RecyclerView.Adapter<HomeTermAdapterDay.HomeTermViewHolderDay>() {
 //
-//    private lateinit var daylist: ArrayList<CalendarAppointment>
+//    private lateinit var dayList: ArrayList<CalendarAppointment>
 //    fun setDate(date: LocalDate) {
-//        daylist = CalendarManager.getDayView(date)
+//        dayList = CalendarManager.getDayView(date)
 //    }
 //
 //    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTermViewHolderDay {
@@ -338,10 +337,10 @@ class HomeFr : Fragment() {
 //
 //    override fun onBindViewHolder(holder: HomeTermViewHolderDay, position: Int) {
 //
-//        val currentTerm = daylist[position]
+//        val currentTerm = dayList[position]
 //
 //        holder.itemView.setOnClickListener {
-//            //todo start CreateTermFragment in EDIT mode
+//            //start CreateTermFragment in EDIT mode
 ////            MainActivity.myActivity.changeToDayView()
 //        }
 //
@@ -360,7 +359,7 @@ class HomeFr : Fragment() {
 //        }
 //    }
 //
-//    override fun getItemCount() = daylist.size
+//    override fun getItemCount() = dayList.size
 //
 //    class HomeTermViewHolderDay(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //        /**

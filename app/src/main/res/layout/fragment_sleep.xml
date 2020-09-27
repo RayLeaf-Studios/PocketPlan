@@ -35,7 +35,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepWakeUpTime"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="20sp"
+                 android:textSize="@dimen/font_size_big"
                  app:layout_constraintStart_toStartOf="parent"
                  app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +44,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:textColor="@color/colorHint"
-                 android:textSize="17sp"
+                 android:textSize="@dimen/font_size_medium"
 
                  app:layout_constraintStart_toStartOf="parent"
                  app:layout_constraintTop_toBottomOf="@+id/tvWakeTimePanel" />
@@ -76,7 +76,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepDuration"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="20sp"
+                 android:textSize="@dimen/font_size_big"
                  app:layout_constraintStart_toStartOf="parent"
                  app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,7 +85,7 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:textColor="@color/colorHint"
-                 android:textSize="17sp"
+                 android:textSize="@dimen/font_size_medium"
 
                  app:layout_constraintStart_toStartOf="parent"
                  app:layout_constraintTop_toBottomOf="@+id/tvSleepDurationPanel" />
@@ -176,7 +176,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepMon"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="@dimen/font_size_daysofweek"
+                 android:textSize="@dimen/font_size_medium"
                  app:layout_constraintBottom_toTopOf="@+id/cbMonday"
                  app:layout_constraintEnd_toEndOf="@+id/cbMonday"
                  app:layout_constraintStart_toStartOf="@+id/cbMonday" />
@@ -187,7 +187,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepThu"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="@dimen/font_size_daysofweek"
+                 android:textSize="@dimen/font_size_medium"
                  app:layout_constraintBottom_toBottomOf="@+id/textView12"
                  app:layout_constraintEnd_toEndOf="@+id/cbThursday"
                  app:layout_constraintStart_toStartOf="@+id/cbThursday" />
@@ -198,7 +198,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepFri"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="@dimen/font_size_daysofweek"
+                 android:textSize="@dimen/font_size_medium"
                  app:layout_constraintBottom_toBottomOf="@+id/textView11"
                  app:layout_constraintEnd_toEndOf="@+id/cbFriday"
                  app:layout_constraintStart_toStartOf="@+id/cbFriday" />
@@ -209,7 +209,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepSat"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="@dimen/font_size_daysofweek"
+                 android:textSize="@dimen/font_size_medium"
                  app:layout_constraintBottom_toBottomOf="@+id/textView9"
                  app:layout_constraintEnd_toEndOf="@+id/cbSaturday"
                  app:layout_constraintStart_toStartOf="@+id/cbSaturday" />
@@ -220,7 +220,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepSun"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="@dimen/font_size_daysofweek"
+                 android:textSize="@dimen/font_size_medium"
                  app:layout_constraintBottom_toBottomOf="@+id/textView8"
                  app:layout_constraintEnd_toEndOf="@+id/cbSunday"
                  app:layout_constraintStart_toStartOf="@+id/cbSunday" />
@@ -231,7 +231,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepWed"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="@dimen/font_size_daysofweek"
+                 android:textSize="@dimen/font_size_medium"
                  app:layout_constraintBottom_toBottomOf="@+id/textView10"
                  app:layout_constraintEnd_toEndOf="@+id/cbWednsday"
                  app:layout_constraintStart_toStartOf="@+id/cbWednsday" />
@@ -242,7 +242,7 @@
                  android:layout_height="wrap_content"
                  android:text="@string/sleepTue"
                  android:textColor="@color/colorOnBackGround"
-                 android:textSize="@dimen/font_size_daysofweek"
+                 android:textSize="@dimen/font_size_medium"
                  app:layout_constraintBottom_toBottomOf="@+id/tvMonday"
                  app:layout_constraintEnd_toEndOf="@+id/cbTuesday"
                  app:layout_constraintStart_toStartOf="@+id/cbTuesday" />
@@ -303,7 +303,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/sleepEnable"
                 android:textColor="@color/colorOnBackGround"
-                android:textSize="20sp"
+                android:textSize="@dimen/font_size_big"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -352,7 +352,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/sleepCustomDays"
                 android:textColor="@color/colorOnBackGround"
-                android:textSize="20sp"
+                android:textSize="@dimen/font_size_big"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

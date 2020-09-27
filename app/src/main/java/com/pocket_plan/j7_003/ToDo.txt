@@ -7,28 +7,25 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - re adjust color scheme
-        priority colors,
-         ,item add cancel buttons
-         , birthday date picker
-
-    - Front-End / Back-End ? option to change language
 
     - Finish ItemList and TagList in german
     - Translate ItemList and TagList to english
 
+    -cleanup add birthday logic
+
     - FrontEnd / for sharing
 
-    - replace all colors with resource values
-    - replace all strings with resource values
-    - fix all strings with plurals etc
-    - use consistent fontSizes across all UI Interfaces
-
     - add banner in navigation view
+
+    - replace all strings with resource values
+    - replace all fontSizes across all UI Interfaces
+
+    - final code cleanup
 
 
 
 Add after release:
+    - Front-End / Back-End ? option to change language
     - Add more languages
     - WeekPlanner / Calendar
     - decide what to do with terms in the past, (delete after week? even show them at all?)

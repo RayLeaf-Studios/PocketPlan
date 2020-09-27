@@ -172,7 +172,7 @@ class BirthdayFr : Fragment() {
         super.onResume()
     }
 
-    fun updateSearchBirthdaysIcon(){
+    fun updateSearchBirthdaysIcon() {
         myMenu.findItem(R.id.item_birthdays_search).isVisible = birthdayListInstance.size > 0
     }
 
@@ -269,13 +269,14 @@ class BirthdayFr : Fragment() {
         etDaysToRemind.setTextColor(ContextCompat.getColor(MainActivity.act, remindMeColor))
         tvDaysPrior.setTextColor(ContextCompat.getColor(MainActivity.act, remindMeColor))
 
-        val daysToRemind = when(etDaysToRemind.text.toString()==""){
+        val daysToRemind = when (etDaysToRemind.text.toString() == "") {
             true -> 0
             else -> etDaysToRemind.text.toString().toInt()
         }
 
-        val daysPriorTextEdit = MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
-            .toString()+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+        val daysPriorTextEdit =
+            MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
+                .toString() + MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
         tvDaysPrior.text = daysPriorTextEdit
 
         //set the correct daysToRemind text
@@ -350,7 +351,7 @@ class BirthdayFr : Fragment() {
                         )
                     )
                 }
-                date = when(cbSaveBirthdayYear.isChecked){
+                date = when (cbSaveBirthdayYear.isChecked) {
                     true -> date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
                     else -> date.withYear(0).withMonth(month + 1).withDayOfMonth(day)
                 }
@@ -435,13 +436,14 @@ class BirthdayFr : Fragment() {
                 tvRemindMe.setTextColor(color)
                 etDaysToRemind.setTextColor(color)
                 tvDaysPrior.setTextColor(color)
-                val daysToRemind = when(etDaysToRemind.text.toString()==""){
+                val daysToRemind = when (etDaysToRemind.text.toString() == "") {
                     true -> 0
                     else -> etDaysToRemind.text.toString().toInt()
                 }
 
-                val daysPriorTextEdit = MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
-                    .toString()+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+                val daysPriorTextEdit =
+                    MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
+                        .toString() + MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
                 tvDaysPrior.text = daysPriorTextEdit
 
             }
@@ -457,8 +459,8 @@ class BirthdayFr : Fragment() {
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 etDaysToRemind.setText("")
-            }else{
-                if(etDaysToRemind.text.toString()==""){
+            } else {
+                if (etDaysToRemind.text.toString() == "") {
                     etDaysToRemind.setText("0")
                 }
             }
@@ -528,7 +530,7 @@ class BirthdayFr : Fragment() {
     @SuppressLint("InflateParams")
     fun openAddBirthdayDialog() {
         var yearChanged = false
-        var chosenYear = -1
+        var chosenYear = LocalDate.now().year
 
         //set date to today
         date = LocalDate.now()
@@ -580,7 +582,7 @@ class BirthdayFr : Fragment() {
 
         //onclick listener for tvBirthday
         tvBirthdayDate.setOnClickListener {
-            val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            val dateSetListener = DatePickerDialog.OnDateSetListener { _, pickedYear, month, day ->
                 tvBirthdayDate.setTextColor(
                     ContextCompat.getColor(
                         MainActivity.act,
@@ -588,7 +590,7 @@ class BirthdayFr : Fragment() {
                     )
                 )
                 yearChanged = true
-                if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
+                if (pickedYear != 2020 && !cbSaveBirthdayYear.isChecked && pickedYear != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
                         ContextCompat.getColor(
@@ -598,8 +600,8 @@ class BirthdayFr : Fragment() {
                     )
                 }
 
-                chosenYear = year
-                if (date.year != 0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
+                chosenYear = pickedYear
+                if (date.year != 0 && pickedYear != 2020 && !cbSaveBirthdayYear.isChecked) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
                         ContextCompat.getColor(
@@ -608,8 +610,8 @@ class BirthdayFr : Fragment() {
                         )
                     )
                 }
-                date = when(cbSaveBirthdayYear.isChecked){
-                    true -> date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+                date = when (cbSaveBirthdayYear.isChecked) {
+                    true -> date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
                     else -> date.withYear(0).withMonth(month + 1).withDayOfMonth(day)
                 }
                 val dayMonthString =
@@ -624,7 +626,7 @@ class BirthdayFr : Fragment() {
             var yearToDisplay = 2020
             if (cbSaveBirthdayYear.isChecked && yearChanged) {
                 yearToDisplay = date.year
-            }else if(cbSaveBirthdayYear.isChecked){
+            } else if (cbSaveBirthdayYear.isChecked) {
                 yearToDisplay = LocalDate.now().year
             }
             val dpd = DatePickerDialog(
@@ -657,7 +659,7 @@ class BirthdayFr : Fragment() {
                 date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
                     .padStart(2, '0')
 
-            if(yearChanged){
+            if (yearChanged) {
                 tvBirthdayDate.text = when (cbSaveBirthdayYear.isChecked) {
                     false -> dayMonthString
                     else -> dayMonthString + "." + date.year.toString()
@@ -695,7 +697,6 @@ class BirthdayFr : Fragment() {
                     true -> ""
                     false -> "s"
                 }
-                tvDaysPrior.text = "day" + addition + " prior"
                 tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
 
             }
@@ -712,8 +713,8 @@ class BirthdayFr : Fragment() {
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 etDaysToRemind.setText("")
-            }else{
-                if(etDaysToRemind.text.toString()==""){
+            } else {
+                if (etDaysToRemind.text.toString() == "") {
                     etDaysToRemind.setText("0")
                 }
             }
@@ -871,8 +872,8 @@ class BirthdayAdapter :
 
         if (currentBirthday.daysToRemind < 0) {
             //initialize month divider design
+            holder.tvMonthLabel.visibility = View.VISIBLE
             holder.tvMonthLabel.text = currentBirthday.name
-            holder.tvMonthLabel.textSize = 22F
             holder.tvRowBirthdayDate.text = ""
             holder.tvRowBirthdayName.text = ""
             holder.myView.setBackgroundResource(R.color.colorBackground)
@@ -880,68 +881,73 @@ class BirthdayAdapter :
             holder.itemView.setOnClickListener { }
             holder.itemView.cvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
+            return
+        }
+
+        //initialize regular birthday design
+        holder.tvMonthLabel.visibility = View.GONE
+        holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
+
+        //display bell if birthday has a reminder
+        if (currentBirthday.notify) {
+            holder.iconBell.visibility = View.VISIBLE
         } else {
-            //display bell if birthday has a reminder
-            if (currentBirthday.notify) {
-                holder.iconBell.visibility = View.VISIBLE
-            } else {
-                holder.iconBell.visibility = View.INVISIBLE
+            holder.iconBell.visibility = View.INVISIBLE
+        }
+
+        //display info if birthday is expanded
+        if (currentBirthday.expanded) {
+            holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
+            var ageText = MainActivity.act.resources.getString(R.string.birthdayAgeUnknown)
+            if (holder.birthday.year != 0) {
+                val birthday = holder.birthday
+                val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
+                    .until(LocalDate.now()).years
+                val ageYearText = MainActivity.act.resources.getQuantityString(R.plurals.year, age)
+                ageText =
+                    age.toString() + " " + ageYearText + MainActivity.act.resources.getString(R.string.birthdayOldBornIn) + birthday.year
             }
-
-            //display info if birthday is expanded
-            if (currentBirthday.expanded) {
-                holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
-                var ageText = MainActivity.act.resources.getString(R.string.birthdayAgeUnknown)
-                if (holder.birthday.year != 0) {
-                    val birthday = holder.birthday
-                    val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
-                        .until(LocalDate.now()).years
-                    val ageYearText = MainActivity.act.resources.getQuantityString(R.plurals.year, age)
-                    ageText = age.toString()+" "+ageYearText+MainActivity.act.resources.getString(R.string.birthdayOldBornIn)+birthday.year
-                }
-                val reminderDayString = MainActivity.act.resources.getQuantityString(R.plurals.day, currentBirthday.daysToRemind)
-                val reminderText =
-                    MainActivity.act.resources.getString(
-                        R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
-                    )
-                holder.itemView.tvBirthdayInfo.text = ageText + reminderText
-            } else {
-                holder.itemView.cvBirthdayInfo.visibility = View.GONE
-            }
-
-            //initialize regular birthday design
-            holder.tvMonthLabel.textSize = 20F
-            holder.tvMonthLabel.text = ""
-            holder.myView.setBackgroundResource(R.drawable.round_corner_gray)
-
-            val dateString = currentBirthday.day.toString().padStart(2, '0')+"."+currentBirthday.month.toString().padStart(2,'0')
-
-            //Display name and date
-            holder.tvRowBirthdayDate.text = dateString
-            holder.tvRowBirthdayName.text = currentBirthday.name
-
-            // Blue background if birthday is today
-            if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
-                holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_accent)
-            } else {
-                holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_gray)
-            }
-
-            //opens dialog to edit this birthday
-            holder.itemView.setOnLongClickListener {
-                BirthdayFr.editBirthdayHolder = holder.birthday
-                BirthdayFr.myFragment.openEditBirthdayDialog()
-                true
-            }
-
-            //expands info
-            holder.itemView.setOnClickListener {
-                holder.birthday.expanded = !holder.birthday.expanded
-                listInstance.sortAndSaveBirthdays()
-                notifyItemChanged(holder.adapterPosition)
-            }
+            val reminderDayString = MainActivity.act.resources.getQuantityString(
+                R.plurals.day,
+                currentBirthday.daysToRemind
+            )
+            val reminderText =
+                MainActivity.act.resources.getString(
+                    R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
+                )
+            holder.itemView.tvBirthdayInfo.text = ageText + reminderText
+        } else {
+            holder.itemView.cvBirthdayInfo.visibility = View.GONE
+        }
 
 
+        val dateString =
+            currentBirthday.day.toString().padStart(2, '0') + "." + currentBirthday.month.toString()
+                .padStart(2, '0')
+
+        //Display name and date
+        holder.tvRowBirthdayDate.text = dateString
+        holder.tvRowBirthdayName.text = currentBirthday.name
+
+        // Blue background if birthday is today
+        if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
+            holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_accent)
+        } else {
+            holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_gray)
+        }
+
+        //opens dialog to edit this birthday
+        holder.itemView.setOnLongClickListener {
+            BirthdayFr.editBirthdayHolder = holder.birthday
+            BirthdayFr.myFragment.openEditBirthdayDialog()
+            true
+        }
+
+        //expands info
+        holder.itemView.setOnClickListener {
+            holder.birthday.expanded = !holder.birthday.expanded
+            listInstance.sortAndSaveBirthdays()
+            notifyItemChanged(holder.adapterPosition)
         }
 
 

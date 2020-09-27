@@ -24,7 +24,7 @@
                 android:paddingTop="10dp"
                 android:textStyle="bold"
                 android:textColor="@color/colorBackground"
-                android:textSize="15sp" />
+                android:textSize="@dimen/font_size_small" />
 
             <TextView
                 android:id="@+id/tvNoteContent"
@@ -34,7 +34,7 @@
                 android:padding="10dp"
                 android:textColor="@color/colorBackground"
                 android:background="@android:color/transparent"
-                android:textSize="13sp"
+                android:textSize="@dimen/font_size_very_small"
                 android:layout_below="@+id/tvNoteTitle"/>
 
 

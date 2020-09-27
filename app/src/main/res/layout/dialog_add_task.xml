@@ -30,7 +30,7 @@
         android:background="@drawable/round_corner1"
         android:text="@string/prioDisplay1"
         android:textColor="#FFF"
-        android:textSize="@dimen/font_size_prio_buttons"
+        android:textSize="@dimen/font_size_big"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
 
@@ -42,7 +42,7 @@
         android:background="@drawable/round_corner2"
         android:text="@string/prioDisplay2"
         android:textColor="#FFF"
-        android:textSize="@dimen/font_size_prio_buttons"
+        android:textSize="@dimen/font_size_big"
         app:layout_constraintEnd_toEndOf="@+id/btnConfirm3"
         app:layout_constraintStart_toStartOf="@+id/btnConfirm1"
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
@@ -55,7 +55,7 @@
         android:background="@drawable/round_corner3"
         android:text="@string/prioDisplay3"
         android:textColor="#FFF"
-        android:textSize="@dimen/font_size_prio_buttons"
+        android:textSize="@dimen/font_size_big"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
 

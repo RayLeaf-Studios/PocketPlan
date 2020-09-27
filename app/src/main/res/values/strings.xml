@@ -62,7 +62,6 @@
     <string name="birthdaySaveYear">save year</string>
     <string name="birthdayChooseDate">Choose date</string>
     <string name="birthdayAgeUnknown">"Age unknown, "</string>
-    <string name="birthdayAge">%1$d%2$s old, born in %3$d.</string>
     <!-- TODO use plurals here and in translation -->
     <string name="birthdayReminder">\nReminds %1$d %2$s prior.</string>
     <string name="addBirthdayNameHint">Name</string>
@@ -202,6 +201,9 @@
     <string name="shopping_dialog_clear_title">Clear shopping list?</string>
     <string name="birthdayOldBornIn">" old, born in "</string>
     <string name="settings_shopping_close_sub">(In shopping fragment)</string>
+    <string name="home_notification_add_task">Task added!</string>
+    <string name="home_notification_add_item">Item added!</string>
+    <string name="home_notification_add_note">Note added!</string>
 
     <plurals name="year">
        <item quantity="one">year</item>

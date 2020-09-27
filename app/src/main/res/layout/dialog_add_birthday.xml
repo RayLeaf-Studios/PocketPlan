@@ -16,7 +16,7 @@
         android:textColor="@color/colorOnBackGround"
         android:layout_marginEnd="16dp"
         android:textColorHint="@color/colorHint"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toStartOf="@+id/tvNotifyMe"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
         android:layout_marginEnd="10dp"
         android:text="@string/birthdaysNotify"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toStartOf="@+id/cbSaveBirthdayYear"
         app:layout_constraintTop_toTopOf="@id/cbNotifyMe"
         app:layout_constraintBottom_toBottomOf="@id/cbNotifyMe"
@@ -54,7 +54,7 @@
         android:text="@string/birthdayChooseDate"
         android:paddingVertical="10dp"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="@+id/tvSaveYear"
         app:layout_constraintEnd_toEndOf="@+id/etName"
         app:layout_constraintStart_toStartOf="@+id/etName"
@@ -68,7 +68,7 @@
         android:paddingVertical="20dp"
         android:text="@string/birthdaySaveYear"
         android:textColor="@color/colorHint"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="@+id/tvNotifyMe"
         app:layout_constraintTop_toBottomOf="@+id/tvNotifyMe" />
 
@@ -87,7 +87,7 @@
         android:paddingVertical="20dp"
         android:text="@string/birthdayRemindMe"
         android:textColor="@color/colorHint"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
@@ -114,7 +114,7 @@
         android:paddingVertical="20dp"
         android:text="@string/birthdaysDaysPrior"
         android:textColor="@color/colorHint"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="@+id/tvSaveYear"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
@@ -125,7 +125,7 @@
         android:background="@drawable/round_corner_accent"
         android:text="@string/birthdayDialogAdd"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="17sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"

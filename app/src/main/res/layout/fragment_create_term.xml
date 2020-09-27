@@ -18,7 +18,7 @@
         android:maxLength="40"
         android:textColor="@color/colorOnBackGround"
         android:textColorHint="@color/colorHint"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_size_big"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         android:maxLength="40"
         android:textColor="@color/colorOnBackGround"
         android:textColorHint="@color/colorHint"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_size_big"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:text="Date"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="20sp"
+            android:textSize="@dimen/font_size_big"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:text="Mo, 25.03.2020"
             android:textColor="@color/colorHint"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTermTimePanel" />
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:text="Start-Time"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="20sp"
+            android:textSize="@dimen/font_size_big"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,7 +111,7 @@
             android:layout_height="wrap_content"
             android:text="17:00"
             android:textColor="@color/colorHint"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTermTimeTitel" />
@@ -143,7 +143,7 @@
             android:layout_height="wrap_content"
             android:text="End-Time"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="20sp"
+            android:textSize="@dimen/font_size_big"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:text="19:00"
             android:textColor="@color/colorHint"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTermEndTimeTitel" />
@@ -176,7 +176,7 @@
         android:layout_marginTop="16dp"
         android:text="Duration"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_size_big"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dividerBelowWakeTime" />
 

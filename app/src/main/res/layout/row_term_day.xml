@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="22sp"
+            android:textSize="@dimen/font_size_big"
             app:layout_constraintBottom_toBottomOf="@+id/tvTermItemEndTime"
             app:layout_constraintEnd_toEndOf="@+id/tvTermItemStartTime"
             app:layout_constraintStart_toStartOf="@+id/tvTermItemStartTime"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/tvTermItemStartTime"
             app:layout_constraintTop_toBottomOf="@id/tvTermItemStartTime" />
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:textColor="@color/colorOnBackGround"
-            android:textSize="17sp"
+            android:textSize="@dimen/font_size_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tvTermItemStartTime"
             app:layout_constraintTop_toTopOf="parent" />

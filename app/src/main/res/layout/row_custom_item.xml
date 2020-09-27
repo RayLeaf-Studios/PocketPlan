@@ -15,7 +15,7 @@
         android:textColor="@color/colorOnBackGround"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textSize="16sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:padding="4dp"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="16sp"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

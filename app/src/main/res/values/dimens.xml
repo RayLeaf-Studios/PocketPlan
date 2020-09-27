@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="font_size_prio_buttons">20sp</dimen>
-    <dimen name="font_size_dialog_titles">20sp</dimen>
-    <dimen name="font_size_list_items">17sp</dimen>
-    <dimen name="font_size_daysofweek">15sp</dimen>
+    <dimen name="font_size_big">20sp</dimen>
+    <dimen name="font_size_medium">17sp</dimen>
+    <dimen name="font_size_small">15sp</dimen>
+    <dimen name="font_size_very_small">13sp</dimen>
 </resources>
