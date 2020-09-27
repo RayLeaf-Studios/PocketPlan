@@ -3,23 +3,24 @@ package com.pocket_plan.j7_003
 import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
-import com.pocket_plan.j7_003.data.calendar.CalendarAppointment
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.notelist.Note
@@ -40,9 +41,10 @@ import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
+import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
-import java.util.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -420,6 +422,89 @@ class MainActivity : AppCompatActivity() {
         if (SettingsManager.getSetting(setting) == null) {
             SettingsManager.addSetting(setting, value)
         }
+    }
+
+    /**
+     * Opens a dialog, asking the user to confirm a deletion by swiping a seekBar and then
+     * pressing a button. The action to be executed when the button is pressed can be passed as a lambda.
+     * @param titleId Resource id pointing to the String that will be displayed as dialog title
+     * @param action Lambda that will be executed when btnDelete is pressed
+     */
+
+    @SuppressLint("InflateParams")
+    fun dialogConfirmDelete(titleId: Int, action: () -> Unit){
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
+
+        //AlertDialogBuilder
+        val myBuilder = AlertDialog.Builder(act).setView(myDialogView)
+        val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
+        customTitle.tvDialogTitle.text = getString(titleId)
+        myBuilder.setCustomTitle(customTitle)
+        val myAlertDialog = myBuilder.create()
+
+        val btnCancelDelete = myDialogView.btnCancelDelete
+        val btnDelete = myDialogView.btnDelete
+        val sbDelete = myDialogView.sbDelete
+
+        var allowDelete = false
+
+        //allow deletion and set color to delete button if seekBar is at 100%, remove color and
+        //disallow deletion otherwise
+        sbDelete.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                /* no-op */
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                /* no-op */
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (progress == 100) {
+                    allowDelete = true
+                    btnDelete.setBackgroundResource(R.drawable.round_corner_red)
+                    btnDelete.setTextColor(
+                        ContextCompat.getColor(
+                            act,
+                            R.color.colorOnBackGround
+                        )
+                    )
+                } else {
+                    if (allowDelete) {
+                        allowDelete = false
+                        btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
+                        btnDelete.setTextColor(
+                            ContextCompat.getColor(
+                                act,
+                                R.color.colorHint
+                            )
+                        )
+                    }
+
+                }
+
+            }
+        })
+
+        //Shake animate seekBar if its not at 100%, execute delete action and dismiss dialog otherwise
+        btnDelete.setOnClickListener {
+            if (!allowDelete) {
+                val animationShake =
+                    AnimationUtils.loadAnimation(act, R.anim.shake)
+                sbDelete.startAnimation(animationShake)
+                return@setOnClickListener
+            }
+            action()
+            myAlertDialog.dismiss()
+        }
+
+        //hide dialog when "Cancel" is pressed
+        btnCancelDelete.setOnClickListener {
+            myAlertDialog.dismiss()
+        }
+
+        //show dialog
+        myAlertDialog.show()
     }
 
 

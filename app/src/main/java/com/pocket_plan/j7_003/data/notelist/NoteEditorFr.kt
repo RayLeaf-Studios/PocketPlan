@@ -5,10 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -19,11 +17,10 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
-import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.fragment_note_editor.view.*
-import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
 
 
 class NoteEditorFr : Fragment() {
@@ -158,7 +155,7 @@ class NoteEditorFr : Fragment() {
 
         //AlertDialogBuilder
         val myBuilder = MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val customTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = resources.getText(R.string.noteDiscardDialogTitle)
         myBuilder?.setCustomTitle(customTitle)
 
@@ -212,7 +209,7 @@ class NoteEditorFr : Fragment() {
 
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
-        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        val editTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         editTitle.tvDialogTitle.text = getString(R.string.menuTitleColorChoose)
         myBuilder.setCustomTitle(editTitle)
 
@@ -248,79 +245,15 @@ class NoteEditorFr : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun openDeleteNoteDialog() {
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
-
-        //AlertDialogBuilder
-        val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
-        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        editTitle.tvDialogTitle.text = resources.getText(R.string.noteDeleteDialogText)
-        myBuilder.setCustomTitle(editTitle)
-        val myAlertDialog = myBuilder.create()
-
-        val btnCancelNew = myDialogView.btnCancelNew
-        val btnDeleteNote = myDialogView.btnDelete
-        val mySeekBar = myDialogView.sbDeleteNote
-
-        var allowDelete = false
-
-        mySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (progress == 100) {
-                    allowDelete = true
-                    btnDeleteNote.setBackgroundResource(R.drawable.round_corner_red)
-                    btnDeleteNote.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorOnBackGround
-                        )
-                    )
-                } else {
-                    if (allowDelete) {
-                        allowDelete = false
-                        btnDeleteNote.setBackgroundResource(R.drawable.round_corner_gray)
-                        btnDeleteNote.setTextColor(
-                            ContextCompat.getColor(
-                                MainActivity.act,
-                                R.color.colorHint
-                            )
-                        )
-                    }
-
-                }
-
-            }
-        })
-
-        btnDeleteNote.setOnClickListener {
-            if (!allowDelete) {
-                val animationShake =
-                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
-                mySeekBar.startAnimation(animationShake)
-                return@setOnClickListener
-            }
-
+        val titleId = R.string.noteDeleteDialogText
+        val action: () -> Unit = {
             NoteFr.noteListInstance.remove(MainActivity.editNoteHolder)
             MainActivity.editNoteHolder = null
             NoteFr.noteListInstance.save()
             MainActivity.act.hideKeyboard()
-            myAlertDialog.dismiss()
             MainActivity.activeFragmentTag = FT.EMPTY
             MainActivity.act.changeToFragment(FT.NOTES)
         }
-
-        btnCancelNew.setOnClickListener {
-            myAlertDialog.dismiss()
-        }
-
-        //show dialog
-        myAlertDialog.show()
+        MainActivity.act.dialogConfirmDelete(titleId, action)
     }
 }

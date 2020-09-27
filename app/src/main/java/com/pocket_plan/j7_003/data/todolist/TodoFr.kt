@@ -19,7 +19,7 @@ import com.pocket_plan.j7_003.R.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
-import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -200,7 +200,7 @@ class TodoFr : Fragment() {
             MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         myBuilder?.setCustomTitle(
             layoutInflater.inflate(
-                R.layout.title_dialog_add_task,
+                R.layout.title_dialog,
                 null
             )
         )
@@ -359,7 +359,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             //AlertDialogBuilder
             val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
             val editTitle = LayoutInflater.from(activity).inflate(
-                layout.title_dialog_add_task,
+                layout.title_dialog,
                 null
             )
             editTitle.tvDialogTitle.text = MainActivity.act.resources.getText(string.menuTitleTasks)

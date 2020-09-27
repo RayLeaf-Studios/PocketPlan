@@ -282,7 +282,7 @@ class HomeFr : Fragment() {
 
         //AlertDialogBuilder
         val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        myBuilder?.setCustomTitle(layoutInflater.inflate(R.layout.title_dialog_add_task, null))
+        myBuilder?.setCustomTitle(layoutInflater.inflate(R.layout.title_dialog, null))
 
         //show dialog
         val myAlertDialog = myBuilder?.create()

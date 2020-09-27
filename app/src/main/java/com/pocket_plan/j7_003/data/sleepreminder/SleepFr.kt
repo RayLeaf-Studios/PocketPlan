@@ -19,7 +19,7 @@ import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.dialog_pick_time.view.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.row_sleep.view.*
-import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.DayOfWeek
 
 /**
@@ -183,7 +183,7 @@ class SleepFr : Fragment() {
 
             val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
             val customTitle = LayoutInflater.from(activity)
-                .inflate(R.layout.title_dialog_add_task, null)
+                .inflate(R.layout.title_dialog, null)
 
             customTitle.tvDialogTitle.text = resources.getText(R.string.sleepDuration)
             myBuilder.setCustomTitle(customTitle)
@@ -341,7 +341,7 @@ class SleepAdapter :
 
             val myBuilder2 = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
             val customTitle2 =
-                LayoutInflater.from(MainActivity.act).inflate(R.layout.title_dialog_add_task, null)
+                LayoutInflater.from(MainActivity.act).inflate(R.layout.title_dialog, null)
             customTitle2.tvDialogTitle.text = MainActivity.act.getString(
                 R.string.sleepDurationDay, day.toString()
             )

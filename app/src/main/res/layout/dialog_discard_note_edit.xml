@@ -18,7 +18,7 @@
         android:textColor="@color/colorOnBackGround"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sbDeleteNote" />
+        app:layout_constraintTop_toBottomOf="@+id/sbDelete" />
 
     <Button
         android:id="@+id/btnDiscardChanges"
@@ -30,6 +30,6 @@
         android:textColor="@color/colorOnBackGround"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sbDeleteNote" />
+        app:layout_constraintTop_toBottomOf="@+id/sbDelete" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,8 +11,6 @@ import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDialog
-import androidx.appcompat.widget.AlertDialogLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,7 +22,7 @@ import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
-import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
 
@@ -480,7 +478,7 @@ class BirthdayFr : Fragment() {
 
         //AlertDialogBuilder
         val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogEditTitle)
         myBuilder?.setCustomTitle(myTitle)
 
@@ -734,7 +732,7 @@ class BirthdayFr : Fragment() {
 
         //AlertDialogBuilder
         val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val myTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogAddTitle)
         myBuilder?.setCustomTitle(myTitle)
 

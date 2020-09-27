@@ -11,7 +11,6 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -27,11 +26,10 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
-import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
-import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
 
 
 /**
@@ -180,77 +178,14 @@ class ShoppingFr : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun dialogShoppingClear() {
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
-
-        //AlertDialogBuilder
-        val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
-        val editTitle = layoutInflater.inflate(R.layout.title_dialog_add_task, null)
-        editTitle.tvDialogTitle.text = getString(R.string.shopping_dialog_clear_title)
-        myBuilder.setCustomTitle(editTitle)
-        val myAlertDialog = myBuilder.create()
-
-        val btnCancelNew = myDialogView.btnCancelNew
-        val btnClearShoppingList = myDialogView.btnDelete
-        val mySeekbar = myDialogView.sbDeleteNote
-
-        var allowDelete = false
-
-        mySeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (progress == 100) {
-                    allowDelete = true
-                    btnClearShoppingList.setBackgroundResource(R.drawable.round_corner_red)
-                    btnClearShoppingList.setTextColor(
-                        ContextCompat.getColor(
-                            MainActivity.act,
-                            R.color.colorOnBackGround
-                        )
-                    )
-                } else {
-                    if (allowDelete) {
-                        allowDelete = false
-                        btnClearShoppingList.setBackgroundResource(R.drawable.round_corner_gray)
-                        btnClearShoppingList.setTextColor(
-                            ContextCompat.getColor(
-                                MainActivity.act,
-                                R.color.colorHint
-                            )
-                        )
-                    }
-
-                }
-
-            }
-        })
-
-        btnClearShoppingList.setOnClickListener {
-            if (!allowDelete) {
-                val animationShake =
-                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
-                mySeekbar.startAnimation(animationShake)
-                return@setOnClickListener
-            }
+        val titleId = R.string.shopping_dialog_clear_title
+        val action: () -> Unit = {
             shoppingListInstance.clear()
             shoppingListInstance.save()
             shoppingListAdapter.notifyDataSetChanged()
             myFragment.updateShoppingMenu()
-            myAlertDialog.dismiss()
         }
-
-        btnCancelNew.setOnClickListener {
-            myAlertDialog.dismiss()
-        }
-
-        //show dialog
-        myAlertDialog.show()
+        MainActivity.act.dialogConfirmDelete(titleId, action)
     }
 
     fun prepareForMove() {
@@ -300,7 +235,7 @@ class ShoppingFr : Fragment() {
         val myBuilder = MainActivity.act.let { it1 ->
             AlertDialog.Builder(it1).setView(MainActivity.addItemDialogView)
         }
-        val customTitle = mylayoutInflater.inflate(R.layout.title_dialog_add_task, null)
+        val customTitle = mylayoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
         myBuilder?.setCustomTitle(customTitle)
         MainActivity.addItemDialog = myBuilder?.create()
