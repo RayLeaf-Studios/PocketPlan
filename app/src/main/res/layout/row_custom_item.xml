@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:background="@drawable/round_corner_gray"
-    android:padding="5dp">
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="5dp"
+    >
 
     <TextView
         android:id="@+id/tvName"
