@@ -143,4 +143,7 @@
     <string name="home_notification_add_item">Item hinzugefügt!</string>
     <string name="home_notification_add_note">Notiz hinzugefügt!</string>
     <string name="shopping_item_added">Item hinzugefügt!</string>
+    <string name="custom_item_delete_title">Liste leeren?</string>
+    <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
+    <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
 </resources>

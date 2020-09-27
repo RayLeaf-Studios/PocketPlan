@@ -30,10 +30,10 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.SettingsNotesFr
-import com.pocket_plan.j7_003.data.settings.shoppinglist.CustomItemFr
-import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsAboutFr
-import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsBackupFr
-import com.pocket_plan.j7_003.data.settings.sub_fragments.SettingsShoppingFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsBackupFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplateList
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.TagList

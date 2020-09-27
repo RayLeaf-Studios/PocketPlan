@@ -1,4 +1,4 @@
-package com.pocket_plan.j7_003.data.settings.sub_fragments
+package com.pocket_plan.j7_003.data.settings.sub_categories
 
 import android.content.Intent
 import android.net.Uri

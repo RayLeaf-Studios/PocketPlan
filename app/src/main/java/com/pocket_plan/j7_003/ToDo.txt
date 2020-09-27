@@ -6,9 +6,6 @@ Back-End stuff before release:
     - check all streams for closure
 
 Front-End stuff to-do before release in following order:
-    - 1 dialog for clear custom user item
-    - 1 dialog for clear taskList checked
-    - 1 dialog for clear taskList
     - 2 redesign custom user item row (bigger, maybe color?)
     - 3 cleanup add birthday logic
 

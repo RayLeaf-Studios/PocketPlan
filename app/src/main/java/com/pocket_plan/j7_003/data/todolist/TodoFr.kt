@@ -60,7 +60,11 @@ class TodoFr : Fragment() {
         when (item.itemId) {
             R.id.item_tasks_delete_checked -> {
                 //delete checked tasks and update the undoTask icon
-                myFragment.manageCheckedTaskDeletion()
+                val titleId = R.string.todo_dialog_clear_checked_title
+                val action : () -> Unit = {
+                    myFragment.manageCheckedTaskDeletion()
+                }
+                MainActivity.act.dialogConfirmDelete(titleId, action)
             }
             R.id.item_tasks_undo -> {
 
@@ -80,9 +84,12 @@ class TodoFr : Fragment() {
             }
             R.id.item_tasks_clear -> {
                 //delete ALL tasks in list
-                //todo put a dialog here
-                todoListInstance.clear()
-                myAdapter.notifyDataSetChanged()
+                val titleId = R.string.todo_dialog_clear_title
+                val action : () -> Unit = {
+                    todoListInstance.clear()
+                    myAdapter.notifyDataSetChanged()
+                }
+                MainActivity.act.dialogConfirmDelete(titleId, action)
             }
             R.id.item_tasks_uncheck_all -> {
                 //uncheck all tasks

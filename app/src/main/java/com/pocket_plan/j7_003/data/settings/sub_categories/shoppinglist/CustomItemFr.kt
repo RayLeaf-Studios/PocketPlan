@@ -1,4 +1,4 @@
-package com.pocket_plan.j7_003.data.settings.shoppinglist
+package com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import kotlinx.android.synthetic.main.fragment_custom_item.view.*
@@ -58,10 +59,14 @@ class CustomItemFr : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
            R.id.item_custom_clear -> {
-              userItemTemplateList.clear()
-               userItemTemplateList.save()
-               myAdapter.notifyDataSetChanged()
-               updateClearCustomListIcon()
+               val action : () -> Unit = {
+                   userItemTemplateList.clear()
+                   userItemTemplateList.save()
+                   myAdapter.notifyDataSetChanged()
+                   updateClearCustomListIcon()
+               }
+               val titleId = R.string.custom_item_delete_title
+               MainActivity.act.dialogConfirmDelete(titleId, action)
            }
         }
         return super.onOptionsItemSelected(item)
