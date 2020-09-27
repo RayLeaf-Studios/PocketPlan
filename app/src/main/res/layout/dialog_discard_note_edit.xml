@@ -16,7 +16,7 @@
         android:background="@drawable/round_corner_accent"
         android:text="@string/noteDiscardDialogSave"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_big"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbDeleteNote" />
 
@@ -28,7 +28,7 @@
         android:background="@drawable/round_corner_red"
         android:text="@string/noteDiscardDialogDiscard"
         android:textColor="@color/colorOnBackGround"
-        android:textSize="@dimen/font_size_big"
+        android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbDeleteNote" />
 

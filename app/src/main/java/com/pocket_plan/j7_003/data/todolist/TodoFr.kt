@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.data.todolist
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.title_dialog_add_task.view.*
  */
 
 class TodoFr : Fragment() {
-    lateinit var myMenu: Menu
+    private lateinit var myMenu: Menu
 
     companion object {
         lateinit var myFragment: TodoFr
@@ -102,6 +103,9 @@ class TodoFr : Fragment() {
         myRecycler = myView.recycler_view_todo
         myFragment = this
 
+        deletedTask = null
+        deletedTaskList.clear()
+
         /**
          * Adding Task via floating action button
          * Onclick-Listener opening the add-task dialog
@@ -135,7 +139,9 @@ class TodoFr : Fragment() {
     }
 
     fun updateUndoTaskIcon() {
-        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTask != null || deletedTaskList.size > 0
+        val result = deletedTask != null || deletedTaskList.size > 0
+        Log.e("here", result.toString())
+        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = result
     }
 
     private fun updateClearTaskListIcon() {

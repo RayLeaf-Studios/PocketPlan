@@ -4,6 +4,7 @@
     >
     <item android:id="@+id/item_tasks_undo"
         android:title=""
+        android:icon="@drawable/ic_action_undo"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/item_tasks_delete_checked"

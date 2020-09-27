@@ -6,6 +6,11 @@ Back-End stuff before release:
     - check all streams for closure
 
 Front-End stuff to-do before release in following order:
+    - dialog for clear custom user item
+    - dialog for clear taskList checked
+    - dialog for clear taskList
+
+    - redesign custom user item row (bigger, maybe color?)
 
     - Finish ItemList and TagList in german
     - Translate ItemList and TagList to english
@@ -26,6 +31,7 @@ Front-End stuff to-do before release in following order:
 
 
 Add after release:
+    - let user pick custom note color?
     - Front-End / Back-End ? option to change language
     - Add more languages
     - WeekPlanner / Calendar
