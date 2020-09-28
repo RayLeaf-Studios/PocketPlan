@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,7 +11,7 @@ import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -22,7 +21,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
-import kotlinx.android.synthetic.main.row_birthday.view.*
+import kotlinx.android.synthetic.main.row_birthday_new.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
@@ -442,7 +441,7 @@ class BirthdayFr : Fragment() {
 
                 val daysPriorTextEdit =
                     MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
-                        .toString() + MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+                        .toString() +" "+ MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
                 tvDaysPrior.text = daysPriorTextEdit
 
             }
@@ -553,6 +552,13 @@ class BirthdayFr : Fragment() {
 
         val cbSaveBirthdayYear = myDialogView.cbSaveBirthdayYear
         val cbNotifyMe = myDialogView.cbNotifyMe
+
+        /**
+         * INITIALIZE VALUES
+         */
+
+        val initPriorText = MainActivity.act.resources.getQuantityString(R.plurals.day, 0)+" "+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+        tvDaysPrior.text = initPriorText
 
         /**
          * INITIALIZE LISTENERS
@@ -685,21 +691,20 @@ class BirthdayFr : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 cachedRemindText = etDaysToRemind.text.toString()
-                val color = if (cachedRemindText == "" || cachedRemindText.toInt() == 0) {
-                    ContextCompat.getColor(MainActivity.act, R.color.colorHint)
+                var color = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
+                var amount = 0
+                if (cachedRemindText == "" || cachedRemindText.toInt() == 0) {
+                    amount = 0
                 } else {
-                    ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround)
+                    color = ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround)
+                    amount = cachedRemindText.toInt()
                 }
                 tvRemindMe.setTextColor(color)
                 etDaysToRemind.setTextColor(color)
                 tvDaysPrior.setTextColor(color)
 
-                //todo fix this with plurals
-                val addition = when (cachedRemindText == "") {
-                    true -> ""
-                    false -> "s"
-                }
-                tvDaysPrior.text = resources.getText(R.string.birthdaysDaysPrior, addition)
+                val result = MainActivity.act.resources.getQuantityString(R.plurals.day, amount)+" "+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+                tvDaysPrior.text = result
 
             }
 
@@ -851,7 +856,7 @@ class BirthdayAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_birthday, parent, false)
+            .inflate(R.layout.row_birthday_new, parent, false)
         return BirthdayViewHolder(itemView)
     }
 
@@ -882,14 +887,19 @@ class BirthdayAdapter :
         holder.birthday = currentBirthday
 
         if (currentBirthday.daysToRemind < 0) {
-            //initialize month divider design
+            //hide everything not related to year or month divider
             holder.tvRowBirthdayDivider.visibility = View.VISIBLE
             holder.tvRowBirthdayDivider.text = currentBirthday.name
             holder.tvRowBirthdayDate.text = ""
             holder.tvRowBirthdayName.text = ""
+            holder.itemView.setOnLongClickListener { true }
+            holder.itemView.setOnClickListener { }
+            holder.itemView.tvBirthdayInfo.visibility = View.GONE
+            holder.itemView.icon_bell.visibility = View.GONE
 
-            val textColorId = when(currentBirthday.daysToRemind){
-                -200 -> R.color.colorOnBackGround
+            //determine the background color of the card
+            val backgroundColorId = when (currentBirthday.daysToRemind) {
+                -200 -> R.color.colorBackground
                 -1 -> R.color.colorMonth1
                 -2 -> R.color.colorMonth2
                 -3 -> R.color.colorMonth3
@@ -904,29 +914,28 @@ class BirthdayAdapter :
                 else -> R.color.colorMonth12
             }
 
-            holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-            if(currentBirthday.daysToRemind!=-200){
-                //MONTH
-                holder.tvRowBirthdayDivider.textSize = 20f
-                holder.clColorMonth.setBackgroundColor(ContextCompat.getColor(MainActivity.act, textColorId))
-                holder.clColorMonth.visibility = View.VISIBLE
-            }else{
+            holder.cvBirthday.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    MainActivity.act,
+                    backgroundColorId
+                )
+            )
+
+            //determine fontSize
+            if (currentBirthday.daysToRemind == -200) {
                 //YEAR
                 holder.itemView.layoutParams.height = 300
                 holder.tvRowBirthdayDivider.textSize = 22f
-                holder.clColorMonth.visibility = View.GONE
+                holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            } else {
+                //MONTH
+                holder.tvRowBirthdayDivider.textSize = 20f
+                holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorBackground))
             }
 
-            holder.myView.setBackgroundResource(R.color.colorBackground)
-            holder.itemView.setOnLongClickListener { true }
-            holder.itemView.setOnClickListener { }
-            holder.itemView.cvBirthdayInfo.visibility = View.GONE
-            holder.itemView.icon_bell.visibility = View.GONE
-
-            holder.myConstraintLayout.visibility = View.GONE
-
             //check if its a year divider, and display divider lines if its the case
-            val dividerVisibility = when(currentBirthday.daysToRemind == -200){
+            val dividerVisibility = when (currentBirthday.daysToRemind == -200) {
                 true -> View.VISIBLE
                 else -> View.GONE
             }
@@ -935,9 +944,13 @@ class BirthdayAdapter :
             return
         }
 
-        holder.clColorMonth.visibility = View.GONE
+        //reset color
+        if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
+            holder.cvBirthday.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorPriority2))
+        } else {
+            holder.cvBirthday.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundListElement))
+        }
 
-        holder.myConstraintLayout.visibility = View.VISIBLE
         //initialize regular birthday design
         holder.tvRowBirthdayDivider.visibility = View.GONE
         holder.myDividerLeft.visibility = View.GONE
@@ -952,7 +965,7 @@ class BirthdayAdapter :
 
         //display info if birthday is expanded
         if (currentBirthday.expanded) {
-            holder.itemView.cvBirthdayInfo.visibility = View.VISIBLE
+            holder.itemView.tvBirthdayInfo.visibility = View.VISIBLE
             var ageText = MainActivity.act.resources.getString(R.string.birthdayAgeUnknown)
             if (holder.birthday.year != 0) {
                 val birthday = holder.birthday
@@ -972,7 +985,7 @@ class BirthdayAdapter :
                 )
             holder.itemView.tvBirthdayInfo.text = ageText + reminderText
         } else {
-            holder.itemView.cvBirthdayInfo.visibility = View.GONE
+            holder.itemView.tvBirthdayInfo.visibility = View.GONE
         }
 
 
@@ -984,12 +997,10 @@ class BirthdayAdapter :
         holder.tvRowBirthdayDate.text = dateString
         holder.tvRowBirthdayName.text = currentBirthday.name
 
+
+        //todo figure a way out to display this in another way, blue under blue month label => low contrast
+        //maybe animation?
         // Blue background if birthday is today
-        if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
-            holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_accent)
-        } else {
-            holder.myConstraintLayout.setBackgroundResource(R.drawable.round_corner_gray)
-        }
 
         //opens dialog to edit this birthday
         holder.itemView.setOnLongClickListener {
@@ -1026,10 +1037,9 @@ class BirthdayAdapter :
         val iconBell: ImageView = itemView.icon_bell
         val myView: View = itemView
         val tvRowBirthdayDivider: TextView = itemView.tvRowBirthdayDivider
-        val myConstraintLayout: ConstraintLayout = itemView.constr
+        val cvBirthday: CardView = itemView.cvBirthday
         val myDividerLeft: View = itemView.viewDividerLeft
         val myDividerRight: View = itemView.viewDividerRight
-        val clColorMonth: ConstraintLayout = itemView.clColorMonth
     }
 
 }

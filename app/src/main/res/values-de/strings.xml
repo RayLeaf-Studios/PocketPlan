@@ -146,4 +146,5 @@
     <string name="custom_item_delete_title">Liste leeren?</string>
     <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
     <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
+    <string name="prior">prior</string>
 </resources>
