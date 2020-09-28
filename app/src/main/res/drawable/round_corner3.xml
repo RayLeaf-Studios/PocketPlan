@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
-    <stroke
-        android:width="3dp"
-        android:color="@color/colorPriority3" />
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:angle="180"
+                android:startColor="@color/colorPriority3light"
+                android:endColor="@color/colorPriority3"
+                android:type="linear"
+                />
+            <corners android:radius="8dp"/>
+        </shape>
 
-    <solid android:color="@color/colorPriority3" />
-
-    <padding
-        android:left="1dp"
-        android:right="1dp"
-        android:bottom="1dp"
-        android:top="1dp" />
-
-    <corners android:radius="3dp" />
-</shape>
+    </item>
+</selector>

@@ -7,6 +7,7 @@
     <color name="colorHint">#757272</color>
 
     <color name="colorPrimary">#1C1C1C</color>
+    <color name="colorPrimaryLight">#353535</color>
     <color name="colorPrimaryDark">#000000</color>
 
     <color name="colorAccent">#0652A5</color>

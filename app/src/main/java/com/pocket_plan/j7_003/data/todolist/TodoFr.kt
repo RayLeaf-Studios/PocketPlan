@@ -351,31 +351,11 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                     color.colorOnBackGround
                 )
             )
-            var colorLeft: Int
-            var colorRight: Int
             when (currentTask.priority) {
-                1 -> {
-                    colorLeft = color.colorPriority1
-                    colorRight = color.colorPriority1light
-                }
-                2 -> {
-                    colorLeft = color.colorPriority2
-                    colorRight = color.colorPriority2light
-                }
-                else -> {
-                    colorLeft = color.colorPriority3
-                    colorRight = color.colorPriority3light
-                }
+                1 -> holder.itemView.setBackgroundResource(drawable.round_corner1)
+                2 -> holder.itemView.setBackgroundResource(drawable.round_corner2)
+                3 -> holder.itemView.setBackgroundResource(drawable.round_corner3)
             }
-            val myGradientDrawable = GradientDrawable(
-                GradientDrawable.Orientation.TL_BR,
-                intArrayOf(
-                    ContextCompat.getColor(MainActivity.act, colorLeft),
-                    ContextCompat.getColor(MainActivity.act, colorRight)
-                )
-            )
-            myGradientDrawable.cornerRadius = 14f
-            holder.itemView.background = myGradientDrawable
         }
 
         //User Interactions with Task List Item below
