@@ -98,7 +98,7 @@
     <string name="homeNoTasks">\n\tKeine wichtigen Aufgaben\n</string>
     <string name="homeNoBirthdays">\n\tHeute stehen keine Geburtstage an\n</string>
     <string name="sleepWakeUpTimeDay">Aufstehzeit - %1$s</string>
-    <string name="sleepDurationDay">Schlafdauer - %1$s</string>
+    <string name="sleepDurationDay">Schlafdauer</string>
     <string name="sleepNotificationTitle">Schlafenszeit</string>
     <string name="sleepNotificationText">Zeit schlafen zu gehen, schönen Schlaf!</string>
     <string name="birthdayNotificationTitle">Geburtstage</string>

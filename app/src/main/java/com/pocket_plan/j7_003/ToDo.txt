@@ -18,6 +18,13 @@ Front-End stuff to-do before release in following order:
 
     - 2 final code cleanup
 
+    - choose a license
+    - create a playStore account
+    - choose a company name
+    - choose screenshots for playStore page
+    - choose description for playStore page
+
+
 
 
 Add after release:

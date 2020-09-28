@@ -343,7 +343,7 @@ class SleepAdapter :
             val customTitle2 =
                 LayoutInflater.from(MainActivity.act).inflate(R.layout.title_dialog, null)
             customTitle2.tvDialogTitle.text = MainActivity.act.getString(
-                R.string.sleepDurationDay, day.toString()
+                R.string.sleepDurationDay
             )
             myBuilder2.setCustomTitle(customTitle2)
 

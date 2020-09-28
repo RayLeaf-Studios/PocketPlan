@@ -74,7 +74,7 @@
     <string name="sleepWakeUpTime">Wakeup Time</string>
     <string name="sleepWakeUpTimeDay">Wakeup Time - %1$s</string>
     <string name="sleepDuration">Sleep duration</string>
-    <string name="sleepDurationDay">Sleep Duration - %1$s</string>
+    <string name="sleepDurationDay">Sleep Duration</string>
     <string name="sleepEnable">Enable Reminder</string>
     <string name="sleepCustomDays">Enable Custom Days</string>
     <string name="sleepMon">Mon</string>
