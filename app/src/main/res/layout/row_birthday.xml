@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvBirthday"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/colorBackgroundElevated"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constr"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="12dp"
-        android:background="@drawable/round_corner_gray"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tvRowBirthdayDate"
@@ -53,91 +42,65 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/tvRowBirthdayName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvRowBirthdayName"
             app:srcCompat="@drawable/ic_bell" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cvBirthdayInfo"
+        <TextView
+            android:id="@+id/tvBirthdayInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="13dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="3dp"
+            android:paddingBottom="8dp"
             android:visibility="gone"
+            android:textColor="@color/colorOnBackGround"
+            android:paddingEnd="0dp"
+            android:paddingStart="13dp"
+            android:textSize="@dimen/font_size_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRowBirthdayName">
 
-            <TextView
-                android:id="@+id/tvBirthdayInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
-                android:text=""
-                android:textColor="@color/colorOnBackGround"
-                android:textSize="@dimen/font_size_small"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        </TextView>
+        <TextView
+            android:id="@+id/tvRowBirthdayDivider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="13dp"
+            android:textSize="@dimen/font_size_big"
+            android:textColor="@color/colorOnBackGround"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="September" />
 
-            </TextView>
+        <View
+            android:id="@+id/viewDividerLeft"
+            android:layout_width="100dp"
+            android:layout_height="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvRowBirthdayDivider"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
+            app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
+            tools:layout_editor_absoluteX="1dp" />
 
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/viewDividerRight"
+            android:layout_width="100dp"
+            app:layout_constraintStart_toEndOf="@id/tvRowBirthdayDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
+            app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
+            tools:layout_editor_absoluteX="206dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:id="@+id/clColorMonth"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/tvRowBirthdayDivider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="13dp"
-        android:textSize="@dimen/font_size_big"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="September" />
-
-
-
-    <View
-        android:id="@+id/viewDividerLeft"
-        android:layout_width="100dp"
-        android:layout_height="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tvRowBirthdayDivider"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
-        app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
-        tools:layout_editor_absoluteX="1dp" />
-
-    <View
-        android:id="@+id/viewDividerRight"
-        android:layout_width="100dp"
-        app:layout_constraintStart_toEndOf="@id/tvRowBirthdayDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
-        app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
-        tools:layout_editor_absoluteX="206dp" />
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
 

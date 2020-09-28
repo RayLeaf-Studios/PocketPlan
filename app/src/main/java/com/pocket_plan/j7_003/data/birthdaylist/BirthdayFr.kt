@@ -21,10 +21,11 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
-import kotlinx.android.synthetic.main.row_birthday_new.view.*
+import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -557,7 +558,9 @@ class BirthdayFr : Fragment() {
          * INITIALIZE VALUES
          */
 
-        val initPriorText = MainActivity.act.resources.getQuantityString(R.plurals.day, 0)+" "+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+        val initPriorText = MainActivity.act.resources.getQuantityString(R.plurals.day, 0)+" "+MainActivity.act.resources.getString(
+            R.string.birthdaysDaysPrior
+        )
         tvDaysPrior.text = initPriorText
 
         /**
@@ -703,7 +706,9 @@ class BirthdayFr : Fragment() {
                 etDaysToRemind.setTextColor(color)
                 tvDaysPrior.setTextColor(color)
 
-                val result = MainActivity.act.resources.getQuantityString(R.plurals.day, amount)+" "+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+                val result = MainActivity.act.resources.getQuantityString(R.plurals.day, amount)+" "+MainActivity.act.resources.getString(
+                    R.string.birthdaysDaysPrior
+                )
                 tvDaysPrior.text = result
 
             }
@@ -856,7 +861,7 @@ class BirthdayAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_birthday_new, parent, false)
+            .inflate(R.layout.row_birthday, parent, false)
         return BirthdayViewHolder(itemView)
     }
 
@@ -921,17 +926,33 @@ class BirthdayAdapter :
                 )
             )
 
-            //determine fontSize
             if (currentBirthday.daysToRemind == -200) {
                 //YEAR
                 holder.itemView.layoutParams.height = 300
                 holder.tvRowBirthdayDivider.textSize = 22f
-                holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                holder.tvRowBirthdayDivider.setTextColor(
+                    ContextCompat.getColor(
+                        MainActivity.act,
+                        R.color.colorOnBackGround
+                    )
+                )
+
+                val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+                params.setMargins(50,20,50,20)
+
             } else {
+                val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+                params.setMargins(20,20,20,20)
+
                 //MONTH
                 holder.tvRowBirthdayDivider.textSize = 20f
                 holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                holder.tvRowBirthdayDivider.setTextColor(
+                    ContextCompat.getColor(
+                        MainActivity.act,
+                        R.color.colorOnBackGround
+                    )
+                )
             }
 
             //check if its a year divider, and display divider lines if its the case
@@ -944,11 +965,25 @@ class BirthdayAdapter :
             return
         }
 
+        //reset margin
+        val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+        params.setMargins(60,20,60,20)
+
         //reset color
         if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
-            holder.cvBirthday.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorPriority2))
+            holder.cvBirthday.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    MainActivity.act,
+                    R.color.colorPriority2
+                )
+            )
         } else {
-            holder.cvBirthday.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundListElement))
+            holder.cvBirthday.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    MainActivity.act,
+                    R.color.colorBackgroundListElement
+                )
+            )
         }
 
         //initialize regular birthday design
