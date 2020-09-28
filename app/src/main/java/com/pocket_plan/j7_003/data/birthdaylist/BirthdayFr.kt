@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -442,7 +443,7 @@ class BirthdayFr : Fragment() {
 
                 val daysPriorTextEdit =
                     MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
-                        .toString() +" "+ MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+                        .toString() + " " + MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
                 tvDaysPrior.text = daysPriorTextEdit
 
             }
@@ -558,7 +559,10 @@ class BirthdayFr : Fragment() {
          * INITIALIZE VALUES
          */
 
-        val initPriorText = MainActivity.act.resources.getQuantityString(R.plurals.day, 0)+" "+MainActivity.act.resources.getString(
+        val initPriorText = MainActivity.act.resources.getQuantityString(
+            R.plurals.day,
+            0
+        ) + " " + MainActivity.act.resources.getString(
             R.string.birthdaysDaysPrior
         )
         tvDaysPrior.text = initPriorText
@@ -706,7 +710,10 @@ class BirthdayFr : Fragment() {
                 etDaysToRemind.setTextColor(color)
                 tvDaysPrior.setTextColor(color)
 
-                val result = MainActivity.act.resources.getQuantityString(R.plurals.day, amount)+" "+MainActivity.act.resources.getString(
+                val result = MainActivity.act.resources.getQuantityString(
+                    R.plurals.day,
+                    amount
+                ) + " " + MainActivity.act.resources.getString(
                     R.string.birthdaysDaysPrior
                 )
                 tvDaysPrior.text = result
@@ -871,7 +878,7 @@ class BirthdayAdapter :
         //Last birthday is spacer birthday
         if (position == BirthdayFr.birthdayListInstance.size) {
             holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.layoutParams.height = 280
+            holder.itemView.layoutParams.height = 220
             holder.itemView.setOnLongClickListener { true }
             holder.itemView.setOnClickListener {}
             return
@@ -902,29 +909,7 @@ class BirthdayAdapter :
             holder.itemView.tvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
 
-            //determine the background color of the card
-            val backgroundColorId = when (currentBirthday.daysToRemind) {
-                -200 -> R.color.colorBackground
-                -1 -> R.color.colorMonth1
-                -2 -> R.color.colorMonth2
-                -3 -> R.color.colorMonth3
-                -4 -> R.color.colorMonth4
-                -5 -> R.color.colorMonth5
-                -6 -> R.color.colorMonth6
-                -7 -> R.color.colorMonth7
-                -8 -> R.color.colorMonth8
-                -9 -> R.color.colorMonth9
-                -10 -> R.color.colorMonth10
-                -11 -> R.color.colorMonth11
-                else -> R.color.colorMonth12
-            }
 
-            holder.cvBirthday.setCardBackgroundColor(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    backgroundColorId
-                )
-            )
 
             if (currentBirthday.daysToRemind == -200) {
                 //YEAR
@@ -938,11 +923,22 @@ class BirthdayAdapter :
                 )
 
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(50,20,50,20)
+                params.setMargins(50, 20, 50, 20)
+
+                val myGradientDrawable = GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    intArrayOf(
+                        ContextCompat.getColor(MainActivity.act, R.color.colorBackground),
+                        ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
+                    )
+                )
+                myGradientDrawable.cornerRadius = 360f
+                holder.cvBirthday.background = myGradientDrawable
+
 
             } else {
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(20,20,20,20)
+                params.setMargins(20, 20, 20, 20)
 
                 //MONTH
                 holder.tvRowBirthdayDivider.textSize = 20f
@@ -953,6 +949,32 @@ class BirthdayAdapter :
                         R.color.colorOnBackGround
                     )
                 )
+
+                //determine the background color of the card
+                val gradientPair: Pair<Int, Int> = when (currentBirthday.daysToRemind) {
+                    -1 -> Pair(R.color.colorMonth2, R.color.colorMonth1)
+                    -2 -> Pair(R.color.colorMonth3, R.color.colorMonth2)
+                    -3 -> Pair(R.color.colorMonth4, R.color.colorMonth3)
+                    -4 -> Pair(R.color.colorMonth5, R.color.colorMonth4)
+                    -5 -> Pair(R.color.colorMonth6, R.color.colorMonth5)
+                    -6 -> Pair(R.color.colorMonth7, R.color.colorMonth6)
+                    -7 -> Pair(R.color.colorMonth8, R.color.colorMonth7)
+                    -8 -> Pair(R.color.colorMonth9, R.color.colorMonth8)
+                    -9 -> Pair(R.color.colorMonth10, R.color.colorMonth9)
+                    -10 -> Pair(R.color.colorMonth11, R.color.colorMonth10)
+                    -11 -> Pair(R.color.colorMonth12, R.color.colorMonth11)
+                    else -> Pair(R.color.colorMonth1, R.color.colorMonth12)
+                }
+
+                val myGradientDrawable = GradientDrawable(
+                    GradientDrawable.Orientation.TL_BR,
+                    intArrayOf(
+                        ContextCompat.getColor(MainActivity.act, gradientPair.second),
+                        ContextCompat.getColor(MainActivity.act, gradientPair.first)
+                    )
+                )
+                myGradientDrawable.cornerRadius = 40f
+                holder.cvBirthday.background = myGradientDrawable
             }
 
             //check if its a year divider, and display divider lines if its the case
@@ -965,10 +987,15 @@ class BirthdayAdapter :
             return
         }
 
+        val colorA = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundListElement)
+        val colorB = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundListElement)
+        val myGradientDrawable =
+            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
+        myGradientDrawable.cornerRadius = 14f
+        holder.cvBirthday.background = myGradientDrawable
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-        params.setMargins(60,20,60,20)
-
+        params.setMargins(70, 20, 70, 20)
         //reset color
         if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
             holder.cvBirthday.setCardBackgroundColor(
