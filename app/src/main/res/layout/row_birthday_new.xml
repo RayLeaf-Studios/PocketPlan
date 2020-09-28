@@ -71,7 +71,7 @@
             android:gravity="center"
             android:padding="13dp"
             android:textSize="@dimen/font_size_big"
-            android:textColor="@color/colorBackground"
+            android:textColor="@color/colorOnBackGround"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

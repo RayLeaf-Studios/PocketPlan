@@ -931,7 +931,7 @@ class BirthdayAdapter :
                 //MONTH
                 holder.tvRowBirthdayDivider.textSize = 20f
                 holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorBackground))
+                holder.tvRowBirthdayDivider.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
             }
 
             //check if its a year divider, and display divider lines if its the case

@@ -124,7 +124,7 @@ class NoteEditorFr : Fragment() {
         //check if note was edited, return otherwise
         if (MainActivity.editNoteHolder != null && MainActivity.editNoteHolder!!.title == MainActivity.noteEditorFr.etNoteTitle.text.toString() &&
             MainActivity.editNoteHolder!!.content == MainActivity.noteEditorFr.etNoteContent.text.toString() &&
-            MainActivity.editNoteHolder!!.color == NoteEditorFr.noteColor
+            MainActivity.editNoteHolder!!.color == noteColor
         ) {
             //no relevant note changes if the title, content and color did not get changed
             result = false
