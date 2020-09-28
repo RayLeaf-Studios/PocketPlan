@@ -30,7 +30,8 @@ class NoteEditorFr : Fragment() {
     private var dialogOpened = false
 
     private lateinit var myMenu: Menu
-    companion object{
+
+    companion object {
         lateinit var myFragment: NoteEditorFr
         var noteColor: NoteColors = NoteColors.YELLOW
     }
@@ -141,7 +142,7 @@ class NoteEditorFr : Fragment() {
     }
 
     @SuppressLint("InflateParams")
-     fun dialogDiscardNoteChanges(gotoFragment: FT) {
+    fun dialogDiscardNoteChanges(gotoFragment: FT) {
 
         if (dialogOpened) {
             return
@@ -154,7 +155,8 @@ class NoteEditorFr : Fragment() {
         )
 
         //AlertDialogBuilder
-        val myBuilder = MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        val myBuilder =
+            MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = resources.getText(R.string.noteDiscardDialogTitle)
         myBuilder?.setCustomTitle(customTitle)

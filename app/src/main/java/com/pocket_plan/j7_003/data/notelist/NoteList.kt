@@ -6,10 +6,11 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
 
-class NoteList: LinkedList<Note>() {
+class NoteList : LinkedList<Note>() {
     init {
         StorageHandler.createJsonFile(
-            StorageId.NOTES, "NoteFile.json")
+            StorageId.NOTES, "NoteFile.json"
+        )
         fetchFromFile()
     }
 
@@ -26,8 +27,8 @@ class NoteList: LinkedList<Note>() {
 
     /**
      * Small helper function to add a note object, used for undoing deletions
-      */
-    fun addFullNote(note: Note){
+     */
+    fun addFullNote(note: Note) {
         addNote(note.title, note.content, note.color)
     }
 
@@ -66,7 +67,8 @@ class NoteList: LinkedList<Note>() {
 
     fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.NOTES], this)
+            StorageHandler.files[StorageId.NOTES], this
+        )
     }
 
     private fun fetchFromFile() {
@@ -74,6 +76,8 @@ class NoteList: LinkedList<Note>() {
 
         this.addAll(
             GsonBuilder().create().fromJson(
-                jsonString, object : TypeToken<LinkedList<Note>>() {}.type))
+                jsonString, object : TypeToken<LinkedList<Note>>() {}.type
+            )
+        )
     }
 }

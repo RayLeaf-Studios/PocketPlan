@@ -25,8 +25,9 @@ import java.util.*
 
 class NoteFr : Fragment() {
 
-    lateinit var myMenu: Menu
-    lateinit var searchView: SearchView
+    private lateinit var myMenu: Menu
+    private lateinit var searchView: SearchView
+
     companion object {
         lateinit var myAdapter: NoteAdapter
         var noteLines = 0
@@ -81,7 +82,7 @@ class NoteFr : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    fun updateNoteSearchIcon(){
+    fun updateNoteSearchIcon() {
         myMenu.findItem(R.id.item_notes_search).isVisible = NoteFr.noteListInstance.size > 0
     }
 
@@ -96,7 +97,7 @@ class NoteFr : Fragment() {
         } else {
             lastQuery = query
             adjustedList.clear()
-            noteListInstance.forEach {note ->
+            noteListInstance.forEach { note ->
                 if (note.content.toLowerCase(Locale.ROOT)
                         .contains(query.toLowerCase(Locale.ROOT)) ||
                     note.title.toLowerCase(Locale.ROOT)
@@ -110,7 +111,7 @@ class NoteFr : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.item_notes_search -> {
                 /* no-op, listeners for this view are implemented in onCreateOptionsMenu */
             }
