@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.todolist
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -61,7 +62,7 @@ class TodoFr : Fragment() {
             R.id.item_tasks_delete_checked -> {
                 //delete checked tasks and update the undoTask icon
                 val titleId = string.todo_dialog_clear_checked_title
-                val action : () -> Unit = {
+                val action: () -> Unit = {
                     myFragment.manageCheckedTaskDeletion()
                 }
                 MainActivity.act.dialogConfirmDelete(titleId, action)
@@ -85,7 +86,7 @@ class TodoFr : Fragment() {
             R.id.item_tasks_clear -> {
                 //delete ALL tasks in list
                 val titleId = string.todo_dialog_clear_title
-                val action : () -> Unit = {
+                val action: () -> Unit = {
                     todoListInstance.clear()
                     myAdapter.notifyDataSetChanged()
                 }
@@ -138,7 +139,7 @@ class TodoFr : Fragment() {
     }
 
 
-    fun updateTodoIcons(){
+    fun updateTodoIcons() {
         updateUncheckTaskListIcon()
         updateClearTaskListIcon()
         updateUndoTaskIcon()
@@ -156,11 +157,13 @@ class TodoFr : Fragment() {
     }
 
     private fun updateUncheckTaskListIcon() {
-        myMenu.findItem(R.id.item_tasks_uncheck_all)?.isVisible = todoListInstance.somethingIsChecked()
+        myMenu.findItem(R.id.item_tasks_uncheck_all)?.isVisible =
+            todoListInstance.somethingIsChecked()
     }
 
     private fun updateDeleteCheckedTasksIcon() {
-        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = todoListInstance.somethingIsChecked()
+        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible =
+            todoListInstance.somethingIsChecked()
     }
 
     fun prepareForMove() {
@@ -197,7 +200,7 @@ class TodoFr : Fragment() {
         updateDeleteTaskIcon()
     }
 
-    fun dialogAddTask(){
+    fun dialogAddTask() {
         //inflate the dialog with custom view
         val myDialogView =
             LayoutInflater.from(MainActivity.act).inflate(R.layout.dialog_add_task, null)
@@ -310,6 +313,12 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.layoutParams.height = 280
             return
         }
+
+
+
+
+
+
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
 
@@ -342,11 +351,31 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                     color.colorOnBackGround
                 )
             )
+            var colorLeft: Int
+            var colorRight: Int
             when (currentTask.priority) {
-                1 -> holder.itemView.setBackgroundResource(drawable.round_corner1)
-                2 -> holder.itemView.setBackgroundResource(drawable.round_corner2)
-                3 -> holder.itemView.setBackgroundResource(drawable.round_corner3)
+                1 -> {
+                    colorLeft = color.colorPriority1
+                    colorRight = color.colorPriority1light
+                }
+                2 -> {
+                    colorLeft = color.colorPriority2
+                    colorRight = color.colorPriority2light
+                }
+                else -> {
+                    colorLeft = color.colorPriority3
+                    colorRight = color.colorPriority3light
+                }
             }
+            val myGradientDrawable = GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                intArrayOf(
+                    ContextCompat.getColor(MainActivity.act, colorLeft),
+                    ContextCompat.getColor(MainActivity.act, colorRight)
+                )
+            )
+            myGradientDrawable.cornerRadius = 14f
+            holder.itemView.background = myGradientDrawable
         }
 
         //User Interactions with Task List Item below

@@ -11,9 +11,12 @@
 
     <color name="colorAccent">#0652A5</color>
 
-    <color name="colorPriority1">#1E3B7A</color>
-    <color name="colorPriority2">#2E857B</color>
-    <color name="colorPriority3">#0F5523</color>
+    <color name="colorPriority1">#052D81</color>
+    <color name="colorPriority1light">#3559A3</color>
+    <color name="colorPriority2">#185049</color>
+    <color name="colorPriority2light">#4EB1A6</color>
+    <color name="colorPriority3">#083C17</color>
+    <color name="colorPriority3light">#198036</color>
 
     <color name="colorNoteRed">#DD727B</color>
     <color name="colorNoteYellow">#D5B83E</color>
