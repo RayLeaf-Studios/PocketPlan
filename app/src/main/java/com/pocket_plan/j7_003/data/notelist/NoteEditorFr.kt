@@ -200,6 +200,7 @@ class NoteEditorFr : Fragment() {
         MainActivity.editNoteHolder!!.content = noteContent
         MainActivity.editNoteHolder!!.color = noteColor
         MainActivity.editNoteHolder = null
+        NoteFr.noteListInstance.save()
     }
 
     @SuppressLint("InflateParams")
