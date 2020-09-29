@@ -185,10 +185,13 @@ class NoteAdapter :
             MainActivity.act.hideKeyboard()
         }
 
-        //specifying design of note rows here
-        holder.tvNoteTitle.text = currentNote.title
+        if(currentNote.title==""){
+            holder.tvNoteTitle.visibility = View.GONE
+        }else{
+            holder.tvNoteTitle.visibility = View.VISIBLE
+            holder.tvNoteTitle.text = currentNote.title
+        }
 
-        //replace following true condition with setting to display full note content
         holder.tvNoteContent.text = currentNote.content
 
         //decide how many lines per note are shown, depending on teh setting noteLines

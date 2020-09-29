@@ -62,7 +62,7 @@ class NoteEditorFr : Fragment() {
             myEtContent.setText(MainActivity.editNoteHolder!!.content)
             myEtTitle.clearFocus()
         } else {
-            myEtTitle.requestFocus()
+            myEtContent.requestFocus()
             imm.toggleSoftInput(
                 InputMethodManager.HIDE_IMPLICIT_ONLY,
                 InputMethodManager.SHOW_FORCED
