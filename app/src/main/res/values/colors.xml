@@ -13,11 +13,11 @@
     <color name="colorAccent">#0652A5</color>
 
     <color name="colorPriority1">#052D81</color>
-    <color name="colorPriority1light">#3559A3</color>
+    <color name="colorPriority1light">#244C9F</color>
     <color name="colorPriority2">#185049</color>
-    <color name="colorPriority2light">#4EB1A6</color>
+    <color name="colorPriority2light">#35978C</color>
     <color name="colorPriority3">#083C17</color>
-    <color name="colorPriority3light">#198036</color>
+    <color name="colorPriority3light">#156A2D</color>
 
     <color name="colorNoteRed">#DD727B</color>
     <color name="colorNoteYellow">#D5B83E</color>
@@ -42,4 +42,41 @@
     <color name="colorMonth10">#972C8C</color>
     <color name="colorMonth11">#8935DC</color>
     <color name="colorMonth12">#4F36A8</color>
+
+    <color name="colorSonstiges">#213251</color>
+    <color name="colorSonstigesL">#345EB3</color>
+    <color name="colorObstundGemüse">#1D3A08</color>
+    <color name="colorObstundGemüseL">#589828</color>
+    <color name="colorGetränke">#0c2566</color>
+    <color name="colorGetränkeL">#2245A1</color>
+    <color name="colorNudelnundGetreide">#4C3D03</color>
+    <color name="colorNudelnundGetreideL">#C39C06</color>
+    <color name="colorBackwaren">#372406</color>
+    <color name="colorBackwarenL">#835716</color>
+    <color name="colorKühlregalMilch">#B5A22B</color>
+    <color name="colorKühlregalMilchL">#BDBDAA</color>
+    <color name="colorKühlregalFleisch">#420505</color>
+    <color name="colorKühlregalFleischL">#880909</color>
+    <color name="colorTiefkühl">#0744BA</color>
+    <color name="colorTiefkühlL">#70C7EF</color>
+    <color name="colorKonservenFertiges">#3E3E3E</color>
+    <color name="colorKonservenFertigesL">#684444</color>
+    <color name="colorFrühstück">#603907</color>
+    <color name="colorFrühstückL">#DFB988</color>
+    <color name="colorGewürzeBackzutaten">#601804</color>
+    <color name="colorGewürzeBackzutatenL">#DC270F</color>
+    <color name="colorHaushalt">#13392E</color>
+    <color name="colorHaushaltL">#216150</color>
+    <color name="colorKaffeeTee">#2C1E08</color>
+    <color name="colorKaffeeTeeL">#4E3717</color>
+    <color name="colorSnacks">#350C35</color>
+    <color name="colorSnacksL">#A322A3</color>
+    <color name="colorDressingsSaußen">#2D3002</color>
+    <color name="colorDressingsSaußenL">#989104</color>
+    <color name="colorDrogerieKosmetik">#0C2C25</color>^^
+    <color name="colorDrogerieKosmetikL">#32B5BA</color>
+    <color name="colorAlkoholTabak">#20102E</color>
+    <color name="colorAlkoholTabakL">#571717</color>
+
 </resources>
+
