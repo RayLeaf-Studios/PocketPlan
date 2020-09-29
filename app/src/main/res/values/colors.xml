@@ -12,11 +12,11 @@
 
     <color name="colorAccent">#0652A5</color>
 
-    <color name="colorPriority1">#052D81</color>
+    <color name="colorPriority1">#063391</color>
     <color name="colorPriority1light">#244C9F</color>
-    <color name="colorPriority2">#185049</color>
+    <color name="colorPriority2">#1B5E55</color>
     <color name="colorPriority2light">#35978C</color>
-    <color name="colorPriority3">#083C17</color>
+    <color name="colorPriority3">#09491B</color>
     <color name="colorPriority3light">#156A2D</color>
 
     <color name="colorNoteRed">#DD727B</color>
@@ -30,11 +30,11 @@
     <color name="colorIconShopping">#039499</color>
     <color name="colorGoToSleep">#CC212F</color>
 
-    <color name="colorMonth1">#065FBD</color>
-    <color name="colorMonth2">#136B9C</color>
+    <color name="colorMonth1">#024B98</color>
+    <color name="colorMonth2">#1584C1</color>
     <color name="colorMonth3">#036C3B</color>
     <color name="colorMonth4">#4AB642</color>
-    <color name="colorMonth5">#98B80D</color>
+    <color name="colorMonth5">#A7B80D</color>
     <color name="colorMonth6">#D89F0C</color>
     <color name="colorMonth7">#EA8408</color>
     <color name="colorMonth8">#B53705</color>
@@ -43,40 +43,43 @@
     <color name="colorMonth11">#8935DC</color>
     <color name="colorMonth12">#4F36A8</color>
 
-    <color name="colorSonstiges">#213251</color>
+    <color name="colorSonstiges">#273E67</color>
     <color name="colorSonstigesL">#345EB3</color>
     <color name="colorObstundGemüse">#1D3A08</color>
-    <color name="colorObstundGemüseL">#589828</color>
+    <color name="colorObstundGemüseL">#44781C</color>
     <color name="colorGetränke">#0c2566</color>
     <color name="colorGetränkeL">#2245A1</color>
-    <color name="colorNudelnundGetreide">#4C3D03</color>
+    <color name="colorNudelnundGetreide">#7A6101</color>
     <color name="colorNudelnundGetreideL">#C39C06</color>
     <color name="colorBackwaren">#372406</color>
     <color name="colorBackwarenL">#835716</color>
-    <color name="colorKühlregalMilch">#B5A22B</color>
-    <color name="colorKühlregalMilchL">#BDBDAA</color>
-    <color name="colorKühlregalFleisch">#420505</color>
+    <color name="colorKühlregalMilch">#3E3E3C</color>
+    <color name="colorKühlregalMilchL">#9E9E84</color>
+    <color name="colorKühlregalFleisch">#550606</color>
     <color name="colorKühlregalFleischL">#880909</color>
     <color name="colorTiefkühl">#0744BA</color>
     <color name="colorTiefkühlL">#70C7EF</color>
-    <color name="colorKonservenFertiges">#3E3E3E</color>
-    <color name="colorKonservenFertigesL">#684444</color>
+    <color name="colorKonservenFertiges">#535353</color>
+    <color name="colorKonservenFertigesL">#8C3F3F</color>
     <color name="colorFrühstück">#603907</color>
     <color name="colorFrühstückL">#DFB988</color>
     <color name="colorGewürzeBackzutaten">#601804</color>
     <color name="colorGewürzeBackzutatenL">#DC270F</color>
     <color name="colorHaushalt">#13392E</color>
     <color name="colorHaushaltL">#216150</color>
-    <color name="colorKaffeeTee">#2C1E08</color>
+    <color name="colorKaffeeTee">#352409</color>
     <color name="colorKaffeeTeeL">#4E3717</color>
-    <color name="colorSnacks">#350C35</color>
+    <color name="colorSnacks">#590D59</color>
     <color name="colorSnacksL">#A322A3</color>
-    <color name="colorDressingsSaußen">#2D3002</color>
+    <color name="colorDressingsSaußen">#585E07</color>
     <color name="colorDressingsSaußenL">#989104</color>
-    <color name="colorDrogerieKosmetik">#0C2C25</color>^^
+    <color name="colorDrogerieKosmetik">#115143</color>^^
     <color name="colorDrogerieKosmetikL">#32B5BA</color>
-    <color name="colorAlkoholTabak">#20102E</color>
-    <color name="colorAlkoholTabakL">#571717</color>
+    <color name="colorAlkoholTabak">#440E73</color>
+    <color name="colorAlkoholTabakL">#3225B1</color>
 
+    <color name="colorHome1">#1F36C6</color>
+    <color name="colorHome2">#2390E6</color>
+    <color name="colorHome3">#0D6C85</color>
 </resources>
 

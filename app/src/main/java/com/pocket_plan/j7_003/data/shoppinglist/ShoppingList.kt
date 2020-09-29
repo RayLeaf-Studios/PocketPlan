@@ -164,15 +164,10 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
     fun flipItemCheckedState(tag: Tag, sublistPosition: Int): Int {
         return try {
             val itemCache: ShoppingItem = this[getTagIndex(tag)].second[sublistPosition+1]
-            val itemPosCache = this[getTagIndex(tag)].second.indexOf(itemCache)
             itemCache.checked = !itemCache.checked
             sortSublist(this[getTagIndex(tag)].second)
             save()
-            if (this[getTagIndex(tag)].second.indexOf(itemCache) - 1 == itemPosCache) {
-                -2
-            } else {
-                this[getTagIndex(tag)].second.indexOf(itemCache) - 1
-            }
+            this[getTagIndex(tag)].second.indexOf(itemCache) - 1
         } catch (e: Exception) {
             -1
         }

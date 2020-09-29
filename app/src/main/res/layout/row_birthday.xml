@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/colorBackgroundElevated"
     app:cardCornerRadius="10dp"
+    android:elevation="0dp"
     android:layout_margin="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -62,15 +63,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvRowBirthdayName">
 
         </TextView>
+
         <TextView
             android:id="@+id/tvRowBirthdayDivider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:gravity="center"
             android:padding="13dp"
-            android:textSize="@dimen/font_size_big"
             android:textColor="@color/colorOnBackGround"
+            android:textSize="@dimen/font_size_big"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,16 +93,17 @@
         <View
             android:id="@+id/viewDividerRight"
             android:layout_width="100dp"
-            app:layout_constraintStart_toEndOf="@id/tvRowBirthdayDivider"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvRowBirthdayDivider"
             app:layout_constraintBottom_toBottomOf="@id/tvRowBirthdayDivider"
             app:layout_constraintTop_toTopOf="@id/tvRowBirthdayDivider"
-            tools:layout_editor_absoluteX="206dp" />
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.cardview.widget.CardView>
 

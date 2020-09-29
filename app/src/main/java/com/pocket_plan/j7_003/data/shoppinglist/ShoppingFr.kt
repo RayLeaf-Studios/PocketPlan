@@ -550,15 +550,12 @@ class ShoppingListAdapter :
                  else -> R.drawable.s_alkohol
             }
             holder.cvCategory.setBackgroundResource(background)
-//            holder.cvCategory.setCardBackgroundColor(Color.parseColor(tag.color))
             holder.tvCategoryName.setTextColor(colorBackground)
             holder.tvNumberOfItems.setTextColor(colorBackground)
             holder.tvNumberOfItems.text = numberOfItems.toString()
         } else {
             val colorHint = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
-            holder.cvCategory.setCardBackgroundColor(
-                ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
-            )
+            holder.cvCategory.setBackgroundResource(R.drawable.s_checked)
             holder.tvCategoryName.setTextColor(colorHint)
             holder.tvNumberOfItems.setTextColor(colorHint)
             holder.tvNumberOfItems.text = "✔"
@@ -640,10 +637,8 @@ class SublistAdapter(
             }
 
             notifyItemChanged(holder.adapterPosition)
-            if (newPosition != -1) {
-                ShoppingFr.myFragment.prepareForMove()
+            if (newPosition > -1) {
                 notifyItemMoved(holder.adapterPosition, newPosition)
-                ShoppingFr.myFragment.reactToMove()
             } else {
                 MainActivity.act.toast("invalid item checked state")
             }

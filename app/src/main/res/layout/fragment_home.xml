@@ -121,6 +121,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <ImageView
             android:id="@+id/ivNote"
             android:layout_width="40dp"
@@ -129,7 +130,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAdd"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorNoteYellow" />
+            app:tint="@color/colorHome1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -155,13 +156,13 @@
 
         <ImageView
             android:id="@+id/ivTask"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_action_todo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAdd2"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorNoteGreen" />
+            app:tint="@color/colorHome2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -194,7 +195,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAdd3"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorIconShopping" />
+            app:tint="@color/colorHome3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
