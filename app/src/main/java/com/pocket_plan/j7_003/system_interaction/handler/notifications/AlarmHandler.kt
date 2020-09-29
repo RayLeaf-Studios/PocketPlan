@@ -36,15 +36,14 @@ class AlarmHandler {
                 .withHour(hour).withMinute(minute)
                 .withSecond(0).withNano(0)
 
-            val logger = Logger(context)
-            logger.log("AlarmHandler", "Birthday Alarm Time set to $notificationTime")
-
-            alarmManager.setRepeating(
+            alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
                 notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-                AlarmManager.INTERVAL_DAY,
                 pendingIntent
             )
+
+            val logger = Logger(context)
+            logger.log("AlarmHandler", "Birthday Alarm Time set to $notificationTime")
         }
 
         fun setNewSleepReminderAlarm(

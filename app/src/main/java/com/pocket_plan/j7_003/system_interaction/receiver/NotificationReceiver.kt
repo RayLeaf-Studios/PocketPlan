@@ -10,6 +10,7 @@ import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.system_interaction.Logger
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
@@ -19,17 +20,21 @@ class NotificationReceiver : BroadcastReceiver() {
     private lateinit var localDate: LocalDate
 
     override fun onReceive(context: Context, intent: Intent) {
+        val logger = Logger(context)
+        logger.log("BroadcastReceiver", "Notification broadcast received")
+        logger.log("BroadcastReceiver", "Received content: ${intent.extras?.get("Notification")}")
+
         AndroidThreeTen.init(context)
         this.context = context
         this.localDate = LocalDate.now()
-        val logger = Logger(context)
-        logger.log("BroadcastReceiver", "Notification broadcast received")
 
-        logger.log("BroadcastReceiver", "Received content: ${intent.extras?.get("Notification")}")
         when (intent.extras?.get("Notification")) {
             "Birthday" -> birthdayNotifications()
             "SReminder" -> checkSleepNotification(intent)
         }
+
+        logger.log("BroadcastReceiver", "Setting next alarm")
+        AlarmHandler.setBirthdayAlarms(context = context)
     }
 
     private fun checkSleepNotification(intent: Intent) {
