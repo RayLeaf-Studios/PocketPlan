@@ -19,11 +19,11 @@
     <color name="colorPriority3">#09491B</color>
     <color name="colorPriority3light">#DF09491B</color>
 
-    <color name="colorNoteRed">#DD727B</color>
-    <color name="colorNoteYellow">#D5B83E</color>
-    <color name="colorNoteGreen">#5EB14D</color>
-    <color name="colorNoteBlue">#43A8B1</color>
-    <color name="colorNotePurple">#9E6CD1</color>
+    <color name="colorNoteRed">#EF5350</color>
+    <color name="colorNoteYellow">#FFB74D</color>
+    <color name="colorNoteGreen">#66BB6A</color>
+    <color name="colorNoteBlue">#29B6F6</color>
+    <color name="colorNotePurple">#7E57C2</color>
 
     <color name="colorBackgroundListElement">#252525</color>
     <color name="colorBirthdayLabel">#1E3B7A</color>
@@ -55,8 +55,8 @@
     <color name="colorNudelnundGetreideL">#C39406</color>
     <color name="colorBackwaren">#C6835716</color>
     <color name="colorBackwarenL">#835716</color>
-    <color name="colorKühlregalMilch">#A6A8A8A8</color>
-    <color name="colorKühlregalMilchL">#CBA8A8A8</color>
+    <color name="colorKühlregalMilch">#DA656464</color>
+    <color name="colorKühlregalMilchL">#656464</color>
     <color name="colorKühlregalFleisch">#550606</color>
     <color name="colorKühlregalFleischL">#880909</color>
     <color name="colorTiefkühl">#E95587DC</color>
@@ -83,5 +83,8 @@
     <color name="colorHome1">#1F36C6</color>
     <color name="colorHome2">#2390E6</color>
     <color name="colorHome3">#0D6C85</color>
+
+    <color name="colorgray">#1C1C1C</color>
+    <color name="colorgrayL">#1C1C1C</color>
 </resources>
 

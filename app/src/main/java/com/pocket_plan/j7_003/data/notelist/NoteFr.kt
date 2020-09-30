@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -185,9 +186,9 @@ class NoteAdapter :
             MainActivity.act.hideKeyboard()
         }
 
-        if(currentNote.title==""){
+        if (currentNote.title == "") {
             holder.tvNoteTitle.visibility = View.GONE
-        }else{
+        } else {
             holder.tvNoteTitle.visibility = View.VISIBLE
             holder.tvNoteTitle.text = currentNote.title
         }
@@ -203,7 +204,11 @@ class NoteAdapter :
         }
 
         //set background color depending on currentNote.color
+        //debug
         holder.cvNoteCard.setCardBackgroundColor(currentNote.color.resolved)
+//        holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorNoteDark))
+//        holder.tvNoteTitle.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+//        holder.tvNoteContent.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
     }
 
     override fun getItemCount(): Int {
