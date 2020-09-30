@@ -5,6 +5,8 @@ Back-End stuff before release:
     - functionality to save / load a backup file
     - check all streams for closure
 
+    reload sleep reminders when rebooting
+
 Front-End stuff to-do before release in following order:
 
     - gradient tasks

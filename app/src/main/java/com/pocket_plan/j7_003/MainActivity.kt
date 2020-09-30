@@ -315,6 +315,7 @@ class MainActivity : AppCompatActivity() {
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
+                BirthdayFr.searching = false
                 birthdayFr = BirthdayFr()
                 birthdayFr
             }

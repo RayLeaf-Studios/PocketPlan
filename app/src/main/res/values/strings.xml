@@ -54,7 +54,7 @@
     <!-- Birthdays -->
     <string name="birthdaysNotify">notify me</string>
     <string name="birthdaysDaysPrior"> prior.</string>
-    <string name="birthdayDialogAdd">Add Birthday</string>
+    <string name="birthdayDialogAdd">Add</string>
     <string name="birthdayDialogAddTitle">Add Birthday</string>
     <string name="birthdayDialogEdit">Confirm Edit</string>
     <string name="birthdayDialogEditTitle">Edit</string>
