@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.sleepreminder
 
+import android.content.Context
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
@@ -8,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.settings.SettingId
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
@@ -18,7 +20,7 @@ import kotlin.math.abs
 /**
  * A simple class to handle different Reminders for a sleep schedule
  */
-class SleepReminder {
+class SleepReminder(private val context: Context = MainActivity.act) {
     var daysAreCustom: Boolean = false
     var reminder = HashMap<DayOfWeek, Reminder>(7)
 
@@ -176,16 +178,18 @@ class SleepReminder {
 
     private fun createFile() {
         StorageHandler.createJsonFile(
-            StorageId.SLEEP, "SReminder.json", text = Gson().toJson(reminder))
+            StorageId.SLEEP, "SReminder.json", text = Gson().toJson(reminder), context = context)
 
-        if (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
+        if (context == MainActivity.act && SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
             SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
         }
     }
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
-        SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
+        if (context == MainActivity.act) {
+            SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
+        }
     }
 
     private fun load() {
@@ -194,7 +198,9 @@ class SleepReminder {
         reminder = GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
 
-        daysAreCustom = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
+        if (context == MainActivity.act) {
+            daysAreCustom = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
+        }
 
         updateReminder()
     }
