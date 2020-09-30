@@ -546,6 +546,7 @@ class ShoppingListAdapter :
                 "Kaffee, Tee" -> R.drawable.s_kaffee
                 "Snacks" -> R.drawable.s_snacks
                 "Dressings, Saußen" -> R.drawable.s_dressings
+                "Backzutaten" -> R.drawable.s_backzutaten
                 "Drogerie, Kosmetik" -> R.drawable.s_drogerie
                  else -> R.drawable.s_alkohol
             }

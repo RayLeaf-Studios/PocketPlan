@@ -28,7 +28,7 @@ import org.threeten.bp.DayOfWeek
 
 class SleepFr : Fragment() {
     companion object {
-        val sleepReminderInstance = SleepReminder()
+        lateinit var sleepReminderInstance: SleepReminder
         lateinit var myAdapter: SleepAdapter
     }
 

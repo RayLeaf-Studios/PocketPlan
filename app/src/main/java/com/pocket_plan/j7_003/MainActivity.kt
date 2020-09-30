@@ -39,10 +39,10 @@ import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.TagList
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
+import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
-import kotlinx.android.synthetic.main.header_navigation_drawer.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         var justRestarted = false
 
 
+
         lateinit var noteEditorFr: NoteEditorFr
         var previousFragmentTag: FT = FT.EMPTY
         var activeFragmentTag: FT = FT.EMPTY
@@ -84,11 +85,11 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
+        act = this
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
 
-        act = this
         //TODO REMOVE THIS AND IMPLEMENT PROPERLY LOADING SHOPPING LIST
 //        Toast.makeText(act,Locale.getDefault().language, Toast.LENGTH_SHORT).show()
 
@@ -97,10 +98,14 @@ class MainActivity : AppCompatActivity() {
         tempShoppingFr = ShoppingFr()
 
 
+        //IMPORTANT; ORDER IS CRITICAL
         //Initialize Settings Manager and Time api and AlarmHandler
         SettingsManager.init()
         AndroidThreeTen.init(this)
         AlarmHandler.setBirthdayAlarms(context = this)
+
+        SleepReminder.context = this
+        SleepFr.sleepReminderInstance = SleepReminder()
 
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
@@ -387,6 +392,9 @@ class MainActivity : AppCompatActivity() {
             FT.HOME -> {
                 super.onBackPressed()
                 return
+            }
+            else -> {
+                /* no-op */
             }
         }
 

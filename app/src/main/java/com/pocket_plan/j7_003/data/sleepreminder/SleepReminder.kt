@@ -9,7 +9,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.settings.SettingId
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
@@ -20,9 +19,13 @@ import kotlin.math.abs
 /**
  * A simple class to handle different Reminders for a sleep schedule
  */
-class SleepReminder(private val context: Context = MainActivity.act) {
+class SleepReminder() {
     var daysAreCustom: Boolean = false
     var reminder = HashMap<DayOfWeek, Reminder>(7)
+    companion object{
+        lateinit var context: Context
+
+    }
 
     init {
         initMap()
@@ -178,18 +181,17 @@ class SleepReminder(private val context: Context = MainActivity.act) {
 
     private fun createFile() {
         StorageHandler.createJsonFile(
-            StorageId.SLEEP, "SReminder.json", text = Gson().toJson(reminder), context = context)
+            StorageId.SLEEP, "SReminder.json", text = Gson().toJson(reminder), context = context
+        )
 
-        if (context == MainActivity.act && SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
+        if (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
             SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
         }
     }
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
-        if (context == MainActivity.act) {
-            SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
-        }
+        SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
     }
 
     private fun load() {
@@ -198,9 +200,7 @@ class SleepReminder(private val context: Context = MainActivity.act) {
         reminder = GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
 
-        if (context == MainActivity.act) {
-            daysAreCustom = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
-        }
+        daysAreCustom = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
 
         updateReminder()
     }
@@ -271,7 +271,8 @@ class SleepReminder(private val context: Context = MainActivity.act) {
      */
     inner class Reminder(
         @SerializedName(value = "w")
-        private val weekday: DayOfWeek) {
+        private val weekday: DayOfWeek
+    ) {
 
         @SerializedName(value = "i")
         var isSet: Boolean = false
@@ -374,7 +375,8 @@ class SleepReminder(private val context: Context = MainActivity.act) {
                 dayOfWeek = weekday,
                 requestCode = requestCode,
                 reminderTime = nextReminder,
-                isSet = isSet
+                isSet = isSet,
+                context = context
             )
         }
 

@@ -148,7 +148,6 @@ class TodoFr : Fragment() {
 
     fun updateUndoTaskIcon() {
         val result = deletedTask != null || deletedTaskList.size > 0
-        Log.e("here", result.toString())
         myMenu.findItem(R.id.item_tasks_undo)?.isVisible = result
     }
 
