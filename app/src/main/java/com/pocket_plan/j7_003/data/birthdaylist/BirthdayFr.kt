@@ -940,7 +940,7 @@ class BirthdayAdapter :
                 )
 
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(0, marginSide, 0, (2*density).toInt())
+                params.setMargins(0, marginSide, 0, (0*density).toInt())
 
                 holder.cvBirthday.setBackgroundColor(
                     ContextCompat.getColor(
@@ -1027,7 +1027,7 @@ class BirthdayAdapter :
             }
         }
         else{
-            params.setMargins(marginSide, (density*2).toInt(), marginSide, (density*2).toInt())
+            params.setMargins(marginSide, (density*1).toInt(), marginSide, (density*1).toInt())
         }
 
 
