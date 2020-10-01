@@ -331,7 +331,10 @@ class MainActivity : AppCompatActivity() {
             FT.HOME -> HomeFr()
             FT.TASKS -> TodoFr()
             FT.SHOPPING -> ShoppingFr()
-            FT.NOTES -> NoteFr()
+            FT.NOTES -> {
+                NoteFr.searching = false
+                NoteFr()
+            }
             FT.NOTE_EDITOR -> {
                 noteEditorFr = NoteEditorFr()
                 noteEditorFr

@@ -991,6 +991,7 @@ class BirthdayAdapter :
                         ContextCompat.getColor(MainActivity.act, gradientPair.first)
                     )
                 )
+
 //                myGradientDrawable.cornerRadius = 400f
 //                myGradientDrawable.cornerRadius = 0f
 //                myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,0f,0f,0f,0f)

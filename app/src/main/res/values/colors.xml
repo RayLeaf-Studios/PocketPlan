@@ -19,11 +19,11 @@
     <color name="colorPriority3">#09491B</color>
     <color name="colorPriority3light">#EE09491B</color>
 
-    <color name="colorNoteRed">#EF5350</color>
-    <color name="colorNoteYellow">#FFB74D</color>
-    <color name="colorNoteGreen">#66BB6A</color>
-    <color name="colorNoteBlue">#29B6F6</color>
-    <color name="colorNotePurple">#7E57C2</color>
+    <color name="colorNoteRed">#831414</color>
+    <color name="colorNoteYellow">#985502</color>
+    <color name="colorNoteGreen">#036854</color>
+    <color name="colorNoteBlue">#023D97</color>
+    <color name="colorNotePurple">#42256E</color>
 
     <color name="colorBackgroundListElement">#252525</color>
     <color name="colorBirthdayLabel">#1E3B7A</color>

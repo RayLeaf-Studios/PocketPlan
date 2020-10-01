@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -289,7 +291,8 @@ class ShoppingFr : Fragment() {
                     spCategory.setSelection(MainActivity.tagNames.indexOf(template.c.name))
 
                     //display correct unit
-                    val unitPointPos = MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
+                    val unitPointPos =
+                        MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
                     spItemUnit.setSelection(unitPointPos)
                     return
                 }
@@ -301,7 +304,8 @@ class ShoppingFr : Fragment() {
                     spCategory.setSelection(MainActivity.tagNames.indexOf(template.c.name))
 
                     //display correct unit
-                    val unitPointPos = MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
+                    val unitPointPos =
+                        MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
                     spItemUnit.setSelection(unitPointPos)
                 } else {
                     spCategory.setSelection(0)
@@ -368,7 +372,11 @@ class ShoppingFr : Fragment() {
                         shoppingListAdapter.notifyDataSetChanged()
                         myFragment.updateShoppingMenu()
                     } else {
-                        Toast.makeText(MainActivity.act, MainActivity.act.getString(R.string.shopping_item_added), Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            MainActivity.act,
+                            MainActivity.act.getString(R.string.shopping_item_added),
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                     }
                     MainActivity.itemNameList.add(actvItem.text.toString())
@@ -413,7 +421,11 @@ class ShoppingFr : Fragment() {
                 shoppingListAdapter.notifyDataSetChanged()
                 myFragment.updateShoppingMenu()
             } else {
-                Toast.makeText(MainActivity.act, MainActivity.act.getString(R.string.shopping_item_added), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    MainActivity.act,
+                    MainActivity.act.getString(R.string.shopping_item_added),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             actvItem.setText("")
             if (MainActivity.activeFragmentTag == FT.HOME) {
@@ -453,7 +465,6 @@ class ShoppingListAdapter :
             holder.itemView.setOnClickListener {}
             return
         }
-        holder.itemView.subRecyclerView.visibility = View.VISIBLE
         holder.itemView.visibility = View.VISIBLE
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
 
@@ -469,11 +480,17 @@ class ShoppingListAdapter :
         //get Number of unchecked items
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
+        val expanded = shoppingListInstance.isTagExpanded(tag)
 
         //Expand or contract recyclerview depending on its expansion state
-        holder.subRecyclerView.visibility = when (shoppingListInstance.isTagExpanded(tag)) {
+        holder.subRecyclerView.visibility = when (expanded) {
             true -> View.VISIBLE
             false -> View.GONE
+        }
+
+        holder.itemView.ivExpand.rotation = when(expanded){
+            true -> 180f
+            else -> 0f
         }
 
         //Sets Text to Number of items in sublist + name of category of sublist
@@ -501,7 +518,7 @@ class ShoppingListAdapter :
         swipeHelperRight.attachToRecyclerView(holder.subRecyclerView)
 
         //Onclick reaction to expand / contract this sublist
-        holder.cvCategory.setOnClickListener {
+        holder.itemView.ivExpand.setOnClickListener {
             val newState = shoppingListInstance.flipExpansionState(holder.tag)
             //if the item gets expanded and the setting says to only expand one
             if (newState == true && ShoppingFr.expandOne) {
@@ -528,33 +545,67 @@ class ShoppingListAdapter :
         numberOfItems: Int, tag: Tag
     ) {
         if (!allChecked) {
-            val colorBackground = ContextCompat
+            val colorOnBackground = ContextCompat
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
-            val background = when(tag.name){
-                "Sonstiges" -> R.drawable.s_sonstiges
-                "Obst & Gemüse" -> R.drawable.s_obst
-                "Getränke" -> R.drawable.s_getraenke
-                "Nudeln & Getreide" -> R.drawable.s_nudeln
-                "Backwaren" -> R.drawable.s_backwaren
-                "Kühlregal Milch" -> R.drawable.s_milch
-                "Kühlregal Fleisch" -> R.drawable.s_fleisch
-                "Tiefkühl" -> R.drawable.s_tiefkuehl
-                "Konserven & Fertiges" -> R.drawable.s_konserven
-                "Frühstück & Co." -> R.drawable.s_fruehstuck
-                "Gewürze & Dressings" -> R.drawable.s_gewuerze
-                "Haushalt" -> R.drawable.s_haushalt
-                "Snacks" -> R.drawable.s_snacks
-                "Backzutaten" -> R.drawable.s_backzutaten
-                "Drogerie & Kosmetik" -> R.drawable.s_drogerie
-                 else -> R.drawable.s_alkohol
+            val gradientPair: Pair<Int, Int> = when (tag.name) {
+                "Sonstiges" -> Pair(R.color.colorSonstiges, R.color.colorSonstigesL)
+                "Obst & Gemüse" -> Pair(R.color.colorObstundGemüse, R.color.colorObstundGemüseL)
+                "Getränke" -> Pair(R.color.colorGetränke, R.color.colorGetränkeL)
+                "Nudeln & Getreide" -> Pair(
+                    R.color.colorNudelnundGetreide,
+                    R.color.colorNudelnundGetreideL
+                )
+                "Backwaren" -> Pair(R.color.colorBackwaren, R.color.colorBackwarenL)
+                "Kühlregal Milch" -> Pair(R.color.colorKühlregalMilch, R.color.colorKühlregalMilchL)
+                "Kühlregal Fleisch" -> Pair(
+                    R.color.colorKühlregalFleisch,
+                    R.color.colorKühlregalFleischL
+                )
+                "Tiefkühl" -> Pair(R.color.colorTiefkühl, R.color.colorTiefkühlL)
+                "Konserven & Fertiges" -> Pair(
+                    R.color.colorKonservenFertiges,
+                    R.color.colorKonservenFertigesL
+                )
+                "Frühstück & Co." -> Pair(R.color.colorFrühstückL, R.color.colorFrühstück)
+                "Gewürze & Dressings" -> Pair(
+                    R.color.colorGewürzeBackzutaten,
+                    R.color.colorGewürzeBackzutatenL
+                )
+                "Haushalt" -> Pair(R.color.colorHaushalt, R.color.colorHaushaltL)
+                "Snacks" -> Pair(R.color.colorSnacks, R.color.colorSnacksL)
+                "Backzutaten" -> Pair(R.color.colorBackzutaten, R.color.colorBackzutatenL)
+                "Drogerie & Kosmetik" -> Pair(
+                    R.color.colorDrogerieKosmetik,
+                    R.color.colorDrogerieKosmetikL
+                )
+                "Alkoholische Getränke" -> Pair(
+                    R.color.colorAlkoholTabak,
+                    R.color.colorAlkoholTabakL
+                )
+                else -> Pair(R.color.colorBackgroundElevated, R.color.colorBackgroundElevated)
             }
-            holder.cvCategory.setBackgroundResource(background)
-            holder.tvCategoryName.setTextColor(colorBackground)
-            holder.tvNumberOfItems.setTextColor(colorBackground)
+            val myGradientDrawable = GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                intArrayOf(
+                    ContextCompat.getColor(MainActivity.act, gradientPair.second),
+                    ContextCompat.getColor(MainActivity.act, gradientPair.first)
+                )
+            )
+            holder.cvCategory.background = myGradientDrawable
+
+            holder.tvCategoryName.setTextColor(colorOnBackground)
+            holder.tvNumberOfItems.setTextColor(colorOnBackground)
             holder.tvNumberOfItems.text = numberOfItems.toString()
         } else {
             val colorHint = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
-            holder.cvCategory.setBackgroundResource(R.drawable.s_checked)
+            val myGradientDrawable = GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                intArrayOf(
+                    ContextCompat.getColor(MainActivity.act, R.color.colorgrayL),
+                    ContextCompat.getColor(MainActivity.act, R.color.colorgray)
+                )
+            )
+            holder.cvCategory.background = myGradientDrawable
             holder.tvCategoryName.setTextColor(colorHint)
             holder.tvNumberOfItems.setTextColor(colorHint)
             holder.tvNumberOfItems.text = "✔"
@@ -588,15 +639,30 @@ class SublistAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
-        val itemCheckedState = ShoppingFr.shoppingListInstance.isItemChecked(tag, position)
+        //get shopping item
+        val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
 
-        if (itemCheckedState == null) {
-            MainActivity.act.toast("invalid checked state")
-            return
-        }
+        //set tag of surrounding category for holder
+        holder.tag = tag
 
-        holder.itemView.cbItem.isChecked = itemCheckedState
-        if (itemCheckedState) {
+        //initialize checkbox
+        holder.itemView.cbItem.isChecked = item.checked
+
+        //initialize text
+        holder.itemView.tvItemTitle.text = MainActivity.act.getString(
+            R.string.shoppingItemTitle, item.amount, item.unit, item.name
+        )
+
+        holder.itemView.cvBackground.setBackgroundColor(
+            ContextCompat.getColor(
+                MainActivity.act,
+                R.color.colorBackground
+            )
+        )
+
+
+        //initialize if text is gray and strike through flag is set
+        if (item.checked) {
             holder.itemView.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvItemTitle
                 .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
@@ -606,11 +672,10 @@ class SublistAdapter(
                 .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
         }
 
-        val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
-        holder.itemView.tvItemTitle.text = MainActivity.act.getString(
-            R.string.shoppingItemTitle, item.amount, item.unit, item.name
-        )
 
+        /*
+        Onclick listener for checkbox
+         */
         holder.itemView.clItemTapfield.setOnClickListener {
             val newPosition = ShoppingFr.shoppingListInstance.flipItemCheckedState(
                 tag,
@@ -652,7 +717,6 @@ class SublistAdapter(
             }
             ShoppingFr.myFragment.updateShoppingMenu()
         }
-        holder.tag = tag
     }
 
     override fun getItemCount() = ShoppingFr.shoppingListInstance.getSublistLength(tag)

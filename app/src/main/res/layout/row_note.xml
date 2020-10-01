@@ -23,7 +23,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
                 android:textStyle="bold"
-                android:textColor="@color/colorBackground"
+                android:textColor="@color/colorOnBackGround"
                 android:textSize="@dimen/font_size_small" />
 
             <TextView
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:padding="10dp"
-                android:textColor="@color/colorBackground"
+                android:textColor="@color/colorOnBackGround"
                 android:background="@android:color/transparent"
                 android:textSize="@dimen/font_size_very_small"
                 android:layout_below="@+id/tvNoteTitle"/>

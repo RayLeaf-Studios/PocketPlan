@@ -11,19 +11,14 @@ Back-End stuff before release:
 Front-End stuff to-do before release in following order:
 
     - close birthdays search on back press
+    - close notes search on back press
     - redesign homepanel
-    - redesign shopping
-    - redesign todo
-    - redesign notes
 
     - mark current birthday in birthdaylist
     - make possible light theme
 
-
-
     - change logic of itemlist for smaller itemList.json
 
-    - dark themed nt notes?
     - finetune itemlist
 
     - 3 Translate ItemList and TagList to english
