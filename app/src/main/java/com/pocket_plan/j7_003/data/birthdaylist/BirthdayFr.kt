@@ -866,6 +866,9 @@ class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
 class BirthdayAdapter :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val listInstance = BirthdayFr.birthdayListInstance
+    val density = MainActivity.act.resources.displayMetrics.density
+    val marginSide = (density*20).toInt()
+
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
@@ -891,7 +894,7 @@ class BirthdayAdapter :
         //Last birthday is spacer birthday
         if (position == BirthdayFr.birthdayListInstance.size) {
             holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.layoutParams.height = 220
+            holder.itemView.layoutParams.height = 270
             holder.itemView.setOnLongClickListener { true }
             holder.itemView.setOnClickListener {}
             return
@@ -926,7 +929,8 @@ class BirthdayAdapter :
 
             if (currentBirthday.daysToRemind == -200) {
                 //YEAR
-                holder.itemView.layoutParams.height = 300
+                val height = 70 * density
+                holder.itemView.layoutParams.height = (70*density).toInt()
                 holder.tvRowBirthdayDivider.textSize = 22f
                 holder.tvRowBirthdayDivider.setTextColor(
                     ContextCompat.getColor(
@@ -936,7 +940,7 @@ class BirthdayAdapter :
                 )
 
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(50, 20, 50, 20)
+                params.setMargins(0, marginSide, 0, (2*density).toInt())
 
                 holder.cvBirthday.setBackgroundColor(
                     ContextCompat.getColor(
@@ -948,7 +952,11 @@ class BirthdayAdapter :
 
             } else {
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(70, 20, 70, 20)
+                if(position==0){
+                    params.setMargins(marginSide, marginSide, marginSide, (2*density).toInt())
+                }else{
+                    params.setMargins(marginSide, marginSide, marginSide, (2*density).toInt())
+                }
 
                 //MONTH
                 holder.tvRowBirthdayDivider.textSize = 20f
@@ -983,7 +991,9 @@ class BirthdayAdapter :
                         ContextCompat.getColor(MainActivity.act, gradientPair.first)
                     )
                 )
-                myGradientDrawable.cornerRadius = 400f
+//                myGradientDrawable.cornerRadius = 400f
+//                myGradientDrawable.cornerRadius = 0f
+//                myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,0f,0f,0f,0f)
                 holder.cvBirthday.background = myGradientDrawable
             }
 
@@ -1001,12 +1011,25 @@ class BirthdayAdapter :
         val colorB = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundListElement)
         val myGradientDrawable =
             GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
-        myGradientDrawable.cornerRadius = 14f
+//        myGradientDrawable.cornerRadius = 14f
+
+        myGradientDrawable.cornerRadius = 0f
         holder.cvBirthday.background = myGradientDrawable
 
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-        params.setMargins(50, 20, 50, 20)
+        if(BirthdayFr.searching){
+            if(position==0){
+                params.setMargins(marginSide, marginSide, marginSide, (density*10).toInt())
+            }
+            else{
+                params.setMargins(marginSide, (density*10).toInt(), marginSide, (density*10).toInt())
+            }
+        }
+        else{
+            params.setMargins(marginSide, (density*2).toInt(), marginSide, (density*2).toInt())
+        }
+
 
         //reset color
         if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {

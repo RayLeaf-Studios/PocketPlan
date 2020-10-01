@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvBirthday"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/colorBackgroundElevated"
-    app:cardCornerRadius="10dp"
+    android:layout_marginVertical="2dp"
     android:elevation="0dp"
-    android:layout_margin="10dp"
+    android:layout_marginHorizontal="20dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,6 +20,7 @@
             android:layout_height="wrap_content"
             android:padding="13dp"
             android:textColor="@color/colorOnBackGround"
+            android:textStyle="bold"
             android:textSize="@dimen/font_size_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
