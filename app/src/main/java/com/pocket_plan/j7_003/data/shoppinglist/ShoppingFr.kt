@@ -518,7 +518,7 @@ class ShoppingListAdapter :
         swipeHelperRight.attachToRecyclerView(holder.subRecyclerView)
 
         //Onclick reaction to expand / contract this sublist
-        holder.itemView.ivExpand.setOnClickListener {
+        holder.itemView.clTapExpand.setOnClickListener {
             val newState = shoppingListInstance.flipExpansionState(holder.tag)
             //if the item gets expanded and the setting says to only expand one
             if (newState == true && ShoppingFr.expandOne) {

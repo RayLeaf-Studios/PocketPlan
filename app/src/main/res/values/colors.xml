@@ -23,7 +23,7 @@
     <color name="colorNoteYellow">#985502</color>
     <color name="colorNoteGreen">#036854</color>
     <color name="colorNoteBlue">#023D97</color>
-    <color name="colorNotePurple">#42256E</color>
+    <color name="colorNotePurple">#4D2B80</color>
 
     <color name="colorBackgroundListElement">#252525</color>
     <color name="colorBirthdayLabel">#1E3B7A</color>
@@ -53,16 +53,16 @@
     <color name="colorGetränkeL">#2245A1</color>
     <color name="colorNudelnundGetreide">#CEC39406</color>
     <color name="colorNudelnundGetreideL">#C39406</color>
-    <color name="colorBackwaren">#C6835716</color>
+    <color name="colorBackwaren">#BA835716</color>
     <color name="colorBackwarenL">#835716</color>
-    <color name="colorKühlregalMilch">#DA656464</color>
+    <color name="colorKühlregalMilch">#C1656464</color>
     <color name="colorKühlregalMilchL">#656464</color>
     <color name="colorKühlregalFleisch">#550606</color>
     <color name="colorKühlregalFleischL">#880909</color>
     <color name="colorTiefkühl">#E95587DC</color>
     <color name="colorTiefkühlL">#559CDC</color>
-    <color name="colorKonservenFertiges">#CD535353</color>
-    <color name="colorKonservenFertigesL">#535353</color>
+    <color name="colorKonservenFertiges">#CD373737</color>
+    <color name="colorKonservenFertigesL">#373737</color>
     <color name="colorFrühstück">#B0C19203</color>
     <color name="colorFrühstückL">#C19203</color>
     <color name="colorGewürzeBackzutaten">#C6DC270F</color>
@@ -75,9 +75,9 @@
     <color name="colorSnacksL">#A322A3</color>
     <color name="colorDressingsSaußen">#C8C35704</color>
     <color name="colorDressingsSaußenL">#C35704</color>
-    <color name="colorBackzutaten">#DA683209</color>^^
+    <color name="colorBackzutaten">#BA683209</color>
     <color name="colorBackzutatenL">#683209</color>
-    <color name="colorDrogerieKosmetik">#CB32BA9F</color>^^
+    <color name="colorDrogerieKosmetik">#CB32BA9F</color>
     <color name="colorDrogerieKosmetikL">#32BA9F</color>
     <color name="colorAlkoholTabak">#BE3225B1</color>
     <color name="colorAlkoholTabakL">#3225B1</color>
