@@ -8,11 +8,12 @@ Back-End stuff before release:
     reload sleep reminders when rebooting
 
 Front-End stuff to-do before release in following order:
-    - loading and saving of backup files
     - select correct items in bottom nav after creating note from home
 
-    - dark themed gradient notes?
-    - 3 Finish ItemList and TagList in german
+    change logic of itemlist for smaller itemList.json
+
+    - dark themed nt notes?
+    - finetune itemlist
 
     - 3 Translate ItemList and TagList to english
 
