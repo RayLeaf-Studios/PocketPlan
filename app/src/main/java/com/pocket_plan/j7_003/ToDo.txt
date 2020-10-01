@@ -8,17 +8,15 @@ Back-End stuff before release:
     reload sleep reminders when rebooting
 
 Front-End stuff to-do before release in following order:
+    - loading and saving of backup files
+    - select correct items in bottom nav after creating note from home
 
-    - gradient tasks
-    - gradient shopping
     - dark themed gradient notes?
     - 3 Finish ItemList and TagList in german
 
     - 3 Translate ItemList and TagList to english
 
     - 4 think about how to handle different language item lists (change after existing list?)
-
-    - 2 FrontEnd / for sharing
 
     - 1 add banner in navigation view
 
@@ -47,6 +45,8 @@ Add after release:
 
     - figure out how to preload sleep fragment without disappearing custom days
     - detect keyboard close in editor and clear focus
+
+    - Sharing of shopping list,
 
 Ideas:
     - if year in the future is set, set birthday info text to ("will be born in... years")
