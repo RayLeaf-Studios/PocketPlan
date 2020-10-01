@@ -532,22 +532,20 @@ class ShoppingListAdapter :
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
             val background = when(tag.name){
                 "Sonstiges" -> R.drawable.s_sonstiges
-                "Obst und Gemüse" -> R.drawable.s_obst
+                "Obst & Gemüse" -> R.drawable.s_obst
                 "Getränke" -> R.drawable.s_getraenke
-                "Nudeln und Getreide" -> R.drawable.s_nudeln
+                "Nudeln & Getreide" -> R.drawable.s_nudeln
                 "Backwaren" -> R.drawable.s_backwaren
                 "Kühlregal Milch" -> R.drawable.s_milch
-                "Kühlregal, Fleisch" -> R.drawable.s_fleisch
+                "Kühlregal Fleisch" -> R.drawable.s_fleisch
                 "Tiefkühl" -> R.drawable.s_tiefkuehl
-                "Konserven, Fertiges" -> R.drawable.s_konserven
-                "Frühstück" -> R.drawable.s_fruehstuck
-                "Gewürze, Backzutaten" -> R.drawable.s_gewuerze
+                "Konserven & Fertiges" -> R.drawable.s_konserven
+                "Frühstück & Co." -> R.drawable.s_fruehstuck
+                "Gewürze & Dressings" -> R.drawable.s_gewuerze
                 "Haushalt" -> R.drawable.s_haushalt
-                "Kaffee, Tee" -> R.drawable.s_kaffee
                 "Snacks" -> R.drawable.s_snacks
-                "Dressings, Saußen" -> R.drawable.s_dressings
                 "Backzutaten" -> R.drawable.s_backzutaten
-                "Drogerie, Kosmetik" -> R.drawable.s_drogerie
+                "Drogerie & Kosmetik" -> R.drawable.s_drogerie
                  else -> R.drawable.s_alkohol
             }
             holder.cvCategory.setBackgroundResource(background)
