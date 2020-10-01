@@ -2,9 +2,7 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.lang.NullPointerException
 import java.util.*
-import kotlin.collections.ArrayList
 import com.pocket_plan.j7_003.MainActivity.Companion.act as mainContext
 
 class TagList : ArrayList<Tag>() {
