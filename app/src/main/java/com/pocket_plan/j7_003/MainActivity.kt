@@ -72,8 +72,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var tempShoppingFr: ShoppingFr
         var justRestarted = false
 
-
-
         lateinit var noteEditorFr: NoteEditorFr
         var previousFragmentTag: FT = FT.EMPTY
         var activeFragmentTag: FT = FT.EMPTY
@@ -138,7 +136,6 @@ class MainActivity : AppCompatActivity() {
         nav_drawer.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
-//                R.id.menuItemBirthdays -> changeToFragment(FT.BIRTHDAYS)
                 R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
             }
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -305,22 +302,29 @@ class MainActivity : AppCompatActivity() {
             else -> ""
         }
 
+        //check the correct item in the bottomNavigation
+        val checkedBottomNav = when(fragmentTag){
+            FT.NOTES -> 0
+            FT.TASKS -> 1
+            FT.HOME -> 2
+            FT.SHOPPING -> 3
+            FT.BIRTHDAYS -> 4
+            else -> 5
+        }
+
+        when(checkedBottomNav){
+            5 -> setNavBarUnchecked()
+            else -> {
+                setNavBarUnchecked()
+                bottomNavigation.menu.getItem(checkedBottomNav).isChecked = true
+            }
+        }
+
         //save the current activeFragmentTag as previousFragmentTag
         previousFragmentTag = activeFragmentTag
 
         //set the new activeFragment tag
         activeFragmentTag = fragmentTag
-
-        //deselect bottom nav items if current item does not have an icon there
-        when (fragmentTag) {
-            FT.HOME,
-            FT.SHOPPING,
-            FT.TASKS,
-            FT.NOTES
-            -> {/* no-op */
-            }
-            else -> setNavBarUnchecked()
-        }
 
         //create fragment object
         val fragment = when (fragmentTag) {

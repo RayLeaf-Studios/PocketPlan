@@ -4,13 +4,21 @@ Back-End stuff before release:
 
     - functionality to save / load a backup file
     - check all streams for closure
+    - handle going back in a stack
 
     reload sleep reminders when rebooting
 
 Front-End stuff to-do before release in following order:
-    - select correct items in bottom nav after creating note from home
 
-    change logic of itemlist for smaller itemList.json
+    - fix birthdaylist design
+    - redesign homepanel
+
+    - mark current birthday in birthdaylist
+    - make possible light theme
+
+
+
+    - change logic of itemlist for smaller itemList.json
 
     - dark themed nt notes?
     - finetune itemlist
@@ -20,7 +28,6 @@ Front-End stuff to-do before release in following order:
     - 4 think about how to handle different language item lists (change after existing list?)
 
     - 1 add banner in navigation view
-
     - 2 final code cleanup
 
     - choose a license
