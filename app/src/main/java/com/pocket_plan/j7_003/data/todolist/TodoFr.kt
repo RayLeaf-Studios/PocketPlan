@@ -313,11 +313,6 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             return
         }
 
-
-
-
-
-
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
 
@@ -327,10 +322,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentTask.title
 
-        //resets scale, that got animated
-        holder.itemView.scaleX = 1f
-        holder.itemView.scaleY = 1f
-
+        val gradientPair: Pair<Int, Int>
         if (listInstance.getTask(holder.adapterPosition).isChecked) {
             holder.itemView.cbTask.isChecked = true
             holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
@@ -340,7 +332,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                     color.colorHint
                 )
             )
-            holder.itemView.setBackgroundResource(drawable.round_corner_gray)
+            gradientPair = Pair(R.color.colorgray, R.color.colorgrayL)
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
@@ -350,12 +342,20 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                     color.colorOnBackGround
                 )
             )
-            when (currentTask.priority) {
-                1 -> holder.itemView.setBackgroundResource(drawable.round_corner1)
-                2 -> holder.itemView.setBackgroundResource(drawable.round_corner2)
-                3 -> holder.itemView.setBackgroundResource(drawable.round_corner3)
+            gradientPair = when (currentTask.priority) {
+                1 -> Pair(color.colorPriority1, color.colorPriority1light)
+                2 -> Pair(color.colorPriority2, color.colorPriority2light)
+                else -> Pair(color.colorPriority3, color.colorPriority3light)
             }
         }
+        val myGradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.TL_BR,
+            intArrayOf(
+                ContextCompat.getColor(MainActivity.act, gradientPair.second),
+                ContextCompat.getColor(MainActivity.act, gradientPair.first)
+            )
+        )
+        holder.itemView.background = myGradientDrawable
 
         //User Interactions with Task List Item below
         /**

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:id="@+id/clTaskBackground"
-    android:layout_margin="8dp"
+    android:layout_margin="5dp"
     android:layout_height="wrap_content"
     >
 
@@ -14,6 +14,7 @@
         android:padding="13dp"
         android:text="Task"
         android:textColor="@color/colorOnBackGround"
+        android:textStyle="normal"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tapField"
