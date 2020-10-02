@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
@@ -32,6 +33,8 @@ import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -141,6 +144,36 @@ class ShoppingFr : Fragment() {
         layoutManager = LinearLayoutManager(activity)
         myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
+
+        val itemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+                0
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+                ): Boolean {
+                    val fromPos = viewHolder.adapterPosition
+                    val toPos = target.adapterPosition
+
+                    //swap items in list
+                    Collections.swap(
+                        shoppingListInstance, fromPos, toPos)
+
+                    shoppingListInstance.save()
+
+                    // move item in `fromPos` to `toPos` in adapter.
+                    shoppingListAdapter.notifyItemMoved(fromPos, toPos)
+                    return true // true if moved, false otherwise
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    // remove from adapter
+                }
+            })
+
+        itemTouchHelper.attachToRecyclerView(myRecycler)
 
         return myView
     }
@@ -463,10 +496,19 @@ class ShoppingListAdapter :
             holder.itemView.layoutParams.height = 250
             holder.itemView.subRecyclerView.visibility = View.GONE
             holder.itemView.setOnClickListener {}
+            holder.itemView.setOnLongClickListener {true}
             return
         }
         holder.itemView.visibility = View.VISIBLE
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+
+        //long click listener playing shake animation to indicate moving is possible
+        holder.itemView.setOnLongClickListener {
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+            holder.itemView.startAnimation(animationShake)
+            true
+        }
 
         //Get reference to currently used shopping list instance
         val shoppingListInstance = ShoppingFr.shoppingListInstance

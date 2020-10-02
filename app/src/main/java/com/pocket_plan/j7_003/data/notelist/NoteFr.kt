@@ -3,12 +3,14 @@ package com.pocket_plan.j7_003.data.notelist
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
@@ -19,6 +21,7 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import java.util.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -83,8 +86,8 @@ class NoteFr : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    fun updateNoteSearchIcon() {
-        myMenu.findItem(R.id.item_notes_search).isVisible = NoteFr.noteListInstance.size > 0
+    private fun updateNoteSearchIcon() {
+        myMenu.findItem(R.id.item_notes_search).isVisible = noteListInstance.size > 0
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,7 +137,6 @@ class NoteFr : Fragment() {
     }
 
     private fun initializeComponents(myView: View) {
-        //TODO READ THIS FROM SETTINGS MANAGER
         val noteColumns = SettingsManager.getSetting(SettingId.NOTE_COLUMNS) as String
 
         val setting = SettingsManager.getSetting(SettingId.NOTE_LINES) as Double
@@ -147,6 +149,37 @@ class NoteFr : Fragment() {
         val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
         myRecycler.setHasFixedSize(true)
+
+
+        val itemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+               0
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: ViewHolder, target: ViewHolder
+                ): Boolean {
+                    val fromPos = viewHolder.adapterPosition
+                    val toPos = target.adapterPosition
+
+                    //swap items in list
+                    Collections.swap(
+                        noteListInstance, fromPos, toPos)
+
+                    noteListInstance.save()
+
+                    // move item in `fromPos` to `toPos` in adapter.
+                    myAdapter.notifyItemMoved(fromPos, toPos)
+                    return true // true if moved, false otherwise
+                }
+
+                override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                    // remove from adapter
+                }
+            })
+
+        itemTouchHelper.attachToRecyclerView(myRecycler)
     }
 
 }
@@ -176,6 +209,12 @@ class NoteAdapter :
             false -> NoteFr.noteListInstance.getNote(position)
         }
 
+        holder.itemView.setOnLongClickListener {
+                val animationShake =
+                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                holder.itemView.startAnimation(animationShake)
+            true
+        }
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener {
@@ -186,6 +225,7 @@ class NoteAdapter :
             MainActivity.act.hideKeyboard()
         }
 
+        //when title is empty, hide it else show it and set the proper text
         if (currentNote.title == "") {
             holder.tvNoteTitle.visibility = View.GONE
         } else {
