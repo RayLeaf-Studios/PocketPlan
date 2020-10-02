@@ -30,11 +30,11 @@ class StorageHandler {
             }
         }
 
-        fun createJsonFile(identifier: StorageId, fileName: String,
-                           context: Context = MainActivity.act, text: String = "[]") {
+        fun createJsonFile(identifier: StorageId, context: Context = MainActivity.act,
+                           text: String = "[]") {
             files[identifier] =
                 setStorageLocation(
-                    fileName,
+                    identifier.s,
                     context
                 )
 

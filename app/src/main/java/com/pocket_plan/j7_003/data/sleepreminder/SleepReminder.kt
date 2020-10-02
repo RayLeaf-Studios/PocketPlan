@@ -181,7 +181,7 @@ class SleepReminder() {
 
     private fun createFile() {
         StorageHandler.createJsonFile(
-            StorageId.SLEEP, "SReminder.json", text = Gson().toJson(reminder), context = context
+            StorageId.SLEEP, text = Gson().toJson(reminder), context = context
         )
 
         if (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {

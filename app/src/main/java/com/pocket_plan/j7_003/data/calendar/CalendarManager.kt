@@ -21,7 +21,7 @@ class CalendarManager {
          * and sorts the list.
          */
         fun init() {
-            StorageHandler.createJsonFile(StorageId.CALENDAR, "Calendar.json")
+            StorageHandler.createJsonFile(StorageId.CALENDAR)
             initCalendar()
             sort()
         }

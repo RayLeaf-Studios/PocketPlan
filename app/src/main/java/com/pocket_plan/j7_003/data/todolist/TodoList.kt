@@ -7,9 +7,7 @@ import com.google.gson.reflect.TypeToken
 
 class TodoList: ArrayList<Task>() {
    init {
-       StorageHandler.createJsonFile(
-          StorageId.TASKS, "TaskList.json" )
-
+       StorageHandler.createJsonFile(StorageId.TASKS)
        fetchFromFile()
    }
 

@@ -12,9 +12,7 @@ import kotlin.collections.ArrayList
 
 class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     init {
-        StorageHandler.createJsonFile(
-            StorageId.SHOPPING, "ShoppingList.json")
-
+        StorageHandler.createJsonFile(StorageId.SHOPPING)
         fetchList()
     }
 

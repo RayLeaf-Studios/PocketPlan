@@ -17,7 +17,7 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
     constructor() : this(null)
 
     init {
-        StorageHandler.createJsonFile(StorageId.BIRTHDAYS, "BirthdayList.json")
+        StorageHandler.createJsonFile(StorageId.BIRTHDAYS)
         fetchFromFile()
         sortBirthday()
     }

@@ -14,7 +14,7 @@ class WeekSchedule {
 
         fun init() {
             StorageHandler.createJsonFile(
-                StorageId.WEEK, "WeekSchedule.json")
+                StorageId.WEEK)
 
             initMap()
             load()

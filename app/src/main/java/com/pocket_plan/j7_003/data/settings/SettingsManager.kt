@@ -39,7 +39,7 @@ class SettingsManager {
         }
 
         private fun createFile() {
-            StorageHandler.createJsonFile(StorageId.SETTINGS, "Settings.json")
+            StorageHandler.createJsonFile(StorageId.SETTINGS)
         }
     }
 }

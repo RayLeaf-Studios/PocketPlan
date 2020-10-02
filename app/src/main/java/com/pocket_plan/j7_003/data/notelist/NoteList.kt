@@ -8,9 +8,7 @@ import java.util.*
 
 class NoteList : LinkedList<Note>() {
     init {
-        StorageHandler.createJsonFile(
-            StorageId.NOTES, "NoteFile.json"
-        )
+        StorageHandler.createJsonFile(StorageId.NOTES)
         fetchFromFile()
     }
 

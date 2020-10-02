@@ -10,9 +10,7 @@ import kotlin.collections.ArrayList
 
 class UserItemTemplateList: ArrayList<ItemTemplate>() {
     init {
-        StorageHandler.createJsonFile(
-            StorageId.USER_TEMPLATE_LIST, "UserItemTemplates.json")
-
+        StorageHandler.createJsonFile(StorageId.USER_TEMPLATE_LIST)
         fetchList()
     }
 
