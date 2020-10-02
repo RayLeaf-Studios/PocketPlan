@@ -365,6 +365,7 @@ class ShoppingFr : Fragment() {
         }
         //Button to Confirm adding Item to list
         MainActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
+
             if (actvItem.text.toString() == "") {
                 //animation
                 val animationShake =
@@ -372,24 +373,28 @@ class ShoppingFr : Fragment() {
                 MainActivity.addItemDialogView!!.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            val tagList = TagList()
+
             val categoryNameSelected = spCategory.selectedItem as String
             //check if user template exists
+
             var template =
                 MainActivity.userItemTemplateList.getTemplateByName(actvItem.text.toString())
 
             if (template == null) {
                 //no user item with this name => check for regular template
+
                 template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template == null || categoryNameSelected != template!!.c) {
                     //item unknown, or item known under different category, use selected category,
                     // add item, and save it to userTemplate list
+
                     MainActivity.userItemTemplateList.add(
                         ItemTemplate(
                             actvItem.text.toString(), categoryNameSelected,
                             spItemUnit.selectedItem.toString()
                         )
                     )
+
                     val item = ShoppingItem(
                         actvItem.text.toString(), categoryNameSelected,
                         spItemUnit.selectedItem.toString(),
@@ -418,6 +423,9 @@ class ShoppingFr : Fragment() {
                     )
                     autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
                     actvItem.setText("")
+                    etItemAmount.setText("1")
+                    spItemUnit.setSelection(0)
+                    actvItem.requestFocus()
                     if (MainActivity.activeFragmentTag == FT.HOME || SettingsManager.getSetting(
                             SettingId.CLOSE_ITEM_DIALOG
                         ) as Boolean
@@ -606,7 +614,7 @@ class ShoppingListAdapter :
                     R.color.colorKonservenFertigesL
                 )
                 "Frühstück & Co." -> Pair(R.color.colorFrühstückL, R.color.colorFrühstück)
-                "Gewürze & Dressings" -> Pair(
+                "Gewürze" -> Pair(
                     R.color.colorGewürzeBackzutaten,
                     R.color.colorGewürzeBackzutatenL
                 )

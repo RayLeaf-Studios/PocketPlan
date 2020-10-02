@@ -104,7 +104,7 @@ class NoteEditorFr : Fragment() {
             myMenu.findItem(R.id.item_editor_delete)?.isVisible = true
             myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(MainActivity.editNoteHolder!!.color.resolved)
         } else {
-            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(NoteColors.YELLOW.resolved)
+            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(noteColor.resolved)
 
         }
         super.onCreateOptionsMenu(menu, inflater)

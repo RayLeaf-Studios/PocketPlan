@@ -26,6 +26,7 @@ import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.notelist.Note
+import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.SettingId
@@ -195,6 +196,7 @@ class MainActivity : AppCompatActivity() {
 
                 FT.NOTES -> {
                     editNoteHolder = null
+                    NoteEditorFr.noteColor = NoteColors.GREEN
                     changeToFragment(FT.NOTE_EDITOR)
                 }
 

@@ -41,7 +41,8 @@
             android:src="@drawable/ic_action_sun"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeRow"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorNudelnundGetreideL" />
 
         <TextView
             android:id="@+id/tvWakeTimeRow"
@@ -75,7 +76,8 @@
             android:src="@drawable/ic_action_duration"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvDurationRow"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorTiefkühlL" />
 
         <TextView
             android:id="@+id/tvDurationRow"
