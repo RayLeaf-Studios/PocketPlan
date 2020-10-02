@@ -63,6 +63,7 @@ class BirthdayFr : Fragment() {
         val birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         deletedBirthday = null
         inflater.inflate(R.menu.menu_birthdays, menu)

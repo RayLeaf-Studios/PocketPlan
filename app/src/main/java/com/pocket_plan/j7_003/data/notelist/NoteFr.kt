@@ -30,7 +30,6 @@ import java.util.*
 class NoteFr : Fragment() {
 
     private lateinit var myMenu: Menu
-    private lateinit var searchView: SearchView
 
     companion object {
         lateinit var myAdapter: NoteAdapter
@@ -39,6 +38,8 @@ class NoteFr : Fragment() {
         lateinit var myFragment: NoteFr
 
         var searching = false
+        lateinit var searchView: SearchView
+
         lateinit var adjustedList: ArrayList<Note>
         lateinit var lastQuery: String
     }

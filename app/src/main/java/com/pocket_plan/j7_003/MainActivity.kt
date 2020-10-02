@@ -377,6 +377,24 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        //When in birthdayFragment and searching, close search and restore fragment to normal mode
+        if(activeFragmentTag==FT.BIRTHDAYS && BirthdayFr.searching){
+            toolBar.title = getString(R.string.menuTitleBirthdays)
+            BirthdayFr.searchView.onActionViewCollapsed()
+            BirthdayFr.searching = false
+            BirthdayFr.myFragment.updateUndoBirthdayIcon()
+            BirthdayFr.myAdapter.notifyDataSetChanged()
+            return
+        }
+
+        //When in noteFragment and searching, close search and restore fragment to normal mode
+        if(activeFragmentTag==FT.NOTES && NoteFr.searching){
+            toolBar.title = getString(R.string.menuTitleNotes)
+            NoteFr.searchView.onActionViewCollapsed()
+            NoteFr.searching = false
+            NoteFr.myAdapter.notifyDataSetChanged()
+            return
+        }
 
         //handles going back from editor
         if (activeFragmentTag == FT.NOTE_EDITOR) {
@@ -385,6 +403,9 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
+
+
+
 
         //handles going back from sub settings to settings
         when (activeFragmentTag) {
