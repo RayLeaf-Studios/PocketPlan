@@ -17,30 +17,30 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
      * @return Returns the template if found, null otherwise.
      */
     fun getTemplateByName(name: String): ItemTemplate? {
+
         this.forEach { e ->
             if (e.n.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
                 return e
             }
         }
-
         return null
+
     }
 
     private fun loadFromAssets() {
-        val jsonString =    // TODO set file name to production name
+        val jsonString =
             MainActivity.act.assets.open("itemList.json").bufferedReader().readText()
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type
         )
 
-        val tagList = TagList()
         list.forEach { e ->
-            this.add(ItemTemplate(e.n, tagList.getTagByName(e.c), e.s))
+            this.add(ItemTemplate(e.n, e.c, e.s))
         }
     }
 
     private class TMPTemplate(val n: String, val c: String, val s: String)
 }
 
-data class ItemTemplate(var n: String, var c: Tag, var s: String)
+data class ItemTemplate(var n: String, var c: String, var s: String)

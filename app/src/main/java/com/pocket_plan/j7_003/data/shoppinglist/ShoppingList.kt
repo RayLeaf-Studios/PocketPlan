@@ -10,7 +10,7 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
-class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
+class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     init {
         StorageHandler.createJsonFile(
             StorageId.SHOPPING, "ShoppingList.json")
@@ -117,7 +117,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * This method checks if the given sublist should be expanded.
      * @param tag The tag of the requested sublist.
      */
-    fun isTagExpanded(tag: Tag): Boolean {
+    fun isTagExpanded(tag: String): Boolean {
        return try {
            this[getTagIndex(tag)].second[0].checked
        } catch(e: Exception) {
@@ -131,7 +131,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param sublistPosition The position of the requested item inside the sublist.
      * @return The checked boolean of the item, if the item search fails null is returned
      */
-    fun isItemChecked(tag: Tag, sublistPosition: Int): Boolean? {
+    fun isItemChecked(tag: String, sublistPosition: Int): Boolean? {
         return try {
             this[getTagIndex(tag)].second[sublistPosition+1].checked
         } catch (e: Exception) {
@@ -144,7 +144,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag The tag of the sublist to flip.
      * @return True if the expansion state markers checked boolean is flipped, false otherwise.
      */
-    fun flipExpansionState(tag: Tag): Boolean? {
+    fun flipExpansionState(tag: String): Boolean? {
         return try {
             val newState = !this[getTagIndex(tag)].second[0].checked
             this[getTagIndex(tag)].second[0].checked = newState
@@ -161,7 +161,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param sublistPosition The position of the requested item.
      * @return The new index of the requested item, -1 if the flipping process fails
      */
-    fun flipItemCheckedState(tag: Tag, sublistPosition: Int): Int {
+    fun flipItemCheckedState(tag: String, sublistPosition: Int): Int {
         return try {
             val itemCache: ShoppingItem = this[getTagIndex(tag)].second[sublistPosition+1]
             itemCache.checked = !itemCache.checked
@@ -192,7 +192,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag The tag the sublist is supposed to have.
      * @return Either the size of the list or zero if it doesn't exist.
      */
-    fun getSublistLength(tag: Tag): Int{
+    fun getSublistLength(tag: String): Int{
         this.forEach {
             if(it.first == tag){
                 return it.second.size - 1
@@ -206,7 +206,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag The tag of the sublist which will be searched.
      * @return The amount of unchecked items in the given tags sublist.
      */
-    fun getUncheckedSize(tag: Tag): Int {
+    fun getUncheckedSize(tag: String): Int {
         var counter = 0
         for (i in 1 until this[getTagIndex(tag)].second.size) {
             if (!this[getTagIndex(tag)].second[i].checked) {
@@ -222,7 +222,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param subPosition The position of the requested item inside the sublist.
      * @return If the item could be found it is returned, null otherwise.
      */
-    fun getItem(tag: Tag, subPosition: Int): ShoppingItem? {
+    fun getItem(tag: String, subPosition: Int): ShoppingItem? {
         this.forEach{
             if(it.first == tag){
                 return it.second[subPosition+1]
@@ -237,7 +237,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag   The tag to search.
      * @return      `true` if all items are checked in the sublist, `false` otherwise.
      */
-    fun areAllChecked(tag: Tag) : Boolean {
+    fun areAllChecked(tag: String) : Boolean {
         return try {
             getUncheckedSize(tag) == 0
         } catch (e: Exception) {
@@ -250,7 +250,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag   The tag, of the returned index.
      * @return      Returns the index of the given tag.
      */
-    fun getTagIndex(tag: Tag): Int {
+    fun getTagIndex(tag: String): Int {
         for (i in 0 until this.size) {
             if (this[i].first == tag) {
                 return i
@@ -269,7 +269,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @return  The removed item is returned if the removal succeeded, null otherwise.
      *          also a boolean is returned, stating if the containing sublist was deleted or not.
      */
-    fun removeItem(tag: Tag, sublistPosition: Int): Pair<ShoppingItem?, Boolean> {
+    fun removeItem(tag: String, sublistPosition: Int): Pair<ShoppingItem?, Boolean> {
         var removedItem: ShoppingItem? = null
         var sublistGotDeleted = false
 
@@ -302,7 +302,7 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
      * @param tag The tag which should get sorted.
      * @return A pair with the old and new position of the given tag, null if sorting fails.
      */
-    fun sortTag(tag: Tag): Pair<Int, Int>? {
+    fun sortTag(tag: String): Pair<Int, Int>? {
         val oldPosition = getTagIndex(tag)
         this.sortBy { areAllChecked(it.first) }
         save()
@@ -334,6 +334,6 @@ class ShoppingList : ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>() {
 
         this.addAll(GsonBuilder().create()
             .fromJson(jsonString,
-                object : TypeToken<ArrayList<Pair<Tag, ArrayList<ShoppingItem>>>>() {}.type))
+                object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type))
     }
 }

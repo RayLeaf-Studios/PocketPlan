@@ -124,7 +124,7 @@ class CustomItemAdapter :
 
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentItem.n
-        holder.itemView.tvCategory.text = currentItem.c.name
+        holder.itemView.tvCategory.text = currentItem.c
     }
 
     class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView)

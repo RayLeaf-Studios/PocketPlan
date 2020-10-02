@@ -7,6 +7,8 @@ import com.pocket_plan.j7_003.MainActivity.Companion.act as mainContext
 
 class TagList : ArrayList<Tag>() {
 
+    val categoryCodes = arrayOf("So", "Ob", "Gt", "Nu", "Bw", "Km", "Kf", "Tk", "Ko", "Fr", "Gw", "Ha", "Sn", "Bz", "Dr", "Al")
+    val categoryNames = arrayOf("Sonstiges", "Obst & Gemüse", "Getränke", "Nu", "Bw", "Km", "Kf", "Tk", "Ko", "Fr", "Gw", "Ha", "Sn", "Bz", "Dr", "Al")
     init {
         loadFromStaticList()
     }
@@ -27,6 +29,14 @@ class TagList : ArrayList<Tag>() {
         }
         return a
     }
+
+//    fun tagNameForCode(code: String){
+//        return when(code){
+//            "O" -> "Obst & Gemüse"
+//
+//
+//        }
+//    }
 
     private fun loadFromStaticList() {
         val jsonString = mainContext.assets.open("Tags.json").bufferedReader().readText()

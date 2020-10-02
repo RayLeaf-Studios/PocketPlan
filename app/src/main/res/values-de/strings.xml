@@ -66,6 +66,44 @@
         <item>November</item>
         <item>Dezember</item>
     </string-array>
+
+    <string-array name="categoryCodes">
+        <item>So</item>
+        <item>Ob</item>
+        <item>Gt</item>
+        <item>Nu</item>
+        <item>Bw</item>
+        <item>Km</item>
+        <item>Kf</item>
+        <item>Tk</item>
+        <item>Ko</item>
+        <item>Fr</item>
+        <item>Gw</item>
+        <item>Ha</item>
+        <item>Sn</item>
+        <item>Bz</item>
+        <item>Dr</item>
+        <item>Al</item>
+    </string-array>
+
+    <string-array name="categoryNames">
+        <item>Sonstiges</item>
+        <item>Obst &amp; Gemüse</item>
+        <item>Getränke</item>
+        <item>Nudeln &amp; Getreide</item>
+        <item>Backwaren</item>
+        <item>Kühlregal Milch</item>
+        <item>Kühlregal Fleisch</item>
+        <item>Tiefkühl</item>
+        <item>Konserven &amp; Fertiges</item>
+        <item>Frühstück</item>
+        <item>Gewürze</item>
+        <item>Haushalt</item>
+        <item>Snacks</item>
+        <item>Backzutaten</item>
+        <item>Drogerie &amp; Kostmetik</item>
+        <item>Alkoholische Getränke</item>
+    </string-array>
     <string name="homeAddNote">+ Notiz</string>
     <string name="homeAddTask">+ To Do</string>
     <string name="homeAddItem">+ Item</string>

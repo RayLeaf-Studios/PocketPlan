@@ -7,7 +7,7 @@ data class ShoppingItem(
     var name: String?,
 
     @SerializedName(value = "t")
-    var tag: Tag,
+    var tag: String,
 
     @SerializedName(value = "s")
     var suggestedUnit: String?,
@@ -21,5 +21,5 @@ data class ShoppingItem(
     @SerializedName(value = "c")
     var checked: Boolean)
 {
-    constructor(tag: Tag, checked: Boolean): this(null, tag, null, null, null, checked)
+    constructor(tag: String, checked: Boolean): this(null, tag, null, null, null, checked)
 }

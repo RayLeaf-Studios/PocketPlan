@@ -34,14 +34,10 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
      * @param tag The tag that can be supplied.
      * @param unit The unit that can be supplied.
      */
-    fun edit(name: String, tag: Tag = Tag("", ""), unit: String = "") {
+    fun edit(name: String, tag: String = "", unit: String = "") {
         val index = getIndexByName(name)
         if (index != -1) {
             this[index].n = name
-
-            if (tag.color.isNotEmpty()) {
-                this[index].c = tag
-            }
 
             if (unit.isNotEmpty()) {
                 this[index].s = unit
@@ -94,7 +90,7 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
     fun save() {
         val list = ArrayList<TMPTemplate>()
         this.forEach { e ->
-            list.add(TMPTemplate(e.n, e.c.name, e.s))
+            list.add(TMPTemplate(e.n, e.c, e.s))
         }
 
         StorageHandler.saveAsJsonToFile(
@@ -110,10 +106,8 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
             .fromJson(jsonString,
                 object : TypeToken<ArrayList<TMPTemplate>>() {}.type))
 
-
-        val tagList = TagList()
         list.forEach { e ->
-            this.add(ItemTemplate(e.n, tagList.getTagByName(e.c), e.s))
+            this.add(ItemTemplate(e.n, e.c, e.s))
         }
     }
 

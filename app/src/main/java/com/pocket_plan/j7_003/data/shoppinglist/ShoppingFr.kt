@@ -2,13 +2,11 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -25,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
-import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
@@ -155,8 +152,9 @@ class ShoppingFr : Fragment() {
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
                     val fromPos = viewHolder.adapterPosition
-                    val toPos = target.adapterPosition
+                    var toPos = target.adapterPosition
 
+                    if(toPos== shoppingListInstance.size) toPos--
                     //swap items in list
                     Collections.swap(
                         shoppingListInstance, fromPos, toPos)
@@ -244,7 +242,6 @@ class ShoppingFr : Fragment() {
 
         //initialize shopping list data
         MainActivity.tagList = TagList()
-        MainActivity.tagNames = MainActivity.tagList.getTagNames()
         MainActivity.itemTemplateList = ItemTemplateList()
         MainActivity.userItemTemplateList = UserItemTemplateList()
         shoppingListInstance = ShoppingList()
@@ -283,7 +280,7 @@ class ShoppingFr : Fragment() {
         //initialize spinner for categories
         val spCategory = MainActivity.addItemDialogView!!.spCategory
         val categoryAdapter = ArrayAdapter<String>(
-            MainActivity.act, android.R.layout.simple_list_item_1, MainActivity.tagNames
+            MainActivity.act, android.R.layout.simple_list_item_1, MainActivity.act.resources.getStringArray(R.array.categoryNames)
         )
 
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -321,7 +318,7 @@ class ShoppingFr : Fragment() {
                     MainActivity.userItemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
                     //display correct category
-                    spCategory.setSelection(MainActivity.tagNames.indexOf(template.c.name))
+                    spCategory.setSelection(MainActivity.act.resources.getStringArray(R.array.categoryCodes).indexOf(template.c))
 
                     //display correct unit
                     val unitPointPos =
@@ -334,7 +331,7 @@ class ShoppingFr : Fragment() {
                 template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
                     //display correct category
-                    spCategory.setSelection(MainActivity.tagNames.indexOf(template.c.name))
+                    spCategory.setSelection(MainActivity.act.resources.getStringArray(R.array.categoryCodes).indexOf(template.c))
 
                     //display correct unit
                     val unitPointPos =
@@ -376,7 +373,7 @@ class ShoppingFr : Fragment() {
                 return@setOnClickListener
             }
             val tagList = TagList()
-            val tag = tagList.getTagByName(spCategory.selectedItem as String)
+            val categoryNameSelected = spCategory.selectedItem as String
             //check if user template exists
             var template =
                 MainActivity.userItemTemplateList.getTemplateByName(actvItem.text.toString())
@@ -384,16 +381,17 @@ class ShoppingFr : Fragment() {
             if (template == null) {
                 //no user item with this name => check for regular template
                 template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
-                if (template == null || tag != template!!.c) {
-                    //item unknown, use selected category, add item, and save it to userTemplate list
+                if (template == null || categoryNameSelected != template!!.c) {
+                    //item unknown, or item known under different category, use selected category,
+                    // add item, and save it to userTemplate list
                     MainActivity.userItemTemplateList.add(
                         ItemTemplate(
-                            actvItem.text.toString(), tag,
+                            actvItem.text.toString(), categoryNameSelected,
                             spItemUnit.selectedItem.toString()
                         )
                     )
                     val item = ShoppingItem(
-                        actvItem.text.toString(), tag,
+                        actvItem.text.toString(), categoryNameSelected,
                         spItemUnit.selectedItem.toString(),
                         etItemAmount.text.toString(),
                         spItemUnit.selectedItem.toString(),
@@ -430,12 +428,12 @@ class ShoppingFr : Fragment() {
                 }
             }
 
-            if (tag != template!!.c) {
+            if (categoryNameSelected != template!!.c) {
                 //known as user item but with different tag
                 MainActivity.userItemTemplateList.removeItem(actvItem.text.toString())
                 MainActivity.userItemTemplateList.add(
                     ItemTemplate(
-                        actvItem.text.toString(), tag,
+                        actvItem.text.toString(), categoryNameSelected,
                         spItemUnit.selectedItem.toString()
                     )
                 )
@@ -443,7 +441,7 @@ class ShoppingFr : Fragment() {
             //add already known item to list
             val item = ShoppingItem(
                 template!!.n,
-                tag,
+                categoryNameSelected,
                 template!!.s,
                 etItemAmount!!.text.toString(),
                 spItemUnit.selectedItem.toString(),
@@ -476,7 +474,6 @@ class ShoppingFr : Fragment() {
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         MainActivity.addItemDialog?.show()
     }
-
 
 }
 
@@ -535,8 +532,8 @@ class ShoppingListAdapter :
             else -> 0f
         }
 
-        //Sets Text to Number of items in sublist + name of category of sublist
-        holder.tvCategoryName.text = tag.name
+        //Sets Text name of category of sublist
+        holder.tvCategoryName.text = tag
 
         //Sets background color of sublist according to the tag
         manageCheckedCategory(
@@ -584,12 +581,12 @@ class ShoppingListAdapter :
 
     fun manageCheckedCategory(
         holder: CategoryViewHolder, allChecked: Boolean,
-        numberOfItems: Int, tag: Tag
+        numberOfItems: Int, tag: String
     ) {
         if (!allChecked) {
             val colorOnBackground = ContextCompat
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
-            val gradientPair: Pair<Int, Int> = when (tag.name) {
+            val gradientPair: Pair<Int, Int> = when (tag) {
                 "Sonstiges" -> Pair(R.color.colorSonstiges, R.color.colorSonstigesL)
                 "Obst & Gemüse" -> Pair(R.color.colorObstundGemüse, R.color.colorObstundGemüseL)
                 "Getränke" -> Pair(R.color.colorGetränke, R.color.colorGetränkeL)
@@ -661,7 +658,7 @@ class ShoppingListAdapter :
      * position also holds references to views inside the layout
      */
     class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        lateinit var tag: Tag
+        lateinit var tag: String
         val tvCategoryName: TextView = itemView.tvCategoryName
         var subRecyclerView: RecyclerView = itemView.subRecyclerView
         val cvCategory: CardView = itemView.cvCategory
@@ -670,7 +667,7 @@ class ShoppingListAdapter :
 }
 
 class SublistAdapter(
-    private val tag: Tag, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
+    private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -770,7 +767,7 @@ class SublistAdapter(
     class ItemViewHolder(itemView: View, val adapter: SublistAdapter) :
         RecyclerView.ViewHolder(itemView) {
 
-        lateinit var tag: Tag
+        lateinit var tag: String
     }
 }
 
