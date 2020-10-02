@@ -152,6 +152,7 @@ class NoteFr : Fragment() {
         myRecycler.setHasFixedSize(true)
 
 
+        //itemTouchHelper to drag and reorder notes
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
@@ -245,11 +246,7 @@ class NoteAdapter :
         }
 
         //set background color depending on currentNote.color
-        //debug
         holder.cvNoteCard.setCardBackgroundColor(currentNote.color.resolved)
-//        holder.cvNoteCard.setCardBackgroundColor(ContextCompat.getColor(MainActivity.act, R.color.colorNoteDark))
-//        holder.tvNoteTitle.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-//        holder.tvNoteContent.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
     }
 
     override fun getItemCount(): Int {
