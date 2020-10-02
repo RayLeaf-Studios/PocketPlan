@@ -20,8 +20,6 @@ import com.pocket_plan.j7_003.data.calendar.CalendarManager
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
-import com.pocket_plan.j7_003.system_interaction.handler.share.ShareHandler
-import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -67,8 +65,7 @@ class HomeFr : Fragment() {
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
         myView.panelTasks.setOnClickListener {
-
-            ShareHandler().shareById(StorageId.SHOPPING)
+            MainActivity.act.changeToFragment(FT.TASKS)
 
 //            V.2
 //            MainActivity.act.changeToFragment(FT.TASKS)
