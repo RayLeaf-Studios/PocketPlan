@@ -32,9 +32,9 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.SettingsNotesFr
-import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsBackupFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplateList
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
@@ -49,7 +49,6 @@ import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -172,6 +171,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.bottom5 -> changeToFragment(FT.BIRTHDAYS)
             }
             true
+        }
+
+        //removes longClick tooltips for bottom navigation
+        for(i in 0 until bottomNavigation.menu.size()){
+            val view = bottomNavigation.findViewById<View>(bottomNavigation.menu.getItem(i).itemId)
+            view.setOnLongClickListener {
+                true
+            }
         }
 
         //initialize btn to add elements, depending on which fragment is active

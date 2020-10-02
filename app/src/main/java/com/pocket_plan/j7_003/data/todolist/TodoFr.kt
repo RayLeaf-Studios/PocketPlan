@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -199,17 +200,18 @@ class TodoFr : Fragment() {
         updateDeleteTaskIcon()
     }
 
+    @SuppressLint("InflateParams")
     fun dialogAddTask() {
         //inflate the dialog with custom view
         val myDialogView =
-            LayoutInflater.from(MainActivity.act).inflate(R.layout.dialog_add_task, null)
+            LayoutInflater.from(MainActivity.act).inflate(layout.dialog_add_task, null)
 
         //AlertDialogBuilder
         val myBuilder =
             MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         myBuilder?.setCustomTitle(
             layoutInflater.inflate(
-                R.layout.title_dialog,
+                layout.title_dialog,
                 null
             )
         )
@@ -231,7 +233,7 @@ class TodoFr : Fragment() {
                 val title = myDialogView.etxTitleAddTask.text.toString()
                 if (title.isEmpty()) {
                     val animationShake =
-                        AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                        AnimationUtils.loadAnimation(MainActivity.act, anim.shake)
                     myDialogView.etxTitleAddTask.startAnimation(animationShake)
                     @Suppress("LABEL_NAME_CLASH")
                     return@setOnClickListener
@@ -332,7 +334,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                     color.colorHint
                 )
             )
-            gradientPair = Pair(R.color.colorgray, R.color.colorgrayL)
+            gradientPair = Pair(color.colorgray, color.colorgrayL)
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
