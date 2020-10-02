@@ -86,6 +86,8 @@ class TodoList: ArrayList<Task>() {
         this.forEach { task ->
             task.isChecked = false
         }
+        sortTasks()
+        save()
     }
 
     fun deleteCheckedTasks(): Int{

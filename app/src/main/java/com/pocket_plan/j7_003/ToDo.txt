@@ -10,10 +10,15 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
+    - notes without title bigger by default?
+    - fix ontap intent on birthday notification
+
     - redesign homepanel
+
 
     - mark current birthday in birthdaylist
     - make possible light theme
+
 
     - finetune itemlist
 
