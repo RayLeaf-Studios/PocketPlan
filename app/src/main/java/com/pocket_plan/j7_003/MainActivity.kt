@@ -450,7 +450,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadDefaultSettings() {
         setDefault(SettingId.NOTE_COLUMNS, "2")
-        setDefault(SettingId.NOTE_LINES, -1.0)
+        setDefault(SettingId.NOTE_LINES, 10.0)
         setDefault(SettingId.FONT_SIZE, "18")
         setDefault(SettingId.CLOSE_ITEM_DIALOG, false)
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)

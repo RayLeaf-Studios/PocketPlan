@@ -34,7 +34,7 @@
                 android:padding="10dp"
                 android:textColor="@color/colorOnBackGround"
                 android:background="@android:color/transparent"
-                android:textSize="@dimen/font_size_very_small"
+                android:textSize="@dimen/font_size_small"
                 android:layout_below="@+id/tvNoteTitle"/>
 
 
