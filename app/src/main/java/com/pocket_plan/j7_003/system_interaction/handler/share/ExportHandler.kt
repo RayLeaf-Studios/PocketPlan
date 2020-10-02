@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class ShareHandler() {
+class ExportHandler() {
     fun shareAll() {
         StorageHandler.createFile(StorageId.ZIP, "bundle.zip")
         val outputStream = FileOutputStream(StorageHandler.files[StorageId.ZIP])

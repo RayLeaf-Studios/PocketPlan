@@ -49,7 +49,6 @@ import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
-import java.io.File
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -82,6 +81,11 @@ class MainActivity : AppCompatActivity() {
         lateinit var bottomNavigation: BottomNavigationView
 //        V.2
 //        var editTerm: CalendarAppointment? = null
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.e("here", "main")
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     @SuppressLint("InflateParams")
@@ -223,17 +227,6 @@ class MainActivity : AppCompatActivity() {
     /**
      * UI FUNCTIONS
      */
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        //this works to read a json
-        val path = data?.data
-        val jsonInputStream = contentResolver.openInputStream(path!!)
-        val jsonAsString = jsonInputStream?.bufferedReader()?.readText()
-        jsonInputStream?.close()
-        Log.e("here", jsonAsString)
-        super.onActivityResult(requestCode, resultCode, data)
-    }
     fun hideKeyboard() {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
