@@ -42,7 +42,7 @@ class HomeFr : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        CalendarManager.init()
+//        CalendarManager.init()    ->  V.2
 
         //initializing layout
         myView = inflater.inflate(R.layout.fragment_home, container, false)
