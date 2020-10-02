@@ -36,7 +36,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNoteYellow" />
+                    app:tint="@color/colorNudelnundGetreideL" />
 
 
                 <TextView
@@ -82,7 +82,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorIconShopping" />
+                    app:tint="@color/colorGewürzeBackzutatenL" />
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
@@ -169,7 +169,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNoteGreen" />
+                    app:tint="@color/colorObstundGemüseL" />
 
                 <TextView
                     android:id="@+id/tvBackup"
@@ -212,7 +212,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNotePurple" />
+                    app:tint="@color/colorTiefkühlL" />
 
                 <TextView
                     android:id="@+id/tvAbout"

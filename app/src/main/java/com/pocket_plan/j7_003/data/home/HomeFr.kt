@@ -150,7 +150,7 @@ class HomeFr : Fragment() {
             myView.icTasksHome.setColorFilter(
                 ContextCompat.getColor(
                     MainActivity.act,
-                    R.color.colorOnBackGround
+                    R.color.colorNoteRed
                 )
             )
         }
@@ -207,7 +207,7 @@ class HomeFr : Fragment() {
             myView.icBirthdaysHome.setColorFilter(
                 ContextCompat.getColor(
                     MainActivity.act,
-                    R.color.colorAccent
+                    R.color.colorHome2
                 )
             )
         }
