@@ -38,6 +38,9 @@ class BackUpActivity: AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) {
+            return
+        }
         //this works to read a json
         when (requestCode) {
             2000 -> {
