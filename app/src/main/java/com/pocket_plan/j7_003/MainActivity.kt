@@ -3,9 +3,7 @@ package com.pocket_plan.j7_003
 import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -22,13 +20,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
+import com.pocket_plan.j7_003.data.birthdaylist.BirthdayAdapter
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
-import com.pocket_plan.j7_003.data.notelist.Note
-import com.pocket_plan.j7_003.data.notelist.NoteColors
-import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
-import com.pocket_plan.j7_003.data.notelist.NoteFr
+import com.pocket_plan.j7_003.data.notelist.*
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -37,13 +33,13 @@ import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsBackupFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplateList
-import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.TagList
-import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
+import com.pocket_plan.j7_003.data.shoppinglist.*
+import com.pocket_plan.j7_003.data.sleepreminder.SleepAdapter
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoFr
+import com.pocket_plan.j7_003.data.todolist.TodoList
+import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import kotlinx.android.synthetic.main.dialog_delete_note.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
@@ -82,10 +78,6 @@ class MainActivity : AppCompatActivity() {
 //        var editTerm: CalendarAppointment? = null
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.e("here", "main")
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,9 +91,6 @@ class MainActivity : AppCompatActivity() {
 
         //Set a reference to this activity so its accessible in the companion object
 
-        tempShoppingFr = ShoppingFr()
-
-
         //IMPORTANT; ORDER IS CRITICAL
         //Initialize Settings Manager and Time api and AlarmHandler
         SettingsManager.init()
@@ -114,12 +103,21 @@ class MainActivity : AppCompatActivity() {
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
 
+        tempShoppingFr = ShoppingFr()
+
         //initialize toolbar
         setSupportActionBar(myNewToolbar)
         toolBar = myNewToolbar
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
+
+        TodoFr.todoListInstance = TodoList()
+        TodoFr.myAdapter = TodoTaskAdapter()
+        NoteFr.myAdapter = NoteAdapter()
+        ShoppingFr.shoppingListAdapter = ShoppingListAdapter()
+        SleepFr.myAdapter = SleepAdapter()
+        BirthdayFr.myAdapter = BirthdayAdapter()
 
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
         val mySpinner = header.ivSpinner
@@ -367,7 +365,14 @@ class MainActivity : AppCompatActivity() {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
 
-
+        when (fragmentTag) {
+            FT.BIRTHDAYS -> BirthdayFr.myAdapter.notifyDataSetChanged()
+            FT.NOTES -> NoteFr.myAdapter.notifyDataSetChanged()
+            FT.SHOPPING -> ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
+            FT.TASKS -> TodoFr.myAdapter.notifyDataSetChanged()
+            FT.SLEEP -> SleepFr.myAdapter.notifyDataSetChanged()
+            else -> { /* no-op */ }
+        }
     }
 
     /**

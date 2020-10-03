@@ -35,7 +35,7 @@ class TodoFr : Fragment() {
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
 
-        val todoListInstance: TodoList = TodoList()
+        lateinit var todoListInstance: TodoList
         var deletedTask: Task? = null
         var deletedTaskList: ArrayList<Task> = arrayListOf()
 
@@ -120,6 +120,7 @@ class TodoFr : Fragment() {
          * Onclick-Listener opening the add-task dialog
          */
 
+        todoListInstance = TodoList()
         /**
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */

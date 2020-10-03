@@ -11,20 +11,9 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class ExportHandler() {
+class ExportHandler {
     fun shareAll() {
-        StorageHandler.createFile(StorageId.ZIP, "bundle.zip")
-        val outputStream = FileOutputStream(StorageHandler.files[StorageId.ZIP])
-        val zipStream = ZipOutputStream(outputStream)
-
-        StorageHandler.files.forEach { (_, file) ->
-            if (file.name != "bundle.zip") {
-                writeToZipFile(zipStream, file)
-            }
-        }
-
-        zipStream.close()
-        outputStream.close()
+        backUpAsZip()
 
         val uri = FileProvider.getUriForFile(
             MainActivity.act, "${BuildConfig.APPLICATION_ID}.provider",
@@ -62,6 +51,21 @@ class ExportHandler() {
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
         MainActivity.act.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+    }
+
+    internal fun backUpAsZip() {
+        StorageHandler.createFile(StorageId.ZIP, StorageId.ZIP.s)
+        val outputStream = FileOutputStream(StorageHandler.files[StorageId.ZIP])
+        val zipStream = ZipOutputStream(outputStream)
+
+        StorageHandler.files.forEach { (_, file) ->
+            if (file.name != StorageId.ZIP.s) {
+                writeToZipFile(zipStream, file)
+            }
+        }
+
+        zipStream.close()
+        outputStream.close()
     }
 
     private fun writeToZipFile(zipStream: ZipOutputStream, file: File) {
