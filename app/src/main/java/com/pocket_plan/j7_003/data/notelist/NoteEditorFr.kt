@@ -33,7 +33,7 @@ class NoteEditorFr : Fragment() {
 
     companion object {
         lateinit var myFragment: NoteEditorFr
-        var noteColor: NoteColors = NoteColors.YELLOW
+        var noteColor: NoteColors = NoteColors.GREEN
     }
 
     override fun onCreateView(

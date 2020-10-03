@@ -34,6 +34,7 @@ import java.util.*
 
 class BirthdayFr : Fragment() {
 
+    //initialize recycler view
     private lateinit var myRecycler: RecyclerView
 
     var date: LocalDate = LocalDate.now()
@@ -141,8 +142,6 @@ class BirthdayFr : Fragment() {
         adjustedList = arrayListOf()
         myRecycler = myView.recycler_view_birthday
         myFragment = this
-
-        birthdayListInstance.collapseAll()
 
         //initialize recyclerview and adapter
         myAdapter = BirthdayAdapter()
@@ -277,7 +276,7 @@ class BirthdayFr : Fragment() {
 
         val daysPriorTextEdit =
             MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
-                .toString() + MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
+                .toString() +" "+MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
         tvDaysPrior.text = daysPriorTextEdit
 
         //set the correct daysToRemind text
@@ -867,8 +866,8 @@ class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
 class BirthdayAdapter :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val listInstance = BirthdayFr.birthdayListInstance
-    val density = MainActivity.act.resources.displayMetrics.density
-    val marginSide = (density*20).toInt()
+    private val density = MainActivity.act.resources.displayMetrics.density
+    private val marginSide = (density*20).toInt()
 
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
