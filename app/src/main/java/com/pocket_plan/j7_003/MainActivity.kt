@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayAdapter
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
+import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.notelist.*
@@ -457,6 +458,15 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun refreshData(){
+        NoteFr.noteListInstance = NoteList()
+        BirthdayFr.birthdayListInstance = BirthdayList(act)
+        ShoppingFr.shoppingListInstance = ShoppingList()
+        SettingsManager.init()
+        SleepFr.sleepReminderInstance = SleepReminder()
+        TodoFr.todoListInstance = TodoList()
     }
 
 

@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import java.io.File
@@ -49,6 +50,8 @@ class BackUpActivity: AppCompatActivity() {
 
                 iHandler.importFromZip(inputStream, zipFile)
                 zipFile.delete()
+
+                MainActivity.act.refreshData()
 
                 return
             }

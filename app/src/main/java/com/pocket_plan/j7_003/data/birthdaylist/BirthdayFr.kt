@@ -61,7 +61,7 @@ class BirthdayFr : Fragment() {
 
         lateinit var searchView: SearchView
 
-        val birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
+        var birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
     }
 
 

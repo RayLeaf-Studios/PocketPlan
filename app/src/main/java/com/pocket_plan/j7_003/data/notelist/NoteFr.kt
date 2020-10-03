@@ -34,7 +34,7 @@ class NoteFr : Fragment() {
     companion object {
         lateinit var myAdapter: NoteAdapter
         var noteLines = 0
-        val noteListInstance: NoteList = NoteList()
+        var noteListInstance: NoteList = NoteList()
         lateinit var myFragment: NoteFr
 
         var searching = false
