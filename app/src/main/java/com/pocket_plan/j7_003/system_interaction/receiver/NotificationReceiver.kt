@@ -24,17 +24,21 @@ class NotificationReceiver : BroadcastReceiver() {
         logger.log("BroadcastReceiver", "Notification broadcast received")
         logger.log("BroadcastReceiver", "Received content: ${intent.extras?.get("Notification")}")
 
-        AndroidThreeTen.init(context)
-        this.context = context
-        this.localDate = LocalDate.now()
+        try {
+            AndroidThreeTen.init(context)
+            this.context = context
+            this.localDate = LocalDate.now()
 
-        when (intent.extras?.get("Notification")) {
-            "Birthday" -> birthdayNotifications()
-            "SReminder" -> checkSleepNotification(intent)
+            when (intent.extras?.get("Notification")) {
+                "Birthday" -> birthdayNotifications()
+                "SReminder" -> checkSleepNotification(intent)
+            }
+
+            logger.log("BroadcastReceiver", "Setting next alarm")
+            AlarmHandler.setBirthdayAlarms(context = context)
+        } catch (e: Exception) {
+            logger.log("BroadcastReceiver", e.message.toString())
         }
-
-        logger.log("BroadcastReceiver", "Setting next alarm")
-        AlarmHandler.setBirthdayAlarms(context = context)
     }
 
     private fun checkSleepNotification(intent: Intent) {
