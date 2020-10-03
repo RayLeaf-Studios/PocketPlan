@@ -38,7 +38,7 @@ import kotlin.collections.ArrayList
  * A simple [Fragment] subclass.
  */
 class ShoppingFr : Fragment() {
-    lateinit var myMenu: Menu
+    private lateinit var myMenu: Menu
 
     companion object {
 
@@ -455,7 +455,7 @@ class ShoppingFr : Fragment() {
                 spItemUnit.selectedItem.toString(),
                 false
             )
-            ShoppingFr.shoppingListInstance.add(item)
+            shoppingListInstance.add(item)
             if (MainActivity.activeFragmentTag == FT.SHOPPING) {
                 shoppingListAdapter.notifyDataSetChanged()
                 myFragment.updateShoppingMenu()

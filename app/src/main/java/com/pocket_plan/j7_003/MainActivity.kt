@@ -371,11 +371,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * DATA MANAGEMENT FUNCTIONS
-     */
-
-
-    /**
      * OVERRIDE FUNCTIONS
      */
 
@@ -412,9 +407,6 @@ class MainActivity : AppCompatActivity() {
                 return
             }
         }
-
-
-
 
         //handles going back from sub settings to settings
         when (activeFragmentTag) {
@@ -453,11 +445,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-//    override fun onDestroy() {
-//        startActivity(Intent(this, MainActivity::class.java))
-//        super.onDestroy()
-//    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

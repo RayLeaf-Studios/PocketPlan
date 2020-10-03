@@ -10,11 +10,8 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - make moving checked to bottom optional?
-
     - make round design optional?
-
-    - add short delay before shake animation on long press
+    - reorder tasks withing their priority?
 
     - uniform padding around lists in different fragments?
 
@@ -46,6 +43,7 @@ Add after release:
     - Front-End / Back-End ? option to change language
     - Add more languages
     - WeekPlanner / Calendar
+    - add short delay before shake animation on long press
     - decide what to do with terms in the past, (delete after week? even show them at all?)
     - button to go to current day in DayView
 
