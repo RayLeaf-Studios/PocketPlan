@@ -2,11 +2,7 @@ Todo:
 
 Back-End stuff before release:
 
-    - functionality to save / load a backup file
-    - check all streams for closure
     - handle going back in a stack
-
-    reload sleep reminders when rebooting
 
 Front-End stuff to-do before release in following order:
 
@@ -19,6 +15,7 @@ Front-End stuff to-do before release in following order:
 
     - make possible light theme
 
+    - update lists on fragment opening, so the lists are shown correctly after import completion
 
     - finetune itemlist
 
