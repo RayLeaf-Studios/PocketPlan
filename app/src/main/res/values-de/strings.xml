@@ -35,7 +35,7 @@
     <string name="settingsNumOfCols">Notizen nebeneinander</string>
     <string name="settingsFontSize">Schriftgröße im Editor</string>
     <string name="settingsShoListTitle">Einkaufsliste</string>
-    <string name="settingsCusItems">Benutzerdefinierte Items</string>
+    <string name="settingsCusItems">Benutzerdefinierte Items verwalten</string>
     <string name="settingsOnlyExpandOne">Nur eine Kategorie ausklappbar</string>
     <string name="settingsCollapseChecked">Abgehakte Kategorien einklappen</string>
     <string name="settingsNavigationTitle">Navigation</string>

@@ -678,6 +678,8 @@ class SublistAdapter(
     private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
 
+    private val moveCheckedSublistsDown = SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_item, parent, false)
@@ -706,7 +708,6 @@ class SublistAdapter(
                 R.color.colorBackground
             )
         )
-
 
         //initialize if text is gray and strike through flag is set
         if (item.checked) {
@@ -754,13 +755,18 @@ class SublistAdapter(
                 MainActivity.act.toast("invalid item checked state")
             }
 
-            val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortTag(tag)
-            if (sublistMoveInfo != null) {
-                ShoppingFr.myFragment.prepareForMove()
-                ShoppingFr.shoppingListAdapter
-                    .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
+            //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
+            //and animate the move from old to new position
+            if(moveCheckedSublistsDown){
+                val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(tag)
+                if (sublistMoveInfo != null) {
+                    ShoppingFr.myFragment.prepareForMove()
+                    ShoppingFr.shoppingListAdapter
+                        .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
 
-                ShoppingFr.myFragment.reactToMove()
+                    ShoppingFr.myFragment.reactToMove()
+                }
+
             }
             ShoppingFr.myFragment.updateShoppingMenu()
         }
@@ -800,7 +806,7 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
             //sublist changed length =>
             ShoppingFr.shoppingListAdapter.notifyItemChanged(tagPosition)
             //check if sublist moved
-            val positions = ShoppingFr.shoppingListInstance.sortTag(parsed.tag)
+            val positions = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(parsed.tag)
             if (positions != null) {
                 //sublist did move => animate movement
                 ShoppingFr.myFragment.prepareForMove()

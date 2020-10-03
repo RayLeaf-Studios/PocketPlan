@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
-import android.provider.Settings
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
@@ -30,7 +29,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
 
                 //Added this to sort after adding element
                 sortSublist(e.second)
-                sortTag(e.first)
+                sortCategoriesByChecked(e.first)
 
                 save()
                 return
@@ -57,7 +56,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
                 e.second.add(element)
 
                 sortSublist(e.second)
-                sortTag(e.first)
+                sortCategoriesByChecked(e.first)
 
                 save()
             }
@@ -300,7 +299,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
      * @param tag The tag which should get sorted.
      * @return A pair with the old and new position of the given tag, null if sorting fails.
      */
-    fun sortTag(tag: String): Pair<Int, Int>? {
+    fun sortCategoriesByChecked(tag: String): Pair<Int, Int>? {
         val oldPosition = getTagIndex(tag)
         this.sortBy { areAllChecked(it.first) }
         save()

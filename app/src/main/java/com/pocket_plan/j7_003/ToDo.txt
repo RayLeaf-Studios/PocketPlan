@@ -10,10 +10,6 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - notes without title bigger by default?
-
-    - mark current birthday in birthdaylist
-
     - make moving checked to bottom optional?
 
     - make round design optional?

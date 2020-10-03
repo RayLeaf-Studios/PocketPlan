@@ -18,10 +18,11 @@ import kotlinx.android.synthetic.main.fragment_settings_shopping.view.*
  * A simple [Fragment] subclass.
  */
 class SettingsShoppingFr : Fragment() {
-    lateinit var clManageCustomItems: ConstraintLayout
-    lateinit var swExpandOneCategory: SwitchCompat
-    lateinit var swCollapseCheckedSublists: SwitchCompat
-    lateinit var swCloseItemDialog: SwitchCompat
+    private lateinit var clManageCustomItems: ConstraintLayout
+    private lateinit var swExpandOneCategory: SwitchCompat
+    private lateinit var swCollapseCheckedSublists: SwitchCompat
+    private lateinit var swCloseItemDialog: SwitchCompat
+    private lateinit var swMoveCheckedCategoriesDown: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +46,7 @@ class SettingsShoppingFr : Fragment() {
         swExpandOneCategory = myView.swExpandOneCategory
         swCollapseCheckedSublists = myView.swCollapseCheckedSublists
         swCloseItemDialog = myView.swCloseAddItemDialog
+        swMoveCheckedCategoriesDown = myView.swMoveCheckedToBottom
 
     }
 
@@ -54,11 +56,15 @@ class SettingsShoppingFr : Fragment() {
 
         swExpandOneCategory.isChecked =
             SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
+
         swCollapseCheckedSublists.isChecked =
             SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
 
         swCloseItemDialog.isChecked =
             SettingsManager.getSetting(SettingId.CLOSE_ITEM_DIALOG) as Boolean
+
+        swMoveCheckedCategoriesDown.isChecked =
+            SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
     }
 
     private fun initializeListeners() {
@@ -85,6 +91,14 @@ class SettingsShoppingFr : Fragment() {
             SettingsManager.addSetting(
                 SettingId.CLOSE_ITEM_DIALOG,
                 swCloseItemDialog.isChecked
+            )
+        }
+
+        //Switch to toggle setting to move categories below unchecked lists once they are fully checked
+        swMoveCheckedCategoriesDown.setOnClickListener {
+            SettingsManager.addSetting(
+                SettingId.MOVE_CHECKED_DOWN,
+                swMoveCheckedCategoriesDown.isChecked
             )
         }
     }

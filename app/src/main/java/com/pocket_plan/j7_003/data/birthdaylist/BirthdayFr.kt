@@ -37,7 +37,7 @@ class BirthdayFr : Fragment() {
     private lateinit var myRecycler: RecyclerView
 
     var date: LocalDate = LocalDate.now()
-    lateinit var myMenu: Menu
+    private lateinit var myMenu: Menu
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -930,7 +930,6 @@ class BirthdayAdapter :
 
             if (currentBirthday.daysToRemind == -200) {
                 //YEAR
-                val height = 70 * density
                 holder.itemView.layoutParams.height = (70*density).toInt()
                 holder.tvRowBirthdayDivider.textSize = 22f
                 holder.tvRowBirthdayDivider.setTextColor(
@@ -1090,6 +1089,17 @@ class BirthdayAdapter :
         //todo figure a way out to display this in another way, blue under blue month label => low contrast
         //maybe animation?
         // Blue background if birthday is today
+
+        val today = LocalDate.now()
+        if(holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue){
+           holder.tvRowBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
+           holder.tvRowBirthdayName.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
+           holder.iconBell.setColorFilter(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
+        }else{
+            holder.tvRowBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            holder.tvRowBirthdayName.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            holder.iconBell.setColorFilter(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+        }
 
         //opens dialog to edit this birthday
         holder.itemView.setOnLongClickListener {

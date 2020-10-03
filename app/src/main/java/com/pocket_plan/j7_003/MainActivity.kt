@@ -477,6 +477,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.CLOSE_ITEM_DIALOG, false)
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
+        setDefault(SettingId.MOVE_CHECKED_DOWN, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
