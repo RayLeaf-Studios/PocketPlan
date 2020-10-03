@@ -3,6 +3,7 @@ Todo:
 Back-End stuff before release:
 
     - handle going back in a stack
+    - make sure exceptions are thrown correctly for corrupted json files
 
 Front-End stuff to-do before release in following order:
 
