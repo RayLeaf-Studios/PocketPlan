@@ -106,7 +106,7 @@ class TodoList: ArrayList<Task>() {
         return this.size
     }
 
-    private fun save() {
+    fun save() {
         StorageHandler.saveAsJsonToFile(
             StorageHandler.files[StorageId.TASKS],
             this

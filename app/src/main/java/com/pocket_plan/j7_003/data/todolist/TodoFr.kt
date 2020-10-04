@@ -18,10 +18,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.R.*
+import com.pocket_plan.j7_003.data.notelist.NoteFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -136,6 +139,60 @@ class TodoFr : Fragment() {
         swipeHelperLeft.attachToRecyclerView(myRecycler)
         val swipeHelperRight = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.RIGHT, myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
+
+        //itemTouchHelper to drag and reorder notes
+        val itemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+                0
+            ) {
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ) {
+                    val oldPriority = todoListInstance[viewHolder.adapterPosition].priority
+                    val newPriority = when (viewHolder.adapterPosition) {
+                        0 -> 1
+                        todoListInstance.size-1 -> 3
+                        else -> {
+                            todoListInstance[viewHolder.adapterPosition+1].priority
+                        }
+                    }
+
+                    if(oldPriority!=newPriority) {
+                        todoListInstance[viewHolder.adapterPosition].priority = newPriority
+                        myAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                    }
+
+                    todoListInstance.save()
+
+                }
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+                ): Boolean {
+                    val fromPos = viewHolder.adapterPosition
+                    var toPos = target.adapterPosition
+
+                    if(toPos== todoListInstance.size) toPos--
+                    //swap items in list
+                    Collections.swap(
+                        todoListInstance, fromPos, toPos
+                    )
+
+
+
+                    // move item in `fromPos` to `toPos` in adapter.
+                    myAdapter.notifyItemMoved(fromPos, toPos)
+                    return true // true if moved, false otherwise
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    // remove from adapter
+                }
+            })
+
+        itemTouchHelper.attachToRecyclerView(myRecycler)
 
         return myView
     }
@@ -325,6 +382,13 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentTask.title
 
+        holder.itemView.tvName.setOnLongClickListener {
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+            holder.itemView.startAnimation(animationShake)
+            true
+        }
+
         val gradientPair: Pair<Int, Int>
         if (listInstance.getTask(holder.adapterPosition).isChecked) {
             holder.itemView.cbTask.isChecked = true
@@ -366,7 +430,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
          * Onclick-Listener on List items, opening the edit-task dialog
          */
 
-        holder.itemView.tvName.setOnLongClickListener {
+        holder.itemView.tvName.setOnClickListener {
 
             //inflate the dialog with custom view
             val myDialogView = LayoutInflater.from(activity).inflate(
@@ -425,7 +489,6 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
 
                 }
             }
-            true
         }
 
         //reacts to the user checking a task
