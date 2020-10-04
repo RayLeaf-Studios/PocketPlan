@@ -154,10 +154,11 @@ class ShoppingFr : Fragment() {
                     val fromPos = viewHolder.adapterPosition
                     var toPos = target.adapterPosition
 
-                    if(toPos== shoppingListInstance.size) toPos--
+                    if (toPos == shoppingListInstance.size) toPos--
                     //swap items in list
                     Collections.swap(
-                        shoppingListInstance, fromPos, toPos)
+                        shoppingListInstance, fromPos, toPos
+                    )
 
                     shoppingListInstance.save()
 
@@ -280,7 +281,9 @@ class ShoppingFr : Fragment() {
         //initialize spinner for categories
         val spCategory = MainActivity.addItemDialogView!!.spCategory
         val categoryAdapter = ArrayAdapter<String>(
-            MainActivity.act, android.R.layout.simple_list_item_1, MainActivity.act.resources.getStringArray(R.array.categoryNames)
+            MainActivity.act,
+            android.R.layout.simple_list_item_1,
+            MainActivity.act.resources.getStringArray(R.array.categoryNames)
         )
 
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -318,7 +321,10 @@ class ShoppingFr : Fragment() {
                     MainActivity.userItemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
                     //display correct category
-                    spCategory.setSelection(MainActivity.act.resources.getStringArray(R.array.categoryCodes).indexOf(template.c))
+                    spCategory.setSelection(
+                        MainActivity.act.resources.getStringArray(R.array.categoryCodes)
+                            .indexOf(template.c)
+                    )
 
                     //display correct unit
                     val unitPointPos =
@@ -331,7 +337,10 @@ class ShoppingFr : Fragment() {
                 template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
                 if (template != null) {
                     //display correct category
-                    spCategory.setSelection(MainActivity.act.resources.getStringArray(R.array.categoryCodes).indexOf(template.c))
+                    spCategory.setSelection(
+                        MainActivity.act.resources.getStringArray(R.array.categoryCodes)
+                            .indexOf(template.c)
+                    )
 
                     //display correct unit
                     val unitPointPos =
@@ -374,7 +383,10 @@ class ShoppingFr : Fragment() {
                 return@setOnClickListener
             }
 
-            val categoryNameSelected = spCategory.selectedItem as String
+            val categoryCode =
+                MainActivity.act.resources.getStringArray(R.array.categoryCodes)[MainActivity.act.resources.getStringArray(
+                    R.array.categoryNames
+                ).indexOf(spCategory.selectedItem as String)]
             //check if user template exists
 
             var template =
@@ -384,19 +396,19 @@ class ShoppingFr : Fragment() {
                 //no user item with this name => check for regular template
 
                 template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
-                if (template == null || categoryNameSelected != template!!.c) {
+                if (template == null || categoryCode != template!!.c) {
                     //item unknown, or item known under different category, use selected category,
                     // add item, and save it to userTemplate list
 
                     MainActivity.userItemTemplateList.add(
                         ItemTemplate(
-                            actvItem.text.toString(), categoryNameSelected,
+                            actvItem.text.toString(), categoryCode,
                             spItemUnit.selectedItem.toString()
                         )
                     )
 
                     val item = ShoppingItem(
-                        actvItem.text.toString(), categoryNameSelected,
+                        actvItem.text.toString(), categoryCode,
                         spItemUnit.selectedItem.toString(),
                         etItemAmount.text.toString(),
                         spItemUnit.selectedItem.toString(),
@@ -436,12 +448,12 @@ class ShoppingFr : Fragment() {
                 }
             }
 
-            if (categoryNameSelected != template!!.c) {
+            if (categoryCode != template!!.c) {
                 //known as user item but with different tag
                 MainActivity.userItemTemplateList.removeItem(actvItem.text.toString())
                 MainActivity.userItemTemplateList.add(
                     ItemTemplate(
-                        actvItem.text.toString(), categoryNameSelected,
+                        actvItem.text.toString(), categoryCode,
                         spItemUnit.selectedItem.toString()
                     )
                 )
@@ -449,7 +461,7 @@ class ShoppingFr : Fragment() {
             //add already known item to list
             val item = ShoppingItem(
                 template!!.n,
-                categoryNameSelected,
+                categoryCode,
                 template!!.s,
                 etItemAmount!!.text.toString(),
                 spItemUnit.selectedItem.toString(),
@@ -501,7 +513,7 @@ class ShoppingListAdapter :
             holder.itemView.layoutParams.height = 250
             holder.itemView.subRecyclerView.visibility = View.GONE
             holder.itemView.setOnClickListener {}
-            holder.itemView.setOnLongClickListener {true}
+            holder.itemView.setOnLongClickListener { true }
             return
         }
         holder.itemView.visibility = View.VISIBLE
@@ -535,13 +547,16 @@ class ShoppingListAdapter :
             false -> View.GONE
         }
 
-        holder.itemView.ivExpand.rotation = when(expanded){
+        holder.itemView.ivExpand.rotation = when (expanded) {
             true -> 180f
             else -> 0f
         }
 
         //Sets Text name of category of sublist
-        holder.tvCategoryName.text = tag
+        holder.tvCategoryName.text =
+            MainActivity.act.resources.getStringArray(R.array.categoryNames)[MainActivity.act.resources.getStringArray(
+                R.array.categoryCodes
+            ).indexOf(tag)]
 
         //Sets background color of sublist according to the tag
         manageCheckedCategory(
@@ -595,37 +610,37 @@ class ShoppingListAdapter :
             val colorOnBackground = ContextCompat
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
             val gradientPair: Pair<Int, Int> = when (tag) {
-                "Sonstiges" -> Pair(R.color.colorSonstiges, R.color.colorSonstigesL)
-                "Obst & Gemüse" -> Pair(R.color.colorObstundGemüse, R.color.colorObstundGemüseL)
-                "Getränke" -> Pair(R.color.colorGetränke, R.color.colorGetränkeL)
-                "Nudeln & Getreide" -> Pair(
+                "So" -> Pair(R.color.colorSonstiges, R.color.colorSonstigesL)
+                "Ob" -> Pair(R.color.colorObstundGemüse, R.color.colorObstundGemüseL)
+                "Gt" -> Pair(R.color.colorGetränke, R.color.colorGetränkeL)
+                "Nu" -> Pair(
                     R.color.colorNudelnundGetreide,
                     R.color.colorNudelnundGetreideL
                 )
-                "Backwaren" -> Pair(R.color.colorBackwaren, R.color.colorBackwarenL)
-                "Kühlregal Milch" -> Pair(R.color.colorKühlregalMilch, R.color.colorKühlregalMilchL)
-                "Kühlregal Fleisch" -> Pair(
+                "Bw" -> Pair(R.color.colorBackwaren, R.color.colorBackwarenL)
+                "Km" -> Pair(R.color.colorKühlregalMilch, R.color.colorKühlregalMilchL)
+                "Kf" -> Pair(
                     R.color.colorKühlregalFleisch,
                     R.color.colorKühlregalFleischL
                 )
-                "Tiefkühl" -> Pair(R.color.colorTiefkühl, R.color.colorTiefkühlL)
-                "Konserven & Fertiges" -> Pair(
+                "Tk" -> Pair(R.color.colorTiefkühl, R.color.colorTiefkühlL)
+                "Ko" -> Pair(
                     R.color.colorKonservenFertiges,
                     R.color.colorKonservenFertigesL
                 )
-                "Frühstück & Co." -> Pair(R.color.colorFrühstückL, R.color.colorFrühstück)
-                "Gewürze" -> Pair(
+                "Fr" -> Pair(R.color.colorFrühstückL, R.color.colorFrühstück)
+                "Gw" -> Pair(
                     R.color.colorGewürzeBackzutaten,
                     R.color.colorGewürzeBackzutatenL
                 )
-                "Haushalt" -> Pair(R.color.colorHaushalt, R.color.colorHaushaltL)
-                "Snacks" -> Pair(R.color.colorSnacks, R.color.colorSnacksL)
-                "Backzutaten" -> Pair(R.color.colorBackzutaten, R.color.colorBackzutatenL)
-                "Drogerie & Kosmetik" -> Pair(
+                "Ha" -> Pair(R.color.colorHaushalt, R.color.colorHaushaltL)
+                "Sn" -> Pair(R.color.colorSnacks, R.color.colorSnacksL)
+                "Bz" -> Pair(R.color.colorBackzutaten, R.color.colorBackzutatenL)
+                "Dr" -> Pair(
                     R.color.colorDrogerieKosmetik,
                     R.color.colorDrogerieKosmetikL
                 )
-                "Alkoholische Getränke" -> Pair(
+                "Al" -> Pair(
                     R.color.colorAlkoholTabak,
                     R.color.colorAlkoholTabakL
                 )
@@ -678,7 +693,8 @@ class SublistAdapter(
     private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
 
-    private val moveCheckedSublistsDown = SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
+    private val moveCheckedSublistsDown =
+        SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -757,7 +773,7 @@ class SublistAdapter(
 
             //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
             //and animate the move from old to new position
-            if(moveCheckedSublistsDown){
+            if (moveCheckedSublistsDown) {
                 val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(tag)
                 if (sublistMoveInfo != null) {
                     ShoppingFr.myFragment.prepareForMove()
