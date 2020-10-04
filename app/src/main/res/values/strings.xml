@@ -215,6 +215,16 @@
         <item>Alkoholische Getränke</item>
     </string-array>
 
+    <string-array name="shapes">
+        <item>normal</item>
+        <item>round</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+
     <string name="navigationDrawer">Navigation drawer</string>
     <string name="open">open</string>
     <string name="close">close</string>
@@ -249,13 +259,18 @@
     <string name="prior">prior</string>
     <string name="settings_export">Export backup as .zip file</string>
     <string name="settings_import">Import backup from .zip file</string>
+    <string name="settings_title_appearance">Appearance</string>
+    <string name="settings_shopping_move_down">Move checked categories down</string>
 
     <plurals name="year">
-       <item quantity="one">year</item>
+        <item quantity="one">year</item>
         <item quantity="other">years</item>
     </plurals>
     <plurals name="day">
         <item quantity="one">day</item>
         <item quantity="other">days</item>
     </plurals>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="setting_title_shapes">Shapes</string>
+    <string name="setting_title_theme">Theme</string>
 </resources>

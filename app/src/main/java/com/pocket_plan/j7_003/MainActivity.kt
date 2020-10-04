@@ -29,8 +29,9 @@ import com.pocket_plan.j7_003.data.notelist.*
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.settings.SettingsNotesFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsNotesFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAppearanceFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsBackupFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
@@ -353,6 +354,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_NOTES -> SettingsNotesFr()
             FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
             FT.SETTINGS_BACKUP -> SettingsBackupFr()
+            FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr()
             FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> SleepFr()

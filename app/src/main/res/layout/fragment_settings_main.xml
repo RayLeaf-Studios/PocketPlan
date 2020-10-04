@@ -21,6 +21,48 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:id="@+id/clSettingAppearance"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingStart="20dp"
+                android:paddingVertical="15dp"
+                tools:ignore="RtlSymmetry">
+
+                <ImageView
+                    android:id="@+id/ivAppearance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_color_picker"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorSnacksL" />
+
+
+                <TextView
+                    android:paddingStart="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_title_appearance"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivAppearance"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.483" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="409dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:id="@+id/clSettingNotes"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -86,7 +128,8 @@
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
-                    android:paddingLeft="20dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsShoListTitle"
@@ -177,6 +220,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/backup"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
@@ -222,6 +266,7 @@
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivAbout"

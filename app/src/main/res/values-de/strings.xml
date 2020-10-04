@@ -52,6 +52,16 @@
     <string name="birthdayAgeUnknown">Alter unbekannt,</string>
     <string name="birthdayReminder">"\nErinnert %1$d %2$s vorher."</string>
 
+    <string-array name="shapes">
+        <item>normal</item>
+        <item>abgerundet</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>dunkel</item>
+        <item>hell</item>
+    </string-array>
+
     <string-array name="months">
         <item>Januar</item>
         <item>Februar</item>
@@ -147,7 +157,7 @@
     <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
     <string name="contentDescriptionSun">Sonne</string>
     <string name="shoppingAddItemTitle">Item hinzufügen</string>
-    <string name="settingsCloseItemDialog">Schließe Itemdialog nach hinzufügen</string>
+    <string name="settingsCloseItemDialog">Itemdialog nach hinzufügen schließen</string>
     <string name="backup">Backup</string>
     <string name="navigationDrawer">Navigation</string>
     <string name="aboutSrc">Quellcode auf GitHub</string>
@@ -187,4 +197,8 @@
     <string name="prior">prior</string>
     <string name="settings_export">Backup als .zip exportieren</string>
     <string name="settings_import">Backup von .zip importieren</string>
+    <string name="settings_title_appearance">Aussehen</string>
+    <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
+    <string name="setting_title_shapes">Formen</string>
+    <string name="setting_title_theme">Farbschema</string>
 </resources>

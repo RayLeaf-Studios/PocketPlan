@@ -132,7 +132,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAdd"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorTiefkühl" />
+            app:tint="@color/colorOnBackGround" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -164,7 +164,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAdd2"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorTiefkühl" />
+            app:tint="@color/colorOnBackGround" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -197,7 +197,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivAdd3"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorTiefkühl" />
+            app:tint="@color/colorOnBackGround" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

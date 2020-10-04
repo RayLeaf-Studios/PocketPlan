@@ -1,7 +1,6 @@
-package com.pocket_plan.j7_003.data.settings
+package com.pocket_plan.j7_003.data.settings.sub_categories
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,8 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_settings_notes.view.*
 
 /**

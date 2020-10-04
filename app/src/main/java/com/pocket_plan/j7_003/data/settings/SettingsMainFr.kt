@@ -17,10 +17,13 @@ class SettingsMainFr : Fragment() {
 
     private lateinit var clSettingNotes: ConstraintLayout
     private lateinit var clSettingShopping: ConstraintLayout
-    //TODO V2 ADD NAVIGATION OPTIONS
-//    private lateinit var clSettingNavigation: ConstraintLayout
+
     private lateinit var clSettingBackup: ConstraintLayout
     private lateinit var clSettingAbout: ConstraintLayout
+    private lateinit var clSettingAppearance: ConstraintLayout
+
+    //V2 ADD NAVIGATION OPTIONS
+    //private lateinit var clSettingNavigation: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,27 +34,32 @@ class SettingsMainFr : Fragment() {
 
         initializeComponents(myView)
         initializeListeners()
-        return  myView
+
+        return myView
     }
 
-    private fun initializeComponents(myView: View){
+    private fun initializeComponents(myView: View) {
         clSettingAbout = myView.clSEttingAbout
         clSettingBackup = myView.clSettingBackup
-        //TODO V2 ADD NAVIGATION OPTIONS
-//        clSettingNavigation = myView.clSettingNavigation
         clSettingShopping = myView.clSettingShopping
         clSettingNotes = myView.clSettingNotes
+        clSettingAppearance = myView.clSettingAppearance
+
+        //V2 ADD NAVIGATION OPTIONS
+        //clSettingNavigation = myView.clSettingNavigation
     }
 
-    private fun initializeListeners(){
-        clSettingNotes.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NOTES)}
+    private fun initializeListeners() {
+        clSettingNotes.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NOTES) }
         clSettingBackup.setOnClickListener {
             MainActivity.act.startActivity(Intent(MainActivity.act, BackUpActivity::class.java))
         }
-        //TODO V2 ADD NAVIGATION OPTIONS
-//        clSettingNavigation.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NAVIGATION)}
-        clSettingShopping.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_SHOPPING)}
-        clSettingAbout.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_ABOUT)}
+        clSettingShopping.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_SHOPPING) }
+        clSettingAbout.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_ABOUT) }
+        clSettingAppearance.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_APPEARANCE) }
+
+        //V2 ADD NAVIGATION OPTIONS
+        //clSettingNavigation.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NAVIGATION)}
     }
 
 }

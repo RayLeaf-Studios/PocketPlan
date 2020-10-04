@@ -128,7 +128,7 @@
                     android:id="@+id/tvMoveCheckedToBottom"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Move checked categories down"
+                    android:text="@string/settings_shopping_move_down"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
