@@ -1,11 +1,8 @@
 package com.pocket_plan.j7_003.system_interaction.handler.share
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -23,7 +20,6 @@ import java.util.zip.ZipFile
 
 class ImportHandler(private val parentActivity: Activity) {
     private val newFiles: EnumMap<StorageId, File> = EnumMap(StorageId::class.java)
-    private var oldFiles: EnumMap<StorageId, File> = EnumMap(StorageId::class.java)
 
     fun importFromJson() {
         TODO()
@@ -44,11 +40,20 @@ class ImportHandler(private val parentActivity: Activity) {
         zipInputStream.close()
 
         val zipFile = ZipFile(file)
-        val dir = File("${parentActivity.filesDir}/new/")
+        val newDir = File("${parentActivity.filesDir}/new/")
+        val oldDir = File("${parentActivity.filesDir}/old/")
         var entryContent: String
         var currentFile: File
 
-        dir.mkdir()
+        newDir.mkdir()
+        oldDir.mkdir()
+
+        File("${parentActivity.filesDir}/").listFiles()!!.forEach { oldFile ->
+            if (oldFile.extension == "json") {
+                File("${parentActivity.filesDir}/old/${oldFile.name}").writeText(oldFile.readText())
+            }
+        }
+
         StorageId.values().forEach {
             if (it.s != StorageId.ZIP.s) {
                 currentFile = File("${parentActivity.filesDir}/new/${it.s}")
@@ -62,18 +67,19 @@ class ImportHandler(private val parentActivity: Activity) {
         }
 
         testFiles()
-        dir.deleteRecursively()
+        newDir.deleteRecursively()
+        oldDir.deleteRecursively()
     }
 
     internal fun browse(fileType: String, requestCode: Int) {
-        val permission = ActivityCompat.checkSelfPermission(parentActivity,
-            Manifest.permission.READ_EXTERNAL_STORAGE)
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            parentActivity.requestPermissions(
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1000)
-        }
-
+//        val permission = ActivityCompat.checkSelfPermission(parentActivity,
+//            Manifest.permission.READ_EXTERNAL_STORAGE)
+//
+//        if (permission != PackageManager.PERMISSION_GRANTED) {
+//            parentActivity.requestPermissions(
+//                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1000)
+//        }
+//
         val chooseFileIntent = Intent(Intent.ACTION_GET_CONTENT)
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -81,7 +87,6 @@ class ImportHandler(private val parentActivity: Activity) {
     }
 
     private fun testFiles() {
-        saveCurrentStorage()
         overrideStorageReferences()
 
         try {
@@ -92,12 +97,6 @@ class ImportHandler(private val parentActivity: Activity) {
             SleepReminder()
             ShoppingList()
             UserItemTemplateList()
-
-            resetStorageReferences()
-
-            newFiles.forEach { (id, file) ->
-                StorageHandler.files[id]?.writeText(file.readText())
-            }
         } catch (e: Exception) {
             // inform the user that the import didn't succeed
             Toast.makeText(parentActivity, "Couldn't import!", Toast.LENGTH_LONG).show()
@@ -105,21 +104,15 @@ class ImportHandler(private val parentActivity: Activity) {
         }
     }
 
-    private fun saveCurrentStorage() {
-        StorageHandler.files.forEach { (id, file) ->
-            oldFiles[id] = file
-        }
-    }
-
     private fun overrideStorageReferences() {
         newFiles.forEach { (id, file) ->
-            StorageHandler.files[id] = file
+            StorageHandler.files[id]?.writeText(file.readText())
         }
     }
 
     private fun resetStorageReferences() {
-        oldFiles.forEach { (id, file) ->
-            StorageHandler.files[id] = file
+        File("${parentActivity.filesDir}/old/").listFiles()!!.forEach { file ->
+            File("${parentActivity.filesDir}/${file.name}").writeText(file.readText())
         }
     }
 }
