@@ -146,10 +146,14 @@ class TodoFr : Fragment() {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
                 0
             ) {
+                var lastMovePos: Int = -1
+                var moving = false
                 override fun clearView(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
+                    moving = false
+                    if(viewHolder.adapterPosition==lastMovePos) return
                     val oldPriority = todoListInstance[viewHolder.adapterPosition].priority
                     val newPriority = when (viewHolder.adapterPosition) {
                         0 -> 1
@@ -171,6 +175,10 @@ class TodoFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
+                    if(!moving){
+                        moving = true
+                        lastMovePos = viewHolder.adapterPosition
+                    }
                     val fromPos = viewHolder.adapterPosition
                     var toPos = target.adapterPosition
 
