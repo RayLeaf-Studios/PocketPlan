@@ -4,13 +4,11 @@ import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.R.*
-import com.pocket_plan.j7_003.data.notelist.NoteFr
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
@@ -152,19 +151,41 @@ class TodoFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
+                    //indicate the current move is over
                     moving = false
+
+                    //don't refresh or change anything when the position wasn't changed
                     if (viewHolder.adapterPosition == lastMovePos) return
+
+                    //save the old checked state
+                    val oldCheckedState = todoListInstance[viewHolder.adapterPosition].isChecked
+
+                    //get new checkedState from item below, or leave it unchanged
+                    //if item is the last in the list
+                    val newCheckedState =  when(viewHolder.adapterPosition){
+                        todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition].isChecked
+                        else -> todoListInstance[viewHolder.adapterPosition+1].isChecked
+                    }
+
+                    //set new checkedState
+                    todoListInstance[viewHolder.adapterPosition].isChecked = newCheckedState
+
+                    //save old priority
                     val oldPriority = todoListInstance[viewHolder.adapterPosition].priority
+
+                    //get new priority from item below or leave it unchanged if its the last item in the list
                     val newPriority = when (viewHolder.adapterPosition) {
-                        0 -> 1
-                        todoListInstance.size - 1 -> 3
+                        todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition].priority
                         else -> {
                             todoListInstance[viewHolder.adapterPosition + 1].priority
                         }
                     }
 
-                    if (oldPriority != newPriority) {
-                        todoListInstance[viewHolder.adapterPosition].priority = newPriority
+                    //Set new priority
+                    todoListInstance[viewHolder.adapterPosition].priority = newPriority
+
+                    //if priority or checkedState did change, refresh adapter
+                    if (oldPriority != newPriority || oldCheckedState != newCheckedState) {
                         myAdapter.notifyItemChanged(viewHolder.adapterPosition)
                     }
 
@@ -354,6 +375,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
 
 class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val listInstance = TodoFr.todoListInstance
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
     fun deleteItem(position: Int) {
         TodoFr.deletedTaskList.clear()
@@ -430,6 +452,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                 ContextCompat.getColor(MainActivity.act, gradientPair.first)
             )
         )
+        if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
         holder.itemView.background = myGradientDrawable
 
         //User Interactions with Task List Item below

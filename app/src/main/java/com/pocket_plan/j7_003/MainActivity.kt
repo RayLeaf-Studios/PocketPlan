@@ -486,6 +486,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
         setDefault(SettingId.MOVE_CHECKED_DOWN, true)
+        setDefault(SettingId.SHAPES_ROUND, false)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {

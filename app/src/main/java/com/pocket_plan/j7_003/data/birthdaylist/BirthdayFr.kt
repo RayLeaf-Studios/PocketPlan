@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
@@ -436,15 +439,15 @@ class BirthdayFr : Fragment() {
                 tvRemindMe.setTextColor(color)
                 etDaysToRemind.setTextColor(color)
                 tvDaysPrior.setTextColor(color)
-                val daysToRemind = when (etDaysToRemind.text.toString() == "") {
+                val daysToRemindTc = when (etDaysToRemind.text.toString() == "") {
                     true -> 0
                     else -> etDaysToRemind.text.toString().toInt()
                 }
 
-                val daysPriorTextEdit =
-                    MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemind)
+                val daysPriorTextEditTc =
+                    MainActivity.act.resources.getQuantityText(R.plurals.day, daysToRemindTc)
                         .toString() + " " + MainActivity.act.resources.getString(R.string.birthdaysDaysPrior)
-                tvDaysPrior.text = daysPriorTextEdit
+                tvDaysPrior.text = daysPriorTextEditTc
 
             }
 
@@ -511,7 +514,7 @@ class BirthdayFr : Fragment() {
             }
 
             //get value of daysToRemind, set it to 0 if the text field is empty
-            val daysToRemind = when (etDaysToRemind.text.toString()) {
+            val daysToRemindConfirm = when (etDaysToRemind.text.toString()) {
                 "" -> 0
                 else -> etDaysToRemind.text.toString().toInt()
             }
@@ -521,7 +524,7 @@ class BirthdayFr : Fragment() {
             editBirthdayHolder!!.day = day
             editBirthdayHolder!!.month = month
             editBirthdayHolder!!.year = year
-            editBirthdayHolder!!.daysToRemind = daysToRemind
+            editBirthdayHolder!!.daysToRemind = daysToRemindConfirm
             editBirthdayHolder!!.notify = notifyMe
 
             birthdayListInstance.sortAndSaveBirthdays()
@@ -699,7 +702,7 @@ class BirthdayFr : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 cachedRemindText = etDaysToRemind.text.toString()
                 var color = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
-                var amount = 0
+                val amount: Int
                 if (cachedRemindText == "" || cachedRemindText.toInt() == 0) {
                     amount = 0
                 } else {
@@ -868,6 +871,7 @@ class BirthdayAdapter :
     private val listInstance = BirthdayFr.birthdayListInstance
     private val density = MainActivity.act.resources.displayMetrics.density
     private val marginSide = (density*20).toInt()
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
@@ -924,7 +928,6 @@ class BirthdayAdapter :
             holder.itemView.setOnClickListener { }
             holder.itemView.tvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
-
 
 
             if (currentBirthday.daysToRemind == -200) {
@@ -990,10 +993,7 @@ class BirthdayAdapter :
                         ContextCompat.getColor(MainActivity.act, gradientPair.first)
                     )
                 )
-
-//                myGradientDrawable.cornerRadius = 400f
-//                myGradientDrawable.cornerRadius = 0f
-//                myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,0f,0f,0f,0f)
+                if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,0f,0f,0f,0f)
                 holder.cvBirthday.background = myGradientDrawable
             }
 
@@ -1007,13 +1007,19 @@ class BirthdayAdapter :
             return
         }
 
+        //set regular birthday background
         val colorA = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundListElement)
         val colorB = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundListElement)
         val myGradientDrawable =
             GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
-//        myGradientDrawable.cornerRadius = 14f
 
-        myGradientDrawable.cornerRadius = 0f
+        if(round){
+            if((holder.adapterPosition==BirthdayFr.birthdayListInstance.size-1)||(BirthdayFr.birthdayListInstance[holder.adapterPosition+1].daysToRemind<0)){
+                myGradientDrawable.cornerRadii = floatArrayOf(0f,0f,0f,0f,20f,20f,20f,20f)
+            }
+        }
+
+//        myGradientDrawable.cornerRadius = 0f
         holder.cvBirthday.background = myGradientDrawable
 
         //reset margin
@@ -1028,14 +1034,6 @@ class BirthdayAdapter :
         }
         else{
             params.setMargins(marginSide, (density*1).toInt(), marginSide, (density*1).toInt())
-        }
-
-
-        //reset color
-        if (LocalDate.now().month.value == currentBirthday.month && LocalDate.now().dayOfMonth == currentBirthday.day) {
-            //mark current birthday
-        } else {
-            //restore regular color
         }
 
         //initialize regular birthday design
@@ -1070,7 +1068,8 @@ class BirthdayAdapter :
                 MainActivity.act.resources.getString(
                     R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
                 )
-            holder.itemView.tvBirthdayInfo.text = ageText + reminderText
+            val infoText = ageText + reminderText
+            holder.itemView.tvBirthdayInfo.text = infoText
         } else {
             holder.itemView.tvBirthdayInfo.visibility = View.GONE
         }

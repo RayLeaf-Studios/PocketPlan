@@ -64,11 +64,14 @@ class SettingsAppearanceFr : Fragment() {
     }
 
     private fun initializeDisplayValues() {
-        val themeOptions = resources.getStringArray(R.array.themes)
-        spTheme.setSelection(themeOptions.indexOf(SettingsManager.getSetting(SettingId.THEME)))
+        val selectedPosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND)){
+            true -> 1
+            else -> 0
+        }
+        spTheme.setSelection(selectedPosition)
 
         val shapeOptions = resources.getStringArray(R.array.shapes)
-        spShapes.setSelection(shapeOptions.indexOf(SettingsManager.getSetting(SettingId.SHAPES)))
+        spShapes.setSelection(shapeOptions.indexOf(SettingsManager.getSetting(SettingId.SHAPES_ROUND)))
 
     }
 
@@ -99,8 +102,7 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val value = spShapes.selectedItem as String
-                SettingsManager.addSetting(SettingId.SHAPES, value)
+                SettingsManager.addSetting(SettingId.SHAPES_ROUND, spShapes.selectedItemPosition==1)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.notelist
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
@@ -7,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -190,6 +192,7 @@ class NoteFr : Fragment() {
 
 class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -246,8 +249,17 @@ class NoteAdapter :
             holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
         }
 
+        val myGradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.TL_BR,
+            intArrayOf(
+                currentNote.color.resolved,
+                currentNote.color.resolved
+            )
+        )
+        if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
+        holder.cvNoteCard.background = myGradientDrawable
         //set background color depending on currentNote.color
-        holder.cvNoteCard.setCardBackgroundColor(currentNote.color.resolved)
+//        holder.cvNoteCard.setCardBackgroundColor(currentNote.color.resolved)
     }
 
     override fun getItemCount(): Int {

@@ -499,6 +499,7 @@ class ShoppingFr : Fragment() {
 
 class ShoppingListAdapter :
     RecyclerView.Adapter<ShoppingListAdapter.CategoryViewHolder>() {
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -653,6 +654,7 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, gradientPair.first)
                 )
             )
+            if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
             holder.cvCategory.background = myGradientDrawable
 
             holder.tvCategoryName.setTextColor(colorOnBackground)
@@ -667,6 +669,7 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, R.color.colorgray)
                 )
             )
+            if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
             holder.cvCategory.background = myGradientDrawable
             holder.tvCategoryName.setTextColor(colorHint)
             holder.tvNumberOfItems.setTextColor(colorHint)
@@ -693,6 +696,8 @@ class SublistAdapter(
     private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
 
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
@@ -718,12 +723,22 @@ class SublistAdapter(
             R.string.shoppingItemTitle, item.amount, item.unit, item.name
         )
 
-        holder.itemView.cvBackground.setBackgroundColor(
-            ContextCompat.getColor(
-                MainActivity.act,
-                R.color.colorBackground
+//        holder.itemView.cvBackground.setBackgroundColor(
+//            ContextCompat.getColor(
+//                MainActivity.act,
+//                R.color.colorBackground
+//            )
+//        )
+
+        val myGradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.TL_BR,
+            intArrayOf(
+                ContextCompat.getColor(MainActivity.act, R.color.colorBackground),
+                ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
             )
         )
+        if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
+        holder.itemView.background = myGradientDrawable
 
         //initialize if text is gray and strike through flag is set
         if (item.checked) {
