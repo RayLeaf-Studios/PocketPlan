@@ -99,7 +99,7 @@ class ImportHandler(private val parentActivity: Activity) {
             UserItemTemplateList()
         } catch (e: Exception) {
             // inform the user that the import didn't succeed
-            Toast.makeText(parentActivity, "Couldn't import!", Toast.LENGTH_LONG).show()
+            Toast.makeText(parentActivity, "Couldn't import!", Toast.LENGTH_SHORT).show()
             resetStorageReferences()
         }
     }
