@@ -12,13 +12,9 @@ Front-End stuff to-do before release in following order:
 
     - uniform padding around lists in different fragments?
 
-    - redesign homepanel
+    - redesign home panel
 
     - make possible light theme
-
-    - update lists on fragment opening, so the lists are shown correctly after import completion
-
-    - finetune itemlist
 
     - 3 Translate ItemList and TagList to english
 

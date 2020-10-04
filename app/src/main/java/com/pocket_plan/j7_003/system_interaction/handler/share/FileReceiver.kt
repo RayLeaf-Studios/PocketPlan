@@ -58,35 +58,35 @@ class FileReceiver : Activity() {
         }
 
         super.onCreate(savedInstanceState)
-        btnDisconnect.setOnLongClickListener {
-            finish()
-            true
-        }
-
-        btnDisconnect.setOnClickListener {
-            try {
-                stopAdvertising()
-                stopDiscovery()
-            } catch (e: Exception) {/* no-op */}
-        }
-
-        btnConnect.setOnClickListener {
-            startAdvertising()
-        }
-
-        btnConnect.setOnLongClickListener {
-            startDiscovery()
-            true
-        }
-
-        btnSend.setOnClickListener {
-            try {
-                val payload = Payload.fromFile(this@FileReceiver.file)
-                connectionClient.sendPayload(endpoint, payload)
-            } catch (f: FileNotFoundException) {
-                Log.e("onConnectionResult", "file not found")
-            }
-        }
+//        btnDisconnect.setOnLongClickListener {
+//            finish()
+//            true
+//        }
+//
+//        btnDisconnect.setOnClickListener {
+//            try {
+//                stopAdvertising()
+//                stopDiscovery()
+//            } catch (e: Exception) {/* no-op */}
+//        }
+//
+//        btnConnect.setOnClickListener {
+//            startAdvertising()
+//        }
+//
+//        btnConnect.setOnLongClickListener {
+//            startDiscovery()
+//            true
+//        }
+//
+//        btnSend.setOnClickListener {
+//            try {
+//                val payload = Payload.fromFile(this@FileReceiver.file)
+//                connectionClient.sendPayload(endpoint, payload)
+//            } catch (f: FileNotFoundException) {
+//                Log.e("onConnectionResult", "file not found")
+//            }
+//        }
     }
 
     private fun startAdvertising() {

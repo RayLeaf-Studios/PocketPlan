@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
+import kotlinx.android.synthetic.main.new_app_bar.*
 import java.io.File
 
 class BackUpActivity: AppCompatActivity() {
@@ -15,23 +16,19 @@ class BackUpActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_settings_backup)
-        btnConnect.text = "Export"
-        btnSend.text = "Import"
 
-        btnConnect.setOnClickListener {
+        setSupportActionBar(myNewToolbar)
+        clExport.setOnClickListener {
             eHandler.shareAll()
         }
 
-        btnDisconnect.setOnClickListener {
-            finish()
-        }
         eHandler.backUpAsZip()
 
-        btnSend.setOnClickListener {
+        clImport.setOnClickListener {
             iHandler.browse("zip", 2000)
         }
 
-        btnSend.setOnLongClickListener {
+        clImport.setOnLongClickListener {
             iHandler.browse("json", 2001)
             true
         }

@@ -185,4 +185,6 @@
     <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
     <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
     <string name="prior">prior</string>
+    <string name="settings_export">Backup als .zip exportieren</string>
+    <string name="settings_import">Backup von .zip importieren</string>
 </resources>

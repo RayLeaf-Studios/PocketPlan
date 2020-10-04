@@ -247,6 +247,8 @@
     <string name="todo_dialog_clear_title">Clear To-Do List?</string>
     <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
     <string name="prior">prior</string>
+    <string name="settings_export">Export backup as .zip file</string>
+    <string name="settings_import">Import backup from .zip file</string>
 
     <plurals name="year">
        <item quantity="one">year</item>
