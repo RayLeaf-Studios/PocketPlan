@@ -26,8 +26,6 @@
     <color name="colorNotePurple">#4D2B80</color>
 
     <color name="colorBackgroundListElement">#252525</color>
-    <color name="colorBirthdayLabel">#1E3B7A</color>
-    <color name="colorIconShopping">#039499</color>
     <color name="colorGoToSleep">#CC212F</color>
 
     <color name="colorMonth1">#024B98</color>
@@ -42,8 +40,6 @@
     <color name="colorMonth10">#972C8C</color>
     <color name="colorMonth11">#8935DC</color>
     <color name="colorMonth12">#4F36A8</color>
-
-    <color name="colorNoteDark">#012A7A</color>
 
     <color name="colorSonstiges">#273E67</color>
     <color name="colorSonstigesL">#345EB3</color>
