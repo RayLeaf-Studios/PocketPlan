@@ -42,7 +42,7 @@ class BackUpActivity: AppCompatActivity() {
         //this works to read a json
         when (requestCode) {
             2000 -> {
-                val inputStream = contentResolver.openInputStream(data?.data!!)!!
+                val inputStream = contentResolver.openInputStream(data.data!!)!!
                 val zipFile = File("$filesDir/newBundle.zip")
 
                 iHandler.importFromZip(inputStream, zipFile)
