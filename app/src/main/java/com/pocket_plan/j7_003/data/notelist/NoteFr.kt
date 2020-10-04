@@ -156,7 +156,7 @@ class NoteFr : Fragment() {
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
-               0
+                0
             ) {
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -167,7 +167,8 @@ class NoteFr : Fragment() {
 
                     //swap items in list
                     Collections.swap(
-                        noteListInstance, fromPos, toPos)
+                        noteListInstance, fromPos, toPos
+                    )
 
                     noteListInstance.save()
 
@@ -212,9 +213,9 @@ class NoteAdapter :
         }
 
         holder.itemView.setOnLongClickListener {
-                val animationShake =
-                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
-                holder.itemView.startAnimation(animationShake)
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+            holder.itemView.startAnimation(animationShake)
             true
         }
 

@@ -153,17 +153,17 @@ class TodoFr : Fragment() {
                     viewHolder: RecyclerView.ViewHolder
                 ) {
                     moving = false
-                    if(viewHolder.adapterPosition==lastMovePos) return
+                    if (viewHolder.adapterPosition == lastMovePos) return
                     val oldPriority = todoListInstance[viewHolder.adapterPosition].priority
                     val newPriority = when (viewHolder.adapterPosition) {
                         0 -> 1
-                        todoListInstance.size-1 -> 3
+                        todoListInstance.size - 1 -> 3
                         else -> {
-                            todoListInstance[viewHolder.adapterPosition+1].priority
+                            todoListInstance[viewHolder.adapterPosition + 1].priority
                         }
                     }
 
-                    if(oldPriority!=newPriority) {
+                    if (oldPriority != newPriority) {
                         todoListInstance[viewHolder.adapterPosition].priority = newPriority
                         myAdapter.notifyItemChanged(viewHolder.adapterPosition)
                     }
@@ -171,23 +171,23 @@ class TodoFr : Fragment() {
                     todoListInstance.save()
 
                 }
+
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
-                    if(!moving){
+                    if (!moving) {
                         moving = true
                         lastMovePos = viewHolder.adapterPosition
                     }
                     val fromPos = viewHolder.adapterPosition
                     var toPos = target.adapterPosition
 
-                    if(toPos== todoListInstance.size) toPos--
+                    if (toPos == todoListInstance.size) toPos--
                     //swap items in list
                     Collections.swap(
                         todoListInstance, fromPos, toPos
                     )
-
 
 
                     // move item in `fromPos` to `toPos` in adapter.
@@ -392,7 +392,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
 
         holder.itemView.tvName.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                AnimationUtils.loadAnimation(MainActivity.act, anim.shake_small)
             holder.itemView.startAnimation(animationShake)
             true
         }
@@ -477,12 +477,12 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
 
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
-                button.setOnClickListener {
+                button.setOnClickListener Button@ {
                     if (myDialogView.etxTitleAddTask.text.toString() == "") {
                         val animationShake =
                             AnimationUtils.loadAnimation(MainActivity.act, anim.shake)
                         myDialogView.etxTitleAddTask.startAnimation(animationShake)
-                        return@setOnClickListener
+                        return@Button
                     }
                     val newPos = listInstance.editTask(
                         holder.adapterPosition, index + 1,
