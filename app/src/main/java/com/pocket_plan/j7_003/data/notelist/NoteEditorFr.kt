@@ -85,7 +85,7 @@ class NoteEditorFr : Fragment() {
                 //act as check mark to add / confirm note edit
                 manageNoteConfirm()
                 MainActivity.activeFragmentTag = FT.EMPTY
-                when (MainActivity.previousFragmentTag == FT.NOTES) {
+                when (MainActivity.previousFragmentStack.peek() == FT.NOTES) {
                     true -> MainActivity.act.changeToFragment(FT.NOTES)
                     else -> MainActivity.act.changeToFragment(FT.HOME)
                 }
@@ -189,7 +189,7 @@ class NoteEditorFr : Fragment() {
         val noteContent = MainActivity.noteEditorFr.etNoteContent.text.toString()
         val noteTitle = MainActivity.noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
-        if (MainActivity.previousFragmentTag == FT.HOME) {
+        if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
             Toast.makeText(MainActivity.act, "Note was added!", Toast.LENGTH_SHORT).show()
         }
     }
