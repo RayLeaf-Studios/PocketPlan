@@ -2,7 +2,7 @@ Todo:
 
 Back-End stuff before release:
 
-    - handle going back in a stack
+    - manage the stack correctly
     - overthink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:

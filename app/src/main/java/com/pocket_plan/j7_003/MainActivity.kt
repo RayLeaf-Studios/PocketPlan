@@ -47,6 +47,8 @@ import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,7 +70,8 @@ class MainActivity : AppCompatActivity() {
         var justRestarted = false
 
         lateinit var noteEditorFr: NoteEditorFr
-        var previousFragmentTag: FT = FT.EMPTY
+//        var previousFragmentTag: FT = FT.EMPTY
+        val previousFragmentStack: Stack<FT> = Stack()
         var activeFragmentTag: FT = FT.EMPTY
         lateinit var act: MainActivity
         lateinit var toolBar: Toolbar
@@ -321,7 +324,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         //save the current activeFragmentTag as previousFragmentTag
-        previousFragmentTag = activeFragmentTag
+//        previousFragmentTag = activeFragmentTag
+        previousFragmentStack.push(activeFragmentTag)
 
         //set the new activeFragment tag
         activeFragmentTag = fragmentTag
@@ -409,7 +413,7 @@ class MainActivity : AppCompatActivity() {
         //handles going back from editor
         if (activeFragmentTag == FT.NOTE_EDITOR) {
             if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                NoteEditorFr.myFragment.dialogDiscardNoteChanges(previousFragmentTag)
+                NoteEditorFr.myFragment.dialogDiscardNoteChanges(previousFragmentStack.pop())
                 return
             }
         }
@@ -439,17 +443,17 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        when (previousFragmentTag) {
-            FT.HOME -> changeToFragment(FT.HOME)
-            FT.NOTES -> changeToFragment(FT.NOTES)
-            FT.SHOPPING -> changeToFragment(FT.SHOPPING)
-            FT.SETTINGS -> changeToFragment(FT.SETTINGS)
-            FT.TASKS -> changeToFragment(FT.TASKS)
-            FT.SLEEP -> changeToFragment(FT.SLEEP)
-            else -> super.onBackPressed()
-        }
+//        when (previousFragmentTag) {
+//            FT.HOME -> changeToFragment(FT.HOME)
+//            FT.NOTES -> changeToFragment(FT.NOTES)
+//            FT.SHOPPING -> changeToFragment(FT.SHOPPING)
+//            FT.SETTINGS -> changeToFragment(FT.SETTINGS)
+//            FT.TASKS -> changeToFragment(FT.TASKS)
+//            FT.SLEEP -> changeToFragment(FT.SLEEP)
+//            else -> super.onBackPressed()
+//        }
 
-
+        changeToFragment(previousFragmentStack.pop())
     }
 
 

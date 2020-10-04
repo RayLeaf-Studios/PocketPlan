@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
@@ -39,23 +40,30 @@ class BackUpActivity: AppCompatActivity() {
         if (data == null) {
             return
         }
-        //this works to read a json
-        when (requestCode) {
-            2000 -> {
-                val inputStream = contentResolver.openInputStream(data.data!!)!!
-                val zipFile = File("$filesDir/newBundle.zip")
 
-                iHandler.importFromZip(inputStream, zipFile)
-                zipFile.delete()
+        try {
+            when (requestCode) {
+                2000 -> {
+                    val inputStream = contentResolver.openInputStream(data.data!!)!!
+                    val zipFile = File("$filesDir/newBundle.zip")
 
-                MainActivity.act.refreshData()
+                    iHandler.importFromZip(inputStream, zipFile)
+                    zipFile.delete()
 
-                return
+                    MainActivity.act.refreshData()
+
+                    return
+                }
+
+                2001 -> {
+                    iHandler.importFromJson(); return
+                }
+
+                else -> super.onActivityResult(requestCode, resultCode, data)
             }
-
-            2001 -> { iHandler.importFromJson(); return }
-
-            else -> super.onActivityResult(requestCode, resultCode, data)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Couldn't import!", Toast.LENGTH_SHORT).show()
+            return
         }
     }
 }
