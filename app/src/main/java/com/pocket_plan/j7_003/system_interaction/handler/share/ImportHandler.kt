@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteList
@@ -21,8 +22,31 @@ import java.util.zip.ZipFile
 class ImportHandler(private val parentActivity: Activity) {
     private val newFiles: EnumMap<StorageId, File> = EnumMap(StorageId::class.java)
 
-    fun importFromJson() {
-        TODO()
+    fun importFromJson(id: StorageId, inputStream: InputStream, file: File) {
+        val outputStream = file.outputStream()
+
+        val byteArray = ByteArray(1)
+        var length = inputStream.read(byteArray)
+
+        while (length != -1) {
+            outputStream.write(byteArray)
+            length = inputStream.read(byteArray)
+        }
+
+        outputStream.close()
+        inputStream.close()
+
+        val fileDir = "${parentActivity.filesDir}/"
+        val oldFile = File("${fileDir}old_${id.s}")
+
+        oldFile.writeText(StorageHandler.files[id]!!.readText())
+        StorageHandler.files[id]!!.writeText(file.readText())
+
+        if (!testFiles()) {
+            StorageHandler.files[id]!!.writeText(oldFile.readText())
+        }
+
+        oldFile.delete()
     }
 
     fun importFromZip(zipInputStream: InputStream, file: File) {
@@ -66,12 +90,16 @@ class ImportHandler(private val parentActivity: Activity) {
             }
         }
 
-        testFiles()
+        overrideStorageReferences()
+        if (!testFiles()) {
+            resetStorageReferences()
+        }
+
         newDir.deleteRecursively()
         oldDir.deleteRecursively()
     }
 
-    internal fun browse(fileType: String, requestCode: Int) {
+    internal fun browse(fileType: String, id: StorageId) {
 //        val permission = ActivityCompat.checkSelfPermission(parentActivity,
 //            Manifest.permission.READ_EXTERNAL_STORAGE)
 //
@@ -79,17 +107,15 @@ class ImportHandler(private val parentActivity: Activity) {
 //            parentActivity.requestPermissions(
 //                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1000)
 //        }
-//
+
         val chooseFileIntent = Intent(Intent.ACTION_GET_CONTENT)
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
-        parentActivity.startActivityForResult(Intent.createChooser(chooseFileIntent, "Choose file"), requestCode)
+        parentActivity.startActivityForResult(Intent.createChooser(chooseFileIntent, "Choose file"), id.i)
     }
 
-    private fun testFiles() {
-        overrideStorageReferences()
-
-        try {
+    private fun testFiles(): Boolean {
+        return try {
             BirthdayList()
             NoteList()
             TodoList()
@@ -97,10 +123,12 @@ class ImportHandler(private val parentActivity: Activity) {
             SleepReminder()
             ShoppingList()
             UserItemTemplateList()
+            true
         } catch (e: Exception) {
             // inform the user that the import didn't succeed
             Toast.makeText(parentActivity, "Couldn't import!", Toast.LENGTH_SHORT).show()
-            resetStorageReferences()
+            Log.e("iHandler", e.toString())
+            false
         }
     }
 

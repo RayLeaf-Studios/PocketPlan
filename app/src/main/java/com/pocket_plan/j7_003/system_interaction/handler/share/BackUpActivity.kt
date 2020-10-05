@@ -2,10 +2,13 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CancellationSignal
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.new_app_bar.*
 import java.io.File
@@ -26,11 +29,11 @@ class BackUpActivity: AppCompatActivity() {
         eHandler.backUpAsZip()
 
         clImport.setOnClickListener {
-            iHandler.browse("zip", 2000)
+            iHandler.browse("zip", StorageId.ZIP)
         }
 
         clImport.setOnLongClickListener {
-            iHandler.browse("json", 2001)
+            iHandler.browse("json", StorageId.BIRTHDAYS)
             true
         }
     }
@@ -43,7 +46,7 @@ class BackUpActivity: AppCompatActivity() {
 
         try {
             when (requestCode) {
-                2000 -> {
+                StorageId.ZIP.i -> {
                     val inputStream = contentResolver.openInputStream(data.data!!)!!
                     val zipFile = File("$filesDir/newBundle.zip")
 
@@ -55,14 +58,24 @@ class BackUpActivity: AppCompatActivity() {
                     return
                 }
 
-                2001 -> {
-                    iHandler.importFromJson(); return
-                }
+                else -> {
+                    val inputStream = contentResolver.openInputStream(data.data!!)!!
+                    val file = File("$filesDir/file_from_backup.tmp")
+                    val targetId = StorageId.getByI(requestCode)
 
-                else -> super.onActivityResult(requestCode, resultCode, data)
+                    iHandler.importFromJson(targetId!!, inputStream, file)
+
+                    inputStream.close()
+                    file.delete()
+
+                    MainActivity.act.refreshData()
+
+                    return
+                }
             }
         } catch (e: Exception) {
             Toast.makeText(this, "Couldn't import!", Toast.LENGTH_SHORT).show()
+            Log.e("e", e.toString())
             return
         }
     }

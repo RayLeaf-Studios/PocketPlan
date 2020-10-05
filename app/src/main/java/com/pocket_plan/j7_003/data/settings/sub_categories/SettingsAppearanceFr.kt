@@ -64,15 +64,17 @@ class SettingsAppearanceFr : Fragment() {
     }
 
     private fun initializeDisplayValues() {
-        val selectedPosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND)){
+        val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME)){
             true -> 1
             else -> 0
         }
-        spTheme.setSelection(selectedPosition)
+        spTheme.setSelection(spThemePosition)
 
-        val shapeOptions = resources.getStringArray(R.array.shapes)
-        spShapes.setSelection(shapeOptions.indexOf(SettingsManager.getSetting(SettingId.SHAPES_ROUND)))
-
+        val shapePosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND)){
+            true -> 1
+            else -> 0
+        }
+        spShapes.setSelection(shapePosition)
     }
 
     private fun initializeListeners() {
