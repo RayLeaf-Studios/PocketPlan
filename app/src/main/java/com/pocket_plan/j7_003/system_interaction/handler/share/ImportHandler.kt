@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
+import com.pocket_plan.j7_003.data.notelist.NoteAdapter
 import com.pocket_plan.j7_003.data.notelist.NoteList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingList
@@ -67,7 +68,7 @@ class ImportHandler(private val parentActivity: Activity) {
         val newDir = File("${parentActivity.filesDir}/new/")
         val oldDir = File("${parentActivity.filesDir}/old/")
         var entryContent: String
-        var currentFile: File
+        var cacheFile: File
 
         newDir.mkdir()
         oldDir.mkdir()
@@ -80,19 +81,24 @@ class ImportHandler(private val parentActivity: Activity) {
 
         StorageId.values().forEach {
             if (it.s != StorageId.ZIP.s) {
-                currentFile = File("${parentActivity.filesDir}/new/${it.s}")
+                cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
 
                 entryContent = zipFile.getInputStream(ZipEntry(it.s)).bufferedReader()
                     .use { reader -> reader.readText() }
 
-                currentFile.writeText(entryContent)
-                newFiles[it] = currentFile
+                cacheFile.writeText(entryContent)
+                newFiles[it] = cacheFile
             }
         }
 
-        overrideStorageReferences()
+        newFiles.forEach { (id, file) ->
+            StorageHandler.files[id]?.writeText(file.readText())
+        }
+
         if (!testFiles()) {
-            resetStorageReferences()
+            File("${parentActivity.filesDir}/old/").listFiles()!!.forEach { currentFile ->
+                File("${parentActivity.filesDir}/${currentFile.name}").writeText(currentFile.readText())
+            }
         }
 
         newDir.deleteRecursively()
@@ -123,24 +129,13 @@ class ImportHandler(private val parentActivity: Activity) {
             SleepReminder()
             ShoppingList()
             UserItemTemplateList()
+            NoteAdapter()
             true
         } catch (e: Exception) {
             // inform the user that the import didn't succeed
             Toast.makeText(parentActivity, "Couldn't import!", Toast.LENGTH_SHORT).show()
             Log.e("iHandler", e.toString())
             false
-        }
-    }
-
-    private fun overrideStorageReferences() {
-        newFiles.forEach { (id, file) ->
-            StorageHandler.files[id]?.writeText(file.readText())
-        }
-    }
-
-    private fun resetStorageReferences() {
-        File("${parentActivity.filesDir}/old/").listFiles()!!.forEach { file ->
-            File("${parentActivity.filesDir}/${file.name}").writeText(file.readText())
         }
     }
 }

@@ -44,14 +44,17 @@ class BackUpActivity: AppCompatActivity() {
             return
         }
 
+        val zipFile = File("$filesDir/newBundle.zip")
+        val file = File("$filesDir/file_from_backup.tmp")
+
         try {
             when (requestCode) {
                 StorageId.ZIP.i -> {
                     val inputStream = contentResolver.openInputStream(data.data!!)!!
-                    val zipFile = File("$filesDir/newBundle.zip")
 
                     iHandler.importFromZip(inputStream, zipFile)
                     zipFile.delete()
+                    file.delete()
 
                     MainActivity.act.refreshData()
 
@@ -60,12 +63,12 @@ class BackUpActivity: AppCompatActivity() {
 
                 else -> {
                     val inputStream = contentResolver.openInputStream(data.data!!)!!
-                    val file = File("$filesDir/file_from_backup.tmp")
                     val targetId = StorageId.getByI(requestCode)
 
                     iHandler.importFromJson(targetId!!, inputStream, file)
 
                     inputStream.close()
+                    zipFile.delete()
                     file.delete()
 
                     MainActivity.act.refreshData()
@@ -75,6 +78,8 @@ class BackUpActivity: AppCompatActivity() {
             }
         } catch (e: Exception) {
             Toast.makeText(this, "Couldn't import!", Toast.LENGTH_SHORT).show()
+            zipFile.delete()
+            file.delete()
             Log.e("e", e.toString())
             return
         }
