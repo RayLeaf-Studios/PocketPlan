@@ -7,9 +7,6 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - make round design optional?
-    - reorder tasks withing their priority?
-
     - uniform padding around lists in different fragments?
 
     - redesign home panel
