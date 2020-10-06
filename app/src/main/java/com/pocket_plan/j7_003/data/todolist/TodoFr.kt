@@ -62,6 +62,7 @@ class TodoFr : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
             R.id.item_tasks_delete_checked -> {
                 //delete checked tasks and update the undoTask icon
                 val titleId = string.todo_dialog_clear_checked_title
@@ -70,8 +71,8 @@ class TodoFr : Fragment() {
                 }
                 MainActivity.act.dialogConfirmDelete(titleId, action)
             }
-            R.id.item_tasks_undo -> {
 
+            R.id.item_tasks_undo -> {
                 //undo deletion of last deleted task (or multiple deleted tasks, if
                 //sweep delete button was used
                 if (deletedTaskList.size > 0) {
@@ -86,20 +87,24 @@ class TodoFr : Fragment() {
                     myAdapter.notifyItemInserted(newPos)
                 }
             }
+
             R.id.item_tasks_clear -> {
                 //delete ALL tasks in list
                 val titleId = string.todo_dialog_clear_title
                 val action: () -> Unit = {
                     todoListInstance.clear()
                     myAdapter.notifyDataSetChanged()
+                    todoListInstance.save()
                 }
                 MainActivity.act.dialogConfirmDelete(titleId, action)
             }
+
             R.id.item_tasks_uncheck_all -> {
                 //uncheck all tasks
                 todoListInstance.uncheckAll()
                 myAdapter.notifyDataSetChanged()
             }
+
         }
         updateTodoIcons()
         return super.onOptionsItemSelected(item)
@@ -161,9 +166,9 @@ class TodoFr : Fragment() {
                     val oldCheckedState = todoListInstance[viewHolder.adapterPosition].isChecked
 
                     //get new checkedState from item below, or leave it unchanged
-                    //if item is the last in the list
+                    //if item is the last in the list, take checkedState of item above
                     val newCheckedState =  when(viewHolder.adapterPosition){
-                        todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition].isChecked
+                        todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition-1].isChecked
                         else -> todoListInstance[viewHolder.adapterPosition+1].isChecked
                     }
 
@@ -173,9 +178,9 @@ class TodoFr : Fragment() {
                     //save old priority
                     val oldPriority = todoListInstance[viewHolder.adapterPosition].priority
 
-                    //get new priority from item below or leave it unchanged if its the last item in the list
+                    //get new priority from item below or from item above if item is last item
                     val newPriority = when (viewHolder.adapterPosition) {
-                        todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition].priority
+                        todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition-1].priority
                         else -> {
                             todoListInstance[viewHolder.adapterPosition + 1].priority
                         }
@@ -197,14 +202,18 @@ class TodoFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
+
+                    val fromPos = viewHolder.adapterPosition
+
+                    var toPos = target.adapterPosition
+
+                    if (toPos == todoListInstance.size) toPos--
+
                     if (!moving) {
                         moving = true
                         lastMovePos = viewHolder.adapterPosition
                     }
-                    val fromPos = viewHolder.adapterPosition
-                    var toPos = target.adapterPosition
 
-                    if (toPos == todoListInstance.size) toPos--
                     //swap items in list
                     Collections.swap(
                         todoListInstance, fromPos, toPos

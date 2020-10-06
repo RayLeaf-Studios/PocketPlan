@@ -7,9 +7,19 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
+    - fix task reordering messing with wrong checked states / priorities
+    - fix back press stack
+    - clear shopping unit text onclick
+    - reset note color when adding note form home
+    - translate clear list in customeritems
+    - erinnerung statt erinnert in bday info
+    - setting to make delete dialog optional
+    - setting to reorder categories
+    - dont trigger animation when adding task from home
+
+
     - uniform padding around lists in different fragments?
     - make possible light theme
-    - fix task reordering messing with wrong checked states / priorities
 
     - 3 Translate ItemList and TagList to english
     - 4 think about how to handle different language item lists (change after existing list?)
