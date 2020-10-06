@@ -18,8 +18,8 @@ import kotlinx.android.synthetic.main.fragment_settings_backup.view.*
  * A simple [Fragment] subclass.
  */
 class SettingsBackupFr : Fragment() {
-    lateinit var spImportOne: Spinner
-    lateinit var spExportOne: Spinner
+    private lateinit var spImportOne: Spinner
+    private lateinit var spExportOne: Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,39 +43,29 @@ class SettingsBackupFr : Fragment() {
     }
 
     private fun initializeAdapters() {
-        //NOTES
-        //Spinner for amount of noteLines to be displayed
-        val spAdapterNoteLines = ArrayAdapter<String>(
+        //Spinner for single export
+        val spExportOneAdapter = ArrayAdapter<String>(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
-            resources.getStringArray(R.array.noteLines)
+            resources.getStringArray(R.array.fileOptions)
         )
-        spAdapterNoteLines.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spExportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spExportOne.adapter = spExportOneAdapter
 
-        //Spinner for amount of note columns
-        val spAdapterNoteColumns = ArrayAdapter<String>(
+        //Spinner for single import
+        val spImportOneAdapter = ArrayAdapter<String>(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
-            resources.getStringArray(R.array.noteColumns)
+            resources.getStringArray(R.array.fileOptions)
         )
-        spAdapterNoteColumns.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spExportOne.adapter = spAdapterNoteColumns
-
-        //Spinner for amount of note columns
-        val spAdapterEditorFontSize = ArrayAdapter<String>(
-            MainActivity.act,
-            android.R.layout.simple_list_item_1,
-            resources.getStringArray(R.array.fontSizes)
-        )
-        spAdapterEditorFontSize.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spImportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spImportOne.adapter = spImportOneAdapter
 
     }
 
     private fun initializeDisplayValues() {
-        val columnOptions = resources.getStringArray(R.array.noteColumns)
-        spExportOne.setSelection(columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS)))
-
-        val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
+        spExportOne.setSelection(0)
+        spImportOne.setSelection(0)
     }
 
     private fun initializeListeners() {

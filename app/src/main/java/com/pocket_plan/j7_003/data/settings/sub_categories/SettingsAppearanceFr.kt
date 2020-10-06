@@ -14,7 +14,6 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.fragment_settings_appearance.*
 import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 
 /**
@@ -78,7 +77,7 @@ class SettingsAppearanceFr : Fragment() {
     }
 
     fun initializeDisplayValues() {
-        val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME)){
+        val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME_DARK)){
             true -> 1
             else -> 0
         }
@@ -104,8 +103,8 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val value = spTheme.selectedItem as String
-                SettingsManager.addSetting(SettingId.THEME, value)
+                //dark is first position, light is second
+                SettingsManager.addSetting(SettingId.THEME_DARK, spTheme.selectedItemPosition==0)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

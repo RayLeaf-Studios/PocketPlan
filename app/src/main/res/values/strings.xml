@@ -232,7 +232,7 @@
         <item>Todolist</item>
         <item>Settings</item>
         <item>Custom Items</item>
-        <item>Sleep Settings</item>
+        <item>Sleep Times</item>
     </string-array>
 
     <string name="navigationDrawer">Navigation drawer</string>
@@ -290,4 +290,6 @@
     <string name="shake_task_reminder_in_home">Shake task reminder in home</string>
     <string name="settings_reset_to_default">Reset all settings to default</string>
     <string name="titleRestoreSettings">Delete all settings?</string>
+    <string name="backup_export">Export</string>
+    <string name="backup_import">Import</string>
 </resources>

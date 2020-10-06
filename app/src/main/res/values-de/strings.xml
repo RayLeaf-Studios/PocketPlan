@@ -83,8 +83,8 @@
         <item>Geburtstage</item>
         <item>Todoliste</item>
         <item>Einstellungen</item>
-        <item>Benutzerdef. Items</item>
-        <item>Schlaf Einstellungen</item>
+        <item>Benutzer Items</item>
+        <item>Schlaf Zeiten</item>
     </string-array>
 
     <string-array name="categoryCodes">
@@ -218,4 +218,6 @@
     <string name="shake_task_reminder_in_home">Animation für Todo-Erinnerung in Home</string>
     <string name="settings_reset_to_default">Alle Einstellungen zurücksetzen</string>
     <string name="titleRestoreSettings">Alle Einstellungen löschen?</string>
+    <string name="backup_export">Export</string>
+    <string name="backup_import">Import</string>
 </resources>
