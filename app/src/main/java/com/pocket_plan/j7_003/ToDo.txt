@@ -8,9 +8,8 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - erinnerung statt erinnert in bday info
+    - make shake animation optional
     - setting to make delete dialog optional
-    - dont trigger animation when adding task from home
 
 
     - uniform padding around lists in different fragments?

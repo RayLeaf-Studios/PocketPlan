@@ -16,14 +16,12 @@ import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
-import com.pocket_plan.j7_003.data.calendar.CalendarManager
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -64,7 +62,7 @@ class HomeFr : Fragment() {
 
         //updating ui
         updateWakeTimePanel()
-        updateTaskPanel()
+        updateTaskPanel(true)
         updateBirthdayPanel()
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
@@ -110,12 +108,16 @@ class HomeFr : Fragment() {
     }
 
     override fun onResume() {
-        updateTaskPanel()
+        updateTaskPanel(true)
         super.onResume()
     }
 
-    //Sets the text of tvTasks to the titles of the first 3 important tasks
-    private fun updateTaskPanel() {
+    /**
+     * Sets the text of myView.tvTasks to the titles of at most 3 priority 1 tasks
+     * @param shake if true, animates a shake animation on myView.ivTaskHome
+     */
+
+    private fun updateTaskPanel(shake: Boolean) {
         var p1TaskCounter = 0
         val taskList = TodoFr.todoListInstance
 
@@ -139,7 +141,7 @@ class HomeFr : Fragment() {
                     R.color.colorHint
                 )
             )
-            myView.icTasksHome.setColorFilter(
+            myView.ivTasksHome.setColorFilter(
                 ContextCompat.getColor(
                     MainActivity.act,
                     R.color.colorHint
@@ -153,15 +155,17 @@ class HomeFr : Fragment() {
                     R.color.colorOnBackGround
                 )
             )
-            myView.icTasksHome.setColorFilter(
+            myView.ivTasksHome.setColorFilter(
                 ContextCompat.getColor(
                     MainActivity.act,
                     R.color.colorGoToSleep
                 )
             )
-            val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_long)
-            myView.icTasksHome.startAnimation(animationShake)
+            if(shake){
+                val animationShake =
+                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_long)
+                myView.ivTasksHome.startAnimation(animationShake)
+            }
 
         }
 
@@ -310,7 +314,7 @@ class HomeFr : Fragment() {
                     return@setOnClickListener
                 } else {
                     TodoFr.todoListInstance.addTask(title, index + 1, false)
-                    updateTaskPanel()
+                    updateTaskPanel(false)
                 }
                 if (MainActivity.activeFragmentTag == FT.HOME) {
                     Toast.makeText(MainActivity.act, resources.getString(R.string.home_notification_add_task), Toast.LENGTH_SHORT).show()
