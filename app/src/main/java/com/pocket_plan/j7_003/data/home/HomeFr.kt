@@ -21,6 +21,7 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -42,7 +43,8 @@ class HomeFr : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        CalendarManager.init()    ->  V.2
+        //V.2
+        //CalendarManager.init()
 
         //initializing layout
         myView = inflater.inflate(R.layout.fragment_home, container, false)
@@ -66,9 +68,6 @@ class HomeFr : Fragment() {
         //Onclick listeners for task panel, birthday panel and sleep panel,
         myView.panelTasks.setOnClickListener {
             MainActivity.act.changeToFragment(FT.TASKS)
-
-//            V.2
-//            MainActivity.act.changeToFragment(FT.TASKS)
         }
         myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FT.BIRTHDAYS) }
         myView.tvRemainingWakeTime.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP) }
@@ -106,6 +105,11 @@ class HomeFr : Fragment() {
     override fun onStop() {
         timer.cancel()
         super.onStop()
+    }
+
+    override fun onResume() {
+        updateTaskPanel()
+        super.onResume()
     }
 
     //Sets the text of tvTasks to the titles of the first 3 important tasks
@@ -150,18 +154,19 @@ class HomeFr : Fragment() {
             myView.icTasksHome.setColorFilter(
                 ContextCompat.getColor(
                     MainActivity.act,
-                    R.color.colorPriority1light
+                    R.color.colorGoToSleep
                 )
             )
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_long)
+            myView.icTasksHome.startAnimation(animationShake)
+
         }
 
         //creates text displaying the tasks by concatenating their titles with newlines
         var taskPanelText = "\n"
         for (i in 0 until displayTaskCount) {
-            taskPanelText += "   " + taskList[i].title.take(28)
-            if (taskList[i].title.length > 27) {
-                taskPanelText += "..."
-            }
+            taskPanelText += "•  "+taskList[i].title
             if (i < displayTaskCount) {
                 taskPanelText += "\n"
             }
@@ -170,7 +175,7 @@ class HomeFr : Fragment() {
         //displays "+ (additionalTasks) more" if there are more than 3 important tasks
         val additionalTasks = p1TaskCounter - displayTaskCount
         if (additionalTasks != 0) {
-            taskPanelText += "   + $additionalTasks more\n"
+            taskPanelText += "+ $additionalTasks more\n"
         }
 
         //sets the testViews text to taskPanelText
@@ -213,11 +218,11 @@ class HomeFr : Fragment() {
         }
         var birthdayText = "\n"
         for (i in 0 until birthdaysToDisplay) {
-            birthdayText += "   " + birthdaysToday[i].name + "\n"
+            birthdayText += "•  " + birthdaysToday[i].name + "\n"
         }
         val excess = birthdaysToday.size - birthdaysToDisplay
         if (excess > 0) {
-            birthdayText += "   + $excess\n"
+            birthdayText += "  + $excess\n"
         }
         myView.tvBirthday.text = birthdayText
 
