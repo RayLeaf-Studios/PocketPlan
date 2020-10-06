@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var act: MainActivity
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
-        var fromHome: Boolean = false
         lateinit var bottomNavigation: BottomNavigationView
 //        V.2
 //        var editTerm: CalendarAppointment? = null

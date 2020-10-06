@@ -18,6 +18,8 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.calendar.CalendarManager
 import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.notelist.NoteColors
+import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
@@ -76,7 +78,7 @@ class HomeFr : Fragment() {
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.clAddNote.setOnClickListener {
-            MainActivity.fromHome = true
+            NoteEditorFr.noteColor = NoteColors.GREEN
             MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
         }
         myView.clAddTask.setOnClickListener { createTaskFromHome() }
