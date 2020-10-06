@@ -660,6 +660,7 @@ class ShoppingListAdapter :
             holder.tvCategoryName.setTextColor(colorOnBackground)
             holder.tvNumberOfItems.setTextColor(colorOnBackground)
             holder.tvNumberOfItems.text = numberOfItems.toString()
+            holder.itemView.ivCheckMark.visibility = View.GONE
         } else {
             val colorHint = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
             val myGradientDrawable = GradientDrawable(
@@ -673,7 +674,8 @@ class ShoppingListAdapter :
             holder.cvCategory.background = myGradientDrawable
             holder.tvCategoryName.setTextColor(colorHint)
             holder.tvNumberOfItems.setTextColor(colorHint)
-            holder.tvNumberOfItems.text = "✔"
+            holder.tvNumberOfItems.text = ""
+            holder.itemView.ivCheckMark.visibility = View.VISIBLE
         }
     }
 

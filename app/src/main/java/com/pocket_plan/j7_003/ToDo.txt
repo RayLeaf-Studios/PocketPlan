@@ -8,15 +8,14 @@ Back-End stuff before release:
 Front-End stuff to-do before release in following order:
 
     - uniform padding around lists in different fragments?
-    - redesign home panel
     - make possible light theme
+
     - 3 Translate ItemList and TagList to english
     - 4 think about how to handle different language item lists (change after existing list?)
 
     - 1 add banner in navigation view
     - 2 final code cleanup
 
-    - choose a license
     - create a playStore account
     - choose a company name
     - choose screenshots for playStore page

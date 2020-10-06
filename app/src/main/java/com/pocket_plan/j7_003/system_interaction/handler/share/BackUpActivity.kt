@@ -38,6 +38,14 @@ class BackUpActivity: AppCompatActivity() {
         }
     }
 
+    fun initializeDisplayValues(){
+
+    }
+
+    fun initializeListeners(){
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null) {
