@@ -31,7 +31,6 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsNotesFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAppearanceFr
-import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsBackupFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
@@ -351,7 +350,6 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_NAVIGATION -> SettingsNavigationFr()
             FT.SETTINGS_NOTES -> SettingsNotesFr()
             FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
-            FT.SETTINGS_BACKUP -> SettingsBackupFr()
             FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr()
             FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
