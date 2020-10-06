@@ -8,11 +8,8 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - make shake animation optional
-
-    - rethink bottom nav
     - option to restore default settings
-    - dont allow fully empty tasks
+    - dont allow fully empty notes
 
     - uniform padding around lists in different fragments?
     - make possible light theme
