@@ -4,17 +4,14 @@ Back-End stuff before release:
 
     - manage the stack correctly
     - overthink if read and write permissions are needed
+    - fix back press stack
 
 Front-End stuff to-do before release in following order:
 
-    - fix task reordering messing with wrong checked states / priorities
-    - fix back press stack
-    - clear shopping unit text onclick
     - reset note color when adding note form home
     - translate clear list in customeritems
     - erinnerung statt erinnert in bday info
     - setting to make delete dialog optional
-    - setting to reorder categories
     - dont trigger animation when adding task from home
 
 

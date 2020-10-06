@@ -361,11 +361,9 @@ class ShoppingFr : Fragment() {
         val etItemAmount = MainActivity.addItemDialogView!!.etItemAmount
         etItemAmount.setText("1")
 
-        var firstTap = true
-        etItemAmount.setOnFocusChangeListener { _, _ ->
-            if (firstTap) {
+        etItemAmount.setOnFocusChangeListener { _, hasFocus ->
+            if(hasFocus){
                 etItemAmount.setText("")
-                firstTap = false
             }
         }
 
@@ -491,6 +489,8 @@ class ShoppingFr : Fragment() {
 
     fun openAddItemDialog() {
         MainActivity.addItemDialogView!!.actvItem.setText("")
+        MainActivity.addItemDialogView!!.spItemUnit.setSelection(0)
+        MainActivity.addItemDialogView!!.etItemAmount.setText("1")
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         MainActivity.addItemDialog?.show()
     }
