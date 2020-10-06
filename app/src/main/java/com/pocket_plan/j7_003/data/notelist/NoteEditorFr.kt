@@ -97,11 +97,9 @@ class NoteEditorFr : Fragment() {
                 }
                 //act as check mark to add / confirm note edit
                 manageNoteConfirm()
-                MainActivity.previousFragmentStack.push(FT.EMPTY)
-                when (MainActivity.previousFragmentStack.peek() == FT.NOTES) {
-                    true -> MainActivity.act.changeToFragment(FT.NOTES)
-                    else -> MainActivity.act.changeToFragment(FT.HOME)
-                }
+
+                MainActivity.previousFragmentStack.pop()
+                MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
             }
         }
 
@@ -184,14 +182,15 @@ class NoteEditorFr : Fragment() {
         myDialogView.btnDiscardChanges.setOnClickListener {
             dialogOpened = false
             myAlertDialog?.dismiss()
+            MainActivity.previousFragmentStack.pop()
             MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
-            Log.e("stack", MainActivity.previousFragmentStack.toString())
         }
         myDialogView.btnSaveChanges.setOnClickListener {
             manageNoteConfirm()
-            MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
             dialogOpened = false
             myAlertDialog?.dismiss()
+            MainActivity.previousFragmentStack.pop()
+            MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
         }
     }
 
@@ -200,9 +199,11 @@ class NoteEditorFr : Fragment() {
         val noteContent = MainActivity.noteEditorFr.etNoteContent.text.toString()
         val noteTitle = MainActivity.noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
+        val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
             Toast.makeText(MainActivity.act, "Note was added!", Toast.LENGTH_SHORT).show()
         }
+        MainActivity.previousFragmentStack.push(cache)
     }
 
     private fun manageEditNote() {
