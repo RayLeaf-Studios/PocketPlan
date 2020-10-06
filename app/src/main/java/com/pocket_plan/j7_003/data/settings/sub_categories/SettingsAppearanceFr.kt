@@ -20,9 +20,10 @@ import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
  * A simple [Fragment] subclass.
  */
 class SettingsAppearanceFr : Fragment() {
-    lateinit var spTheme: Spinner
-    lateinit var spShapes: Spinner
-    lateinit var swSafetySlider: SwitchCompat
+    private lateinit var spTheme: Spinner
+    private lateinit var spShapes: Spinner
+    private lateinit var swSafetySlider: SwitchCompat
+    private lateinit var swShakeTaskInHome: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +45,7 @@ class SettingsAppearanceFr : Fragment() {
         spTheme = myView.spTheme
         spShapes = myView.spShapes
         swSafetySlider = myView.swSafetySlider
+        swShakeTaskInHome = myView.swShakeTaskInHome
     }
 
     private fun initializeAdapters() {
@@ -81,6 +83,7 @@ class SettingsAppearanceFr : Fragment() {
         spShapes.setSelection(shapePosition)
 
         swSafetySlider.isChecked = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
+        swShakeTaskInHome.isChecked = SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean
     }
 
     private fun initializeListeners() {
@@ -120,6 +123,10 @@ class SettingsAppearanceFr : Fragment() {
 
         swSafetySlider.setOnClickListener {
             SettingsManager.addSetting(SettingId.SAFETY_SLIDER_DIALOG, swSafetySlider.isChecked)
+        }
+
+        swShakeTaskInHome.setOnClickListener {
+            SettingsManager.addSetting(SettingId.SHAKE_TASK_HOME, swShakeTaskInHome.isChecked)
         }
 
     }

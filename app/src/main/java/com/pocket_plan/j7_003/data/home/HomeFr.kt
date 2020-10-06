@@ -19,6 +19,8 @@ import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
@@ -118,6 +120,10 @@ class HomeFr : Fragment() {
      */
 
     private fun updateTaskPanel(shake: Boolean) {
+        var myShake = shake
+        if(!(SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean)){
+            myShake = false
+        }
         var p1TaskCounter = 0
         val taskList = TodoFr.todoListInstance
 
@@ -161,7 +167,7 @@ class HomeFr : Fragment() {
                     R.color.colorGoToSleep
                 )
             )
-            if(shake){
+            if(myShake){
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_long)
                 myView.ivTasksHome.startAnimation(animationShake)

@@ -265,6 +265,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         justRestarted = false
+
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
@@ -486,6 +487,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.MOVE_CHECKED_DOWN, true)
         setDefault(SettingId.SHAPES_ROUND, false)
         setDefault(SettingId.SAFETY_SLIDER_DIALOG, true)
+        setDefault(SettingId.SHAKE_TASK_HOME, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {

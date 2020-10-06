@@ -152,7 +152,7 @@
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/swShake"
+                    app:layout_constraintEnd_toStartOf="@+id/swShakeTaskInHome"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -162,7 +162,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:id="@+id/swShake" />
+                    android:id="@+id/swShakeTaskInHome" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
