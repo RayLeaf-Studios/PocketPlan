@@ -1,10 +1,12 @@
 Todo:
 
+General:
+    - check logs, fix notifications
+    - code cleanup
+
 Back-End stuff before release:
 
-    - manage the stack correctly
     - overthink if read and write permissions are needed
-    - fix back press stack
 
 Front-End stuff to-do before release in following order:
 
@@ -13,11 +15,6 @@ Front-End stuff to-do before release in following order:
 
     - make light theme
     - add banner
-
-    - code cleanup
-
-
-
 
 
 
