@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
@@ -24,12 +25,18 @@ class SettingsAppearanceFr : Fragment() {
     private lateinit var spShapes: Spinner
     private lateinit var swSafetySlider: SwitchCompat
     private lateinit var swShakeTaskInHome: SwitchCompat
+    private lateinit var clResetToDefault: ConstraintLayout
+
+    companion object{
+        lateinit var myFr: SettingsAppearanceFr
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val myView = inflater.inflate(R.layout.fragment_settings_appearance, container, false)
+        myFr = this
 
         initializeComponents(myView)
         initializeAdapters()
@@ -46,6 +53,7 @@ class SettingsAppearanceFr : Fragment() {
         spShapes = myView.spShapes
         swSafetySlider = myView.swSafetySlider
         swShakeTaskInHome = myView.swShakeTaskInHome
+        clResetToDefault = myView.clResetToDefault
     }
 
     private fun initializeAdapters() {
@@ -69,7 +77,7 @@ class SettingsAppearanceFr : Fragment() {
 
     }
 
-    private fun initializeDisplayValues() {
+    fun initializeDisplayValues() {
         val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME)){
             true -> 1
             else -> 0
@@ -127,6 +135,10 @@ class SettingsAppearanceFr : Fragment() {
 
         swShakeTaskInHome.setOnClickListener {
             SettingsManager.addSetting(SettingId.SHAKE_TASK_HOME, swShakeTaskInHome.isChecked)
+        }
+
+        clResetToDefault.setOnClickListener {
+            MainActivity.act.resetSettings()
         }
 
     }

@@ -215,4 +215,7 @@
     <string name="settings_export_single">Ein Modul als .json exportieren</string>
     <string name="custom_items_clear">Benutzerdef. Items löschen</string>
     <string name="settings_delete_dialog_title">Löschdialog mit Sicherheits-Slider</string>
+    <string name="shake_task_reminder_in_home">Animation für Todo-Erinnerung in Home</string>
+    <string name="settings_reset_to_default">Alle Einstellungen zurücksetzen</string>
+    <string name="titleRestoreSettings">Alle Einstellungen löschen?</string>
 </resources>

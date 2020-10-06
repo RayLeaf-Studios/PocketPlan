@@ -287,4 +287,7 @@
     <string name="settings_export_single">Export one module as .json</string>
     <string name="custom_items_clear">Clear custom items</string>
     <string name="settings_delete_dialog_title">Delete dialogs have safety slider</string>
+    <string name="shake_task_reminder_in_home">Shake task reminder in home</string>
+    <string name="settings_reset_to_default">Reset all settings to default</string>
+    <string name="titleRestoreSettings">Delete all settings?</string>
 </resources>

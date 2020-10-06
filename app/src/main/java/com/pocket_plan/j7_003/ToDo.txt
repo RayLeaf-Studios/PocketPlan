@@ -8,8 +8,6 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - option to restore default settings
-
     - uniform padding around lists in different fragments?
     - make possible light theme
 
