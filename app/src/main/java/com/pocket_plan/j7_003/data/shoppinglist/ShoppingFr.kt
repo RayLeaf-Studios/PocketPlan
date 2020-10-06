@@ -414,7 +414,7 @@ class ShoppingFr : Fragment() {
                     )
                     shoppingListInstance.add(item)
 
-                    if (MainActivity.activeFragmentTag == FT.SHOPPING) {
+                    if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
                         shoppingListAdapter.notifyDataSetChanged()
                         myFragment.updateShoppingMenu()
                     } else {
@@ -436,7 +436,7 @@ class ShoppingFr : Fragment() {
                     etItemAmount.setText("1")
                     spItemUnit.setSelection(0)
                     actvItem.requestFocus()
-                    if (MainActivity.activeFragmentTag == FT.HOME || SettingsManager.getSetting(
+                    if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
                             SettingId.CLOSE_ITEM_DIALOG
                         ) as Boolean
                     ) {
@@ -466,7 +466,7 @@ class ShoppingFr : Fragment() {
                 false
             )
             shoppingListInstance.add(item)
-            if (MainActivity.activeFragmentTag == FT.SHOPPING) {
+            if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
                 shoppingListAdapter.notifyDataSetChanged()
                 myFragment.updateShoppingMenu()
             } else {
@@ -477,7 +477,7 @@ class ShoppingFr : Fragment() {
                 ).show()
             }
             actvItem.setText("")
-            if (MainActivity.activeFragmentTag == FT.HOME) {
+            if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                 MainActivity.addItemDialog?.dismiss()
             }
         }

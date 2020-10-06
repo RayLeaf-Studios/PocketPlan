@@ -4,6 +4,7 @@ import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var noteEditorFr: NoteEditorFr
 //        var previousFragmentTag: FT = FT.EMPTY
         val previousFragmentStack: Stack<FT> = Stack()
-        var activeFragmentTag: FT = FT.EMPTY
+//        var activeFragmentTag: FT = FT.EMPTY
         lateinit var act: MainActivity
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
@@ -83,9 +84,20 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onRestart() {
+        if (previousFragmentStack.isEmpty() || previousFragmentStack.peek() == FT.EMPTY) {
+            previousFragmentStack.clear()
+            previousFragmentStack.push(FT.EMPTY)
+        }
+        super.onRestart()
+    }
+
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         act = this
+        if (previousFragmentStack.isEmpty()) {
+            previousFragmentStack.push(FT.EMPTY)
+        }
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
@@ -186,7 +198,7 @@ class MainActivity : AppCompatActivity() {
 
         //initialize btn to add elements, depending on which fragment is active
         btnAdd.setOnClickListener {
-            when (activeFragmentTag) {
+            when (previousFragmentStack.peek()) {
                 FT.BIRTHDAYS -> {
                     BirthdayFr.editBirthdayHolder = null
                     birthdayFr.openAddBirthdayDialog()
@@ -259,19 +271,14 @@ class MainActivity : AppCompatActivity() {
 
     //change to fragment of specified tag
     fun changeToFragment(fragmentTag: FT) {
-
-        if (!justRestarted) {
-            if (activeFragmentTag == fragmentTag) {
-                return
-            }
-        }
-        justRestarted = false
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
-        if (activeFragmentTag == FT.NOTE_EDITOR) {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            Log.e("ft1", fragmentTag.toString())
             if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                NoteEditorFr.myFragment.dialogDiscardNoteChanges(fragmentTag)
+                Log.e("ft", fragmentTag.toString())
+                NoteEditorFr.myFragment.dialogDiscardNoteChanges()
                 return
             }
         }
@@ -323,12 +330,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //save the current activeFragmentTag as previousFragmentTag
-//        previousFragmentTag = activeFragmentTag
-        previousFragmentStack.push(activeFragmentTag)
-
-        //set the new activeFragment tag
-        activeFragmentTag = fragmentTag
+        if (previousFragmentStack.peek() != fragmentTag) {
+            previousFragmentStack.push(fragmentTag)
+        }
+        Log.e("stack", previousFragmentStack.toString())
 
         //create fragment object
         val fragment = when (fragmentTag) {
@@ -393,7 +398,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //When in birthdayFragment and searching, close search and restore fragment to normal mode
-        if(activeFragmentTag==FT.BIRTHDAYS && BirthdayFr.searching){
+        if (previousFragmentStack.peek() == FT.BIRTHDAYS && BirthdayFr.searching) {
             toolBar.title = getString(R.string.menuTitleBirthdays)
             BirthdayFr.searchView.onActionViewCollapsed()
             BirthdayFr.searching = false
@@ -403,7 +408,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //When in noteFragment and searching, close search and restore fragment to normal mode
-        if(activeFragmentTag==FT.NOTES && NoteFr.searching){
+        if (previousFragmentStack.peek() == FT.NOTES && NoteFr.searching) {
             toolBar.title = getString(R.string.menuTitleNotes)
             NoteFr.searchView.onActionViewCollapsed()
             NoteFr.searching = false
@@ -412,49 +417,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         //handles going back from editor
-        if (activeFragmentTag == FT.NOTE_EDITOR) {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
             if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                NoteEditorFr.myFragment.dialogDiscardNoteChanges(previousFragmentStack.pop())
+                Log.e("ft", previousFragmentStack.toString())
+                NoteEditorFr.myFragment.dialogDiscardNoteChanges()
                 return
             }
         }
 
-        //handles going back from sub settings to settings
-        when (activeFragmentTag) {
-            FT.SETTINGS_SHOPPING, FT.SETTINGS_BACKUP, FT.SETTINGS_ABOUT,
-            FT.SETTINGS_NOTES, FT.SETTINGS_NAVIGATION -> {
-                changeToFragment(FT.SETTINGS)
-                return
-            }
-            FT.CUSTOM_ITEMS -> {
-                changeToFragment(FT.SETTINGS_SHOPPING)
-                return
-            }
-            FT.SETTINGS -> {
-                changeToFragment(FT.HOME)
-                return
-            }
-            FT.HOME -> {
-                super.onBackPressed()
-                return
-            }
-            else -> {
-                /* no-op */
-            }
-        }
-
-
-//        when (previousFragmentTag) {
-//            FT.HOME -> changeToFragment(FT.HOME)
-//            FT.NOTES -> changeToFragment(FT.NOTES)
-//            FT.SHOPPING -> changeToFragment(FT.SHOPPING)
-//            FT.SETTINGS -> changeToFragment(FT.SETTINGS)
-//            FT.TASKS -> changeToFragment(FT.TASKS)
-//            FT.SLEEP -> changeToFragment(FT.SLEEP)
-//            else -> super.onBackPressed()
-//        }
-
-        changeToFragment(previousFragmentStack.pop())
+        previousFragmentStack.pop()
+        if (previousFragmentStack.peek() != FT.EMPTY) {
+            changeToFragment(previousFragmentStack.peek())
+        } else super.onBackPressed()
     }
 
 

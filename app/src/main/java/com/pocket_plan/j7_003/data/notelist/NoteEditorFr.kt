@@ -4,6 +4,7 @@ package com.pocket_plan.j7_003.data.notelist
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -84,7 +85,7 @@ class NoteEditorFr : Fragment() {
             R.id.item_editor_save -> {
                 //act as check mark to add / confirm note edit
                 manageNoteConfirm()
-                MainActivity.activeFragmentTag = FT.EMPTY
+                MainActivity.previousFragmentStack.push(FT.EMPTY)
                 when (MainActivity.previousFragmentStack.peek() == FT.NOTES) {
                     true -> MainActivity.act.changeToFragment(FT.NOTES)
                     else -> MainActivity.act.changeToFragment(FT.HOME)
@@ -142,7 +143,7 @@ class NoteEditorFr : Fragment() {
     }
 
     @SuppressLint("InflateParams")
-    fun dialogDiscardNoteChanges(gotoFragment: FT) {
+    fun dialogDiscardNoteChanges() {
 
         if (dialogOpened) {
             return
@@ -169,15 +170,14 @@ class NoteEditorFr : Fragment() {
         }
 
         myDialogView.btnDiscardChanges.setOnClickListener {
-            MainActivity.activeFragmentTag = FT.EMPTY
             dialogOpened = false
             myAlertDialog?.dismiss()
-            MainActivity.act.changeToFragment(gotoFragment)
+            MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
+            Log.e("stack", MainActivity.previousFragmentStack.toString())
         }
         myDialogView.btnSaveChanges.setOnClickListener {
-            MainActivity.activeFragmentTag = FT.EMPTY
             manageNoteConfirm()
-            MainActivity.act.changeToFragment(gotoFragment)
+            MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
             dialogOpened = false
             myAlertDialog?.dismiss()
         }
@@ -254,7 +254,7 @@ class NoteEditorFr : Fragment() {
             MainActivity.editNoteHolder = null
             NoteFr.noteListInstance.save()
             MainActivity.act.hideKeyboard()
-            MainActivity.activeFragmentTag = FT.EMPTY
+            MainActivity.previousFragmentStack.push(FT.EMPTY)
             MainActivity.act.changeToFragment(FT.NOTES)
         }
         MainActivity.act.dialogConfirmDelete(titleId, action)

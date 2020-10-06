@@ -312,7 +312,7 @@ class HomeFr : Fragment() {
                     TodoFr.todoListInstance.addTask(title, index + 1, false)
                     updateTaskPanel()
                 }
-                if (MainActivity.activeFragmentTag == FT.HOME) {
+                if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                     Toast.makeText(MainActivity.act, resources.getString(R.string.home_notification_add_task), Toast.LENGTH_SHORT).show()
                 }
                 myAlertDialog?.dismiss()
