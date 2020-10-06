@@ -139,7 +139,6 @@ class MainActivity : AppCompatActivity() {
             mySpinner.startAnimation(animationSpin)
         }
 
-
         //initialize drawer toggle button
         mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
         drawer_layout.addDrawerListener(mDrawerToggle)
@@ -572,7 +571,6 @@ class MainActivity : AppCompatActivity() {
         //show dialog
         myAlertDialog.show()
     }
-
 
 }
 
