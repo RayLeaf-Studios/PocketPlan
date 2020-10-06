@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -18,6 +19,7 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.fragment_note_editor.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
@@ -82,6 +84,16 @@ class NoteEditorFr : Fragment() {
             R.id.item_editor_delete -> openDeleteNoteDialog()
             R.id.item_editor_color -> openColorChooser()
             R.id.item_editor_save -> {
+                val noteContent = MainActivity.noteEditorFr.etNoteContent.text.toString()
+                val noteTitle = MainActivity.noteEditorFr.etNoteTitle.text.toString()
+
+                if(noteContent=="" && noteTitle==""){
+                    val animationShake =
+                        AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                    MainActivity.noteEditorFr.etNoteContent.startAnimation(animationShake)
+                    MainActivity.noteEditorFr.etNoteTitle.startAnimation(animationShake)
+                    return true
+                }
                 //act as check mark to add / confirm note edit
                 manageNoteConfirm()
                 MainActivity.activeFragmentTag = FT.EMPTY
@@ -185,7 +197,6 @@ class NoteEditorFr : Fragment() {
 
     private fun manageAddNote() {
         MainActivity.act.hideKeyboard()
-        //todo, access this in a cleaner way
         val noteContent = MainActivity.noteEditorFr.etNoteContent.text.toString()
         val noteTitle = MainActivity.noteEditorFr.etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
