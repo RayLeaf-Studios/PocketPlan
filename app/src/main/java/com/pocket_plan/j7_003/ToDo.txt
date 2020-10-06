@@ -9,6 +9,7 @@ Front-End stuff to-do before release in following order:
 
     - uniform padding around lists in different fragments?
     - make possible light theme
+    - fix task reordering messing with wrong checked states / priorities
 
     - 3 Translate ItemList and TagList to english
     - 4 think about how to handle different language item lists (change after existing list?)
