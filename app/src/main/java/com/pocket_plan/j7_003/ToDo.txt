@@ -11,6 +11,8 @@ Front-End stuff to-do before release in following order:
     - make shake animation optional
     - setting to make delete dialog optional
 
+    - rethink bottom nav
+    - option to restore default settings
 
     - uniform padding around lists in different fragments?
     - make possible light theme

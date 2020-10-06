@@ -43,7 +43,7 @@ import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
-import kotlinx.android.synthetic.main.dialog_delete_note.view.*
+import kotlinx.android.synthetic.main.dialog_delete.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
@@ -485,6 +485,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
         setDefault(SettingId.MOVE_CHECKED_DOWN, true)
         setDefault(SettingId.SHAPES_ROUND, false)
+        setDefault(SettingId.SAFETY_SLIDER_DIALOG, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
@@ -502,7 +503,9 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     fun dialogConfirmDelete(titleId: Int, action: () -> Unit) {
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
+        val safetySlider = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
+
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
 
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(act).setView(myDialogView)
@@ -515,45 +518,62 @@ class MainActivity : AppCompatActivity() {
         val btnDelete = myDialogView.btnDelete
         val sbDelete = myDialogView.sbDelete
 
-        var allowDelete = false
+        var allowDelete: Boolean
+        if(safetySlider){
+            allowDelete = false
+            //allow deletion and set color to delete button if seekBar is at 100%, remove color and
+            //disallow deletion otherwise
+            sbDelete.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+                    /* no-op */
+                }
 
-        //allow deletion and set color to delete button if seekBar is at 100%, remove color and
-        //disallow deletion otherwise
-        sbDelete.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                /* no-op */
-            }
+                override fun onStartTrackingTouch(seekBar: SeekBar) {
+                    /* no-op */
+                }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                /* no-op */
-            }
-
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (progress == 100) {
-                    allowDelete = true
-                    btnDelete.setBackgroundResource(R.drawable.round_corner_red)
-                    btnDelete.setTextColor(
-                        ContextCompat.getColor(
-                            act,
-                            R.color.colorOnBackGround
-                        )
-                    )
-                } else {
-                    if (allowDelete) {
-                        allowDelete = false
-                        btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    if (progress == 100) {
+                        allowDelete = true
+                        btnDelete.setBackgroundResource(R.drawable.round_corner_red)
                         btnDelete.setTextColor(
                             ContextCompat.getColor(
                                 act,
-                                R.color.colorHint
+                                R.color.colorOnBackGround
                             )
                         )
+                    } else {
+                        if (allowDelete) {
+                            allowDelete = false
+                            btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
+                            btnDelete.setTextColor(
+                                ContextCompat.getColor(
+                                    act,
+                                    R.color.colorHint
+                                )
+                            )
+                        }
+
                     }
 
                 }
+            })
 
-            }
-        })
+            myDialogView.sbDelete.visibility = View.VISIBLE
+            myDialogView.tvSwipeToDelete.visibility = View.VISIBLE
+        }
+        else{
+            allowDelete = true
+            myDialogView.sbDelete.visibility = View.GONE
+            myDialogView.tvSwipeToDelete.visibility = View.GONE
+            btnDelete.setBackgroundResource(R.drawable.round_corner_red)
+            btnDelete.setTextColor(
+                ContextCompat.getColor(
+                    act,
+                    R.color.colorOnBackGround
+                )
+            )
+        }
 
         //Shake animate seekBar if its not at 100%, execute delete action and dismiss dialog otherwise
         btnDelete.setOnClickListener {

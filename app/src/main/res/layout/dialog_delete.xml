@@ -6,12 +6,15 @@
     android:layout_height="wrap_content"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    android:padding="20dp"
-    android:paddingBottom="20dp">
+    android:paddingHorizontal="20dp"
+    android:paddingBottom="20dp"
+
+    >
 
     <TextView
         android:id="@+id/tvSwipeToDelete"
         android:layout_width="match_parent"
+        android:paddingVertical="10dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/swipe_right"

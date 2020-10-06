@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.fragment_settings_appearance.*
 import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 
 /**
@@ -20,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 class SettingsAppearanceFr : Fragment() {
     lateinit var spTheme: Spinner
     lateinit var spShapes: Spinner
+    lateinit var swSafetySlider: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +43,7 @@ class SettingsAppearanceFr : Fragment() {
         //initialize references to view
         spTheme = myView.spTheme
         spShapes = myView.spShapes
+        swSafetySlider = myView.swSafetySlider
     }
 
     private fun initializeAdapters() {
@@ -75,6 +79,8 @@ class SettingsAppearanceFr : Fragment() {
             else -> 0
         }
         spShapes.setSelection(shapePosition)
+
+        swSafetySlider.isChecked = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
     }
 
     private fun initializeListeners() {
@@ -110,6 +116,10 @@ class SettingsAppearanceFr : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
+        }
+
+        swSafetySlider.setOnClickListener {
+            SettingsManager.addSetting(SettingId.SAFETY_SLIDER_DIALOG, swSafetySlider.isChecked)
         }
 
     }
