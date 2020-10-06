@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003
 
 import SettingsNavigationFr
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -43,7 +42,7 @@ import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
-import kotlinx.android.synthetic.main.dialog_delete_note.view.*
+import kotlinx.android.synthetic.main.dialog_delete.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.new_app_bar.*
@@ -72,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         lateinit var noteEditorFr: NoteEditorFr
         val previousFragmentStack: Stack<FT> = Stack()
-        var activeFragmentTag: FT = FT.EMPTY
         lateinit var act: MainActivity
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
@@ -248,7 +246,7 @@ class MainActivity : AppCompatActivity() {
      * UI FUNCTIONS
      */
     fun hideKeyboard() {
-        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
         var view: View? = act.currentFocus
         //If no view currently has focus, create a new one, just so we can grab a window token from it
