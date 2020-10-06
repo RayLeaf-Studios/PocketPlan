@@ -82,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 //        var editTerm: CalendarAppointment? = null
     }
 
-
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         act = this

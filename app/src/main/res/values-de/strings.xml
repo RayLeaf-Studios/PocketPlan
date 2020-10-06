@@ -49,8 +49,8 @@
     <string name="birthdayDialogEdit">Speichern</string>
     <string name="birthdayDialogAddTitle">Geb. hinzufügen</string>
     <string name="birthdayDialogEditTitle">Bearbeiten</string>
-    <string name="birthdayAgeUnknown">Alter unbekannt,</string>
-    <string name="birthdayReminder">"\nErinnert %1$d %2$s vorher."</string>
+    <string name="birthdayAgeUnknown">Kein Jahr gespeichert</string>
+    <string name="birthdayReminder">"\nErinnerung %1$d %2$s vorher"</string>
 
     <string-array name="shapes">
         <item>normal</item>

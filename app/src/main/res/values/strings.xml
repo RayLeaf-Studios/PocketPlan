@@ -61,9 +61,9 @@
     <string name="birthdayRemindMe">Remind me</string>
     <string name="birthdaySaveYear">save year</string>
     <string name="birthdayChooseDate">Choose date</string>
-    <string name="birthdayAgeUnknown">"Age unknown, "</string>
+    <string name="birthdayAgeUnknown">"No year saved"</string>
     <!-- TODO use plurals here and in translation -->
-    <string name="birthdayReminder">\nReminds %1$d %2$s prior.</string>
+    <string name="birthdayReminder">\nReminder %1$d %2$s prior</string>
     <string name="addBirthdayNameHint">Name</string>
     <string name="addBirthdayDayHint">Day</string>
     <string name="addBirthdayMonthHint">Month</string>
