@@ -25,8 +25,8 @@ class NotificationReceiver : BroadcastReceiver() {
         logger.log("BroadcastReceiver", "Received content: ${intent.extras?.get("Notification")}")
 
         try {
-            AndroidThreeTen.init(context)
             this.context = context
+            AndroidThreeTen.init(this.context)
             this.localDate = LocalDate.now()
 
             when (intent.extras?.get("Notification")) {
@@ -38,6 +38,7 @@ class NotificationReceiver : BroadcastReceiver() {
             AlarmHandler.setBirthdayAlarms(context = context)
         } catch (e: Exception) {
             logger.log("BroadcastReceiver", e.message.toString())
+            logger.log("BroadcastReceiver", e.stackTrace.toString())
         }
     }
 
@@ -138,6 +139,4 @@ class NotificationReceiver : BroadcastReceiver() {
             R.drawable.ic_action_birthday, "birthdays", context
         )
     }
-
-
 }
