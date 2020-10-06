@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
+import android.util.Log
 import com.pocket_plan.j7_003.MainActivity
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -12,7 +13,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
     }
 
     /**
-     * Returns an ItemTemplate if one was defined in the assets itemList.json file.
+     * Returns an ItemTemplate if one was defined in the assets item_list_de.json file.
      * @param name The name the ItemTemplate is supposed to have.
      * @return Returns the template if found, null otherwise.
      */
@@ -29,7 +30,10 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
 
     private fun loadFromAssets() {
         val jsonString =
-            MainActivity.act.assets.open("itemList.json").bufferedReader().readText()
+            if (Locale.getDefault().displayLanguage == Locale.GERMAN.displayLanguage) {
+                MainActivity.act.assets.open("item_list_de.json").bufferedReader().readText()
+
+            } else MainActivity.act.assets.open("item_list_en.json").bufferedReader().readText()
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type
