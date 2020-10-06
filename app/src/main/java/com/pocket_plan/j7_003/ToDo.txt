@@ -8,8 +8,6 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - reset note color when adding note form home
-    - translate clear list in customeritems
     - erinnerung statt erinnert in bday info
     - setting to make delete dialog optional
     - dont trigger animation when adding task from home

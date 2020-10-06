@@ -213,4 +213,5 @@
     <string name="setting_title_theme">Farbschema</string>
     <string name="settings_import_single">Ein Modul von .json importieren</string>
     <string name="settings_export_single">Ein Modul als .json exportieren</string>
+    <string name="custom_items_clear">Benutzerdef. Items löschen</string>
 </resources>

@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/item_custom_clear"
-        android:title="Clear List"
+        android:title="@string/custom_items_clear"
         app:showAsAction="never" />
 
 </menu>
