@@ -174,12 +174,14 @@ class MainActivity : AppCompatActivity() {
         //initialize bottomNavigation
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.bottom1 -> changeToFragment(FT.NOTES)
-                R.id.bottom2 -> changeToFragment(FT.TASKS)
-                R.id.bottom3 -> changeToFragment(FT.HOME)
-                R.id.bottom4 -> changeToFragment(FT.SHOPPING)
-                R.id.bottom5 -> changeToFragment(FT.BIRTHDAYS)
+            if (bottomNavigation.selectedItemId != item.itemId) {
+                when (item.itemId) {
+                    R.id.bottom1 -> changeToFragment(FT.NOTES)
+                    R.id.bottom2 -> changeToFragment(FT.TASKS)
+                    R.id.bottom3 -> changeToFragment(FT.HOME)
+                    R.id.bottom4 -> changeToFragment(FT.SHOPPING)
+                    R.id.bottom5 -> changeToFragment(FT.BIRTHDAYS)
+                }
             }
             true
         }
