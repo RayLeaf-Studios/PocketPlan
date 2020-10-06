@@ -127,9 +127,9 @@ class MainActivity : AppCompatActivity() {
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
         val mySpinner = header.ivSpinner
         mySpinner.setOnClickListener {
-            val animationShake =
+            val animationSpin =
                 AnimationUtils.loadAnimation(act, R.anim.icon_easter_egg)
-            mySpinner.startAnimation(animationShake)
+            mySpinner.startAnimation(animationSpin)
         }
 
 

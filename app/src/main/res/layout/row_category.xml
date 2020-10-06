@@ -4,7 +4,6 @@
     android:id="@+id/cvCategory"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/colorBackgroundElevated"
-    app:cardCornerRadius="10dp"
     android:layout_margin="10dp"
     android:padding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -12,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <TextView
             android:textColor="@color/colorOnBackGround"
@@ -25,6 +25,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivCheckMark"
+            app:layout_constraintStart_toStartOf="@id/tvNumberOfItems"
+            app:layout_constraintEnd_toEndOf="@id/tvNumberOfItems"
+            app:layout_constraintTop_toTopOf="@id/tvNumberOfItems"
+            app:layout_constraintBottom_toBottomOf="@id/tvNumberOfItems"
+            android:src="@drawable/ic_check_mark"
+            app:tint="@color/colorHint">
+
+        </ImageView>
+
 
         <TextView
             android:id="@+id/tvCategoryName"

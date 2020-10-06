@@ -77,6 +77,16 @@
         <item>Dezember</item>
     </string-array>
 
+    <string-array name="fileOptions">
+        <item>Einkaufsliste</item>
+        <item>Notizen</item>
+        <item>Geburtstage</item>
+        <item>Todoliste</item>
+        <item>Einstellungen</item>
+        <item>Benutzerdef. Items</item>
+        <item>Schlaf Einstellungen</item>
+    </string-array>
+
     <string-array name="categoryCodes">
         <item>So</item>
         <item>Ob</item>
@@ -201,4 +211,6 @@
     <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
     <string name="setting_title_shapes">Formen</string>
     <string name="setting_title_theme">Farbschema</string>
+    <string name="settings_import_single">Ein Modul von .json importieren</string>
+    <string name="settings_export_single">Ein Modul als .json exportieren</string>
 </resources>

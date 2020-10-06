@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingHorizontal="10dp"
     android:paddingBottom="10dp"
     tools:context=".data.home.HomeFr">
 
@@ -14,6 +13,7 @@
         android:id="@+id/panelTasks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorBackgroundElevated"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,16 +21,17 @@
 
         <TextView
             android:id="@+id/tvTasks"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorBackgroundElevated"
-            android:textSize="@dimen/font_size_small"
             android:gravity="center_vertical"
             android:padding="5dp"
             android:textColor="@color/colorOnBackGround"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/font_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toStartOf="@id/icTasksHome"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/icTasksHome"
@@ -48,29 +49,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/panelBirthdays"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
+        android:background="@color/colorBackgroundElevated"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/panelTasks">
 
         <TextView
             android:id="@+id/tvBirthday"
-            android:layout_width="match_parent"
-            android:textSize="@dimen/font_size_small"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/colorBackgroundElevated"
             android:padding="3dp"
             android:textColor="@color/colorOnBackGround"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/font_size_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/icBirthdaysHome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/icBirthdaysHome"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="13dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="17dp"
+            android:layout_marginBottom="5dp"
             android:src="@drawable/ic_action_birthday"
             app:layout_constraintBottom_toBottomOf="@+id/tvBirthday"
             app:layout_constraintEnd_toEndOf="parent"

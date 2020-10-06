@@ -225,6 +225,16 @@
         <item>light</item>
     </string-array>
 
+    <string-array name="fileOptions">
+        <item>Shoppinglist</item>
+        <item>Notes</item>
+        <item>Birthdays</item>
+        <item>Todolist</item>
+        <item>Settings</item>
+        <item>Custom Items</item>
+        <item>Sleep Settings</item>
+    </string-array>
+
     <string name="navigationDrawer">Navigation drawer</string>
     <string name="open">open</string>
     <string name="close">close</string>
@@ -273,4 +283,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="setting_title_shapes">Shapes</string>
     <string name="setting_title_theme">Theme</string>
+    <string name="settings_import_single">Import one module from .json</string>
+    <string name="settings_export_single">Export one module as .json</string>
 </resources>
