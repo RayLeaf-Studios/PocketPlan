@@ -61,9 +61,9 @@
     <string name="birthdayRemindMe">Remind me</string>
     <string name="birthdaySaveYear">save year</string>
     <string name="birthdayChooseDate">Choose date</string>
-    <string name="birthdayAgeUnknown">"Age unknown, "</string>
+    <string name="birthdayAgeUnknown">"No year saved"</string>
     <!-- TODO use plurals here and in translation -->
-    <string name="birthdayReminder">\nReminds %1$d %2$s prior.</string>
+    <string name="birthdayReminder">\nReminder %1$d %2$s prior</string>
     <string name="addBirthdayNameHint">Name</string>
     <string name="addBirthdayDayHint">Day</string>
     <string name="addBirthdayMonthHint">Month</string>
@@ -269,7 +269,7 @@
     <string name="prior">prior</string>
     <string name="settings_export">Export backup as .zip file</string>
     <string name="settings_import">Import backup from .zip file</string>
-    <string name="settings_title_appearance">Appearance</string>
+    <string name="settings_title_appearance">Appearance and Behaviour</string>
     <string name="settings_shopping_move_down">Move checked categories down</string>
 
     <plurals name="year">
@@ -286,4 +286,5 @@
     <string name="settings_import_single">Import one module from .json</string>
     <string name="settings_export_single">Export one module as .json</string>
     <string name="custom_items_clear">Clear custom items</string>
+    <string name="settings_delete_dialog_title">Delete dialogs have safety slider</string>
 </resources>

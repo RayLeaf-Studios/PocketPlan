@@ -49,8 +49,8 @@
     <string name="birthdayDialogEdit">Speichern</string>
     <string name="birthdayDialogAddTitle">Geb. hinzufügen</string>
     <string name="birthdayDialogEditTitle">Bearbeiten</string>
-    <string name="birthdayAgeUnknown">Alter unbekannt,</string>
-    <string name="birthdayReminder">"\nErinnert %1$d %2$s vorher."</string>
+    <string name="birthdayAgeUnknown">Kein Jahr gespeichert</string>
+    <string name="birthdayReminder">"\nErinnerung %1$d %2$s vorher"</string>
 
     <string-array name="shapes">
         <item>normal</item>
@@ -207,11 +207,12 @@
     <string name="prior">prior</string>
     <string name="settings_export">Backup als .zip exportieren</string>
     <string name="settings_import">Backup von .zip importieren</string>
-    <string name="settings_title_appearance">Aussehen</string>
+    <string name="settings_title_appearance">Aussehen und Verhalten</string>
     <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
     <string name="setting_title_shapes">Formen</string>
     <string name="setting_title_theme">Farbschema</string>
     <string name="settings_import_single">Ein Modul von .json importieren</string>
     <string name="settings_export_single">Ein Modul als .json exportieren</string>
     <string name="custom_items_clear">Benutzerdef. Items löschen</string>
+    <string name="settings_delete_dialog_title">Löschdialog mit Sicherheits-Slider</string>
 </resources>

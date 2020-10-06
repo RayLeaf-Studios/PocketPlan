@@ -4,7 +4,6 @@ import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -72,9 +71,8 @@ class MainActivity : AppCompatActivity() {
         var justRestarted = false
 
         lateinit var noteEditorFr: NoteEditorFr
-//        var previousFragmentTag: FT = FT.EMPTY
         val previousFragmentStack: Stack<FT> = Stack()
-//        var activeFragmentTag: FT = FT.EMPTY
+        var activeFragmentTag: FT = FT.EMPTY
         lateinit var act: MainActivity
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
@@ -275,9 +273,7 @@ class MainActivity : AppCompatActivity() {
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            Log.e("ft1", fragmentTag.toString())
             if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                Log.e("ft", fragmentTag.toString())
                 NoteEditorFr.myFragment.dialogDiscardNoteChanges()
                 return
             }
@@ -333,7 +329,6 @@ class MainActivity : AppCompatActivity() {
         if (previousFragmentStack.peek() != fragmentTag) {
             previousFragmentStack.push(fragmentTag)
         }
-        Log.e("stack", previousFragmentStack.toString())
 
         //create fragment object
         val fragment = when (fragmentTag) {
@@ -419,7 +414,6 @@ class MainActivity : AppCompatActivity() {
         //handles going back from editor
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
             if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                Log.e("ft", previousFragmentStack.toString())
                 NoteEditorFr.myFragment.dialogDiscardNoteChanges()
                 return
             }
@@ -460,6 +454,8 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
         setDefault(SettingId.MOVE_CHECKED_DOWN, true)
         setDefault(SettingId.SHAPES_ROUND, false)
+        setDefault(SettingId.SAFETY_SLIDER_DIALOG, true)
+        setDefault(SettingId.SHAKE_TASK_HOME, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
@@ -477,7 +473,9 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     fun dialogConfirmDelete(titleId: Int, action: () -> Unit) {
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete_note, null)
+        val safetySlider = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
+
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
 
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(act).setView(myDialogView)
@@ -490,45 +488,60 @@ class MainActivity : AppCompatActivity() {
         val btnDelete = myDialogView.btnDelete
         val sbDelete = myDialogView.sbDelete
 
-        var allowDelete = false
+        var allowDelete: Boolean
+        if(safetySlider){
+            allowDelete = false
+            //allow deletion and set color to delete button if seekBar is at 100%, remove color and
+            //disallow deletion otherwise
+            sbDelete.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+                    /* no-op */
+                }
 
-        //allow deletion and set color to delete button if seekBar is at 100%, remove color and
-        //disallow deletion otherwise
-        sbDelete.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                /* no-op */
-            }
+                override fun onStartTrackingTouch(seekBar: SeekBar) {
+                    /* no-op */
+                }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                /* no-op */
-            }
-
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if (progress == 100) {
-                    allowDelete = true
-                    btnDelete.setBackgroundResource(R.drawable.round_corner_red)
-                    btnDelete.setTextColor(
-                        ContextCompat.getColor(
-                            act,
-                            R.color.colorOnBackGround
-                        )
-                    )
-                } else {
-                    if (allowDelete) {
-                        allowDelete = false
-                        btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    if (progress == 100) {
+                        allowDelete = true
+                        btnDelete.setBackgroundResource(R.drawable.round_corner_red)
                         btnDelete.setTextColor(
                             ContextCompat.getColor(
                                 act,
-                                R.color.colorHint
+                                R.color.colorOnBackGround
                             )
                         )
+                    } else {
+                        if (allowDelete) {
+                            allowDelete = false
+                            btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
+                            btnDelete.setTextColor(
+                                ContextCompat.getColor(
+                                    act,
+                                    R.color.colorHint
+                                )
+                            )
+                        }
                     }
-
                 }
+            })
 
-            }
-        })
+            myDialogView.sbDelete.visibility = View.VISIBLE
+            myDialogView.tvSwipeToDelete.visibility = View.VISIBLE
+        }
+        else{
+            allowDelete = true
+            myDialogView.sbDelete.visibility = View.GONE
+            myDialogView.tvSwipeToDelete.visibility = View.GONE
+            btnDelete.setBackgroundResource(R.drawable.round_corner_red)
+            btnDelete.setTextColor(
+                ContextCompat.getColor(
+                    act,
+                    R.color.colorOnBackGround
+                )
+            )
+        }
 
         //Shake animate seekBar if its not at 100%, execute delete action and dismiss dialog otherwise
         btnDelete.setOnClickListener {
