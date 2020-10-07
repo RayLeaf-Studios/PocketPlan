@@ -116,9 +116,10 @@
         android:paddingVertical="20dp"
         android:text="@string/birthdaysDaysPrior"
         android:textColor="@color/colorHint"
+        android:gravity="end"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvSaveYear"
+        app:layout_constraintStart_toEndOf="@+id/etDaysToRemind"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
     <Button
