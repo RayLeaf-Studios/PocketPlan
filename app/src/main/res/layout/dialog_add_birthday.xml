@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
@@ -82,39 +83,41 @@
 
     <TextView
         android:id="@+id/tvRemindMe"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:text="@string/birthdayRemindMe"
         android:textColor="@color/colorHint"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/etDaysToRemind"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
     <EditText
         android:id="@+id/etDaysToRemind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:gravity="center"
-        android:text="@string/zero"
         android:width="40dp"
+        android:gravity="center"
+        android:inputType="number"
         android:maxLength="2"
+        android:text="@string/zero"
         android:textColor="@color/colorHint"
         android:textColorHint="@color/colorHint"
         app:layout_constraintBottom_toBottomOf="@+id/tvRemindMe"
-        app:layout_constraintEnd_toStartOf="@+id/tvDaysPrior"
-        app:layout_constraintStart_toEndOf="@id/tvRemindMe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvRemindMe"
         app:layout_constraintTop_toBottomOf="@+id/tvBirthdayDate" />
 
     <TextView
         android:id="@+id/tvDaysPrior"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:text="@string/birthdaysDaysPrior"
         android:textColor="@color/colorHint"
         android:textSize="@dimen/font_size_medium"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvSaveYear"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
