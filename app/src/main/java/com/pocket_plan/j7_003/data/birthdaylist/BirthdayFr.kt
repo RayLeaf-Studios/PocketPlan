@@ -873,6 +873,9 @@ class BirthdayAdapter :
     private val marginSide = (density*20).toInt()
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
+    //calculate corner radius
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
@@ -897,8 +900,9 @@ class BirthdayAdapter :
 
         //Last birthday is spacer birthday
         if (position == BirthdayFr.birthdayListInstance.size) {
+            val density = MainActivity.act.resources.displayMetrics.density
+            holder.itemView.layoutParams.height = (100*density).toInt()
             holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.layoutParams.height = 270
             holder.itemView.setOnLongClickListener { true }
             holder.itemView.setOnClickListener {}
             return
@@ -993,7 +997,7 @@ class BirthdayAdapter :
                         ContextCompat.getColor(MainActivity.act, gradientPair.first)
                     )
                 )
-                if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,0f,0f,0f,0f)
+                if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,0f,0f,0f,0f)
                 holder.cvBirthday.background = myGradientDrawable
             }
 
@@ -1015,7 +1019,7 @@ class BirthdayAdapter :
 
         if(round){
             if((holder.adapterPosition==BirthdayFr.birthdayListInstance.size-1)||(BirthdayFr.birthdayListInstance[holder.adapterPosition+1].daysToRemind<0)){
-                myGradientDrawable.cornerRadii = floatArrayOf(0f,0f,0f,0f,20f,20f,20f,20f)
+                myGradientDrawable.cornerRadii = floatArrayOf(0f,0f,0f,0f,cr,cr,cr,cr)
             }
         }
 

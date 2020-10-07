@@ -193,6 +193,8 @@ class NoteFr : Fragment() {
 class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val density = MainActivity.act.resources.displayMetrics.density
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -256,7 +258,7 @@ class NoteAdapter :
                 currentNote.color.resolved
             )
         )
-        if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
+        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
         holder.cvNoteCard.background = myGradientDrawable
         //set background color depending on currentNote.color
 //        holder.cvNoteCard.setCardBackgroundColor(currentNote.color.resolved)

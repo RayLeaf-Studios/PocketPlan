@@ -500,6 +500,8 @@ class ShoppingFr : Fragment() {
 class ShoppingListAdapter :
     RecyclerView.Adapter<ShoppingListAdapter.CategoryViewHolder>() {
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val density = MainActivity.act.resources.displayMetrics.density
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -510,8 +512,9 @@ class ShoppingListAdapter :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
 
         if (position == ShoppingFr.shoppingListInstance.size) {
+            val density = MainActivity.act.resources.displayMetrics.density
+            holder.itemView.layoutParams.height = (100*density).toInt()
             holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.layoutParams.height = 250
             holder.itemView.subRecyclerView.visibility = View.GONE
             holder.itemView.setOnClickListener {}
             holder.itemView.setOnLongClickListener { true }
@@ -654,7 +657,7 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, gradientPair.first)
                 )
             )
-            if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
+            if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
             holder.cvCategory.background = myGradientDrawable
 
             holder.tvCategoryName.setTextColor(colorOnBackground)
@@ -670,7 +673,7 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, R.color.colorgray)
                 )
             )
-            if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
+            if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
             holder.cvCategory.background = myGradientDrawable
             holder.tvCategoryName.setTextColor(colorHint)
             holder.tvNumberOfItems.setTextColor(colorHint)
@@ -699,6 +702,7 @@ class SublistAdapter(
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
@@ -739,7 +743,7 @@ class SublistAdapter(
                 ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
             )
         )
-        if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
+        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
         holder.itemView.background = myGradientDrawable
 
         //initialize if text is gray and strike through flag is set

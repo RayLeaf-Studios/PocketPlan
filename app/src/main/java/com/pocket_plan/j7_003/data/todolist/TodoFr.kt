@@ -385,6 +385,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
 class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val listInstance = TodoFr.todoListInstance
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
     fun deleteItem(position: Int) {
         TodoFr.deletedTaskList.clear()
@@ -408,7 +409,8 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.tvName.setOnLongClickListener { true }
             holder.itemView.tapField.setOnClickListener { }
-            holder.itemView.layoutParams.height = 280
+            val density = MainActivity.act.resources.displayMetrics.density
+            holder.itemView.layoutParams.height = (100*density).toInt()
             return
         }
 
@@ -461,7 +463,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                 ContextCompat.getColor(MainActivity.act, gradientPair.first)
             )
         )
-        if(round) myGradientDrawable.cornerRadii = floatArrayOf(20f,20f,20f,20f,20f,20f,20f,20f)
+        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
         holder.itemView.background = myGradientDrawable
 
         //User Interactions with Task List Item below
