@@ -6,12 +6,11 @@ General:
 
 Back-End stuff before release:
 
-    - overthink if read and write permissions are needed
+    - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
 
     - Translate ItemList and TagList to english
-    - think about how to handle different language item lists (change after existing list?)
 
     - make light theme
     - add banner

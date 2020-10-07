@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CancellationSignal
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
@@ -19,30 +22,64 @@ class BackUpActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.fragment_settings_backup)
 
         setSupportActionBar(myNewToolbar)
+
+
+        //Spinner for single file export
+        val spExportOneAdapter = ArrayAdapter<String>(
+            MainActivity.act,
+            android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.fileOptions)
+        )
+        spExportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spExportOne.adapter = spExportOneAdapter
+
+        //Spinner for single file import
+        val spImportOneAdapter = ArrayAdapter<String>(
+            MainActivity.act,
+            android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.fileOptions)
+        )
+        spImportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spImportOne.adapter = spImportOneAdapter
+
+        //initialize spinners to show "shopping list" as default option
+        spImportOne.setSelection(0)
+        spExportOne.setSelection(0)
+
+        initializeListeners()
+
+    }
+
+    fun initializeListeners(){
         clExport.setOnClickListener {
             eHandler.shareAll()
         }
-
-        eHandler.backUpAsZip()
 
         clImport.setOnClickListener {
             iHandler.browse("zip", StorageId.ZIP)
         }
 
-        clImport.setOnLongClickListener {
-            iHandler.browse("json", StorageId.BIRTHDAYS)
-            true
+        tvExport.setOnClickListener {
+            val storageId = StorageId.getByI(spExportOne.selectedItemPosition)
+
+            if(storageId!=null){
+                eHandler.shareById(storageId)
+            }
+
         }
-    }
 
-    fun initializeDisplayValues(){
+        tvImport.setOnClickListener {
+            val storageId = StorageId.getByI(spImportOne.selectedItemPosition)
 
-    }
+            if(storageId!=null){
+                iHandler.browse("json", storageId)
+            }
 
-    fun initializeListeners(){
+        }
 
     }
 
