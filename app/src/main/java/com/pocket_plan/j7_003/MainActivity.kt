@@ -169,9 +169,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         //initialize bottomNavigation
+        val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
         bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            if (bottomNavigation.selectedItemId != item.itemId) {
+            if (!navList.contains(previousFragmentStack.peek()) || bottomNavigation.selectedItemId != item.itemId) {
                 when (item.itemId) {
                     R.id.bottom1 -> changeToFragment(FT.NOTES)
                     R.id.bottom2 -> changeToFragment(FT.TASKS)
