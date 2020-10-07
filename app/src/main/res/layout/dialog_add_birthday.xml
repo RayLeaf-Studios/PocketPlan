@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:layout_marginEnd="10dp"
-        android:text="@string/birthdaysNotify"
+        android:text="@string/birthdayRemindMe"
         android:textColor="@color/colorOnBackGround"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toStartOf="@+id/cbSaveBirthdayYear"
@@ -70,7 +70,7 @@
         android:text="@string/birthdaySaveYear"
         android:textColor="@color/colorHint"
         android:textSize="@dimen/font_size_medium"
-        app:layout_constraintStart_toStartOf="@+id/tvNotifyMe"
+        app:layout_constraintEnd_toEndOf="@+id/tvNotifyMe"
         app:layout_constraintTop_toBottomOf="@+id/tvNotifyMe" />
 
     <CheckBox
@@ -83,14 +83,13 @@
 
     <TextView
         android:id="@+id/tvRemindMe"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp"
         android:text="@string/birthdayRemindMe"
         android:textColor="@color/colorHint"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/etDaysToRemind"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
     <EditText
@@ -105,21 +104,20 @@
         android:textColor="@color/colorHint"
         android:textColorHint="@color/colorHint"
         app:layout_constraintBottom_toBottomOf="@+id/tvRemindMe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvRemindMe"
+        app:layout_constraintEnd_toStartOf="@+id/tvDaysPrior"
+        app:layout_constraintStart_toEndOf="@+id/tvRemindMe"
         app:layout_constraintTop_toBottomOf="@+id/tvBirthdayDate" />
 
     <TextView
         android:id="@+id/tvDaysPrior"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="end"
         android:paddingVertical="20dp"
         android:text="@string/birthdaysDaysPrior"
         android:textColor="@color/colorHint"
-        android:gravity="end"
         android:textSize="@dimen/font_size_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etDaysToRemind"
+        app:layout_constraintEnd_toEndOf="@+id/tvSaveYear"
         app:layout_constraintTop_toBottomOf="@+id/tvSaveYear" />
 
     <Button
