@@ -3,6 +3,7 @@ Todo:
 General:
     - check logs, fix notifications
     - code cleanup
+    - string resource cleanup
 
 Back-End stuff before release:
     - rethink if read and write permissions are needed
