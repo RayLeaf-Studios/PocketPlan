@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.content.Context
+import android.util.Log
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
@@ -112,12 +113,14 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
             else if (m.month == today.monthValue && m.day >= today.dayOfMonth) afterMonth = true
         }
 
-        val month = today.month.toString().toLowerCase().capitalize()
+        val monthName = if (context != null) {
+            context.resources.getStringArray(R.array.months)[today.monthValue - 1]
+        } else today.month.toString().toLowerCase().capitalize()
 
         if (beforeMonth) {
             this.add(
                 Birthday(
-                    month, 1, today.monthValue, 0, -1 * today.monthValue,
+                    monthName, 1, today.monthValue, 0, -1 * today.monthValue,
                     expanded = false, notify = false
                 )
             )
@@ -126,7 +129,7 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
         if (afterMonth) {
             this.add(
                 Birthday(
-                    month, today.dayOfMonth, today.monthValue, 0, -1 * today.monthValue,
+                    monthName, today.dayOfMonth, today.monthValue, 0, -1 * today.monthValue,
                     expanded = false, notify = false
                 )
             )
@@ -138,6 +141,7 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
                 context.resources.getStringArray(R.array.months)[month.value - 1]
             } else month.toString().toLowerCase().capitalize()
 
+            Log.e("bt", name)
             this.add(Birthday(name, 0, m,0, -1*m,
                 expanded = false, notify = false
             ))
