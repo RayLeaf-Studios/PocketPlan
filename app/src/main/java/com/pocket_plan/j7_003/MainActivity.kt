@@ -1,5 +1,4 @@
 package com.pocket_plan.j7_003
-
 import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -74,8 +73,8 @@ class MainActivity : AppCompatActivity() {
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
         lateinit var bottomNavigation: BottomNavigationView
-//        V.2
-//        var editTerm: CalendarAppointment? = null
+        //V.2
+        //var editTerm: CalendarAppointment? = null
     }
 
 
@@ -98,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_panel)
 
         //TODO REMOVE THIS AND IMPLEMENT PROPERLY LOADING SHOPPING LIST
-//        Toast.makeText(act,Locale.getDefault().language, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(act,Locale.getDefault().language, Toast.LENGTH_SHORT).show()
 
         //Set a reference to this activity so its accessible in the companion object
 
@@ -303,6 +302,7 @@ class MainActivity : AppCompatActivity() {
             FT.CREATE_TERM -> resources.getText(R.string.menuTitleCreateTerm)
             FT.DAY_VIEW -> resources.getText(R.string.menuTitleDayView)
             FT.SETTINGS_BACKUP -> resources.getText(R.string.backup)
+            FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settings_title_appearance)
             else -> ""
         }
 
