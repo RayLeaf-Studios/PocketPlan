@@ -5,16 +5,12 @@ General:
     - code cleanup
 
 Back-End stuff before release:
-
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
 
-    - Translate ItemList and TagList to english
-
+    - Translate ItemList english
     - make light theme
-    - add banner
-
 
 
 Add after release:
