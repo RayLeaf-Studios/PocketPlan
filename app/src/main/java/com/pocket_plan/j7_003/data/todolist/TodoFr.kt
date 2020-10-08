@@ -167,9 +167,20 @@ class TodoFr : Fragment() {
 
                     //get new checkedState from item below, or leave it unchanged
                     //if item is the last in the list, take checkedState of item above
-                    val newCheckedState =  when(viewHolder.adapterPosition){
-                        todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition-1].isChecked
-                        else -> todoListInstance[viewHolder.adapterPosition+1].isChecked
+                    val newCheckedState: Boolean
+                    newCheckedState = if(!oldCheckedState){
+                        when(viewHolder.adapterPosition){
+                            todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition-1].isChecked
+                            0 -> oldCheckedState
+                            else -> todoListInstance[viewHolder.adapterPosition-1].isChecked
+                        }
+
+                    } else{
+                        when(viewHolder.adapterPosition){
+                            todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition-1].isChecked
+                            else -> todoListInstance[viewHolder.adapterPosition+1].isChecked
+                        }
+
                     }
 
                     //set new checkedState
@@ -179,11 +190,23 @@ class TodoFr : Fragment() {
                     val oldPriority = todoListInstance[viewHolder.adapterPosition].priority
 
                     //get new priority from item below or from item above if item is last item
-                    val newPriority = when (viewHolder.adapterPosition) {
-                        todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition-1].priority
-                        else -> {
-                            todoListInstance[viewHolder.adapterPosition + 1].priority
+                    val newPriority: Int
+                    if(viewHolder.adapterPosition>lastMovePos){
+                        newPriority = when (viewHolder.adapterPosition) {
+                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition-1].priority
+                            0 -> oldPriority
+                            else -> {
+                                todoListInstance[viewHolder.adapterPosition - 1].priority
+                            }
                         }
+                    }else{
+                        newPriority = when (viewHolder.adapterPosition) {
+                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition-1].priority
+                            else -> {
+                                todoListInstance[viewHolder.adapterPosition + 1].priority
+                            }
+                        }
+
                     }
 
                     //Set new priority
