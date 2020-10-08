@@ -10,6 +10,9 @@
     <color name="colorPrimaryLight">#353535</color>
     <color name="colorPrimaryDark">#000000</color>
 
+    <color name="colorgray">#1C1C1C</color>
+    <color name="colorgrayL">#1C1C1C</color>
+
     <color name="colorAccent">#0652A5</color>
 
     <color name="colorPriority1">#8E0303</color>
@@ -27,6 +30,8 @@
 
     <color name="colorBackgroundListElement">#252525</color>
     <color name="colorGoToSleep">#CC212F</color>
+
+    <color name="colorBirthdayNotify">#1976D2</color>
 
     <color name="colorMonth1">#024B98</color>
     <color name="colorMonth2">#1584C1</color>
@@ -76,11 +81,5 @@
     <color name="colorAlkoholTabak">#BE3225B1</color>
     <color name="colorAlkoholTabakL">#3225B1</color>
 
-    <color name="colorHome1">#1F36C6</color>
-    <color name="colorHome2">#2390E6</color>
-    <color name="colorHome3">#0D6C85</color>
-
-    <color name="colorgray">#1C1C1C</color>
-    <color name="colorgrayL">#1C1C1C</color>
 </resources>
 
