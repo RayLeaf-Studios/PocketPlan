@@ -218,6 +218,6 @@
     <string name="shake_task_reminder_in_home">Animation für Todo-Erinnerung in Home</string>
     <string name="settings_reset_to_default">Alle Einstellungen zurücksetzen</string>
     <string name="titleRestoreSettings">Alle Einstellungen löschen?</string>
-    <string name="backup_export">Export</string>
-    <string name="backup_import">Import</string>
+    <string name="backup_export">Als.json Datei exportieren</string>
+    <string name="backup_import">Von .json Datei importieren</string>
 </resources>
