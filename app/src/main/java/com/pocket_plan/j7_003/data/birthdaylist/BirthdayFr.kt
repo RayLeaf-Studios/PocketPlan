@@ -146,6 +146,10 @@ class BirthdayFr : Fragment() {
         myRecycler = myView.recycler_view_birthday
         myFragment = this
 
+
+        //collapse all birthdays when reentering fragment
+        birthdayListInstance.collapseAll()
+
         //initialize recyclerview and adapter
         myAdapter = BirthdayAdapter()
         myRecycler.adapter = myAdapter
