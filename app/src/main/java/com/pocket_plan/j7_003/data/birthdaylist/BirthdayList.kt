@@ -87,13 +87,6 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
         save()
     }
 
-    fun collapseAllBirthdays(){
-        this.forEach {
-            it.expanded = false
-        }
-    }
-
-
     /**
      * Returns a birthday from arraylist at given index
      * @return Returns requested birthday object
