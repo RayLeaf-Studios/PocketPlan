@@ -1073,10 +1073,13 @@ class BirthdayAdapter :
                 R.plurals.day,
                 currentBirthday.daysToRemind
             )
-            val reminderText =
-                MainActivity.act.resources.getString(
+            val reminderText = when(currentBirthday.notify){
+                true -> MainActivity.act.resources.getString(
                     R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
                 )
+                else -> MainActivity.act.resources.getString(R.string.birthdaysNoReminder)
+            }
+
             val infoText = ageText + reminderText
             holder.itemView.tvBirthdayInfo.text = infoText
         } else {

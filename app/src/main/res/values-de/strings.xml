@@ -220,4 +220,5 @@
     <string name="titleRestoreSettings">Alle Einstellungen löschen?</string>
     <string name="backup_export">Als.json Datei exportieren</string>
     <string name="backup_import">Von .json Datei importieren</string>
+    <string name="birthdaysNoReminder">\nKeine Erinnerung gesetzt</string>
 </resources>

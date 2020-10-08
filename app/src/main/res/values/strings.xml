@@ -292,4 +292,5 @@
     <string name="titleRestoreSettings">Delete all settings?</string>
     <string name="backup_export">Export as .json file</string>
     <string name="backup_import">Import from .json file</string>
+    <string name="birthdaysNoReminder">\nNo reminder set</string>
 </resources>

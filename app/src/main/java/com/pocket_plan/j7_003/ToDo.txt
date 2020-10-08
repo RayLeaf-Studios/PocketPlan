@@ -13,7 +13,7 @@ Front-End stuff to-do before release in following order:
     - Translate ItemList english
     - make light theme
 
-    - adjust birthday info when 0 days / no reminder set
+    - geburtstage "in ... days" ?
     - add help fragment
 
     - new bottom nav design?
