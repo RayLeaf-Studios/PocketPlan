@@ -141,7 +141,6 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
                 context.resources.getStringArray(R.array.months)[month.value - 1]
             } else month.toString().toLowerCase().capitalize()
 
-            Log.e("bt", name)
             this.add(Birthday(name, 0, m,0, -1*m,
                 expanded = false, notify = false
             ))
