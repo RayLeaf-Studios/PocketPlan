@@ -11,7 +11,7 @@
     <string name="menuTitleCalendar">Calendar</string>
     <string name="menuTitleSettings">Settings</string>
     <string name="menuTitleShopping">Shopping</string>
-    <string name="menuTitleColorChoose">Choose color</string>
+    <string name="menuTitleColorChoose">Choose a color</string>
     <string name="menuTitleNotes">Notes</string>
     <string name="menuTitleNotesEditor">Editor</string>
     <string name="menuTitleAbout">About</string>
@@ -48,12 +48,12 @@
     <string name="homeAddNote">+ Note</string>
     <string name="homeAddTask">+ Task</string>
     <string name="homeAddItem">+ Item</string>
-    <string name="homeNoTasks">\n\tNo important tasks\n</string>
+    <string name="homeNoTasks">\n    No important tasks\n</string>
     <string name="homeNoBirthdays">\n\tNo birthdays today\n</string>
 
     <!-- Birthdays -->
     <string name="birthdaysNotify">notify me</string>
-    <string name="birthdaysDaysPrior"> prior.</string>
+    <string name="birthdaysDaysPrior">" prior."</string>
     <string name="birthdayDialogAdd">Add</string>
     <string name="birthdayDialogAddTitle">Add Birthday</string>
     <string name="birthdayDialogEdit">Confirm Edit</string>
@@ -106,14 +106,14 @@
     <string name="termItemDate" translatable="false" />
 
     <!-- Notifications -->
-    <string name="sleepNotificationTitle">Sleep Time</string>
+    <string name="sleepNotificationTitle">Bedtime</string>
     <string name="sleepNotificationText">It\'s time to go to bed, sleep well!</string>
     <string name="birthdayNotificationTitle">Birthdays</string>
     <string name="birthdayNotificationTitleUpc">Upcoming Birthdays</string>
-    <string name="birthdayNotificationSingleText">It\'s %1$ss birthday!</string>
+    <string name="birthdayNotificationSingleText">It\'s %1$s birthday!</string>
     <string name="birthdayNotificationMultText">There are %1$d birthdays today!</string>
     <!-- TODO use plurals for "day" as above -->
-    <string name="birthdayNotificationSingleUpcText">%1$ss birthday is coming up in %2$d days!</string>
+    <string name="birthdayNotificationSingleUpcText">%1$s birthday is coming up in %2$d days!</string>
     <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
 
     <!-- Content descriptions -->
@@ -244,11 +244,11 @@
     <string name="about_nico_name" translatable="false">Letsbeteem0</string>
     <string name="about_dori_description">Textual content and translation</string>
     <string name="about_dori_name" translatable="false">Dori R.</string>
-    <string name="about_kellai_description" translatable="false">Logo Design</string>
+    <string name="about_kellai_description">Logo Design</string>
     <string name="about_kellai_name" translatable="false">Kellai U.</string>
-    <string name="about_jake_description">Front-End / User Interface</string>
+    <string name="about_jake_description">Frontend / User Interface</string>
     <string name="about_jake_name" translatable="false">JakeGonder</string>
-    <string name="about_estep_description">Back-End / Data Management</string>
+    <string name="about_estep_description">Backend / Data Management</string>
     <string name="about_estep_name" translatable="false">Estep248</string>
     <string name="options_tasks_uncheck_all">Uncheck all</string>
     <string name="options_task_clear_list">Clear list</string>
@@ -267,8 +267,8 @@
     <string name="todo_dialog_clear_title">Clear To-Do List?</string>
     <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
     <string name="prior">prior</string>
-    <string name="settings_export">Export backup as .zip file</string>
-    <string name="settings_import">Import backup from .zip file</string>
+    <string name="settings_export">Export backup as zip file</string>
+    <string name="settings_import">Import backup from zip file</string>
     <string name="settings_title_appearance">Appearance and Behaviour</string>
     <string name="settings_shopping_move_down">Move checked categories down</string>
 
@@ -283,13 +283,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="setting_title_shapes">Shapes</string>
     <string name="setting_title_theme">Theme</string>
-    <string name="settings_import_single">Import one module from .json</string>
-    <string name="settings_export_single">Export one module as .json</string>
+    <string name="settings_import_single">Import one module from JSON</string>
+    <string name="settings_export_single">Export one module as JSON</string>
     <string name="custom_items_clear">Clear custom items</string>
     <string name="settings_delete_dialog_title">Delete dialogs have safety slider</string>
     <string name="shake_task_reminder_in_home">Shake task reminder in home</string>
     <string name="settings_reset_to_default">Reset all settings to default</string>
-    <string name="titleRestoreSettings">Delete all settings?</string>
+    <string name="titleRestoreSettings">Reset all settings?</string>
     <string name="backup_export">Export as .json file</string>
     <string name="backup_import">Import from .json file</string>
     <string name="birthdaysNoReminder">\nNo reminder set</string>
