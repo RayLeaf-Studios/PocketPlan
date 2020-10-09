@@ -92,6 +92,45 @@
         <item>справо</item>
     </string-array>
 
+    <string-array name="themes">
+        <item>темно</item>
+        <item>светло</item>
+    </string-array>
+
+    <string-array name="categoryNames">
+        <item>Другое</item>
+        <item>Фрукты и Овощи</item>
+        <item>Напитки</item>
+        <item>Макароны и Зерно</item>
+        <item>Выпечка</item>
+        <item>Молочные продукты</item>
+        <item>Мясные продукты</item>
+        <item>Замороженный продукты</item>
+        <item>Консервы и Готовые Блюды</item>
+        <item>Завтрак</item>
+        <item>Специи</item>
+        <item>Домашнее Хозяйство</item>
+        <item>Закуски</item>
+        <item>Ингредиенты для Выпечки</item>
+        <item>Аптека и Косметика</item>
+        <item>Алкогольные Напитки</item>
+    </string-array>
+
+    <string-array name="fileOptions">
+        <item>Закупки</item>
+        <item>Заметки</item>
+        <item>Дни Рождения</item>
+        <item>Задачи</item>
+        <item>Настройка</item>
+        <item>Нестандарт</item>
+        <item>Ритм Сна</item>
+    </string-array>
+
+    <string-array name="shapes">
+        <item>нормално</item>
+        <item>кругло</item>
+    </string-array>
+
     <string-array name="months">
         <item>Январь</item>
         <item>Фебраль</item>

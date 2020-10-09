@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
-import android.util.Log
 import com.pocket_plan.j7_003.MainActivity
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -30,10 +29,15 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
 
     private fun loadFromAssets() {
         val jsonString =
-            if (Locale.getDefault().displayLanguage == Locale.GERMAN.displayLanguage) {
-                MainActivity.act.assets.open("item_list_de.json").bufferedReader().readText()
-
-            } else MainActivity.act.assets.open("item_list_en.json").bufferedReader().readText()
+            when {
+                Locale.getDefault().displayLanguage == Locale.GERMAN.displayLanguage -> {
+                    MainActivity.act.assets.open("item_list_de.json").bufferedReader().readText()
+                }
+                Locale.getDefault().displayLanguage.toString() == "русский" -> {
+                    MainActivity.act.assets.open("item_list_ru.json").bufferedReader().readText()
+                }
+                else -> MainActivity.act.assets.open("item_list_en.json").bufferedReader().readText()
+            }
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type
