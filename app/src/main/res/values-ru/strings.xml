@@ -151,7 +151,6 @@
     <string name="settings_import">Импорт с резервнай копие</string>
     <string name="settings_title_appearance">Вид и поведение</string>
     <string name="settings_shopping_move_down">Отмеченые категории передвигаются в конец списко</string>
-    <string name="settings_shopping_move_down">Отмеченые категории передвигаются вниз списка</string>
     <string name="swipe_right">Тянитье на право</string>
     <string name="shopping_item_added">Закупка добавлено!</string>
     <string name="shake_task_reminder_in_home">Анимирывать картину задачах на старте</string>
