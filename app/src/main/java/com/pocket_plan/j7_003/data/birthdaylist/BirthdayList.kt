@@ -6,6 +6,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
@@ -14,8 +15,7 @@ import kotlin.collections.ArrayList
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList(val context: Context?): ArrayList<Birthday>() {
-    constructor() : this(null)
+class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>() {
 
     init {
         StorageHandler.createJsonFile(StorageId.BIRTHDAYS)
@@ -113,9 +113,7 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
             else if (m.month == today.monthValue && m.day >= today.dayOfMonth) afterMonth = true
         }
 
-        val monthName = if (context != null) {
-            context.resources.getStringArray(R.array.months)[today.monthValue - 1]
-        } else today.month.toString().toLowerCase().capitalize()
+        val monthName = context.resources.getStringArray(R.array.months)[today.monthValue - 1]
 
         if (beforeMonth) {
             this.add(
@@ -137,9 +135,7 @@ class BirthdayList(val context: Context?): ArrayList<Birthday>() {
 
         months.forEach { m ->
             val month = LocalDate.of(2020, m, 1).month
-            val name = if (context != null) {
-                context.resources.getStringArray(R.array.months)[month.value - 1]
-            } else month.toString().toLowerCase().capitalize()
+            val name = context.resources.getStringArray(R.array.months)[month.value - 1]
 
             Log.e("bt", name)
             this.add(Birthday(name, 0, m,0, -1*m,

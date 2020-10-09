@@ -36,9 +36,10 @@ class AlarmHandler {
                 .withHour(hour).withMinute(minute)
                 .withSecond(0).withNano(0)
 
-            alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
+            alarmManager.setRepeating(
+                AlarmManager.ELAPSED_REALTIME,
                 notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                AlarmManager.INTERVAL_HALF_DAY,
                 pendingIntent
             )
 

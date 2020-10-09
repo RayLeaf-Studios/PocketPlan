@@ -19,12 +19,12 @@ import kotlin.math.abs
 /**
  * A simple class to handle different Reminders for a sleep schedule
  */
-class SleepReminder() {
+class SleepReminder {
     var daysAreCustom: Boolean = false
     var reminder = HashMap<DayOfWeek, Reminder>(7)
-    companion object{
-        lateinit var context: Context
 
+    companion object {
+        lateinit var context: Context
     }
 
     init {

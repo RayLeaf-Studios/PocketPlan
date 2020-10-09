@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.system_interaction.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
@@ -13,7 +12,6 @@ import com.pocket_plan.j7_003.system_interaction.Logger
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import org.threeten.bp.LocalDate
-import java.lang.NullPointerException
 import kotlin.collections.ArrayList
 
 
@@ -47,6 +45,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun checkSleepNotification(intent: Intent) {
+        SleepReminder.context = context
         SleepReminder().reminder[intent.extras?.get("weekday")]?.updateAlarm(
             intent.extras?.getInt("requestCode")!!
         )
@@ -63,7 +62,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun birthdayNotifications() {
-        val birthdayList = BirthdayList()
+        val birthdayList = BirthdayList(context)
 
         if (birthdayList.isEmpty()) {
             return
