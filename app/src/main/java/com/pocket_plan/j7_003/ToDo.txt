@@ -13,6 +13,24 @@ Front-End stuff to-do before release in following order:
     - Translate ItemList english
     - make light theme
 
+    - geburtstage "in ... days" ?
+    - add help fragment
+
+    - new bottom nav design?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Add after release:
     - let user pick custom note color?

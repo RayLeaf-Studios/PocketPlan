@@ -290,6 +290,7 @@
     <string name="shake_task_reminder_in_home">Shake task reminder in home</string>
     <string name="settings_reset_to_default">Reset all settings to default</string>
     <string name="titleRestoreSettings">Delete all settings?</string>
-    <string name="backup_export">Export</string>
-    <string name="backup_import">Import</string>
+    <string name="backup_export">Export as .json file</string>
+    <string name="backup_import">Import from .json file</string>
+    <string name="birthdaysNoReminder">\nNo reminder set</string>
 </resources>

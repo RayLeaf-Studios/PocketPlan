@@ -137,7 +137,6 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
             val month = LocalDate.of(2020, m, 1).month
             val name = context.resources.getStringArray(R.array.months)[month.value - 1]
 
-            Log.e("bt", name)
             this.add(Birthday(name, 0, m,0, -1*m,
                 expanded = false, notify = false
             ))

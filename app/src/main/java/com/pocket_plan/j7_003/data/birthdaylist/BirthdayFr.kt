@@ -146,6 +146,10 @@ class BirthdayFr : Fragment() {
         myRecycler = myView.recycler_view_birthday
         myFragment = this
 
+
+        //collapse all birthdays when reentering fragment
+        birthdayListInstance.collapseAll()
+
         //initialize recyclerview and adapter
         myAdapter = BirthdayAdapter()
         myRecycler.adapter = myAdapter
@@ -1017,14 +1021,8 @@ class BirthdayAdapter :
         val myGradientDrawable =
             GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
 
-        if(round){
-            if((holder.adapterPosition==BirthdayFr.birthdayListInstance.size-1)||(BirthdayFr.birthdayListInstance[holder.adapterPosition+1].daysToRemind<0)){
-                myGradientDrawable.cornerRadii = floatArrayOf(0f,0f,0f,0f,cr,cr,cr,cr)
-            }
-        }
 
 //        myGradientDrawable.cornerRadius = 0f
-        holder.cvBirthday.background = myGradientDrawable
 
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
@@ -1038,7 +1036,14 @@ class BirthdayAdapter :
         }
         else{
             params.setMargins(marginSide, (density*1).toInt(), marginSide, (density*1).toInt())
+            if(round){
+                if((holder.adapterPosition==BirthdayFr.birthdayListInstance.size-1)||(BirthdayFr.birthdayListInstance[holder.adapterPosition+1].daysToRemind<0)){
+                    myGradientDrawable.cornerRadii = floatArrayOf(0f,0f,0f,0f,cr,cr,cr,cr)
+                }
+            }
         }
+
+        holder.cvBirthday.background = myGradientDrawable
 
         //initialize regular birthday design
         holder.tvRowBirthdayDivider.visibility = View.GONE
@@ -1068,10 +1073,13 @@ class BirthdayAdapter :
                 R.plurals.day,
                 currentBirthday.daysToRemind
             )
-            val reminderText =
-                MainActivity.act.resources.getString(
+            val reminderText = when(currentBirthday.notify){
+                true -> MainActivity.act.resources.getString(
                     R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
                 )
+                else -> MainActivity.act.resources.getString(R.string.birthdaysNoReminder)
+            }
+
             val infoText = ageText + reminderText
             holder.itemView.tvBirthdayInfo.text = infoText
         } else {

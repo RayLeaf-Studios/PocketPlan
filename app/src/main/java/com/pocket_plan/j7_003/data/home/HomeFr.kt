@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.home
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -33,6 +34,8 @@ import kotlinx.android.synthetic.main.fragment_note_editor.*
  */
 class HomeFr : Fragment() {
 
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
@@ -99,7 +102,6 @@ class HomeFr : Fragment() {
 //        myAdapter.setDate(LocalDate.now())
 //        homeTermRecyclerView.adapter = myAdapter
 //        homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
-
         return myView
     }
 
@@ -122,6 +124,15 @@ class HomeFr : Fragment() {
      */
 
     private fun updateTaskPanel(shake: Boolean) {
+        val colorA = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
+        val colorB = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
+        val myGradientDrawable =
+            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
+        if(round){
+            myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+        }
+        myView.panelTasks.background = myGradientDrawable
+
         var myShake = shake
         if(!(SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean)){
             myShake = false
@@ -198,6 +209,15 @@ class HomeFr : Fragment() {
     }
 
     private fun updateBirthdayPanel() {
+
+        val colorA = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
+        val colorB = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
+        val myGradientDrawable =
+            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
+        if(round){
+            myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+        }
+        myView.panelBirthdays.background = myGradientDrawable
         val birthdaysToday = BirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
         if (birthdaysToDisplay == 0) {
@@ -226,7 +246,7 @@ class HomeFr : Fragment() {
             myView.icBirthdaysHome.setColorFilter(
                 ContextCompat.getColor(
                     MainActivity.act,
-                    R.color.colorNudelnundGetreideL
+                    R.color.colorBirthdayNotify
                 )
             )
         }
