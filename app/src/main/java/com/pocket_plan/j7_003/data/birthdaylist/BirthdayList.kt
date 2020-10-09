@@ -18,7 +18,7 @@ import kotlin.collections.ArrayList
 class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>() {
 
     init {
-        StorageHandler.createJsonFile(StorageId.BIRTHDAYS)
+        StorageHandler.createJsonFile(StorageId.BIRTHDAYS, context)
         fetchFromFile()
         sortBirthday()
     }
