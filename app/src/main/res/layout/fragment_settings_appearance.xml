@@ -149,7 +149,7 @@
                     android:id="@+id/tvShake"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/shake_task_reminder_in_home"
+                    android:text="@string/settingsAppearanceShakeTask"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -185,7 +185,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_reset_to_default"
+                    android:text="@string/settingsAppearanceResetToDefault"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"

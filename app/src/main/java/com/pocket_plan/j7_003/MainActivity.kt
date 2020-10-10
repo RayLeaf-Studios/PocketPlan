@@ -1,5 +1,4 @@
 package com.pocket_plan.j7_003
-import SettingsNavigationFr
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
@@ -43,7 +42,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHand
 import kotlinx.android.synthetic.main.dialog_delete.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
-import kotlinx.android.synthetic.main.new_app_bar.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -293,7 +292,6 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
             FT.SHOPPING, FT.SETTINGS_SHOPPING -> resources.getText(R.string.menuTitleShopping)
             FT.NOTES, FT.SETTINGS_NOTES -> resources.getText(R.string.menuTitleNotes)
-            FT.SETTINGS_NAVIGATION -> resources.getText(R.string.navigationDrawer)
             FT.SETTINGS -> resources.getText(R.string.menuTitleSettings)
             FT.NOTE_EDITOR -> resources.getText(R.string.menuTitleNotesEditor)
             FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
@@ -348,7 +346,6 @@ class MainActivity : AppCompatActivity() {
                 birthdayFr
             }
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
-            FT.SETTINGS_NAVIGATION -> SettingsNavigationFr()
             FT.SETTINGS_NOTES -> SettingsNotesFr()
             FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
             FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr()

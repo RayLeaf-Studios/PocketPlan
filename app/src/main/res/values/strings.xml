@@ -5,30 +5,30 @@
     <string name="app_name" translatable="false">PocketPlan</string>
 
     <!-- Menu Titles -->
-    <string name="menuTitleBirthdays">Birthdays</string>
-    <string name="menuTitleTasks">To-Do</string>
-    <string name="menuTitleHome">Home</string>
-    <string name="menuTitleCalendar">Calendar</string>
-    <string name="menuTitleSettings">Settings</string>
-    <string name="menuTitleShopping">Shopping</string>
-    <string name="menuTitleColorChoose">Choose a color</string>
-    <string name="menuTitleNotes">Notes</string>
-    <string name="menuTitleNotesEditor">Editor</string>
     <string name="menuTitleAbout">About</string>
-    <string name="menuTitleSleep">Sleep Reminder</string>
+    <string name="menuTitleBirthdays">Birthdays</string>
+    <string name="menuTitleCalendar">Calendar</string>
+    <string name="menuTitleColorChoose">Choose a color</string>
+    <string name="menuTitleCreateTerm">Create Term</string>
     <string name="menuTitleCustomItem">Custom Items</string>
     <string name="menuTitleDayView">Day View</string>
-    <string name="menuTitleCreateTerm">Create Term</string>
+    <string name="menuTitleHome">Home</string>
+    <string name="menuTitleNotes">Notes</string>
+    <string name="menuTitleNotesEditor">Editor</string>
+    <string name="menuTitleSettings">Settings</string>
+    <string name="menuTitleShopping">Shopping</string>
+    <string name="menuTitleSleep">Sleep Reminder</string>
+    <string name="menuTitleTasks">To-Do</string>
 
     <!-- Notes -->
-    <string name="noteEditorTitle">Title</string>
-    <string name="noteEditorText">Note</string>
-    <string name="noteDiscardDialogSave">Save</string>
-    <string name="noteDiscardDialogDiscard">Discard</string>
-    <string name="noteDiscardDialogTitle">Save changes?</string>
     <string name="noteDeleteDialogCancel">Cancel</string>
     <string name="noteDeleteDialogDelete">Delete</string>
     <string name="noteDeleteDialogText">Swipe right to delete this note</string>
+    <string name="noteDiscardDialogDiscard">Discard</string>
+    <string name="noteDiscardDialogSave">Save</string>
+    <string name="noteDiscardDialogTitle">Save changes?</string>
+    <string name="noteEditorText">Note</string>
+    <string name="noteEditorTitle">Title</string>
 
     <!-- Tasks -->
     <string name="tasksAddTitle">Add Task</string>
@@ -38,16 +38,12 @@
     <string name="prioDisplay2" translatable="false">2</string>
 
     <!-- Shopping -->
-    <string name="checkMark" translatable="false">✔</string>
-    <string name="options_shopping_clear_list">Clear list</string>
-    <string name="options_shopping_uncheck_all">Uncheck all</string>
+    <string name="shopping_option_clear_list">Clear list</string>
+    <string name="shopping_option_uncheck_all">Uncheck all</string>
     <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
     <string name="shoppingAddItemTitle">Add item</string>
 
     <!-- Home -->
-    <string name="homeAddNote">+ Note</string>
-    <string name="homeAddTask">+ Task</string>
-    <string name="homeAddItem">+ Item</string>
     <string name="homeNoTasks">\n    No important tasks\n</string>
     <string name="homeNoBirthdays">\n\tNo birthdays today\n</string>
 
@@ -100,10 +96,19 @@
     <string name="aboutDevs">Developed by</string>
     <string name="aboutDevsDesc" translatable="false">Estep248:  Back-End / Data Management\n
         \nJakeGonder;:  Front-End / User Interface</string>
-    <string name="aboutSup">Supported by</string>
+    <string name="aboutDoriDescription">Textual content and translation</string>
+    <string name="aboutDoriName" translatable="false">Dori R.</string>
+    <string name="aboutEstepDescription">Backend / Data Management</string>
+    <string name="aboutEstepName" translatable="false">Estep248</string>
+    <string name="aboutJakeDescription">Frontend / User Interface</string>
+    <string name="aboutJakeName" translatable="false">JakeGonder</string>
+    <string name="aboutKellaiDescription">Logo Design</string>
+    <string name="aboutKellaiName" translatable="false">Kellai U.</string>
+    <string name="aboutLetsbeDescription">Unpaid intern</string>
+    <string name="aboutLetsbeName" translatable="false">Letsbeteem0</string>
     <string name="aboutSrc">Sourcecode on GitHub</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="termItemDate" translatable="false" />
+    <string name="aboutSup">Supported by</string>
 
     <!-- Notifications -->
     <string name="sleepNotificationTitle">Bedtime</string>
@@ -122,6 +127,48 @@
     <string name="settingsCloseItemDialog">Close item dialog after adding</string>
     <string name="backup">Backup</string>
 
+
+    <string name="navigationDrawer">Navigation drawer</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="view_on_github">View on GitHub</string>
+    <string name="sourcecode">Sourcecode</string>
+    <string name="options_tasks_uncheck_all">Uncheck all</string>
+    <string name="options_task_clear_list">Clear list</string>
+    <string name="options_task_delete_checked">Clear checked tasks</string>
+    <string name="options_shopping_expand_all">Expand all</string>
+    <string name="options_shopping_collapse_all">Collapse all</string>
+    <string name="swipe_right">Swipe right</string>
+    <string name="shopping_dialog_clear_title">Clear shopping list?</string>
+    <string name="shopping_item_added">Item added!</string>
+    <string name="birthdayOldBornIn">" old, born in "</string>
+    <string name="settings_shopping_close_sub">(In shopping fragment)</string>
+    <string name="home_notification_add_task">Task added!</string>
+    <string name="home_notification_add_item">Item added!</string>
+    <string name="home_notification_add_note">Note added!</string>
+    <string name="custom_item_delete_title">Delete custom items?</string>
+    <string name="todo_dialog_clear_title">Clear To-Do List?</string>
+    <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
+    <string name="prior">prior</string>
+    <string name="settings_export">Export backup as zip file</string>
+    <string name="settings_import">Import backup from zip file</string>
+    <string name="settings_title_appearance">Appearance and Behaviour</string>
+    <string name="settings_shopping_move_down">Move checked categories down</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="setting_title_shapes">Shapes</string>
+    <string name="setting_title_theme">Theme</string>
+    <string name="customOptionClearItems">Clear custom items</string>
+    <string name="settings_delete_dialog_title">Delete dialogs have safety slider</string>
+    <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
+    <string name="settingsAppearanceResetToDefault">Reset all settings to default</string>
+    <string name="titleRestoreSettings">Reset all settings?</string>
+    <string name="backupExportJson">Export as .json file</string>
+    <string name="backupImportJson">Import from .json file</string>
+    <string name="birthdaysNoReminder">\nNo reminder set</string>
+
+
+    <!-- Arrays -->
     <string-array name="units">
         <item>x</item>
         <item>kg</item>
@@ -235,62 +282,15 @@
         <item>Sleep Times</item>
     </string-array>
 
-    <string name="navigationDrawer">Navigation drawer</string>
-    <string name="open">open</string>
-    <string name="close">close</string>
-    <string name="view_on_github">View on GitHub</string>
-    <string name="sourcecode">Sourcecode</string>
-    <string name="about_nico_description">Unpaid intern</string>
-    <string name="about_nico_name" translatable="false">Letsbeteem0</string>
-    <string name="about_dori_description">Textual content and translation</string>
-    <string name="about_dori_name" translatable="false">Dori R.</string>
-    <string name="about_kellai_description">Logo Design</string>
-    <string name="about_kellai_name" translatable="false">Kellai U.</string>
-    <string name="about_jake_description">Frontend / User Interface</string>
-    <string name="about_jake_name" translatable="false">JakeGonder</string>
-    <string name="about_estep_description">Backend / Data Management</string>
-    <string name="about_estep_name" translatable="false">Estep248</string>
-    <string name="options_tasks_uncheck_all">Uncheck all</string>
-    <string name="options_task_clear_list">Clear list</string>
-    <string name="options_task_delete_checked">Clear checked tasks</string>
-    <string name="options_shopping_expand_all">Expand all</string>
-    <string name="options_shopping_collapse_all">Collapse all</string>
-    <string name="swipe_right">Swipe right</string>
-    <string name="shopping_dialog_clear_title">Clear shopping list?</string>
-    <string name="shopping_item_added">Item added!</string>
-    <string name="birthdayOldBornIn">" old, born in "</string>
-    <string name="settings_shopping_close_sub">(In shopping fragment)</string>
-    <string name="home_notification_add_task">Task added!</string>
-    <string name="home_notification_add_item">Item added!</string>
-    <string name="home_notification_add_note">Note added!</string>
-    <string name="custom_item_delete_title">Delete custom items?</string>
-    <string name="todo_dialog_clear_title">Clear To-Do List?</string>
-    <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
-    <string name="prior">prior</string>
-    <string name="settings_export">Export backup as zip file</string>
-    <string name="settings_import">Import backup from zip file</string>
-    <string name="settings_title_appearance">Appearance and Behaviour</string>
-    <string name="settings_shopping_move_down">Move checked categories down</string>
-
+    <!-- Plurals -->
     <plurals name="year">
         <item quantity="one">year</item>
         <item quantity="other">years</item>
     </plurals>
+
     <plurals name="day">
         <item quantity="one">day</item>
         <item quantity="other">days</item>
     </plurals>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="setting_title_shapes">Shapes</string>
-    <string name="setting_title_theme">Theme</string>
-    <string name="settings_import_single">Import one module from JSON</string>
-    <string name="settings_export_single">Export one module as JSON</string>
-    <string name="custom_items_clear">Clear custom items</string>
-    <string name="settings_delete_dialog_title">Delete dialogs have safety slider</string>
-    <string name="shake_task_reminder_in_home">Shake task reminder in home</string>
-    <string name="settings_reset_to_default">Reset all settings to default</string>
-    <string name="titleRestoreSettings">Reset all settings?</string>
-    <string name="backup_export">Export as .json file</string>
-    <string name="backup_import">Import from .json file</string>
-    <string name="birthdaysNoReminder">\nNo reminder set</string>
+
 </resources>
