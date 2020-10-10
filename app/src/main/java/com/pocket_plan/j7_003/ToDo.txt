@@ -4,35 +4,24 @@ General:
     - check logs, fix notifications
     - code cleanup
     - string resource cleanup
+    - sort string files (include ALL string arrays in all languages)
 
 Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
 
-    - Translate ItemList english
     - make light theme
 
     - geburtstage "in ... days" ?
     - add help fragment
 
-    - new bottom nav design?
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 Add after release:
+    - write custom bottom navigationbar
+
     - let user pick custom note color?
     - Front-End / Back-End ? option to change language
     - Add more languages

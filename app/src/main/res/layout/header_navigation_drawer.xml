@@ -11,13 +11,14 @@
 
     <ImageView
         android:id="@+id/ivSpinner"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
         android:paddingTop="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/hrt" />
 
 
