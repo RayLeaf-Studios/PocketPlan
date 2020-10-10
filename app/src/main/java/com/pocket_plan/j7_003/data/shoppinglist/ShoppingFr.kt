@@ -45,7 +45,7 @@ class ShoppingFr : Fragment() {
         var deletedItem: ShoppingItem? = null
 
         lateinit var shoppingListInstance: ShoppingList
-        lateinit var shoppingListAdapter: ShoppingListAdapter
+        lateinit var myAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
         lateinit var myFragment: ShoppingFr
 
@@ -76,26 +76,26 @@ class ShoppingFr : Fragment() {
             R.id.item_shopping_uncheck_all -> {
                 //uncheck all shopping items
                 shoppingListInstance.uncheckAll()
-                shoppingListAdapter.notifyDataSetChanged()
+                myAdapter.notifyDataSetChanged()
             }
 
             R.id.item_shopping_undo -> {
                 //undo the last deletion of a shopping item
                 shoppingListInstance.add(deletedItem!!)
                 deletedItem = null
-                shoppingListAdapter.notifyDataSetChanged()
+                myAdapter.notifyDataSetChanged()
 
             }
             R.id.item_shopping_collapse_all -> {
                 //collapse all categories
                 shoppingListInstance.collapseAllTags()
-                shoppingListAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
+                myAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
 
             }
             R.id.item_shopping_expand_all -> {
                 //expand all categories
                 shoppingListInstance.expandAllTags()
-                shoppingListAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
+                myAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
 
             }
         }
@@ -134,10 +134,10 @@ class ShoppingFr : Fragment() {
 
         //Initialize references to recycler and its adapter
         val myRecycler = myView.recycler_view_shopping
-        shoppingListAdapter = ShoppingListAdapter()
+        myAdapter = ShoppingListAdapter()
 
         //attach adapter to recycler and initialize parameters of recycler
-        myRecycler.adapter = shoppingListAdapter
+        myRecycler.adapter = myAdapter
         layoutManager = LinearLayoutManager(activity)
         myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
@@ -163,7 +163,7 @@ class ShoppingFr : Fragment() {
                     shoppingListInstance.save()
 
                     // move item in `fromPos` to `toPos` in adapter.
-                    shoppingListAdapter.notifyItemMoved(fromPos, toPos)
+                    myAdapter.notifyItemMoved(fromPos, toPos)
                     return true // true if moved, false otherwise
                 }
 
@@ -216,7 +216,7 @@ class ShoppingFr : Fragment() {
         val action: () -> Unit = {
             shoppingListInstance.clear()
             shoppingListInstance.save()
-            shoppingListAdapter.notifyDataSetChanged()
+            myAdapter.notifyDataSetChanged()
             myFragment.updateShoppingMenu()
         }
         MainActivity.act.dialogConfirmDelete(titleId, action)
@@ -415,7 +415,7 @@ class ShoppingFr : Fragment() {
                     shoppingListInstance.add(item)
 
                     if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
-                        shoppingListAdapter.notifyDataSetChanged()
+                        myAdapter.notifyDataSetChanged()
                         myFragment.updateShoppingMenu()
                     } else {
                         Toast.makeText(
@@ -467,7 +467,7 @@ class ShoppingFr : Fragment() {
             )
             shoppingListInstance.add(item)
             if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
-                shoppingListAdapter.notifyDataSetChanged()
+                myAdapter.notifyDataSetChanged()
                 myFragment.updateShoppingMenu()
             } else {
                 Toast.makeText(
@@ -592,7 +592,7 @@ class ShoppingListAdapter :
                 shoppingListInstance.forEach {
                     if (shoppingListInstance.isTagExpanded(it.first) && it.first != holder.tag) {
                         shoppingListInstance.flipExpansionState(it.first)
-                        ShoppingFr.shoppingListAdapter.notifyItemChanged(
+                        ShoppingFr.myAdapter.notifyItemChanged(
                             shoppingListInstance.getTagIndex(
                                 it.first
                             )
@@ -770,7 +770,7 @@ class SublistAdapter(
             val numberOfItems = ShoppingFr.shoppingListInstance.getUncheckedSize(holder.tag)
 
             //If all are checked after the current item got flipped, the list has to go from color to gray
-            ShoppingFr.shoppingListAdapter.manageCheckedCategory(
+            ShoppingFr.myAdapter.manageCheckedCategory(
                 parentHolder,
                 ShoppingFr.shoppingListInstance.areAllChecked(holder.tag),
                 numberOfItems,
@@ -782,7 +782,7 @@ class SublistAdapter(
                 )
             ) {
                 ShoppingFr.shoppingListInstance.flipExpansionState(holder.tag)
-                ShoppingFr.shoppingListAdapter.notifyItemChanged(parentHolder.adapterPosition)
+                ShoppingFr.myAdapter.notifyItemChanged(parentHolder.adapterPosition)
             }
 
             notifyItemChanged(holder.adapterPosition)
@@ -798,7 +798,7 @@ class SublistAdapter(
                 val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(tag)
                 if (sublistMoveInfo != null) {
                     ShoppingFr.myFragment.prepareForMove()
-                    ShoppingFr.shoppingListAdapter
+                    ShoppingFr.myAdapter
                         .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
 
                     ShoppingFr.myFragment.reactToMove()
@@ -837,17 +837,17 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
         val removeInfo = ShoppingFr.shoppingListInstance.removeItem(parsed.tag, position)
         if (removeInfo.second) {
             //entire sublist is empty => remove sublist
-            ShoppingFr.shoppingListAdapter
+            ShoppingFr.myAdapter
                 .notifyItemRemoved(tagPosition)
         } else {
             //sublist changed length =>
-            ShoppingFr.shoppingListAdapter.notifyItemChanged(tagPosition)
+            ShoppingFr.myAdapter.notifyItemChanged(tagPosition)
             //check if sublist moved
             val positions = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(parsed.tag)
             if (positions != null) {
                 //sublist did move => animate movement
                 ShoppingFr.myFragment.prepareForMove()
-                ShoppingFr.shoppingListAdapter.notifyItemMoved(
+                ShoppingFr.myAdapter.notifyItemMoved(
                     positions.first, positions.second
                 )
                 ShoppingFr.myFragment.reactToMove()

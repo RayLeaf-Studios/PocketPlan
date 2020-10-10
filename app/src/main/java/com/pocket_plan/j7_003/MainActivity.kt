@@ -87,7 +87,9 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
+        //Set a reference to this activity in the companion object
         act = this
+
         if (previousFragmentStack.isEmpty()) {
             previousFragmentStack.push(FT.EMPTY)
         }
@@ -95,23 +97,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
 
-        //TODO REMOVE THIS AND IMPLEMENT PROPERLY LOADING SHOPPING LIST
-        //Toast.makeText(act,Locale.getDefault().language, Toast.LENGTH_SHORT).show()
-
-        //Set a reference to this activity so its accessible in the companion object
-
         //IMPORTANT; ORDER IS CRITICAL
         //Initialize Settings Manager and Time api and AlarmHandler
         SettingsManager.init()
         AndroidThreeTen.init(this)
         AlarmHandler.setBirthdayAlarms(context = this)
 
+        //Initialize Sleepreminder
         SleepReminder.context = this
         SleepFr.sleepReminderInstance = SleepReminder()
 
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
 
+        //Initialize temporary ShoppingFr Instance
         tempShoppingFr = ShoppingFr()
 
         //initialize toolbar
@@ -121,13 +120,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
 
+        //Initialize adapters and necessary list instances
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter()
         NoteFr.myAdapter = NoteAdapter()
-        ShoppingFr.shoppingListAdapter = ShoppingListAdapter()
+        ShoppingFr.myAdapter = ShoppingListAdapter()
         SleepFr.myAdapter = SleepAdapter()
         BirthdayFr.myAdapter = BirthdayAdapter()
 
+        //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
         val mySpinner = header.ivSpinner
         mySpinner.setOnClickListener {
@@ -217,6 +218,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        //When activity is entered via special intent, change to respective fragment
         when (intent.extras?.get("NotificationEntry").toString()) {
             "birthdays" -> changeToFragment(FT.BIRTHDAYS)
             "SReminder" -> changeToFragment(FT.HOME)
@@ -228,6 +231,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //preload add item dialog to reduce loading time
         tempShoppingFr.preloadAddItemDialog(layoutInflater)
 
 
@@ -244,6 +248,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * UI FUNCTIONS
      */
+
     fun hideKeyboard() {
         val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -264,7 +269,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //change to fragment of specified tag
+    /**
+     * Changes to the fragment specified by
+     * @param fragmentTag
+     * initializes fragment instances, sets correct actionbarTitle, selects correct
+     * item in bottom navigation
+     */
+
     fun changeToFragment(fragmentTag: FT) {
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
@@ -366,12 +377,13 @@ class MainActivity : AppCompatActivity() {
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
 
+        //refresh recycler adapters
         when (fragmentTag) {
             FT.BIRTHDAYS -> BirthdayFr.myAdapter.notifyDataSetChanged()
             FT.NOTES -> NoteFr.myAdapter.notifyDataSetChanged()
-            FT.SHOPPING -> ShoppingFr.shoppingListAdapter.notifyDataSetChanged()
-            FT.TASKS -> TodoFr.myAdapter.notifyDataSetChanged()
+            FT.SHOPPING -> ShoppingFr.myAdapter.notifyDataSetChanged()
             FT.SLEEP -> SleepFr.myAdapter.notifyDataSetChanged()
+            FT.TASKS -> TodoFr.myAdapter.notifyDataSetChanged()
             else -> { /* no-op */ }
         }
     }
