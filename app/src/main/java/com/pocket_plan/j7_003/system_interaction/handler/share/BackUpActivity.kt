@@ -13,7 +13,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
-import kotlinx.android.synthetic.main.new_app_bar.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.io.File
 
 class BackUpActivity: AppCompatActivity() {

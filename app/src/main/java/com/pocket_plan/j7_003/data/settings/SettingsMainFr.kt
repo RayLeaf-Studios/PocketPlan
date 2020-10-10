@@ -57,9 +57,6 @@ class SettingsMainFr : Fragment() {
         clSettingShopping.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_SHOPPING) }
         clSettingAbout.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_ABOUT) }
         clSettingAppearance.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_APPEARANCE) }
-
-        //V2 ADD NAVIGATION OPTIONS
-        //clSettingNavigation.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NAVIGATION)}
     }
 
 }

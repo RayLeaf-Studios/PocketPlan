@@ -1,17 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Menu Titles -->
+    <string name="menuTitleAbout">Über die App</string>
     <string name="menuTitleBirthdays">Geburtstage</string>
     <string name="menuTitleCalendar">Kalender</string>
-    <string name="menuTitleSettings">Einstellungen</string>
     <string name="menuTitleColorChoose">Wähle eine Farbe</string>
+    <string name="menuTitleCreateTerm">Termin erstellen</string>
+    <string name="menuTitleCustomItem">Benutzerdef. Items</string>
+    <string name="menuTitleDayView">Tagesansicht</string>
+    <string name="menuTitleHome">Home</string>
+    <string name="menuTitleNotes">Notizen</string>
+    <string name="menuTitleNotesEditor">Editor</string>
+    <string name="menuTitleSettings">Einstellungen</string>
+    <string name="menuTitleShopping">Einkauf</string>
+    <string name="menuTitleSleep">Schlaf Rhythmus</string>
+    <string name="menuTitleTasks">To-Do</string>
+
+    <!-- Notes -->
+    <string name="noteDeleteDialogCancel">Abbrechen</string>
+    <string name="noteDeleteDialogDelete">Löschen</string>
+    <string name="noteDeleteDialogText">Notiz löschen?</string>
+    <string name="noteDiscardDialogDiscard">Verwerfen</string>
+    <string name="noteDiscardDialogSave">Speichern</string>
+    <string name="noteDiscardDialogTitle">Änderungen speichern?</string>
+    <string name="noteEditorText">Notiz</string>
+    <string name="noteEditorTitle">Titel</string>
+
+    <!-- Tasks -->
+    <string name="tasksAddTitle">Aufgabe hinzufügen</string>
+    <string name="tasksAddHint">Titel</string>
+
+    <!-- Shopping -->
     <string name="addBirthdayDayHint">Tag</string>
     <string name="addBirthdayMonthHint">Monat</string>
     <string name="addBirthdayNameHint">Name</string>
-    <string name="menuTitleShopping">Einkauf</string>
-    <string name="menuTitleHome">Home</string>
-    <string name="menuTitleTasks">To-Do</string>
-    <string name="menuTitleNotes">Notizen</string>
 
+
+    <string name="aboutDevs">Entwickelt von</string>
+    <string name="aboutSup">Unterstützt von</string>
+    <string name="settingsNotesTitle">Notizen</string>
+    <string name="settingsNumOfLines">Sichtbare Zeilen pro Notiz</string>
+    <string name="settingsNumOfCols">Notizen nebeneinander</string>
+    <string name="settingsFontSize">Schriftgröße im Editor</string>
+    <string name="settingsShoListTitle">Einkaufsliste</string>
+    <string name="settingsCusItems">Benutzerdefinierte Items verwalten</string>
+    <string name="settingsOnlyExpandOne">Nur eine Kategorie ausklappbar</string>
+    <string name="settingsCollapseChecked">Abgehakte Kategorien einklappen</string>
+    <string name="settingsNavigationTitle">Navigation</string>
+    <string name="birthdaysNotify">erinnern</string>
+    <string name="birthdaysDaysPrior"> vorher.</string>
+    <string name="birthdayDialogAdd">Hinzufügen</string>
+    <string name="birthdayRemindMe">Erinnere mich</string>
+    <string name="birthdaySaveYear">mit Jahr</string>
+    <string name="birthdayChooseDate">Datum wählen</string>
+    <string name="birthdayDialogEdit">Speichern</string>
+    <string name="birthdayDialogAddTitle">Geb. hinzufügen</string>
+    <string name="birthdayDialogEditTitle">Bearbeiten</string>
+    <string name="birthdayAgeUnknown">Kein Jahr gespeichert</string>
+    <string name="birthdayReminder">"\nErinnerung %1$d %2$s vorher"</string>
+
+    <string name="shopping_option_clear_list">Liste löschen</string>
+    <string name="shopping_option_uncheck_all">Haken entfernen</string>
+    <string name="sleepWakeUpTime">Aufstehzeit</string>
+    <string name="sleepDuration">Schlafdauer</string>
+    <string name="sleepEnable">Erinnerungen einschalten</string>
+    <string name="sleepCustomDays">Tagesabhängige Zeit</string>
+    <string name="sleepMon">Mo</string>
+    <string name="sleepTue">Di</string>
+    <string name="sleepWed">Mi</string>
+    <string name="sleepThu">Do</string>
+    <string name="sleepFri">Fr</string>
+    <string name="sleepSat">Sa</string>
+    <string name="sleepSun">So</string>
+    <string name="homeNoTasks">\n\tKeine wichtigen Aufgaben\n</string>
+    <string name="homeNoBirthdays">\n\tKeine Geburtstage heute\n</string>
+    <string name="sleepWakeUpTimeDay">Aufstehzeit - %1$s</string>
+    <string name="sleepDurationDay">Schlafdauer</string>
+    <string name="sleepNotificationTitle">Schlafenszeit</string>
+    <string name="sleepNotificationText">Zeit schlafen zu gehen, schönen Schlaf!</string>
+    <string name="birthdayNotificationTitle">Geburtstage</string>
+    <string name="birthdayNotificationTitleUpc">Bevorstehende Geburtstage</string>
+    <string name="birthdayNotificationSingleText">Es ist %1$s Geburtstag!</string>
+    <string name="birthdayNotificationMultText">Heute haben %1$d Leute Geburtstag!</string>
+    <string name="birthdayNotificationSingleUpcText">%1$s Geburtstag ist in %2$d Tagen!</string>
+    <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
+    <string name="contentDescriptionSun">Sonne</string>
+    <string name="shoppingAddItemTitle">Einkauf hinzufügen</string>
+    <string name="settingsCloseItemDialog">Itemdialog nach hinzufügen schließen</string>
+    <string name="backup">Backup</string>
+    <string name="navigationDrawer">Navigation</string>
+    <string name="aboutSrc">Quellcode auf GitHub</string>
+    <string name="open">öffnen</string>
+    <string name="close">schließen</string>
+    <string name="view_on_github">Auf GitHub</string>
+    <string name="sourcecode">Sourcecode</string>
+    <string name="aboutLetsbeDescription">Unbezahlter Praktikant</string>
+    <string name="aboutDoriDescription">Textliche Inhalte und Übersetzung</string>
+    <string name="aboutJakeDescription">Frontend / Benutzeroberfläche</string>
+    <string name="aboutEstepDescription">Backend / Daten Management</string>
+    <string name="options_tasks_uncheck_all">Haken entfernen</string>
+    <string name="options_task_clear_list">Liste löschen</string>
+    <string name="options_task_delete_checked">Abgehaktes löschen</string>
+    <string name="options_shopping_expand_all">Alles aufklappen</string>
+    <string name="options_shopping_collapse_all">Alles einklappen</string>
+    <string name="swipe_right">Ziehe nach rechts</string>
+    <string name="shopping_dialog_clear_title">Einkaufsliste löschen?</string>
+    <string name="birthdayOldBornIn">" alt, geboren "</string>
+    <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
+
+    <string name="home_notification_add_task">Aufgabe hinzugefügt!</string>
+    <string name="home_notification_add_item">Item hinzugefügt!</string>
+    <string name="home_notification_add_note">Notiz hinzugefügt!</string>
+    <string name="shopping_item_added">Item hinzugefügt!</string>
+    <string name="custom_item_delete_title">Liste leeren?</string>
+    <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
+    <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
+    <string name="prior">vorher</string>
+    <string name="settings_export">Backup als zip exportieren</string>
+    <string name="settings_import">Backup aus zip importieren</string>
+    <string name="settings_title_appearance">Aussehen und Verhalten</string>
+    <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
+    <string name="setting_title_shapes">Formen</string>
+    <string name="setting_title_theme">Farbschema</string>
+    <string name="customOptionClearItems">Benutzerdef. Items löschen</string>
+    <string name="settings_delete_dialog_title">Löschdialog mit Sicherheits-Slider</string>
+    <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
+    <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
+    <string name="titleRestoreSettings">Alle Einstellungen zurücksetzen?</string>
+    <string name="backupExportJson">Als.json Datei exportieren</string>
+    <string name="backupImportJson">Von .json Datei importieren</string>
+    <string name="birthdaysNoReminder">\nKeine Erinnerung gesetzt</string>
+    <string name="aboutKellaiDescription">Logo entwurf</string>
+
+    <!-- Arrays -->
     <string-array name="noteLines">
         <item>alle</item>
         <item>keine</item>
@@ -26,31 +148,6 @@
         <item>links</item>
         <item>rechts</item>
     </string-array>
-    <string name="aboutDevs">Entwickelt von</string>
-    <string name="aboutSup">Unterstützt von</string>
-    <string name="noteEditorTitle">Titel</string>
-    <string name="noteEditorText">Notiz</string>
-    <string name="settingsNotesTitle">Notizen</string>
-    <string name="settingsNumOfLines">Sichtbare Zeilen pro Notiz</string>
-    <string name="settingsNumOfCols">Notizen nebeneinander</string>
-    <string name="settingsFontSize">Schriftgröße im Editor</string>
-    <string name="settingsShoListTitle">Einkaufsliste</string>
-    <string name="settingsCusItems">Benutzerdefinierte Items verwalten</string>
-    <string name="settingsOnlyExpandOne">Nur eine Kategorie ausklappbar</string>
-    <string name="settingsCollapseChecked">Abgehakte Kategorien einklappen</string>
-    <string name="settingsNavigationTitle">Navigation</string>
-    <string name="tasksAddTitle">Aufgabe hinzufügen</string>
-    <string name="birthdaysNotify">erinnern</string>
-    <string name="birthdaysDaysPrior"> vorher.</string>
-    <string name="birthdayDialogAdd">Hinzufügen</string>
-    <string name="birthdayRemindMe">Erinnere mich</string>
-    <string name="birthdaySaveYear">mit Jahr</string>
-    <string name="birthdayChooseDate">Datum wählen</string>
-    <string name="birthdayDialogEdit">Speichern</string>
-    <string name="birthdayDialogAddTitle">Geb. hinzufügen</string>
-    <string name="birthdayDialogEditTitle">Bearbeiten</string>
-    <string name="birthdayAgeUnknown">Kein Jahr gespeichert</string>
-    <string name="birthdayReminder">"\nErinnerung %1$d %2$s vorher"</string>
 
     <string-array name="shapes">
         <item>normal</item>
@@ -124,102 +221,16 @@
         <item>Drogerie &amp; Kostmetik</item>
         <item>Alkoholische Getränke</item>
     </string-array>
-    <string name="homeAddNote">+ Notiz</string>
-    <string name="homeAddTask">+ To Do</string>
-    <string name="homeAddItem">+ Item</string>
-    <string name="menuTitleNotesEditor">Editor</string>
-    <string name="menuTitleAbout">Über die App</string>
-    <string name="menuTitleSleep">Schlaf Rhythmus</string>
-    <string name="menuTitleCustomItem">Benutzerdef. Items</string>
-    <string name="menuTitleDayView">Tagesansicht</string>
-    <string name="menuTitleCreateTerm">Termin erstellen</string>
-    <string name="tasksAddHint">Titel</string>
-    <string name="noteDiscardDialogSave">Speichern</string>
-    <string name="noteDiscardDialogDiscard">Verwerfen</string>
-    <string name="noteDiscardDialogTitle">Änderungen speichern?</string>
-    <string name="noteDeleteDialogCancel">Abbrechen</string>
-    <string name="noteDeleteDialogDelete">Löschen</string>
-    <string name="noteDeleteDialogText">Notiz löschen?</string>
-    <string name="options_shopping_clear_list">Liste löschen</string>
-    <string name="options_shopping_uncheck_all">Haken entfernen</string>
-    <string name="sleepWakeUpTime">Aufstehzeit</string>
-    <string name="sleepDuration">Schlafdauer</string>
-    <string name="sleepEnable">Erinnerungen einschalten</string>
-    <string name="sleepCustomDays">Tagesabhängige Zeit</string>
-    <string name="sleepMon">Mo</string>
-    <string name="sleepTue">Di</string>
-    <string name="sleepWed">Mi</string>
-    <string name="sleepThu">Do</string>
-    <string name="sleepFri">Fr</string>
-    <string name="sleepSat">Sa</string>
-    <string name="sleepSun">So</string>
-    <string name="homeNoTasks">\n\tKeine wichtigen Aufgaben\n</string>
-    <string name="homeNoBirthdays">\n\tKeine Geburtstage heute\n</string>
-    <string name="sleepWakeUpTimeDay">Aufstehzeit - %1$s</string>
-    <string name="sleepDurationDay">Schlafdauer</string>
-    <string name="sleepNotificationTitle">Schlafenszeit</string>
-    <string name="sleepNotificationText">Zeit schlafen zu gehen, schönen Schlaf!</string>
-    <string name="birthdayNotificationTitle">Geburtstage</string>
-    <string name="birthdayNotificationTitleUpc">Bevorstehende Geburtstage</string>
-    <string name="birthdayNotificationSingleText">Es ist %1$s Geburtstag!</string>
-    <string name="birthdayNotificationMultText">Heute haben %1$d Leute Geburtstag!</string>
-    <string name="birthdayNotificationSingleUpcText">%1$s Geburtstag ist in %2$d Tagen!</string>
-    <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
-    <string name="contentDescriptionSun">Sonne</string>
-    <string name="shoppingAddItemTitle">Einkauf hinzufügen</string>
-    <string name="settingsCloseItemDialog">Itemdialog nach hinzufügen schließen</string>
-    <string name="backup">Backup</string>
-    <string name="navigationDrawer">Navigation</string>
-    <string name="aboutSrc">Quellcode auf GitHub</string>
-    <string name="open">öffnen</string>
-    <string name="close">schließen</string>
-    <string name="view_on_github">Auf GitHub</string>
-    <string name="sourcecode">Sourcecode</string>
-    <string name="about_nico_description">Unbezahlter Praktikant</string>
-    <string name="about_dori_description">Textliche Inhalte und Übersetzung</string>
-    <string name="about_jake_description">Frontend / Benutzeroberfläche</string>
-    <string name="about_estep_description">Backend / Daten Management</string>
-    <string name="options_tasks_uncheck_all">Haken entfernen</string>
-    <string name="options_task_clear_list">Liste löschen</string>
-    <string name="options_task_delete_checked">Abgehaktes löschen</string>
-    <string name="options_shopping_expand_all">Alles aufklappen</string>
-    <string name="options_shopping_collapse_all">Alles einklappen</string>
-    <string name="swipe_right">Ziehe nach rechts</string>
-    <string name="shopping_dialog_clear_title">Einkaufsliste löschen?</string>
-    <string name="birthdayOldBornIn">" alt, geboren "</string>
-    <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
 
+    <!-- Plurals -->
     <plurals name="year">
         <item quantity="one">Jahr</item>
         <item quantity="other">Jahre</item>
     </plurals>
+
     <plurals name="day">
         <item quantity="one">Tag</item>
         <item quantity="other">Tage</item>
     </plurals>
-    <string name="home_notification_add_task">Aufgabe hinzugefügt!</string>
-    <string name="home_notification_add_item">Item hinzugefügt!</string>
-    <string name="home_notification_add_note">Notiz hinzugefügt!</string>
-    <string name="shopping_item_added">Item hinzugefügt!</string>
-    <string name="custom_item_delete_title">Liste leeren?</string>
-    <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
-    <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
-    <string name="prior">vorher</string>
-    <string name="settings_export">Backup als zip exportieren</string>
-    <string name="settings_import">Backup aus zip importieren</string>
-    <string name="settings_title_appearance">Aussehen und Verhalten</string>
-    <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
-    <string name="setting_title_shapes">Formen</string>
-    <string name="setting_title_theme">Farbschema</string>
-    <string name="settings_import_single">Ein Modul von JSON importieren</string>
-    <string name="settings_export_single">Ein Modul als JSON exportieren</string>
-    <string name="custom_items_clear">Benutzerdef. Items löschen</string>
-    <string name="settings_delete_dialog_title">Löschdialog mit Sicherheits-Slider</string>
-    <string name="shake_task_reminder_in_home">Animation für Todo-Erinnerung in Home</string>
-    <string name="settings_reset_to_default">Alle Einstellungen zurücksetzen</string>
-    <string name="titleRestoreSettings">Alle Einstellungen zurücksetzen?</string>
-    <string name="backup_export">Als.json Datei exportieren</string>
-    <string name="backup_import">Von .json Datei importieren</string>
-    <string name="birthdaysNoReminder">\nKeine Erinnerung gesetzt</string>
-    <string name="about_kellai_description">Logo entwurf</string>
+
 </resources>

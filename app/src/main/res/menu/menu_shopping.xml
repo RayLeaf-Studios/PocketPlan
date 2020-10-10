@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_shopping_clear_list"
-        android:title="@string/options_shopping_clear_list"
+        android:title="@string/shopping_option_clear_list"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/item_shopping_uncheck_all"
-        android:title="@string/options_shopping_uncheck_all"
+        android:title="@string/shopping_option_uncheck_all"
         app:showAsAction="never" />
 
     <item

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
-import kotlinx.android.synthetic.main.fragment_custom_item.view.*
+import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
@@ -31,7 +31,7 @@ class CustomItemFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val myView = inflater.inflate(R.layout.fragment_custom_item, container, false)
+        val myView = inflater.inflate(R.layout.fragment_custom_items, container, false)
         myRecycler = myView.recycler_view_customItems
         myFragment = this
 
