@@ -197,7 +197,7 @@
     <string name="settingsCloseItemDialog">Закрывать диалог после добовление</string>
     <string name="aboutKellaiDescription">Дизайн логотипа</string>
     <string name="aboutDoriDescription">Текстовое содержание и перевод</string>
-    <string name="birthdayNotificationMultText">Сегодня %1$в дни рожения!</string>
+    <string name="birthdayNotificationMultText">Сегодня %1$d дни рожения!</string>
     <string name="birthdayNotificationSingleUpcText">Через %2$d дней будить %1$s день рождения!</string>
     <string name="birthdayNotificationMultUpcText">Скоро будут %1$d дни рождения!</string>
     <string name="birthdaysNoReminder">\nНет напоминание\n</string>

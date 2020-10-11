@@ -16,9 +16,6 @@ class AlarmHandler {
             val intent = Intent(context, NotificationReceiver::class.java)
             intent.putExtra("Notification", "Birthday")
 
-//            val hours = LocalDateTime.now().hour
-//            val minutes = LocalDateTime.now().minute.plus(1)
-
             val pendingIntent =
                 PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             val alarmManager =
@@ -27,8 +24,7 @@ class AlarmHandler {
             var notificationTime = LocalDateTime.now()
 
             if (notificationTime.isAfter(LocalDateTime.now()
-                    .withHour(hour).withMinute(minute).withSecond(0))
-            ) {
+                    .withHour(hour).withMinute(minute).withSecond(0))) {
                 notificationTime = notificationTime.plusDays(1)
             }
 
@@ -36,10 +32,13 @@ class AlarmHandler {
                 .withHour(hour).withMinute(minute)
                 .withSecond(0).withNano(0)
 
-            alarmManager.setRepeating(
-                AlarmManager.ELAPSED_REALTIME,
+            // debug
+//            val debugTime = LocalDateTime.now().plusSeconds(30)
+//            notificationTime = debugTime
+
+            alarmManager.setExact(
+                AlarmManager.RTC,
                 notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-                AlarmManager.INTERVAL_HALF_DAY,
                 pendingIntent
             )
 
