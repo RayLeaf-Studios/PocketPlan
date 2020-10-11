@@ -3,13 +3,13 @@ package com.pocket_plan.j7_003.system_interaction.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
 import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.system_interaction.Logger
-import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
@@ -21,8 +21,8 @@ class NotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val logger = Logger(context)
-        logger.log("BroadcastReceiver", "Notification broadcast received")
-        logger.log("BroadcastReceiver", "Received content: ${intent.extras?.get("Notification")}")
+        logger.log("NotificationReceiver", "Notification broadcast received")
+        logger.log("NotificationReceiver", "Received content: ${intent.extras?.get("Notification")}")
 
         try {
             this.context = context
@@ -34,14 +34,15 @@ class NotificationReceiver : BroadcastReceiver() {
                 "SReminder" -> checkSleepNotification(intent)
             }
 
-            logger.log("BroadcastReceiver", "Setting next alarm")
+            logger.log("NotificationReceiver", "Setting next alarm")
             AlarmHandler.setBirthdayAlarms(context = context)
         } catch (e: Exception) {
-            logger.log("BroadcastReceiver", e.message.toString())
+            logger.log("NotificationReceiver", e.message.toString())
             e.stackTrace.forEach {
-                logger.log("StackTrace", it.toString())
+                logger.log("Notification StackTrace", it.toString())
             }
         }
+        logger.log("NotificationReceiver", "finished reacting to broadcast")
     }
 
     private fun checkSleepNotification(intent: Intent) {
