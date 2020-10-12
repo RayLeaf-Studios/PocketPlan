@@ -29,6 +29,7 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsNotesFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAppearanceFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsHowTo
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
@@ -313,6 +314,7 @@ class MainActivity : AppCompatActivity() {
             FT.DAY_VIEW -> resources.getText(R.string.menuTitleDayView)
             FT.SETTINGS_BACKUP -> resources.getText(R.string.backup)
             FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settings_title_appearance)
+            FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHelp)
             else -> ""
         }
 
@@ -363,6 +365,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> SleepFr()
+            FT.SETTINGS_HOWTO -> SettingsHowTo()
 //            V.2
 //            FT.CALENDAR -> CalenderFr()
 //            FT.CREATE_TERM -> CreateTermFr()

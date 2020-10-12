@@ -18,14 +18,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clSettingHowTo"
                 android:layout_width="match_parent"
-                android:id="@+id/clSettingAppearance"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingStart="20dp"
                 android:paddingVertical="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp">
+
+                <ImageView
+                    android:id="@+id/ivHelp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_help"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorOnBackGround" />
+
+                <TextView
+                    android:id="@+id/tvHelp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/settingsHelp"
+                    android:textColor="@color/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivHelp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.483" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="409dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clSettingAppearance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="15dp"
+                android:paddingStart="20dp"
                 tools:ignore="RtlSymmetry">
 
                 <ImageView
@@ -36,13 +79,13 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorSnacksL" />
+                    app:tint="@color/colorGewürzeBackzutatenL" />
 
 
                 <TextView
-                    android:paddingStart="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
                     android:text="@string/settings_title_appearance"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
@@ -62,12 +105,12 @@
                 tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:id="@+id/clSettingNotes"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingStart="20dp"
                 android:paddingVertical="15dp"
+                android:paddingStart="20dp"
                 tools:ignore="RtlSymmetry">
 
                 <ImageView
@@ -82,10 +125,10 @@
 
 
                 <TextView
-                    android:paddingStart="20dp"
                     android:id="@+id/tvNoteHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
                     android:text="@string/settingsNotesTitle"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
@@ -105,16 +148,14 @@
                 tools:layout_editor_absoluteY="56dp" />
 
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clSettingShopping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:id="@+id/clSettingShopping"
                 android:background="?attr/selectableItemBackground"
-                android:paddingEnd="0dp"
                 android:paddingVertical="15dp"
-                >
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp">
 
                 <ImageView
                     android:id="@+id/ivShopping"
@@ -124,14 +165,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorGewürzeBackzutatenL" />
+                    app:tint="@color/colorObstundGemüseL" />
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:text="@string/settingsShoListTitle"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
@@ -143,50 +184,49 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--            <View-->
-<!--                android:layout_width="409dp"-->
-<!--                android:layout_height="1dp"-->
-<!--                android:background="?android:attr/listDivider"-->
-<!--                tools:layout_editor_absoluteX="1dp"-->
-<!--                tools:layout_editor_absoluteY="56dp" />-->
+            <!--            <View-->
+            <!--                android:layout_width="409dp"-->
+            <!--                android:layout_height="1dp"-->
+            <!--                android:background="?android:attr/listDivider"-->
+            <!--                tools:layout_editor_absoluteX="1dp"-->
+            <!--                tools:layout_editor_absoluteY="56dp" />-->
 
 
+            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:paddingStart="20dp"-->
+            <!--                android:id="@+id/clSettingNavigation"-->
+            <!--                android:background="?attr/selectableItemBackground"-->
+            <!--                android:paddingEnd="0dp"-->
+            <!--                android:paddingVertical="15dp"-->
+            <!--                >-->
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingStart="20dp"-->
-<!--                android:id="@+id/clSettingNavigation"-->
-<!--                android:background="?attr/selectableItemBackground"-->
-<!--                android:paddingEnd="0dp"-->
-<!--                android:paddingVertical="15dp"-->
-<!--                >-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/ivNavigation"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:src="@drawable/ic_action_menu"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    app:tint="@color/colorNoteGreen" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/ivNavigation"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:src="@drawable/ic_action_menu"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:tint="@color/colorNoteGreen" />-->
+            <!--                <TextView-->
+            <!--                    android:id="@+id/tvNavigationDrawer"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:text="@string/settingsNavigationTitle"-->
+            <!--                    android:textColor="@color/colorOnBackGround"-->
+            <!--                    android:textSize="@dimen/font_size_medium"-->
+            <!--                    android:textStyle="bold"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                    app:layout_constraintStart_toEndOf="@+id/ivNavigation"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent"-->
+            <!--                    android:paddingStart="20dp"-->
+            <!--                    app:layout_constraintVertical_bias="0.516" />-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tvNavigationDrawer"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/settingsNavigationTitle"-->
-<!--                    android:textColor="@color/colorOnBackGround"-->
-<!--                    android:textSize="@dimen/font_size_medium"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toEndOf="@+id/ivNavigation"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    android:paddingStart="20dp"-->
-<!--                    app:layout_constraintVertical_bias="0.516" />-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
             <View
                 android:layout_width="409dp"
                 android:layout_height="1dp"
@@ -195,14 +235,13 @@
                 tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clSettingBackup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:id="@+id/clSettingBackup"
-                android:paddingEnd="0dp"
-                android:paddingVertical="15dp"
                 android:background="?attr/selectableItemBackground"
-                >
+                android:paddingVertical="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp">
 
                 <ImageView
                     android:id="@+id/ivBackup"
@@ -212,15 +251,15 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorObstundGemüseL" />
+                    app:tint="@color/colorTiefkühlL" />
 
                 <TextView
                     android:id="@+id/tvBackup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/backup"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
+                    android:text="@string/backup"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
@@ -230,6 +269,7 @@
                     app:layout_constraintVertical_bias="0.483" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <View
                 android:layout_width="409dp"
                 android:layout_height="1dp"
@@ -239,14 +279,13 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clSEttingAbout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
                 android:background="?attr/selectableItemBackground"
-                android:paddingEnd="0dp"
-                android:id="@+id/clSEttingAbout"
                 android:paddingVertical="15dp"
-                >
+                android:paddingStart="20dp"
+                android:paddingEnd="0dp">
 
                 <ImageView
                     android:id="@+id/ivAbout"
@@ -256,17 +295,17 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorTiefkühlL" />
+                    app:tint="@color/colorSnacksL" />
 
                 <TextView
                     android:id="@+id/tvAbout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:text="@string/menuTitleAbout"
                     android:textColor="@color/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivAbout"
@@ -279,11 +318,9 @@
                 android:id="@+id/viewScrollPlaceHolder"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingHorizontal="20dp">
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:paddingHorizontal="20dp" />
 
         </LinearLayout>
-
 
 
     </ScrollView>
