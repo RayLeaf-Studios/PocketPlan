@@ -81,9 +81,9 @@
     <string name="sleepNotificationText">Zeit schlafen zu gehen, schönen Schlaf!</string>
     <string name="birthdayNotificationTitle">Geburtstage</string>
     <string name="birthdayNotificationTitleUpc">Bevorstehende Geburtstage</string>
-    <string name="birthdayNotificationSingleText">Es ist %1$s Geburtstag!</string>
+    <string name="birthdayNotificationSingleText">Heute hat %1$s Geburtstag!</string>
     <string name="birthdayNotificationMultText">Heute haben %1$d Leute Geburtstag!</string>
-    <string name="birthdayNotificationSingleUpcText">%1$s Geburtstag ist in %2$d Tagen!</string>
+    <string name="birthdayNotificationSingleUpcText">In %2$d Tagen hat %1$s Geburtstag!</string>
     <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
     <string name="contentDescriptionSun">Sonne</string>
     <string name="shoppingAddItemTitle">Einkauf hinzufügen</string>
