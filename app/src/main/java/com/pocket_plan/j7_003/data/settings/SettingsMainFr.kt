@@ -21,7 +21,6 @@ class SettingsMainFr : Fragment() {
     private lateinit var clSettingBackup: ConstraintLayout
     private lateinit var clSettingAbout: ConstraintLayout
     private lateinit var clSettingAppearance: ConstraintLayout
-    private lateinit var clSettingHowTo: ConstraintLayout
 
     //V2 ADD NAVIGATION OPTIONS
     //private lateinit var clSettingNavigation: ConstraintLayout
@@ -45,7 +44,6 @@ class SettingsMainFr : Fragment() {
         clSettingShopping = myView.clSettingShopping
         clSettingNotes = myView.clSettingNotes
         clSettingAppearance = myView.clSettingAppearance
-        clSettingHowTo = myView.clSettingHowTo
 
         //V2 ADD NAVIGATION OPTIONS
         //clSettingNavigation = myView.clSettingNavigation
@@ -59,7 +57,6 @@ class SettingsMainFr : Fragment() {
         clSettingShopping.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_SHOPPING) }
         clSettingAbout.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_ABOUT) }
         clSettingAppearance.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_APPEARANCE) }
-        clSettingHowTo.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_HOWTO) }
     }
 
 }

@@ -148,6 +148,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
                 R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
+                R.id.menuHelp -> changeToFragment(FT.SETTINGS_HOWTO)
             }
             drawer_layout.closeDrawer(GravityCompat.START)
             true
