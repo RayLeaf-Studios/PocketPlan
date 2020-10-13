@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.birthdaylist
 
 import com.google.gson.annotations.SerializedName
+import org.threeten.bp.LocalDate
 
 data class Birthday constructor(
     @SerializedName(value = "n")
@@ -25,4 +26,16 @@ data class Birthday constructor(
     var notify: Boolean) {
 
     fun hasReminder(): Boolean = daysToRemind != 0
+
+    fun daysUntil(): Int {
+        return LocalDate.now().until(this.asLocalDateTime()).days
+    }
+
+    private fun asLocalDateTime(): LocalDate {
+        return if (LocalDate.of(LocalDate.now().year, month, year).isBefore(LocalDate.now())) {
+            LocalDate.of(LocalDate.now().year.plus(1), month, day)
+        } else {
+            LocalDate.of(LocalDate.now().year, month, day)
+        }
+    }
 }
