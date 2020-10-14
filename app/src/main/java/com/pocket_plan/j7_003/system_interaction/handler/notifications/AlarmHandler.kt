@@ -13,37 +13,52 @@ import org.threeten.bp.*
 class AlarmHandler {
     companion object {
         fun setBirthdayAlarms(hour: Int = 12, minute: Int = 0, context: Context) {
-            val intent = Intent(context, NotificationReceiver::class.java)
-            intent.putExtra("Notification", "Birthday")
+            val logger = Logger(context)
+            try {
+                val intent = Intent(context, NotificationReceiver::class.java)
+                intent.putExtra("Notification", "Birthday")
 
-            val pendingIntent =
-                PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-            val alarmManager =
-                context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+                val pendingIntent =
+                    PendingIntent.getBroadcast(
+                        context,
+                        100,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                val alarmManager =
+                    context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
-            var notificationTime = LocalDateTime.now()
+                var notificationTime = LocalDateTime.now()
 
-            if (notificationTime.isAfter(LocalDateTime.now()
-                    .withHour(hour).withMinute(minute).withSecond(0))) {
-                notificationTime = notificationTime.plusDays(1)
-            }
+                if (notificationTime.isAfter(
+                        LocalDateTime.now()
+                            .withHour(hour).withMinute(minute).withSecond(0)
+                    )
+                ) {
+                    notificationTime = notificationTime.plusDays(1)
+                }
 
-            notificationTime = notificationTime
-                .withHour(hour).withMinute(minute)
-                .withSecond(0).withNano(0)
+                notificationTime = notificationTime
+                    .withHour(hour).withMinute(minute)
+                    .withSecond(0).withNano(0)
 
-            // debug
+                // debug
 //            val debugTime = LocalDateTime.now().plusSeconds(30)
 //            notificationTime = debugTime
 
-            alarmManager.setExact(
-                AlarmManager.RTC,
-                notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-                pendingIntent
-            )
+                alarmManager.setExact(
+                    AlarmManager.RTC,
+                    notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                    pendingIntent
+                )
 
-            val logger = Logger(context)
-            logger.log("AlarmHandler", "Birthday Alarm Time set to $notificationTime")
+                logger.log("AlarmHandler", "Birthday Alarm Time set to $notificationTime")
+            } catch (e: Exception) {
+                logger.log("AlarmHandler", e.message!!)
+                e.stackTrace.forEach {
+                    logger.log("AlarmHandler StackTrace", it.toString())
+                }
+            }
         }
 
         fun setNewSleepReminderAlarm(
