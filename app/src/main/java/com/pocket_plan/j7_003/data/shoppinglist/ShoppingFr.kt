@@ -114,7 +114,7 @@ class ShoppingFr : Fragment() {
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
         collapseCheckedSublists =
             SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
-        //if expandOne Setting = true, expand one category, contract all others, if setting says so
+        //if expandOne Setting = true, expand one category, contract all others
         if (expandOne) {
             shoppingListInstance.forEach {
                 if (shoppingListInstance.getTagIndex(it.first) == 0) {
@@ -142,6 +142,7 @@ class ShoppingFr : Fragment() {
         myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
 
+        //ItemTouchHelper to support drag and drop reordering
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
@@ -155,6 +156,7 @@ class ShoppingFr : Fragment() {
                     var toPos = target.adapterPosition
 
                     if (toPos == shoppingListInstance.size) toPos--
+
                     //swap items in list
                     Collections.swap(
                         shoppingListInstance, fromPos, toPos
@@ -164,11 +166,12 @@ class ShoppingFr : Fragment() {
 
                     // move item in `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
+
                     return true // true if moved, false otherwise
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    // remove from adapter
+                    /* no-op, swiping categories is not supported */
                 }
             })
 
@@ -177,6 +180,9 @@ class ShoppingFr : Fragment() {
         return myView
     }
 
+    /**
+     * Refreshes option menu, removes options that can't be executed
+     */
     fun updateShoppingMenu() {
         updateUndoItemIcon()
         updateDeleteShoppingListIcon()
@@ -222,6 +228,9 @@ class ShoppingFr : Fragment() {
         MainActivity.act.dialogConfirmDelete(titleId, action)
     }
 
+    /**
+     * Helper function to prevent scrolling due to notifyMove
+     */
     fun prepareForMove() {
         firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
         offsetTop = 0
@@ -234,10 +243,16 @@ class ShoppingFr : Fragment() {
         }
     }
 
+    /**
+     * Helper function to prevent scrolling due to notifyMove
+     */
     fun reactToMove() {
         layoutManager.scrollToPositionWithOffset(firstPos, offsetTop)
     }
 
+    /**
+     * Prepare layout and adapters for addItemDialog to decrease loading time
+     */
     @SuppressLint("InflateParams")
     fun preloadAddItemDialog(mylayoutInflater: LayoutInflater) {
 
@@ -362,7 +377,7 @@ class ShoppingFr : Fragment() {
         etItemAmount.setText("1")
 
         etItemAmount.setOnFocusChangeListener { _, hasFocus ->
-            if(hasFocus){
+            if (hasFocus) {
                 etItemAmount.setText("")
             }
         }
@@ -487,6 +502,9 @@ class ShoppingFr : Fragment() {
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
     }
 
+    /**
+     * Reset and open addItemDialog
+     */
     fun openAddItemDialog() {
         MainActivity.addItemDialogView!!.actvItem.setText("")
         MainActivity.addItemDialogView!!.spItemUnit.setSelection(0)
@@ -497,10 +515,12 @@ class ShoppingFr : Fragment() {
 
 }
 
+/**
+ * Adapter for categories
+ */
 class ShoppingListAdapter :
     RecyclerView.Adapter<ShoppingListAdapter.CategoryViewHolder>() {
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val density = MainActivity.act.resources.displayMetrics.density
     private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -513,7 +533,7 @@ class ShoppingListAdapter :
 
         if (position == ShoppingFr.shoppingListInstance.size) {
             val density = MainActivity.act.resources.displayMetrics.density
-            holder.itemView.layoutParams.height = (100*density).toInt()
+            holder.itemView.layoutParams.height = (100 * density).toInt()
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.subRecyclerView.visibility = View.GONE
             holder.itemView.setOnClickListener {}
@@ -606,6 +626,9 @@ class ShoppingListAdapter :
         }
     }
 
+    /**
+     * manages background for category depending on its checkedState and category
+     */
     fun manageCheckedCategory(
         holder: CategoryViewHolder, allChecked: Boolean,
         numberOfItems: Int, tag: String
@@ -657,7 +680,7 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, gradientPair.first)
                 )
             )
-            if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+            if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
             holder.cvCategory.background = myGradientDrawable
 
             holder.tvCategoryName.setTextColor(colorOnBackground)
@@ -673,7 +696,7 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, R.color.colorgray)
                 )
             )
-            if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+            if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
             holder.cvCategory.background = myGradientDrawable
             holder.tvCategoryName.setTextColor(colorHint)
             holder.tvNumberOfItems.setTextColor(colorHint)
@@ -682,6 +705,9 @@ class ShoppingListAdapter :
         }
     }
 
+    /**
+     * Returns amount of categories + 1 (List buffer item)
+     */
     override fun getItemCount() = ShoppingFr.shoppingListInstance.size + 1
 
     /**
@@ -697,6 +723,9 @@ class ShoppingListAdapter :
     }
 }
 
+/**
+ * Adapter for items in the sublists
+ */
 class SublistAdapter(
     private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
@@ -729,13 +758,6 @@ class SublistAdapter(
             R.string.shoppingItemTitle, item.amount, item.unit, item.name
         )
 
-//        holder.itemView.cvBackground.setBackgroundColor(
-//            ContextCompat.getColor(
-//                MainActivity.act,
-//                R.color.colorBackground
-//            )
-//        )
-
         val myGradientDrawable = GradientDrawable(
             GradientDrawable.Orientation.TL_BR,
             intArrayOf(
@@ -743,7 +765,7 @@ class SublistAdapter(
                 ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
             )
         )
-        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+        if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
         holder.itemView.background = myGradientDrawable
 
         //initialize if text is gray and strike through flag is set
@@ -757,10 +779,7 @@ class SublistAdapter(
                 .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
         }
 
-
-        /*
-        Onclick listener for checkbox
-         */
+        //Onclick Listener for checkBox
         holder.itemView.clItemTapfield.setOnClickListener {
             val newPosition = ShoppingFr.shoppingListInstance.flipItemCheckedState(
                 tag,
@@ -822,6 +841,9 @@ class SublistAdapter(
     }
 }
 
+/**
+ * ItemTouchHelper to support swipe to delete of shopping items
+ */
 class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, direction) {
     override fun onMove(
         recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target:
