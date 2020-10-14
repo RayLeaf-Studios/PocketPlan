@@ -154,6 +154,12 @@
         <item quantity="few">дней</item>
         <item quantity="many">дней</item>
     </plurals>
+
+    <plurals name="dayIn">
+        <item quantity="one">день</item>
+        <item quantity="few">дней</item>
+        <item quantity="many">дней</item>
+    </plurals>
     <string name="birthdayOldBornIn">", год рождения "</string>
     <string name="contentDescriptionSun">Солнца</string>
     <string name="backup">Резервная копия</string>

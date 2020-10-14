@@ -239,6 +239,15 @@
         <item quantity="one">Tag</item>
         <item quantity="other">Tage</item>
     </plurals>
+
+    <plurals name="dayIn">
+        <item quantity="one">Tag</item>
+        <item quantity="other">Tagen</item>
+    </plurals>
+
     <string name="settingsHelp">Hilfe</string>
+    <string name="birthdayToday">heute</string>
+    <string name="birthdayTomorrow">morgen</string>
+    <string name="birthdayIn">in</string>
 
 </resources>

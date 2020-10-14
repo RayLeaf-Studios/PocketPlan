@@ -173,6 +173,9 @@
     <string name="howtoSleep">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>
     <string name="howtoHome">If the sleepreminder is enabled, an indicator at the top will tell you how much time you got, until you should go to sleep. The task panel below will display tasks of priority one. Below that, the birthday panel will display current birthdays</string>
     <string name="settingsHelp">Help</string>
+    <string name="birthdayToday">today</string>
+    <string name="birthdayTomorrow">tomorrow</string>
+    <string name="birthdayIn">in</string>
 
 
     <!-- Arrays -->
@@ -293,6 +296,11 @@
     <plurals name="year">
         <item quantity="one">year</item>
         <item quantity="other">years</item>
+    </plurals>
+
+    <plurals name="dayIn">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
     </plurals>
 
     <plurals name="day">

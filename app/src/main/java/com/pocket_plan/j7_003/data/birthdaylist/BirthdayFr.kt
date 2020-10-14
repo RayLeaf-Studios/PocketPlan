@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
@@ -937,7 +936,6 @@ class BirthdayAdapter :
             holder.itemView.tvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
 
-
             if (currentBirthday.daysToRemind == -200) {
                 //YEAR
                 holder.itemView.layoutParams.height = (70*density).toInt()
@@ -1093,18 +1091,32 @@ class BirthdayAdapter :
 
         //Display name and date
         holder.tvRowBirthdayDate.text = dateString
-        holder.tvRowBirthdayName.text = currentBirthday.name
+        val daysUntilString = when(currentBirthday.daysUntil()){
+            0 -> MainActivity.act.resources.getString(R.string.birthdayToday)
+            1 -> MainActivity.act.resources.getString(R.string.birthdayTomorrow)
+            else -> if(currentBirthday.daysUntil()<30){
+                MainActivity.act.resources.getString(R.string.birthdayIn) + " " + currentBirthday.daysUntil().toString() + " " + MainActivity.act.resources.getQuantityString(R.plurals.dayIn, currentBirthday.daysUntil())
+            } else{
+                ""
+            }
+        }
+        holder.tvRowBirthdayName.text = currentBirthday.name +" "+ daysUntilString
 
 
         //todo figure a way out to display this in another way, blue under blue month label => low contrast
         //maybe animation?
-        // Blue background if birthday is today
 
+
+        //set icon / text color to blue if birthday is today, to pink if its daysToRemind < days.Until, to white otherwise
         val today = LocalDate.now()
         if(holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue){
-           holder.tvRowBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
-           holder.tvRowBirthdayName.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
-           holder.iconBell.setColorFilter(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
+           holder.tvRowBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorSnacksL))
+           holder.tvRowBirthdayName.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorSnacksL))
+           holder.iconBell.setColorFilter(ContextCompat.getColor(MainActivity.act, R.color.colorSnacksL))
+        }else if(holder.birthday.daysToRemind > 0 && holder.birthday.daysUntil() <= holder.birthday.daysToRemind){
+            holder.tvRowBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
+            holder.tvRowBirthdayName.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
+            holder.iconBell.setColorFilter(ContextCompat.getColor(MainActivity.act, R.color.colorTiefkühlL))
         }else{
             holder.tvRowBirthdayDate.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
             holder.tvRowBirthdayName.setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))

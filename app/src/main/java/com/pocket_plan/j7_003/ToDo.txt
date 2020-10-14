@@ -11,11 +11,9 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
+    - birthday onBindViewHolder being called twice?!?!
     - make light theme
     - fix shake animation hitbox in shopping
-
-    - Birthdays "in ... days" ?
-    - mark birthdays that are upcoming^^
 
 
 
