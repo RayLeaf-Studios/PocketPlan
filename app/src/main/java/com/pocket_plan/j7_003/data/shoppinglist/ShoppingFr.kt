@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -634,45 +635,32 @@ class ShoppingListAdapter :
         numberOfItems: Int, tag: String
     ) {
         if (!allChecked) {
+            //get onBackGroundColor resolved
             val colorOnBackground = ContextCompat
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
+
+            //get pair of color ids for right categories
             val gradientPair: Pair<Int, Int> = when (tag) {
                 "So" -> Pair(R.color.colorSonstiges, R.color.colorSonstigesL)
                 "Ob" -> Pair(R.color.colorObstundGemüse, R.color.colorObstundGemüseL)
                 "Gt" -> Pair(R.color.colorGetränke, R.color.colorGetränkeL)
-                "Nu" -> Pair(
-                    R.color.colorNudelnundGetreide,
-                    R.color.colorNudelnundGetreideL
-                )
+                "Nu" -> Pair(R.color.colorNudelnundGetreide, R.color.colorNudelnundGetreideL)
                 "Bw" -> Pair(R.color.colorBackwaren, R.color.colorBackwarenL)
                 "Km" -> Pair(R.color.colorKühlregalMilch, R.color.colorKühlregalMilchL)
-                "Kf" -> Pair(
-                    R.color.colorKühlregalFleisch,
-                    R.color.colorKühlregalFleischL
-                )
+                "Kf" -> Pair(R.color.colorKühlregalFleisch, R.color.colorKühlregalFleischL)
                 "Tk" -> Pair(R.color.colorTiefkühl, R.color.colorTiefkühlL)
-                "Ko" -> Pair(
-                    R.color.colorKonservenFertiges,
-                    R.color.colorKonservenFertigesL
-                )
+                "Ko" -> Pair(R.color.colorKonservenFertiges,R.color.colorKonservenFertigesL)
                 "Fr" -> Pair(R.color.colorFrühstückL, R.color.colorFrühstück)
-                "Gw" -> Pair(
-                    R.color.colorGewürzeBackzutaten,
-                    R.color.colorGewürzeBackzutatenL
-                )
+                "Gw" -> Pair(R.color.colorGewürzeBackzutaten, R.color.colorGewürzeBackzutatenL)
                 "Ha" -> Pair(R.color.colorHaushalt, R.color.colorHaushaltL)
                 "Sn" -> Pair(R.color.colorSnacks, R.color.colorSnacksL)
                 "Bz" -> Pair(R.color.colorBackzutaten, R.color.colorBackzutatenL)
-                "Dr" -> Pair(
-                    R.color.colorDrogerieKosmetik,
-                    R.color.colorDrogerieKosmetikL
-                )
-                "Al" -> Pair(
-                    R.color.colorAlkoholTabak,
-                    R.color.colorAlkoholTabakL
-                )
+                "Dr" -> Pair(R.color.colorDrogerieKosmetik, R.color.colorDrogerieKosmetikL)
+                "Al" -> Pair(R.color.colorAlkoholTabak, R.color.colorAlkoholTabakL)
                 else -> Pair(R.color.colorBackgroundElevated, R.color.colorBackgroundElevated)
             }
+
+            //create gradient drawable as category background from color pair
             val myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
@@ -680,15 +668,27 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, gradientPair.first)
                 )
             )
+
+            //round corners if setting says so
             if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
+
+            //set category background
             holder.cvCategory.background = myGradientDrawable
 
+            //set text colors to white
             holder.tvCategoryName.setTextColor(colorOnBackground)
             holder.tvNumberOfItems.setTextColor(colorOnBackground)
+
+            //display number of unchecked items
             holder.tvNumberOfItems.text = numberOfItems.toString()
+
+            //hide checkMark
             holder.itemView.ivCheckMark.visibility = View.GONE
         } else {
+            //get hint color
             val colorHint = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
+
+            //create gradient drawable for checked category background
             val myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
@@ -696,11 +696,20 @@ class ShoppingListAdapter :
                     ContextCompat.getColor(MainActivity.act, R.color.colorgray)
                 )
             )
+
+            //round corners if setting says so
             if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
+
+            //set background for checked category
             holder.cvCategory.background = myGradientDrawable
+
+            //hint text color for checked category
             holder.tvCategoryName.setTextColor(colorHint)
-            holder.tvNumberOfItems.setTextColor(colorHint)
+
+            //clear text displaying number of items
             holder.tvNumberOfItems.text = ""
+
+            //show checkMark
             holder.itemView.ivCheckMark.visibility = View.VISIBLE
         }
     }
@@ -730,9 +739,13 @@ class SublistAdapter(
     private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
 
+    //boolean stating if design is round or not
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+
+    //corner radius of items
     private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
+    //setting if checked sublists should be moved below unchecked sublists
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
@@ -758,6 +771,7 @@ class SublistAdapter(
             R.string.shoppingItemTitle, item.amount, item.unit, item.name
         )
 
+        //background drawable for item
         val myGradientDrawable = GradientDrawable(
             GradientDrawable.Orientation.TL_BR,
             intArrayOf(
@@ -765,7 +779,11 @@ class SublistAdapter(
                 ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
             )
         )
+
+        //round corners if setting says so
         if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
+
+        //set background of item
         holder.itemView.background = myGradientDrawable
 
         //initialize if text is gray and strike through flag is set
@@ -774,6 +792,7 @@ class SublistAdapter(
             holder.itemView.tvItemTitle
                 .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
         } else {
+            //white and no strike through otherwise
             holder.itemView.tvItemTitle.paintFlags = 0
             holder.itemView.tvItemTitle
                 .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
@@ -781,11 +800,14 @@ class SublistAdapter(
 
         //Onclick Listener for checkBox
         holder.itemView.clItemTapfield.setOnClickListener {
+
+            //flip checkedState of item and save new position (flipItemCheckedState sorts list and returns new position)
             val newPosition = ShoppingFr.shoppingListInstance.flipItemCheckedState(
                 tag,
                 holder.adapterPosition
             )
 
+            //get number of uncheckedItems in current sublist
             val numberOfItems = ShoppingFr.shoppingListInstance.getUncheckedSize(holder.tag)
 
             //If all are checked after the current item got flipped, the list has to go from color to gray
@@ -796,6 +818,8 @@ class SublistAdapter(
                 holder.tag
             )
 
+            //If setting says to collapse checked sublists, and current sublist is fully checked,
+            //collapse it and notify item change
             if (ShoppingFr.collapseCheckedSublists && ShoppingFr.shoppingListInstance.areAllChecked(
                     holder.tag
                 )
@@ -805,6 +829,8 @@ class SublistAdapter(
             }
 
             notifyItemChanged(holder.adapterPosition)
+
+
             if (newPosition > -1) {
                 notifyItemMoved(holder.adapterPosition, newPosition)
             } else {
@@ -853,10 +879,18 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        //position of item in sublist
         val position = viewHolder.adapterPosition
+
+        //ViewHolder as ItemViewHolder
         val parsed = viewHolder as SublistAdapter.ItemViewHolder
+
+        //position of category in shoppingList
         val tagPosition = ShoppingFr.shoppingListInstance.getTagIndex(parsed.tag)
+
+        //Pair of deleted item and boolean stating if sublist is empty now
         val removeInfo = ShoppingFr.shoppingListInstance.removeItem(parsed.tag, position)
+
         if (removeInfo.second) {
             //entire sublist is empty => remove sublist
             ShoppingFr.myAdapter
@@ -864,8 +898,10 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
         } else {
             //sublist changed length =>
             ShoppingFr.myAdapter.notifyItemChanged(tagPosition)
+
             //check if sublist moved
             val positions = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(parsed.tag)
+
             if (positions != null) {
                 //sublist did move => animate movement
                 ShoppingFr.myFragment.prepareForMove()
@@ -875,7 +911,11 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
                 ShoppingFr.myFragment.reactToMove()
             }
         }
+
+        //cache deleted item to allow undo
         ShoppingFr.deletedItem = removeInfo.first
+
+        //update options menu
         ShoppingFr.myFragment.updateShoppingMenu()
 
     }
