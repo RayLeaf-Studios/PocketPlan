@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -306,13 +307,13 @@ class ShoppingFr : Fragment() {
 
         //Initialize spinner and its adapter to choose its Unit
         val mySpinner = MainActivity.addItemDialogView!!.spItemUnit
-        val myAdapter = ArrayAdapter<String>(
+        val unitAdapter = ArrayAdapter<String>(
             MainActivity.act, android.R.layout.simple_list_item_1,
             MainActivity.act.resources.getStringArray(R.array.units)
         )
 
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mySpinner.adapter = myAdapter
+        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner.adapter = unitAdapter
 
 
         //initialize autocompleteTextView and its adapter
@@ -596,6 +597,13 @@ class ShoppingListAdapter :
         holder.subRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
         holder.subRecyclerView.setHasFixedSize(true)
 
+        holder.subRecyclerView.setOnLongClickListener {
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+            holder.itemView.startAnimation(animationShake)
+            true
+        }
+
         //Initialize and attach swipe helpers
         val swipeHelperLeft = ItemTouchHelper(SwipeItemToDelete(ItemTouchHelper.LEFT))
         swipeHelperLeft.attachToRecyclerView(holder.subRecyclerView)
@@ -623,6 +631,14 @@ class ShoppingListAdapter :
             notifyItemChanged(holder.adapterPosition)
             ShoppingFr.myFragment.updateExpandAllIcon()
             ShoppingFr.myFragment.updateCollapseAllIcon()
+        }
+
+        //long click listener on clTapExpand to ensure shake animation for long click on whole category holder
+        holder.itemView.clTapExpand.setOnLongClickListener {
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+            holder.itemView.startAnimation(animationShake)
+            true
         }
     }
 
@@ -716,7 +732,10 @@ class ShoppingListAdapter :
     /**
      * Returns amount of categories + 1 (List buffer item)
      */
-    override fun getItemCount() = ShoppingFr.shoppingListInstance.size + 1
+    override fun getItemCount(): Int{
+        Log.e("listInstanceSize + 1 ",(ShoppingFr.shoppingListInstance.size + 1).toString())
+        return ShoppingFr.shoppingListInstance.size + 1
+    }
 
     /**
      * one instance of this class will contain one instance of row_category and meta data like
@@ -755,6 +774,13 @@ class SublistAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        //longClickListener on item to ensure shake animation for category
+        holder.itemView.setOnLongClickListener {
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+            parentHolder.itemView.startAnimation(animationShake)
+            true
+        }
 
         //get shopping item
         val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
@@ -850,6 +876,13 @@ class SublistAdapter(
 
             }
             ShoppingFr.myFragment.updateShoppingMenu()
+        }
+
+        holder.itemView.clItemTapfield.setOnLongClickListener {
+            val animationShake =
+                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+            parentHolder.itemView.startAnimation(animationShake)
+            true
         }
     }
 
