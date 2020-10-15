@@ -380,16 +380,6 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.frame_layout, fragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
-
-        //refresh recycler adapters
-        when (fragmentTag) {
-            FT.BIRTHDAYS -> BirthdayFr.myAdapter.notifyDataSetChanged()
-            FT.NOTES -> NoteFr.myAdapter.notifyDataSetChanged()
-            FT.SHOPPING -> ShoppingFr.myAdapter.notifyDataSetChanged()
-            FT.SLEEP -> SleepFr.myAdapter.notifyDataSetChanged()
-            FT.TASKS -> TodoFr.myAdapter.notifyDataSetChanged()
-            else -> { /* no-op */ }
-        }
     }
 
     /**

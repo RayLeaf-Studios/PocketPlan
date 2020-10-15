@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
