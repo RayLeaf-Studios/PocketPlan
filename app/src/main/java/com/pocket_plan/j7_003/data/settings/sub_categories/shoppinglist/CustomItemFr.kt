@@ -1,14 +1,18 @@
 package com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
@@ -108,6 +112,9 @@ class SwipeToDeleteCustomItem(direction: Int,  val adapter: CustomItemAdapter): 
 class CustomItemAdapter :
     RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>(){
 
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+
     override fun getItemCount() = CustomItemFr.userItemTemplateList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomItemViewHolder {
@@ -120,11 +127,23 @@ class CustomItemAdapter :
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: CustomItemViewHolder, position: Int) {
 
+        val myGradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.TL_BR,
+            intArrayOf(
+                ContextCompat.getColor(MainActivity.act, R.color.colorgray),
+                ContextCompat.getColor(MainActivity.act, R.color.colorgray)
+            )
+        )
+
+        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+        holder.itemView.background = myGradientDrawable
+
         val currentItem = CustomItemFr.userItemTemplateList[holder.adapterPosition]
 
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentItem.n
-        holder.itemView.tvCategory.text = currentItem.c
+        val id = MainActivity.act.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
+        holder.itemView.tvCategory.text = MainActivity.act.resources.getStringArray(R.array.categoryNames)[id]
     }
 
     class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView)
