@@ -153,7 +153,7 @@ class NoteEditorFr : Fragment() {
     }
 
     @SuppressLint("InflateParams")
-    fun dialogDiscardNoteChanges() {
+    fun dialogDiscardNoteChanges(fragmentTag: FT = FT.EMPTY) {
 
         if (dialogOpened) {
             return
@@ -180,16 +180,22 @@ class NoteEditorFr : Fragment() {
         }
 
         myDialogView.btnDiscardChanges.setOnClickListener {
+            if (fragmentTag != MainActivity.previousFragmentStack.pop() && fragmentTag != FT.EMPTY) {
+                MainActivity.previousFragmentStack.push(fragmentTag)
+            }
+
             dialogOpened = false
             myAlertDialog?.dismiss()
-            MainActivity.previousFragmentStack.pop()
             MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
         }
         myDialogView.btnSaveChanges.setOnClickListener {
+            if (fragmentTag != MainActivity.previousFragmentStack.pop() && fragmentTag != FT.EMPTY) {
+                MainActivity.previousFragmentStack.push(fragmentTag)
+            }
+
             manageNoteConfirm()
             dialogOpened = false
             myAlertDialog?.dismiss()
-            MainActivity.previousFragmentStack.pop()
             MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
         }
     }

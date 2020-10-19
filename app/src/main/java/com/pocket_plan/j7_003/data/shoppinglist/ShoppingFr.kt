@@ -733,7 +733,6 @@ class ShoppingListAdapter :
      * Returns amount of categories + 1 (List buffer item)
      */
     override fun getItemCount(): Int{
-        Log.e("listInstanceSize + 1 ",(ShoppingFr.shoppingListInstance.size + 1).toString())
         return ShoppingFr.shoppingListInstance.size + 1
     }
 

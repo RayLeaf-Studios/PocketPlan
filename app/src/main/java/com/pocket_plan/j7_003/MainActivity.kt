@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -284,7 +285,7 @@ class MainActivity : AppCompatActivity() {
         //dialog and return
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
             if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                NoteEditorFr.myFragment.dialogDiscardNoteChanges()
+                NoteEditorFr.myFragment.dialogDiscardNoteChanges(fragmentTag)
                 return
             }
         }
