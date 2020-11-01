@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<!--    <color name="colorBackground">#FFFFFF</color>-->
+<!--    <color name="colorBackgroundElevated">#E4E3E3</color>-->
+
+<!--&lt;!&ndash;    <color name="colorOnBackGround">#FFFFFF</color>&ndash;&gt;-->
+<!--    <color name="colorOnBackGround">#434343</color>-->
+<!--    <color name="colorHint">#757272</color>-->
+
+<!--    <color name="colorPrimary">#1C1C1C</color>-->
+<!--    <color name="colorPrimaryLight">#353535</color>-->
+<!--    <color name="colorPrimaryDark">#000000</color>-->
+
+<!--    <color name="colorgray">#B3B1B1</color>-->
+<!--    <color name="colorgrayL">#A6A6A6</color>-->
+
+<!--    <color name="colorAccent">#42A5F5</color>-->
+
+<!--    <color name="colorPriority1">#F67C7C</color>-->
+<!--    <color name="colorPriority1light">#F48F8F</color>-->
+<!--    <color name="colorPriority2">#F6C070</color>-->
+<!--    <color name="colorPriority2light">#FFCC80</color>-->
+<!--    <color name="colorPriority3">#96D599</color>-->
+<!--    <color name="colorPriority3light">#A5D6A7</color>-->
+
+<!--    <color name="colorNoteRed">#E180A0</color>-->
+<!--    <color name="colorNoteYellow">#F4D674</color>-->
+<!--    <color name="colorNoteGreen">#88C38B</color>-->
+<!--    <color name="colorNoteBlue">#89BCE4</color>-->
+<!--    <color name="colorNotePurple">#A586D8</color>-->
+
+<!--    <color name="colorBackgroundListElement">#DDDBDB</color>-->
+<!--    <color name="colorGoToSleep">#CC212F</color>-->
+
+<!--    <color name="colorBirthdayNotify">#1976D2</color>-->
+
+
+
+
+
+
+
+
+
+
     <color name="colorBackground">#121212</color>
     <color name="colorBackgroundElevated">#1C1C1C</color>
 
@@ -32,6 +75,8 @@
     <color name="colorGoToSleep">#CC212F</color>
 
     <color name="colorBirthdayNotify">#1976D2</color>
+
+    <color name="colorCategory">#FFFFFF</color>
 
     <color name="colorMonth1">#024B98</color>
     <color name="colorMonth2">#1584C1</color>

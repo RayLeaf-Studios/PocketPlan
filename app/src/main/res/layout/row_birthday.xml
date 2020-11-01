@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="13dp"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="@color/colorCategory"
             android:textSize="@dimen/font_size_big"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

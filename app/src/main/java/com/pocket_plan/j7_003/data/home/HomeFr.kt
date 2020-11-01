@@ -114,6 +114,7 @@ class HomeFr : Fragment() {
     }
 
     override fun onResume() {
+        updateWakeTimePanel()
         updateTaskPanel(true)
         super.onResume()
     }

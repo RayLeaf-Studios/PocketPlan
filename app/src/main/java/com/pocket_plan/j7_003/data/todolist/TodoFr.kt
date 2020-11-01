@@ -156,8 +156,15 @@ class TodoFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
+
+                    if(viewHolder.adapterPosition== todoListInstance.size){
+                        return
+                    }
+
                     //indicate the current move is over
                     moving = false
+
+
 
                     //don't refresh or change anything when the position wasn't changed
                     if (viewHolder.adapterPosition == lastMovePos) return
@@ -227,6 +234,9 @@ class TodoFr : Fragment() {
                 ): Boolean {
 
                     val fromPos = viewHolder.adapterPosition
+                    if(fromPos== todoListInstance.size){
+                        return true
+                    }
 
                     var toPos = target.adapterPosition
 
@@ -401,8 +411,10 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         adapter.deleteItem(position)
+        adapter.notifyDataSetChanged()
         TodoFr.myFragment.updateTodoIcons()
     }
+
 }
 
 class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {

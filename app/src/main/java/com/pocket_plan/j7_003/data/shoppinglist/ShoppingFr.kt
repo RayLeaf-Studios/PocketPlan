@@ -154,6 +154,12 @@ class ShoppingFr : Fragment() {
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
                     val fromPos = viewHolder.adapterPosition
+
+                    if(fromPos==shoppingListInstance.size){
+                        return true
+                    }
+
+
                     var toPos = target.adapterPosition
 
                     if (toPos == shoppingListInstance.size) toPos--
@@ -654,6 +660,9 @@ class ShoppingListAdapter :
             val colorOnBackground = ContextCompat
                 .getColor(MainActivity.act, R.color.colorOnBackGround)
 
+            val colorCategory = ContextCompat
+                .getColor(MainActivity.act, R.color.colorCategory)
+
             //get pair of color ids for right categories
             val gradientPair: Pair<Int, Int> = when (tag) {
                 "So" -> Pair(R.color.colorSonstiges, R.color.colorSonstigesL)
@@ -691,7 +700,7 @@ class ShoppingListAdapter :
             holder.cvCategory.background = myGradientDrawable
 
             //set text colors to white
-            holder.tvCategoryName.setTextColor(colorOnBackground)
+            holder.tvCategoryName.setTextColor(colorCategory)
             holder.tvNumberOfItems.setTextColor(colorOnBackground)
 
             //display number of unchecked items

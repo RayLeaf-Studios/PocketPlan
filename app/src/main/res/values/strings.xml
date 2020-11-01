@@ -176,6 +176,8 @@
     <string name="birthdayToday">today</string>
     <string name="birthdayTomorrow">tomorrow</string>
     <string name="birthdayIn">in</string>
+    <string name="aboutTesterNames">Shaika, Elias</string>
+    <string name="aboutTesterDescription">Pre-Alpha Test</string>
 
 
     <!-- Arrays -->

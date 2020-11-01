@@ -124,7 +124,7 @@
     <string name="setting_title_shapes">Formen</string>
     <string name="setting_title_theme">Farbschema</string>
     <string name="customOptionClearItems">Benutzerdef. Items löschen</string>
-    <string name="settings_delete_dialog_title">Löschdialog mit Sicherheits-Slider</string>
+    <string name="settings_delete_dialog_title">Löschdialog mit Bestätigungs-Slider</string>
     <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
     <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
     <string name="titleRestoreSettings">Alle Einstellungen zurücksetzen?</string>
@@ -249,5 +249,7 @@
     <string name="birthdayToday">heute</string>
     <string name="birthdayTomorrow">morgen</string>
     <string name="birthdayIn">in</string>
+    <string name="aboutTesterNames">Shaika, Elias</string>
+    <string name="aboutTesterDescription">Pre-Alpha Test</string>
 
 </resources>

@@ -960,11 +960,7 @@ class BirthdayAdapter :
 
             } else {
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                if(position==0){
-                    params.setMargins(marginSide, marginSide, marginSide, (2*density).toInt())
-                }else{
-                    params.setMargins(marginSide, marginSide, marginSide, (2*density).toInt())
-                }
+                params.setMargins(marginSide, marginSide, marginSide, (2*density).toInt())
 
                 //MONTH
                 holder.tvRowBirthdayDivider.textSize = 20f
@@ -972,7 +968,7 @@ class BirthdayAdapter :
                 holder.tvRowBirthdayDivider.setTextColor(
                     ContextCompat.getColor(
                         MainActivity.act,
-                        R.color.colorOnBackGround
+                        R.color.colorCategory
                     )
                 )
 
@@ -1025,6 +1021,10 @@ class BirthdayAdapter :
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
         if(BirthdayFr.searching){
+            if(round){
+                myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+            }
+
             if(position==0){
                 params.setMargins(marginSide, marginSide, marginSide, (density*10).toInt())
             }
@@ -1035,6 +1035,7 @@ class BirthdayAdapter :
         else{
             params.setMargins(marginSide, (density*1).toInt(), marginSide, (density*1).toInt())
             if(round){
+                //if its the last birthday in list, or the following birthday is a monthDivider (daysToRemind < 0) bottom corners become round
                 if((holder.adapterPosition==BirthdayFr.birthdayListInstance.size-1)||(BirthdayFr.birthdayListInstance[holder.adapterPosition+1].daysToRemind<0)){
                     myGradientDrawable.cornerRadii = floatArrayOf(0f,0f,0f,0f,cr,cr,cr,cr)
                 }

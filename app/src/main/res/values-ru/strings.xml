@@ -207,4 +207,5 @@
     <string name="birthdayNotificationSingleUpcText">Через %2$d дней будить %1$s день рождения!</string>
     <string name="birthdayNotificationMultUpcText">Скоро будут %1$d дни рождения!</string>
     <string name="birthdaysNoReminder">\nНет напоминание\n</string>
+    <string name="aboutTesterNames">Shaika, Elias</string>
 </resources>
