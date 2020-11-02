@@ -12,18 +12,12 @@ Back-End stuff before release:
 Front-End stuff to-do before release in following order:
 
     - make light theme
-    - onclick animations for home buttons
-    - delay longpress shake anim
-    - fix shake animation hitbox in shopping
-    - updating waketext should always update its color
-    - grey background for checked shopping items
 
 
 
 
 Add after release:
     - write custom bottom navigationbar
-
     - let user pick custom note color?
     - Front-End / Back-End ? option to change language
     - Add more languages

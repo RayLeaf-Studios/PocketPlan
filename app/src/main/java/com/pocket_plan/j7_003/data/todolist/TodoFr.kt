@@ -475,7 +475,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                     color.colorHint
                 )
             )
-            gradientPair = Pair(color.colorgray, color.colorgrayL)
+            gradientPair = Pair(color.colorGray, color.colorGrayL)
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0

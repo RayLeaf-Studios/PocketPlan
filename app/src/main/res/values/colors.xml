@@ -53,8 +53,9 @@
     <color name="colorPrimaryLight">#353535</color>
     <color name="colorPrimaryDark">#000000</color>
 
-    <color name="colorgray">#1C1C1C</color>
-    <color name="colorgrayL">#1C1C1C</color>
+    <color name="colorGray">#1C1C1C</color>
+    <color name="colorGrayL">#1C1C1C</color>
+    <color name="colorGrayD">#2B2A2A</color>
 
     <color name="colorAccent">#0652A5</color>
 

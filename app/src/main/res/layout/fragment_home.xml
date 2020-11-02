@@ -112,6 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:padding="10dp"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/clAddTask"
         app:layout_constraintEnd_toStartOf="@+id/clAddTask"
         app:layout_constraintHorizontal_bias="0.5"
@@ -145,6 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
+        android:background="?attr/selectableItemBackground"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/clAddItem"
@@ -180,6 +182,7 @@
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/clAddTask"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/clAddTask"
         app:layout_constraintTop_toTopOf="@+id/clAddTask">

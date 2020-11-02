@@ -7,7 +7,6 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -716,8 +715,8 @@ class ShoppingListAdapter :
             val myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    ContextCompat.getColor(MainActivity.act, R.color.colorgrayL),
-                    ContextCompat.getColor(MainActivity.act, R.color.colorgray)
+                    ContextCompat.getColor(MainActivity.act, R.color.colorGrayL),
+                    ContextCompat.getColor(MainActivity.act, R.color.colorGray)
                 )
             )
 
@@ -805,13 +804,36 @@ class SublistAdapter(
         )
 
         //background drawable for item
-        val myGradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TL_BR,
-            intArrayOf(
-                ContextCompat.getColor(MainActivity.act, R.color.colorBackground),
-                ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
+        val myGradientDrawable: GradientDrawable
+
+        //initialize if text is gray and strike through flag is set
+        if (item.checked) {
+            holder.itemView.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            holder.itemView.tvItemTitle
+                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+
+            myGradientDrawable = GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                intArrayOf(
+                    ContextCompat.getColor(MainActivity.act, R.color.colorGrayD),
+                    ContextCompat.getColor(MainActivity.act, R.color.colorGrayD)
+                )
             )
-        )
+
+        } else {
+            //white and no strike through otherwise
+            holder.itemView.tvItemTitle.paintFlags = 0
+            holder.itemView.tvItemTitle
+                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+            myGradientDrawable = GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                intArrayOf(
+                    ContextCompat.getColor(MainActivity.act, R.color.colorBackground),
+                    ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
+                )
+            )
+
+        }
 
         //round corners if setting says so
         if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
@@ -819,17 +841,6 @@ class SublistAdapter(
         //set background of item
         holder.itemView.background = myGradientDrawable
 
-        //initialize if text is gray and strike through flag is set
-        if (item.checked) {
-            holder.itemView.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.itemView.tvItemTitle
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
-        } else {
-            //white and no strike through otherwise
-            holder.itemView.tvItemTitle.paintFlags = 0
-            holder.itemView.tvItemTitle
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
-        }
 
         //Onclick Listener for checkBox
         holder.itemView.clItemTapfield.setOnClickListener {
