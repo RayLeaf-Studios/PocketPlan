@@ -28,6 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivSpinner"
         android:textSize="@dimen/font_size_big"
+        android:textColor="?attr/colorOnBackGround"
         android:id="@+id/tvAppTitle"
         android:paddingTop="8dp"
         android:text="Pocket Plan" />
