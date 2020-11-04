@@ -470,32 +470,26 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.cbTask.isChecked = true
             holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvName.setTextColor(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    color.colorHint
-                )
+                MainActivity.act.colorForAttr(R.attr.colorHint)
             )
-            gradientPair = Pair(color.colorGray, color.colorGrayL)
+            gradientPair = Pair(attr.colorGray, attr.colorGrayL)
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
             holder.itemView.tvName.setTextColor(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    color.colorOnBackGround
-                )
+                MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
             )
             gradientPair = when (currentTask.priority) {
-                1 -> Pair(color.colorPriority1, color.colorPriority1light)
-                2 -> Pair(color.colorPriority2, color.colorPriority2light)
-                else -> Pair(color.colorPriority3, color.colorPriority3light)
+                1 -> Pair(attr.colorPriority1, attr.colorPriority1light)
+                2 -> Pair(attr.colorPriority2, attr.colorPriority2light)
+                else -> Pair(attr.colorPriority3, attr.colorPriority3light)
             }
         }
         val myGradientDrawable = GradientDrawable(
             GradientDrawable.Orientation.TL_BR,
             intArrayOf(
-                ContextCompat.getColor(MainActivity.act, gradientPair.second),
-                ContextCompat.getColor(MainActivity.act, gradientPair.first)
+                MainActivity.act.colorForAttr(gradientPair.second),
+                        MainActivity.act.colorForAttr(gradientPair.first)
             )
         )
         if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)

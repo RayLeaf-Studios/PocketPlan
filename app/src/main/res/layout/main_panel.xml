@@ -4,7 +4,7 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:id="@+id/drawer_layout"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     android:layout_height="match_parent">
 
     <include
@@ -48,10 +48,10 @@
             app:itemHorizontalTranslationEnabled="false"
             android:layout_height="wrap_content"
             android:id="@+id/btm_nav"
-            app:itemTextColor="@color/colorOnBackGround"
-            app:itemIconTint="@color/colorOnBackGround"
+            app:itemTextColor="?attr/colorOnBackGround"
+            app:itemIconTint="?attr/colorOnBackGround"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorBackgroundElevated"
+            android:background="?attr/colorBackgroundElevated"
             app:menu="@menu/menu_nav_bottom"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -59,8 +59,10 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_drawer"
-        android:background="@color/colorBackground"
+        android:background="?attr/colorBackground"
         android:layout_width="wrap_content"
+        app:itemTextColor="?attr/colorOnBackGround"
+        app:itemIconTint="?attr/colorOnBackGround"
         android:layout_height="match_parent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:menu="@menu/menu_nav_drawer"

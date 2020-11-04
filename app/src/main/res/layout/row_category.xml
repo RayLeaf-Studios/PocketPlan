@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:id="@+id/cvCategory"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/colorBackgroundElevated"
+    app:cardBackgroundColor="?attr/colorBackgroundElevated"
     android:layout_margin="10dp"
     android:padding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -14,7 +14,7 @@
 
 
         <TextView
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:layout_marginStart="10dp"
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="@id/tvNumberOfItems"
             app:layout_constraintBottom_toBottomOf="@id/tvNumberOfItems"
             android:src="@drawable/ic_check_mark"
-            app:tint="@color/colorHint">
+            app:tint="?attr/colorHint">
 
         </ImageView>
 
@@ -47,7 +47,7 @@
             android:padding="15dp"
             android:textStyle="bold"
             android:textSize="@dimen/font_size_medium"
-            android:textColor="@color/colorCategory"
+            android:textColor="?attr/colorCategory"
             app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfItems"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

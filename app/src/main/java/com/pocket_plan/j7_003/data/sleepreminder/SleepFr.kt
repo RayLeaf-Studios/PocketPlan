@@ -160,9 +160,13 @@ class SleepFr : Fragment() {
             )
             tpd.show()
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                .setTextColor(
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+)
             tpd.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                .setTextColor(
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+)
         }
 
         v.panelSleepDuration.setOnClickListener {
@@ -382,9 +386,13 @@ class SleepAdapter :
             )
             tpd.show()
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                .setTextColor(
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+)
             tpd.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                .setTextColor(
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+)
         }
     }
 

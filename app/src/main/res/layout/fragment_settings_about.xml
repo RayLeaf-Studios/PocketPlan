@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     >
 
     <ScrollView
@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutDevs"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvEstep"
                     android:text="@string/aboutEstepName"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutEstepDescription"
-                    android:textColor="@color/colorHint"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvEstep" />
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvJake"
                     android:text="@string/aboutJakeName"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutJakeDescription"
-                    android:textColor="@color/colorHint"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvJake" />
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutSup"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +124,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvKellai"
                     android:text="@string/aboutKellaiName"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutKellaiDescription"
-                    android:textColor="@color/colorHint"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvKellai" />
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvDori"
                     android:text="@string/aboutDoriName"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -160,7 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutDoriDescription"
-                    android:textColor="@color/colorHint"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvDori" />
@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvNigo"
                     android:text="@string/aboutLetsbeName"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -188,7 +188,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutLetsbeDescription"
-                    android:textColor="@color/colorHint"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvNigo" />
@@ -208,7 +208,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvLorenz"
                     android:text="@string/aboutTesterNames"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -216,7 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutTesterDescription"
-                    android:textColor="@color/colorHint"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvLorenz" />
@@ -236,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvSource"
                     android:text="@string/sourcecode"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvViewOn"
                     android:text="@string/view_on_github"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -266,7 +266,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/aboutSrcLink"
-                    android:textColor="@color/colorTiefkühlL"
+                    android:textColor="?attr/colorTiefkühlL"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvViewOn" />

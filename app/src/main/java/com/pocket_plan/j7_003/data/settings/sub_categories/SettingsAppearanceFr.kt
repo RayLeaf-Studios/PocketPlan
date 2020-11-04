@@ -78,8 +78,8 @@ class SettingsAppearanceFr : Fragment() {
 
     fun initializeDisplayValues() {
         val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME_DARK)){
-            true -> 1
-            else -> 0
+            true -> 0
+            else -> 1
         }
         spTheme.setSelection(spThemePosition)
 
@@ -103,8 +103,19 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                //dark is first position, light is second
-                SettingsManager.addSetting(SettingId.THEME_DARK, spTheme.selectedItemPosition==0)
+
+                //check if selected theme is dark theme (dark is position 0, light is 1)
+                val dark = spTheme.selectedItemPosition==0
+
+
+                SettingsManager.addSetting(SettingId.THEME_DARK, dark)
+
+                //apply new theme
+//                val themeToSet = when(dark){
+//                    true -> R.style.AppThemeDark
+//                    else -> R.style.AppThemeLight
+//                }
+//                MainActivity.act.setTheme(themeToSet)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

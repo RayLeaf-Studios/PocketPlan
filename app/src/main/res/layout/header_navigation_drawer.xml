@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="bottom"
-    android:background="@color/colorBackgroundElevated"
+    android:background="?attr/colorBackgroundElevated"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="23dp"
@@ -37,7 +37,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAppTitle"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorHint"
+        android:textColor="?attr/colorHint"
         android:textSize="@dimen/font_size_small"
         android:text="V Alpha 1.0" />
 

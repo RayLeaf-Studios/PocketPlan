@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/colorBackgroundListElement"
+        android:background="?attr/colorBackgroundListElement"
         android:padding="5dp"
         android:paddingStart="3dp"
         android:paddingEnd="3dp"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:textSize="@dimen/font_size_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTermItemDate" />
 
@@ -42,7 +42,7 @@
             android:id="@+id/tvTermItemTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:textSize="@dimen/font_size_medium"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideLineTermItem"
@@ -52,7 +52,7 @@
             android:id="@+id/tvTermItemInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             app:layout_constraintStart_toStartOf="@+id/guideLineTermItem"
             app:layout_constraintTop_toBottomOf="@+id/tvTermItemTitle" />
 

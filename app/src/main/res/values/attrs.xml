@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="colorBackground" format="color"/>
+
+    <attr name="colorBackgroundElevated" format="color"/>
+
+    <attr name="colorOnBackGround" format="color"/>
+    <attr name="colorOnBackGroundTask" format="color"/>
+    <attr name="colorHint" format="color"/>
+
+    <attr name="colorPrimary" format="color"/>
+    <attr name="colorPrimaryLight" format="color"/>
+    <attr name="colorPrimaryDark" format="color"/>
+
+    <attr name="colorGray" format="color"/>
+    <attr name="colorGrayL" format="color"/>
+    <attr name="colorGrayD" format="color"/>
+
+    <attr name="colorAccent" format="color"/>
+
+    <attr name="colorPriority1" format="color"/>
+    <attr name="colorPriority1light" format="color"/>
+    <attr name="colorPriority2" format="color"/>
+    <attr name="colorPriority2light" format="color"/>
+    <attr name="colorPriority3" format="color"/>
+    <attr name="colorPriority3light" format="color"/>
+
+    <attr name="colorNoteRed" format="color"/>
+    <attr name="colorNoteYellow" format="color"/>
+    <attr name="colorNoteGreen" format="color"/>
+    <attr name="colorNoteBlue" format="color"/>
+    <attr name="colorNotePurple" format="color"/>
+
+    <attr name="colorBackgroundListElement" format="color"/>
+    <attr name="colorGoToSleep" format="color"/>
+
+    <attr name="colorBirthdayNotify" format="color"/>
+
+    <attr name="colorCategory" format="color"/>
+
+    <attr name="colorMonth1" format="color"/>
+    <attr name="colorMonth2" format="color"/>
+    <attr name="colorMonth3" format="color"/>
+    <attr name="colorMonth4" format="color"/>
+    <attr name="colorMonth5" format="color"/>
+    <attr name="colorMonth6" format="color"/>
+    <attr name="colorMonth7" format="color"/>
+    <attr name="colorMonth8" format="color"/>
+    <attr name="colorMonth9" format="color"/>
+    <attr name="colorMonth10" format="color"/>
+    <attr name="colorMonth11" format="color"/>
+    <attr name="colorMonth12" format="color"/>
+
+    <attr name="colorSonstiges" format="color"/>
+    <attr name="colorSonstigesL" format="color"/>
+    <attr name="colorObstundGemüse" format="color"/>
+    <attr name="colorObstundGemüseL" format="color"/>
+    <attr name="colorGetränke" format="color"/>
+    <attr name="colorGetränkeL" format="color"/>
+    <attr name="colorNudelnundGetreide" format="color"/>
+    <attr name="colorNudelnundGetreideL" format="color"/>
+    <attr name="colorBackwaren" format="color"/>
+    <attr name="colorBackwarenL" format="color"/>
+    <attr name="colorKühlregalMilch" format="color"/>
+    <attr name="colorKühlregalMilchL" format="color"/>
+    <attr name="colorKühlregalFleisch" format="color"/>
+    <attr name="colorKühlregalFleischL" format="color"/>
+    <attr name="colorTiefkühl" format="color"/>
+    <attr name="colorTiefkühlL" format="color"/>
+    <attr name="colorKonservenFertiges" format="color"/>
+    <attr name="colorKonservenFertigesL" format="color"/>
+    <attr name="colorFrühstück" format="color"/>
+    <attr name="colorFrühstückL" format="color"/>
+    <attr name="colorGewürzeBackzutaten" format="color"/>
+    <attr name="colorGewürzeBackzutatenL" format="color"/>
+    <attr name="colorHaushalt" format="color"/>
+    <attr name="colorHaushaltL" format="color"/>
+    <attr name="colorKaffeeTee" format="color"/>
+    <attr name="colorKaffeeTeeL" format="color"/>
+    <attr name="colorSnacks" format="color"/>
+    <attr name="colorSnacksL" format="color"/>
+    <attr name="colorBackzutaten" format="color"/>
+    <attr name="colorBackzutatenL" format="color"/>
+    <attr name="colorDrogerieKosmetik" format="color"/>
+    <attr name="colorDrogerieKosmetikL" format="color"/>
+    <attr name="colorAlkoholTabak" format="color"/>
+    <attr name="colorAlkoholTabakL" format="color"/>
+
+
+
+</resources>

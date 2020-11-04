@@ -9,8 +9,8 @@
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/myNewToolbar"
         app:title="My Drawer App"
-        android:background="@color/colorBackgroundElevated"
-        app:titleTextColor="@color/colorOnBackGround"
+        android:background="?attr/colorBackgroundElevated"
+        app:titleTextColor="?attr/colorOnBackGround"
         android:elevation="6dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

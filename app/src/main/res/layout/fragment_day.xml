@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     android:layout_height="match_parent"
     android:padding="4dp"
     tools:context=".data.calendar.DayFr">
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mo 12.3"
-        android:textColor="@color/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGround"
         android:textSize="@dimen/font_size_big"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
     <TextView
         android:id="@+id/tvYear"
         android:textSize="@dimen/font_size_very_small"
-        android:textColor="@color/colorHint"
+        android:textColor="?attr/colorHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2020"

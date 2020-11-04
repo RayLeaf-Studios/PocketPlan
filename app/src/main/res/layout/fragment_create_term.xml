@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     android:padding="5dp">
 
     <EditText
@@ -16,8 +16,8 @@
         android:hint="Title"
         android:inputType="text"
         android:maxLength="40"
-        android:textColor="@color/colorOnBackGround"
-        android:textColorHint="@color/colorHint"
+        android:textColor="?attr/colorOnBackGround"
+        android:textColorHint="?attr/colorHint"
         android:textSize="@dimen/font_size_big"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,8 +34,8 @@
         android:hint="Additional Info (optional)"
         android:inputType="text"
         android:maxLength="40"
-        android:textColor="@color/colorOnBackGround"
-        android:textColorHint="@color/colorHint"
+        android:textColor="?attr/colorOnBackGround"
+        android:textColorHint="?attr/colorHint"
         android:textSize="@dimen/font_size_big"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:textSize="@dimen/font_size_big"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mo, 25.03.2020"
-            android:textColor="@color/colorHint"
+            android:textColor="?attr/colorHint"
             android:textSize="@dimen/font_size_medium"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start-Time"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:textSize="@dimen/font_size_big"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="17:00"
-            android:textColor="@color/colorHint"
+            android:textColor="?attr/colorHint"
             android:textSize="@dimen/font_size_medium"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End-Time"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:textSize="@dimen/font_size_big"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -152,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="19:00"
-            android:textColor="@color/colorHint"
+            android:textColor="?attr/colorHint"
             android:textSize="@dimen/font_size_medium"
 
             app:layout_constraintStart_toStartOf="parent"
@@ -175,7 +175,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:text="Duration"
-        android:textColor="@color/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGround"
         android:textSize="@dimen/font_size_big"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dividerBelowWakeTime" />
@@ -186,7 +186,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:layout_marginRight="4dp"
-        android:background="@color/colorAccent"
+        android:background="?attr/colorAccent"
         android:text="SAVE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -197,7 +197,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
         android:layout_marginStart="4dp"
-        android:background="@color/colorNoteRed"
+        android:background="?attr/colorNoteRed"
         android:text="DISCARD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -270,7 +270,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="(optional)"
-        android:textColor="@color/colorHint"
+        android:textColor="?attr/colorHint"
         app:layout_constraintBaseline_toBaselineOf="@+id/text3"
         app:layout_constraintStart_toEndOf="@+id/text3" />
 

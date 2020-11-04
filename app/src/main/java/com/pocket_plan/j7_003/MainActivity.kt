@@ -1,7 +1,7 @@
 package com.pocket_plan.j7_003
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -12,7 +12,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
@@ -27,10 +26,10 @@ import com.pocket_plan.j7_003.data.notelist.*
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsNotesFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAppearanceFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsHowTo
+import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsNotesFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
@@ -44,10 +43,9 @@ import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHand
 import kotlinx.android.synthetic.main.dialog_delete.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -87,6 +85,15 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
     }
 
+    fun colorForAttr(
+        attrColor: Int,
+        typedValue: TypedValue = TypedValue(),
+        resolveRefs: Boolean = true
+    ): Int {
+        theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+        return typedValue.data
+    }
+
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         //Set a reference to this activity in the companion object
@@ -96,12 +103,22 @@ class MainActivity : AppCompatActivity() {
             previousFragmentStack.push(FT.EMPTY)
         }
 
+        SettingsManager.init()
+
+        //set correct theme
+        val themeToSet = when(SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean){
+            true -> R.style.AppThemeDark
+            else -> R.style.AppThemeLight
+        }
+        setTheme(themeToSet)
+
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
 
         //IMPORTANT; ORDER IS CRITICAL
         //Initialize Settings Manager and Time api and AlarmHandler
-        SettingsManager.init()
         AndroidThreeTen.init(this)
         AlarmHandler.setBirthdayAlarms(context = this)
 
@@ -518,20 +535,14 @@ class MainActivity : AppCompatActivity() {
                         allowDelete = true
                         btnDelete.setBackgroundResource(R.drawable.round_corner_red)
                         btnDelete.setTextColor(
-                            ContextCompat.getColor(
-                                act,
-                                R.color.colorOnBackGround
-                            )
+                            MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
                         )
                     } else {
                         if (allowDelete) {
                             allowDelete = false
                             btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
                             btnDelete.setTextColor(
-                                ContextCompat.getColor(
-                                    act,
-                                    R.color.colorHint
-                                )
+                                MainActivity.act.colorForAttr(R.attr.colorHint)
                             )
                         }
                     }
@@ -547,10 +558,7 @@ class MainActivity : AppCompatActivity() {
             myDialogView.tvSwipeToDelete.visibility = View.GONE
             btnDelete.setBackgroundResource(R.drawable.round_corner_red)
             btnDelete.setTextColor(
-                ContextCompat.getColor(
-                    act,
-                    R.color.colorOnBackGround
-                )
+                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
             )
         }
 

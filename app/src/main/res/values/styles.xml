@@ -1,18 +1,206 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorBackgroundElevated</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorForeground">@color/colorOnBackGround</item>
-        <item name="colorControlHighlight">@color/colorHint</item>
-        <item name="android:textColorPrimary">@color/colorOnBackGround</item>
-        <item name="colorControlNormal">@color/colorOnBackGround</item>
+        <item name="android:colorForeground">?attr/colorOnBackGround</item>
+        <item name="colorControlHighlight">?attr/colorHint</item>
+        <item name="android:textColorPrimary">?attr/colorOnBackGround</item>
+        <item name="colorControlNormal">?attr/colorOnBackGround</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@color/colorBackgroundElevated</item>
+        <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
         <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+
+
+        <item name="colorBackground">#121212</item>
+        <item name="colorBackgroundElevated">#1C1C1C</item>
+
+        <item name="colorOnBackGround">#F1F1F1</item>
+        <item name="colorOnBackGroundTask">#F1F1F1</item>
+        <item name="colorHint">#757272</item>
+
+        <item name="colorPrimary">#1C1C1C</item>
+        <item name="colorPrimaryLight">#353535</item>
+        <item name="colorPrimaryDark">#000000</item>
+
+        <item name="colorGray">#1C1C1C</item>
+        <item name="colorGrayL">#1C1C1C</item>
+        <item name="colorGrayD">#2B2A2A</item>
+
+        <item name="colorAccent">#0652A5</item>
+
+        <item name="colorPriority1">#8E0303</item>
+        <item name="colorPriority1light">#8E0303</item>
+        <item name="colorPriority2">#D7B67607</item>
+        <item name="colorPriority2light">#BEC68709</item>
+        <item name="colorPriority3">#06591D</item>
+        <item name="colorPriority3light">#EE09491B</item>
+
+        <item name="colorNoteRed">#831414</item>
+        <item name="colorNoteYellow">#985502</item>
+        <item name="colorNoteGreen">#036854</item>
+        <item name="colorNoteBlue">#023D97</item>
+        <item name="colorNotePurple">#4D2B80</item>
+
+        <item name="colorBackgroundListElement">#252525</item>
+        <item name="colorGoToSleep">#CC212F</item>
+
+        <item name="colorBirthdayNotify">#1976D2</item>
+
+        <item name="colorCategory">#FFFFFF</item>
+
+        <item name="colorMonth1">#024B98</item>
+        <item name="colorMonth2">#1584C1</item>
+        <item name="colorMonth3">#036C3B</item>
+        <item name="colorMonth4">#4AB642</item>
+        <item name="colorMonth5">#A7B80D</item>
+        <item name="colorMonth6">#D89F0C</item>
+        <item name="colorMonth7">#EA8408</item>
+        <item name="colorMonth8">#B53705</item>
+        <item name="colorMonth9">#B10B4D</item>
+        <item name="colorMonth10">#972C8C</item>
+        <item name="colorMonth11">#8935DC</item>
+        <item name="colorMonth12">#4F36A8</item>
+
+        <item name="colorSonstiges">#273E67</item>
+        <item name="colorSonstigesL">#345EB3</item>
+        <item name="colorObstundGemüse">#C444781C</item>
+        <item name="colorObstundGemüseL">#44781C</item>
+        <item name="colorGetränke">#D52245A1</item>
+        <item name="colorGetränkeL">#2245A1</item>
+        <item name="colorNudelnundGetreide">#CEC39406</item>
+        <item name="colorNudelnundGetreideL">#C39406</item>
+        <item name="colorBackwaren">#BA835716</item>
+        <item name="colorBackwarenL">#835716</item>
+        <item name="colorKühlregalMilch">#C1656464</item>
+        <item name="colorKühlregalMilchL">#656464</item>
+        <item name="colorKühlregalFleisch">#550606</item>
+        <item name="colorKühlregalFleischL">#880909</item>
+        <item name="colorTiefkühl">#E95587DC</item>
+        <item name="colorTiefkühlL">#559CDC</item>
+        <item name="colorKonservenFertiges">#CD373737</item>
+        <item name="colorKonservenFertigesL">#373737</item>
+        <item name="colorFrühstück">#C8C35704</item>
+        <item name="colorFrühstückL">#C35704</item>
+        <item name="colorGewürzeBackzutaten">#D5B62310</item>
+        <item name="colorGewürzeBackzutatenL">#B62310</item>
+        <item name="colorHaushalt">#C8216150</item>
+        <item name="colorHaushaltL">#216150</item>
+        <item name="colorKaffeeTee">#352409</item>
+        <item name="colorKaffeeTeeL">#4E3717</item>
+        <item name="colorSnacks">#590D59</item>
+        <item name="colorSnacksL">#A322A3</item>
+        <item name="colorBackzutaten">#BA683209</item>
+        <item name="colorBackzutatenL">#683209</item>
+        <item name="colorDrogerieKosmetik">#CB32BA9F</item>
+        <item name="colorDrogerieKosmetikL">#32BA9F</item>
+        <item name="colorAlkoholTabak">#BE3225B1</item>
+        <item name="colorAlkoholTabakL">#3225B1</item>
+    </style>
+
+
+
+
+
+
+
+    <style name="AppThemeLight" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:colorForeground">?attr/colorOnBackGround</item>
+        <item name="colorControlHighlight">#282729</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="colorControlNormal">#000000</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
+        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
+        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+
+
+        <item name="colorBackground">#EFEFEF</item>
+        <item name="colorBackgroundElevated">#D1D0D0</item>
+
+        <item name="colorOnBackGround">#090606</item>
+        <item name="colorOnBackGroundTask">#FFFFFF</item>
+        <item name="colorHint">#515151</item>
+
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryLight">#FFFFFF</item>
+        <item name="colorPrimaryDark">#C19797</item>
+
+        <item name="colorGray">#A5A1A1</item>
+        <item name="colorGrayL">#A5A1A1</item>
+        <item name="colorGrayD">#FFFFFF</item>
+
+        <item name="colorAccent">#68D0DD</item>
+
+        <item name="colorPriority1">#F48F8F</item>
+        <item name="colorPriority1light">#F48F8F</item>
+        <item name="colorPriority2">#EDBA6F</item>
+        <item name="colorPriority2light">#EFBD72</item>
+        <item name="colorPriority3">#A5D6A7</item>
+        <item name="colorPriority3light">#A5D6A7</item>
+
+        <item name="colorNoteRed">#F48FB1</item>
+        <item name="colorNoteYellow">#EF9A9A</item>
+        <item name="colorNoteGreen">#A5D6A7</item>
+        <item name="colorNoteBlue">#80DEEA</item>
+        <item name="colorNotePurple">#CE93D8</item>
+
+        <item name="colorBackgroundListElement">#C5C2C2</item>
+        <item name="colorGoToSleep">#E40A35</item>
+
+        <item name="colorBirthdayNotify">#1976D2</item>
+
+        <item name="colorCategory">#FFFFFF</item>
+
+        <item name="colorMonth1">#2B89EC</item>
+        <item name="colorMonth2">#42AAE3</item>
+        <item name="colorMonth3">#05A55A</item>
+        <item name="colorMonth4">#67DA5E</item>
+        <item name="colorMonth5">#C5D813</item>
+        <item name="colorMonth6">#ECB422</item>
+        <item name="colorMonth7">#EF9C36</item>
+        <item name="colorMonth8">#DD6737</item>
+        <item name="colorMonth9">#E34584</item>
+        <item name="colorMonth10">#D861CC</item>
+        <item name="colorMonth11">#A561E8</item>
+        <item name="colorMonth12">#8E5EE8</item>
+
+        <item name="colorSonstiges">#3D5C91</item>
+        <item name="colorSonstigesL">#416ABC</item>
+        <item name="colorObstundGemüse">#C47BCA3E</item>
+        <item name="colorObstundGemüseL">#86CD4F</item>
+        <item name="colorGetränke">#D53A5BAF</item>
+        <item name="colorGetränkeL">#3E65CC</item>
+        <item name="colorNudelnundGetreide">#CED3AA2E</item>
+        <item name="colorNudelnundGetreideL">#DFBD58</item>
+        <item name="colorBackwaren">#BAB57F2F</item>
+        <item name="colorBackwarenL">#C39552</item>
+        <item name="colorKühlregalMilch">#C1A8A5A5</item>
+        <item name="colorKühlregalMilchL">#A8A7A7</item>
+        <item name="colorKühlregalFleisch">#A62828</item>
+        <item name="colorKühlregalFleischL">#AC2A2A</item>
+        <item name="colorTiefkühl">#E95D88D1</item>
+        <item name="colorTiefkühlL">#559CDC</item>
+        <item name="colorKonservenFertiges">#CD373737</item>
+        <item name="colorKonservenFertigesL">#373737</item>
+        <item name="colorFrühstück">#C8C35704</item>
+        <item name="colorFrühstückL">#C35704</item>
+        <item name="colorGewürzeBackzutaten">#D5B62310</item>
+        <item name="colorGewürzeBackzutatenL">#B62310</item>
+        <item name="colorHaushalt">#C8216150</item>
+        <item name="colorHaushaltL">#216150</item>
+        <item name="colorKaffeeTee">#352409</item>
+        <item name="colorKaffeeTeeL">#4E3717</item>
+        <item name="colorSnacks">#590D59</item>
+        <item name="colorSnacksL">#A322A3</item>
+        <item name="colorBackzutaten">#BA683209</item>
+        <item name="colorBackzutatenL">#683209</item>
+        <item name="colorDrogerieKosmetik">#CB32BA9F</item>
+        <item name="colorDrogerieKosmetikL">#32BA9F</item>
+        <item name="colorAlkoholTabak">#BE3225B1</item>
+        <item name="colorAlkoholTabakL">#3225B1</item>
+
     </style>
 
     <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Dialog">
@@ -20,12 +208,12 @@
     </style>
 
     <style name="MyDatePickerStyle" parent="android:Widget.Material.DatePicker">
-        <item name="android:headerBackground">@color/colorNotePurple</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:headerBackground">?attr/colorNotePurple</item>
+<!--        <item name="colorAccent">?attr/colorAccent</item>-->
         <item name="android:windowIsFloating">true</item>
-        <item name="colorBackgroundFloating">@color/colorAccent</item>
-<!--        <item name="android:dayOfWeekBackground">@color/colorAccent</item>-->
-<!--        <item name="android:dayOfWeekTextAppearance">@color/colorAccent</item>-->
+        <item name="colorBackgroundFloating">?attr/colorAccent</item>
+        <item name="android:dayOfWeekBackground">?attr/colorAccent</item>
+        <item name="android:dayOfWeekTextAppearance">?attr/colorAccent</item>
 <!--        <item name="android:headerMonthTextAppearance">@color/colorAccent</item>-->
 <!--        <item name="android:headerDayOfMonthTextAppearance">@color/colorAccent</item>-->
 <!--        <item name="android:headerYearTextAppearance">@color/colorAccent</item>-->
@@ -42,12 +230,12 @@
     </style>
 
     <style name="MyTimePickerStyle" parent="android:Widget.Material.TimePicker">
-        <item name="android:headerBackground">@color/colorAccent</item>
-        <item name="android:numbersSelectorColor">@color/colorAccent</item>
+        <item name="android:headerBackground">?attr/colorAccent</item>
+        <item name="android:numbersSelectorColor">?attr/colorAccent</item>
     </style>
 
     <style name="WhiteCheck">
-        <item name="colorAccent">@color/colorHint</item>
+        <item name="colorAccent">?attr/colorHint</item>
     </style>
 
 </resources>

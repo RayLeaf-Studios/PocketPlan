@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="?attr/colorBackground">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menuTitleTasks"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/howtoTodo"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menuTitleNotes"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvEstep"
                     android:text="@string/howtoNotes"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menuTitleBirthdays"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/howtoBirthdays"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menuTitleShopping"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -158,7 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/howtoShopping"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -176,7 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menuTitleSleep"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/howtoSleep"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -212,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/menuTitleHome"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -231,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/howtoHome"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

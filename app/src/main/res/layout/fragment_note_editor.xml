@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".data.notelist.NoteEditorFr"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     android:padding="5dp">
 
     <EditText
@@ -14,12 +14,12 @@
         android:gravity="start"
         android:inputType="text"
         android:maxLength="40"
-        android:textColor="@color/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGround"
         android:textStyle="bold"
         android:textSize="@dimen/font_size_big"
         android:hint="@string/noteEditorTitle"
         android:ems="10"
-        android:textColorHint="@color/colorHint"
+        android:textColorHint="?attr/colorHint"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
         android:id="@+id/etNoteContent"
         android:hint="@string/noteEditorText"
         android:textSize="@dimen/font_size_big"
-        android:textColorHint="@color/colorHint"
+        android:textColorHint="?attr/colorHint"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
@@ -37,7 +37,7 @@
         android:gravity="top|start"
         android:inputType="textMultiLine"
         android:text=""
-        android:textColor="@color/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGround"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etNoteTitle" />

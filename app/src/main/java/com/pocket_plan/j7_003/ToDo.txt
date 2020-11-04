@@ -11,7 +11,9 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - make light theme
+    - restart activity after theme change
+    - fix light theme date pickers, time pickers, and other colors
+    - remove suggested units, remember user units
 
 
 
@@ -39,7 +41,6 @@ Ideas:
     - if year in the future is set, set birthday info text to ("will be born in... years")
     - update birthdayFragment and birthdayPanel home when 00:00 is passed
     - scroll buffer für notes??
-    - dark themed notes?
     - functionality that supports adding of categories?
     - make shopping list presets save and loadable
     - suggested amount for shopping items

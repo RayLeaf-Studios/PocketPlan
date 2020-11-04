@@ -240,8 +240,8 @@ class NoteEditorFr : Fragment() {
         myAlertDialog.show()
 
         val colorList = arrayOf(
-            R.color.colorNoteRed, R.color.colorNoteYellow,
-            R.color.colorNoteGreen, R.color.colorNoteBlue, R.color.colorNotePurple
+            R.attr.colorNoteRed, R.attr.colorNoteYellow,
+            R.attr.colorNoteGreen, R.attr.colorNoteBlue, R.attr.colorNotePurple
         )
         val buttonList = arrayOf(
             myDialogView.btnRed, myDialogView.btnYellow,
@@ -254,10 +254,7 @@ class NoteEditorFr : Fragment() {
             b.setOnClickListener {
                 noteColor = NoteColors.values()[i]
                 myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        colorList[i]
-                    )
+                    MainActivity.act.colorForAttr(colorList[i])
                 )
                 myAlertDialog.dismiss()
             }

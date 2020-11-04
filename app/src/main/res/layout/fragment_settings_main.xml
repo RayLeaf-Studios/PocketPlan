@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     >
 
     <ScrollView
@@ -36,7 +36,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorGewürzeBackzutatenL" />
+                    app:tint="?attr/colorGewürzeBackzutatenL" />
 
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
                     android:text="@string/settings_title_appearance"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivAppearance"
@@ -77,7 +77,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorNudelnundGetreideL" />
+                    app:tint="?attr/colorNudelnundGetreideL" />
 
 
                 <TextView
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
                     android:text="@string/settingsNotesTitle"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -120,7 +120,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorObstundGemüseL" />
+                    app:tint="?attr/colorObstundGemüseL" />
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
@@ -129,7 +129,7 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:text="@string/settingsShoListTitle"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivShopping"
@@ -164,14 +164,14 @@
             <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
             <!--                    app:layout_constraintStart_toStartOf="parent"-->
             <!--                    app:layout_constraintTop_toTopOf="parent"-->
-            <!--                    app:tint="@color/colorNoteGreen" />-->
+            <!--                    app:tint="?attr/colorNoteGreen" />-->
 
             <!--                <TextView-->
             <!--                    android:id="@+id/tvNavigationDrawer"-->
             <!--                    android:layout_width="wrap_content"-->
             <!--                    android:layout_height="wrap_content"-->
             <!--                    android:text="@string/settingsNavigationTitle"-->
-            <!--                    android:textColor="@color/colorOnBackGround"-->
+            <!--                    android:textColor="?attr/colorOnBackGround"-->
             <!--                    android:textSize="@dimen/font_size_medium"-->
             <!--                    android:textStyle="bold"-->
             <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
@@ -205,7 +205,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorTiefkühlL" />
+                    app:tint="?attr/colorTiefkühlL" />
 
                 <TextView
                     android:id="@+id/tvBackup"
@@ -214,7 +214,7 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:text="@string/backup"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivBackup"
@@ -248,7 +248,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/colorSnacksL" />
+                    app:tint="?attr/colorSnacksL" />
 
                 <TextView
                     android:id="@+id/tvAbout"
@@ -257,7 +257,7 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:text="@string/menuTitleAbout"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/ivAbout"

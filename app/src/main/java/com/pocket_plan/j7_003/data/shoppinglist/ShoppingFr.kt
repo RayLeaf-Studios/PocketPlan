@@ -154,7 +154,7 @@ class ShoppingFr : Fragment() {
                 ): Boolean {
                     val fromPos = viewHolder.adapterPosition
 
-                    if(fromPos==shoppingListInstance.size){
+                    if (fromPos == shoppingListInstance.size) {
                         return true
                     }
 
@@ -656,39 +656,41 @@ class ShoppingListAdapter :
     ) {
         if (!allChecked) {
             //get onBackGroundColor resolved
-            val colorOnBackground = ContextCompat
-                .getColor(MainActivity.act, R.color.colorOnBackGround)
+            val colorOnBackground =
+                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
 
-            val colorCategory = ContextCompat
-                .getColor(MainActivity.act, R.color.colorCategory)
+
+            val colorCategory =
+                MainActivity.act.colorForAttr(R.attr.colorCategory)
+
 
             //get pair of color ids for right categories
             val gradientPair: Pair<Int, Int> = when (tag) {
-                "So" -> Pair(R.color.colorSonstiges, R.color.colorSonstigesL)
-                "Ob" -> Pair(R.color.colorObstundGemüse, R.color.colorObstundGemüseL)
-                "Gt" -> Pair(R.color.colorGetränke, R.color.colorGetränkeL)
-                "Nu" -> Pair(R.color.colorNudelnundGetreide, R.color.colorNudelnundGetreideL)
-                "Bw" -> Pair(R.color.colorBackwaren, R.color.colorBackwarenL)
-                "Km" -> Pair(R.color.colorKühlregalMilch, R.color.colorKühlregalMilchL)
-                "Kf" -> Pair(R.color.colorKühlregalFleisch, R.color.colorKühlregalFleischL)
-                "Tk" -> Pair(R.color.colorTiefkühl, R.color.colorTiefkühlL)
-                "Ko" -> Pair(R.color.colorKonservenFertiges,R.color.colorKonservenFertigesL)
-                "Fr" -> Pair(R.color.colorFrühstückL, R.color.colorFrühstück)
-                "Gw" -> Pair(R.color.colorGewürzeBackzutaten, R.color.colorGewürzeBackzutatenL)
-                "Ha" -> Pair(R.color.colorHaushalt, R.color.colorHaushaltL)
-                "Sn" -> Pair(R.color.colorSnacks, R.color.colorSnacksL)
-                "Bz" -> Pair(R.color.colorBackzutaten, R.color.colorBackzutatenL)
-                "Dr" -> Pair(R.color.colorDrogerieKosmetik, R.color.colorDrogerieKosmetikL)
-                "Al" -> Pair(R.color.colorAlkoholTabak, R.color.colorAlkoholTabakL)
-                else -> Pair(R.color.colorBackgroundElevated, R.color.colorBackgroundElevated)
+                "So" -> Pair(R.attr.colorSonstiges, R.attr.colorSonstigesL)
+                "Ob" -> Pair(R.attr.colorObstundGemüse, R.attr.colorObstundGemüseL)
+                "Gt" -> Pair(R.attr.colorGetränke, R.attr.colorGetränkeL)
+                "Nu" -> Pair(R.attr.colorNudelnundGetreide, R.attr.colorNudelnundGetreideL)
+                "Bw" -> Pair(R.attr.colorBackwaren, R.attr.colorBackwarenL)
+                "Km" -> Pair(R.attr.colorKühlregalMilch, R.attr.colorKühlregalMilchL)
+                "Kf" -> Pair(R.attr.colorKühlregalFleisch, R.attr.colorKühlregalFleischL)
+                "Tk" -> Pair(R.attr.colorTiefkühl, R.attr.colorTiefkühlL)
+                "Ko" -> Pair(R.attr.colorKonservenFertiges, R.attr.colorKonservenFertigesL)
+                "Fr" -> Pair(R.attr.colorFrühstückL, R.attr.colorFrühstück)
+                "Gw" -> Pair(R.attr.colorGewürzeBackzutaten, R.attr.colorGewürzeBackzutatenL)
+                "Ha" -> Pair(R.attr.colorHaushalt, R.attr.colorHaushaltL)
+                "Sn" -> Pair(R.attr.colorSnacks, R.attr.colorSnacksL)
+                "Bz" -> Pair(R.attr.colorBackzutaten, R.attr.colorBackzutatenL)
+                "Dr" -> Pair(R.attr.colorDrogerieKosmetik, R.attr.colorDrogerieKosmetikL)
+                "Al" -> Pair(R.attr.colorAlkoholTabak, R.attr.colorAlkoholTabakL)
+                else -> Pair(R.attr.colorBackgroundElevated, R.attr.colorBackgroundElevated)
             }
 
             //create gradient drawable as category background from color pair
             val myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    ContextCompat.getColor(MainActivity.act, gradientPair.second),
-                    ContextCompat.getColor(MainActivity.act, gradientPair.first)
+                    MainActivity.act.colorForAttr(gradientPair.second),
+                    MainActivity.act.colorForAttr(gradientPair.first)
                 )
             )
 
@@ -709,14 +711,16 @@ class ShoppingListAdapter :
             holder.itemView.ivCheckMark.visibility = View.GONE
         } else {
             //get hint color
-            val colorHint = ContextCompat.getColor(MainActivity.act, R.color.colorHint)
+            val colorHint =
+                MainActivity.act.colorForAttr(R.attr.colorHint)
+
 
             //create gradient drawable for checked category background
             val myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    ContextCompat.getColor(MainActivity.act, R.color.colorGrayL),
-                    ContextCompat.getColor(MainActivity.act, R.color.colorGray)
+                    MainActivity.act.colorForAttr(R.attr.colorGrayL),
+                    MainActivity.act.colorForAttr(R.attr.colorGray)
                 )
             )
 
@@ -740,7 +744,7 @@ class ShoppingListAdapter :
     /**
      * Returns amount of categories + 1 (List buffer item)
      */
-    override fun getItemCount(): Int{
+    override fun getItemCount(): Int {
         return ShoppingFr.shoppingListInstance.size + 1
     }
 
@@ -810,13 +814,15 @@ class SublistAdapter(
         if (item.checked) {
             holder.itemView.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvItemTitle
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorHint))
+                .setTextColor(
+                    MainActivity.act.colorForAttr(R.attr.colorHint)
+                )
 
             myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    ContextCompat.getColor(MainActivity.act, R.color.colorGrayD),
-                    ContextCompat.getColor(MainActivity.act, R.color.colorGrayD)
+                    MainActivity.act.colorForAttr(R.attr.colorGrayD),
+                    MainActivity.act.colorForAttr(R.attr.colorGrayD)
                 )
             )
 
@@ -824,12 +830,14 @@ class SublistAdapter(
             //white and no strike through otherwise
             holder.itemView.tvItemTitle.paintFlags = 0
             holder.itemView.tvItemTitle
-                .setTextColor(ContextCompat.getColor(MainActivity.act, R.color.colorOnBackGround))
+                .setTextColor(
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+)
             myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    ContextCompat.getColor(MainActivity.act, R.color.colorBackground),
-                    ContextCompat.getColor(MainActivity.act, R.color.colorBackground)
+                    MainActivity.act.colorForAttr(R.attr.colorBackground),
+                    MainActivity.act.colorForAttr(R.attr.colorBackground)
                 )
             )
 

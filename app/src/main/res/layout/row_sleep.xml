@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/sleepSun"
-        android:textColor="@color/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGround"
         android:textSize="@dimen/font_size_big"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeRow"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorNudelnundGetreideL" />
+            app:tint="?attr/colorNudelnundGetreideL" />
 
         <TextView
             android:id="@+id/tvWakeTimeRow"
@@ -50,7 +50,7 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:text="19h 3m"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:textSize="@dimen/font_size_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -77,14 +77,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvDurationRow"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorTiefkühlL" />
+            app:tint="?attr/colorTiefkühlL" />
 
         <TextView
             android:id="@+id/tvDurationRow"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="19h 3m"
-            android:textColor="@color/colorOnBackGround"
+            android:textColor="?attr/colorOnBackGround"
             android:textSize="@dimen/font_size_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

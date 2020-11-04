@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     >
 
     <ScrollView
@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsCusItems"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsOnlyExpandOne"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swExpandOneCategory"
@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsCollapseChecked"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swCollapseCheckedSublists"
@@ -129,7 +129,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_shopping_move_down"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swMoveCheckedToBottom"
@@ -166,7 +166,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsCloseItemDialog"
-                    android:textColor="@color/colorOnBackGround"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swCloseAddItemDialog"
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/tvCloseAddItemDialog"
                     android:text="@string/settings_shopping_close_sub"
-                    android:textColor="@color/colorHint"
+                    android:textColor="?attr/colorHint"
                     app:layout_constraintStart_toStartOf="@id/tvCloseAddItemDialog"/>
 
 

@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackground"
+    android:background="?attr/colorBackground"
     android:paddingBottom="20dp">
 
     <EditText
         android:id="@+id/etxTitleAddTask"
         android:layout_width="0dp"
-        android:textColor="@color/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGround"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:isScrollContainer="false"
         android:hint="@string/tasksAddHint"
-        android:textColorHint="@color/colorHint"
+        android:textColorHint="?attr/colorHint"
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintEnd_toStartOf="@+id/guideline2"

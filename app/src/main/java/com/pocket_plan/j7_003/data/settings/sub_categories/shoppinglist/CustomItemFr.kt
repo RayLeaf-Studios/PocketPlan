@@ -130,8 +130,8 @@ class CustomItemAdapter :
         val myGradientDrawable = GradientDrawable(
             GradientDrawable.Orientation.TL_BR,
             intArrayOf(
-                ContextCompat.getColor(MainActivity.act, R.color.colorGray),
-                ContextCompat.getColor(MainActivity.act, R.color.colorGray)
+                MainActivity.act.colorForAttr(R.attr.colorGray),
+                MainActivity.act.colorForAttr(R.attr.colorGray)
             )
         )
 

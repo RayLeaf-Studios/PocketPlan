@@ -1,9 +1,11 @@
 package com.pocket_plan.j7_003.data.home
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -124,11 +127,10 @@ class HomeFr : Fragment() {
      * @param shake if true, animates a shake animation on myView.ivTaskHome
      */
 
+    @SuppressLint("ResourceType")
     private fun updateTaskPanel(shake: Boolean) {
-        val colorA = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
-        val colorB = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
         val myGradientDrawable =
-            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
+            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated), MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated)))
         if(round){
             myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
         }
@@ -156,31 +158,21 @@ class HomeFr : Fragment() {
         if (displayTaskCount == 0) {
             myView.tvTasks.text = resources.getText(R.string.homeNoTasks)
             myView.tvTasks.setTextColor(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorHint
-                )
+                MainActivity.act.colorForAttr(R.attr.colorHint)
             )
             myView.ivTasksHome.setColorFilter(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorHint
-                )
+                MainActivity.act.colorForAttr(R.attr.colorHint)
             )
             return
         } else {
             myView.tvTasks.setTextColor(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorOnBackGround
-                )
+                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
             )
+
             myView.ivTasksHome.setColorFilter(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorGoToSleep
-                )
+                MainActivity.act.colorForAttr(R.attr.colorGoToSleep)
             )
+
             if(myShake){
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_long)
@@ -211,10 +203,9 @@ class HomeFr : Fragment() {
 
     private fun updateBirthdayPanel() {
 
-        val colorA = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
-        val colorB = ContextCompat.getColor(MainActivity.act, R.color.colorBackgroundElevated)
+        val colorA = MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated)
         val myGradientDrawable =
-            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
+            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorA))
         if(round){
             myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
         }
@@ -224,31 +215,19 @@ class HomeFr : Fragment() {
         if (birthdaysToDisplay == 0) {
             myView.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)
             myView.tvBirthday.setTextColor(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorHint
-                )
+                MainActivity.act.colorForAttr(R.attr.colorHint)
             )
             myView.icBirthdaysHome.setColorFilter(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorHint
-                )
+                MainActivity.act.colorForAttr(R.attr.colorHint)
             )
             return
         } else {
 
             myView.tvBirthday.setTextColor(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorOnBackGround
-                )
+                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
             )
             myView.icBirthdaysHome.setColorFilter(
-                ContextCompat.getColor(
-                    MainActivity.act,
-                    R.color.colorBirthdayNotify
-                )
+                MainActivity.act.colorForAttr(R.attr.colorBirthdayNotify)
             )
         }
         var birthdayText = "\n"
@@ -274,16 +253,10 @@ class HomeFr : Fragment() {
                 myView.tvRemainingWakeTime.text = message
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.setTextColor(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorOnBackGround
-                    )
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
                 )
                 myView.icSleepHome.setColorFilter(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorOnBackGround
-                    )
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
                 )
             }
             1 -> {
@@ -292,16 +265,10 @@ class HomeFr : Fragment() {
                 myView.tvRemainingWakeTime.text = message
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.setTextColor(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorGoToSleep
-                    )
+                    MainActivity.act.colorForAttr(R.attr.colorGoToSleep)
                 )
                 myView.icSleepHome.setColorFilter(
-                    ContextCompat.getColor(
-                        MainActivity.act,
-                        R.color.colorGoToSleep
-                    )
+                    MainActivity.act.colorForAttr(R.attr.colorGoToSleep)
                 )
             }
             2 -> {
