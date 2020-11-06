@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -21,9 +23,17 @@ class BackUpActivity: AppCompatActivity() {
     private val iHandler = ImportHandler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
+
+        val themeToSet = when(SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean){
+            true -> R.style.AppThemeDark
+            else -> R.style.AppThemeLight
+        }
+        setTheme(themeToSet)
+
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_settings_backup)
+
 
         setSupportActionBar(myNewToolbar)
 
