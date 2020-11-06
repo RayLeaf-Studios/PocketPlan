@@ -45,6 +45,9 @@
         <item name="colorBackgroundListElement">#252525</item>
         <item name="colorGoToSleep">#CC212F</item>
 
+        <item name="colorBirthdayToday">#D60000</item>
+        <item name="colorBirthdaySoon">#25A5E1</item>
+
         <item name="colorBirthdayNotify">#1976D2</item>
 
         <item name="colorCategory">#FFFFFF</item>
@@ -86,8 +89,6 @@
         <item name="colorGewürzeBackzutatenL">#B62310</item>
         <item name="colorHaushalt">#C8216150</item>
         <item name="colorHaushaltL">#216150</item>
-        <item name="colorKaffeeTee">#352409</item>
-        <item name="colorKaffeeTeeL">#4E3717</item>
         <item name="colorSnacks">#590D59</item>
         <item name="colorSnacksL">#A322A3</item>
         <item name="colorBackzutaten">#BA683209</item>
@@ -117,9 +118,9 @@
 
 
         <item name="colorBackground">#EFEFEF</item>
-        <item name="colorBackgroundElevated">#D1D0D0</item>
+        <item name="colorBackgroundElevated">#E1E1E1</item>
 
-        <item name="colorOnBackGround">#090606</item>
+        <item name="colorOnBackGround">#1B1B1B</item>
         <item name="colorOnBackGroundTask">#FFFFFF</item>
         <item name="colorHint">#515151</item>
 
@@ -131,51 +132,51 @@
         <item name="colorGrayL">#A5A1A1</item>
         <item name="colorGrayD">#FFFFFF</item>
 
-        <item name="colorAccent">#4FC3F7</item>
+        <item name="colorAccent">#23A8E4</item>
 
-        <item name="colorPriority1">#F06292</item>
-        <item name="colorPriority1light">#F06292</item>
-        <item name="colorPriority2">#FFB74D</item>
-        <item name="colorPriority2light">#FFB74D</item>
-        <item name="colorPriority3">#81C784</item>
-        <item name="colorPriority3light">#81C784</item>
+        <item name="colorPriority1">#F06273</item>
+        <item name="colorPriority2">#FFB649</item>
+        <item name="colorPriority3">#77BD7A</item>
 
-        <item name="colorNoteRed">#F06292</item>
-        <item name="colorNoteYellow">#FFB74D</item>
-        <item name="colorNoteGreen">#81C784</item>
-        <item name="colorNoteBlue">#4FC3F7</item>
+        <item name="colorNoteRed">#F06273</item>
+        <item name="colorNoteYellow">#FFB649</item>
+        <item name="colorNoteGreen">#77BD7A</item>
+        <item name="colorNoteBlue">#49B3E3</item>
         <item name="colorNotePurple">#BA68C8</item>
 
-        <item name="colorBackgroundListElement">#C5C2C2</item>
-        <item name="colorGoToSleep">#E40A35</item>
+        <item name="colorBackgroundListElement">#E1E1E1</item>
 
-        <item name="colorBirthdayNotify">#1976D2</item>
+        <item name="colorGoToSleep">#F3EF2828</item>
+        <item name="colorBirthdayNotify">#1CBCFB</item>
+
+        <item name="colorBirthdayToday">#E12525</item>
+        <item name="colorBirthdaySoon">#2FA8E1</item>
 
         <item name="colorCategory">#FFFFFF</item>
 
-        <item name="colorMonth1">#64B5F6</item>
-        <item name="colorMonth2">#4DD0E1</item>
-        <item name="colorMonth3">#4DB6AC</item>
+        <item name="colorMonth1">#3590D8</item>
+        <item name="colorMonth2">#48CFE1</item>
+        <item name="colorMonth3">#3EBA8F</item>
         <item name="colorMonth4">#81C784</item>
-        <item name="colorMonth5">#AED581</item>
-        <item name="colorMonth6">#DDA702</item>
+        <item name="colorMonth5">#B7DF7E</item>
+        <item name="colorMonth6">#EAC717</item>
         <item name="colorMonth7">#FF8A65</item>
         <item name="colorMonth8">#F06292</item>
         <item name="colorMonth9">#BA68C8</item>
-        <item name="colorMonth10">#9575CD</item>
+        <item name="colorMonth10">#9D7DD6</item>
         <item name="colorMonth11">#7986CB</item>
         <item name="colorMonth12">#5966AE</item>
 
-        <item name="colorSonstiges">#3D5C91</item>
-        <item name="colorSonstigesL">#416ABC</item>
-        <item name="colorObstundGemüse">#C47BCA3E</item>
-        <item name="colorObstundGemüseL">#86CD4F</item>
-        <item name="colorGetränke">#D53A5BAF</item>
-        <item name="colorGetränkeL">#3E65CC</item>
-        <item name="colorNudelnundGetreide">#CED3AA2E</item>
-        <item name="colorNudelnundGetreideL">#DFBD58</item>
-        <item name="colorBackwaren">#BAB57F2F</item>
-        <item name="colorBackwarenL">#C39552</item>
+        <item name="colorSonstiges">#455C83</item>
+        <item name="colorSonstigesL">#627393</item>
+        <item name="colorObstundGemüse">#C42E9E15</item>
+        <item name="colorObstundGemüseL">#80C857</item>
+        <item name="colorGetränke">#D51E429E</item>
+        <item name="colorGetränkeL">#5076DC</item>
+        <item name="colorNudelnundGetreide">#CEC59918</item>
+        <item name="colorNudelnundGetreideL">#CFAF54</item>
+        <item name="colorBackwaren">#BA5C3804</item>
+        <item name="colorBackwarenL">#A17D4A</item>
         <item name="colorKühlregalMilch">#C1A8A5A5</item>
         <item name="colorKühlregalMilchL">#A8A7A7</item>
         <item name="colorKühlregalFleisch">#A62828</item>
@@ -190,8 +191,6 @@
         <item name="colorGewürzeBackzutatenL">#B62310</item>
         <item name="colorHaushalt">#C8216150</item>
         <item name="colorHaushaltL">#216150</item>
-        <item name="colorKaffeeTee">#352409</item>
-        <item name="colorKaffeeTeeL">#4E3717</item>
         <item name="colorSnacks">#590D59</item>
         <item name="colorSnacksL">#A322A3</item>
         <item name="colorBackzutaten">#BA683209</item>

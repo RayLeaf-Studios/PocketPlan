@@ -1100,27 +1100,28 @@ class BirthdayAdapter :
         //maybe animation?
 
 
+
         //set icon / text color to blue if birthday is today, to pink if its daysToRemind < days.Until, to white otherwise
         val today = LocalDate.now()
         if (holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue) {
             holder.tvRowBirthdayDate.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorSnacksL)
+                MainActivity.act.colorForAttr(R.attr.colorBirthdayToday)
             )
             holder.tvRowBirthdayName.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorSnacksL)
+                MainActivity.act.colorForAttr(R.attr.colorBirthdayToday)
             )
             holder.iconBell.setColorFilter(
-                MainActivity.act.colorForAttr(R.attr.colorSnacksL)
+                MainActivity.act.colorForAttr(R.attr.colorBirthdayToday)
             )
         } else if (holder.birthday.daysToRemind > 0 && holder.birthday.daysUntil() <= holder.birthday.daysToRemind) {
             holder.tvRowBirthdayDate.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorTiefkühlL)
+                MainActivity.act.colorForAttr(R.attr.colorBirthdaySoon)
             )
             holder.tvRowBirthdayName.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorTiefkühlL)
+                MainActivity.act.colorForAttr(R.attr.colorBirthdaySoon)
             )
             holder.iconBell.setColorFilter(
-                MainActivity.act.colorForAttr(R.attr.colorTiefkühlL)
+                MainActivity.act.colorForAttr(R.attr.colorBirthdaySoon)
             )
         } else {
             holder.tvRowBirthdayDate.setTextColor(

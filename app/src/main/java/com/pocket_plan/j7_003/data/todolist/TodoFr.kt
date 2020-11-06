@@ -480,9 +480,9 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                 MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
             )
             gradientPair = when (currentTask.priority) {
-                1 -> Pair(attr.colorPriority1, attr.colorPriority1light)
-                2 -> Pair(attr.colorPriority2, attr.colorPriority2light)
-                else -> Pair(attr.colorPriority3, attr.colorPriority3light)
+                1 -> Pair(attr.colorPriority1, attr.colorPriority1)
+                2 -> Pair(attr.colorPriority2, attr.colorPriority2)
+                else -> Pair(attr.colorPriority3, attr.colorPriority3)
             }
         }
         val myGradientDrawable = GradientDrawable(

@@ -9,6 +9,9 @@
     <attr name="colorOnBackGroundTask" format="color"/>
     <attr name="colorHint" format="color"/>
 
+    <attr name="colorBirthdayToday" format="color"/>
+    <attr name="colorBirthdaySoon" format="color"/>
+
     <attr name="colorPrimary" format="color"/>
     <attr name="colorPrimaryLight" format="color"/>
     <attr name="colorPrimaryDark" format="color"/>
@@ -76,8 +79,6 @@
     <attr name="colorGewürzeBackzutatenL" format="color"/>
     <attr name="colorHaushalt" format="color"/>
     <attr name="colorHaushaltL" format="color"/>
-    <attr name="colorKaffeeTee" format="color"/>
-    <attr name="colorKaffeeTeeL" format="color"/>
     <attr name="colorSnacks" format="color"/>
     <attr name="colorSnacksL" format="color"/>
     <attr name="colorBackzutaten" format="color"/>
