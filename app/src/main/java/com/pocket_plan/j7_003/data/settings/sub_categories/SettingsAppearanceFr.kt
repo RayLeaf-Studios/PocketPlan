@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.settings.sub_categories
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -112,7 +113,10 @@ class SettingsAppearanceFr : Fragment() {
                 val dark = spTheme.selectedItemPosition==0
                 if(dark != SettingsManager.getSetting(SettingId.THEME_DARK)){
                     SettingsManager.addSetting(SettingId.THEME_DARK, dark)
-                    //TODO ADD ACTIVITY RESTART HERE
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.putExtra("NotificationEntry", "appearance")
+                    startActivity(intent)
+                    MainActivity.act.finish()
                 }
 
             }

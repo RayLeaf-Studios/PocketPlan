@@ -244,6 +244,7 @@ class MainActivity : AppCompatActivity() {
             "birthdays" -> changeToFragment(FT.BIRTHDAYS)
             "SReminder" -> changeToFragment(FT.HOME)
             "settings" -> changeToFragment(FT.SETTINGS)
+            "appearance" -> changeToFragment(FT.SETTINGS_APPEARANCE)
             else -> {
                 justRestarted = true
                 bottomNavigation.menu.getItem(2).isChecked = true
