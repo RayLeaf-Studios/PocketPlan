@@ -254,8 +254,8 @@ class NoteAdapter :
         val myGradientDrawable = GradientDrawable(
             GradientDrawable.Orientation.TL_BR,
             intArrayOf(
-                currentNote.color.resolved,
-                currentNote.color.resolved
+                MainActivity.act.colorForAttr(currentNote.color.colorCode),
+                MainActivity.act.colorForAttr(currentNote.color.colorCode)
             )
         )
         if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
