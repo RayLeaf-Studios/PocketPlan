@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.settings.sub_categories
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,13 +79,17 @@ class SettingsAppearanceFr : Fragment() {
 
     fun initializeDisplayValues() {
         val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME_DARK)){
+            //show "dark" setting
             true -> 0
+            //show "light" setting
             else -> 1
         }
         spTheme.setSelection(spThemePosition)
 
         val shapePosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND)){
+            //show "round" setting
             true -> 1
+            //show "normal" setting
             else -> 0
         }
         spShapes.setSelection(shapePosition)
@@ -106,16 +111,11 @@ class SettingsAppearanceFr : Fragment() {
 
                 //check if selected theme is dark theme (dark is position 0, light is 1)
                 val dark = spTheme.selectedItemPosition==0
+                if(dark != SettingsManager.getSetting(SettingId.THEME_DARK)){
+                    SettingsManager.addSetting(SettingId.THEME_DARK, dark)
+                    //TODO ADD ACTIVITY RESTART HERE
+                }
 
-
-                SettingsManager.addSetting(SettingId.THEME_DARK, dark)
-
-                //apply new theme
-//                val themeToSet = when(dark){
-//                    true -> R.style.AppThemeDark
-//                    else -> R.style.AppThemeLight
-//                }
-//                MainActivity.act.setTheme(themeToSet)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
