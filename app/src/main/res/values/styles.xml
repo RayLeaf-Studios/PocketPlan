@@ -11,6 +11,7 @@
         <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
 
+        <item name="android:spinnerStyle">@android:style/Widget.Material.Spinner</item>
 
         <item name="colorBackground">#121212</item>
         <item name="colorBackgroundElevated">#1C1C1C</item>
@@ -65,6 +66,12 @@
         <item name="colorMonth11">#8935DC</item>
         <item name="colorMonth12">#4F36A8</item>
 
+        <item name="colorIconAbout">#AB47BC</item>
+        <item name="colorIconAppearance">#EC407A</item>
+        <item name="colorIconNotes">#FFCA28</item>
+        <item name="colorIconBackup">#42A5F5</item>
+        <item name="colorIconShopping">#66BB6A</item>
+
         <item name="colorSonstiges">#273E67</item>
         <item name="colorSonstigesL">#345EB3</item>
         <item name="colorObstundGemüse">#C444781C</item>
@@ -115,6 +122,9 @@
         <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
         <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
+        <item name="android:spinnerStyle">@android:style/Widget.Material.Light.Spinner</item>
+        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyleLight</item>
+
 
 
         <item name="colorBackground">#EFEFEF</item>
@@ -166,6 +176,15 @@
         <item name="colorMonth10">#9D7DD6</item>
         <item name="colorMonth11">#7986CB</item>
         <item name="colorMonth12">#5966AE</item>
+
+        <item name="colorIconAbout">#9575CD</item>
+        <item name="colorIconAppearance">#F06292</item>
+        <item name="colorIconNotes">#FFB74D</item>
+        <item name="colorIconBackup">#4FC3F7</item>
+        <item name="colorIconShopping">#81C784</item>
+
+
+
 
         <item name="colorSonstiges">#455C83</item>
         <item name="colorSonstigesL">#627393</item>
@@ -233,8 +252,22 @@
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
     </style>
 
+    <style name="MySpinnerStyle" parent="android:Widget.Spinner">
+        <item name="android:headerBackground">?attr/colorAccent</item>
+        <item name="android:numbersSelectorColor">?attr/colorAccent</item>
+    </style>
+
     <style name="WhiteCheck">
         <item name="colorAccent">?attr/colorHint</item>
+    </style>
+    <style name="MyLightToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">?attr/colorBackground</item>
+        <item name="android:textColor">?attr/colorOnBackGround</item>
+    </style>
+
+    <style name="mySpinnerItemStyleLight" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">?attr/colorOnBackGround</item>
+        <item name="android:background">?attr/colorBackgroundElevated</item>
     </style>
 
 </resources>

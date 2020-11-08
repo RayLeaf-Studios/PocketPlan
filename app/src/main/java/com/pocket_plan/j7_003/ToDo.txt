@@ -11,9 +11,10 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - apply theme to backup activity
-    - restart activity after theme change
-    - fix light theme date pickers, time pickers, option menus and other colors
+    - fix light theme
+        date pickers,
+        time pickers,
+        uvm
     - remove suggested units, remember user units
 
 

@@ -55,6 +55,12 @@
     <attr name="colorMonth11" format="color"/>
     <attr name="colorMonth12" format="color"/>
 
+    <attr name="colorIconAppearance" format="color"/>
+    <attr name="colorIconNotes" format="color"/>
+    <attr name="colorIconShopping" format="color"/>
+    <attr name="colorIconBackup" format="color"/>
+    <attr name="colorIconAbout" format="color"/>
+
     <attr name="colorSonstiges" format="color"/>
     <attr name="colorSonstigesL" format="color"/>
     <attr name="colorObstundGemüse" format="color"/>

@@ -310,15 +310,14 @@ class ShoppingFr : Fragment() {
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = categoryAdapter
 
-        //Initialize spinner and its adapter to choose its Unit
-        val mySpinner = MainActivity.addItemDialogView!!.spItemUnit
+
         val unitAdapter = ArrayAdapter<String>(
             MainActivity.act, android.R.layout.simple_list_item_1,
             MainActivity.act.resources.getStringArray(R.array.units)
         )
 
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mySpinner.adapter = unitAdapter
+        spItemUnit.adapter = unitAdapter
 
 
         //initialize autocompleteTextView and its adapter

@@ -70,8 +70,6 @@
 
             android:background="@drawable/corner_input"
             android:gravity="center"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
 
             app:layout_constraintBottom_toBottomOf="@+id/etItemAmount"
             app:layout_constraintEnd_toStartOf="@+id/actvItem"

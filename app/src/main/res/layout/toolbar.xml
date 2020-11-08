@@ -9,6 +9,7 @@
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/myNewToolbar"
         app:title="My Drawer App"
+        app:popupTheme="@style/MyLightToolbarStyle"
         android:background="?attr/colorBackgroundElevated"
         app:titleTextColor="?attr/colorOnBackGround"
         android:elevation="6dp"/>

@@ -36,7 +36,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorGewürzeBackzutatenL" />
+                    app:tint="?attr/colorIconAppearance" />
 
 
                 <TextView
@@ -77,7 +77,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorNudelnundGetreideL" />
+                    app:tint="?attr/colorIconNotes" />
 
 
                 <TextView
@@ -120,7 +120,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorObstundGemüseL" />
+                    app:tint="?attr/colorIconShopping" />
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
@@ -205,7 +205,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorTiefkühlL" />
+                    app:tint="?attr/colorIconBackup" />
 
                 <TextView
                     android:id="@+id/tvBackup"
@@ -248,7 +248,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorSnacksL" />
+                    app:tint="?attr/colorIconAbout" />
 
                 <TextView
                     android:id="@+id/tvAbout"
