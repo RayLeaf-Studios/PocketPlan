@@ -709,9 +709,9 @@ class ShoppingListAdapter :
             //hide checkMark
             holder.itemView.ivCheckMark.visibility = View.GONE
         } else {
-            //get hint color
-            val colorHint =
-                MainActivity.act.colorForAttr(R.attr.colorHint)
+            //get title color
+            val colorTitle =
+                MainActivity.act.colorForAttr(R.attr.colorCheckedCategoryTitle)
 
 
             //create gradient drawable for checked category background
@@ -730,7 +730,7 @@ class ShoppingListAdapter :
             holder.cvCategory.background = myGradientDrawable
 
             //hint text color for checked category
-            holder.tvCategoryName.setTextColor(colorHint)
+            holder.tvCategoryName.setTextColor(colorTitle)
 
             //clear text displaying number of items
             holder.tvNumberOfItems.text = ""

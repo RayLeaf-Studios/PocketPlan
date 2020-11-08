@@ -420,7 +420,7 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
 class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val listInstance = TodoFr.todoListInstance
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = MainActivity.act.resources.getDimension(dimen.cornerRadius)
 
     fun deleteItem(position: Int) {
         TodoFr.deletedTaskList.clear()
@@ -470,14 +470,14 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.cbTask.isChecked = true
             holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvName.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorHint)
+                MainActivity.act.colorForAttr(attr.colorHint)
             )
             gradientPair = Pair(attr.colorGray, attr.colorGrayL)
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
             holder.itemView.tvName.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
+                MainActivity.act.colorForAttr(attr.colorOnBackGroundTask)
             )
             gradientPair = when (currentTask.priority) {
                 1 -> Pair(attr.colorPriority1, attr.colorPriority1)
@@ -582,6 +582,8 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             TodoFr.myFragment.updateTodoIcons()
 
         }
+
+//        holder.itemView.cbTask.
     }
 
     override fun getItemCount() = TodoFr.todoListInstance.size + 1

@@ -118,6 +118,8 @@ class NoteEditorFr : Fragment() {
             myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(MainActivity.act.colorForAttr(noteColor.colorCode))
 
         }
+        myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_editor_save)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
         super.onCreateOptionsMenu(menu, inflater)
     }
 

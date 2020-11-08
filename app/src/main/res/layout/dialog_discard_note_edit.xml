@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/round_corner_accent"
         android:text="@string/noteDiscardDialogSave"
-        android:textColor="?attr/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbDelete" />
@@ -27,7 +27,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/round_corner_red"
         android:text="@string/noteDiscardDialogDiscard"
-        android:textColor="?attr/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbDelete" />

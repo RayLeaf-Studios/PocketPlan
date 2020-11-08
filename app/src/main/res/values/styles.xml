@@ -19,6 +19,7 @@
         <item name="colorOnBackGround">#F1F1F1</item>
         <item name="colorOnBackGroundTask">#F1F1F1</item>
         <item name="colorHint">#757272</item>
+        <item name="colorHyperLink">#23A8E4</item>
 
         <item name="colorPrimary">#1C1C1C</item>
         <item name="colorPrimaryLight">#353535</item>
@@ -66,11 +67,14 @@
         <item name="colorMonth11">#8935DC</item>
         <item name="colorMonth12">#4F36A8</item>
 
-        <item name="colorIconAbout">#AB47BC</item>
-        <item name="colorIconAppearance">#EC407A</item>
-        <item name="colorIconNotes">#FFCA28</item>
-        <item name="colorIconBackup">#42A5F5</item>
-        <item name="colorIconShopping">#66BB6A</item>
+        <item name="colorIconAppearance">#FFFFFF</item>
+        <item name="colorIconNotes">#FFFFFF</item>
+        <item name="colorIconShopping">#FFFFFF</item>
+        <item name="colorIconBackup">#FFFFFF</item>
+        <item name="colorIconAbout">#FDFDFD</item>
+
+        <item name="colorButtonCancel">#B82D2D</item>
+        <item name="colorCheckedCategoryTitle">#757272</item>
 
         <item name="colorSonstiges">#273E67</item>
         <item name="colorSonstigesL">#345EB3</item>
@@ -132,7 +136,7 @@
 
         <item name="colorOnBackGround">#1B1B1B</item>
         <item name="colorOnBackGroundTask">#FFFFFF</item>
-        <item name="colorHint">#515151</item>
+        <item name="colorHint">#888888</item>
 
         <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryLight">#FFFFFF</item>
@@ -183,6 +187,10 @@
         <item name="colorIconBackup">#4FC3F7</item>
         <item name="colorIconShopping">#81C784</item>
 
+        <item name="colorButtonCancel">#D83643</item>
+        <item name="colorCheckedCategoryTitle">#FFFFFF</item>
+        <item name="colorHyperLink">#23A8E4</item>
+
 
 
 
@@ -192,32 +200,32 @@
         <item name="colorObstundGemüseL">#80C857</item>
         <item name="colorGetränke">#D51E429E</item>
         <item name="colorGetränkeL">#5076DC</item>
-        <item name="colorNudelnundGetreide">#CEC59918</item>
-        <item name="colorNudelnundGetreideL">#CFAF54</item>
+        <item name="colorNudelnundGetreide">#CEB68E19</item>
+        <item name="colorNudelnundGetreideL">#D8B03F</item>
         <item name="colorBackwaren">#BA5C3804</item>
         <item name="colorBackwarenL">#A17D4A</item>
         <item name="colorKühlregalMilch">#C1A8A5A5</item>
-        <item name="colorKühlregalMilchL">#A8A7A7</item>
-        <item name="colorKühlregalFleisch">#A62828</item>
-        <item name="colorKühlregalFleischL">#AC2A2A</item>
-        <item name="colorTiefkühl">#E95D88D1</item>
-        <item name="colorTiefkühlL">#559CDC</item>
-        <item name="colorKonservenFertiges">#CD373737</item>
-        <item name="colorKonservenFertigesL">#373737</item>
+        <item name="colorKühlregalMilchL">#CFCFCF</item>
+        <item name="colorKühlregalFleisch">#6C1B1B</item>
+        <item name="colorKühlregalFleischL">#A54C4C</item>
+        <item name="colorTiefkühl">#E979A3EA</item>
+        <item name="colorTiefkühlL">#8EC2F1</item>
+        <item name="colorKonservenFertiges">#CD333333</item>
+        <item name="colorKonservenFertigesL">#616161</item>
         <item name="colorFrühstück">#C8C35704</item>
         <item name="colorFrühstückL">#C35704</item>
-        <item name="colorGewürzeBackzutaten">#D5B62310</item>
-        <item name="colorGewürzeBackzutatenL">#B62310</item>
+        <item name="colorGewürzeBackzutaten">#D5981201</item>
+        <item name="colorGewürzeBackzutatenL">#D5663A</item>
         <item name="colorHaushalt">#C8216150</item>
-        <item name="colorHaushaltL">#216150</item>
-        <item name="colorSnacks">#590D59</item>
-        <item name="colorSnacksL">#A322A3</item>
-        <item name="colorBackzutaten">#BA683209</item>
-        <item name="colorBackzutatenL">#683209</item>
-        <item name="colorDrogerieKosmetik">#CB32BA9F</item>
-        <item name="colorDrogerieKosmetikL">#32BA9F</item>
-        <item name="colorAlkoholTabak">#BE3225B1</item>
-        <item name="colorAlkoholTabakL">#3225B1</item>
+        <item name="colorHaushaltL">#339E81</item>
+        <item name="colorSnacks">#AC02AC</item>
+        <item name="colorSnacksL">#DC64DC</item>
+        <item name="colorBackzutaten">#BA803809</item>
+        <item name="colorBackzutatenL">#BC7744</item>
+        <item name="colorDrogerieKosmetik">#CB32B89E</item>
+        <item name="colorDrogerieKosmetikL">#7ADCC7</item>
+        <item name="colorAlkoholTabak">#BE2F0D8C</item>
+        <item name="colorAlkoholTabakL">#7449DA</item>
 
     </style>
 

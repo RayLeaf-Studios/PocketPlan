@@ -19,6 +19,7 @@
         android:gravity="center"
         android:text="@string/swipe_right"
         android:textSize="@dimen/font_size_medium"
+        android:textColor="?attr/colorOnBackGround"
         app:layout_constraintTop_toTopOf="parent"
         >
 
@@ -38,7 +39,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/round_corner_accent"
         android:text="@string/noteDeleteDialogCancel"
-        android:textColor="?attr/colorOnBackGround"
+        android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sbDelete" />

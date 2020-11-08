@@ -536,14 +536,14 @@ class MainActivity : AppCompatActivity() {
                         allowDelete = true
                         btnDelete.setBackgroundResource(R.drawable.round_corner_red)
                         btnDelete.setTextColor(
-                            MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                            act.colorForAttr(R.attr.colorOnBackGroundTask)
                         )
                     } else {
                         if (allowDelete) {
                             allowDelete = false
                             btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
                             btnDelete.setTextColor(
-                                MainActivity.act.colorForAttr(R.attr.colorHint)
+                                act.colorForAttr(R.attr.colorHint)
                             )
                         }
                     }
@@ -559,7 +559,7 @@ class MainActivity : AppCompatActivity() {
             myDialogView.tvSwipeToDelete.visibility = View.GONE
             btnDelete.setBackgroundResource(R.drawable.round_corner_red)
             btnDelete.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                act.colorForAttr(R.attr.colorOnBackGround)
             )
         }
 

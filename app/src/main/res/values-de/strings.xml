@@ -131,7 +131,7 @@
     <string name="backupExportJson">Als.json exportieren</string>
     <string name="backupImportJson">Von .json importieren</string>
     <string name="birthdaysNoReminder">\nKeine Erinnerung gesetzt</string>
-    <string name="aboutKellaiDescription">Logo entwurf</string>
+    <string name="aboutKellaiDescription">Logo und UI</string>
 
     <string name="howtoTodo">Wische eine Aufgabe zur Seite um sie zu löschen.\n\nTippe eine Aufgabe an um sie zu bearbeiten.\n\nHalte eine Aufgabe gedrückt um sie umzusortieren.</string>
     <string name="howtoNotes">Tippe auf eine Notiz um sie zu bearbeiten.\n\nHalte eine Notiz gedrückt um sie umzusortieren.</string>
@@ -225,7 +225,7 @@
         <item>Haushalt</item>
         <item>Snacks</item>
         <item>Backzutaten</item>
-        <item>Drogerie &amp; Kostmetik</item>
+        <item>Drogerie &amp; Kosmetik</item>
         <item>Alkoholische Getränke</item>
     </string-array>
 

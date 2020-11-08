@@ -21,6 +21,9 @@
     <attr name="colorGrayD" format="color"/>
 
     <attr name="colorAccent" format="color"/>
+    <attr name="colorButtonCancel" format="color"/>
+    <attr name="colorCheckedCategoryTitle" format="color"/>
+    <attr name="colorHyperLink" format="color"/>
 
     <attr name="colorPriority1" format="color"/>
     <attr name="colorPriority1light" format="color"/>
