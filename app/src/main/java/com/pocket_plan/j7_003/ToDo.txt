@@ -15,11 +15,9 @@ Front-End stuff to-do before release in following order:
     - fix light theme
         date pickers,
         time pickers,
-        uvm
 
     - sleep reminder round / edge design
     - remove suggested units, remember user units
-
 
 
 

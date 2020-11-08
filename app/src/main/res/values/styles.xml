@@ -120,7 +120,7 @@
         <item name="colorControlNormal">#000000</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
-        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogThemeL</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
         <item name="android:spinnerStyle">@android:style/Widget.Material.Light.Spinner</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyleLight</item>
@@ -247,8 +247,21 @@
         <item name="android:timePickerStyle">@style/MyTimePickerStyle</item>
     </style>
 
+    <style name="MyTimePickerDialogThemeL" parent="android:Theme.Material.Dialog">
+        <item name="android:timePickerStyle">@style/MyTimePickerStyleL</item>
+    </style>
+
     <style name="MyTimePickerStyle" parent="android:Widget.Material.TimePicker">
         <item name="android:headerBackground">?attr/colorAccent</item>
+        <item name="android:numbersSelectorColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="MyTimePickerStyleL" parent="android:Widget.Material.TimePicker">
+<!--        colorBackground = white-->
+<!--        colorBackGroundElevated = grey-->
+<!--        colorOnbackground = black-->
+<!--        coloraccent = hellblau-->
+        <item name="android:headerBackground">?attr/colorSnacks</item>
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
     </style>
 
