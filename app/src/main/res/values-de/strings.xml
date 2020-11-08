@@ -128,8 +128,8 @@
     <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
     <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
     <string name="titleRestoreSettings">Alle Einstellungen zurücksetzen?</string>
-    <string name="backupExportJson">Als.json Datei exportieren</string>
-    <string name="backupImportJson">Von .json Datei importieren</string>
+    <string name="backupExportJson">Als.json exportieren</string>
+    <string name="backupImportJson">Von .json importieren</string>
     <string name="birthdaysNoReminder">\nKeine Erinnerung gesetzt</string>
     <string name="aboutKellaiDescription">Logo entwurf</string>
 

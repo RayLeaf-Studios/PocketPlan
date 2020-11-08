@@ -163,8 +163,8 @@
     <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
     <string name="settingsAppearanceResetToDefault">Reset all settings to default</string>
     <string name="titleRestoreSettings">Reset all settings?</string>
-    <string name="backupExportJson">Export as .json file</string>
-    <string name="backupImportJson">Import from .json file</string>
+    <string name="backupExportJson">Export as .json</string>
+    <string name="backupImportJson">Import from .json</string>
     <string name="birthdaysNoReminder">\nNo reminder set</string>
     <string name="howtoTodo">Swipe a task left or right to delete it.\n\nTap a task to edit it.\n\nLongpress and drag a task to re-order it.</string>
     <string name="howtoNotes">Tap a note to edit it.\n\nLongpress and drag a note to re-order it</string>

@@ -7,6 +7,7 @@ General:
     - sort string files (include ALL string arrays in all languages)
 
 Back-End stuff before release:
+    - translate help fragment to russian
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
@@ -15,6 +16,8 @@ Front-End stuff to-do before release in following order:
         date pickers,
         time pickers,
         uvm
+
+    - sleep reminder round / edge design
     - remove suggested units, remember user units
 
 

@@ -87,7 +87,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
                 android:id="@+id/clExportOne"
                 android:background="?attr/selectableItemBackground"
@@ -102,10 +101,10 @@
                     android:padding="10dp"
                     android:text="@string/backupExportJson"
                     android:textColor="?attr/colorOnBackGroundTask"
-                    android:textSize="@dimen/font_size_medium"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spExportOne" />
+                    app:layout_constraintStart_toEndOf="@+id/spExportOne"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/spExportOne"
@@ -130,7 +129,6 @@
                 android:id="@+id/clImportOne"
                 android:background="?attr/selectableItemBackground"
                 android:paddingVertical="10dp"
-                android:paddingHorizontal="20dp"
                 >
 
                 <TextView
@@ -141,10 +139,10 @@
                     android:padding="10dp"
                     android:text="@string/backupImportJson"
                     android:textColor="?attr/colorOnBackGroundTask"
-                    android:textSize="@dimen/font_size_medium"
+                    android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spImportOne" />
+                    app:layout_constraintStart_toEndOf="@+id/spImportOne"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/spImportOne"
