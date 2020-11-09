@@ -269,8 +269,14 @@
 <!--        colorBackGroundElevated = grey-->
 <!--        colorOnbackground = black-->
 <!--        coloraccent = hellblau-->
-        <item name="android:headerBackground">?attr/colorSnacks</item>
+        <item name="android:headerBackground">?attr/colorAccent</item>
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
+
+        <!-- change of text color inside the round element -->
+        <item name="android:numbersTextColor">@android:color/black</item>
+        <item name="android:numbersInnerTextColor">@android:color/black</item>
+        <!-- same as above but for background -->
+        <item name="android:numbersBackgroundColor">?attr/colorGrayL</item>
     </style>
 
     <style name="MySpinnerStyle" parent="android:Widget.Spinner">
