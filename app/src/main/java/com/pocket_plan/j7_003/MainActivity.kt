@@ -485,6 +485,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.SHAPES_ROUND, false)
         setDefault(SettingId.SAFETY_SLIDER_DIALOG, true)
         setDefault(SettingId.SHAKE_TASK_HOME, true)
+        setDefault(SettingId.THEME_DARK, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
