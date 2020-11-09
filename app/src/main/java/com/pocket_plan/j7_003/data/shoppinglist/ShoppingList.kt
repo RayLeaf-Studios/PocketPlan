@@ -67,12 +67,14 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
        this.forEach { e ->
            e.second[0].checked = true
        }
+        save()
     }
 
     fun collapseAllTags(){
         this.forEach { e ->
             e.second[0].checked = false
         }
+        save()
     }
 
     fun somethingIsExpanded(): Boolean{
