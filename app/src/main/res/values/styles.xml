@@ -242,6 +242,7 @@
         <item name="colorBackgroundFloating">?attr/colorAccent</item>
         <item name="android:dayOfWeekBackground">?attr/colorAccent</item>
         <item name="android:dayOfWeekTextAppearance">?attr/colorAccent</item>
+        <item name="background">?attr/colorBackground</item>
 <!--        <item name="android:headerMonthTextAppearance">@color/colorAccent</item>-->
 <!--        <item name="android:headerDayOfMonthTextAppearance">@color/colorAccent</item>-->
 <!--        <item name="android:headerYearTextAppearance">@color/colorAccent</item>-->

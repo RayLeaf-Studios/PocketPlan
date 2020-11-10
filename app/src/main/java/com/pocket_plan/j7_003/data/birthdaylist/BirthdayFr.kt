@@ -41,6 +41,7 @@ class BirthdayFr : Fragment() {
 
     var date: LocalDate = LocalDate.now()
     private lateinit var myMenu: Menu
+    val dark = SettingsManager.getSetting(SettingId.THEME_DARK)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -364,14 +365,27 @@ class BirthdayFr : Fragment() {
             if (cbSaveBirthdayYear.isChecked && yearChanged) {
                 yearToDisplay = date.year
             }
-            val dpd = DatePickerDialog(
-                MainActivity.act,
-                R.style.MyDatePickerStyle,
-                dateSetListener,
-                yearToDisplay,
-                date.monthValue - 1,
-                date.dayOfMonth
-            )
+
+            val dpd = when(dark){
+                true ->
+                    DatePickerDialog(
+                        MainActivity.act,
+                        R.style.MyDatePickerStyle,
+                        dateSetListener,
+                        yearToDisplay,
+                        date.monthValue - 1,
+                        date.dayOfMonth
+                    )
+                else ->
+                    DatePickerDialog(
+                        MainActivity.act,
+                        R.style.DialogTheme,
+                        dateSetListener,
+                        yearToDisplay,
+                        date.monthValue - 1,
+                        date.dayOfMonth
+                    )
+            }
             dpd.show()
             dpd.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(
@@ -635,14 +649,26 @@ class BirthdayFr : Fragment() {
             } else if (cbSaveBirthdayYear.isChecked) {
                 yearToDisplay = LocalDate.now().year
             }
-            val dpd = DatePickerDialog(
-                MainActivity.act,
-                R.style.MyDatePickerStyle,
-                dateSetListener,
-                yearToDisplay,
-                date.monthValue - 1,
-                date.dayOfMonth
-            )
+            val dpd = when(dark){
+                true ->
+                    DatePickerDialog(
+                        MainActivity.act,
+                        R.style.MyDatePickerStyle,
+                        dateSetListener,
+                        yearToDisplay,
+                        date.monthValue - 1,
+                        date.dayOfMonth
+                    )
+                else ->
+                    DatePickerDialog(
+                        MainActivity.act,
+                        R.style.DialogTheme,
+                        dateSetListener,
+                        yearToDisplay,
+                        date.monthValue - 1,
+                        date.dayOfMonth
+                    )
+            }
             dpd.show()
         }
 
