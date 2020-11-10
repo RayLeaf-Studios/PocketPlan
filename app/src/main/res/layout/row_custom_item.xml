@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:background="?attr/colorGrayL"
-    android:paddingVertical="10dp"
-    android:paddingHorizontal="5dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="6dp"
+    app:cardElevation="3dp"
+    android:id="@+id/cvCustom"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:padding="4dp"
-        android:textColor="?attr/colorOnBackGround"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="@dimen/font_size_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorBackgroundElevated"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="5dp"
+        >
 
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="200dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:gravity="end"
-        android:layout_height="match_parent"
-        android:padding="4dp"
-        android:textColor="?attr/colorOnBackGround"
-        android:textSize="@dimen/font_size_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:textColor="?attr/colorOnBackGround"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="@dimen/font_size_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="200dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:layout_height="match_parent"
+            android:padding="4dp"
+            android:textColor="?attr/colorOnBackGround"
+            android:textSize="@dimen/font_size_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -127,16 +127,11 @@ class CustomItemAdapter :
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: CustomItemViewHolder, position: Int) {
 
-        val myGradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TL_BR,
-            intArrayOf(
-                MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated),
-                MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated)
-            )
-        )
 
-        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
-        holder.itemView.background = myGradientDrawable
+        if(round){
+            holder.itemView.cvCustom.radius = cr
+
+        }
 
         val currentItem = CustomItemFr.userItemTemplateList[holder.adapterPosition]
 
