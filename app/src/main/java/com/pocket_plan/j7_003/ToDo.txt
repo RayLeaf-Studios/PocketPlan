@@ -12,7 +12,6 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
 
-    - fix date pickers light
     - shadows everywhere
     - checkboxes for tasks checked gray in dark theme
 
