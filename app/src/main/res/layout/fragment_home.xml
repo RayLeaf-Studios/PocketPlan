@@ -9,22 +9,29 @@
     android:paddingBottom="10dp"
     tools:context=".data.home.HomeFr">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:id="@+id/panelTasks"
+        android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
+        app:cardElevation="3dp"
+        app:layout_constraintTop_toBottomOf="@id/tvRemainingWakeTime"
+        android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorBackgroundElevated"
-        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRemainingWakeTime">
+        >
 
         <TextView
             android:id="@+id/tvTasks"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:padding="5dp"
+            android:paddingHorizontal="10dp"
             android:textColor="?attr/colorOnBackGround"
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/font_size_small"
@@ -44,23 +51,30 @@
             app:layout_constraintTop_toTopOf="@id/tvTasks"
             app:layout_constraintVertical_bias="0.555" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/panelBirthdays"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        android:id="@+id/panelBirthdays"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="5dp"
+        app:cardElevation="3dp"
+        app:layout_constraintTop_toBottomOf="@id/panelTasks"
+        android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorBackgroundElevated"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/panelTasks">
+        >
 
         <TextView
             android:id="@+id/tvBirthday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="3dp"
             android:textColor="?attr/colorOnBackGround"
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/font_size_small"
@@ -82,6 +96,7 @@
             app:layout_constraintVertical_bias="0.555" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 
     <ImageView

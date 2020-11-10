@@ -129,12 +129,9 @@ class HomeFr : Fragment() {
 
     @SuppressLint("ResourceType")
     private fun updateTaskPanel(shake: Boolean) {
-        val myGradientDrawable =
-            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated), MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated)))
         if(round){
-            myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+            myView.panelTasks.radius = cr
         }
-        myView.panelTasks.background = myGradientDrawable
 
         var myShake = shake
         if(!(SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean)){
@@ -203,13 +200,10 @@ class HomeFr : Fragment() {
 
     private fun updateBirthdayPanel() {
 
-        val colorA = MainActivity.act.colorForAttr(R.attr.colorBackgroundElevated)
-        val myGradientDrawable =
-            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorA))
         if(round){
-            myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+            myView.panelBirthdays.radius = cr
         }
-        myView.panelBirthdays.background = myGradientDrawable
+
         val birthdaysToday = BirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
         if (birthdaysToDisplay == 0) {
