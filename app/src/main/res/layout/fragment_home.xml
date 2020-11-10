@@ -14,7 +14,7 @@
         android:id="@+id/panelTasks"
         android:layout_marginTop="10dp"
         android:layout_margin="5dp"
-        app:cardElevation="3dp"
+        app:cardElevation="5dp"
         app:layout_constraintTop_toBottomOf="@id/tvRemainingWakeTime"
         android:layout_height="wrap_content">
 
@@ -57,10 +57,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:id="@+id/panelBirthdays"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginHorizontal="5dp"
         android:layout_marginBottom="5dp"
-        app:cardElevation="3dp"
+        app:cardElevation="5dp"
         app:layout_constraintTop_toBottomOf="@id/panelTasks"
         android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
