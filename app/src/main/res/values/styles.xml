@@ -30,6 +30,7 @@
         <item name="colorGrayD">#2B2A2A</item>
 
         <item name="colorAccent">#0652A5</item>
+        <item name="colorAccentClone">#0652A5</item>
 
         <item name="colorPriority1">#8E0303</item>
         <item name="colorPriority1light">#8E0303</item>
@@ -124,7 +125,7 @@
         <item name="colorControlNormal">#000000</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
-        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogThemeL</item>
+<!--        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogThemeL</item>-->
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
         <item name="android:spinnerStyle">@android:style/Widget.Material.Light.Spinner</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyleLight</item>
@@ -147,6 +148,7 @@
         <item name="colorGrayD">#FFFFFF</item>
 
         <item name="colorAccent">#23A8E4</item>
+        <item name="colorAccentClone">#23A8E4</item>
 
         <item name="colorPriority1">#F06273</item>
         <item name="colorPriority2">#FFB649</item>
@@ -264,6 +266,12 @@
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?attr/colorAccentClone</item>
+        <item name="colorControlNormal">?attr/colorOnBackGround</item>
+    </style>
+
+
     <style name="MyTimePickerStyleL" parent="android:Widget.Material.TimePicker">
 <!--        colorBackground = white-->
 <!--        colorBackGroundElevated = grey-->
@@ -276,7 +284,7 @@
         <item name="android:numbersTextColor">@android:color/black</item>
         <item name="android:numbersInnerTextColor">@android:color/black</item>
         <!-- same as above but for background -->
-        <item name="android:numbersBackgroundColor">?attr/colorGrayL</item>
+        <item name="android:numbersBackgroundColor">?attr/colorBackgroundElevated</item>
     </style>
 
     <style name="MySpinnerStyle" parent="android:Widget.Spinner">

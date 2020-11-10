@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_pick_time.view.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.row_sleep.view.*
@@ -282,6 +284,7 @@ class SleepFr : Fragment() {
 
 class SleepAdapter :
     RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
+    val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
     var dayStrings = arrayOf(
         MainActivity.act.resources.getString(R.string.sleepMon),
@@ -377,13 +380,25 @@ class SleepAdapter :
                     SleepFr.sleepReminderInstance.editWakeUpAtDay(day, h, m)
                     SleepFr.myAdapter.notifyItemChanged(position)
                 }
-            val tpd = TimePickerDialog(
-                MainActivity.act,
-                timeSetListener,
-                SleepFr.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
-                SleepFr.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
-                true
-            )
+            val tpd = when(dark){
+                true ->
+                    TimePickerDialog(
+                        MainActivity.act,
+                        timeSetListener,
+                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
+                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
+                        true
+                    )
+                else ->
+                    TimePickerDialog(
+                        MainActivity.act,
+                        R.style.DialogTheme,
+                        timeSetListener,
+                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
+                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
+                        true
+                    )
+            }
             tpd.show()
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(
