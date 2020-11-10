@@ -277,6 +277,8 @@
         <item name="android:numbersInnerTextColor">@android:color/black</item>
         <!-- same as above but for background -->
         <item name="android:numbersBackgroundColor">?attr/colorGrayL</item>
+       <!-- setting the background color -->
+        <item name="android:background">?attr/colorGrayL</item>
     </style>
 
     <style name="MySpinnerStyle" parent="android:Widget.Spinner">
