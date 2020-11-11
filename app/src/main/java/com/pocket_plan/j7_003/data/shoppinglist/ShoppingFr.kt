@@ -63,6 +63,7 @@ class ShoppingFr : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_shopping, menu)
         myMenu = menu
+        myMenu.findItem(R.id.item_shopping_undo)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
         updateShoppingMenu()
         super.onCreateOptionsMenu(menu, inflater)
     }

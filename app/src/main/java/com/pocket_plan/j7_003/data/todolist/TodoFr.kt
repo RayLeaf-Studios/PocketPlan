@@ -8,7 +8,6 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -82,9 +81,9 @@ class TodoFr : Fragment() {
                     }
                     deletedTaskList.clear()
                 } else {
-                    val newPos = todoListInstance.addFullTask(deletedTask!!)
+                    todoListInstance.addFullTask(deletedTask!!)
                     deletedTask = null
-                    myAdapter.notifyItemInserted(newPos)
+                    myAdapter.notifyDataSetChanged()
                 }
             }
 
@@ -156,6 +155,9 @@ class TodoFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
+                   if(!moving){
+                       return
+                   }
 
                     if(viewHolder.adapterPosition== todoListInstance.size){
                         return
@@ -164,10 +166,11 @@ class TodoFr : Fragment() {
                     //indicate the current move is over
                     moving = false
 
-
-
                     //don't refresh or change anything when the position wasn't changed
-                    if (viewHolder.adapterPosition == lastMovePos) return
+                    if (viewHolder.adapterPosition == lastMovePos || lastMovePos == -1){
+                        lastMovePos = -1
+                        return
+                    }
 
                     //save the old checked state
                     val oldCheckedState = todoListInstance[viewHolder.adapterPosition].isChecked
@@ -218,13 +221,14 @@ class TodoFr : Fragment() {
 
                     //Set new priority
                     todoListInstance[viewHolder.adapterPosition].priority = newPriority
+                    todoListInstance.save()
 
                     //if priority or checkedState did change, refresh adapter
-                    if (oldPriority != newPriority || oldCheckedState != newCheckedState) {
-                        myAdapter.notifyItemChanged(viewHolder.adapterPosition)
-                    }
+                    myAdapter.notifyDataSetChanged()
+//                    if (oldPriority != newPriority || oldCheckedState != newCheckedState) {
+//                        myAdapter.notifyItemChanged(viewHolder.adapterPosition)
+//                    }
 
-                    todoListInstance.save()
 
                 }
 

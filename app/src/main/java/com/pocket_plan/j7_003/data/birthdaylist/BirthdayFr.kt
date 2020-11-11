@@ -72,6 +72,7 @@ class BirthdayFr : Fragment() {
         deletedBirthday = null
         inflater.inflate(R.menu.menu_birthdays, menu)
         myMenu = menu
+        myMenu.findItem(R.id.item_birthdays_undo)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
 
         searchView = menu.findItem(R.id.item_birthdays_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
