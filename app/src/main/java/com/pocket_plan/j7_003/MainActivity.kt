@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
+
         //Set a reference to this activity in the companion object
         act = this
 
@@ -104,6 +105,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         SettingsManager.init()
+
+        //load default values for settings in case none have been set yet
+        loadDefaultSettings()
 
         //set correct theme
         val themeToSet = when(SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean){
@@ -126,8 +130,6 @@ class MainActivity : AppCompatActivity() {
         SleepReminder.context = this
         SleepFr.sleepReminderInstance = SleepReminder()
 
-        //load default values for settings in case none have been set yet
-        loadDefaultSettings()
 
         //Initialize temporary ShoppingFr Instance
         tempShoppingFr = ShoppingFr()
