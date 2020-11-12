@@ -468,7 +468,12 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.tvName.setTextColor(
                 MainActivity.act.colorForAttr(attr.colorOnBackGroundTask)
             )
-            holder.itemView.crvTask.setCardBackgroundColor(MainActivity.act.colorForAttr(attr.colorPriority1))
+            val backgroundColor = when(listInstance.getTask(holder.adapterPosition).priority){
+                1 -> attr.colorPriority1
+                2 -> attr.colorPriority2
+                else -> attr.colorPriority3
+            }
+            holder.itemView.crvTask.setCardBackgroundColor(MainActivity.act.colorForAttr(backgroundColor))
         }
         if (round) {
             holder.itemView.crvTask.radius = cr
