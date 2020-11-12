@@ -36,7 +36,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorIconAppearance" />
+                    app:tint="?attr/colorOnBackGround" />
 
 
                 <TextView
@@ -77,7 +77,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorIconNotes" />
+                    app:tint="?attr/colorOnBackGround" />
 
 
                 <TextView
@@ -120,7 +120,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorIconShopping" />
+                    app:tint="?attr/colorOnBackGround" />
 
                 <TextView
                     android:id="@+id/tvShoppingHeader"
@@ -138,49 +138,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--            <View-->
-            <!--                android:layout_width="409dp"-->
-            <!--                android:layout_height="1dp"-->
-            <!--                android:background="?android:attr/listDivider"-->
-            <!--                tools:layout_editor_absoluteX="1dp"-->
-            <!--                tools:layout_editor_absoluteY="56dp" />-->
-
-
-            <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:paddingStart="20dp"-->
-            <!--                android:id="@+id/clSettingNavigation"-->
-            <!--                android:background="?attr/selectableItemBackground"-->
-            <!--                android:paddingEnd="0dp"-->
-            <!--                android:paddingVertical="15dp"-->
-            <!--                >-->
-
-            <!--                <ImageView-->
-            <!--                    android:id="@+id/ivNavigation"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:src="@drawable/ic_action_menu"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintStart_toStartOf="parent"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent"-->
-            <!--                    app:tint="?attr/colorNoteGreen" />-->
-
-            <!--                <TextView-->
-            <!--                    android:id="@+id/tvNavigationDrawer"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="@string/settingsNavigationTitle"-->
-            <!--                    android:textColor="?attr/colorOnBackGround"-->
-            <!--                    android:textSize="@dimen/font_size_medium"-->
-            <!--                    android:textStyle="bold"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintStart_toEndOf="@+id/ivNavigation"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent"-->
-            <!--                    android:paddingStart="20dp"-->
-            <!--                    app:layout_constraintVertical_bias="0.516" />-->
-
-            <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
             <View
                 android:layout_width="409dp"
                 android:layout_height="1dp"
@@ -205,7 +162,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorIconBackup" />
+                    app:tint="?attr/colorOnBackGround" />
 
                 <TextView
                     android:id="@+id/tvBackup"
@@ -248,7 +205,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorIconAbout" />
+                    app:tint="?attr/colorOnBackGround" />
 
                 <TextView
                     android:id="@+id/tvAbout"

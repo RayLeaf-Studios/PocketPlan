@@ -70,12 +70,6 @@
         <item name="colorMonth11">#8935DC</item>
         <item name="colorMonth12">#4F36A8</item>
 
-        <item name="colorIconAppearance">#FFFFFF</item>
-        <item name="colorIconNotes">#FFFFFF</item>
-        <item name="colorIconShopping">#FFFFFF</item>
-        <item name="colorIconBackup">#FFFFFF</item>
-        <item name="colorIconAbout">#FDFDFD</item>
-
         <item name="colorButtonCancel">#A80F0F</item>
         <item name="colorCheckedCategoryTitle">#757272</item>
         <item name="colorCheckedTask">#232323</item>
@@ -186,12 +180,6 @@
         <item name="colorMonth10">#9D7DD6</item>
         <item name="colorMonth11">#7986CB</item>
         <item name="colorMonth12">#5966AE</item>
-
-        <item name="colorIconAbout">#9575CD</item>
-        <item name="colorIconAppearance">#F06292</item>
-        <item name="colorIconNotes">#FFB74D</item>
-        <item name="colorIconBackup">#4FC3F7</item>
-        <item name="colorIconShopping">#81C784</item>
 
         <item name="colorButtonCancel">#EC4B5E</item>
         <item name="colorCheckedCategoryTitle">#FFFFFF</item>

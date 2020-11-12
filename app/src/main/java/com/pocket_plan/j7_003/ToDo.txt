@@ -14,6 +14,7 @@ Front-End stuff to-do before release in following order:
 
     - shadows for birthdays
     - fix animations in task list
+    - include information about how and what the shopping list remembers in help fragment.
 
 
 
