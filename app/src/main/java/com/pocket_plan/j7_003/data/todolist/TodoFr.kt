@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -38,7 +37,6 @@ class TodoFr : Fragment() {
 
         lateinit var todoListInstance: TodoList
         var deletedTask: Task? = null
-        var deletedTaskList: ArrayList<Task> = arrayListOf()
 
         var offsetTop: Int = 0
         var firstPos: Int = 0
@@ -74,17 +72,9 @@ class TodoFr : Fragment() {
             R.id.item_tasks_undo -> {
                 //undo deletion of last deleted task (or multiple deleted tasks, if
                 //sweep delete button was used
-                if (deletedTaskList.size > 0) {
-                    deletedTaskList.forEach { task ->
-                        val newPos = todoListInstance.addFullTask(task)
-                        myAdapter.notifyItemInserted(newPos)
-                    }
-                    deletedTaskList.clear()
-                } else {
-                    todoListInstance.addFullTask(deletedTask!!)
-                    deletedTask = null
-                    myAdapter.notifyDataSetChanged()
-                }
+                todoListInstance.addFullTask(deletedTask!!)
+                deletedTask = null
+                myAdapter.notifyDataSetChanged()
             }
 
             R.id.item_tasks_clear -> {
@@ -119,7 +109,6 @@ class TodoFr : Fragment() {
         myFragment = this
 
         deletedTask = null
-        deletedTaskList.clear()
 
         /**
          * Adding Task via floating action button
@@ -155,11 +144,11 @@ class TodoFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
-                   if(!moving){
-                       return
-                   }
+                    if (!moving) {
+                        return
+                    }
 
-                    if(viewHolder.adapterPosition== todoListInstance.size){
+                    if (viewHolder.adapterPosition == todoListInstance.size) {
                         return
                     }
 
@@ -167,7 +156,7 @@ class TodoFr : Fragment() {
                     moving = false
 
                     //don't refresh or change anything when the position wasn't changed
-                    if (viewHolder.adapterPosition == lastMovePos || lastMovePos == -1){
+                    if (viewHolder.adapterPosition == lastMovePos || lastMovePos == -1) {
                         lastMovePos = -1
                         return
                     }
@@ -178,17 +167,17 @@ class TodoFr : Fragment() {
                     //get new checkedState from item below, or leave it unchanged
                     //if item is the last in the list, take checkedState of item above
                     val newCheckedState: Boolean
-                    newCheckedState = if(!oldCheckedState){
-                        when(viewHolder.adapterPosition){
-                            todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition-1].isChecked
+                    newCheckedState = if (!oldCheckedState) {
+                        when (viewHolder.adapterPosition) {
+                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition - 1].isChecked
                             0 -> oldCheckedState
-                            else -> todoListInstance[viewHolder.adapterPosition-1].isChecked
+                            else -> todoListInstance[viewHolder.adapterPosition - 1].isChecked
                         }
 
-                    } else{
-                        when(viewHolder.adapterPosition){
-                            todoListInstance.size -1 -> todoListInstance[viewHolder.adapterPosition-1].isChecked
-                            else -> todoListInstance[viewHolder.adapterPosition+1].isChecked
+                    } else {
+                        when (viewHolder.adapterPosition) {
+                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition - 1].isChecked
+                            else -> todoListInstance[viewHolder.adapterPosition + 1].isChecked
                         }
 
                     }
@@ -201,17 +190,17 @@ class TodoFr : Fragment() {
 
                     //get new priority from item below or from item above if item is last item
                     val newPriority: Int
-                    if(viewHolder.adapterPosition>lastMovePos){
+                    if (viewHolder.adapterPosition > lastMovePos) {
                         newPriority = when (viewHolder.adapterPosition) {
-                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition-1].priority
+                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition - 1].priority
                             0 -> oldPriority
                             else -> {
                                 todoListInstance[viewHolder.adapterPosition - 1].priority
                             }
                         }
-                    }else{
+                    } else {
                         newPriority = when (viewHolder.adapterPosition) {
-                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition-1].priority
+                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition - 1].priority
                             else -> {
                                 todoListInstance[viewHolder.adapterPosition + 1].priority
                             }
@@ -238,7 +227,7 @@ class TodoFr : Fragment() {
                 ): Boolean {
 
                     val fromPos = viewHolder.adapterPosition
-                    if(fromPos== todoListInstance.size){
+                    if (fromPos == todoListInstance.size) {
                         return true
                     }
 
@@ -281,7 +270,7 @@ class TodoFr : Fragment() {
     }
 
     fun updateUndoTaskIcon() {
-        val result = deletedTask != null || deletedTaskList.size > 0
+        val result = deletedTask != null
         myMenu.findItem(R.id.item_tasks_undo)?.isVisible = result
     }
 
@@ -325,7 +314,6 @@ class TodoFr : Fragment() {
 
     //Deletes all checked tasks and animates the deletion
     private fun manageCheckedTaskDeletion() {
-        deletedTaskList.clear()
         deletedTask = null
         val oldSize = todoListInstance.size
         val newSize = todoListInstance.deleteCheckedTasks()
@@ -427,7 +415,6 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
     private val cr = MainActivity.act.resources.getDimension(dimen.cornerRadius)
 
     fun deleteItem(position: Int) {
-        TodoFr.deletedTaskList.clear()
         TodoFr.deletedTask = listInstance.getTask(position)
         TodoFr.myFragment.updateTodoIcons()
         listInstance.deleteTask(position)
@@ -449,7 +436,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.tvName.setOnLongClickListener { true }
             holder.itemView.tapField.setOnClickListener { }
             val density = MainActivity.act.resources.displayMetrics.density
-            holder.itemView.layoutParams.height = (100*density).toInt()
+            holder.itemView.layoutParams.height = (100 * density).toInt()
             return
         }
 
@@ -493,10 +480,10 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             GradientDrawable.Orientation.TL_BR,
             intArrayOf(
                 MainActivity.act.colorForAttr(gradientPair.second),
-                        MainActivity.act.colorForAttr(gradientPair.first)
+                MainActivity.act.colorForAttr(gradientPair.first)
             )
         )
-        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
+        if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
         holder.itemView.background = myGradientDrawable
 
         //User Interactions with Task List Item below
@@ -544,7 +531,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
 
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
-                button.setOnClickListener Button@ {
+                button.setOnClickListener Button@{
                     if (myDialogView.etxTitleAddTask.text.toString() == "") {
                         val animationShake =
                             AnimationUtils.loadAnimation(MainActivity.act, anim.shake)
