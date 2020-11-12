@@ -41,6 +41,8 @@ class SleepFr : Fragment() {
     private var customIsInit: Boolean = false
     private var regularIsInit: Boolean = false
 
+    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -153,13 +155,23 @@ class SleepFr : Fragment() {
                     )
                     updateRegularDisplay()
                 }
-            val tpd = TimePickerDialog(
-                MainActivity.act,
-                timeSetListener,
-                sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeHour()!!,
-                sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeMinute()!!,
-                true
-            )
+            val tpd = when(dark){
+                true -> TimePickerDialog(
+                    MainActivity.act,
+                    timeSetListener,
+                    sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeHour()!!,
+                    sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeMinute()!!,
+                    true
+                )
+                else -> TimePickerDialog(
+                    MainActivity.act,
+                    R.style.DialogTheme,
+                    timeSetListener,
+                    sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeHour()!!,
+                    sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeMinute()!!,
+                    true
+                )
+            }
             tpd.show()
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(
@@ -284,7 +296,10 @@ class SleepFr : Fragment() {
 
 class SleepAdapter :
     RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
-    val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+
 
     var dayStrings = arrayOf(
         MainActivity.act.resources.getString(R.string.sleepMon),
@@ -306,6 +321,10 @@ class SleepAdapter :
     override fun onBindViewHolder(holder: SleepViewHolder, position: Int) {
         val day = DayOfWeek.values()[position]
         holder.day = day
+
+        if(round){
+            holder.itemView.crvSleep.radius = cr
+        }
 
         //initialize the day string
         holder.itemView.tvDayString.text = dayStrings[position]

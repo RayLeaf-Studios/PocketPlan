@@ -48,6 +48,8 @@
         <item name="colorBackgroundListElement">#252525</item>
         <item name="colorGoToSleep">#CC212F</item>
 
+        <item name="colorSun">#F4C01F</item>
+
         <item name="colorBirthdayToday">#D60000</item>
         <item name="colorBirthdaySoon">#25A5E1</item>
 
@@ -147,7 +149,7 @@
         <item name="colorGrayL">#A5A1A1</item>
         <item name="colorGrayD">#FFFFFF</item>
 
-        <item name="colorAccent">#23A8E4</item>
+        <item name="colorAccent">#2397E4</item>
         <item name="colorAccentClone">#23A8E4</item>
 
         <item name="colorPriority1">#F06273</item>
@@ -163,6 +165,7 @@
         <item name="colorBackgroundListElement">#E1E1E1</item>
 
         <item name="colorGoToSleep">#F3EF2828</item>
+        <item name="colorSun">#F3A318</item>
         <item name="colorBirthdayNotify">#1CBCFB</item>
 
         <item name="colorBirthdayToday">#E12525</item>
@@ -189,7 +192,7 @@
         <item name="colorIconBackup">#4FC3F7</item>
         <item name="colorIconShopping">#81C784</item>
 
-        <item name="colorButtonCancel">#D83643</item>
+        <item name="colorButtonCancel">#EC4B5E</item>
         <item name="colorCheckedCategoryTitle">#FFFFFF</item>
         <item name="colorHyperLink">#23A8E4</item>
 

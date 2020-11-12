@@ -11,20 +11,14 @@ Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
-
     - shadows for birthdays
     - shadows for sleep reminder
 
     - remove deleted task list undo
 
-    - light theme for time picker in normal setting aswell
-
     - checkboxes for tasks checked gray in dark theme
     - checked shopping items gray in light theme
 
-    - fix cancel btn colors
-
-    - sleep reminder round / edge design
     - remove suggested units, remember user units
 
 

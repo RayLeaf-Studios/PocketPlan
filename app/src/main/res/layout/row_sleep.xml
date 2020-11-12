@@ -1,104 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="6dp"
-    android:background="@drawable/round_corner_gray"
-    android:clickable="false"
-    >
-
-
-    <TextView
-        android:id="@+id/tvDayString"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginVertical="20dp"
-        android:text="@string/sleepSun"
-        android:textColor="?attr/colorOnBackGround"
-        android:textSize="@dimen/font_size_big"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:id="@+id/crvSleep"
+    app:cardCornerRadius="0dp"
+    app:cardBackgroundColor="?attr/colorBackgroundElevated">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clTapFieldWakeUp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:paddingVertical="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/clTapFieldDuration"
-        app:layout_constraintTop_toTopOf="parent">
+        >
 
-        <ImageView
-            android:id="@+id/icWakeup"
+        <TextView
+            android:id="@+id/tvDayString"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginVertical="20dp"
+            android:text="@string/sleepSun"
+            android:textColor="?attr/colorOnBackGround"
+            android:textSize="@dimen/font_size_big"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTapFieldWakeUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_action_sun"
+            android:paddingVertical="14dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeRow"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorNudelnundGetreideL" />
+            app:layout_constraintEnd_toStartOf="@+id/clTapFieldDuration"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvWakeTimeRow"
+            <ImageView
+                android:id="@+id/icWakeup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_action_sun"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvWakeTimeRow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorSun" />
+
+            <TextView
+                android:id="@+id/tvWakeTimeRow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:text="19h 3m"
+                android:textColor="?attr/colorOnBackGround"
+                android:textSize="@dimen/font_size_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTapFieldDuration"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
-            android:text="19h 3m"
-            android:textColor="?attr/colorOnBackGround"
-            android:textSize="@dimen/font_size_medium"
+            android:layout_height="wrap_content"
+            android:paddingVertical="14dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cbRemindMe"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/icDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_action_duration"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvDurationRow"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorHyperLink" />
+
+            <TextView
+                android:id="@+id/tvDurationRow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="19h 3m"
+                android:textColor="?attr/colorOnBackGround"
+                android:textSize="@dimen/font_size_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <CheckBox
+            android:id="@+id/cbRemindMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clTapFieldDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingVertical="14dp"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cbRemindMe"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/icDuration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_action_duration"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvDurationRow"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorTiefkühlL" />
-
-        <TextView
-            android:id="@+id/tvDurationRow"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="19h 3m"
-            android:textColor="?attr/colorOnBackGround"
-            android:textSize="@dimen/font_size_medium"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <CheckBox
-        android:id="@+id/cbRemindMe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
