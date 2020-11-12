@@ -13,6 +13,6 @@ A simple way to store, edit and reorder notes
 
 A smart birthday list
 
-![alt tag](https://i.ibb.co/vYtDTMB/bdays.png)
+![alt tag](https://i.ibb.co/9vR2mB0/bdays.png)
 
 
