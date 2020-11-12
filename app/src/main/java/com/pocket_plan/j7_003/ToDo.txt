@@ -13,7 +13,7 @@ Back-End stuff before release:
 Front-End stuff to-do before release in following order:
     - shadows for birthdays
 
-    - checkboxes for tasks checked gray in dark theme
+    - optimize backgrounds using unnecessary gradient drawables
 
     - rethink default settings
     - fix animations in task list

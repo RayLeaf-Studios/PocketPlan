@@ -463,7 +463,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.tvName.setTextColor(
                 MainActivity.act.colorForAttr(attr.colorHint)
             )
-            gradientPair = Pair(attr.colorGray, attr.colorGrayL)
+            gradientPair = Pair(attr.colorCheckedTask, attr.colorCheckedTask)
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0

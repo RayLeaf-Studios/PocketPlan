@@ -78,6 +78,7 @@
 
         <item name="colorButtonCancel">#A80F0F</item>
         <item name="colorCheckedCategoryTitle">#757272</item>
+        <item name="colorCheckedTask">#232323</item>
 
         <item name="colorSonstiges">#243E6A</item>
         <item name="colorSonstigesL">#446DBF</item>
@@ -194,6 +195,7 @@
 
         <item name="colorButtonCancel">#EC4B5E</item>
         <item name="colorCheckedCategoryTitle">#FFFFFF</item>
+        <item name="colorCheckedTask">#BDBCBC</item>
         <item name="colorHyperLink">#23A8E4</item>
 
 
@@ -296,8 +298,14 @@
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
     </style>
 
-    <style name="WhiteCheck">
+    <style name="CheckStyleTask">
         <item name="colorAccent">?attr/colorHint</item>
+        <item name="android:colorControlNormal">?attr/colorOnBackGroundTask</item>
+<!--        <item name="buttonTint">?attr/colorOnBackGroundTask</item>-->
+    </style>
+    <style name="CheckStyleItem">
+        <item name="colorAccent">?attr/colorHint</item>
+<!--        <item name="buttonTint">?attr/colorOnBackGround</item>-->
     </style>
     <style name="MyLightToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">?attr/colorBackground</item>
