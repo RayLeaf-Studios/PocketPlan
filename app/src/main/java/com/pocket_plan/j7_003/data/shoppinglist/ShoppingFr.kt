@@ -312,7 +312,7 @@ class ShoppingFr : Fragment() {
         spCategory.adapter = categoryAdapter
 
 
-        val unitAdapter = ArrayAdapter<String>(
+        val unitAdapter = ArrayAdapter(
             MainActivity.act, android.R.layout.simple_list_item_1,
             MainActivity.act.resources.getStringArray(R.array.units)
         )
@@ -395,19 +395,20 @@ class ShoppingFr : Fragment() {
         MainActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
 
             if (actvItem.text.toString() == "") {
-                //animation
+                //No item string entered => play shake animation
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
                 MainActivity.addItemDialogView!!.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
 
+            //selected categoryCode
             val categoryCode =
                 MainActivity.act.resources.getStringArray(R.array.categoryCodes)[MainActivity.act.resources.getStringArray(
                     R.array.categoryNames
                 ).indexOf(spCategory.selectedItem as String)]
-            //check if user template exists
 
+            //check if user template exists for this string
             var template =
                 MainActivity.userItemTemplateList.getTemplateByName(actvItem.text.toString())
 
@@ -415,8 +416,8 @@ class ShoppingFr : Fragment() {
                 //no user item with this name => check for regular template
 
                 template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
-                if (template == null || categoryCode != template!!.c) {
-                    //item unknown, or item known under different category, use selected category,
+                if (template == null || categoryCode != template!!.c || spItemUnit.selectedItemPosition != 0) {
+                    //item unknown, or item known under different category or with different unit, use selected category and unit,
                     // add item, and save it to userTemplate list
 
                     MainActivity.userItemTemplateList.add(
@@ -467,8 +468,8 @@ class ShoppingFr : Fragment() {
                 }
             }
 
-            if (categoryCode != template!!.c) {
-                //known as user item but with different tag
+            if (categoryCode != template!!.c || spItemUnit.selectedItem.toString() != template!!.s) {
+                //known as user item but with different tag or different suggested unit
                 MainActivity.userItemTemplateList.removeItem(actvItem.text.toString())
                 MainActivity.userItemTemplateList.add(
                     ItemTemplate(
@@ -498,6 +499,9 @@ class ShoppingFr : Fragment() {
                 ).show()
             }
             actvItem.setText("")
+            etItemAmount.setText("1")
+            spItemUnit.setSelection(0)
+            actvItem.requestFocus()
             if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                 MainActivity.addItemDialog?.dismiss()
             }

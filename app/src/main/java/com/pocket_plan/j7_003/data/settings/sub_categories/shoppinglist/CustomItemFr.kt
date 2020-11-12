@@ -130,13 +130,12 @@ class CustomItemAdapter :
 
         if(round){
             holder.itemView.cvCustom.radius = cr
-
         }
 
         val currentItem = CustomItemFr.userItemTemplateList[holder.adapterPosition]
 
         //changes design of task based on priority and being checked
-        holder.itemView.tvName.text = currentItem.n
+        holder.itemView.tvName.text = currentItem.n + " : "+currentItem.s
         val id = MainActivity.act.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
         holder.itemView.tvCategory.text = MainActivity.act.resources.getStringArray(R.array.categoryNames)[id]
     }

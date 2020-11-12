@@ -44,7 +44,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
         )
 
         list.forEach { e ->
-            this.add(ItemTemplate(e.n, e.c, e.s))
+            this.add(ItemTemplate(e.n, e.c, "x"))
         }
     }
 

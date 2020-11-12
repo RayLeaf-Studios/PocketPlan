@@ -11,15 +11,15 @@ Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
+    - update shopping adapter when deleting custom items
+
     - shadows for birthdays
     - shadows for sleep reminder
-
-    - remove deleted task list undo
 
     - checkboxes for tasks checked gray in dark theme
     - checked shopping items gray in light theme
 
-    - remove suggested units, remember user units
+    - rethink default settings
 
 
 
