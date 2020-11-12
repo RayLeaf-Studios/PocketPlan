@@ -11,8 +11,6 @@ Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
-    - update shopping adapter when deleting custom items
-
     - shadows for birthdays
     - shadows for sleep reminder
 

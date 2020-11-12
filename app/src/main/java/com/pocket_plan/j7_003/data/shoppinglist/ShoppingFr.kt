@@ -11,6 +11,7 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -48,6 +49,8 @@ class ShoppingFr : Fragment() {
         lateinit var myAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
         lateinit var myFragment: ShoppingFr
+
+        lateinit var autoCompleteTv: AutoCompleteTextView
 
         var offsetTop: Int = 0
         var firstPos: Int = 0
@@ -277,6 +280,7 @@ class ShoppingFr : Fragment() {
         }
 
         MainActivity.itemTemplateList.forEach {
+            //Todo check why this if is necessary
             if (!MainActivity.itemNameList.contains(it.n)) {
                 MainActivity.itemNameList.add(it.n)
             }
@@ -322,8 +326,8 @@ class ShoppingFr : Fragment() {
 
 
         //initialize autocompleteTextView and its adapter
-        val autoCompleteTv = MainActivity.addItemDialogView!!.actvItem
-        val autoCompleteTvAdapter = ArrayAdapter<String>(
+        autoCompleteTv = MainActivity.addItemDialogView!!.actvItem
+        val autoCompleteTvAdapter = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_spinner_dropdown_item,
             MainActivity.itemNameList
@@ -448,7 +452,7 @@ class ShoppingFr : Fragment() {
                             .show()
                     }
                     MainActivity.itemNameList.add(actvItem.text.toString())
-                    val autoCompleteTvAdapter2 = ArrayAdapter<String>(
+                    val autoCompleteTvAdapter2 = ArrayAdapter(
                         MainActivity.act,
                         android.R.layout.simple_spinner_dropdown_item,
                         MainActivity.itemNameList
