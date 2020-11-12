@@ -818,7 +818,7 @@ class SublistAdapter(
         //background drawable for item
         val myGradientDrawable: GradientDrawable
 
-        //initialize if text is gray and strike through flag is set
+        //initialize text / background color and strike through flag
         if (item.checked) {
             holder.itemView.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvItemTitle

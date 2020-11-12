@@ -12,12 +12,11 @@ Back-End stuff before release:
 
 Front-End stuff to-do before release in following order:
     - shadows for birthdays
-    - shadows for sleep reminder
 
     - checkboxes for tasks checked gray in dark theme
-    - checked shopping items gray in light theme
 
     - rethink default settings
+    - fix animations in task list
 
 
 

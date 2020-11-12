@@ -181,7 +181,8 @@ class HomeFr : Fragment() {
         //creates text displaying the tasks by concatenating their titles with newlines
         var taskPanelText = "\n"
         for (i in 0 until displayTaskCount) {
-            taskPanelText += "•  "+taskList[i].title
+//            taskPanelText += "•  "+taskList[i].title
+            taskPanelText += taskList[i].title
             if (i < displayTaskCount) {
                 taskPanelText += "\n"
             }
@@ -226,7 +227,8 @@ class HomeFr : Fragment() {
         }
         var birthdayText = "\n"
         for (i in 0 until birthdaysToDisplay) {
-            birthdayText += "•  " + birthdaysToday[i].name + "\n"
+//            birthdayText += "•  " + birthdaysToday[i].name + "\n"
+            birthdayText += birthdaysToday[i].name + "\n"
         }
         val excess = birthdaysToday.size - birthdaysToDisplay
         if (excess > 0) {

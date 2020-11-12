@@ -147,7 +147,7 @@
 
         <item name="colorGray">#A5A1A1</item>
         <item name="colorGrayL">#A5A1A1</item>
-        <item name="colorGrayD">#FFFFFF</item>
+        <item name="colorGrayD">#D3D3D3</item>
 
         <item name="colorAccent">#2397E4</item>
         <item name="colorAccentClone">#23A8E4</item>

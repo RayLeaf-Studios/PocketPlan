@@ -4,7 +4,7 @@
     android:layout_margin="10dp"
     android:layout_width="match_parent"
     app:cardBackgroundColor="?attr/colorBackgroundElevated"
-    app:cardElevation="3dp"
+    app:cardElevation="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >

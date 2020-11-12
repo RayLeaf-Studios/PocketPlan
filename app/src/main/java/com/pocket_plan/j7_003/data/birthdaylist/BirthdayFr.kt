@@ -332,13 +332,13 @@ class BirthdayFr : Fragment() {
         tvBirthdayDate.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 tvBirthdayDate.setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
                 )
                 yearChanged = true
                 if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
-                        MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                        MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
                     )
                 }
 
@@ -346,7 +346,7 @@ class BirthdayFr : Fragment() {
                 if (date.year != 0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
-                        MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                        MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
                     )
                 }
                 date = when (cbSaveBirthdayYear.isChecked) {

@@ -52,7 +52,7 @@ class TodoFr : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_tasks, menu)
         myMenu = menu
-
+        myMenu.findItem(R.id.item_tasks_undo)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
         updateTodoIcons()
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -135,7 +135,7 @@ class TodoFr : Fragment() {
         //itemTouchHelper to drag and reorder notes
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                 0
             ) {
                 var lastMovePos: Int = -1
