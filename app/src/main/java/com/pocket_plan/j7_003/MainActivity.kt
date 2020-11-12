@@ -482,7 +482,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.FONT_SIZE, "18")
         setDefault(SettingId.CLOSE_ITEM_DIALOG, false)
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
-        setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, false)
+        setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, true)
         setDefault(SettingId.MOVE_CHECKED_DOWN, true)
         setDefault(SettingId.SHAPES_ROUND, false)
         setDefault(SettingId.SAFETY_SLIDER_DIALOG, true)

@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.todolist
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
@@ -456,35 +455,26 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             true
         }
 
-        val gradientPair: Pair<Int, Int>
         if (listInstance.getTask(holder.adapterPosition).isChecked) {
             holder.itemView.cbTask.isChecked = true
             holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvName.setTextColor(
                 MainActivity.act.colorForAttr(attr.colorHint)
             )
-            gradientPair = Pair(attr.colorCheckedTask, attr.colorCheckedTask)
+            holder.itemView.crvTask.setCardBackgroundColor(MainActivity.act.colorForAttr(attr.colorCheckedTask))
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
             holder.itemView.tvName.setTextColor(
                 MainActivity.act.colorForAttr(attr.colorOnBackGroundTask)
             )
-            gradientPair = when (currentTask.priority) {
-                1 -> Pair(attr.colorPriority1, attr.colorPriority1)
-                2 -> Pair(attr.colorPriority2, attr.colorPriority2)
-                else -> Pair(attr.colorPriority3, attr.colorPriority3)
-            }
+            holder.itemView.crvTask.setCardBackgroundColor(MainActivity.act.colorForAttr(attr.colorPriority1))
         }
-        val myGradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TL_BR,
-            intArrayOf(
-                MainActivity.act.colorForAttr(gradientPair.second),
-                MainActivity.act.colorForAttr(gradientPair.first)
-            )
-        )
-        if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
-        holder.itemView.background = myGradientDrawable
+        if (round) {
+            holder.itemView.crvTask.radius = cr
+        } else {
+            holder.itemView.crvTask.radius = 0f
+        }
 
         //User Interactions with Task List Item below
         /**

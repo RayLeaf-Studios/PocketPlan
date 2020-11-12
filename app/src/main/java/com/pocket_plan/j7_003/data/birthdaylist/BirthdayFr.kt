@@ -1028,8 +1028,6 @@ class BirthdayAdapter :
             GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
 
 
-//        myGradientDrawable.cornerRadius = 0f
-
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
         if (BirthdayFr.searching) {

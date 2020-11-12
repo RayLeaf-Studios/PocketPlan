@@ -22,6 +22,7 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
+import kotlinx.android.synthetic.main.row_task.view.*
 import java.util.*
 
 
@@ -251,17 +252,12 @@ class NoteAdapter :
             holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
         }
 
-        val myGradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TL_BR,
-            intArrayOf(
-                MainActivity.act.colorForAttr(currentNote.color.colorCode),
-                MainActivity.act.colorForAttr(currentNote.color.colorCode)
-            )
-        )
-        if(round) myGradientDrawable.cornerRadii = floatArrayOf(cr,cr,cr,cr,cr,cr,cr,cr)
-        holder.cvNoteCard.background = myGradientDrawable
-        //set background color depending on currentNote.color
-//        holder.cvNoteCard.setCardBackgroundColor(currentNote.color.resolved)
+        holder.cvNoteCard.radius = when(round){
+            true -> cr
+            else -> 0f
+        }
+
+        holder.itemView.cvNoteCard.setCardBackgroundColor(MainActivity.act.colorForAttr(currentNote.color.colorCode))
     }
 
     override fun getItemCount(): Int {

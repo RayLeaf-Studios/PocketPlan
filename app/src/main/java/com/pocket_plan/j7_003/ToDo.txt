@@ -11,11 +11,8 @@ Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
+
     - shadows for birthdays
-
-    - optimize backgrounds using unnecessary gradient drawables
-
-    - rethink default settings
     - fix animations in task list
 
 
