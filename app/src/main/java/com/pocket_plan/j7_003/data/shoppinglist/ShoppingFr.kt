@@ -10,10 +10,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -325,6 +322,25 @@ class ShoppingFr : Fragment() {
         spItemUnit.adapter = unitAdapter
 
 
+        spItemUnit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if(position!=0){
+                    MainActivity.unitChanged = true
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                /* no-op */
+            }
+
+        }
+
+
         //initialize autocompleteTextView and its adapter
         autoCompleteTv = MainActivity.addItemDialogView!!.actvItem
         val autoCompleteTvAdapter = ArrayAdapter(
@@ -354,7 +370,10 @@ class ShoppingFr : Fragment() {
                     //display correct unit
                     val unitPointPos =
                         MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
-                    spItemUnit.setSelection(unitPointPos)
+                    if(!MainActivity.unitChanged){
+                        spItemUnit.setSelection(unitPointPos)
+                        MainActivity.unitChanged = false
+                    }
                     return
                 }
 
@@ -370,7 +389,10 @@ class ShoppingFr : Fragment() {
                     //display correct unit
                     val unitPointPos =
                         MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
-                    spItemUnit.setSelection(unitPointPos)
+                    if(!MainActivity.unitChanged){
+                        spItemUnit.setSelection(unitPointPos)
+                        MainActivity.unitChanged = false
+                    }
                 } else {
                     spCategory.setSelection(0)
                 }
@@ -461,6 +483,7 @@ class ShoppingFr : Fragment() {
                     actvItem.setText("")
                     etItemAmount.setText("1")
                     spItemUnit.setSelection(0)
+                    MainActivity.unitChanged = false
                     actvItem.requestFocus()
                     if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
                             SettingId.CLOSE_ITEM_DIALOG
@@ -505,6 +528,7 @@ class ShoppingFr : Fragment() {
             actvItem.setText("")
             etItemAmount.setText("1")
             spItemUnit.setSelection(0)
+            MainActivity.unitChanged = false
             actvItem.requestFocus()
             if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                 MainActivity.addItemDialog?.dismiss()
@@ -522,6 +546,7 @@ class ShoppingFr : Fragment() {
     fun openAddItemDialog() {
         MainActivity.addItemDialogView!!.actvItem.setText("")
         MainActivity.addItemDialogView!!.spItemUnit.setSelection(0)
+        MainActivity.unitChanged = false
         MainActivity.addItemDialogView!!.etItemAmount.setText("1")
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         MainActivity.addItemDialog?.show()

@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var itemTemplateList: ItemTemplateList
         lateinit var userItemTemplateList: UserItemTemplateList
         lateinit var itemNameList: ArrayList<String>
+        var unitChanged: Boolean = false
 
         var addItemDialog: AlertDialog? = null
         var addItemDialogView: View? = null
