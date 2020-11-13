@@ -1,5 +1,3 @@
-Todo:
-
 General:
     - check logs, fix notifications
     - code cleanup
@@ -11,35 +9,7 @@ Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Front-End stuff to-do before release in following order:
-
-    - shadows for birthdays
-    - fix animations in task list
+    ??
 
 
-Add after release:
-    - write custom bottom navigationbar
-    - let user pick custom note color?
-    - Front-End / Back-End ? option to change language
-    - Add more languages
-    - WeekPlanner / Calendar
-    - add short delay before shake animation on long press
-    - decide what to do with terms in the past, (delete after week? even show them at all?)
-    - button to go to current day in DayView
 
-    - option to remember fragment (in navigation settings)
-    - option to default to a specific fragment
-    - option to choose which icons are where (in bottom navigation)
-
-    - figure out how to preload sleep fragment without disappearing custom days
-    - detect keyboard close in editor and clear focus
-
-    - Sharing of shopping list,
-
-Ideas:
-    - if year in the future is set, set birthday info text to ("will be born in... years")
-    - update birthdayFragment and birthdayPanel home when 00:00 is passed
-    - scroll buffer für notes??
-    - functionality that supports adding of categories?
-    - make shopping list presets save and loadable
-    - suggested amount for shopping items
-    - add tags / sublist for different store/s?

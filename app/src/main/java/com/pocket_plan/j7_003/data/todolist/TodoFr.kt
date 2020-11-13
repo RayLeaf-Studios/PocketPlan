@@ -71,9 +71,9 @@ class TodoFr : Fragment() {
             R.id.item_tasks_undo -> {
                 //undo deletion of last deleted task (or multiple deleted tasks, if
                 //sweep delete button was used
-                todoListInstance.addFullTask(deletedTask!!)
+                val newPos = todoListInstance.addFullTask(deletedTask!!)
                 deletedTask = null
-                myAdapter.notifyDataSetChanged()
+                myAdapter.notifyItemInserted(newPos)
             }
 
             R.id.item_tasks_clear -> {
@@ -212,10 +212,10 @@ class TodoFr : Fragment() {
                     todoListInstance.save()
 
                     //if priority or checkedState did change, refresh adapter
-                    myAdapter.notifyDataSetChanged()
-//                    if (oldPriority != newPriority || oldCheckedState != newCheckedState) {
-//                        myAdapter.notifyItemChanged(viewHolder.adapterPosition)
-//                    }
+//                    myAdapter.notifyDataSetChanged()
+                    if (oldPriority != newPriority || oldCheckedState != newCheckedState) {
+                        myAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                    }
 
 
                 }
@@ -401,8 +401,9 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        adapter.deleteItem(position)
-        adapter.notifyDataSetChanged()
+        TodoFr.deletedTask = TodoFr.todoListInstance.getTask(position)
+        TodoFr.todoListInstance.deleteTask(position)
+        adapter.notifyItemRemoved(position)
         TodoFr.myFragment.updateTodoIcons()
     }
 
@@ -412,13 +413,6 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
     private val listInstance = TodoFr.todoListInstance
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = MainActivity.act.resources.getDimension(dimen.cornerRadius)
-
-    fun deleteItem(position: Int) {
-        TodoFr.deletedTask = listInstance.getTask(position)
-        TodoFr.myFragment.updateTodoIcons()
-        listInstance.deleteTask(position)
-        notifyItemRemoved(position)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
         val itemView = LayoutInflater.from(parent.context)
