@@ -544,6 +544,7 @@ class MainActivity : AppCompatActivity() {
         val sbDelete = myDialogView.sbDelete
 
         var allowDelete: Boolean
+
         if (safetySlider) {
             allowDelete = false
             //allow deletion and set color to delete button if seekBar is at 100%, remove color and
@@ -584,7 +585,7 @@ class MainActivity : AppCompatActivity() {
             myDialogView.tvSwipeToDelete.visibility = View.GONE
             btnDelete.setBackgroundResource(R.drawable.round_corner_red)
             btnDelete.setTextColor(
-                act.colorForAttr(R.attr.colorOnBackGround)
+                act.colorForAttr(R.attr.colorOnBackGroundTask)
             )
         }
 

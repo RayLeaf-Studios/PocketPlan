@@ -22,6 +22,7 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.dialog_add_item.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
@@ -349,7 +350,9 @@ class ShoppingFr : Fragment() {
         )
 
         autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+
         autoCompleteTv.requestFocus()
+
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -415,6 +418,13 @@ class ShoppingFr : Fragment() {
 
         MainActivity.addItemDialogView!!.btnCancelItem.setOnClickListener {
             MainActivity.addItemDialog?.dismiss()
+        }
+
+        autoCompleteTv.setOnKeyListener { v, keyCode, event ->
+            if(keyCode==KeyEvent.KEYCODE_ENTER && event.action==KeyEvent.ACTION_DOWN){
+                MainActivity.addItemDialogView!!.btnAddItemToList.performClick()
+            }
+            true
         }
         //Button to Confirm adding Item to list
         MainActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
