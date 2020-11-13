@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
@@ -153,9 +154,29 @@ class MainActivity : AppCompatActivity() {
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
         val mySpinner = header.ivSpinner
+        var allowSpin = true
         mySpinner.setOnClickListener {
+            if(!allowSpin){
+                return@setOnClickListener
+            }
+            allowSpin = false
             val animationSpin =
                 AnimationUtils.loadAnimation(act, R.anim.icon_easter_egg)
+
+            animationSpin.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {
+                    /* no-op */
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    allowSpin = true
+                }
+
+                override fun onAnimationRepeat(animation: Animation?) {
+                    /* no-op */
+                }
+
+            })
             mySpinner.startAnimation(animationSpin)
         }
 
