@@ -12,6 +12,7 @@
 
         <item name="colorBackground">#121212</item>
         <item name="colorBackgroundElevated">#1C1C1C</item>
+        <item name="colorHomePanel">#1C1C1C</item>
 
         <item name="colorHint">#757272</item>
         <item name="colorHyperLink">#23A8E4</item>
@@ -111,6 +112,7 @@
 
         <item name="colorBackground">#EFEFEF</item>
         <item name="colorBackgroundElevated">#E1E1E1</item>
+        <item name="colorHomePanel">#EFEFEF</item>
 
         <item name="colorHint">#888888</item>
         <item name="colorOnBackGround">#1B1B1B</item>
@@ -256,6 +258,6 @@
 
     <style name="mySpinnerItemStyleLight" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">?attr/colorOnBackGround</item>
-        <item name="android:background">?attr/colorBackgroundElevated</item>
+        <item name="android:background">?attr/colorBackground</item>
     </style>
 </resources>

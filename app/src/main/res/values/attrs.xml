@@ -42,7 +42,8 @@
 
     <attr name="colorSun" format="color"/>
 
-    <attr name="colorBirthdayNotify" format="color"/>
+<attr name="colorBirthdayNotify" format="color"/>
+    <attr name="colorHomePanel" format="color"/>
 
     <attr name="colorCategory" format="color"/>
 

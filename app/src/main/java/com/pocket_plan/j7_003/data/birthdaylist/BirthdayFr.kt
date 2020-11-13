@@ -613,7 +613,7 @@ class BirthdayFr : Fragment() {
         tvBirthdayDate.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, pickedYear, month, day ->
                 tvBirthdayDate.setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
                 )
                 yearChanged = true
                 if (pickedYear != 2020 && !cbSaveBirthdayYear.isChecked && pickedYear != chosenYear) {
@@ -1022,10 +1022,10 @@ class BirthdayAdapter :
 
         //set regular birthday background
         val colorA =
-            MainActivity.act.colorForAttr(R.attr.colorBackgroundListElement)
+            MainActivity.act.colorForAttr(R.attr.colorHomePanel)
 
         val colorB =
-            MainActivity.act.colorForAttr(R.attr.colorBackgroundListElement)
+            MainActivity.act.colorForAttr(R.attr.colorHomePanel)
 
         val myGradientDrawable =
             GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
