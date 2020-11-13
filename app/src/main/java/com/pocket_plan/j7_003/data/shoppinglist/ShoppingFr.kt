@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -322,14 +321,14 @@ class ShoppingFr : Fragment() {
         spItemUnit.adapter = unitAdapter
 
 
-        spItemUnit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        spItemUnit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                if(position!=0){
+                if (position != 0) {
                     MainActivity.unitChanged = true
                 }
             }
@@ -370,7 +369,7 @@ class ShoppingFr : Fragment() {
                     //display correct unit
                     val unitPointPos =
                         MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
-                    if(!MainActivity.unitChanged){
+                    if (!MainActivity.unitChanged) {
                         spItemUnit.setSelection(unitPointPos)
                         MainActivity.unitChanged = false
                     }
@@ -389,7 +388,7 @@ class ShoppingFr : Fragment() {
                     //display correct unit
                     val unitPointPos =
                         MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
-                    if(!MainActivity.unitChanged){
+                    if (!MainActivity.unitChanged) {
                         spItemUnit.setSelection(unitPointPos)
                         MainActivity.unitChanged = false
                     }
@@ -865,7 +864,7 @@ class SublistAdapter(
             holder.itemView.tvItemTitle
                 .setTextColor(
                     MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
-)
+                )
             myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(

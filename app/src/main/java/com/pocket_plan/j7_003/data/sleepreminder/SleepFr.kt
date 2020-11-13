@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -155,7 +154,7 @@ class SleepFr : Fragment() {
                     )
                     updateRegularDisplay()
                 }
-            val tpd = when(dark){
+            val tpd = when (dark) {
                 true -> TimePickerDialog(
                     MainActivity.act,
                     timeSetListener,
@@ -176,11 +175,11 @@ class SleepFr : Fragment() {
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(
                     MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
-)
+                )
             tpd.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setTextColor(
                     MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
-)
+                )
         }
 
         v.panelSleepDuration.setOnClickListener {
@@ -322,7 +321,7 @@ class SleepAdapter :
         val day = DayOfWeek.values()[position]
         holder.day = day
 
-        if(round){
+        if (round) {
             holder.itemView.crvSleep.radius = cr
         }
 
@@ -399,7 +398,7 @@ class SleepAdapter :
                     SleepFr.sleepReminderInstance.editWakeUpAtDay(day, h, m)
                     SleepFr.myAdapter.notifyItemChanged(position)
                 }
-            val tpd = when(dark){
+            val tpd = when (dark) {
                 true ->
                     TimePickerDialog(
                         MainActivity.act,
@@ -422,11 +421,11 @@ class SleepAdapter :
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(
                     MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
-)
+                )
             tpd.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setTextColor(
                     MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
-)
+                )
         }
     }
 

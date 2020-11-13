@@ -1,4 +1,5 @@
 package com.pocket_plan.j7_003
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.TypedValue
@@ -112,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         loadDefaultSettings()
 
         //set correct theme
-        val themeToSet = when(SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean){
+        val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
             else -> R.style.AppThemeLight
         }
@@ -156,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         val mySpinner = header.ivSpinner
         var allowSpin = true
         mySpinner.setOnClickListener {
-            if(!allowSpin){
+            if (!allowSpin) {
                 return@setOnClickListener
             }
             allowSpin = false
@@ -229,7 +230,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //removes longClick tooltips for bottom navigation
-        for(i in 0 until bottomNavigation.menu.size()){
+        for (i in 0 until bottomNavigation.menu.size()) {
             val view = bottomNavigation.findViewById<View>(bottomNavigation.menu.getItem(i).itemId)
             view.setOnLongClickListener {
                 true
@@ -363,7 +364,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //check the correct item in the bottomNavigation
-        val checkedBottomNav = when(fragmentTag){
+        val checkedBottomNav = when (fragmentTag) {
             FT.NOTES -> 0
             FT.TASKS -> 1
             FT.HOME -> 2
@@ -372,7 +373,7 @@ class MainActivity : AppCompatActivity() {
             else -> 5
         }
 
-        when(checkedBottomNav){
+        when (checkedBottomNav) {
             5 -> setNavBarUnchecked()
             else -> {
                 setNavBarUnchecked()
@@ -477,7 +478,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun refreshData(){
+    fun refreshData() {
         NoteFr.noteListInstance = NoteList()
         BirthdayFr.birthdayListInstance = BirthdayList(act)
         ShoppingFr.shoppingListInstance = ShoppingList()
@@ -489,7 +490,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
 
-    fun resetSettings(){
+    fun resetSettings() {
         val action: () -> Unit = {
             SettingsManager.settings.clear()
             loadDefaultSettings()
@@ -543,7 +544,7 @@ class MainActivity : AppCompatActivity() {
         val sbDelete = myDialogView.sbDelete
 
         var allowDelete: Boolean
-        if(safetySlider){
+        if (safetySlider) {
             allowDelete = false
             //allow deletion and set color to delete button if seekBar is at 100%, remove color and
             //disallow deletion otherwise
@@ -577,8 +578,7 @@ class MainActivity : AppCompatActivity() {
 
             myDialogView.sbDelete.visibility = View.VISIBLE
             myDialogView.tvSwipeToDelete.visibility = View.VISIBLE
-        }
-        else{
+        } else {
             allowDelete = true
             myDialogView.sbDelete.visibility = View.GONE
             myDialogView.tvSwipeToDelete.visibility = View.GONE

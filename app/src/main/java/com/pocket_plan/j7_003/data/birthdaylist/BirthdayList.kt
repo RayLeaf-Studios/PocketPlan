@@ -1,7 +1,6 @@
 package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.content.Context
-import android.util.Log
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
@@ -15,7 +14,7 @@ import kotlin.collections.ArrayList
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>() {
+class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday>() {
 
     init {
         StorageHandler.createJsonFile(StorageId.BIRTHDAYS, context)
@@ -29,15 +28,23 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
      * @param parMonth The month of the birthday
      * @param parDay The day of the birthday
      */
-    fun addBirthday(name: String, day: Int, month: Int, year: Int, daysToRemind: Int, expanded: Boolean, notify: Boolean) {
+    fun addBirthday(
+        name: String,
+        day: Int,
+        month: Int,
+        year: Int,
+        daysToRemind: Int,
+        expanded: Boolean,
+        notify: Boolean
+    ) {
         this.add(Birthday(name, day, month, year, daysToRemind, expanded, notify))
         sortAndSaveBirthdays()
     }
 
     /**
      * Helper Function to add a full birthday object, used for undoing deletions
-      */
-    fun addFullBirthday(birthday: Birthday): Int{
+     */
+    fun addFullBirthday(birthday: Birthday): Int {
         this.add(birthday)
         sortAndSaveBirthdays()
         return this.indexOf(birthday)
@@ -60,7 +67,14 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
      * @param parReminder Days to be reminded at prior to the birthday.
      * @param parPosition Position of the birthday object int he list.
      */
-    fun editBirthday(name: String, parDay: Int, parMonth: Int, parYear: Int, parReminder: Int, parPosition: Int) {
+    fun editBirthday(
+        name: String,
+        parDay: Int,
+        parMonth: Int,
+        parYear: Int,
+        parReminder: Int,
+        parPosition: Int
+    ) {
         val editableBirthday: Birthday =
             getBirthday(
                 parPosition
@@ -76,12 +90,12 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
 
     }
 
-    fun sortAndSaveBirthdays(){
+    fun sortAndSaveBirthdays() {
         sortBirthday()
         save()
     }
 
-    fun deleteBirthdayObject(birthday: Birthday){
+    fun deleteBirthdayObject(birthday: Birthday) {
         this.remove(birthday)
         sortBirthday()
         save()
@@ -105,7 +119,7 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
         var beforeMonth = false
         var afterMonth = false
         this.forEach { m ->
-            if(!months.contains(m.month) && m.month != today.monthValue){
+            if (!months.contains(m.month) && m.month != today.monthValue) {
                 months.add(m.month)
             }
 
@@ -137,9 +151,12 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
             val month = LocalDate.of(2020, m, 1).month
             val name = context.resources.getStringArray(R.array.months)[month.value - 1]
 
-            this.add(Birthday(name, 0, m,0, -1*m,
-                expanded = false, notify = false
-            ))
+            this.add(
+                Birthday(
+                    name, 0, m, 0, -1 * m,
+                    expanded = false, notify = false
+                )
+            )
         }
     }
 
@@ -149,17 +166,19 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
         val day = localDate.dayOfMonth
         val month = localDate.month.value
         val cacheList = ArrayList<Birthday>()
-        this.sortWith(compareBy({ it.month }, { it.day }, {it.daysToRemind >= 0}, { it.name }))
+        this.sortWith(compareBy({ it.month }, { it.day }, { it.daysToRemind >= 0 }, { it.name }))
 
         var i = 0
-        val spacerBirthday = Birthday("${localDate.year + 1}", 1, 1,0, -200,
+        val spacerBirthday = Birthday(
+            "${localDate.year + 1}", 1, 1, 0, -200,
             expanded = false,
             notify = false
         )
         cacheList.add(spacerBirthday)
-        while(i < this.size) {
+        while (i < this.size) {
             if (getBirthday(i).month < month ||
-                (getBirthday(i).month == month && getBirthday(i).day < day)) {
+                (getBirthday(i).month == month && getBirthday(i).day < day)
+            ) {
                 cacheList.add(getBirthday(i))
                 this.remove(getBirthday(i))
             } else {
@@ -167,11 +186,12 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
             }
         }
 
-        this.sortWith(compareBy(
-            { it.month },
-            { it.day },
-            { it.daysToRemind >= 0},
-            { it.name })
+        this.sortWith(
+            compareBy(
+                { it.month },
+                { it.day },
+                { it.daysToRemind >= 0 },
+                { it.name })
         )
 
         if (cacheList.size == 1) {
@@ -192,7 +212,7 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
         val currentBirthdays = ArrayList<Birthday>()
         val localDate = LocalDate.now()
         this.forEach { n ->
-            if (n.month == localDate.monthValue  &&
+            if (n.month == localDate.monthValue &&
                 n.day == localDate.dayOfMonth &&
                 n.daysToRemind >= 0
             ) {
@@ -212,8 +232,8 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
         val localDate = LocalDate.now()
         this.forEach { n ->
             if (n.month == localDate.monthValue + 1 && (n.day - n.daysToRemind) ==
-                localDate.dayOfMonth && n.daysToRemind != 0)
-            {
+                localDate.dayOfMonth && n.daysToRemind != 0
+            ) {
                 upcomingBirthdays.add(n)
             }
         }
@@ -259,12 +279,15 @@ class BirthdayList(val context: Context = MainActivity.act): ArrayList<Birthday>
     private fun fetchFromFile() {
         val jsonString = StorageHandler.files[StorageId.BIRTHDAYS]?.readText()
 
-        this.addAll(GsonBuilder().create()
-            .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type))
+        this.addAll(
+            GsonBuilder().create()
+                .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
+        )
     }
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.BIRTHDAYS], this)
+            StorageHandler.files[StorageId.BIRTHDAYS], this
+        )
     }
 }

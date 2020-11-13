@@ -123,12 +123,12 @@ class HomeFr : Fragment() {
 
     @SuppressLint("ResourceType")
     private fun updateTaskPanel(shake: Boolean) {
-        if(round){
+        if (round) {
             myView.panelTasks.radius = cr
         }
 
         var myShake = shake
-        if(!(SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean)){
+        if (!(SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean)) {
             myShake = false
         }
         var p1TaskCounter = 0
@@ -164,7 +164,7 @@ class HomeFr : Fragment() {
                 MainActivity.act.colorForAttr(R.attr.colorGoToSleep)
             )
 
-            if(myShake){
+            if (myShake) {
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_long)
                 myView.ivTasksHome.startAnimation(animationShake)
@@ -195,7 +195,7 @@ class HomeFr : Fragment() {
 
     private fun updateBirthdayPanel() {
 
-        if(round){
+        if (round) {
             myView.panelBirthdays.radius = cr
         }
 
@@ -303,7 +303,11 @@ class HomeFr : Fragment() {
                     updateTaskPanel(false)
                 }
                 if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
-                    Toast.makeText(MainActivity.act, resources.getString(R.string.home_notification_add_task), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        MainActivity.act,
+                        resources.getString(R.string.home_notification_add_task),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 myAlertDialog?.dismiss()
             }

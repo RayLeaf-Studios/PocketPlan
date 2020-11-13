@@ -13,7 +13,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -367,7 +366,7 @@ class BirthdayFr : Fragment() {
                 yearToDisplay = date.year
             }
 
-            val dpd = when(dark){
+            val dpd = when (dark) {
                 true ->
                     DatePickerDialog(
                         MainActivity.act,
@@ -650,7 +649,7 @@ class BirthdayFr : Fragment() {
             } else if (cbSaveBirthdayYear.isChecked) {
                 yearToDisplay = LocalDate.now().year
             }
-            val dpd = when(dark){
+            val dpd = when (dark) {
                 true ->
                     DatePickerDialog(
                         MainActivity.act,
@@ -944,7 +943,7 @@ class BirthdayAdapter :
         //save a reference for the birthday saved in this holder
         holder.birthday = currentBirthday
 
-            if (currentBirthday.daysToRemind < 0) {
+        if (currentBirthday.daysToRemind < 0) {
             //hide everything not related to year or month divider
             holder.tvRowBirthdayDivider.visibility = View.VISIBLE
             holder.tvRowBirthdayDivider.text = currentBirthday.name
@@ -1127,7 +1126,6 @@ class BirthdayAdapter :
 
         //todo figure a way out to display this in another way, blue under blue month label => low contrast
         //maybe animation?
-
 
 
         //set icon / text color to blue if birthday is today, to pink if its daysToRemind < days.Until, to white otherwise

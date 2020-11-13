@@ -45,7 +45,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
 
         var sublistExpanded = true
 
-        if(SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean && somethingIsExpanded()){
+        if (SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean && somethingIsExpanded()) {
             sublistExpanded = false
         }
 
@@ -63,32 +63,32 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
         }
     }
 
-    fun expandAllTags(){
-       this.forEach { e ->
-           e.second[0].checked = true
-       }
+    fun expandAllTags() {
+        this.forEach { e ->
+            e.second[0].checked = true
+        }
         save()
     }
 
-    fun collapseAllTags(){
+    fun collapseAllTags() {
         this.forEach { e ->
             e.second[0].checked = false
         }
         save()
     }
 
-    fun somethingIsExpanded(): Boolean{
+    fun somethingIsExpanded(): Boolean {
         this.forEach { e ->
-            if(e.second[0].checked){
+            if (e.second[0].checked) {
                 return true
             }
         }
         return false
     }
 
-    fun somethingsCollapsed(): Boolean{
+    fun somethingsCollapsed(): Boolean {
         this.forEach { e ->
-            if(!e.second[0].checked){
+            if (!e.second[0].checked) {
                 return true
             }
         }
@@ -117,11 +117,11 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
      * @param tag The tag of the requested sublist.
      */
     fun isTagExpanded(tag: String): Boolean {
-       return try {
-           this[getTagIndex(tag)].second[0].checked
-       } catch(e: Exception) {
-           false
-       }
+        return try {
+            this[getTagIndex(tag)].second[0].checked
+        } catch (e: Exception) {
+            false
+        }
     }
 
     /**
@@ -132,7 +132,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
      */
     fun isItemChecked(tag: String, sublistPosition: Int): Boolean? {
         return try {
-            this[getTagIndex(tag)].second[sublistPosition+1].checked
+            this[getTagIndex(tag)].second[sublistPosition + 1].checked
         } catch (e: Exception) {
             null
         }
@@ -149,7 +149,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
             this[getTagIndex(tag)].second[0].checked = newState
             save()
             newState
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }
@@ -162,7 +162,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
      */
     fun flipItemCheckedState(tag: String, sublistPosition: Int): Int {
         return try {
-            val itemCache: ShoppingItem = this[getTagIndex(tag)].second[sublistPosition+1]
+            val itemCache: ShoppingItem = this[getTagIndex(tag)].second[sublistPosition + 1]
             itemCache.checked = !itemCache.checked
             sortSublist(this[getTagIndex(tag)].second)
             save()
@@ -191,9 +191,9 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
      * @param tag The tag the sublist is supposed to have.
      * @return Either the size of the list or zero if it doesn't exist.
      */
-    fun getSublistLength(tag: String): Int{
+    fun getSublistLength(tag: String): Int {
         this.forEach {
-            if(it.first == tag){
+            if (it.first == tag) {
                 return it.second.size - 1
             }
         }
@@ -222,9 +222,9 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
      * @return If the item could be found it is returned, null otherwise.
      */
     fun getItem(tag: String, subPosition: Int): ShoppingItem? {
-        this.forEach{
-            if(it.first == tag){
-                return it.second[subPosition+1]
+        this.forEach {
+            if (it.first == tag) {
+                return it.second[subPosition + 1]
             }
 
         }
@@ -236,7 +236,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
      * @param tag   The tag to search.
      * @return      `true` if all items are checked in the sublist, `false` otherwise.
      */
-    fun areAllChecked(tag: String) : Boolean {
+    fun areAllChecked(tag: String): Boolean {
         return try {
             getUncheckedSize(tag) == 0
         } catch (e: Exception) {
@@ -278,7 +278,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
 
                 if (this[i].first == tag) {
                     removedItem = this[i].second.removeAt(sublistPosition + 1)
-                    if (this[i].second.size==1) {   // removing the sublist if it is empty
+                    if (this[i].second.size == 1) {   // removing the sublist if it is empty
                         super.remove(this[i])
                         sublistGotDeleted = true
                     }
@@ -317,7 +317,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     private fun sortSublist(list: ArrayList<ShoppingItem>) {
         val markerList: ArrayList<ShoppingItem> = arrayListOf(list[0])
         list.remove(markerList[0])
-        list.sortWith(compareBy({it.checked}, {it.name}))
+        list.sortWith(compareBy({ it.checked }, { it.name }))
         markerList.addAll(list)
         list.clear()
         list.addAll(markerList)
@@ -325,14 +325,19 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
 
     fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.SHOPPING], this)
+            StorageHandler.files[StorageId.SHOPPING], this
+        )
     }
 
     private fun fetchList() {
         val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
 
-        this.addAll(GsonBuilder().create()
-            .fromJson(jsonString,
-                object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type))
+        this.addAll(
+            GsonBuilder().create()
+                .fromJson(
+                    jsonString,
+                    object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
+                )
+        )
     }
 }

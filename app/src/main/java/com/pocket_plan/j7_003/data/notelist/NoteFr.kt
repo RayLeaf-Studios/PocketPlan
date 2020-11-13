@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.notelist
 
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
@@ -8,7 +7,6 @@ import android.view.animation.AnimationUtils
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +20,6 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
-import kotlinx.android.synthetic.main.row_task.view.*
 import java.util.*
 
 
@@ -252,7 +249,7 @@ class NoteAdapter :
             holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
         }
 
-        holder.cvNoteCard.radius = when(round){
+        holder.cvNoteCard.radius = when (round) {
             true -> cr
             else -> 0f
         }

@@ -1,7 +1,5 @@
 <resources>
-    <!-- Base application theme. -->
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="android:colorForeground">?attr/colorOnBackGround</item>
         <item name="colorControlHighlight">?attr/colorHint</item>
         <item name="android:textColorPrimary">?attr/colorOnBackGround</item>
@@ -109,24 +107,16 @@
     </style>
 
 
-
-
-
-
-
     <style name="AppThemeLight" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="android:colorForeground">?attr/colorOnBackGround</item>
         <item name="colorControlHighlight">#282729</item>
         <item name="android:textColorPrimary">#000000</item>
         <item name="colorControlNormal">#000000</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
-<!--        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogThemeL</item>-->
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
         <item name="android:spinnerStyle">@android:style/Widget.Material.Light.Spinner</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyleLight</item>
-
 
 
         <item name="colorBackground">#EFEFEF</item>
@@ -187,8 +177,6 @@
         <item name="colorHyperLink">#23A8E4</item>
 
 
-
-
         <item name="colorSonstiges">#455C83</item>
         <item name="colorSonstigesL">#627393</item>
         <item name="colorObstundGemüse">#C42E9E15</item>
@@ -230,21 +218,11 @@
 
     <style name="MyDatePickerStyle" parent="android:Widget.Material.DatePicker">
         <item name="android:headerBackground">?attr/colorNotePurple</item>
-<!--        <item name="colorAccent">?attr/colorAccent</item>-->
         <item name="android:windowIsFloating">true</item>
         <item name="colorBackgroundFloating">?attr/colorAccent</item>
         <item name="android:dayOfWeekBackground">?attr/colorAccent</item>
         <item name="android:dayOfWeekTextAppearance">?attr/colorAccent</item>
         <item name="background">?attr/colorBackground</item>
-<!--        <item name="android:headerMonthTextAppearance">@color/colorAccent</item>-->
-<!--        <item name="android:headerDayOfMonthTextAppearance">@color/colorAccent</item>-->
-<!--        <item name="android:headerYearTextAppearance">@color/colorAccent</item>-->
-<!--        <item name="android:state_selected">@color/colorAccent</item>-->
-<!--        <item name="android:selectedDateVerticalBar">@color/colorAccent</item>-->
-<!--        <item name="android:yearListItemTextAppearance">@color/colorAccent</item>-->
-<!--        <item name="android:yearListSelectorColor">@color/colorAccent</item>-->
-<!--        <item name="android:calendarTextColor">@color/colorAccent</item>-->
-<!--        <item name="android:calendarViewShown">@color/colorAccent</item>-->
     </style>
 
     <style name="MyTimePickerDialogTheme" parent="android:Theme.Material.Dialog">
@@ -267,17 +245,10 @@
 
 
     <style name="MyTimePickerStyleL" parent="android:Widget.Material.TimePicker">
-<!--        colorBackground = white-->
-<!--        colorBackGroundElevated = grey-->
-<!--        colorOnbackground = black-->
-<!--        coloraccent = hellblau-->
         <item name="android:headerBackground">?attr/colorAccent</item>
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
-
-        <!-- change of text color inside the round element -->
         <item name="android:numbersTextColor">@android:color/black</item>
         <item name="android:numbersInnerTextColor">@android:color/black</item>
-        <!-- same as above but for background -->
         <item name="android:numbersBackgroundColor">?attr/colorBackgroundElevated</item>
     </style>
 
@@ -289,12 +260,12 @@
     <style name="CheckStyleTask">
         <item name="colorAccent">?attr/colorHint</item>
         <item name="android:colorControlNormal">?attr/colorOnBackGroundTask</item>
-<!--        <item name="buttonTint">?attr/colorOnBackGroundTask</item>-->
     </style>
+
     <style name="CheckStyleItem">
         <item name="colorAccent">?attr/colorHint</item>
-<!--        <item name="buttonTint">?attr/colorOnBackGround</item>-->
     </style>
+
     <style name="MyLightToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">?attr/colorBackground</item>
         <item name="android:textColor">?attr/colorOnBackGround</item>
