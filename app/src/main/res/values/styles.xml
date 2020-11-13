@@ -1,23 +1,22 @@
 <resources>
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorForeground">?attr/colorOnBackGround</item>
-        <item name="colorControlHighlight">?attr/colorHint</item>
-        <item name="android:textColorPrimary">?attr/colorOnBackGround</item>
-        <item name="colorControlNormal">?attr/colorOnBackGround</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
-        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
-
         <item name="android:spinnerStyle">@android:style/Widget.Material.Spinner</item>
+        <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
+        <item name="android:textColorPrimary">?attr/colorOnBackGround</item>
+        <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorControlHighlight">?attr/colorHint</item>
+        <item name="colorControlNormal">?attr/colorOnBackGround</item>
 
         <item name="colorBackground">#121212</item>
         <item name="colorBackgroundElevated">#1C1C1C</item>
 
-        <item name="colorOnBackGround">#F1F1F1</item>
-        <item name="colorOnBackGroundTask">#F1F1F1</item>
         <item name="colorHint">#757272</item>
         <item name="colorHyperLink">#23A8E4</item>
+        <item name="colorOnBackGround">#F1F1F1</item>
+        <item name="colorOnBackGroundTask">#F1F1F1</item>
 
         <item name="colorPrimary">#1C1C1C</item>
         <item name="colorPrimaryLight">#353535</item>
@@ -30,30 +29,26 @@
         <item name="colorAccent">#0652A5</item>
         <item name="colorAccentClone">#0652A5</item>
 
+        <item name="colorBackgroundListElement">#252525</item>
+        <item name="colorBirthdayNotify">#1976D2</item>
+        <item name="colorBirthdaySoon">#25A5E1</item>
+        <item name="colorBirthdayToday">#D60000</item>
+        <item name="colorButtonCancel">#A80F0F</item>
+        <item name="colorCategory">#FFFFFF</item>
+        <item name="colorCheckedCategoryTitle">#757272</item>
+        <item name="colorCheckedTask">#232323</item>
+        <item name="colorGoToSleep">#CC212F</item>
+        <item name="colorSun">#F4C01F</item>
+
         <item name="colorPriority1">#8E0303</item>
-        <item name="colorPriority1light">#8E0303</item>
         <item name="colorPriority2">#D7B67607</item>
-        <item name="colorPriority2light">#BEC68709</item>
         <item name="colorPriority3">#06591D</item>
-        <item name="colorPriority3light">#EE09491B</item>
 
         <item name="colorNoteRed">#831414</item>
         <item name="colorNoteYellow">#985502</item>
         <item name="colorNoteGreen">#036854</item>
         <item name="colorNoteBlue">#023D97</item>
         <item name="colorNotePurple">#4D2B80</item>
-
-        <item name="colorBackgroundListElement">#252525</item>
-        <item name="colorGoToSleep">#CC212F</item>
-
-        <item name="colorSun">#F4C01F</item>
-
-        <item name="colorBirthdayToday">#D60000</item>
-        <item name="colorBirthdaySoon">#25A5E1</item>
-
-        <item name="colorBirthdayNotify">#1976D2</item>
-
-        <item name="colorCategory">#FFFFFF</item>
 
         <item name="colorMonth1">#024B98</item>
         <item name="colorMonth2">#1584C1</item>
@@ -67,10 +62,6 @@
         <item name="colorMonth10">#972C8C</item>
         <item name="colorMonth11">#8935DC</item>
         <item name="colorMonth12">#4F36A8</item>
-
-        <item name="colorButtonCancel">#A80F0F</item>
-        <item name="colorCheckedCategoryTitle">#757272</item>
-        <item name="colorCheckedTask">#232323</item>
 
         <item name="colorSonstiges">#243E6A</item>
         <item name="colorSonstigesL">#446DBF</item>
@@ -92,8 +83,8 @@
         <item name="colorKonservenFertigesL">#303030</item>
         <item name="colorFrühstück">#C8974607</item>
         <item name="colorFrühstückL">#BF5C11</item>
-        <item name="colorGewürzeBackzutaten">#D5911C0D</item>
-        <item name="colorGewürzeBackzutatenL">#AE3424</item>
+        <item name="colorGewürze">#D5911C0D</item>
+        <item name="colorGewürzeL">#AE3424</item>
         <item name="colorHaushalt">#C81D5345</item>
         <item name="colorHaushaltL">#216150</item>
         <item name="colorSnacks">#731473</item>
@@ -109,22 +100,22 @@
 
     <style name="AppThemeLight" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorForeground">?attr/colorOnBackGround</item>
-        <item name="colorControlHighlight">#282729</item>
-        <item name="android:textColorPrimary">#000000</item>
-        <item name="colorControlNormal">#000000</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
-        <item name="android:spinnerStyle">@android:style/Widget.Material.Light.Spinner</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyleLight</item>
-
+        <item name="android:spinnerStyle">@android:style/Widget.Material.Light.Spinner</item>
+        <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="colorControlHighlight">#282729</item>
+        <item name="colorControlNormal">#000000</item>
 
         <item name="colorBackground">#EFEFEF</item>
         <item name="colorBackgroundElevated">#E1E1E1</item>
 
+        <item name="colorHint">#888888</item>
         <item name="colorOnBackGround">#1B1B1B</item>
         <item name="colorOnBackGroundTask">#FFFFFF</item>
-        <item name="colorHint">#888888</item>
+        <item name="colorHyperLink">#23A8E4</item>
 
         <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryLight">#FFFFFF</item>
@@ -137,6 +128,17 @@
         <item name="colorAccent">#2397E4</item>
         <item name="colorAccentClone">#23A8E4</item>
 
+        <item name="colorBackgroundListElement">#E1E1E1</item>
+        <item name="colorBirthdayNotify">#1CBCFB</item>
+        <item name="colorBirthdaySoon">#2FA8E1</item>
+        <item name="colorBirthdayToday">#E12525</item>
+        <item name="colorButtonCancel">#EC4B5E</item>
+        <item name="colorCategory">#FFFFFF</item>
+        <item name="colorCheckedCategoryTitle">#FFFFFF</item>
+        <item name="colorCheckedTask">#BDBCBC</item>
+        <item name="colorGoToSleep">#F3EF2828</item>
+        <item name="colorSun">#F3A318</item>
+
         <item name="colorPriority1">#F06273</item>
         <item name="colorPriority2">#FFB649</item>
         <item name="colorPriority3">#77BD7A</item>
@@ -146,17 +148,6 @@
         <item name="colorNoteGreen">#77BD7A</item>
         <item name="colorNoteBlue">#49B3E3</item>
         <item name="colorNotePurple">#BA68C8</item>
-
-        <item name="colorBackgroundListElement">#E1E1E1</item>
-
-        <item name="colorGoToSleep">#F3EF2828</item>
-        <item name="colorSun">#F3A318</item>
-        <item name="colorBirthdayNotify">#1CBCFB</item>
-
-        <item name="colorBirthdayToday">#E12525</item>
-        <item name="colorBirthdaySoon">#2FA8E1</item>
-
-        <item name="colorCategory">#FFFFFF</item>
 
         <item name="colorMonth1">#3590D8</item>
         <item name="colorMonth2">#48CFE1</item>
@@ -170,12 +161,6 @@
         <item name="colorMonth10">#9D7DD6</item>
         <item name="colorMonth11">#7986CB</item>
         <item name="colorMonth12">#5966AE</item>
-
-        <item name="colorButtonCancel">#EC4B5E</item>
-        <item name="colorCheckedCategoryTitle">#FFFFFF</item>
-        <item name="colorCheckedTask">#BDBCBC</item>
-        <item name="colorHyperLink">#23A8E4</item>
-
 
         <item name="colorSonstiges">#455C83</item>
         <item name="colorSonstigesL">#627393</item>
@@ -197,8 +182,8 @@
         <item name="colorKonservenFertigesL">#616161</item>
         <item name="colorFrühstück">#C8C35704</item>
         <item name="colorFrühstückL">#C35704</item>
-        <item name="colorGewürzeBackzutaten">#D5981201</item>
-        <item name="colorGewürzeBackzutatenL">#D5663A</item>
+        <item name="colorGewürze">#D5981201</item>
+        <item name="colorGewürzeL">#D5663A</item>
         <item name="colorHaushalt">#C8216150</item>
         <item name="colorHaushaltL">#339E81</item>
         <item name="colorSnacks">#AC02AC</item>
@@ -209,7 +194,6 @@
         <item name="colorDrogerieKosmetikL">#7ADCC7</item>
         <item name="colorAlkoholTabak">#BE2F0D8C</item>
         <item name="colorAlkoholTabakL">#7449DA</item>
-
     </style>
 
     <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Dialog">
@@ -238,12 +222,6 @@
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
     </style>
 
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">?attr/colorAccentClone</item>
-        <item name="colorControlNormal">?attr/colorOnBackGround</item>
-    </style>
-
-
     <style name="MyTimePickerStyleL" parent="android:Widget.Material.TimePicker">
         <item name="android:headerBackground">?attr/colorAccent</item>
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
@@ -252,9 +230,9 @@
         <item name="android:numbersBackgroundColor">?attr/colorBackgroundElevated</item>
     </style>
 
-    <style name="MySpinnerStyle" parent="android:Widget.Spinner">
-        <item name="android:headerBackground">?attr/colorAccent</item>
-        <item name="android:numbersSelectorColor">?attr/colorAccent</item>
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">?attr/colorAccentClone</item>
+        <item name="colorControlNormal">?attr/colorOnBackGround</item>
     </style>
 
     <style name="CheckStyleTask">
@@ -271,9 +249,13 @@
         <item name="android:textColor">?attr/colorOnBackGround</item>
     </style>
 
+    <style name="MySpinnerStyle" parent="android:Widget.Spinner">
+        <item name="android:headerBackground">?attr/colorAccent</item>
+        <item name="android:numbersSelectorColor">?attr/colorAccent</item>
+    </style>
+
     <style name="mySpinnerItemStyleLight" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textColor">?attr/colorOnBackGround</item>
         <item name="android:background">?attr/colorBackgroundElevated</item>
     </style>
-
 </resources>

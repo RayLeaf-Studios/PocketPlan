@@ -708,7 +708,7 @@ class ShoppingListAdapter :
                 "Tk" -> Pair(R.attr.colorTiefkühl, R.attr.colorTiefkühlL)
                 "Ko" -> Pair(R.attr.colorKonservenFertiges, R.attr.colorKonservenFertigesL)
                 "Fr" -> Pair(R.attr.colorFrühstück, R.attr.colorFrühstückL)
-                "Gw" -> Pair(R.attr.colorGewürzeBackzutaten, R.attr.colorGewürzeBackzutatenL)
+                "Gw" -> Pair(R.attr.colorGewürze, R.attr.colorGewürzeL)
                 "Ha" -> Pair(R.attr.colorHaushalt, R.attr.colorHaushaltL)
                 "Sn" -> Pair(R.attr.colorSnacks, R.attr.colorSnacksL)
                 "Bz" -> Pair(R.attr.colorBackzutaten, R.attr.colorBackzutatenL)

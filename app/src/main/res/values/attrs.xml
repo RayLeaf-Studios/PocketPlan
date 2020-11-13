@@ -28,11 +28,8 @@
     <attr name="colorHyperLink" format="color"/>
 
     <attr name="colorPriority1" format="color"/>
-    <attr name="colorPriority1light" format="color"/>
     <attr name="colorPriority2" format="color"/>
-    <attr name="colorPriority2light" format="color"/>
     <attr name="colorPriority3" format="color"/>
-    <attr name="colorPriority3light" format="color"/>
 
     <attr name="colorNoteRed" format="color"/>
     <attr name="colorNoteYellow" format="color"/>
@@ -88,8 +85,8 @@
     <attr name="colorKonservenFertigesL" format="color"/>
     <attr name="colorFrühstück" format="color"/>
     <attr name="colorFrühstückL" format="color"/>
-    <attr name="colorGewürzeBackzutaten" format="color"/>
-    <attr name="colorGewürzeBackzutatenL" format="color"/>
+    <attr name="colorGewürze" format="color"/>
+    <attr name="colorGewürzeL" format="color"/>
     <attr name="colorHaushalt" format="color"/>
     <attr name="colorHaushaltL" format="color"/>
     <attr name="colorSnacks" format="color"/>
