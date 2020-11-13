@@ -73,8 +73,8 @@
     <string name="sleepFri">Fr</string>
     <string name="sleepSat">Sa</string>
     <string name="sleepSun">So</string>
-    <string name="homeNoTasks">\n\tKeine wichtigen Aufgaben\n</string>
-    <string name="homeNoBirthdays">\n\tKeine Geburtstage heute\n</string>
+    <string name="homeNoTasks">\nKeine wichtigen Aufgaben\n</string>
+    <string name="homeNoBirthdays">\nKeine Geburtstage heute\n</string>
     <string name="sleepWakeUpTimeDay">Aufstehzeit - %1$s</string>
     <string name="sleepDurationDay">Schlafdauer</string>
     <string name="sleepNotificationTitle">Schlafenszeit</string>

@@ -44,8 +44,8 @@
     <string name="shoppingAddItemTitle">Add item</string>
 
     <!-- Home -->
-    <string name="homeNoTasks">\n    No important tasks\n</string>
-    <string name="homeNoBirthdays">\n\tNo birthdays today\n</string>
+    <string name="homeNoTasks">\nNo important tasks\n</string>
+    <string name="homeNoBirthdays">\nNo birthdays today\n</string>
 
     <!-- Birthdays -->
     <string name="birthdaysNotify">notify me</string>

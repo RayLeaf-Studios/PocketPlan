@@ -226,7 +226,7 @@ class HomeFr : Fragment() {
         }
         val excess = birthdaysToday.size - birthdaysToDisplay
         if (excess > 0) {
-            birthdayText += "  + $excess\n"
+            birthdayText += "+ $excess\n"
         }
         myView.tvBirthday.text = birthdayText
 

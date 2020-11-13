@@ -27,8 +27,8 @@
     <string name="shopping_option_clear_list">Удалить список</string>
     <string name="shopping_option_uncheck_all">Убрать галочки</string>
     <string name="shoppingAddItemTitle">Добавить закупку</string>
-    <string name="homeNoTasks">\n    Нету важных задачи\n</string>
-    <string name="homeNoBirthdays">\n    Никакие дни рождение сегодня\n</string>
+    <string name="homeNoTasks">\nНету важных задачи\n</string>
+    <string name="homeNoBirthdays">\nНикакие дни рождение сегодня\n</string>
     <string name="birthdaysNotify">предупреждить</string>
     <string name="birthdaysDaysPrior">" раньше."</string>
     <string name="birthdayDialogAdd">Добавить</string>
