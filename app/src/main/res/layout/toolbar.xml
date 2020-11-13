@@ -12,6 +12,6 @@
         app:popupTheme="@style/MyLightToolbarStyle"
         android:background="?attr/colorBackgroundElevated"
         app:titleTextColor="?attr/colorOnBackGround"
-        android:elevation="6dp"/>
+        android:elevation="@dimen/elevation"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

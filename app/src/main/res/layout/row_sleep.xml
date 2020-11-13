@@ -7,7 +7,7 @@
     android:layout_margin="6dp"
     android:id="@+id/crvSleep"
     app:cardCornerRadius="0dp"
-    app:cardElevation="5dp"
+    app:cardElevation="@dimen/elevation"
     app:cardBackgroundColor="?attr/colorBackgroundElevated">
 
 

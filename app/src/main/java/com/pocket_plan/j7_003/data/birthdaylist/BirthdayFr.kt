@@ -894,6 +894,7 @@ class BirthdayAdapter :
 
     //calculate corner radius
     private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val elevation = MainActivity.act.resources.getDimension(R.dimen.elevation)
 
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
@@ -922,6 +923,7 @@ class BirthdayAdapter :
             val density = MainActivity.act.resources.displayMetrics.density
             holder.itemView.layoutParams.height = (100 * density).toInt()
             holder.itemView.visibility = View.INVISIBLE
+            holder.cvBirthday.elevation = 0f
             holder.itemView.setOnLongClickListener { true }
             holder.itemView.setOnClickListener {}
             return
@@ -930,6 +932,7 @@ class BirthdayAdapter :
         //reset parameters visibility and height, to undo spacer birthday values (recycler view)
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
+        holder.cvBirthday.elevation = elevation
 
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
@@ -941,7 +944,7 @@ class BirthdayAdapter :
         //save a reference for the birthday saved in this holder
         holder.birthday = currentBirthday
 
-        if (currentBirthday.daysToRemind < 0) {
+            if (currentBirthday.daysToRemind < 0) {
             //hide everything not related to year or month divider
             holder.tvRowBirthdayDivider.visibility = View.VISIBLE
             holder.tvRowBirthdayDivider.text = currentBirthday.name
@@ -954,6 +957,7 @@ class BirthdayAdapter :
 
             if (currentBirthday.daysToRemind == -200) {
                 //YEAR
+                holder.cvBirthday.elevation = 0f
                 holder.itemView.layoutParams.height = (70 * density).toInt()
                 holder.tvRowBirthdayDivider.textSize = 22f
                 holder.tvRowBirthdayDivider.setTextColor(

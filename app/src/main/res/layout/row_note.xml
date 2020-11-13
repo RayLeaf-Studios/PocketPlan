@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cvNoteCard"
-    app:cardElevation="5dp"
+    app:cardElevation="@dimen/elevation"
     android:layout_margin="5dp">
 
         <RelativeLayout

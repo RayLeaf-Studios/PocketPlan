@@ -6,7 +6,7 @@
     android:id="@+id/cvBirthday"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginVertical="2dp"
-    android:elevation="0dp"
+    android:elevation="@dimen/elevation"
     android:layout_marginHorizontal="20dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
