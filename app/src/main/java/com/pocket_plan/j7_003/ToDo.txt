@@ -1,15 +1,24 @@
 General:
+    - test app in current state
     - check logs, fix notifications
+
     - code cleanup
     - string resource cleanup
-    - sort string files (include ALL string arrays in all languages)
+    - color resource cleanup
+    - style resource cleanup
+    - remove unused files from project (drawables)
+
+    - maybe add more stuff to shopping template list (missing items that may occur during testing)
+
+    - create google account
+    - upload app to PlayStore
+    - Add screenshots and App description to PlayStore page
 
 Back-End stuff before release:
     - translate help fragment to russian
     - rethink if read and write permissions are needed
 
-Front-End stuff to-do before release in following order:
-    ??
+
 
 
 
