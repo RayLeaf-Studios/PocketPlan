@@ -87,6 +87,7 @@
     <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
     <string name="contentDescriptionSun">Sonne</string>
     <string name="shoppingAddItemTitle">Einkauf hinzufügen</string>
+    <string name="shoppingEditItemTitle">Einkauf bearbeiten</string>
     <string name="settingsCloseItemDialog">Itemdialog nach hinzufügen schließen</string>
     <string name="backup">Backup</string>
     <string name="navigationDrawer">Navigation</string>

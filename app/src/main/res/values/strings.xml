@@ -42,6 +42,7 @@
     <string name="shopping_option_uncheck_all">Uncheck all</string>
     <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
     <string name="shoppingAddItemTitle">Add item</string>
+    <string name="shoppingEditItemTitle">Add item</string>
 
     <!-- Home -->
     <string name="homeNoTasks">\nNo important tasks\n</string>

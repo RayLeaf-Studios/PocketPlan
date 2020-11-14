@@ -22,7 +22,6 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.dialog_add_item.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
@@ -46,6 +45,10 @@ class ShoppingFr : Fragment() {
         lateinit var myAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
         lateinit var myFragment: ShoppingFr
+
+        var editTag: String = ""
+        var editPos: Int = 0
+        var editing = false
 
         lateinit var autoCompleteTv: AutoCompleteTextView
 
@@ -293,6 +296,7 @@ class ShoppingFr : Fragment() {
         }
         val customTitle = mylayoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
+        MainActivity.shoppingTitle = customTitle
         myBuilder?.setCustomTitle(customTitle)
         MainActivity.addItemDialog = myBuilder?.create()
 
@@ -469,6 +473,11 @@ class ShoppingFr : Fragment() {
                         spItemUnit.selectedItem.toString(),
                         false
                     )
+                    if(editing){
+                        shoppingListInstance.removeItem(editTag, editPos)
+                        editing = false
+                        MainActivity.addItemDialog?.dismiss()
+                    }
                     shoppingListInstance.add(item)
 
                     if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
@@ -524,6 +533,11 @@ class ShoppingFr : Fragment() {
                 false
             )
             shoppingListInstance.add(item)
+            if(editing){
+                shoppingListInstance.removeItem(editTag, editPos)
+                editing = false
+                MainActivity.addItemDialog?.dismiss()
+            }
             if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
                 myAdapter.notifyDataSetChanged()
                 myFragment.updateShoppingMenu()
@@ -553,12 +567,35 @@ class ShoppingFr : Fragment() {
      * Reset and open addItemDialog
      */
     fun openAddItemDialog() {
+        MainActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
         MainActivity.addItemDialogView!!.actvItem.setText("")
+        MainActivity.addItemDialogView!!.btnAddItemToList.text = MainActivity.act.getString(R.string.birthdayDialogAdd)
         MainActivity.addItemDialogView!!.spItemUnit.setSelection(0)
         MainActivity.unitChanged = false
         MainActivity.addItemDialogView!!.etItemAmount.setText("1")
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         MainActivity.addItemDialog?.show()
+    }
+
+    fun openEditItemDialog(item: ShoppingItem) {
+        MainActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingEditItemTitle)
+        MainActivity.addItemDialogView!!.btnAddItemToList.text = resources.getString(R.string.noteDiscardDialogSave)
+        //show item name
+        MainActivity.addItemDialogView!!.actvItem.setText(item.name)
+        //set cursor to end of item name
+        MainActivity.addItemDialogView!!.actvItem.setSelection(item.name!!.length)
+        //select correct unit
+        MainActivity.addItemDialogView!!.spItemUnit.setSelection(MainActivity.act.resources.getStringArray(R.array.units).indexOf(item.suggestedUnit))
+        //mark that unit did not get changed
+        MainActivity.unitChanged = false
+        //show correct item amount
+        MainActivity.addItemDialogView!!.etItemAmount.setText(item.amount.toString())
+        //open keyboard
+        MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        MainActivity.addItemDialogView!!.actvItem.dismissDropDown()
+        //show dialog
+        MainActivity.addItemDialog?.show()
+        editing = true
     }
 
 }
@@ -835,8 +872,15 @@ class SublistAdapter(
             true
         }
 
+
         //get shopping item
         val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
+
+        holder.itemView.setOnClickListener {
+            ShoppingFr.editTag = tag
+            ShoppingFr.editPos = position
+            ShoppingFr.myFragment.openEditItemDialog(item)
+        }
 
         //set tag of surrounding category for holder
         holder.tag = tag

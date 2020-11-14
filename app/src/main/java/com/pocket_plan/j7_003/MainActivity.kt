@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         var addItemDialog: AlertDialog? = null
         var addItemDialogView: View? = null
+        var shoppingTitle: View? = null
 
         lateinit var tempShoppingFr: ShoppingFr
         var justRestarted = false
@@ -256,6 +257,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.SHOPPING -> {
+                    ShoppingFr.editing = false
                     tempShoppingFr.openAddItemDialog()
                 }
 

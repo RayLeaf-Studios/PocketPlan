@@ -20,6 +20,7 @@ import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
@@ -85,6 +86,7 @@ class HomeFr : Fragment() {
         }
         myView.clAddTask.setOnClickListener { createTaskFromHome() }
         myView.clAddItem.setOnClickListener {
+            ShoppingFr.editing = false
             MainActivity.tempShoppingFr.openAddItemDialog()
         }
 
