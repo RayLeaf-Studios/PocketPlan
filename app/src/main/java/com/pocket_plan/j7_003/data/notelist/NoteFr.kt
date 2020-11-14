@@ -18,6 +18,7 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr.Companion.noteColor
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.todolist.TodoFr
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import java.util.*
@@ -37,6 +38,8 @@ class NoteFr : Fragment() {
         var noteListInstance: NoteList = NoteList()
         lateinit var myFragment: NoteFr
 
+        var deletedNote: Note? = null
+
         var searching = false
         lateinit var searchView: SearchView
 
@@ -48,6 +51,9 @@ class NoteFr : Fragment() {
         inflater.inflate(R.menu.menu_notes, menu)
         myMenu = menu
         adjustedList = arrayListOf()
+
+        //color tint for undo icon
+        myMenu.findItem(R.id.item_notes_undo)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
 
         searchView = menu.findItem(R.id.item_notes_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
@@ -84,11 +90,16 @@ class NoteFr : Fragment() {
         }
 
         updateNoteSearchIcon()
+        updateNoteUndoIcon()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun updateNoteSearchIcon() {
         myMenu.findItem(R.id.item_notes_search).isVisible = noteListInstance.size > 0
+    }
+
+    private fun updateNoteUndoIcon() {
+        myMenu.findItem(R.id.item_notes_undo).isVisible = deletedNote!=null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,6 +130,15 @@ class NoteFr : Fragment() {
         when (item.itemId) {
             R.id.item_notes_search -> {
                 /* no-op, listeners for this view are implemented in onCreateOptionsMenu */
+            }
+
+            R.id.item_notes_undo -> {
+                //undo deletion of last deleted task (or multiple deleted tasks, if
+                //sweep delete button was used
+                val newPos = noteListInstance.addFullNote(deletedNote!!)
+                myAdapter.notifyItemInserted(newPos)
+                deletedNote = null
+                myFragment.updateNoteUndoIcon()
             }
         }
 
@@ -184,8 +204,12 @@ class NoteFr : Fragment() {
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                     // remove from adapter
+                    deletedNote = noteListInstance.getNote(viewHolder.adapterPosition)
                     noteListInstance.removeAt(viewHolder.adapterPosition)
                     myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                    myFragment.updateNoteSearchIcon()
+                    myFragment.updateNoteUndoIcon()
+
                 }
             })
 
