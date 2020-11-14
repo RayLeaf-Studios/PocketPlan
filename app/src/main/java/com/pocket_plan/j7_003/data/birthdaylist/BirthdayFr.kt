@@ -1065,12 +1065,6 @@ class BirthdayAdapter :
         holder.myDividerLeft.visibility = View.GONE
         holder.myDividerRight.visibility = View.GONE
 
-        //display bell if birthday has a reminder
-        if (currentBirthday.notify) {
-            holder.iconBell.visibility = View.VISIBLE
-        } else {
-            holder.iconBell.visibility = View.INVISIBLE
-        }
 
         //display info if birthday is expanded
         if (currentBirthday.expanded) {
@@ -1123,11 +1117,6 @@ class BirthdayAdapter :
         }
         holder.tvRowBirthdayName.text = currentBirthday.name + " " + daysUntilString
 
-
-        //todo figure a way out to display this in another way, blue under blue month label => low contrast
-        //maybe animation?
-
-
         //set icon / text color to blue if birthday is today, to pink if its daysToRemind < days.Until, to white otherwise
         val today = LocalDate.now()
         if (holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue) {
@@ -1162,6 +1151,15 @@ class BirthdayAdapter :
             )
         }
 
+        //display bell if birthday has a reminder
+        holder.iconBell.visibility = View.VISIBLE
+        if (currentBirthday.notify) {
+            holder.iconBell.setImageResource(R.drawable.ic_bell)
+        } else {
+            holder.iconBell.setColorFilter(MainActivity.act.colorForAttr(R.attr.colorHint),  android.graphics.PorterDuff.Mode.MULTIPLY)
+            holder.iconBell.setImageResource(R.drawable.ic_action_no_notification)
+        }
+
         //opens dialog to edit this birthday
         holder.itemView.setOnLongClickListener {
             BirthdayFr.editBirthdayHolder = holder.birthday
@@ -1170,10 +1168,24 @@ class BirthdayAdapter :
         }
 
         //expands info
-        holder.itemView.setOnClickListener {
+        holder.itemView.tvRowBirthdayDate.setOnClickListener {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
             notifyItemChanged(holder.adapterPosition)
+            Log.e("view", "updated")
+        }
+
+        holder.itemView.tvRowBirthdayName.setOnClickListener {
+            holder.birthday.expanded = !holder.birthday.expanded
+            listInstance.sortAndSaveBirthdays()
+            notifyItemChanged(holder.adapterPosition)
+            Log.e("view", "updated")
+        }
+
+        //todo update onBindViewHolder
+        holder.itemView.icon_bell.setOnClickListener {
+            holder.birthday.notify = !holder.birthday.notify
+            BirthdayFr.myAdapter.notifyItemChanged(holder.adapterPosition)
         }
 
 

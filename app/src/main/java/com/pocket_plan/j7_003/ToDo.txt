@@ -19,7 +19,6 @@ Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Front-End
-    - birthday bell clickable
     - update help fragment telling how to edit items
     - optional swipe to delete notes
     - redo home spacing
