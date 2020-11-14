@@ -124,6 +124,7 @@
     <string name="birthdayNotificationMultUpcText">Скоро будут %1$d дни рождения!</string>
     <string name="birthdaysNoReminder">\nНет напоминание\n</string>
     <string name="aboutTesterNames">Shaika, Elias</string>
+    <string name="notesSwipeToDElete">Swipe to delete</string>
 
     <string-array name="noteLines">
         <item>все</item>

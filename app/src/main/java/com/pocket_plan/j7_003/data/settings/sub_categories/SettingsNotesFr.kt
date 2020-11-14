@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
@@ -21,6 +22,7 @@ class SettingsNotesFr : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
     lateinit var spEditorFontSize: Spinner
+    lateinit var swAllowSwipe: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,8 @@ class SettingsNotesFr : Fragment() {
         spNoteLines = myView.spNoteLines
         spNoteColumns = myView.spNoteColumns
         spEditorFontSize = myView.spEditorFontsize
+        swAllowSwipe = myView.swAllowSwipe
+
     }
 
     private fun initializeAdapters() {
@@ -96,6 +100,8 @@ class SettingsNotesFr : Fragment() {
 
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
         spEditorFontSize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE)))
+
+        swAllowSwipe.isChecked = SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean
 
     }
 
@@ -156,6 +162,11 @@ class SettingsNotesFr : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
+        }
+
+        //listener for switch to allow / disallow swipe to delete for notes
+        swAllowSwipe.setOnClickListener {
+            SettingsManager.addSetting(SettingId.NOTES_SWIPE_DELETE, swAllowSwipe.isChecked)
         }
     }
 }

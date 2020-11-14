@@ -20,7 +20,6 @@ Back-End stuff before release:
 
 Front-End
     - update help fragment telling how to edit items
-    - optional swipe to delete notes
     - notification for import
 
 Optional

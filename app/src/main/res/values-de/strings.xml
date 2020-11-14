@@ -147,6 +147,7 @@
     <string name="birthdayIn">in</string>
     <string name="aboutTesterNames">Shaika, Elias</string>
     <string name="aboutTesterDescription">Pre-Alpha Test</string>
+    <string name="notesSwipeToDElete">Wischen um zu löschen</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

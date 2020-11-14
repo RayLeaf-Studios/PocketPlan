@@ -152,11 +152,16 @@ class NoteFr : Fragment() {
         myRecycler.setHasFixedSize(true)
 
 
+        val swipeDirections =
+            when (SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean) {
+                true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                else -> 0
+            }
         //itemTouchHelper to drag and reorder notes
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
-                0
+                swipeDirections
             ) {
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -179,6 +184,8 @@ class NoteFr : Fragment() {
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                     // remove from adapter
+                    noteListInstance.removeAt(viewHolder.adapterPosition)
+                    myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
                 }
             })
 
@@ -191,7 +198,6 @@ class NoteFr : Fragment() {
 class NoteAdapter :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val density = MainActivity.act.resources.displayMetrics.density
     private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -271,5 +277,7 @@ class NoteAdapter :
         val tvNoteContent: TextView = itemView.tvNoteContent
         var cvNoteCard: CardView = itemView.cvNoteCard
     }
+
+
 }
 
