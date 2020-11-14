@@ -1172,14 +1172,12 @@ class BirthdayAdapter :
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
             notifyItemChanged(holder.adapterPosition)
-            Log.e("view", "updated")
         }
 
         holder.itemView.tvRowBirthdayName.setOnClickListener {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
             notifyItemChanged(holder.adapterPosition)
-            Log.e("view", "updated")
         }
 
         //todo update onBindViewHolder
