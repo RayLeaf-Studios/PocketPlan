@@ -21,7 +21,6 @@ Back-End stuff before release:
 Frontend Stuff:
     Edit shopping items
     make bell clickable in birthday list
-    custom times background white in light
 
 
 
