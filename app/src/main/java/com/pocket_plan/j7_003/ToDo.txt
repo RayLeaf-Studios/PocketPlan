@@ -19,7 +19,6 @@ Back-End stuff before release:
     - rethink if read and write permissions are needed
 
 Frontend Stuff:
-    Edit shopping items
     make bell clickable in birthday list
 
 
