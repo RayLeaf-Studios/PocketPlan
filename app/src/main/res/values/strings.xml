@@ -92,6 +92,12 @@
     <string name="settingsOnlyExpandOne">Only expand one category</string>
     <string name="settingsCollapseChecked">Collapse checked categories</string>
     <string name="settingsNavigationTitle">Navigation</string>
+    <string name="settings_export">Export backup as zip file</string>
+    <string name="settings_import">Import backup from zip file</string>
+    <string name="settings_title_appearance">Appearance and Behaviour</string>
+    <string name="settings_shopping_move_down">Move checked categories down</string>
+    <string name="setting_title_shapes">Shapes</string>
+    <string name="setting_title_theme">Theme</string>
 
     <!-- About Fragment -->
     <string name="aboutDevs">Developed by</string>
@@ -110,6 +116,7 @@
     <string name="aboutSrc">Sourcecode on GitHub</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
     <string name="aboutSup">Supported by</string>
+    <string name="aboutViewOnGithub">View on GitHub</string>
 
     <!-- Notifications -->
     <string name="sleepNotificationTitle">Bedtime</string>
@@ -128,37 +135,33 @@
     <string name="settingsCloseItemDialog">Close item dialog after adding</string>
     <string name="backup">Backup</string>
 
-
-    <string name="navigationDrawer">Navigation drawer</string>
-    <string name="open">open</string>
-    <string name="close">close</string>
-    <string name="view_on_github">View on GitHub</string>
-    <string name="sourcecode">Sourcecode</string>
+<!--    Options-->
     <string name="options_tasks_uncheck_all">Uncheck all</string>
     <string name="options_task_clear_list">Clear list</string>
     <string name="options_task_delete_checked">Clear checked tasks</string>
     <string name="options_shopping_expand_all">Expand all</string>
     <string name="options_shopping_collapse_all">Collapse all</string>
+
+<!--    Home-->
+    <string name="home_notification_add_task">Task added!</string>
+    <string name="home_notification_add_item">Item added!</string>
+    <string name="home_notification_add_note">Note added!</string>
+
+<!--    NavigationDrawer-->
+    <string name="navigationDrawer">Navigation drawer</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+    <string name="aboutSourcecode">Sourcecode</string>
     <string name="swipe_right">Swipe right</string>
     <string name="shopping_dialog_clear_title">Clear shopping list?</string>
     <string name="shopping_item_added">Item added!</string>
     <string name="birthdayOldBornIn">" old, born in "</string>
     <string name="settings_shopping_close_sub">(In shopping fragment)</string>
-    <string name="home_notification_add_task">Task added!</string>
-    <string name="home_notification_add_item">Item added!</string>
-    <string name="home_notification_add_note">Note added!</string>
     <string name="custom_item_delete_title">Delete custom items?</string>
     <string name="todo_dialog_clear_title">Clear To-Do List?</string>
     <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
     <string name="prior">prior</string>
-    <string name="settings_export">Export backup as zip file</string>
-    <string name="settings_import">Import backup from zip file</string>
-    <string name="settings_title_appearance">Appearance and Behaviour</string>
-    <string name="settings_shopping_move_down">Move checked categories down</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="setting_title_shapes">Shapes</string>
-    <string name="setting_title_theme">Theme</string>
     <string name="customOptionClearItems">Clear custom items</string>
     <string name="settings_delete_dialog_title">Delete dialogs have safety slider</string>
     <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>

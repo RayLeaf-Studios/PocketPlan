@@ -94,8 +94,8 @@
     <string name="aboutSrc">Quellcode auf GitHub</string>
     <string name="open">öffnen</string>
     <string name="close">schließen</string>
-    <string name="view_on_github">Auf GitHub</string>
-    <string name="sourcecode">Sourcecode</string>
+    <string name="aboutViewOnGithub">Auf GitHub</string>
+    <string name="aboutSourcecode">Sourcecode</string>
     <string name="aboutLetsbeDescription">Unbezahlter Praktikant</string>
     <string name="aboutDoriDescription">Textliche Inhalte und Übersetzung</string>
     <string name="aboutJakeDescription">Frontend / Benutzeroberfläche</string>
@@ -140,6 +140,13 @@
     <string name="howtoShopping">Wische einen Gegenstand zur Seite um ihn zu löschen\n\nHalte eine Kategorie gedrückt um sie umzusortieren.</string>
     <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
     <string name="howtoHome">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast bis du schlafen solltest.\n\nDirekt darunter zeigt der Todo-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
+
+    <string name="settingsHelp">Hilfe</string>
+    <string name="birthdayToday">heute</string>
+    <string name="birthdayTomorrow">morgen</string>
+    <string name="birthdayIn">in</string>
+    <string name="aboutTesterNames">Shaika, Elias</string>
+    <string name="aboutTesterDescription">Pre-Alpha Test</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
@@ -245,12 +252,5 @@
         <item quantity="one">Tag</item>
         <item quantity="other">Tagen</item>
     </plurals>
-
-    <string name="settingsHelp">Hilfe</string>
-    <string name="birthdayToday">heute</string>
-    <string name="birthdayTomorrow">morgen</string>
-    <string name="birthdayIn">in</string>
-    <string name="aboutTesterNames">Shaika, Elias</string>
-    <string name="aboutTesterDescription">Pre-Alpha Test</string>
 
 </resources>
