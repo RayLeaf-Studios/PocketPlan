@@ -21,7 +21,6 @@ Back-End stuff before release:
 Front-End
     - update help fragment telling how to edit items
     - optional swipe to delete notes
-    - redo home spacing
     - notification for import
 
 Optional

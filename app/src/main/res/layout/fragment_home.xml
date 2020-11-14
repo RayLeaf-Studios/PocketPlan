@@ -32,7 +32,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:id="@+id/panelTasks"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="13dp"
         android:layout_marginHorizontal="3dp"
         android:layout_marginBottom="10dp"
         app:cardElevation="@dimen/elevation"

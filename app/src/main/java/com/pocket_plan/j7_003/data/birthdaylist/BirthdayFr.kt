@@ -40,7 +40,7 @@ class BirthdayFr : Fragment() {
 
     var date: LocalDate = LocalDate.now()
     private lateinit var myMenu: Menu
-    val dark = SettingsManager.getSetting(SettingId.THEME_DARK)
+    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
