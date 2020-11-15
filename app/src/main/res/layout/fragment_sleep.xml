@@ -265,12 +265,12 @@
         android:layout_height="0dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="140dp"
+        android:foregroundGravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switchPanel">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/recycler_view_sleep"
             tools:listitem="@layout/row_sleep"
             app:layout_constraintTop_toTopOf="parent"/>

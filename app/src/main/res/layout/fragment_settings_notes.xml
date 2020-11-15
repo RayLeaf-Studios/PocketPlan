@@ -55,7 +55,7 @@
 
             <View
                 android:id="@+id/divider2"
-                android:layout_width="409dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 tools:layout_editor_absoluteX="1dp"
@@ -94,7 +94,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
-                android:layout_width="409dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 tools:layout_editor_absoluteX="1dp"
@@ -133,7 +133,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
-                android:layout_width="409dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 tools:layout_editor_absoluteX="1dp"

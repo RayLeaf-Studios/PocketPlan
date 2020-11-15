@@ -39,7 +39,7 @@ class SettingsMainFr : Fragment() {
     }
 
     private fun initializeComponents(myView: View) {
-        clSettingAbout = myView.clSEttingAbout
+        clSettingAbout = myView.clSettingAbout
         clSettingBackup = myView.clSettingBackup
         clSettingShopping = myView.clSettingShopping
         clSettingNotes = myView.clSettingNotes
