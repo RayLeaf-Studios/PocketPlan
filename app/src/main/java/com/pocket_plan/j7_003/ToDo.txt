@@ -16,11 +16,13 @@ General:
 
 Back-End stuff before release:
     - translate help fragment to russian
-    - rethink if read and write permissions are needed
+    - deleteBirthday should return a tuple startPosition and itemCount (of removed items)
+    - addBirthday should return a tuple startPosition and itemCount (of added items)
 
 Front-End
-    - update help fragment telling how to edit items
+    - update help fragment telling how to edit items, delete notes
     - notification for import
+    - notification for adding item
 
 Optional
     - animate birthday deletion

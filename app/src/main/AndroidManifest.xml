@@ -3,25 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pocket_plan.j7_003">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-<!--    <uses-permission android:name="android.permission.BLUETOOTH" />-->
-<!--    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
-<!--    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeDark"
-        android:fullBackupContent="@xml/backup_descriptor">
+        android:theme="@style/AppThemeDark">
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -32,7 +23,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeDark"
             android:windowSoftInputMode="adjustPan"
@@ -43,23 +35,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".system_interaction.handler.share.BackUpActivity"
-            android:parentActivityName=".MainActivity">
-        </activity>
+        <activity
+            android:name=".system_interaction.handler.share.BackUpActivity"
+            android:parentActivityName=".MainActivity"/>
 
-<!--        <activity android:name=".system_interaction.handler.share.FileReceiver"-->
-<!--            android:label="Send shopping list">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.SEND" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <data android:mimeType="application/json" />-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.SEND" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <data android:mimeType="application/zip" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
 
         <receiver android:name="com.pocket_plan.j7_003.system_interaction.receiver.RebootReceiver">
             <intent-filter>
