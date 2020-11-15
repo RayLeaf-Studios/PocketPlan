@@ -430,8 +430,12 @@ class ShoppingFr : Fragment() {
             }
             true
         }
+
+        val checkMark = MainActivity.addItemDialogView!!.ivCheckItemAdded
+        checkMark.visibility = View.GONE
         //Button to Confirm adding Item to list
         MainActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
+
 
             if (actvItem.text.toString() == "") {
                 //No item string entered => play shake animation
@@ -440,6 +444,14 @@ class ShoppingFr : Fragment() {
                 MainActivity.addItemDialogView!!.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
+
+            //check mark animation to confirm adding of item
+            checkMark.visibility = View.VISIBLE
+            checkMark.animate().translationYBy(-80f).setDuration(600L).withEndAction { checkMark.animate().translationY(0f).setDuration(0).start() }.start()
+            checkMark.animate().alpha(0f).setDuration(600L).withEndAction {
+                checkMark.animate().alpha(1f).setDuration(0).start()
+                checkMark.visibility = View.GONE
+            }.start()
 
             //selected categoryCode
             val categoryCode =

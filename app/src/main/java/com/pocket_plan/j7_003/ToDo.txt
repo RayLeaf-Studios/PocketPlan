@@ -22,7 +22,6 @@ Back-End stuff before release:
 Front-End
     - update help fragment telling how to edit items, delete notes
     - notification for import
-    - notification for adding item
 
 Optional
     - animate birthday deletion

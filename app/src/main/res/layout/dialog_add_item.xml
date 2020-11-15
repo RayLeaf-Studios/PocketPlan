@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="?attr/colorBackground"
     android:paddingTop="5dp"
@@ -100,6 +101,16 @@
             app:layout_constraintTop_toBottomOf="@+id/spCategory">
 
         </Button>
+
+        <ImageView
+            android:id="@+id/ivCheckItemAdded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_mark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnAddItemToList"
+            app:layout_constraintStart_toEndOf="@+id/btnCancelItem" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
