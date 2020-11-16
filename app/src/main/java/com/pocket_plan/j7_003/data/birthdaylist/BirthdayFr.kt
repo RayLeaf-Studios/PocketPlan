@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
@@ -123,12 +124,12 @@ class BirthdayFr : Fragment() {
             }
             R.id.item_birthdays_undo -> {
                 //undo the last deletion
-                birthdayListInstance.addFullBirthday(
+                val addInfo = birthdayListInstance.addFullBirthday(
                     deletedBirthday!!
                 )
                 deletedBirthday = null
                 updateUndoBirthdayIcon()
-                myAdapter.notifyDataSetChanged()
+                myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
             }
         }
 
@@ -815,12 +816,13 @@ class BirthdayFr : Fragment() {
                 true -> date.year
                 else -> 0
             }
-            birthdayListInstance.addBirthday(
+            val addInfo = birthdayListInstance.addBirthday(
                 name, date.dayOfMonth, date.monthValue,
                 yearToSave, daysToRemind, false, notifyMe
             )
 
-            myRecycler.adapter?.notifyDataSetChanged()
+            Log.e("",addInfo.first.toString()+" "+addInfo.second.toString())
+            myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
             updateSearchBirthdaysIcon()
             myAlertDialog?.dismiss()
         }
@@ -899,11 +901,11 @@ class BirthdayAdapter :
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
         BirthdayFr.deletedBirthday = listInstance.getBirthday(viewHolder.adapterPosition)
-        listInstance.deleteBirthdayObject(parsed.birthday)
+        val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
         if (BirthdayFr.searching) {
             BirthdayFr.myFragment.search(BirthdayFr.lastQuery)
         }
-        notifyDataSetChanged()
+        notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
         BirthdayFr.myFragment.updateUndoBirthdayIcon()
         BirthdayFr.myFragment.updateSearchBirthdaysIcon()
     }

@@ -32,15 +32,7 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
         daysToRemind: Int, expanded: Boolean, notify: Boolean
     ): Pair<Int, Int> {
         val newBirthday = Birthday(name, day, month, year, daysToRemind, expanded, notify)
-        val initSize = this.size
-
-        this.add(newBirthday)
-        val startIndex = this.indexOf(newBirthday)
-
-        sortAndSaveBirthdays()
-        val itemRange = this.size - initSize
-
-        return Pair(startIndex, itemRange)
+        return addFullBirthday(newBirthday)
     }
 
     /**
@@ -48,13 +40,14 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
      */
     fun addFullBirthday(birthday: Birthday): Pair<Int, Int> {
         val initSize = this.size
+
         this.add(birthday)
+        sortAndSaveBirthdays()
 
         val startIndex = this.indexOf(birthday)
-        sortAndSaveBirthdays()
         val itemRange = this.size - initSize
 
-        return Pair(startIndex, itemRange)
+        return Pair(startIndex - itemRange + 1, itemRange)
     }
 
     /**
@@ -110,7 +103,7 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
         val itemRange = initSize - this.size
         save()
 
-        return Pair(startIndex, itemRange)
+        return Pair(startIndex - itemRange + 1, itemRange)
     }
 
     /**
