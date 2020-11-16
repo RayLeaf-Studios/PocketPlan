@@ -3,6 +3,8 @@ package com.pocket_plan.j7_003.data.todolist
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -71,9 +73,10 @@ class TodoFr : Fragment() {
             R.id.item_tasks_undo -> {
                 //undo deletion of last deleted task (or multiple deleted tasks, if
                 //sweep delete button was used
-                val newPos = todoListInstance.addFullTask(deletedTask!!)
+//                val newPos = todoListInstance.addFullTask(deletedTask!!)
+                todoListInstance.addFullTask(deletedTask!!)
+                myAdapter.notifyDataSetChanged()
                 deletedTask = null
-                myAdapter.notifyItemInserted(newPos)
             }
 
             R.id.item_tasks_clear -> {
@@ -269,8 +272,7 @@ class TodoFr : Fragment() {
     }
 
     fun updateUndoTaskIcon() {
-        val result = deletedTask != null
-        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = result
+        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTask != null
     }
 
     private fun updateClearTaskListIcon() {
@@ -462,12 +464,16 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.tvName.setTextColor(
                 MainActivity.act.colorForAttr(attr.colorOnBackGroundTask)
             )
-            val backgroundColor = when(listInstance.getTask(holder.adapterPosition).priority){
+            val backgroundColor = when (listInstance.getTask(holder.adapterPosition).priority) {
                 1 -> attr.colorPriority1
                 2 -> attr.colorPriority2
                 else -> attr.colorPriority3
             }
-            holder.itemView.crvTask.setCardBackgroundColor(MainActivity.act.colorForAttr(backgroundColor))
+            holder.itemView.crvTask.setCardBackgroundColor(
+                MainActivity.act.colorForAttr(
+                    backgroundColor
+                )
+            )
         }
         if (round) {
             holder.itemView.crvTask.radius = cr

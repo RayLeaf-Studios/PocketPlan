@@ -153,6 +153,7 @@ class NoteFr : Fragment() {
         myFragment = this
         //inflating layout for NoteFragment
         val myView = inflater.inflate(R.layout.fragment_note, container, false)
+        deletedNote = null
         initializeComponents(myView)
         return myView
     }
@@ -206,6 +207,7 @@ class NoteFr : Fragment() {
                     // remove from adapter
                     deletedNote = noteListInstance.getNote(viewHolder.adapterPosition)
                     noteListInstance.removeAt(viewHolder.adapterPosition)
+                    noteListInstance.save()
                     myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
                     myFragment.updateNoteSearchIcon()
                     myFragment.updateNoteUndoIcon()
