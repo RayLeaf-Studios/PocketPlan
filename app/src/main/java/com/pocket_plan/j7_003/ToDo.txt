@@ -14,16 +14,15 @@ General:
     - Add screenshots and App description to PlayStore page
 
 Back-End stuff before release:
+    - deleteBirthdayObject should return a tuple startPosition and itemCount (of removed items)
+    - addBirthday and addFullBirthday should return a tuple startPosition and itemCount (of added items)
     - translate help fragment to russian
-    - deleteBirthday should return a tuple startPosition and itemCount (of removed items)
-    - addBirthday should return a tuple startPosition and itemCount (of added items)
 
 Front-End
-    - buttons no curve in normal theme?
+    - animate birthday deletion and adding
 
 Optional
-    - animate birthday deletion
-    - more than 1 light theme?
+    - more than 1 light theme? different colors
 
 
 
