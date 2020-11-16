@@ -28,26 +28,33 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
      * @param parMonth The month of the birthday
      * @param parDay The day of the birthday
      */
-    fun addBirthday(
-        name: String,
-        day: Int,
-        month: Int,
-        year: Int,
-        daysToRemind: Int,
-        expanded: Boolean,
-        notify: Boolean
-    ) {
-        this.add(Birthday(name, day, month, year, daysToRemind, expanded, notify))
+    fun addBirthday(name: String, day: Int, month: Int, year: Int,
+        daysToRemind: Int, expanded: Boolean, notify: Boolean
+    ): Pair<Int, Int> {
+        val newBirthday = Birthday(name, day, month, year, daysToRemind, expanded, notify)
+        val initSize = this.size
+
+        this.add(newBirthday)
+        val startIndex = this.indexOf(newBirthday)
+
         sortAndSaveBirthdays()
+        val itemRange = this.size - initSize
+
+        return Pair(startIndex, itemRange)
     }
 
     /**
      * Helper Function to add a full birthday object, used for undoing deletions
      */
-    fun addFullBirthday(birthday: Birthday): Int {
+    fun addFullBirthday(birthday: Birthday): Pair<Int, Int> {
+        val initSize = this.size
         this.add(birthday)
+
+        val startIndex = this.indexOf(birthday)
         sortAndSaveBirthdays()
-        return this.indexOf(birthday)
+        val itemRange = this.size - initSize
+
+        return Pair(startIndex, itemRange)
     }
 
     /**
@@ -95,10 +102,15 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
         save()
     }
 
-    fun deleteBirthdayObject(birthday: Birthday) {
+    fun deleteBirthdayObject(birthday: Birthday): Pair<Int, Int> {
+        val startIndex = this.indexOf(birthday)
+        val initSize = this.size
         this.remove(birthday)
         sortBirthday()
+        val itemRange = initSize - this.size
         save()
+
+        return Pair(startIndex, itemRange)
     }
 
     /**
