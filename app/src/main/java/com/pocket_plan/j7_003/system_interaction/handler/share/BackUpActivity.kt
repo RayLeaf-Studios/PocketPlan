@@ -2,13 +2,10 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.CancellationSignal
 import android.util.Log
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
@@ -64,7 +61,7 @@ class BackUpActivity: AppCompatActivity() {
 
     }
 
-    fun initializeListeners(){
+    private fun initializeListeners(){
         clExport.setOnClickListener {
             eHandler.shareAll()
         }
@@ -127,12 +124,13 @@ class BackUpActivity: AppCompatActivity() {
                     file.delete()
 
                     MainActivity.act.refreshData()
+                    Toast.makeText(this, "Import successful!", Toast.LENGTH_SHORT).show()
 
                     return
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(this, "Couldn't import!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Import failed", Toast.LENGTH_SHORT).show()
             zipFile.delete()
             file.delete()
             Log.e("e", e.toString())

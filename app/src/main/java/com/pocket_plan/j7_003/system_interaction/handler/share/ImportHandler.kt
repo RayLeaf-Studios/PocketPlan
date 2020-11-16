@@ -130,10 +130,11 @@ class ImportHandler(private val parentActivity: Activity) {
             ShoppingList()
             UserItemTemplateList()
             NoteAdapter()
+            Toast.makeText(parentActivity, "Import successful!", Toast.LENGTH_SHORT).show()
             true
         } catch (e: Exception) {
             // inform the user that the import didn't succeed
-            Toast.makeText(parentActivity, "Couldn't import!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(parentActivity, "Import failed", Toast.LENGTH_SHORT).show()
             Log.e("iHandler", e.toString())
             false
         }

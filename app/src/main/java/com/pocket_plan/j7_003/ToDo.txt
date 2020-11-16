@@ -10,7 +10,6 @@ General:
 
     - maybe add more stuff to shopping template list (missing items that may occur during testing)
 
-    - create google account
     - upload app to PlayStore
     - Add screenshots and App description to PlayStore page
 
@@ -20,8 +19,7 @@ Back-End stuff before release:
     - addBirthday should return a tuple startPosition and itemCount (of added items)
 
 Front-End
-    - update help fragment telling how to edit items, delete notes
-    - notification for import
+    - buttons no curve in normal theme?
 
 Optional
     - animate birthday deletion

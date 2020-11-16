@@ -513,7 +513,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.SAFETY_SLIDER_DIALOG, true)
         setDefault(SettingId.SHAKE_TASK_HOME, true)
         setDefault(SettingId.THEME_DARK, true)
-        setDefault(SettingId.NOTES_SWIPE_DELETE, false)
+        setDefault(SettingId.NOTES_SWIPE_DELETE, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
