@@ -16,8 +16,10 @@ General:
 Back-End stuff before release:
     - translate help fragment to russian
 
-Front-End
-    - fix task animations
+Frontend:
+    - fix task and note redo animations (bugged on real device but not on emulator)
+    - rethink autoSelect withYear in birthday
+    - different colors for birthday today
 
 Optional
     - more than 1 light theme? different colors

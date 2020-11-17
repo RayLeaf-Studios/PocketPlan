@@ -1163,7 +1163,17 @@ class BirthdayAdapter :
         }
 
         //opens dialog to edit this birthday
-        holder.itemView.setOnLongClickListener {
+        holder.itemView.tvRowBirthdayName.setOnLongClickListener {
+            BirthdayFr.editBirthdayHolder = holder.birthday
+            BirthdayFr.myFragment.openEditBirthdayDialog()
+            true
+        }
+        holder.itemView.tvRowBirthdayDate.setOnLongClickListener {
+            BirthdayFr.editBirthdayHolder = holder.birthday
+            BirthdayFr.myFragment.openEditBirthdayDialog()
+            true
+        }
+        holder.itemView.icon_bell.setOnLongClickListener {
             BirthdayFr.editBirthdayHolder = holder.birthday
             BirthdayFr.myFragment.openEditBirthdayDialog()
             true
@@ -1175,7 +1185,6 @@ class BirthdayAdapter :
             listInstance.sortAndSaveBirthdays()
             notifyItemChanged(holder.adapterPosition)
         }
-
         holder.itemView.tvRowBirthdayName.setOnClickListener {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()

@@ -133,10 +133,13 @@ class NoteFr : Fragment() {
             }
 
             R.id.item_notes_undo -> {
-                //undo deletion of last deleted task (or multiple deleted tasks, if
-                //sweep delete button was used
-                val newPos = noteListInstance.addFullNote(deletedNote!!)
-                myAdapter.notifyItemInserted(newPos)
+                //undo deletion of last deleted task
+//                val newPos = noteListInstance.addFullNote(deletedNote!!)
+//                myAdapter.notifyItemInserted(newPos)
+
+                noteListInstance.addFullNote(deletedNote!!)
+                myAdapter.notifyDataSetChanged()
+
                 deletedNote = null
                 myFragment.updateNoteUndoIcon()
             }
