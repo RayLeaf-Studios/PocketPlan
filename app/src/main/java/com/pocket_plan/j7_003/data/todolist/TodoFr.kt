@@ -73,9 +73,9 @@ class TodoFr : Fragment() {
             R.id.item_tasks_undo -> {
                 //undo deletion of last deleted task (or multiple deleted tasks, if
                 //sweep delete button was used
-//                val newPos = todoListInstance.addFullTask(deletedTask!!)
-                todoListInstance.addFullTask(deletedTask!!)
-                myAdapter.notifyDataSetChanged()
+                val newPos = todoListInstance.addFullTask(deletedTask!!)
+//                todoListInstance.addFullTask(deletedTask!!)
+                myAdapter.notifyItemInserted(newPos)
                 deletedTask = null
             }
 
