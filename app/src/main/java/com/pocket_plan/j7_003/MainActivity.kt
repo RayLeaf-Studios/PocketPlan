@@ -387,6 +387,11 @@ class MainActivity : AppCompatActivity() {
             previousFragmentStack.push(fragmentTag)
         }
 
+        bottomNavigation.visibility = when(fragmentTag==FT.NOTE_EDITOR){
+            true -> View.GONE
+            else -> View.VISIBLE
+        }
+
         //create fragment object
         val fragment = when (fragmentTag) {
             FT.HOME -> HomeFr()

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -60,6 +61,7 @@ class NoteEditorFr : Fragment() {
          * called from an editing context
          */
 
+        MainActivity.act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         if (MainActivity.editNoteHolder != null) {
             myEtTitle.setText(MainActivity.editNoteHolder!!.title)
             myEtContent.setText(MainActivity.editNoteHolder!!.content)
