@@ -8,6 +8,7 @@
     android:background="?attr/colorBackground"
     android:padding="5dp">
 
+
     <EditText
         android:id="@+id/etNoteTitle"
         android:layout_width="match_parent"
@@ -23,7 +24,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:padding="4dp"
         android:id="@+id/etNoteContent"
@@ -32,6 +32,7 @@
         android:textColorHint="?attr/colorHint"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:scrollbars="vertical"
         android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="top|start"
