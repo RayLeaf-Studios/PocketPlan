@@ -25,8 +25,8 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
     /**
      * Adds a birthday to the this and saves the this.
      * @param name The name of the created birthday
-     * @param parMonth The month of the birthday
-     * @param parDay The day of the birthday
+     * @param month  The month of the birthday
+     * @param day The day of the birthday
      */
     fun addBirthday(name: String, day: Int, month: Int, year: Int,
         daysToRemind: Int, expanded: Boolean, notify: Boolean
