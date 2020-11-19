@@ -25,3 +25,4 @@ Ideas:
     - make shopping list presets save and loadable
     - suggested amount for shopping items
     - add tags / sublist for different store/s?
+    - calendar hold to expand peek day

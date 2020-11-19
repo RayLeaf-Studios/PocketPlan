@@ -1,27 +1,19 @@
 General:
-    - test app in current state
-    - check logs, fix notifications
+    - create payPal business acc
+    - project cleanup
+    - test app
 
-    - code cleanup
-    - string resource cleanup
-    - color resource cleanup
-    - style resource cleanup
-    - remove unused files from project (drawables)
-
-    - maybe add more stuff to shopping template list (missing items that may occur during testing)
-
-    - upload app to PlayStore
-    - Add screenshots and App description to PlayStore page
-
-Back-End stuff before release:
+Back-End:
     - translate help fragment to russian
 
-Frontend:
+Front-End:
+    - add way to allow feedback / send error report?
+    - add donation page / link ko-fi
     - fix task and note redo animations (bugged on real device but not on emulator)
     - rethink autoSelect withYear in birthday
     - different colors for birthday today
 
-Optional
+Optional:
     - more than 1 light theme? different colors
 
 
