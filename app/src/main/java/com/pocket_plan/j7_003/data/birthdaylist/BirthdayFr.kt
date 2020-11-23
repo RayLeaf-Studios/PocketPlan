@@ -262,7 +262,7 @@ class BirthdayFr : Fragment() {
             true -> R.attr.colorOnBackGround
             else -> R.attr.colorHint
         }
-        tvSaveYear.setTextColor(MainActivity.act.colorForAttr(R.attr.colorHint))
+        tvSaveYear.setTextColor(MainActivity.act.colorForAttr(tvSaveYearColor))
 
         //initialize value of save year checkbox
         cbSaveBirthdayYear.isChecked = hasYear
