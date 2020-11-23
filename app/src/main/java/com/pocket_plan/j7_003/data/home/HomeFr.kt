@@ -187,7 +187,7 @@ class HomeFr : Fragment() {
         //displays "+ (additionalTasks) more" if there are more than 3 important tasks
         val additionalTasks = p1TaskCounter - displayTaskCount
         if (additionalTasks != 0) {
-            taskPanelText += "+ $additionalTasks more\n"
+            taskPanelText += "+ $additionalTasks\n"
         }
 
         //sets the testViews text to taskPanelText

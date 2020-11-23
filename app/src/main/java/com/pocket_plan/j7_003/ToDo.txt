@@ -8,7 +8,6 @@ Back-End:
     - check if app can still start if one of the jsons is corrupted
 
 Front-End:
-    - +1 more übersetzen => + 1
     - clear undo after mass deleting shopping list
     - rethink autoSelect withYear in birthday
     - different colors for birthday today
