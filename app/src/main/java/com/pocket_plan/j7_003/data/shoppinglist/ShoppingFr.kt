@@ -72,8 +72,14 @@ class ShoppingFr : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        //decides if options menu will be refreshed immediately after option is selected
+        var menuRefresh = true
+
         when (item.itemId) {
             R.id.item_shopping_clear_list -> {
+                //menu refresh is handled in dialog action
+                menuRefresh = false
                 dialogShoppingClear()
             }
 
@@ -94,16 +100,15 @@ class ShoppingFr : Fragment() {
                 //collapse all categories
                 shoppingListInstance.collapseAllTags()
                 myAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
-
             }
             R.id.item_shopping_expand_all -> {
                 //expand all categories
                 shoppingListInstance.expandAllTags()
                 myAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
-
             }
         }
-        updateShoppingMenu()
+
+        if(menuRefresh) updateShoppingMenu()
 
         return super.onOptionsItemSelected(item)
     }
@@ -233,6 +238,7 @@ class ShoppingFr : Fragment() {
             shoppingListInstance.clear()
             shoppingListInstance.save()
             myAdapter.notifyDataSetChanged()
+            deletedItem = null
             myFragment.updateShoppingMenu()
         }
         MainActivity.act.dialogConfirmDelete(titleId, action)
