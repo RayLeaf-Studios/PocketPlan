@@ -97,7 +97,6 @@
     <string name="settingsAppearanceResetToDefault">Сбросить настроек</string>
     <string name="custom_item_delete_title">Очистить список?</string>
     <string name="home_notification_add_note">Записка добaвлено!</string>
-    <string name="home_notification_add_item">Закупка добавлено!</string>
     <string name="home_notification_add_task">Задача добавлено!</string>
     <string name="todo_dialog_clear_title">Удалить все задачи?</string>
     <string name="todo_dialog_clear_checked_title">Удалить отмеченые задачи?</string>
@@ -196,20 +195,33 @@
     </string-array>
 
     <plurals name="year">
-        <item quantity="one">год</item>
+        <item quantity="one">год%d</item>
         <item quantity="few">годика</item>
         <item quantity="many">лет</item>
     </plurals>
 
     <plurals name="day">
-        <item quantity="one">день</item>
+        <item quantity="one">день%d</item>
         <item quantity="few">дней</item>
         <item quantity="many">дней</item>
     </plurals>
 
     <plurals name="dayIn">
-        <item quantity="one">день</item>
+        <item quantity="one">день%d</item>
         <item quantity="few">дней</item>
         <item quantity="many">дней</item>
     </plurals>
+    <string name="birthdaysReminderActivated">\nReminder set</string>
+    <string name="aboutTesterDescription">tba</string>
+    <string name="birthdayIn">tba</string>
+    <string name="birthdayTomorrow">tba</string>
+    <string name="birthdayToday">tba</string>
+    <string name="settingsHelp">tba</string>
+    <string name="howtoHome">tba</string>
+    <string name="howtoSleep">tba</string>
+    <string name="howtoShopping">tba</string>
+    <string name="howtoBirthdays">tba</string>
+    <string name="howtoNotes">tba</string>
+    <string name="howtoTodo">tba</string>
+    <string name="notificationNoteAdded">Note was added!</string>
 </resources>

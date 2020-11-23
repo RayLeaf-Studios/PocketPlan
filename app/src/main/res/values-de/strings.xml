@@ -7,7 +7,7 @@
     <string name="menuTitleCalendar">Kalender</string>
     <string name="menuTitleColorChoose">Wähle eine Farbe</string>
     <string name="menuTitleCreateTerm">Termin erstellen</string>
-    <string name="menuTitleCustomItem">Benutzerdef. Items</string>
+    <string name="menuTitleCustomItem">Benutzerdef. Artikel</string>
     <string name="menuTitleDayView">Tagesansicht</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleNotes">Notizen</string>
@@ -44,7 +44,7 @@
     <string name="settingsNumOfCols">Notizen nebeneinander</string>
     <string name="settingsFontSize">Schriftgröße im Editor</string>
     <string name="settingsShoListTitle">Einkaufsliste</string>
-    <string name="settingsCusItems">Benutzerdefinierte Items verwalten</string>
+    <string name="settingsCusItems">Benutzerdefinierte Artikel verwalten</string>
     <string name="settingsOnlyExpandOne">Nur eine Kategorie ausklappbar</string>
     <string name="settingsCollapseChecked">Abgehakte Kategorien einklappen</string>
     <string name="settingsNavigationTitle">Navigation</string>
@@ -87,8 +87,8 @@
     <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
     <string name="contentDescriptionSun">Sonne</string>
     <string name="shoppingAddItemTitle">Einkauf hinzufügen</string>
-    <string name="shoppingEditItemTitle">Einkauf bearbeiten</string>
-    <string name="settingsCloseItemDialog">Itemdialog nach hinzufügen schließen</string>
+    <string name="shoppingEditItemTitle">Artikel bearbeiten</string>
+    <string name="settingsCloseItemDialog">Artikeldialog nach hinzufügen schließen</string>
     <string name="backup">Backup</string>
     <string name="navigationDrawer">Navigation</string>
     <string name="aboutSrc">Quellcode auf GitHub</string>
@@ -111,9 +111,8 @@
     <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
 
     <string name="home_notification_add_task">Aufgabe hinzugefügt!</string>
-    <string name="home_notification_add_item">Item hinzugefügt!</string>
     <string name="home_notification_add_note">Notiz hinzugefügt!</string>
-    <string name="shopping_item_added">Item hinzugefügt!</string>
+    <string name="shopping_item_added">Artikel hinzugefügt!</string>
     <string name="custom_item_delete_title">Liste leeren?</string>
     <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
     <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
@@ -124,14 +123,15 @@
     <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
     <string name="setting_title_shapes">Formen</string>
     <string name="setting_title_theme">Farbschema</string>
-    <string name="customOptionClearItems">Benutzerdef. Items löschen</string>
+    <string name="customOptionClearItems">Benutzerdef. Artikel löschen</string>
     <string name="settings_delete_dialog_title">Löschdialog mit Bestätigungs-Slider</string>
     <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
     <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
     <string name="titleRestoreSettings">Alle Einstellungen zurücksetzen?</string>
     <string name="backupExportJson">Als.json exportieren</string>
     <string name="backupImportJson">Von .json importieren</string>
-    <string name="birthdaysNoReminder">\nKeine Erinnerung gesetzt</string>
+    <string name="birthdaysNoReminder">\nKeine Erinnerung aktiviert</string>
+    <string name="birthdaysReminderActivated">\nErinnerung aktiviert</string>
     <string name="aboutKellaiDescription">Logo und UI</string>
 
     <string name="howtoTodo">Wische eine Aufgabe zur Seite um sie zu löschen.\n\nTippe eine Aufgabe an um sie zu bearbeiten.\n\nHalte eine Aufgabe gedrückt um sie umzusortieren.</string>
@@ -148,6 +148,7 @@
     <string name="aboutTesterNames">Shaika, Elias</string>
     <string name="aboutTesterDescription">Pre-Alpha Test</string>
     <string name="notesSwipeToDElete">Wischen um zu löschen</string>
+    <string name="notificationNoteAdded">Notiz hinzugefügt!</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
@@ -196,7 +197,7 @@
         <item>Geburtstage</item>
         <item>Todoliste</item>
         <item>Einstellungen</item>
-        <item>Benutzer Items</item>
+        <item>Benutzer Artikel</item>
         <item>Schlaf Zeiten</item>
     </string-array>
 

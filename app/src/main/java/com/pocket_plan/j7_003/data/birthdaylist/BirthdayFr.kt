@@ -1085,9 +1085,14 @@ class BirthdayAdapter :
                 currentBirthday.daysToRemind
             )
             val reminderText = when (currentBirthday.notify) {
-                true -> MainActivity.act.resources.getString(
-                    R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
-                )
+                true ->
+                    when(currentBirthday.daysToRemind){
+                        0 -> MainActivity.act.resources.getString(R.string.birthdaysReminderActivated)
+                        else ->
+                            MainActivity.act.resources.getString(
+                                R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
+                            )
+                    }
                 else -> MainActivity.act.resources.getString(R.string.birthdaysNoReminder)
             }
 

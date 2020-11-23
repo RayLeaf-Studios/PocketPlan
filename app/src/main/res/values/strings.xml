@@ -50,6 +50,7 @@
 
     <!-- Birthdays -->
     <string name="birthdaysNotify">notify me</string>
+    <string name="birthdaysReminderActivated">\nReminder set</string>
     <string name="birthdaysDaysPrior">" prior."</string>
     <string name="birthdayDialogAdd">Add</string>
     <string name="birthdayDialogAddTitle">Add Birthday</string>
@@ -144,7 +145,6 @@
 
 <!--    Home-->
     <string name="home_notification_add_task">Task added!</string>
-    <string name="home_notification_add_item">Item added!</string>
     <string name="home_notification_add_note">Note added!</string>
 
 <!--    NavigationDrawer-->
@@ -183,6 +183,7 @@
     <string name="aboutTesterNames">Shaika, Elias</string>
     <string name="aboutTesterDescription">Pre-Alpha Test</string>
     <string name="notesSwipeToDElete">Swipe to delete</string>
+    <string name="notificationNoteAdded">Note was added!</string>
 
 
     <!-- Arrays -->

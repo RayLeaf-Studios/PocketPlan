@@ -211,7 +211,7 @@ class NoteEditorFr : Fragment() {
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
-            Toast.makeText(MainActivity.act, "Note was added!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(MainActivity.act, R.string.notificationNoteAdded, Toast.LENGTH_SHORT).show()
         }
         MainActivity.previousFragmentStack.push(cache)
     }
