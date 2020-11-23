@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteAdapter
@@ -106,14 +105,6 @@ class ImportHandler(private val parentActivity: Activity) {
     }
 
     internal fun browse(fileType: String, id: StorageId) {
-//        val permission = ActivityCompat.checkSelfPermission(parentActivity,
-//            Manifest.permission.READ_EXTERNAL_STORAGE)
-//
-//        if (permission != PackageManager.PERMISSION_GRANTED) {
-//            parentActivity.requestPermissions(
-//                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1000)
-//        }
-
         val chooseFileIntent = Intent(Intent.ACTION_GET_CONTENT)
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -135,7 +126,6 @@ class ImportHandler(private val parentActivity: Activity) {
         } catch (e: Exception) {
             // inform the user that the import didn't succeed
             Toast.makeText(parentActivity, "Import failed", Toast.LENGTH_SHORT).show()
-            Log.e("iHandler", e.toString())
             false
         }
     }

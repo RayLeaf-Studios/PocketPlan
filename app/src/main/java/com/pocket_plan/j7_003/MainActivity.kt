@@ -134,7 +134,6 @@ class MainActivity : AppCompatActivity() {
         SleepReminder.context = this
         SleepFr.sleepReminderInstance = SleepReminder()
 
-
         //Initialize temporary ShoppingFr Instance
         tempShoppingFr = ShoppingFr()
 
