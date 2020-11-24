@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
+import kotlin.math.abs
 
 
 /**
@@ -617,24 +618,31 @@ class BirthdayFr : Fragment() {
                     MainActivity.act.colorForAttr(R.attr.colorOnBackGroundTask)
                 )
                 yearChanged = true
-                if (pickedYear != 2020 && !cbSaveBirthdayYear.isChecked && pickedYear != chosenYear) {
-                    cbSaveBirthdayYear.isChecked = true
-                    tvSaveYear.setTextColor(
-                        MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
-                    )
-                }
 
-                chosenYear = pickedYear
-                if (date.year != 0 && pickedYear != 2020 && !cbSaveBirthdayYear.isChecked) {
+                if (pickedYear != 2020 && !cbSaveBirthdayYear.isChecked &&
+                    (date.year != 0 || pickedYear != chosenYear)) {
+
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
                         MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
                     )
                 }
+                chosenYear = pickedYear
+
                 date = when (cbSaveBirthdayYear.isChecked) {
                     true -> date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
                     else -> date.withYear(0).withMonth(month + 1).withDayOfMonth(day)
                 }
+
+                when {
+                    !cbSaveBirthdayYear.isChecked &&
+                            abs(LocalDate.now().until(date).toTotalMonths()) < 12 -> {
+                        cbSaveBirthdayYear.isChecked = false
+                        tvSaveYear.setTextColor(
+                            MainActivity.act.colorForAttr(R.attr.colorHint))
+                    }
+                }
+
                 val dayMonthString =
                     date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
                         .padStart(2, '0')
