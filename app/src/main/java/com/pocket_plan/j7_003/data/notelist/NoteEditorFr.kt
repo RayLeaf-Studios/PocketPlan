@@ -61,7 +61,6 @@ class NoteEditorFr : Fragment() {
          * called from an editing context
          */
 
-        MainActivity.act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         if (MainActivity.editNoteHolder != null) {
             myEtTitle.setText(MainActivity.editNoteHolder!!.title)
             myEtContent.setText(MainActivity.editNoteHolder!!.content)

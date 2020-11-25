@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -342,6 +343,12 @@ class MainActivity : AppCompatActivity() {
             FT.BIRTHDAYS -> View.VISIBLE
             else -> View.INVISIBLE
         }
+
+        //Set correct soft input mode
+        act.window.setSoftInputMode(when(fragmentTag){
+            FT.NOTE_EDITOR ->WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+            else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+        })
 
         //Set the correct ActionbarTitle
         myNewToolbar.title = when (fragmentTag) {
