@@ -520,10 +520,10 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, true)
         setDefault(SettingId.MOVE_CHECKED_DOWN, true)
-        setDefault(SettingId.SHAPES_ROUND, false)
-        setDefault(SettingId.SAFETY_SLIDER_DIALOG, true)
+        setDefault(SettingId.SHAPES_ROUND, true)
+        setDefault(SettingId.SAFETY_SLIDER_DIALOG, false)
         setDefault(SettingId.SHAKE_TASK_HOME, true)
-        setDefault(SettingId.THEME_DARK, true)
+        setDefault(SettingId.THEME_DARK, false)
         setDefault(SettingId.NOTES_SWIPE_DELETE, true)
     }
 

@@ -30,132 +30,119 @@
         tools:layout_editor_absoluteX="80dp" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
         android:id="@+id/panelTasks"
-        android:layout_marginTop="13dp"
-        android:layout_marginHorizontal="3dp"
-        android:layout_marginBottom="10dp"
-        app:cardElevation="@dimen/elevation"
-        app:cardBackgroundColor="?attr/colorHomePanel"
-        app:layout_constraintTop_toBottomOf="@id/tvRemainingWakeTime"
-        android:layout_height="wrap_content">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        android:layout_marginHorizontal="3dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="?attr/colorHomePanel"
+        app:cardElevation="@dimen/elevation"
+        app:layout_constraintTop_toBottomOf="@id/tvRemainingWakeTime">
 
-        <TextView
-            android:id="@+id/tvTasks"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorOnBackGround"
-            android:layout_marginLeft="14dp"
-            android:text="Test"
-            android:textSize="@dimen/font_size_small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivTasksHome"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivTasksHome"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_action_todo"
-            app:layout_constraintBottom_toBottomOf="@+id/tvTasks"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvTasks"
-            app:layout_constraintVertical_bias="0.555" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/tvTasks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:text="Test"
+                android:textColor="?attr/colorOnBackGround"
+                android:textSize="@dimen/font_size_small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ivTasksHome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivTasksHome"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_action_todo"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTasks"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvTasks"
+                app:layout_constraintVertical_bias="0.555" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
         android:id="@+id/panelBirthdays"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        app:cardElevation="@dimen/elevation"
-        android:layout_marginHorizontal="3dp"
-        app:cardBackgroundColor="?attr/colorHomePanel"
-        app:layout_constraintTop_toBottomOf="@id/panelTasks"
-        android:layout_height="wrap_content">
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
+        android:layout_marginHorizontal="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        app:cardBackgroundColor="?attr/colorHomePanel"
+        app:cardElevation="@dimen/elevation"
+        app:layout_constraintTop_toBottomOf="@id/panelTasks">
 
-        <TextView
-            android:id="@+id/tvBirthday"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/colorOnBackGround"
-            android:layout_marginLeft="14dp"
-            android:textSize="@dimen/font_size_small"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:text="Test"
-            app:layout_constraintEnd_toStartOf="@id/icBirthdaysHome"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/icBirthdaysHome"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_marginEnd="17dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:src="@drawable/ic_action_birthday"
-            app:layout_constraintBottom_toBottomOf="@+id/tvBirthday"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvBirthday"
-            app:layout_constraintVertical_bias="0.555" />
+            app:layout_constraintStart_toStartOf="parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvBirthday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:text="Test"
+                android:textColor="?attr/colorOnBackGround"
+                android:textSize="@dimen/font_size_small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/icBirthdaysHome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icBirthdaysHome"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="17dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/ic_action_birthday"
+                app:layout_constraintBottom_toBottomOf="@+id/tvBirthday"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvBirthday"
+                app:layout_constraintVertical_bias="0.555" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
 
-
-
     <!--    buttons-->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clAddNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="10dp"
         android:background="?attr/selectableItemBackground"
+        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/clAddTask"
         app:layout_constraintEnd_toStartOf="@+id/clAddTask"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/clAddTask">
 
-        <ImageView
-            android:id="@+id/ivAdd"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_add_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorOnBackGround"
-            />
-
 
         <ImageView
             android:id="@+id/ivNote"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_action_notes"
+            android:src="@drawable/ic_action_add_note"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivAdd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorOnBackGround" />
 
@@ -165,31 +152,22 @@
         android:id="@+id/clAddTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
         android:background="?attr/selectableItemBackground"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/clAddItem"
         app:layout_constraintEnd_toStartOf="@+id/clAddItem"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/clAddNote">
-
-        <ImageView
-            android:id="@+id/ivAdd2"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_add_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:tint="?attr/colorOnBackGround"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/clAddNote"
+        app:layout_constraintTop_toTopOf="@+id/clAddItem">
 
         <ImageView
             android:id="@+id/ivTask"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:src="@drawable/ic_action_todo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_action_add_task_circle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivAdd2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorOnBackGround" />
 
@@ -199,32 +177,22 @@
         android:id="@+id/clAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@+id/clAddTask"
-        app:layout_constraintEnd_toEndOf="parent"
         android:background="?attr/selectableItemBackground"
+        android:padding="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/clAddTask"
-        app:layout_constraintTop_toTopOf="@+id/clAddTask">
-
-        <ImageView
-            android:id="@+id/ivAdd3"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            app:tint="?attr/colorOnBackGround"
-            android:src="@drawable/ic_add_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/clAddTask">
 
         <ImageView
             android:id="@+id/ivItem"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_action_shopping"
+            android:src="@drawable/ic_action_add_shopping"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivAdd3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="?attr/colorOnBackGround" />
 

@@ -9,8 +9,7 @@ Back-End:
 
 Front-End:
     - rethink autoSelect withYear in birthday
-    - different colors for birthday today
-    
+
     - scroll to something when its added / readded
 
     - add way to allow feedback / send error report?
@@ -20,11 +19,9 @@ Front-End:
 
 
 Optional:
-    - bdays delete all / erinnerungen an / aus für alle ?
+    - erinnerungen an / aus für alle geburtstage ?
     - shopping item height custom?
-    - more than 1 light theme? different colors
-    - super dark theme / amoled friendly?
-    - show days until optional in birthdays?
+    - change about page
 
 
 

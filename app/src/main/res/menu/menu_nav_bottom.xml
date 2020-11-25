@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/bottom2"
-        android:icon="@drawable/ic_action_todo"
+        android:icon="@drawable/ic_check_mark"
         android:title="@string/menuTitleTasks" />
 
     <item
@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/bottom4"
-        android:icon="@drawable/ic_action_shopping"
+        android:icon="@drawable/ic_action_shopping_cart"
         android:title="@string/menuTitleShopping" />
 
     <item
