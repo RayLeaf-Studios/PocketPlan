@@ -372,11 +372,8 @@ class TodoFr : Fragment() {
                                 false
                             )
                         )
-                    if (newPos == todoListInstance.size - 1) {
-                        myRecycler.adapter?.notifyDataSetChanged()
-                    } else {
-                        myRecycler.adapter?.notifyItemInserted(newPos)
-                    }
+                    myRecycler.adapter?.notifyItemInserted(newPos)
+                    myRecycler.scrollToPosition(newPos)
                 }
                 myAlertDialog?.dismiss()
             }
