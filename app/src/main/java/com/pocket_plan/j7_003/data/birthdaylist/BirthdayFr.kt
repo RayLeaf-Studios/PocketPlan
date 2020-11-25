@@ -629,6 +629,7 @@ class BirthdayFr : Fragment() {
                 )
                 yearChanged = true
 
+                val prevChecked = cbSaveBirthdayYear.isChecked
                 if (pickedYear != 2020 && !cbSaveBirthdayYear.isChecked &&
                     (date.year != 0 || pickedYear != chosenYear)
                 ) {
@@ -646,12 +647,14 @@ class BirthdayFr : Fragment() {
                 }
 
                 when {
-                    !cbSaveBirthdayYear.isChecked &&
-                            abs(LocalDate.now().until(date).toTotalMonths()) < 12 -> {
-                        cbSaveBirthdayYear.isChecked = false
-                        tvSaveYear.setTextColor(
-                            MainActivity.act.colorForAttr(R.attr.colorHint)
-                        )
+                    abs(LocalDate.now().until(date).toTotalMonths()) < 12 -> {
+                        if (!prevChecked) {
+                            cbSaveBirthdayYear.isChecked = false
+
+                            tvSaveYear.setTextColor(
+                                MainActivity.act.colorForAttr(R.attr.colorHint)
+                            )
+                        }
                     }
                 }
 
