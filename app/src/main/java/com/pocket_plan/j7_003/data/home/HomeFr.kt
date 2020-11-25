@@ -125,6 +125,21 @@ class HomeFr : Fragment() {
 
     @SuppressLint("ResourceType")
     private fun updateTaskPanel(shake: Boolean) {
+        val density = MainActivity.act.resources.displayMetrics.density
+        val (_, status) = SleepFr.sleepReminderInstance.getRemainingWakeDurationString()
+        val params = myView.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
+        val sideMargin = (density * 3).toInt()
+        val bottomMargin = (density * 10).toInt()
+
+        if(status==2){
+            //no sleep, bigger distance
+            params.setMargins(sideMargin, (density * 15).toInt(), sideMargin, bottomMargin)
+        } else{
+            //sleep present, smaller distance
+            params.setMargins(sideMargin, bottomMargin, sideMargin, bottomMargin)
+        }
+
+
         if (round) {
             myView.panelTasks.radius = cr
         }
