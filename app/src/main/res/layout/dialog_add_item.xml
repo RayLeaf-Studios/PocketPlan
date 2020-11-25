@@ -21,7 +21,6 @@
             android:popupTheme="@style/ThemeOverlay.AppCompat"
             android:singleLine="true"
             android:textColor="?attr/colorOnBackGround"
-            android:textColorHint="?attr/colorGoToSleep"
             android:theme="@style/CardView.Dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline3"

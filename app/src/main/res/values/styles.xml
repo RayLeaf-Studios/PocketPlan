@@ -32,8 +32,8 @@
 
         <item name="colorBackgroundListElement">#252525</item>
         <item name="colorBirthdayNotify">#1976D2</item>
-        <item name="colorBirthdaySoon">#25A5E1</item>
-        <item name="colorBirthdayToday">#D60000</item>
+        <item name="colorBirthdaySoon">#BD5B0F</item>
+        <item name="colorBirthdayToday">#B50505</item>
         <item name="colorButtonCancel">#A80F0F</item>
         <item name="colorCategory">#FFFFFF</item>
         <item name="colorCheckedCategoryTitle">#757272</item>
@@ -128,18 +128,18 @@
         <item name="colorGrayL">#A5A1A1</item>
         <item name="colorGrayD">#D3D3D3</item>
 
-        <item name="colorAccent">#2397E4</item>
-        <item name="colorAccentClone">#23A8E4</item>
+        <item name="colorAccent">#4FC3F7</item>
+        <item name="colorAccentClone">#4FC3F7</item>
 
         <item name="colorBackgroundListElement">#E1E1E1</item>
         <item name="colorBirthdayNotify">#1CBCFB</item>
-        <item name="colorBirthdaySoon">#2FA8E1</item>
-        <item name="colorBirthdayToday">#E12525</item>
+        <item name="colorBirthdaySoon">#FF6600</item>
+        <item name="colorBirthdayToday">#F50057</item>
         <item name="colorButtonCancel">#EC4B5E</item>
         <item name="colorCategory">#FFFFFF</item>
         <item name="colorCheckedCategoryTitle">#FFFFFF</item>
         <item name="colorCheckedTask">#BDBCBC</item>
-        <item name="colorGoToSleep">#F3EF2828</item>
+        <item name="colorGoToSleep">#E91E63</item>
         <item name="colorSun">#F3A318</item>
 
         <item name="colorPriority1">#F06273</item>
