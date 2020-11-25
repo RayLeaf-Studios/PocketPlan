@@ -36,7 +36,7 @@
         android:layout_marginHorizontal="3dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:cardBackgroundColor="?attr/colorHomePanel"
+        app:cardBackgroundColor="?attr/colorBackgroundElevated"
         app:cardElevation="@dimen/elevation"
         app:layout_constraintTop_toBottomOf="@id/tvRemainingWakeTime">
 
@@ -80,7 +80,7 @@
         android:layout_marginHorizontal="3dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
-        app:cardBackgroundColor="?attr/colorHomePanel"
+        app:cardBackgroundColor="?attr/colorBackgroundElevated"
         app:cardElevation="@dimen/elevation"
         app:layout_constraintTop_toBottomOf="@id/panelTasks">
 
@@ -122,81 +122,58 @@
 
     <!--    buttons-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/clAddNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="15dp"
+        android:backgroundTint="?attr/colorBackgroundElevated"
+        android:clickable="true"
+        android:tint="?attr/colorOnBackGround"
+        android:focusable="true"
+        android:src="@drawable/ic_action_add_note"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/clAddTask"
         app:layout_constraintEnd_toStartOf="@+id/clAddTask"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/clAddTask">
+        app:layout_constraintTop_toTopOf="@+id/clAddTask"
+        app:maxImageSize="30dp" />
 
-
-        <ImageView
-            android:id="@+id/ivNote"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_action_add_note"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorOnBackGround" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/clAddTask"
+        android:tint="?attr/colorOnBackGround"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="15dp"
+        android:backgroundTint="?attr/colorBackgroundElevated"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_action_add_task_circle"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="@+id/clAddItem"
         app:layout_constraintEnd_toStartOf="@+id/clAddItem"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/clAddNote"
-        app:layout_constraintTop_toTopOf="@+id/clAddItem">
+        app:layout_constraintTop_toTopOf="@+id/clAddItem"
+        app:maxImageSize="35dp" />
 
-        <ImageView
-            android:id="@+id/ivTask"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_action_add_task_circle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorOnBackGround" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/clAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="15dp"
-        android:layout_marginBottom="10dp"
+        android:tint="?attr/colorOnBackGround"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="?attr/colorBackgroundElevated"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_action_add_shopping"
+        app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/clAddTask">
+        app:layout_constraintStart_toEndOf="@+id/clAddTask"
+        app:maxImageSize="30dp" />
 
-        <ImageView
-            android:id="@+id/ivItem"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_action_add_shopping"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorOnBackGround" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--    <Button-->
     <!--        android:id="@+id/btnNewNote"-->

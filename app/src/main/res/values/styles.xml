@@ -112,7 +112,7 @@
         <item name="colorControlNormal">#000000</item>
 
         <item name="colorBackground">#EFEFEF</item>
-        <item name="colorBackgroundElevated">#E1E1E1</item>
+        <item name="colorBackgroundElevated">#E4E4E4</item>
         <item name="colorHomePanel">#EFEFEF</item>
 
         <item name="colorHint">#888888</item>
