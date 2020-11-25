@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/item_birthdays_disable_reminders"
+        android:title="Disable all reminders"
+        app:showAsAction="never">
+    </item>
+    <item
+        android:id="@+id/item_birthdays_enable_reminders"
+        android:title="Enable all reminders"
+        app:showAsAction="never">
+    </item>
+    <item
         android:id="@+id/item_birthdays_undo"
         android:icon="@drawable/ic_action_undo"
         android:title=""

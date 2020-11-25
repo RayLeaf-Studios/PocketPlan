@@ -120,6 +120,16 @@ class BirthdayFr : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_birthdays_disable_reminders -> {
+                birthdayListInstance.disableAllReminders()
+                myAdapter.notifyDataSetChanged()
+            }
+
+            R.id.item_birthdays_enable_reminders -> {
+                birthdayListInstance.enableAllReminders()
+                myAdapter.notifyDataSetChanged()
+            }
+
             R.id.item_birthdays_search -> {/* no-op, listeners for this searchView are set
              in on create options menu*/
             }
@@ -620,7 +630,8 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
 
                 if (pickedYear != 2020 && !cbSaveBirthdayYear.isChecked &&
-                    (date.year != 0 || pickedYear != chosenYear)) {
+                    (date.year != 0 || pickedYear != chosenYear)
+                ) {
 
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
@@ -639,7 +650,8 @@ class BirthdayFr : Fragment() {
                             abs(LocalDate.now().until(date).toTotalMonths()) < 12 -> {
                         cbSaveBirthdayYear.isChecked = false
                         tvSaveYear.setTextColor(
-                            MainActivity.act.colorForAttr(R.attr.colorHint))
+                            MainActivity.act.colorForAttr(R.attr.colorHint)
+                        )
                     }
                 }
 
@@ -829,7 +841,7 @@ class BirthdayFr : Fragment() {
                 yearToSave, daysToRemind, false, notifyMe
             )
 
-            Log.e("",addInfo.first.toString()+" "+addInfo.second.toString())
+            Log.e("", addInfo.first.toString() + " " + addInfo.second.toString())
             myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
             updateSearchBirthdaysIcon()
             myAlertDialog?.dismiss()
@@ -1094,11 +1106,13 @@ class BirthdayAdapter :
             )
             val reminderText = when (currentBirthday.notify) {
                 true ->
-                    when(currentBirthday.daysToRemind){
+                    when (currentBirthday.daysToRemind) {
                         0 -> MainActivity.act.resources.getString(R.string.birthdaysReminderActivated)
                         else ->
                             MainActivity.act.resources.getString(
-                                R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
+                                R.string.birthdayReminder,
+                                currentBirthday.daysToRemind,
+                                reminderDayString
                             )
                     }
                 else -> MainActivity.act.resources.getString(R.string.birthdaysNoReminder)
@@ -1171,7 +1185,10 @@ class BirthdayAdapter :
         if (currentBirthday.notify) {
             holder.iconBell.setImageResource(R.drawable.ic_bell)
         } else {
-            holder.iconBell.setColorFilter(MainActivity.act.colorForAttr(R.attr.colorHint),  android.graphics.PorterDuff.Mode.MULTIPLY)
+            holder.iconBell.setColorFilter(
+                MainActivity.act.colorForAttr(R.attr.colorHint),
+                android.graphics.PorterDuff.Mode.MULTIPLY
+            )
             holder.iconBell.setImageResource(R.drawable.ic_action_no_notification)
         }
 

@@ -50,6 +50,20 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
         return Pair(startIndex - itemRange + 1, itemRange)
     }
 
+    fun disableAllReminders(){
+        this.forEach{
+            it.notify = false
+        }
+        save()
+    }
+
+    fun enableAllReminders(){
+        this.forEach{
+            it.notify = true
+        }
+        save()
+    }
+
     /**
      * Deletes the Birthday at a given index in the this
      * @param index The position of the birthday in the array list

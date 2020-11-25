@@ -9,6 +9,7 @@ Back-End:
 
 Front-End:
     - rethink autoSelect withYear in birthday
+    - consistent fontsize for settings / sleepreminder!
 
     - scroll to something when its added / readded
 
@@ -19,8 +20,8 @@ Front-End:
 
 
 Optional:
-    - erinnerungen an / aus für alle geburtstage ?
     - shopping item height custom?
+    - option to hide empty home panels
     - change about page
 
 
