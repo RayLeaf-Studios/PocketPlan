@@ -68,7 +68,8 @@ class SleepFr : Fragment() {
             updateCustomDisplay()
             myView.panelNotCustom.visibility = View.GONE
             myView.panelCustom.visibility = View.VISIBLE
-            myView.dividerBelowSwitchCustom.visibility = View.INVISIBLE
+            myView.dividerBelowSwitchCustom.visibility = View.GONE
+            myView.shadowBelowCustom.visibility = View.VISIBLE
         } else {
             initializeRegularDayDisplay(myView)
             updateRegularDisplay()
@@ -76,6 +77,7 @@ class SleepFr : Fragment() {
             myView.panelCustom.visibility = View.GONE
             myView.switchEnableCustomDays.isChecked = false
             myView.dividerBelowSwitchCustom.visibility = View.VISIBLE
+            myView.shadowBelowCustom.visibility = View.GONE
             myAdapter.notifyDataSetChanged()
         }
 
@@ -105,13 +107,15 @@ class SleepFr : Fragment() {
                 sleepReminderInstance.setCustom()
                 updateCustomDisplay()
                 animationShowCustom(myView)
-                myView.dividerBelowSwitchCustom.visibility = View.INVISIBLE
+                myView.dividerBelowSwitchCustom.visibility = View.GONE
+                myView.shadowBelowCustom.visibility = View.VISIBLE
             } else {
                 if (!regularIsInit) initializeRegularDayDisplay(myView); regularIsInit = true
                 sleepReminderInstance.setRegular()
                 updateRegularDisplay()
                 animationShowRegular(myView)
                 myView.dividerBelowSwitchCustom.visibility = View.VISIBLE
+                myView.shadowBelowCustom.visibility = View.GONE
             }
         }
         return myView
