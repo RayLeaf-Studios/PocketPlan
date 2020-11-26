@@ -108,7 +108,8 @@
             android:src="@drawable/ic_check_mark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnAddItemToList"
-            app:layout_constraintStart_toEndOf="@+id/btnCancelItem" />
+            app:layout_constraintStart_toEndOf="@+id/btnCancelItem"
+            app:tint="?attr/colorOnBackGround" />
 
 
         <androidx.constraintlayout.widget.Guideline

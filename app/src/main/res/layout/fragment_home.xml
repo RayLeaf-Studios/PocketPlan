@@ -138,7 +138,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/clAddTask"
-        app:maxImageSize="30dp" />
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/clAddTask"
@@ -155,7 +155,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/clAddNote"
         app:layout_constraintTop_toTopOf="@+id/clAddItem"
-        app:maxImageSize="35dp" />
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/clAddItem"
@@ -172,7 +172,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/clAddTask"
-        app:maxImageSize="30dp" />
+        />
 
 
     <!--    <Button-->
