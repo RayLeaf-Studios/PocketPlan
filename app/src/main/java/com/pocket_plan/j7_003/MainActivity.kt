@@ -155,9 +155,15 @@ class MainActivity : AppCompatActivity() {
 
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
-        val mySpinner = header.ivSpinner
+
+        //display current versionName
+        val versionString = "V "+packageManager.getPackageInfo(packageName, 0).versionName
+        header.tvVersion.text = versionString
+
+        //spinning app Icon
+        val myLogo = header.ivLogo
         var allowSpin = true
-        mySpinner.setOnClickListener {
+        myLogo.setOnClickListener {
             if (!allowSpin) {
                 return@setOnClickListener
             }
@@ -179,7 +185,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             })
-            mySpinner.startAnimation(animationSpin)
+            myLogo.startAnimation(animationSpin)
         }
 
         //initialize drawer toggle button

@@ -9,7 +9,6 @@ Back-End:
 
 Front-End:
     - shadows for buttons
-    - automate inclusion of version number
     - rm v2 files and td
     - cleaner layout for BackupFr
     - add way to allow feedback / send error report?

@@ -10,7 +10,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
-        android:id="@+id/ivSpinner"
+        android:id="@+id/ivLogo"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:paddingTop="8dp"
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivSpinner"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
         android:textSize="@dimen/font_size_big"
         android:textColor="?attr/colorOnBackGround"
         android:id="@+id/tvAppTitle"
@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAppTitle"
+        android:id="@+id/tvVersion"
         android:layout_height="wrap_content"
         android:textColor="?attr/colorHint"
         android:textSize="@dimen/font_size_small"
