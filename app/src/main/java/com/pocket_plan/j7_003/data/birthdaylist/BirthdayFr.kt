@@ -113,7 +113,7 @@ class BirthdayFr : Fragment() {
 
         editBirthdayHolder = null
         updateUndoBirthdayIcon()
-        updateSearchBirthdaysIcon()
+        updateBirthdayMenu()
 
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -140,6 +140,7 @@ class BirthdayFr : Fragment() {
                 )
                 deletedBirthday = null
                 updateUndoBirthdayIcon()
+                updateBirthdayMenu()
                 myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
             }
         }
@@ -191,8 +192,10 @@ class BirthdayFr : Fragment() {
         super.onResume()
     }
 
-    fun updateSearchBirthdaysIcon() {
+    fun updateBirthdayMenu() {
         myMenu.findItem(R.id.item_birthdays_search).isVisible = birthdayListInstance.size > 0
+        myMenu.findItem(R.id.item_birthdays_enable_reminders).isVisible = birthdayListInstance.size > 0
+        myMenu.findItem(R.id.item_birthdays_disable_reminders).isVisible = birthdayListInstance.size > 0
     }
 
     fun updateUndoBirthdayIcon() {
@@ -846,7 +849,7 @@ class BirthdayFr : Fragment() {
 
             Log.e("", addInfo.first.toString() + " " + addInfo.second.toString())
             myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
-            updateSearchBirthdaysIcon()
+            updateBirthdayMenu()
             myAlertDialog?.dismiss()
         }
         etName.requestFocus()
@@ -930,7 +933,7 @@ class BirthdayAdapter :
         }
         notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
         BirthdayFr.myFragment.updateUndoBirthdayIcon()
-        BirthdayFr.myFragment.updateSearchBirthdaysIcon()
+        BirthdayFr.myFragment.updateBirthdayMenu()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
@@ -1224,7 +1227,6 @@ class BirthdayAdapter :
             notifyItemChanged(holder.adapterPosition)
         }
 
-        //todo update onBindViewHolder
         holder.itemView.icon_bell.setOnClickListener {
             holder.birthday.notify = !holder.birthday.notify
             BirthdayFr.myAdapter.notifyItemChanged(holder.adapterPosition)

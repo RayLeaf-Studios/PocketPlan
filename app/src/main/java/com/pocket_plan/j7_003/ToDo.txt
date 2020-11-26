@@ -5,16 +5,21 @@ General:
 Back-End:
     - translate help fragment to russian
     - check if app can still start if one of the jsons is corrupted
+    - add way to not close app when it crashes, but display error report and offer to send it via email?
 
 Front-End:
+    - light theme additem haken
+    - cleaner layout for BackupFr
     - add way to allow feedback / send error report?
+    - minify enabled true / false for building?
+    - change about page
+    - automate inclusion of version number
 
 Optional:
     - create payPal business acc
     - add donation page / link ko-fi
     - shopping item height custom?
     - fix task and note redo animations (bugged on real device but not on emulator)
-    - change about page
     - bigger checkmark for todo in bottom nav
 
 
