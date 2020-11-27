@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
 
         //display current versionName
-        val versionString = "V "+packageManager.getPackageInfo(packageName, 0).versionName
+        val versionString = "v "+packageManager.getPackageInfo(packageName, 0).versionName
         header.tvVersion.text = versionString
 
         //spinning app Icon
