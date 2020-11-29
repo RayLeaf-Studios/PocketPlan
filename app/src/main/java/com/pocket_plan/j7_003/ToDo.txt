@@ -12,7 +12,6 @@ Front-End:
     - rm v2 files and td
     - cleaner layout for BackupFr
     - add way to allow feedback / send error report?
-    - minify enabled true / false for building?
     - change about page
 
 Optional:

@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -304,7 +305,17 @@ class ShoppingFr : Fragment() {
         customTitle.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
         MainActivity.shoppingTitle = customTitle
         myBuilder?.setCustomTitle(customTitle)
+        myBuilder.setCancelable(true)
         MainActivity.addItemDialog = myBuilder?.create()
+        MainActivity.addItemDialog?.setCancelable(true)
+
+
+        MainActivity.addItemDialog?.setOnKeyListener { arg0, keyCode, event -> // TODO Auto-generated method stub
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                MainActivity.addItemDialog?.dismiss()
+            }
+            true
+        }
 
         //initialize autocompleteTextView and spinner for item unit
         val actvItem = MainActivity.addItemDialogView!!.actvItem
@@ -453,7 +464,9 @@ class ShoppingFr : Fragment() {
 
             //check mark animation to confirm adding of item
             checkMark.visibility = View.VISIBLE
-            checkMark.animate().translationYBy(-80f).setDuration(600L).withEndAction { checkMark.animate().translationY(0f).setDuration(0).start() }.start()
+            checkMark.animate().translationYBy(-80f).setDuration(600L).withEndAction { checkMark.animate().translationY(
+                0f
+            ).setDuration(0).start() }.start()
             checkMark.animate().alpha(0f).setDuration(600L).withEndAction {
                 checkMark.animate().alpha(1f).setDuration(0).start()
                 checkMark.visibility = View.GONE
@@ -603,7 +616,11 @@ class ShoppingFr : Fragment() {
         //set cursor to end of item name
         MainActivity.addItemDialogView!!.actvItem.setSelection(item.name!!.length)
         //select correct unit
-        MainActivity.addItemDialogView!!.spItemUnit.setSelection(MainActivity.act.resources.getStringArray(R.array.units).indexOf(item.suggestedUnit))
+        MainActivity.addItemDialogView!!.spItemUnit.setSelection(
+            MainActivity.act.resources.getStringArray(
+                R.array.units
+            ).indexOf(item.suggestedUnit)
+        )
         //mark that unit did not get changed
         MainActivity.unitChanged = false
         //show correct item amount
