@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="?attr/colorBackground"
     android:paddingTop="5dp"
@@ -79,10 +78,14 @@
             android:id="@+id/btnCancelItem"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="3dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/round_corner_red"
+            android:elevation="@dimen/btnElevation"
             android:text="@string/noteDeleteDialogCancel"
             android:textColor="?attr/colorOnBackGroundTask"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spCategory">
 
@@ -92,10 +95,14 @@
             android:id="@+id/btnAddItemToList"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="3dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/round_corner_accent"
+            android:elevation="@dimen/btnElevation"
             android:text="@string/birthdayDialogAdd"
             android:textColor="?attr/colorOnBackGroundTask"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spCategory">
 

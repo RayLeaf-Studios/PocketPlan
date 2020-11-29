@@ -12,24 +12,28 @@
         android:id="@+id/btnSaveChanges"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:elevation="@dimen/btnElevation"
         android:background="@drawable/round_corner_accent"
         android:text="@string/noteDiscardDialogSave"
+        android:layout_margin="3dp"
         android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnDiscardChanges"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_red"
+        android:elevation="@dimen/btnElevation"
+        android:layout_margin="3dp"
         android:text="@string/noteDiscardDialogDiscard"
         android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
