@@ -27,7 +27,7 @@
                 android:id="@+id/clExport"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingStart="20dp"
+                android:paddingStart="11dp"
                 android:paddingVertical="15dp"
                 tools:ignore="RtlSymmetry">
 
@@ -57,7 +57,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
+                android:paddingStart="11dp"
                 android:id="@+id/clImport"
                 android:background="?attr/selectableItemBackground"
                 android:paddingEnd="0dp"

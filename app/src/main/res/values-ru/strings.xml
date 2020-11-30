@@ -224,4 +224,6 @@
     <string name="howtoNotes">tba</string>
     <string name="howtoTodo">tba</string>
     <string name="notificationNoteAdded">Note was added!</string>
+    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at rayleaf.studios@gmail.com.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.</string>
+    <string name="contact_us">Contact us</string>
 </resources>
