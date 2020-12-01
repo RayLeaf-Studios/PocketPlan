@@ -8,11 +8,10 @@ Back-End:
     - add way to not close app when it crashes, but display error report and offer to send it via email?
 
 Front-End:
-    - fix adaptive icon / squircle in android 10
-    - check all texts (playstore and app) for typing mistakes
+    - make icon symmetric / 45° then => implement new icon and check compatibility with all icon shapes in A10
 
 Optional:
-    - fix task and note redo animations (bugged on real device but not on emulator)
+    - add task and note redo animations (bugged on real device but not on emulator)
 
 
 
