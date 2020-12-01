@@ -66,6 +66,7 @@ class TodoFr : Fragment() {
                 val titleId = string.todo_dialog_clear_checked_title
                 val action: () -> Unit = {
                     myFragment.manageCheckedTaskDeletion()
+                    myFragment.updateTodoIcons()
                 }
                 MainActivity.act.dialogConfirmDelete(titleId, action)
             }
