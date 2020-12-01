@@ -1,4 +1,5 @@
 General:
+    - fix add birthday logic
     - project cleanup
     - test app
 
@@ -6,9 +7,6 @@ Back-End:
     - translate help fragment to russian
     - check if app can still start if one of the jsons is corrupted
     - add way to not close app when it crashes, but display error report and offer to send it via email?
-
-Front-End:
-    - make icon symmetric / 45° then => implement new icon and check compatibility with all icon shapes in A10
 
 Optional:
     - add task and note redo animations (bugged on real device but not on emulator)
