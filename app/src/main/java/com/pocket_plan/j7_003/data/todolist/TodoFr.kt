@@ -375,6 +375,7 @@ class TodoFr : Fragment() {
                         )
                     myRecycler.adapter?.notifyItemInserted(newPos)
                     myRecycler.scrollToPosition(newPos)
+                    TodoFr.myFragment.updateTodoIcons()
                 }
                 myAlertDialog?.dismiss()
             }
