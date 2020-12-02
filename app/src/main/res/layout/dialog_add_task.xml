@@ -1,66 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="?attr/colorBackground"
-    android:paddingBottom="20dp">
+    android:paddingBottom="10dp"
+    android:paddingHorizontal="10dp"
+    android:orientation="vertical"
+    >
 
     <EditText
         android:id="@+id/etxTitleAddTask"
-        android:layout_width="0dp"
-        android:textColor="?attr/colorOnBackGround"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints=""
-        android:isScrollContainer="false"
         android:hint="@string/tasksAddHint"
-        android:textColorHint="?attr/colorHint"
         android:inputType="textPersonName"
+        android:isScrollContainer="false"
         android:text=""
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        android:textColor="?attr/colorOnBackGround"
+        android:textColorHint="?attr/colorHint"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnConfirm1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_marginHorizontal="3dp"
         android:layout_marginBottom="3dp"
+        android:layout_marginHorizontal="5dp"
         android:background="@drawable/round_corner1"
         android:elevation="@dimen/btnElevation"
         android:text="@string/prioDisplay1"
         android:textColor="#FFF"
         android:textSize="@dimen/font_size_big"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/btnConfirm2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
 
     <Button
         android:id="@+id/btnConfirm2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/round_corner2"
-        android:layout_marginHorizontal="3dp"
         android:layout_marginBottom="3dp"
+        android:background="@drawable/round_corner2"
         android:elevation="@dimen/btnElevation"
         android:text="@string/prioDisplay2"
         android:textColor="#FFF"
         android:textSize="@dimen/font_size_big"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnConfirm3"
-        app:layout_constraintStart_toStartOf="@+id/btnConfirm1"
-        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+        app:layout_constraintEnd_toStartOf="@+id/btnConfirm3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnConfirm1"
+        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnConfirm3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
         android:layout_marginTop="12dp"
-        android:layout_marginHorizontal="3dp"
         android:layout_marginBottom="3dp"
         android:background="@drawable/round_corner3"
         android:elevation="@dimen/btnElevation"
@@ -68,21 +73,11 @@
         android:textColor="#FFF"
         android:textSize="@dimen/font_size_big"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnConfirm2"
         app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
