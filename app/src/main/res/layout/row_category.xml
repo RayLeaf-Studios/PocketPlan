@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
     android:id="@+id/cvCategory"
     android:layout_margin="10dp"
     android:layout_width="match_parent"
@@ -43,15 +44,18 @@
 
         <TextView
             android:id="@+id/tvCategoryName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
             android:padding="15dp"
-            android:textStyle="bold"
-            android:textSize="@dimen/font_size_medium"
             android:textColor="?attr/colorCategory"
+            android:textSize="@dimen/font_size_medium"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tvNumberOfItems"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvNumberOfItems"
+            app:layout_constraintEnd_toEndOf="@id/divider3"
             app:layout_constraintTop_toTopOf="@+id/tvNumberOfItems" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,6 +90,17 @@
             android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
 
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="40dp"
+            android:visibility="invisible"
+            android:background="?android:attr/listDivider"
+            tools:layout_editor_absoluteX="340dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
