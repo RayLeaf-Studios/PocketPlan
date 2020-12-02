@@ -23,7 +23,7 @@
     <!-- Notes -->
     <string name="noteDeleteDialogCancel">Cancel</string>
     <string name="noteDeleteDialogDelete">Delete</string>
-    <string name="noteDeleteDialogText">Swipe right to delete this note</string>
+    <string name="noteDeleteDialogText">Delete this note?</string>
     <string name="noteDiscardDialogDiscard">Discard</string>
     <string name="noteDiscardDialogSave">Save</string>
     <string name="noteDiscardDialogTitle">Save changes?</string>
@@ -163,7 +163,7 @@
     <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
     <string name="prior">prior</string>
     <string name="customOptionClearItems">Clear custom items</string>
-    <string name="settings_delete_dialog_title">Delete dialogs have safety slider</string>
+    <string name="settings_delete_dialog_title">Delete dialogs have confirmation slider</string>
     <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
     <string name="settingsAppearanceResetToDefault">Reset all settings to default</string>
     <string name="titleRestoreSettings">Reset all settings?</string>
