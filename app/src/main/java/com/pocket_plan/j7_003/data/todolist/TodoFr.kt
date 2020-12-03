@@ -3,8 +3,6 @@ package com.pocket_plan.j7_003.data.todolist
 import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -53,7 +51,7 @@ class TodoFr : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_tasks, menu)
         myMenu = menu
-        myMenu.findItem(R.id.item_tasks_undo)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_tasks_undo)?.icon?.setTint(MainActivity.act.colorForAttr(attr.colorOnBackGround))
         updateTodoIcons()
         super.onCreateOptionsMenu(menu, inflater)
     }

@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -324,7 +323,7 @@ class ShoppingFr : Fragment() {
 
         //initialize spinner for categories
         val spCategory = MainActivity.addItemDialogView!!.spCategory
-        val categoryAdapter = ArrayAdapter<String>(
+        val categoryAdapter = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             MainActivity.act.resources.getStringArray(R.array.categoryNames)

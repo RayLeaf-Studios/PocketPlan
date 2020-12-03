@@ -19,7 +19,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
     fun getTemplateByName(name: String): ItemTemplate? {
 
         this.forEach { e ->
-            if (e.n.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
+            if (e.n.equals(name, ignoreCase = true)) {
                 return e
             }
         }
@@ -48,7 +48,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
         }
     }
 
-    private class TMPTemplate(val n: String, val c: String, val s: String)
+    private class TMPTemplate(val n: String, val c: String)
 }
 
 data class ItemTemplate(var n: String, var c: String, var s: String)

@@ -304,7 +304,7 @@ class SleepAdapter :
     private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
 
 
-    var dayStrings = arrayOf(
+    private var dayStrings = arrayOf(
         MainActivity.act.resources.getString(R.string.sleepMon),
         MainActivity.act.resources.getString(R.string.sleepTue),
         MainActivity.act.resources.getString(R.string.sleepWed),

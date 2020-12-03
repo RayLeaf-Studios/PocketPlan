@@ -46,7 +46,7 @@ class HomeFr : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         //V.2
         //CalendarManager.init()
 

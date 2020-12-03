@@ -345,11 +345,6 @@ class SleepReminder {
         }
 
         /**
-         * @return The reminderTime formatted as a string.
-         */
-        fun getRemindTimeString(): String = wakeUpTime.minus(duration).toString()
-
-        /**
          * @return The WakeUpTime formatted as a string.
          */
         fun getWakeUpTimeString(): String = wakeUpTime.toString()

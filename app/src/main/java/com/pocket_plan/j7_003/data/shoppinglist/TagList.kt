@@ -15,7 +15,7 @@ class TagList : ArrayList<Tag>() {
 
     fun getTagByName(name: String): Tag {
         this.forEach { e ->
-            if (e.name.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
+            if (e.name.equals(name, ignoreCase = true)) {
                 return e
             }
         }

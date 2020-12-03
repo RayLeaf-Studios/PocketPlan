@@ -64,46 +64,6 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
         save()
     }
 
-    /**
-     * Deletes the Birthday at a given index in the this
-     * @param index The position of the birthday in the array list
-     */
-    fun deleteBirthday(index: Int) {
-        this.removeAt(index)
-        sortAndSaveBirthdays()
-    }
-
-    /**
-     * Grabs a birthday object and changes its attributes according to the parameters.
-     * @param name Name of the Person.
-     * @param parDay Day of the birthday.
-     * @param parMonth Month of the birthday.
-     * @param parReminder Days to be reminded at prior to the birthday.
-     * @param parPosition Position of the birthday object int he list.
-     */
-    fun editBirthday(
-        name: String,
-        parDay: Int,
-        parMonth: Int,
-        parYear: Int,
-        parReminder: Int,
-        parPosition: Int
-    ) {
-        val editableBirthday: Birthday =
-            getBirthday(
-                parPosition
-            )
-
-        editableBirthday.name = name
-        editableBirthday.day = parDay
-        editableBirthday.month = parMonth
-        editableBirthday.year = parYear
-        editableBirthday.daysToRemind = parReminder
-
-        sortAndSaveBirthdays()
-
-    }
-
     fun sortAndSaveBirthdays() {
         sortBirthday()
         save()

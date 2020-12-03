@@ -15,7 +15,7 @@ data class Tag(
             return false
         }
 
-        return this.name.toLowerCase(Locale.ROOT) == other.name.toLowerCase(Locale.ROOT)
+        return this.name.equals(other.name, ignoreCase = true)
     }
 
     override fun hashCode(): Int {

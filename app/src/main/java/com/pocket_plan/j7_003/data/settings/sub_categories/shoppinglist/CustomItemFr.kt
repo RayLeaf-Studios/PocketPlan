@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.row_task.view.tvName
 
 class CustomItemFr : Fragment() {
 
-    lateinit var myMenu: Menu
+    private lateinit var myMenu: Menu
     companion object{
         lateinit var myFragment: CustomItemFr
         lateinit var myAdapter: CustomItemAdapter

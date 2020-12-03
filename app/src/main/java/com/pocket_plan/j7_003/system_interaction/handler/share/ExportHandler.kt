@@ -53,7 +53,7 @@ class ExportHandler {
         MainActivity.act.startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 
-    internal fun backUpAsZip() {
+    private fun backUpAsZip() {
         StorageHandler.createFile(StorageId.ZIP, StorageId.ZIP.s)
         val outputStream = FileOutputStream(StorageHandler.files[StorageId.ZIP])
         val zipStream = ZipOutputStream(outputStream)

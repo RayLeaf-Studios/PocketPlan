@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.fragment_settings_about.view.*
-import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 
 class SettingsAboutFr : Fragment() {
 

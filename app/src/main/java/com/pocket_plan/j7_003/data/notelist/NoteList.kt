@@ -32,33 +32,6 @@ class NoteList : LinkedList<Note>() {
     }
 
     /**
-     * Changes the requested notes properties.
-     * @param index Position of the note in the noteList.
-     * @param title Title of the note.
-     * @param content Contents of the note color.
-     * @param color Color of the note.
-     */
-    fun editNote(index: Int, title: String, content: String, color: NoteColors) {
-        val editableNote =
-            getNote(
-                index
-            )
-        editableNote.title = title
-        editableNote.content = content
-        editableNote.color = color
-        save()
-    }
-
-    /**
-     * Deletes the requested note.
-     * @param index Position of the note in the noteList.
-     */
-    fun deleteNote(index: Int) {
-        this.removeAt(index)
-        save()
-    }
-
-    /**
      * Gets the requested note from the list.
      * @return The requested noteObject.
      */

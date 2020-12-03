@@ -67,7 +67,7 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
 
     fun getTemplateByName(name: String): ItemTemplate? {
         this.forEach { e ->
-            if (e.n.toLowerCase(Locale.ROOT) == name.toLowerCase(Locale.ROOT)) {
+            if (e.n.equals(name, ignoreCase = true)) {
                 return e
             }
         }

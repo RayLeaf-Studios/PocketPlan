@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.system_interaction.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.Logger
 import com.jakewharton.threetenabp.AndroidThreeTen

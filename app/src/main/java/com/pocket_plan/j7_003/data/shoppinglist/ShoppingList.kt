@@ -125,20 +125,6 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     }
 
     /**
-     * Retrieves the checked state of the requested item in this list.
-     * @param tag The tag of the sublist.
-     * @param sublistPosition The position of the requested item inside the sublist.
-     * @return The checked boolean of the item, if the item search fails null is returned
-     */
-    fun isItemChecked(tag: String, sublistPosition: Int): Boolean? {
-        return try {
-            this[getTagIndex(tag)].second[sublistPosition + 1].checked
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-    /**
      * Flips the current expansion state markers checked boolean.
      * @param tag The tag of the sublist to flip.
      * @return True if the expansion state markers checked boolean is flipped, false otherwise.

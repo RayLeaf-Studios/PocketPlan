@@ -58,7 +58,7 @@ class SettingsAppearanceFr : Fragment() {
 
     private fun initializeAdapters() {
         //Spinner for color theme
-        val spAdapterTheme = ArrayAdapter<String>(
+        val spAdapterTheme = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.themes)
@@ -67,7 +67,7 @@ class SettingsAppearanceFr : Fragment() {
         spTheme.adapter = spAdapterTheme
 
         //Spinner for shapes
-        val spAdapterShapes = ArrayAdapter<String>(
+        val spAdapterShapes = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.shapes)

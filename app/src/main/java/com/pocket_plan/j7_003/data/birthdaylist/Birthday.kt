@@ -26,8 +26,6 @@ data class Birthday constructor(
     @SerializedName(value = "nt")
     var notify: Boolean) {
 
-    fun hasReminder(): Boolean = daysToRemind != 0
-
     fun daysUntil(): Int {
         return ChronoUnit.DAYS.between(LocalDate.now(), asLocalDate()).toInt()
     }

@@ -36,7 +36,7 @@ class BackUpActivity: AppCompatActivity() {
 
 
         //Spinner for single file export
-        val spExportOneAdapter = ArrayAdapter<String>(
+        val spExportOneAdapter = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fileOptions)
@@ -45,7 +45,7 @@ class BackUpActivity: AppCompatActivity() {
         spExportOne.adapter = spExportOneAdapter
 
         //Spinner for single file import
-        val spImportOneAdapter = ArrayAdapter<String>(
+        val spImportOneAdapter = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fileOptions)

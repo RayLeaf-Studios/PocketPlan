@@ -22,7 +22,7 @@ class SettingsNotesFr : Fragment() {
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
     lateinit var spEditorFontSize: Spinner
-    lateinit var swAllowSwipe: SwitchCompat
+    private lateinit var swAllowSwipe: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +51,7 @@ class SettingsNotesFr : Fragment() {
     private fun initializeAdapters() {
         //NOTES
         //Spinner for amount of noteLines to be displayed
-        val spAdapterNoteLines = ArrayAdapter<String>(
+        val spAdapterNoteLines = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.noteLines)
@@ -60,7 +60,7 @@ class SettingsNotesFr : Fragment() {
         spNoteLines.adapter = spAdapterNoteLines
 
         //Spinner for amount of note columns
-        val spAdapterNoteColumns = ArrayAdapter<String>(
+        val spAdapterNoteColumns = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.noteColumns)
@@ -69,7 +69,7 @@ class SettingsNotesFr : Fragment() {
         spNoteColumns.adapter = spAdapterNoteColumns
 
         //Spinner for amount of note columns
-        val spAdapterEditorFontSize = ArrayAdapter<String>(
+        val spAdapterEditorFontSize = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fontSizes)
