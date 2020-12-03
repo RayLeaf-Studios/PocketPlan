@@ -63,14 +63,9 @@
     <!-- TODO use plurals here and in translation -->
     <string name="birthdayReminder">\nReminder %1$d %2$s prior</string>
     <string name="addBirthdayNameHint">Name</string>
-    <string name="addBirthdayDayHint">Day</string>
-    <string name="addBirthdayMonthHint">Month</string>
-    <string name="birthdayLabelName" translatable="false">%1$s%2$s.%3$s%4$s\t\t\t%5$s</string>
-    <string name="birthdayRowDate" translatable="false">%1$s.%2$s</string>
 
     <!-- Sleep -->
     <string name="sleepWakeUpTime">Wakeup Time</string>
-    <string name="sleepWakeUpTimeDay">Wakeup Time - %1$s</string>
     <string name="sleepDuration">Sleep duration</string>
     <string name="sleepDurationDay">Sleep Duration</string>
     <string name="sleepEnable">Enable Reminder</string>
@@ -92,7 +87,6 @@
     <string name="settingsCusItems">Manage custom items</string>
     <string name="settingsOnlyExpandOne">Only expand one category</string>
     <string name="settingsCollapseChecked">Collapse checked categories</string>
-    <string name="settingsNavigationTitle">Navigation</string>
     <string name="settings_export">Export backup as zip file</string>
     <string name="settings_import">Import backup from zip file</string>
     <string name="settings_title_appearance">Appearance and Behaviour</string>
@@ -102,21 +96,7 @@
 
     <!-- About Fragment -->
     <string name="aboutDevs">Developed by</string>
-    <string name="aboutDevsDesc" translatable="false">Estep248:  Back-End / Data Management\n
-        \nJakeGonder;:  Front-End / User Interface</string>
-    <string name="aboutDoriDescription">Textual content and translation</string>
-    <string name="aboutDoriName" translatable="false">Dori R.</string>
-    <string name="aboutEstepDescription">Backend / Data Management</string>
-    <string name="aboutEstepName" translatable="false">Estep248</string>
-    <string name="aboutJakeDescription">Frontend / User Interface</string>
-    <string name="aboutJakeName" translatable="false">JakeGonder</string>
-    <string name="aboutKellaiDescription">Logo and UI</string>
-    <string name="aboutKellaiName" translatable="false">Kellai U.</string>
-    <string name="aboutLetsbeDescription">Unpaid intern</string>
-    <string name="aboutLetsbeName" translatable="false">Letsbeteem0</string>
-    <string name="aboutSrc">Sourcecode on GitHub</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="aboutSup">Supported by</string>
     <string name="aboutViewOnGithub">View on GitHub</string>
 
     <!-- Notifications -->
@@ -131,7 +111,6 @@
     <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
 
     <!-- Content descriptions -->
-    <string name="contentDescriptionSun">Sun</string>
     <string name="zero" translatable="false">0</string>
     <string name="settingsCloseItemDialog">Close item dialog after adding</string>
     <string name="backup">Backup</string>
@@ -145,10 +124,8 @@
 
 <!--    Home-->
     <string name="home_notification_add_task">Task added!</string>
-    <string name="home_notification_add_note">Note added!</string>
 
-<!--    NavigationDrawer-->
-    <string name="navigationDrawer">Navigation drawer</string>
+    <!--    NavigationDrawer-->
     <string name="open">open</string>
     <string name="close">close</string>
 
@@ -161,7 +138,6 @@
     <string name="custom_item_delete_title">Delete custom items?</string>
     <string name="todo_dialog_clear_title">Clear To-Do List?</string>
     <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
-    <string name="prior">prior</string>
     <string name="customOptionClearItems">Clear custom items</string>
     <string name="settings_delete_dialog_title">Delete dialogs have confirmation slider</string>
     <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
@@ -180,12 +156,16 @@
     <string name="birthdayToday">today</string>
     <string name="birthdayTomorrow">tomorrow</string>
     <string name="birthdayIn">in</string>
-    <string name="aboutTesterNames">Shaika, Elias</string>
-    <string name="aboutTesterDescription">Pre-Alpha Test</string>
     <string name="notesSwipeToDElete">Swipe to delete</string>
     <string name="notificationNoteAdded">Note was added!</string>
     <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at rayleaf.studios@gmail.com.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.</string>
     <string name="contact_us">Contact us</string>
+    <string name="rayleaf_studios">RayLeaf Studios</string>
+    <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
+    <string name="version">Version</string>
+    <string name="pocket_plan">PocketPlan</string>
+    <string name="disable_all_reminders">Disable all reminders</string>
+    <string name="enable_all_reminders">Enable all reminders</string>
 
 
     <!-- Arrays -->
@@ -222,11 +202,6 @@
         <item>20</item>
         <item>22</item>
         <item>24</item>
-    </string-array>
-
-    <string-array name="drawerSides">
-        <item>left</item>
-        <item>right</item>
     </string-array>
 
     <string-array name="months">

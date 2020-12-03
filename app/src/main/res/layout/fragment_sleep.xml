@@ -91,7 +91,6 @@
          </androidx.constraintlayout.widget.ConstraintLayout>
 
          <View
-             android:id="@+id/dividerBelowSleepDuration"
              android:layout_width="match_parent"
              android:layout_height="1dp"
              android:background="?android:attr/listDivider"
@@ -214,7 +213,6 @@
                  app:layout_constraintStart_toStartOf="@+id/cbSaturday" />
 
              <TextView
-                 android:id="@+id/textView16"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:text="@string/sleepSun"
@@ -248,7 +246,6 @@
          </androidx.constraintlayout.widget.ConstraintLayout>
 
          <View
-             android:id="@+id/dividerBelowCheckboxes"
              android:layout_width="match_parent"
              android:layout_height="1dp"
              android:background="?android:attr/listDivider"
@@ -295,7 +292,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tvEnableSleepReminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
@@ -328,7 +324,6 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/panelCustomSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorBackground"
@@ -337,7 +332,6 @@
             tools:layout_editor_absoluteX="4dp">
 
             <TextView
-                android:id="@+id/tvEnableCustomDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"

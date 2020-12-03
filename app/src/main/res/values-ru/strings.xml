@@ -42,10 +42,7 @@
     <string name="birthdayAgeUnknown">Никакой год сахранён</string>
     <string name="birthdayReminder">\nНапомнить %1$d %2$s раньше\n</string>
     <string name="addBirthdayNameHint">Имя</string>
-    <string name="addBirthdayDayHint">День</string>
-    <string name="addBirthdayMonthHint">Месиц</string>
     <string name="sleepWakeUpTime">Просыпатсься в</string>
-    <string name="sleepWakeUpTimeDay">Просыпатсься в - %1$s</string>
     <string name="sleepDuration">Долгота сна</string>
     <string name="sleepDurationDay">Долгота сна</string>
     <string name="sleepEnable">Включить напоминаниа</string>
@@ -65,10 +62,7 @@
     <string name="settingsCusItems">Управлять нестандартные элементы</string>
     <string name="settingsOnlyExpandOne">Расширять только одну категорию</string>
     <string name="settingsCollapseChecked">Коллапс отмеченые категорие</string>
-    <string name="settingsNavigationTitle">Навигация</string>
     <string name="aboutDevs">Проявители</string>
-    <string name="aboutSup">Помощники</string>
-    <string name="aboutSrc">Исходный код на GitHub</string>
     <string name="sleepNotificationTitle">Время сна</string>
     <string name="sleepNotificationText">Время ложиться спать, спокойной ночи!</string>
     <string name="birthdayNotificationTitle">День рождеия</string>
@@ -77,14 +71,11 @@
 
 
     <string name="birthdayOldBornIn">", год рождения "</string>
-    <string name="contentDescriptionSun">Солнца</string>
     <string name="backup">Резервная копия</string>
-    <string name="navigationDrawer">Навигация</string>
     <string name="open">открыть</string>
     <string name="close">закрыть</string>
     <string name="aboutViewOnGithub">На GitHub</string>
     <string name="aboutSourcecode">Исходный код</string>
-    <string name="aboutLetsbeDescription">Неоплаченный практикант</string>
     <string name="options_tasks_uncheck_all">Убрать галочки</string>
     <string name="options_task_clear_list">Удалить задачи</string>
     <string name="options_task_delete_checked">Удалить отмечение задачи</string>
@@ -92,11 +83,9 @@
     <string name="backupImportJson">Импорт</string>
     <string name="setting_title_theme">Тема</string>
     <string name="setting_title_shapes">Формы</string>
-    <string name="prior">раньше</string>
     <string name="titleRestoreSettings">Сбросить настроек?</string>
     <string name="settingsAppearanceResetToDefault">Сбросить настроек</string>
     <string name="custom_item_delete_title">Очистить список?</string>
-    <string name="home_notification_add_note">Записка добaвлено!</string>
     <string name="home_notification_add_task">Задача добавлено!</string>
     <string name="todo_dialog_clear_title">Удалить все задачи?</string>
     <string name="todo_dialog_clear_checked_title">Удалить отмеченые задачи?</string>
@@ -113,16 +102,11 @@
     <string name="settings_delete_dialog_title">Бесопасный диалог удаление</string>
     <string name="options_shopping_collapse_all">Коллапс все</string>
     <string name="options_shopping_expand_all">Раскрывать все</string>
-    <string name="aboutEstepDescription">Бэкенд / Управления данных</string>
-    <string name="aboutJakeDescription">Интерфейс</string>
     <string name="settingsCloseItemDialog">Закрывать диалог после добовление</string>
-    <string name="aboutKellaiDescription">Дизайн логотипа</string>
-    <string name="aboutDoriDescription">Текстовое содержание и перевод</string>
     <string name="birthdayNotificationMultText">Сегодня %1$d дни рожения!</string>
     <string name="birthdayNotificationSingleUpcText">Через %2$d дней будить %1$s день рождения!</string>
     <string name="birthdayNotificationMultUpcText">Скоро будут %1$d дни рождения!</string>
     <string name="birthdaysNoReminder">\nНет напоминание\n</string>
-    <string name="aboutTesterNames">Shaika, Elias</string>
     <string name="notesSwipeToDElete">Swipe to delete</string>
 
     <string-array name="noteLines">
@@ -133,11 +117,6 @@
         <item>5</item>
         <item>10</item>
         <item>20</item>
-    </string-array>
-
-    <string-array name="drawerSides">
-        <item>cлева</item>
-        <item>справо</item>
     </string-array>
 
     <string-array name="themes">
@@ -212,7 +191,6 @@
         <item quantity="many">дней</item>
     </plurals>
     <string name="birthdaysReminderActivated">\nReminder set</string>
-    <string name="aboutTesterDescription">tba</string>
     <string name="birthdayIn">tba</string>
     <string name="birthdayTomorrow">tba</string>
     <string name="birthdayToday">tba</string>
@@ -226,4 +204,10 @@
     <string name="notificationNoteAdded">Note was added!</string>
     <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at rayleaf.studios@gmail.com.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.</string>
     <string name="contact_us">Contact us</string>
+    <string name="rayleaf_studios">RayLeaf Studios</string>
+    <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
+    <string name="version">Version</string>
+    <string name="pocket_plan">PocketPlan</string>
+    <string name="disable_all_reminders">Disable all reminders</string>
+    <string name="enable_all_reminders">Enable all reminders</string>
 </resources>

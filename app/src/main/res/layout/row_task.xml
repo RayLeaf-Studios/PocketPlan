@@ -12,7 +12,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="?attr/selectableItemBackground"
-        android:id="@+id/clTaskBackground"
         android:layout_height="wrap_content"
         >
 

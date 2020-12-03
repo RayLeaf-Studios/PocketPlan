@@ -216,21 +216,9 @@
         <item name="android:timePickerStyle">@style/MyTimePickerStyle</item>
     </style>
 
-    <style name="MyTimePickerDialogThemeL" parent="android:Theme.Material.Dialog">
-        <item name="android:timePickerStyle">@style/MyTimePickerStyleL</item>
-    </style>
-
     <style name="MyTimePickerStyle" parent="android:Widget.Material.TimePicker">
         <item name="android:headerBackground">?attr/colorAccent</item>
         <item name="android:numbersSelectorColor">?attr/colorAccent</item>
-    </style>
-
-    <style name="MyTimePickerStyleL" parent="android:Widget.Material.TimePicker">
-        <item name="android:headerBackground">?attr/colorAccent</item>
-        <item name="android:numbersSelectorColor">?attr/colorAccent</item>
-        <item name="android:numbersTextColor">@android:color/black</item>
-        <item name="android:numbersInnerTextColor">@android:color/black</item>
-        <item name="android:numbersBackgroundColor">?attr/colorBackgroundElevated</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
@@ -250,11 +238,6 @@
     <style name="MyLightToolbarStyle" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">?attr/colorBackground</item>
         <item name="android:textColor">?attr/colorOnBackGround</item>
-    </style>
-
-    <style name="MySpinnerStyle" parent="android:Widget.Spinner">
-        <item name="android:headerBackground">?attr/colorAccent</item>
-        <item name="android:numbersSelectorColor">?attr/colorAccent</item>
     </style>
 
     <style name="mySpinnerItemStyleLight" parent="@android:style/Widget.Holo.DropDownItem.Spinner">

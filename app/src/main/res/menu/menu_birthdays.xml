@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_birthdays_disable_reminders"
-        android:title="Disable all reminders"
+        android:title="@string/disable_all_reminders"
         app:showAsAction="never">
     </item>
     <item
         android:id="@+id/item_birthdays_enable_reminders"
-        android:title="Enable all reminders"
+        android:title="@string/enable_all_reminders"
         app:showAsAction="never">
     </item>
     <item

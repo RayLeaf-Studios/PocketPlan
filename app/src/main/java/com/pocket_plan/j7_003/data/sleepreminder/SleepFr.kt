@@ -42,6 +42,7 @@ class SleepFr : Fragment() {
 
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
+    @SuppressLint("InflateParams")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

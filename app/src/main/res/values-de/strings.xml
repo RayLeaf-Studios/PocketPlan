@@ -32,13 +32,10 @@
     <string name="tasksAddHint">Titel</string>
 
     <!-- Shopping -->
-    <string name="addBirthdayDayHint">Tag</string>
-    <string name="addBirthdayMonthHint">Monat</string>
     <string name="addBirthdayNameHint">Name</string>
 
 
     <string name="aboutDevs">Entwickelt von</string>
-    <string name="aboutSup">Unterstützt von</string>
     <string name="settingsNotesTitle">Notizen</string>
     <string name="settingsNumOfLines">Sichtbare Zeilen pro Notiz</string>
     <string name="settingsNumOfCols">Notizen nebeneinander</string>
@@ -47,7 +44,6 @@
     <string name="settingsCusItems">Benutzerdefinierte Artikel verwalten</string>
     <string name="settingsOnlyExpandOne">Nur eine Kategorie ausklappbar</string>
     <string name="settingsCollapseChecked">Abgehakte Kategorien einklappen</string>
-    <string name="settingsNavigationTitle">Navigation</string>
     <string name="birthdaysNotify">erinnern</string>
     <string name="birthdaysDaysPrior"> vorher.</string>
     <string name="birthdayDialogAdd">Hinzufügen</string>
@@ -75,7 +71,6 @@
     <string name="sleepSun">So</string>
     <string name="homeNoTasks">\nKeine wichtigen Aufgaben\n</string>
     <string name="homeNoBirthdays">\nKeine Geburtstage heute\n</string>
-    <string name="sleepWakeUpTimeDay">Aufstehzeit - %1$s</string>
     <string name="sleepDurationDay">Schlafdauer</string>
     <string name="sleepNotificationTitle">Schlafenszeit</string>
     <string name="sleepNotificationText">Zeit schlafen zu gehen, schönen Schlaf!</string>
@@ -85,21 +80,14 @@
     <string name="birthdayNotificationMultText">Heute haben %1$d Leute Geburtstag!</string>
     <string name="birthdayNotificationSingleUpcText">In %2$d Tagen hat %1$s Geburtstag!</string>
     <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
-    <string name="contentDescriptionSun">Sonne</string>
     <string name="shoppingAddItemTitle">Einkauf hinzufügen</string>
     <string name="shoppingEditItemTitle">Artikel bearbeiten</string>
     <string name="settingsCloseItemDialog">Artikeldialog nach hinzufügen schließen</string>
     <string name="backup">Backup</string>
-    <string name="navigationDrawer">Navigation</string>
-    <string name="aboutSrc">Quellcode auf GitHub</string>
     <string name="open">öffnen</string>
     <string name="close">schließen</string>
     <string name="aboutViewOnGithub">Auf GitHub</string>
     <string name="aboutSourcecode">Sourcecode</string>
-    <string name="aboutLetsbeDescription">Unbezahlter Praktikant</string>
-    <string name="aboutDoriDescription">Textliche Inhalte und Übersetzung</string>
-    <string name="aboutJakeDescription">Frontend / Benutzeroberfläche</string>
-    <string name="aboutEstepDescription">Backend / Daten Management</string>
     <string name="options_tasks_uncheck_all">Haken entfernen</string>
     <string name="options_task_clear_list">Liste löschen</string>
     <string name="options_task_delete_checked">Abgehaktes löschen</string>
@@ -111,12 +99,10 @@
     <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
 
     <string name="home_notification_add_task">Aufgabe hinzugefügt!</string>
-    <string name="home_notification_add_note">Notiz hinzugefügt!</string>
     <string name="shopping_item_added">Artikel hinzugefügt!</string>
     <string name="custom_item_delete_title">Liste leeren?</string>
     <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
     <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
-    <string name="prior">vorher</string>
     <string name="settings_export">Backup als zip exportieren</string>
     <string name="settings_import">Backup aus zip importieren</string>
     <string name="settings_title_appearance">Aussehen und Verhalten</string>
@@ -132,7 +118,6 @@
     <string name="backupImportJson">importieren</string>
     <string name="birthdaysNoReminder">\nKeine Erinnerung aktiviert</string>
     <string name="birthdaysReminderActivated">\nErinnerung aktiviert</string>
-    <string name="aboutKellaiDescription">Logo und UI</string>
 
     <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu löschen.\n\nTippe eine Aufgabe an, um sie zu bearbeiten.\n\nHalte eine Aufgabe gedrückt, um sie umzusortieren.</string>
     <string name="howtoNotes">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nHalte eine Notiz gedrückt, um sie umzusortieren.</string>
@@ -145,12 +130,16 @@
     <string name="birthdayToday">heute</string>
     <string name="birthdayTomorrow">morgen</string>
     <string name="birthdayIn">in</string>
-    <string name="aboutTesterNames">Shaika, Elias</string>
-    <string name="aboutTesterDescription">Pre-Alpha Test</string>
     <string name="notesSwipeToDElete">Wischen um zu löschen</string>
     <string name="notificationNoteAdded">Notiz hinzugefügt!</string>
     <string name="settingsAboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter rayleaf.studios@gmail.com.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.</string>
     <string name="contact_us">Kontakt</string>
+    <string name="rayleaf_studios">RayLeaf Studios</string>
+    <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
+    <string name="version">Version</string>
+    <string name="pocket_plan">PocketPlan</string>
+    <string name="disable_all_reminders">Erinnerungen deaktivieren</string>
+    <string name="enable_all_reminders">Erinnerungen aktivieren</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
@@ -161,11 +150,6 @@
         <item>5</item>
         <item>10</item>
         <item>20</item>
-    </string-array>
-
-    <string-array name="drawerSides">
-        <item>links</item>
-        <item>rechts</item>
     </string-array>
 
     <string-array name="shapes">

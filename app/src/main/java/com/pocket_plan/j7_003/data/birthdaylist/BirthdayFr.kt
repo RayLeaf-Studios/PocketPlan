@@ -1150,7 +1150,8 @@ class BirthdayAdapter :
                 ""
             }
         }
-        holder.tvRowBirthdayName.text = currentBirthday.name + " " + daysUntilString
+        val birthdayText = currentBirthday.name + " " + daysUntilString
+        holder.tvRowBirthdayName.text = birthdayText
 
         //set icon / text color to blue if birthday is today, to pink if its daysToRemind < days.Until, to white otherwise
         val today = LocalDate.now()

@@ -4,8 +4,8 @@
     android:gravity="bottom"
     android:background="?attr/colorBackgroundElevated"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="23dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="23dp"
     android:paddingBottom="20dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -31,7 +31,7 @@
         android:textColor="?attr/colorOnBackGround"
         android:id="@+id/tvAppTitle"
         android:paddingTop="8dp"
-        android:text="Pocket Plan" />
+        android:text="@string/pocket_plan" />
 
     <TextView
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:textColor="?attr/colorHint"
         android:textSize="@dimen/font_size_small"
-        android:text="V Alpha 1.0" />
+        />
 
 
 
