@@ -38,17 +38,10 @@ class HomeFr : Fragment() {
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
 
-//    V.2
-//    companion object {
-//        lateinit var homeTermRecyclerView: RecyclerView
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //V.2
-        //CalendarManager.init()
 
         //initializing layout
         myView = inflater.inflate(R.layout.fragment_home, container, false)
@@ -90,17 +83,6 @@ class HomeFr : Fragment() {
             MainActivity.tempShoppingFr.openAddItemDialog()
         }
 
-//        V.2
-//        myView.btnNewTerm.setOnClickListener {
-//            MainActivity.fromHome = true
-//            MainActivity.act.changeToCreateTerm()  }
-
-//        recyclerview holding the terms for today
-//        homeTermRecyclerView = myView.recycler_view_home
-//        val myAdapter = HomeTermAdapterDay()
-//        myAdapter.setDate(LocalDate.now())
-//        homeTermRecyclerView.adapter = myAdapter
-//        homeTermRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
         return myView
     }
 
@@ -238,7 +220,6 @@ class HomeFr : Fragment() {
         }
         var birthdayText = "\n"
         for (i in 0 until birthdaysToDisplay) {
-//            birthdayText += "•  " + birthdaysToday[i].name + "\n"
             birthdayText += birthdaysToday[i].name + "\n"
         }
         val excess = birthdaysToday.size - birthdaysToDisplay
@@ -335,56 +316,3 @@ class HomeFr : Fragment() {
 }
 
 
-//V2
-//class HomeTermAdapterDay :
-//    RecyclerView.Adapter<HomeTermAdapterDay.HomeTermViewHolderDay>() {
-//
-//    private lateinit var dayList: ArrayList<CalendarAppointment>
-//    fun setDate(date: LocalDate) {
-//        dayList = CalendarManager.getDayView(date)
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeTermViewHolderDay {
-//        val itemView = LayoutInflater.from(parent.context)
-//            .inflate(R.layout.row_term_day, parent, false)
-//        return HomeTermViewHolderDay(itemView)
-//    }
-//
-//    override fun onBindViewHolder(holder: HomeTermViewHolderDay, position: Int) {
-//
-//        val currentTerm = dayList[position]
-//
-//        holder.itemView.setOnClickListener {
-//            //start CreateTermFragment in EDIT mode
-////            MainActivity.myActivity.changeToDayView()
-//        }
-//
-//        holder.tvTitle.text = currentTerm.title
-//        holder.tvInfo.text = currentTerm.addInfo
-//
-//        //hides end time of a term if its identical to start time
-//        if (currentTerm.startTime == currentTerm.eTime) {
-//            holder.tvStartTime.text = currentTerm.startTime.toString()
-//            holder.tvEndTime.text = ""
-//            holder.tvDashUntil.visibility = View.INVISIBLE
-//        } else {
-//            holder.tvStartTime.text = currentTerm.startTime.toString()
-//            holder.tvEndTime.text = currentTerm.eTime.toString()
-//            holder.tvDashUntil.visibility = View.VISIBLE
-//        }
-//    }
-//
-//    override fun getItemCount() = dayList.size
-//
-//    class HomeTermViewHolderDay(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        /**
-//         * One instance of this class will contain one "instance" of row_term_day and meta data
-//         * like position, it also holds references to views inside of the layout
-//         */
-//        val tvTitle: TextView = itemView.tvTermItemTitle
-//        val tvInfo: TextView = itemView.tvTermItemInfo
-//        val tvStartTime: TextView = itemView.tvTermItemStartTime
-//        val tvEndTime: TextView = itemView.tvTermItemEndTime
-//        val tvDashUntil: TextView = itemView.tvDashUntil
-//    }
-//}

@@ -3,7 +3,6 @@
     <string name="menuTitleBirthdays">Дни рождения</string>
     <string name="menuTitleTasks">Задачи</string>
     <string name="menuTitleHome">Старт</string>
-    <string name="menuTitleCalendar">Календаръ</string>
     <string name="menuTitleSettings">Настройка</string>
     <string name="menuTitleShopping">Закупки</string>
     <string name="menuTitleColorChoose">Выберите  цвет</string>
@@ -12,7 +11,6 @@
     <string name="menuTitleAbout">Об етой Апп</string>
     <string name="menuTitleSleep">Ритм сна</string>
     <string name="menuTitleCustomItem">Нестандартные элементы</string>
-    <string name="menuTitleDayView">Дневной вид</string>
     <string name="menuTitleCreateTerm">Назначить термин</string>
     <string name="noteEditorTitle">Название</string>
     <string name="noteEditorText">Заметка</string>

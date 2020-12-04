@@ -22,9 +22,6 @@ class SettingsMainFr : Fragment() {
     private lateinit var clSettingAbout: ConstraintLayout
     private lateinit var clSettingAppearance: ConstraintLayout
 
-    //V2 ADD NAVIGATION OPTIONS
-    //private lateinit var clSettingNavigation: ConstraintLayout
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,9 +41,6 @@ class SettingsMainFr : Fragment() {
         clSettingShopping = myView.clSettingShopping
         clSettingNotes = myView.clSettingNotes
         clSettingAppearance = myView.clSettingAppearance
-
-        //V2 ADD NAVIGATION OPTIONS
-        //clSettingNavigation = myView.clSettingNavigation
     }
 
     private fun initializeListeners() {

@@ -4,11 +4,9 @@
     <!-- Menu Titles -->
     <string name="menuTitleAbout">Über die App</string>
     <string name="menuTitleBirthdays">Geburtstage</string>
-    <string name="menuTitleCalendar">Kalender</string>
     <string name="menuTitleColorChoose">Wähle eine Farbe</string>
     <string name="menuTitleCreateTerm">Termin erstellen</string>
     <string name="menuTitleCustomItem">Benutzerdef. Artikel</string>
-    <string name="menuTitleDayView">Tagesansicht</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleNotes">Notizen</string>
     <string name="menuTitleNotesEditor">Editor</string>

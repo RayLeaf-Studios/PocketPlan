@@ -7,11 +7,9 @@
     <!-- Menu Titles -->
     <string name="menuTitleAbout">About</string>
     <string name="menuTitleBirthdays">Birthdays</string>
-    <string name="menuTitleCalendar">Calendar</string>
     <string name="menuTitleColorChoose">Choose a color</string>
     <string name="menuTitleCreateTerm">Create Term</string>
     <string name="menuTitleCustomItem">Custom Items</string>
-    <string name="menuTitleDayView">Day View</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleNotes">Notes</string>
     <string name="menuTitleNotesEditor">Editor</string>

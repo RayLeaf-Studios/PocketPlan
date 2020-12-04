@@ -77,8 +77,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
         lateinit var bottomNavigation: BottomNavigationView
-        //V.2
-        //var editTerm: CalendarAppointment? = null
     }
 
 
@@ -368,9 +366,6 @@ class MainActivity : AppCompatActivity() {
             FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             FT.CUSTOM_ITEMS -> resources.getText(R.string.menuTitleCustomItem)
             FT.SLEEP -> resources.getText(R.string.menuTitleSleep)
-            FT.CALENDAR -> resources.getText(R.string.menuTitleCalendar)
-            FT.CREATE_TERM -> resources.getText(R.string.menuTitleCreateTerm)
-            FT.DAY_VIEW -> resources.getText(R.string.menuTitleDayView)
             FT.SETTINGS_BACKUP -> resources.getText(R.string.backup)
             FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settings_title_appearance)
             FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHelp)
@@ -430,10 +425,6 @@ class MainActivity : AppCompatActivity() {
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> SleepFr()
             FT.SETTINGS_HOWTO -> SettingsHowTo()
-//            V.2
-//            FT.CALENDAR -> CalenderFr()
-//            FT.CREATE_TERM -> CreateTermFr()
-//            FT.DAY_VIEW -> DayFr()
             else -> HomeFr()
         }
 
