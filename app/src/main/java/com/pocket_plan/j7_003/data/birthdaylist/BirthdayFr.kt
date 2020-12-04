@@ -644,10 +644,7 @@ class BirthdayFr : Fragment() {
                 }
                 chosenYear = pickedYear
 
-                date = when (cbSaveBirthdayYear.isChecked) {
-                    true -> date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
-                    else -> date.withYear(0).withMonth(month + 1).withDayOfMonth(day)
-                }
+                date = date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
 
                 when {
                     abs(LocalDate.now().until(date).toTotalMonths()) < 12 -> {
@@ -701,18 +698,6 @@ class BirthdayFr : Fragment() {
 
         //checkbox to include year
         cbSaveBirthdayYear.setOnClickListener {
-            //if year is supposed to be included,
-            date = if (cbSaveBirthdayYear.isChecked) {
-                //if user wants so include year, set it to 2020 as default or chosenYear if he changed the year in the date setter before
-                if (!yearChanged) {
-                    LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
-                } else {
-                    LocalDate.of(chosenYear, date.month, date.dayOfMonth)
-                }
-            } else {
-                LocalDate.of(0, date.month, date.dayOfMonth)
-            }
-
             //set correct text of tvBirthdayDate (add / remove year)
             val dayMonthString =
                 date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
