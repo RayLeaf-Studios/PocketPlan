@@ -111,9 +111,9 @@
         <item name="colorControlHighlight">#282729</item>
         <item name="colorControlNormal">#000000</item>
 
-        <item name="colorBackground">#EFEFEF</item>
-        <item name="colorBackgroundElevated">#E4E4E4</item>
-        <item name="colorHomePanel">#EFEFEF</item>
+        <item name="colorBackgroundElevated">#FFFFFF</item>
+        <item name="colorBackground">#FFFFFF</item>
+        <item name="colorHomePanel">#FFFFFF</item>
 
         <item name="colorHint">#888888</item>
         <item name="colorOnBackGround">#1B1B1B</item>
@@ -142,9 +142,9 @@
         <item name="colorGoToSleep">#E91E63</item>
         <item name="colorSun">#F3A318</item>
 
-        <item name="colorPriority1">#F06273</item>
-        <item name="colorPriority2">#FFB649</item>
-        <item name="colorPriority3">#77BD7A</item>
+        <item name="colorPriority1">#EC7380</item>
+        <item name="colorPriority2">#FABB5D</item>
+        <item name="colorPriority3">#85CF8A</item>
 
         <item name="colorNoteRed">#F06273</item>
         <item name="colorNoteYellow">#FFB649</item>
