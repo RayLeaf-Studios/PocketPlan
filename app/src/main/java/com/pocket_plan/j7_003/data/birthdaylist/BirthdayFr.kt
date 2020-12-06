@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -39,6 +40,8 @@ class BirthdayFr : Fragment() {
 
     //initialize recycler view
     private lateinit var myRecycler: RecyclerView
+
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
     var date: LocalDate = LocalDate.now()
     private lateinit var myMenu: Menu
@@ -141,6 +144,11 @@ class BirthdayFr : Fragment() {
                 deletedBirthday = null
                 updateUndoBirthdayIcon()
                 updateBirthdayMenu()
+                if(round){
+                    if(addInfo.second == 1 && birthdayListInstance[addInfo.first-1].daysToRemind >= 0){
+                        myAdapter.notifyItemChanged(addInfo.first-1)
+                    }
+                }
                 myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
             }
         }
@@ -832,8 +840,12 @@ class BirthdayFr : Fragment() {
                 yearToSave, daysToRemind, false, notifyMe
             )
 
-            Log.e("", addInfo.first.toString() + " " + addInfo.second.toString())
             myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
+            if(round){
+                if(addInfo.second == 1 && birthdayListInstance[addInfo.first-1].daysToRemind >= 0){
+                    myAdapter.notifyItemChanged(addInfo.first-1)
+                }
+            }
             updateBirthdayMenu()
             myAlertDialog?.dismiss()
         }
@@ -915,6 +927,11 @@ class BirthdayAdapter :
         val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
         if (BirthdayFr.searching) {
             BirthdayFr.myFragment.search(BirthdayFr.lastQuery)
+        }
+        if(round){
+            if(deleteInfo.second == 1 && BirthdayFr.birthdayListInstance[deleteInfo.first-1].daysToRemind >= 0){
+                BirthdayFr.myAdapter.notifyItemChanged(deleteInfo.first-1)
+            }
         }
         notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
         BirthdayFr.myFragment.updateUndoBirthdayIcon()
