@@ -138,7 +138,7 @@
     <string name="pocket_plan">PocketPlan</string>
     <string name="disable_all_reminders">Erinnerungen deaktivieren</string>
     <string name="enable_all_reminders">Erinnerungen aktivieren</string>
-    <string name="use_system_theme_android_10">Nutze Systemdesign (Android 10+)</string>
+    <string name="use_system_theme_android_10">Übernehme Systemdesign (Android 10+)</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
