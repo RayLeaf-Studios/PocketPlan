@@ -106,7 +106,7 @@
     <string name="settings_title_appearance">Aussehen und Verhalten</string>
     <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
     <string name="setting_title_shapes">Formen</string>
-    <string name="setting_title_theme">Farbschema</string>
+    <string name="setting_title_theme">Design</string>
     <string name="customOptionClearItems">Benutzerdef. Artikel löschen</string>
     <string name="settings_delete_dialog_title">Löschdialog mit Bestätigungs-Slider</string>
     <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
@@ -138,6 +138,7 @@
     <string name="pocket_plan">PocketPlan</string>
     <string name="disable_all_reminders">Erinnerungen deaktivieren</string>
     <string name="enable_all_reminders">Erinnerungen aktivieren</string>
+    <string name="use_system_theme_android_10">Nutze Systemdesign (Android 10+)</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

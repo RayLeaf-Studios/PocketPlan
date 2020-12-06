@@ -1,6 +1,8 @@
 package com.pocket_plan.j7_003
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.MenuItem
@@ -112,6 +114,14 @@ class MainActivity : AppCompatActivity() {
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
 
+
+        //check if settings say to use system theme, if yes, set theme to system theme
+        if (SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean) {
+                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES) {
+                    true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
+                    else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
+                }
+            }
         //set correct theme
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
@@ -155,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
 
         //display current versionName
-        val versionString = "v "+packageManager.getPackageInfo(packageName, 0).versionName
+        val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName
         header.tvVersion.text = versionString
 
         //spinning app Icon
@@ -349,10 +359,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Set correct soft input mode
-        act.window.setSoftInputMode(when(fragmentTag){
-            FT.NOTE_EDITOR ->WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-            else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
-        })
+        act.window.setSoftInputMode(
+            when (fragmentTag) {
+                FT.NOTE_EDITOR -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+                else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+            }
+        )
 
         //Set the correct ActionbarTitle
         myNewToolbar.title = when (fragmentTag) {
@@ -394,7 +406,7 @@ class MainActivity : AppCompatActivity() {
             previousFragmentStack.push(fragmentTag)
         }
 
-        bottomNavigation.visibility = when(fragmentTag==FT.NOTE_EDITOR){
+        bottomNavigation.visibility = when (fragmentTag == FT.NOTE_EDITOR) {
             true -> View.GONE
             else -> View.VISIBLE
         }
@@ -522,6 +534,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.SHAKE_TASK_HOME, true)
         setDefault(SettingId.THEME_DARK, false)
         setDefault(SettingId.NOTES_SWIPE_DELETE, true)
+        setDefault(SettingId.USE_SYSTEM_THEME, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {

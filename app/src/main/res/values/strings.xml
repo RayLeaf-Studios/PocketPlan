@@ -164,6 +164,7 @@
     <string name="pocket_plan">PocketPlan</string>
     <string name="disable_all_reminders">Disable all reminders</string>
     <string name="enable_all_reminders">Enable all reminders</string>
+    <string name="use_system_theme_android_10">Use system theme (Android 10+)</string>
 
 
     <!-- Arrays -->

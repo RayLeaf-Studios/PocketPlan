@@ -188,7 +188,7 @@
         <item quantity="few">дней</item>
         <item quantity="many">дней</item>
     </plurals>
-    <string name="birthdaysReminderActivated">\nReminder set</string>
+    <string name="birthdaysReminderActivated">\ntba</string>
     <string name="birthdayIn">tba</string>
     <string name="birthdayTomorrow">tba</string>
     <string name="birthdayToday">tba</string>
@@ -199,13 +199,14 @@
     <string name="howtoBirthdays">tba</string>
     <string name="howtoNotes">tba</string>
     <string name="howtoTodo">tba</string>
-    <string name="notificationNoteAdded">Note was added!</string>
-    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at rayleaf.studios@gmail.com.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.</string>
-    <string name="contact_us">Contact us</string>
-    <string name="rayleaf_studios">RayLeaf Studios</string>
+    <string name="notificationNoteAdded">tba</string>
+    <string name="settingsAboutContactDescription">tba</string>
+    <string name="contact_us">tba</string>
+    <string name="rayleaf_studios">tba</string>
     <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
-    <string name="version">Version</string>
+    <string name="version">tba</string>
     <string name="pocket_plan">PocketPlan</string>
-    <string name="disable_all_reminders">Disable all reminders</string>
-    <string name="enable_all_reminders">Enable all reminders</string>
+    <string name="disable_all_reminders">tba</string>
+    <string name="enable_all_reminders">tba</string>
+    <string name="use_system_theme_android_10">tba</string>
 </resources>

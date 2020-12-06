@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.settings.sub_categories
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,9 @@ class SettingsAppearanceFr : Fragment() {
     private lateinit var spShapes: Spinner
     private lateinit var swSafetySlider: SwitchCompat
     private lateinit var swShakeTaskInHome: SwitchCompat
+    private lateinit var swSystemTheme: SwitchCompat
     private lateinit var clResetToDefault: ConstraintLayout
+    private var initialDisplay: Boolean = true
 
     companion object{
         lateinit var myFr: SettingsAppearanceFr
@@ -53,6 +56,7 @@ class SettingsAppearanceFr : Fragment() {
         spShapes = myView.spShapes
         swSafetySlider = myView.swSafetySlider
         swShakeTaskInHome = myView.swShakeTaskInHome
+        swSystemTheme = myView.swSystemTheme
         clResetToDefault = myView.clResetToDefault
     }
 
@@ -96,6 +100,7 @@ class SettingsAppearanceFr : Fragment() {
 
         swSafetySlider.isChecked = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
         swShakeTaskInHome.isChecked = SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean
+        swSystemTheme.isChecked = SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean
     }
 
     private fun initializeListeners() {
@@ -109,10 +114,27 @@ class SettingsAppearanceFr : Fragment() {
                 id: Long
             ) {
 
+                if(initialDisplay){
+                    initialDisplay = false
+                    return
+                }
+
                 //check if selected theme is dark theme (dark is position 0, light is 1)
-                val dark = spTheme.selectedItemPosition==0
-                if(dark != SettingsManager.getSetting(SettingId.THEME_DARK)){
-                    SettingsManager.addSetting(SettingId.THEME_DARK, dark)
+                val selectedDarkTheme = spTheme.selectedItemPosition==0
+
+                //check if use system theme is set and if current change does not conform to system theme
+                //if yes, disable "use system theme"
+                if(SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean){
+                    val systemDark = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+                    //check if systemDarkState not equal to selected dark state
+                    if(systemDark != selectedDarkTheme)
+                        SettingsManager.addSetting(SettingId.USE_SYSTEM_THEME, false)
+                        swSystemTheme.isChecked = false
+                    }
+
+                //check if selected dark state is equal to current dark state
+                if(selectedDarkTheme != SettingsManager.getSetting(SettingId.THEME_DARK)){
+                    SettingsManager.addSetting(SettingId.THEME_DARK, selectedDarkTheme)
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("NotificationEntry", "appearance")
                     startActivity(intent)
@@ -148,6 +170,35 @@ class SettingsAppearanceFr : Fragment() {
 
         swShakeTaskInHome.setOnClickListener {
             SettingsManager.addSetting(SettingId.SHAKE_TASK_HOME, swShakeTaskInHome.isChecked)
+        }
+
+        swSystemTheme.setOnClickListener {
+            SettingsManager.addSetting(SettingId.USE_SYSTEM_THEME, swSystemTheme.isChecked)
+
+            //use system theme got disabled, current theme will stay activated
+            if(!swSystemTheme.isChecked){
+                return@setOnClickListener
+            }
+
+            val previousSettingDark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+
+           //use system theme got enabled, check if system uses night mode
+            when(resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES){
+                //system uses night mode, add required setting
+                true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
+
+                //system does not use night mode, add required setting
+                else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
+            }
+
+            //if theme got changed, trigger activity reload to load new theme
+            if(previousSettingDark != SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean){
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra("NotificationEntry", "appearance")
+                startActivity(intent)
+                MainActivity.act.finish()
+            }
+
         }
 
         clResetToDefault.setOnClickListener {
