@@ -201,23 +201,6 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
         return currentBirthdays
     }
 
-    /**
-     * Collects all birthdays which's reminder corresponds to the current day
-     * @see getRelevantCurrentBirthdays for current birthdays.
-     * @return List of birthdays to be reminded of on the current day.
-     */
-    fun getRelevantUpcomingBirthdays(): ArrayList<Birthday> {
-        val upcomingBirthdays = ArrayList<Birthday>()
-        val localDate = LocalDate.now()
-        this.forEach { n ->
-            if (n.month == localDate.monthValue + 1 && (n.day - n.daysToRemind) ==
-                localDate.dayOfMonth && n.daysToRemind != 0
-            ) {
-                upcomingBirthdays.add(n)
-            }
-        }
-        return upcomingBirthdays
-    }
 
     /**
      * Saves all birthdays as collapsed.
@@ -227,32 +210,6 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
             e.expanded = false
         }
         save()
-    }
-
-    /**
-     * Returns the x next birthdays from the this as a list. If the requested
-     * size is larger than the this size the whole list is returned.
-     * @param index Amount of birthdays to return.
-     * @return The requested amount of birthdays or the whole this.
-     */
-    fun getXNextBirthdays(index: Int): ArrayList<Birthday> {
-        var min = index
-
-        if (index > this.size) {
-            min = this.size
-        }
-
-        val xNextBirthdays = ArrayList<Birthday>()
-
-        for (i in 0..min) {
-            xNextBirthdays.add(
-                getBirthday(
-                    i
-                )
-            )
-        }
-
-        return xNextBirthdays
     }
 
     private fun fetchFromFile() {

@@ -50,9 +50,9 @@ class CustomItemFr : Fragment() {
         myRecycler.setHasFixedSize(true)
 
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myAdapter))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myAdapter))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
@@ -120,7 +120,7 @@ class CustomItemFr : Fragment() {
     //Deletes all checked tasks and animates the deletion
 
 }
-class SwipeToDeleteCustomItem(direction: Int,  val adapter: CustomItemAdapter): ItemTouchHelper
+class SwipeToDeleteCustomItem(direction: Int): ItemTouchHelper
 .SimpleCallback(0, direction){
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder): Boolean {

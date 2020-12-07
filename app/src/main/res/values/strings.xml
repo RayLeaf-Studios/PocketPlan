@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General-->
     <string name="app_name" translatable="false">PocketPlan</string>
@@ -8,7 +8,6 @@
     <string name="menuTitleAbout">About</string>
     <string name="menuTitleBirthdays">Birthdays</string>
     <string name="menuTitleColorChoose">Choose a color</string>
-    <string name="menuTitleCreateTerm">Create Term</string>
     <string name="menuTitleCustomItem">Custom Items</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleNotes">Notes</string>
@@ -103,7 +102,7 @@
     <string name="birthdayNotificationTitle">Birthdays</string>
     <string name="birthdayNotificationTitleUpc">Upcoming Birthdays</string>
     <string name="birthdayNotificationSingleText">It\'s %1$s birthday!</string>
-    <string name="birthdayNotificationMultText">There are %1$d birthdays today!</string>
+    <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">There are %1$d birthdays today!</string>
     <!-- TODO use plurals for "day" as above -->
     <string name="birthdayNotificationSingleUpcText">%1$s birthday is coming up in %2$d days!</string>
     <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
@@ -165,6 +164,7 @@
     <string name="disable_all_reminders">Disable all reminders</string>
     <string name="enable_all_reminders">Enable all reminders</string>
     <string name="use_system_theme_android_10">Use system theme (Android 10+)</string>
+    <string name="dialog_pick_time_minute">m</string>
 
 
     <!-- Arrays -->

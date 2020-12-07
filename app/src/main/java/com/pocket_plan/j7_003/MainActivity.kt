@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         //contents for shopping list
-        lateinit var tagList: TagList
         lateinit var itemTemplateList: ItemTemplateList
         lateinit var userItemTemplateList: UserItemTemplateList
         lateinit var itemNameList: ArrayList<String>

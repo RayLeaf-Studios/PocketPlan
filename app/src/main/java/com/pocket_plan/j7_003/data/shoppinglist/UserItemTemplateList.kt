@@ -5,7 +5,6 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.lang.NullPointerException
-import java.util.*
 import kotlin.collections.ArrayList
 
 class UserItemTemplateList: ArrayList<ItemTemplate>() {

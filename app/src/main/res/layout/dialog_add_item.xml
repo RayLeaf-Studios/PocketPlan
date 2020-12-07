@@ -52,6 +52,7 @@
             android:layout_width="40dp"
             android:gravity="center"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:inputType="numberDecimal"
             android:maxLength="4"
             android:textColor="?attr/colorOnBackGround"

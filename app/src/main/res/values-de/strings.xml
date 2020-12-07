@@ -5,7 +5,6 @@
     <string name="menuTitleAbout">Über die App</string>
     <string name="menuTitleBirthdays">Geburtstage</string>
     <string name="menuTitleColorChoose">Wähle eine Farbe</string>
-    <string name="menuTitleCreateTerm">Termin erstellen</string>
     <string name="menuTitleCustomItem">Benutzerdef. Artikel</string>
     <string name="menuTitleHome">Home</string>
     <string name="menuTitleNotes">Notizen</string>
@@ -139,6 +138,7 @@
     <string name="disable_all_reminders">Erinnerungen deaktivieren</string>
     <string name="enable_all_reminders">Erinnerungen aktivieren</string>
     <string name="use_system_theme_android_10">Übernehme Systemdesign (Android 10+)</string>
+    <string name="dialog_pick_time_minute">m</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

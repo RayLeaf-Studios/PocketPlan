@@ -273,7 +273,6 @@ class ShoppingFr : Fragment() {
     fun preloadAddItemDialog(mylayoutInflater: LayoutInflater) {
 
         //initialize shopping list data
-        MainActivity.tagList = TagList()
         MainActivity.itemTemplateList = ItemTemplateList()
         MainActivity.userItemTemplateList = UserItemTemplateList()
         shoppingListInstance = ShoppingList()
@@ -894,7 +893,7 @@ class SublistAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_item, parent, false)
-        return ItemViewHolder(itemView, this)
+        return ItemViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -1039,7 +1038,7 @@ class SublistAdapter(
     one instance of this class will contain one instance of row_item and meta data like position
     also holds references to views inside the layout
      */
-    class ItemViewHolder(itemView: View, val adapter: SublistAdapter) :
+    class ItemViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         lateinit var tag: String
