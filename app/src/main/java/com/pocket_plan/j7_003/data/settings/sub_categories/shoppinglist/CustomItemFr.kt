@@ -12,6 +12,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
@@ -20,10 +21,12 @@ import kotlinx.android.synthetic.main.row_task.view.tvName
 class CustomItemFr : Fragment() {
 
     private lateinit var myMenu: Menu
+
     companion object{
         lateinit var myFragment: CustomItemFr
         lateinit var myAdapter: CustomItemAdapter
         lateinit var myRecycler: RecyclerView
+        var deletedItem: ItemTemplate? = null
 
     }
 
@@ -35,6 +38,7 @@ class CustomItemFr : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_custom_items, container, false)
         myRecycler = myView.recycler_view_customItems
         myFragment = this
+        deletedItem = null
 
         /**
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
@@ -50,6 +54,7 @@ class CustomItemFr : Fragment() {
         swipeHelperLeft.attachToRecyclerView(myRecycler)
         val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myAdapter))
         swipeHelperRight.attachToRecyclerView(myRecycler)
+
 
 
         return myView
@@ -80,6 +85,13 @@ class CustomItemFr : Fragment() {
                val titleId = R.string.custom_item_delete_title
                MainActivity.act.dialogConfirmDelete(titleId, action)
            }
+            R.id.item_custom_undo -> {
+                MainActivity.userItemTemplateList.add(deletedItem!!)
+                deletedItem = null
+                myAdapter.notifyDataSetChanged()
+                updateUndoCustomIcon()
+
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -93,11 +105,16 @@ class CustomItemFr : Fragment() {
        myMenu.findItem(R.id.item_custom_clear).isVisible = MainActivity.userItemTemplateList.size > 0
     }
 
+    fun updateUndoCustomIcon(){
+        myMenu.findItem(R.id.item_custom_undo).isVisible = deletedItem != null
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         myMenu = menu
         inflater.inflate(R.menu.menu_custom_items, menu)
         super.onCreateOptionsMenu(menu, inflater)
         updateClearCustomListIcon()
+        updateUndoCustomIcon()
     }
 
     //Deletes all checked tasks and animates the deletion
@@ -122,8 +139,11 @@ class SwipeToDeleteCustomItem(direction: Int,  val adapter: CustomItemAdapter): 
         )
         ShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 
-        MainActivity.userItemTemplateList.removeItem(parsed.itemView.tvName.text.split(" ")[0])
+//        MainActivity.userItemTemplateList.removeItem(parsed.itemView.tvName.text.split(" ")[0])
+        CustomItemFr.deletedItem = parsed.myItem
+        MainActivity.userItemTemplateList.remove(parsed.myItem)
         CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+        CustomItemFr.myFragment.updateUndoCustomIcon()
     }
 }
 
@@ -151,6 +171,7 @@ class CustomItemAdapter :
         }
 
         val currentItem = MainActivity.userItemTemplateList[holder.adapterPosition]
+        holder.myItem = currentItem
 
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentItem.n + " : "+currentItem.s
@@ -158,5 +179,7 @@ class CustomItemAdapter :
         holder.itemView.tvCategory.text = MainActivity.act.resources.getStringArray(R.array.categoryNames)[id]
     }
 
-    class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView)
+    class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){
+        lateinit var myItem: ItemTemplate
+    }
 }
