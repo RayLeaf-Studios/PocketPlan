@@ -308,7 +308,7 @@ class ShoppingFr : Fragment() {
         MainActivity.addItemDialog?.setCancelable(true)
 
 
-        MainActivity.addItemDialog?.setOnKeyListener { arg0, keyCode, event -> // TODO Auto-generated method stub
+        MainActivity.addItemDialog?.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 MainActivity.addItemDialog?.dismiss()
             }
@@ -439,7 +439,7 @@ class ShoppingFr : Fragment() {
             MainActivity.addItemDialog?.dismiss()
         }
 
-        autoCompleteTv.setOnKeyListener { v, keyCode, event ->
+        autoCompleteTv.setOnKeyListener { _, keyCode, event ->
             if(keyCode==KeyEvent.KEYCODE_ENTER && event.action==KeyEvent.ACTION_DOWN){
                 MainActivity.addItemDialogView!!.btnAddItemToList.performClick()
             }
