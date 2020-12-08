@@ -10,15 +10,16 @@ android {
         applicationId "com.pocket_plan.j7_003"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 7
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
+            //always keep minifyEnabled false!
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
