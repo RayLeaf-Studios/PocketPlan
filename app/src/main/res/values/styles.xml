@@ -8,7 +8,6 @@
         <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="colorControlHighlight">?attr/colorHint</item>
-        <item name="android:windowBackground">@null</item>
         <item name="colorControlNormal">?attr/colorOnBackGround</item>
 
         <item name="colorBackground">#121212</item>
@@ -111,7 +110,6 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="colorControlHighlight">#282729</item>
         <item name="colorControlNormal">#000000</item>
-        <item name="android:windowBackground">@null</item>
 
         <item name="colorBackgroundElevated">#FFFFFF</item>
         <item name="colorBackground">#FFFFFF</item>
