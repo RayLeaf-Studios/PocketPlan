@@ -102,7 +102,7 @@
     <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
     <string name="settings_export">Backup als zip exportieren</string>
     <string name="settings_import">Backup aus zip importieren</string>
-    <string name="settings_title_appearance">Aussehen und Verhalten</string>
+    <string name="settings_title_appearance">Allgemeines</string>
     <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
     <string name="setting_title_shapes">Formen</string>
     <string name="setting_title_theme">Design</string>

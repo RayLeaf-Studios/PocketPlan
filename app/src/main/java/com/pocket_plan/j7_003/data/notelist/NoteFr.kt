@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.SearchView
@@ -91,6 +92,7 @@ class NoteFr : Fragment() {
         updateNoteSearchIcon()
         updateNoteUndoIcon()
         super.onCreateOptionsMenu(menu, inflater)
+
     }
 
     private fun updateNoteSearchIcon() {
@@ -141,6 +143,7 @@ class NoteFr : Fragment() {
 
                 deletedNote = null
                 myFragment.updateNoteUndoIcon()
+
             }
         }
 
@@ -193,15 +196,29 @@ class NoteFr : Fragment() {
                     val fromPos = viewHolder.adapterPosition
                     val toPos = target.adapterPosition
 
+
+
                     //swap items in list
-                    Collections.swap(
-                        noteListInstance, fromPos, toPos
-                    )
+                    if(fromPos < toPos){
+                        val movingNote = noteListInstance[fromPos]
+                        for(i in fromPos+1..toPos){
+                            noteListInstance[i-1] = noteListInstance[i]
+                        }
+                        noteListInstance[toPos] = movingNote
+                    }
+                    if(fromPos > toPos){
+                        val movingNote = noteListInstance[fromPos]
+                        for(i in fromPos downTo toPos+1){
+                            noteListInstance[i] = noteListInstance[i-1]
+                        }
+                        noteListInstance[toPos] = movingNote
+                    }
 
                     noteListInstance.save()
 
                     // move item in `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
+
                     return true // true if moved, false otherwise
                 }
 
@@ -213,6 +230,7 @@ class NoteFr : Fragment() {
                     myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
                     myFragment.updateNoteSearchIcon()
                     myFragment.updateNoteUndoIcon()
+
 
                 }
             })

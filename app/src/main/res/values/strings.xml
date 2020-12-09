@@ -86,7 +86,7 @@
     <string name="settingsCollapseChecked">Collapse checked categories</string>
     <string name="settings_export">Export backup as zip file</string>
     <string name="settings_import">Import backup from zip file</string>
-    <string name="settings_title_appearance">Appearance and Behaviour</string>
+    <string name="settings_title_appearance">General</string>
     <string name="settings_shopping_move_down">Move checked categories down</string>
     <string name="setting_title_shapes">Shapes</string>
     <string name="setting_title_theme">Theme</string>
