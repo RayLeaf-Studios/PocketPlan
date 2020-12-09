@@ -132,6 +132,36 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvLanguages"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_title_languages"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/spLanguages"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spLanguages"
+                    android:layout_width="wrap_content"
+                    android:gravity="end"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tvLanguages"
+                    app:layout_constraintBottom_toBottomOf="@id/tvLanguages"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                </Spinner>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingVertical="10dp"
                 android:paddingHorizontal="20dp"
                 >

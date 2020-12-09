@@ -1,8 +1,10 @@
 package com.pocket_plan.j7_003
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.MenuItem
@@ -80,6 +82,14 @@ class MainActivity : AppCompatActivity() {
         lateinit var bottomNavigation: BottomNavigationView
     }
 
+    private fun setLocale(activity: Activity, languageCode: String?) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val resources: Resources = activity.resources
+        val config: Configuration = resources.getConfiguration()
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.getDisplayMetrics())
+    }
 
     override fun onRestart() {
         if (previousFragmentStack.isEmpty() || previousFragmentStack.peek() == FT.EMPTY) {
@@ -108,11 +118,20 @@ class MainActivity : AppCompatActivity() {
             previousFragmentStack.push(FT.EMPTY)
         }
 
+
         SettingsManager.init()
 
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
 
+        //set correct language
+        val languageCode = when(SettingsManager.getSetting(SettingId.LANGUAGE)){
+            0.0 -> "en"
+            //1.0 = de
+            //todo add support for russian translation here
+            else -> "de"
+        }
+        setLocale(this, languageCode)
 
         //check if settings say to use system theme, if yes, set theme to system theme
         if (SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean) {
@@ -534,6 +553,16 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.THEME_DARK, false)
         setDefault(SettingId.NOTES_SWIPE_DELETE, true)
         setDefault(SettingId.USE_SYSTEM_THEME, true)
+        val languageNumber = when (Locale.getDefault().displayLanguage) {
+            //todo add support for russian setting once translation is complete
+            Locale.GERMAN.displayLanguage -> {
+                //german
+                1.0
+            }
+            //english
+            else -> 0.0
+        }
+        setDefault(SettingId.LANGUAGE, languageNumber)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {

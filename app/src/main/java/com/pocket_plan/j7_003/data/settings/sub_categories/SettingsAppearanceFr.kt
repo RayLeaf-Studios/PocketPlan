@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 class SettingsAppearanceFr : Fragment() {
     private lateinit var spTheme: Spinner
     private lateinit var spShapes: Spinner
+    private lateinit var spLanguages: Spinner
     private lateinit var swSafetySlider: SwitchCompat
     private lateinit var swShakeTaskInHome: SwitchCompat
     private lateinit var swSystemTheme: SwitchCompat
@@ -52,11 +53,17 @@ class SettingsAppearanceFr : Fragment() {
     private fun initializeComponents(myView: View) {
 
         //initialize references to view
+        //spinners
         spTheme = myView.spTheme
         spShapes = myView.spShapes
+        spLanguages = myView.spLanguages
+
+        //switches
         swSafetySlider = myView.swSafetySlider
         swShakeTaskInHome = myView.swShakeTaskInHome
         swSystemTheme = myView.swSystemTheme
+
+        //ConstraintLayouts
         clResetToDefault = myView.clResetToDefault
     }
 
@@ -79,6 +86,14 @@ class SettingsAppearanceFr : Fragment() {
         spAdapterShapes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spShapes.adapter = spAdapterShapes
 
+        //Spinner for languages
+        val spAdapterLanguages = ArrayAdapter(
+            MainActivity.act,
+            android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.languages)
+        )
+        spAdapterLanguages.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spLanguages.adapter = spAdapterLanguages
     }
 
     fun initializeDisplayValues() {
@@ -98,12 +113,43 @@ class SettingsAppearanceFr : Fragment() {
         }
         spShapes.setSelection(shapePosition)
 
+        spLanguages.setSelection(
+            when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
+                //0 = english
+                0.0 -> 0
+                //1 = german
+                else -> 1
+            }
+        )
         swSafetySlider.isChecked = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
         swShakeTaskInHome.isChecked = SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean
         swSystemTheme.isChecked = SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean
     }
 
     private fun initializeListeners() {
+        spLanguages.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val setTo = when(spLanguages.selectedItemPosition){
+                    0 -> 0.0
+                    else -> 1.0
+                }
+                if(setTo!=SettingsManager.getSetting(SettingId.LANGUAGE)){
+                    SettingsManager.addSetting(SettingId.LANGUAGE, setTo)
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.putExtra("NotificationEntry", "appearance")
+                    startActivity(intent)
+                    MainActivity.act.finish()
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
 
         //Listener for theme spinner
         spTheme.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

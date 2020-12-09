@@ -139,6 +139,7 @@
     <string name="enable_all_reminders">Erinnerungen aktivieren</string>
     <string name="use_system_theme_android_10">Übernehme Systemdesign (Android 10+)</string>
     <string name="dialog_pick_time_minute">m</string>
+    <string name="setting_title_languages">Sprache</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
@@ -159,6 +160,11 @@
     <string-array name="themes">
         <item>dunkel</item>
         <item>hell</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Englisch</item>
+        <item>Deutsch</item>
     </string-array>
 
     <string-array name="months">

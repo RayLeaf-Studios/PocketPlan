@@ -165,6 +165,7 @@
     <string name="enable_all_reminders">Enable all reminders</string>
     <string name="use_system_theme_android_10">Use system theme (Android 10+)</string>
     <string name="dialog_pick_time_minute">m</string>
+    <string name="setting_title_languages">Language</string>
 
 
     <!-- Arrays -->
@@ -264,6 +265,11 @@
     <string-array name="themes">
         <item>dark</item>
         <item>light</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>english</item>
+        <item>german</item>
     </string-array>
 
     <string-array name="fileOptions">

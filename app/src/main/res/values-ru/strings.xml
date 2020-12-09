@@ -121,6 +121,11 @@
         <item>светло</item>
     </string-array>
 
+    <string-array name="languages">
+        <item>english</item>
+        <item>german</item>
+    </string-array>
+
     <string-array name="categoryNames">
         <item>Другое</item>
         <item>Фрукты и Овощи</item>
@@ -209,4 +214,5 @@
     <string name="enable_all_reminders">tba</string>
     <string name="use_system_theme_android_10">tba</string>
     <string name="dialog_pick_time_minute">m</string>
+    <string name="setting_title_languages">Languages</string>
 </resources>
