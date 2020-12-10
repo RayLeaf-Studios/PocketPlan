@@ -25,22 +25,20 @@ class SettingsAppearanceFr : Fragment() {
     private lateinit var spTheme: Spinner
     private lateinit var spShapes: Spinner
     private lateinit var spLanguages: Spinner
+
     private lateinit var swSafetySlider: SwitchCompat
     private lateinit var swShakeTaskInHome: SwitchCompat
     private lateinit var swSystemTheme: SwitchCompat
-    private lateinit var clResetToDefault: ConstraintLayout
-    private var initialDisplay: Boolean = true
 
-    companion object{
-        lateinit var myFr: SettingsAppearanceFr
-    }
+    private lateinit var clResetToDefault: ConstraintLayout
+
+    private var initialDisplay: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val myView = inflater.inflate(R.layout.fragment_settings_appearance, container, false)
-        myFr = this
 
         initializeComponents(myView)
         initializeAdapters()
@@ -248,7 +246,17 @@ class SettingsAppearanceFr : Fragment() {
         }
 
         clResetToDefault.setOnClickListener {
-            MainActivity.act.resetSettings()
+            val action: () -> Unit = {
+                SettingsManager.settings.clear()
+                MainActivity.act.loadDefaultSettings()
+
+                //Todo, only do this if language and theme differ from default values
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra("NotificationEntry", "appearance")
+                startActivity(intent)
+                MainActivity.act.finish()
+            }
+            MainActivity.act.dialogConfirmDelete(R.string.titleRestoreSettings, action)
         }
 
     }

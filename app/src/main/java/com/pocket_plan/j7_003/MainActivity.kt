@@ -530,16 +530,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
 
-    fun resetSettings() {
-        val action: () -> Unit = {
-            SettingsManager.settings.clear()
-            loadDefaultSettings()
-            SettingsAppearanceFr.myFr.initializeDisplayValues()
-        }
-        dialogConfirmDelete(R.string.titleRestoreSettings, action)
-    }
-
-    private fun loadDefaultSettings() {
+    fun loadDefaultSettings() {
         setDefault(SettingId.NOTE_COLUMNS, "2")
         setDefault(SettingId.NOTE_LINES, 10.0)
         setDefault(SettingId.FONT_SIZE, "18")
