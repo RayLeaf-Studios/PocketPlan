@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() {
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter(this)
         NoteFr.myAdapter = NoteAdapter(this)
-        ShoppingFr.myAdapter = ShoppingListAdapter()
+        ShoppingFr.myAdapter = ShoppingListAdapter(this)
         SleepFr.myAdapter = SleepAdapter()
 
         //Initialize fragment classes necessary for home

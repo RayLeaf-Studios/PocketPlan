@@ -67,7 +67,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_shopping, menu)
         myMenu = menu
-        myMenu.findItem(R.id.item_shopping_undo)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_shopping_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         updateShoppingMenu()
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -144,7 +144,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
         //Initialize references to recycler and its adapter
         val myRecycler = myView.recycler_view_shopping
-        myAdapter = ShoppingListAdapter()
+        myAdapter = ShoppingListAdapter(myActivity)
 
         //attach adapter to recycler and initialize parameters of recycler
         myRecycler.adapter = myAdapter
@@ -242,7 +242,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             deletedItem = null
             myFragment.updateShoppingMenu()
         }
-        MainActivity.act.dialogConfirmDelete(titleId, action)
+        myActivity.dialogConfirmDelete(titleId, action)
     }
 
     /**
@@ -297,11 +297,11 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             mylayoutInflater.inflate(R.layout.dialog_add_item, null)
 
         //Initialize dialogBuilder and set its title
-        val myBuilder = MainActivity.act.let { it1 ->
+        val myBuilder = myActivity.let { it1 ->
             AlertDialog.Builder(it1).setView(myActivity.addItemDialogView)
         }
         val customTitle = mylayoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
+        customTitle.tvDialogTitle.text = myActivity.getString(R.string.shoppingAddItemTitle)
         myActivity.shoppingTitle = customTitle
         myBuilder?.setCustomTitle(customTitle)
         myBuilder.setCancelable(true)
@@ -324,9 +324,9 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         //initialize spinner for categories
         val spCategory = myActivity.addItemDialogView!!.spCategory
         val categoryAdapter = ArrayAdapter(
-            MainActivity.act,
+            myActivity,
             android.R.layout.simple_list_item_1,
-            MainActivity.act.resources.getStringArray(R.array.categoryNames)
+            myActivity.resources.getStringArray(R.array.categoryNames)
         )
 
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -334,8 +334,8 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
 
         val unitAdapter = ArrayAdapter(
-            MainActivity.act, android.R.layout.simple_list_item_1,
-            MainActivity.act.resources.getStringArray(R.array.units)
+            myActivity, android.R.layout.simple_list_item_1,
+            myActivity.resources.getStringArray(R.array.units)
         )
 
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -364,7 +364,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         //initialize autocompleteTextView and its adapter
         autoCompleteTv = myActivity.addItemDialogView!!.actvItem
         val autoCompleteTvAdapter = ArrayAdapter(
-            MainActivity.act,
+            myActivity,
             android.R.layout.simple_spinner_dropdown_item,
             MainActivity.itemNameList
         )
@@ -385,13 +385,13 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 if (template != null) {
                     //display correct category
                     spCategory.setSelection(
-                        MainActivity.act.resources.getStringArray(R.array.categoryCodes)
+                        myActivity.resources.getStringArray(R.array.categoryCodes)
                             .indexOf(template.c)
                     )
 
                     //display correct unit
                     val unitPointPos =
-                        MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
+                        myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
                     if (!MainActivity.unitChanged) {
                         spItemUnit.setSelection(unitPointPos)
                         MainActivity.unitChanged = false
@@ -404,13 +404,13 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 if (template != null) {
                     //display correct category
                     spCategory.setSelection(
-                        MainActivity.act.resources.getStringArray(R.array.categoryCodes)
+                        myActivity.resources.getStringArray(R.array.categoryCodes)
                             .indexOf(template.c)
                     )
 
                     //display correct unit
                     val unitPointPos =
-                        MainActivity.act.resources.getStringArray(R.array.units).indexOf(template.s)
+                        myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
                     if (!MainActivity.unitChanged) {
                         spItemUnit.setSelection(unitPointPos)
                         MainActivity.unitChanged = false
@@ -456,7 +456,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             if (actvItem.text.toString() == "") {
                 //No item string entered => play shake animation
                 val animationShake =
-                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                    AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myActivity.addItemDialogView!!.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
@@ -473,7 +473,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
             //selected categoryCode
             val categoryCode =
-                MainActivity.act.resources.getStringArray(R.array.categoryCodes)[MainActivity.act.resources.getStringArray(
+                myActivity.resources.getStringArray(R.array.categoryCodes)[myActivity.resources.getStringArray(
                     R.array.categoryNames
                 ).indexOf(spCategory.selectedItem as String)]
 
@@ -515,15 +515,15 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                         myFragment.updateShoppingMenu()
                     } else {
                         Toast.makeText(
-                            MainActivity.act,
-                            MainActivity.act.getString(R.string.shopping_item_added),
+                            myActivity,
+                            myActivity.getString(R.string.shopping_item_added),
                             Toast.LENGTH_SHORT
                         )
                             .show()
                     }
                     MainActivity.itemNameList.add(actvItem.text.toString())
                     val autoCompleteTvAdapter2 = ArrayAdapter(
-                        MainActivity.act,
+                        myActivity,
                         android.R.layout.simple_spinner_dropdown_item,
                         MainActivity.itemNameList
                     )
@@ -573,8 +573,8 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 myFragment.updateShoppingMenu()
             } else {
                 Toast.makeText(
-                    MainActivity.act,
-                    MainActivity.act.getString(R.string.shopping_item_added),
+                    myActivity,
+                    myActivity.getString(R.string.shopping_item_added),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -589,7 +589,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         }
 
         val imm =
-            MainActivity.act.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            myActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
     }
 
@@ -597,9 +597,9 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
      * Reset and open addItemDialog
      */
     fun openAddItemDialog() {
-        myActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
+        myActivity.shoppingTitle!!.tvDialogTitle.text = myActivity.getString(R.string.shoppingAddItemTitle)
         myActivity.addItemDialogView!!.actvItem.setText("")
-        myActivity.addItemDialogView!!.btnAddItemToList.text = MainActivity.act.getString(R.string.birthdayDialogAdd)
+        myActivity.addItemDialogView!!.btnAddItemToList.text = myActivity.getString(R.string.birthdayDialogAdd)
         myActivity.addItemDialogView!!.spItemUnit.setSelection(0)
         MainActivity.unitChanged = false
         myActivity.addItemDialogView!!.etItemAmount.setText("1")
@@ -608,7 +608,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     }
 
     fun openEditItemDialog(item: ShoppingItem) {
-        myActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingEditItemTitle)
+        myActivity.shoppingTitle!!.tvDialogTitle.text = myActivity.getString(R.string.shoppingEditItemTitle)
         myActivity.addItemDialogView!!.btnAddItemToList.text = resources.getString(R.string.noteDiscardDialogSave)
         //show item name
         myActivity.addItemDialogView!!.actvItem.setText(item.name)
@@ -616,7 +616,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         myActivity.addItemDialogView!!.actvItem.setSelection(item.name!!.length)
         //select correct unit
         myActivity.addItemDialogView!!.spItemUnit.setSelection(
-            MainActivity.act.resources.getStringArray(
+            myActivity.resources.getStringArray(
                 R.array.units
             ).indexOf(item.suggestedUnit)
         )
@@ -637,10 +637,11 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 /**
  * Adapter for categories
  */
-class ShoppingListAdapter :
+class ShoppingListAdapter(mainActivity: MainActivity) :
     RecyclerView.Adapter<ShoppingListAdapter.CategoryViewHolder>() {
+    private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -651,7 +652,7 @@ class ShoppingListAdapter :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
 
         if (position == ShoppingFr.shoppingListInstance.size) {
-            val density = MainActivity.act.resources.displayMetrics.density
+            val density = myActivity.resources.displayMetrics.density
             holder.itemView.layoutParams.height = (100 * density).toInt()
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.subRecyclerView.visibility = View.GONE
@@ -665,7 +666,7 @@ class ShoppingListAdapter :
         //long click listener playing shake animation to indicate moving is possible
         holder.itemView.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
             true
         }
@@ -697,7 +698,7 @@ class ShoppingListAdapter :
 
         //Sets Text name of category of sublist
         holder.tvCategoryName.text =
-            MainActivity.act.resources.getStringArray(R.array.categoryNames)[MainActivity.act.resources.getStringArray(
+            myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
                 R.array.categoryCodes
             ).indexOf(tag)]
 
@@ -710,14 +711,14 @@ class ShoppingListAdapter :
         )
 
         //Setting adapter for this sublist
-        val subAdapter = SublistAdapter(tag, holder)
+        val subAdapter = SublistAdapter(tag, holder, myActivity)
         holder.subRecyclerView.adapter = subAdapter
-        holder.subRecyclerView.layoutManager = LinearLayoutManager(MainActivity.act)
+        holder.subRecyclerView.layoutManager = LinearLayoutManager(myActivity)
         holder.subRecyclerView.setHasFixedSize(true)
 
         holder.subRecyclerView.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
             true
         }
@@ -754,7 +755,7 @@ class ShoppingListAdapter :
         //long click listener on clTapExpand to ensure shake animation for long click on whole category holder
         holder.itemView.clTapExpand.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
             true
         }
@@ -770,11 +771,11 @@ class ShoppingListAdapter :
         if (!allChecked) {
             //get onBackGroundColor resolved
             val colorOnBackground =
-                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                myActivity.colorForAttr(R.attr.colorOnBackGround)
 
 
             val colorCategory =
-                MainActivity.act.colorForAttr(R.attr.colorCategory)
+                myActivity.colorForAttr(R.attr.colorCategory)
 
 
             //get pair of color ids for right categories
@@ -802,8 +803,8 @@ class ShoppingListAdapter :
             val myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    MainActivity.act.colorForAttr(gradientPair.second),
-                    MainActivity.act.colorForAttr(gradientPair.first)
+                    myActivity.colorForAttr(gradientPair.second),
+                    myActivity.colorForAttr(gradientPair.first)
                 )
             )
 
@@ -825,15 +826,15 @@ class ShoppingListAdapter :
         } else {
             //get title color
             val colorTitle =
-                MainActivity.act.colorForAttr(R.attr.colorCheckedCategoryTitle)
+                myActivity.colorForAttr(R.attr.colorCheckedCategoryTitle)
 
 
             //create gradient drawable for checked category background
             val myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    MainActivity.act.colorForAttr(R.attr.colorGrayL),
-                    MainActivity.act.colorForAttr(R.attr.colorGray)
+                    myActivity.colorForAttr(R.attr.colorGrayL),
+                    myActivity.colorForAttr(R.attr.colorGray)
                 )
             )
 
@@ -878,14 +879,15 @@ class ShoppingListAdapter :
  * Adapter for items in the sublists
  */
 class SublistAdapter(
-    private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder
+    private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder, mainActivity: MainActivity
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
+    private val myActivity = mainActivity
 
     //boolean stating if design is round or not
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
     //corner radius of items
-    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     //setting if checked sublists should be moved below unchecked sublists
     private val moveCheckedSublistsDown =
@@ -901,7 +903,7 @@ class SublistAdapter(
         //longClickListener on item to ensure shake animation for category
         holder.itemView.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
             true
         }
@@ -923,7 +925,7 @@ class SublistAdapter(
         holder.itemView.cbItem.isChecked = item.checked
 
         //initialize text
-        holder.itemView.tvItemTitle.text = MainActivity.act.getString(
+        holder.itemView.tvItemTitle.text = myActivity.getString(
             R.string.shoppingItemTitle, item.amount, item.unit, item.name
         )
 
@@ -935,14 +937,14 @@ class SublistAdapter(
             holder.itemView.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvItemTitle
                 .setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorHint)
+                    myActivity.colorForAttr(R.attr.colorHint)
                 )
 
             myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    MainActivity.act.colorForAttr(R.attr.colorGrayD),
-                    MainActivity.act.colorForAttr(R.attr.colorGrayD)
+                    myActivity.colorForAttr(R.attr.colorGrayD),
+                    myActivity.colorForAttr(R.attr.colorGrayD)
                 )
             )
 
@@ -951,13 +953,13 @@ class SublistAdapter(
             holder.itemView.tvItemTitle.paintFlags = 0
             holder.itemView.tvItemTitle
                 .setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
             myGradientDrawable = GradientDrawable(
                 GradientDrawable.Orientation.TL_BR,
                 intArrayOf(
-                    MainActivity.act.colorForAttr(R.attr.colorBackground),
-                    MainActivity.act.colorForAttr(R.attr.colorBackground)
+                    myActivity.colorForAttr(R.attr.colorBackground),
+                    myActivity.colorForAttr(R.attr.colorBackground)
                 )
             )
 
@@ -1006,7 +1008,7 @@ class SublistAdapter(
             if (newPosition > -1) {
                 notifyItemMoved(holder.adapterPosition, newPosition)
             } else {
-                MainActivity.act.toast("invalid item checked state")
+                myActivity.toast("invalid item checked state")
             }
 
             //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
@@ -1027,7 +1029,7 @@ class SublistAdapter(
 
         holder.itemView.clItemTapfield.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
             true
         }
