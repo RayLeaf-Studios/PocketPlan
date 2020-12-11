@@ -446,7 +446,7 @@ class MainActivity : AppCompatActivity() {
                 NoteFr()
             }
             FT.NOTE_EDITOR -> {
-                noteEditorFr = NoteEditorFr()
+                noteEditorFr = NoteEditorFr(this)
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {

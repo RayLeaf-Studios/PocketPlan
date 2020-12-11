@@ -23,8 +23,9 @@ import kotlinx.android.synthetic.main.fragment_note_editor.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 
 
-class NoteEditorFr : Fragment() {
+class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
 
+    private val myActivity = mainActivity
     private lateinit var myEtTitle: EditText
     private lateinit var myEtContent: EditText
     private var dialogOpened = false
@@ -87,7 +88,7 @@ class NoteEditorFr : Fragment() {
 
                 if(noteContent=="" && noteTitle==""){
                     val animationShake =
-                        AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                        AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
                     etNoteContent.startAnimation(animationShake)
                     etNoteTitle.startAnimation(animationShake)
                     return true
@@ -96,7 +97,7 @@ class NoteEditorFr : Fragment() {
                 manageNoteConfirm()
 
                 MainActivity.previousFragmentStack.pop()
-                MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
+                myActivity.changeToFragment(MainActivity.previousFragmentStack.peek())
             }
         }
 
@@ -110,13 +111,13 @@ class NoteEditorFr : Fragment() {
 
         if (MainActivity.editNoteHolder != null) {
             myMenu.findItem(R.id.item_editor_delete)?.isVisible = true
-            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(MainActivity.act.colorForAttr(MainActivity.editNoteHolder!!.color.colorCode))
+            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(myActivity.colorForAttr(MainActivity.editNoteHolder!!.color.colorCode))
         } else {
-            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(MainActivity.act.colorForAttr(noteColor.colorCode))
+            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(myActivity.colorForAttr(noteColor.colorCode))
 
         }
-        myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
-        myMenu.findItem(R.id.item_editor_save)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_editor_save)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -159,14 +160,14 @@ class NoteEditorFr : Fragment() {
         }
         dialogOpened = true
 
-        val myDialogView = LayoutInflater.from(MainActivity.act).inflate(
+        val myDialogView = LayoutInflater.from(myActivity).inflate(
             R.layout.dialog_discard_note_edit,
             null
         )
 
         //AlertDialogBuilder
         val myBuilder =
-            MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = resources.getText(R.string.noteDiscardDialogTitle)
         myBuilder?.setCustomTitle(customTitle)
@@ -174,7 +175,7 @@ class NoteEditorFr : Fragment() {
         val myAlertDialog = myBuilder?.create()
         myAlertDialog?.show()
         myAlertDialog?.setOnCancelListener {
-            MainActivity.act.setNavBarUnchecked()
+            myActivity.setNavBarUnchecked()
             dialogOpened = false
         }
 
@@ -185,7 +186,7 @@ class NoteEditorFr : Fragment() {
 
             dialogOpened = false
             myAlertDialog?.dismiss()
-            MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
+            myActivity.changeToFragment(MainActivity.previousFragmentStack.peek())
         }
         myDialogView.btnSaveChanges.setOnClickListener {
             if (fragmentTag != MainActivity.previousFragmentStack.pop() && fragmentTag != FT.EMPTY) {
@@ -195,24 +196,24 @@ class NoteEditorFr : Fragment() {
             manageNoteConfirm()
             dialogOpened = false
             myAlertDialog?.dismiss()
-            MainActivity.act.changeToFragment(MainActivity.previousFragmentStack.peek())
+            myActivity.changeToFragment(MainActivity.previousFragmentStack.peek())
         }
     }
 
     private fun manageAddNote() {
-        MainActivity.act.hideKeyboard()
+        myActivity.hideKeyboard()
         val noteContent = etNoteContent.text.toString()
         val noteTitle = etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
-            Toast.makeText(MainActivity.act, R.string.notificationNoteAdded, Toast.LENGTH_SHORT).show()
+            Toast.makeText(myActivity, R.string.notificationNoteAdded, Toast.LENGTH_SHORT).show()
         }
         MainActivity.previousFragmentStack.push(cache)
     }
 
     private fun manageEditNote() {
-        MainActivity.act.hideKeyboard()
+        myActivity.hideKeyboard()
         val noteContent = etNoteContent.text.toString()
         val noteTitle = etNoteTitle.text.toString()
         MainActivity.editNoteHolder!!.title = noteTitle
@@ -228,7 +229,7 @@ class NoteEditorFr : Fragment() {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
 
         //AlertDialogBuilder
-        val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
+        val myBuilder = AlertDialog.Builder(myActivity).setView(myDialogView)
         val editTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         editTitle.tvDialogTitle.text = getString(R.string.menuTitleColorChoose)
         myBuilder.setCustomTitle(editTitle)
@@ -253,7 +254,7 @@ class NoteEditorFr : Fragment() {
             b.setOnClickListener {
                 noteColor = NoteColors.values()[i]
                 myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
-                    MainActivity.act.colorForAttr(colorList[i])
+                    myActivity.colorForAttr(colorList[i])
                 )
                 myAlertDialog.dismiss()
             }
@@ -267,10 +268,10 @@ class NoteEditorFr : Fragment() {
             NoteFr.noteListInstance.remove(MainActivity.editNoteHolder)
             MainActivity.editNoteHolder = null
             NoteFr.noteListInstance.save()
-            MainActivity.act.hideKeyboard()
+            myActivity.hideKeyboard()
             MainActivity.previousFragmentStack.push(FT.EMPTY)
-            MainActivity.act.changeToFragment(FT.NOTES)
+            myActivity.changeToFragment(FT.NOTES)
         }
-        MainActivity.act.dialogConfirmDelete(titleId, action)
+        myActivity.dialogConfirmDelete(titleId, action)
     }
 }
