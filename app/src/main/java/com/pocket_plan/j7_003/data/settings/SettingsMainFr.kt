@@ -13,8 +13,9 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.system_interaction.handler.share.BackUpActivity
 import kotlinx.android.synthetic.main.fragment_settings_main.view.*
 
-class SettingsMainFr : Fragment() {
+class SettingsMainFr(mainActivity: MainActivity) : Fragment() {
 
+    private val myActivity = mainActivity
     private lateinit var clSettingNotes: ConstraintLayout
     private lateinit var clSettingShopping: ConstraintLayout
 
@@ -44,13 +45,14 @@ class SettingsMainFr : Fragment() {
     }
 
     private fun initializeListeners() {
-        clSettingNotes.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_NOTES) }
+        clSettingNotes.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_NOTES) }
         clSettingBackup.setOnClickListener {
-            MainActivity.act.startActivity(Intent(MainActivity.act, BackUpActivity::class.java))
+            val intent = Intent(myActivity, BackUpActivity::class.java)
+            myActivity.startActivity(intent)
         }
-        clSettingShopping.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_SHOPPING) }
-        clSettingAbout.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_ABOUT) }
-        clSettingAppearance.setOnClickListener { MainActivity.act.changeToFragment(FT.SETTINGS_APPEARANCE) }
+        clSettingShopping.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_SHOPPING) }
+        clSettingAbout.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_ABOUT) }
+        clSettingAppearance.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_APPEARANCE) }
     }
 
 }
