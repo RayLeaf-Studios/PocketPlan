@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
 
         //Initialize adapters and necessary list instances
         TodoFr.todoListInstance = TodoList()
-        TodoFr.myAdapter = TodoTaskAdapter()
+        TodoFr.myAdapter = TodoTaskAdapter(this)
         NoteFr.myAdapter = NoteAdapter()
         ShoppingFr.myAdapter = ShoppingListAdapter()
         SleepFr.myAdapter = SleepAdapter()
@@ -439,7 +439,7 @@ class MainActivity : AppCompatActivity() {
         //create fragment object
         val fragment = when (fragmentTag) {
             FT.HOME -> homeFr
-            FT.TASKS -> TodoFr()
+            FT.TASKS -> TodoFr(this)
             FT.SHOPPING -> shoppingFr
             FT.NOTES -> {
                 NoteFr.searching = false

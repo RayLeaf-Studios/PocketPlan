@@ -26,8 +26,9 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
 
-class TodoFr : Fragment() {
+class TodoFr(mainActivity: MainActivity) : Fragment() {
     private lateinit var myMenu: Menu
+    private val myActivity = mainActivity
 
     companion object {
         lateinit var myFragment: TodoFr
@@ -51,7 +52,7 @@ class TodoFr : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_tasks, menu)
         myMenu = menu
-        myMenu.findItem(R.id.item_tasks_undo)?.icon?.setTint(MainActivity.act.colorForAttr(attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_tasks_undo)?.icon?.setTint(myActivity.colorForAttr(attr.colorOnBackGround))
         updateTodoIcons()
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -66,7 +67,7 @@ class TodoFr : Fragment() {
                     myFragment.manageCheckedTaskDeletion()
                     myFragment.updateTodoIcons()
                 }
-                MainActivity.act.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirmDelete(titleId, action)
             }
 
             R.id.item_tasks_undo -> {
@@ -90,7 +91,7 @@ class TodoFr : Fragment() {
                     myAdapter.notifyDataSetChanged()
                     todoListInstance.save()
                 }
-                MainActivity.act.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirmDelete(titleId, action)
             }
 
             R.id.item_tasks_uncheck_all -> {
@@ -125,7 +126,7 @@ class TodoFr : Fragment() {
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        myAdapter = TodoTaskAdapter()
+        myAdapter = TodoTaskAdapter(myActivity)
         myRecycler.adapter = myAdapter
 
         layoutManager = LinearLayoutManager(activity)
@@ -329,11 +330,11 @@ class TodoFr : Fragment() {
     fun dialogAddTask() {
         //inflate the dialog with custom view
         val myDialogView =
-            LayoutInflater.from(MainActivity.act).inflate(layout.dialog_add_task, null)
+            LayoutInflater.from(myActivity).inflate(layout.dialog_add_task, null)
 
         //AlertDialogBuilder
         val myBuilder =
-            MainActivity.act.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         myBuilder?.setCustomTitle(
             layoutInflater.inflate(
                 layout.title_dialog,
@@ -358,7 +359,7 @@ class TodoFr : Fragment() {
                 val title = myDialogView.etxTitleAddTask.text.toString()
                 if (title.isEmpty()) {
                     val animationShake =
-                        AnimationUtils.loadAnimation(MainActivity.act, anim.shake)
+                        AnimationUtils.loadAnimation(myActivity, anim.shake)
                     myDialogView.etxTitleAddTask.startAnimation(animationShake)
                     @Suppress("LABEL_NAME_CLASH")
                     return@setOnClickListener
@@ -412,10 +413,11 @@ class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouc
 
 }
 
-class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
+class TodoTaskAdapter(activity: MainActivity) : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
+    private val myActivity = activity
     private val listInstance = TodoFr.todoListInstance
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = MainActivity.act.resources.getDimension(dimen.cornerRadius)
+    private val cr = myActivity.resources.getDimension(dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -431,7 +433,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.visibility = View.INVISIBLE
             holder.itemView.tvName.setOnLongClickListener { true }
             holder.itemView.tapField.setOnClickListener { }
-            val density = MainActivity.act.resources.displayMetrics.density
+            val density = myActivity.resources.displayMetrics.density
             holder.itemView.layoutParams.height = (100 * density).toInt()
             return
         }
@@ -440,14 +442,13 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
         holder.itemView.visibility = View.VISIBLE
 
         val currentTask = listInstance.getTask(holder.adapterPosition)
-        val activity = MainActivity.act
 
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentTask.title
 
         holder.itemView.tvName.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, anim.shake_small)
+                AnimationUtils.loadAnimation(myActivity, anim.shake_small)
             holder.itemView.startAnimation(animationShake)
             true
         }
@@ -456,14 +457,14 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
             holder.itemView.cbTask.isChecked = true
             holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvName.setTextColor(
-                MainActivity.act.colorForAttr(attr.colorHint)
+                myActivity.colorForAttr(attr.colorHint)
             )
-            holder.itemView.crvTask.setCardBackgroundColor(MainActivity.act.colorForAttr(attr.colorCheckedTask))
+            holder.itemView.crvTask.setCardBackgroundColor(myActivity.colorForAttr(attr.colorCheckedTask))
         } else {
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
             holder.itemView.tvName.setTextColor(
-                MainActivity.act.colorForAttr(attr.colorOnBackGroundTask)
+                myActivity.colorForAttr(attr.colorOnBackGroundTask)
             )
             val backgroundColor = when (listInstance.getTask(holder.adapterPosition).priority) {
                 1 -> attr.colorPriority1
@@ -471,7 +472,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                 else -> attr.colorPriority3
             }
             holder.itemView.crvTask.setCardBackgroundColor(
-                MainActivity.act.colorForAttr(
+                myActivity.colorForAttr(
                     backgroundColor
                 )
             )
@@ -491,18 +492,18 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
         holder.itemView.tvName.setOnClickListener {
 
             //inflate the dialog with custom view
-            val myDialogView = LayoutInflater.from(activity).inflate(
+            val myDialogView = LayoutInflater.from(myActivity).inflate(
                 layout.dialog_add_task,
                 null
             )
 
             //AlertDialogBuilder
-            val myBuilder = AlertDialog.Builder(activity).setView(myDialogView)
-            val editTitle = LayoutInflater.from(activity).inflate(
+            val myBuilder = AlertDialog.Builder(myActivity).setView(myDialogView)
+            val editTitle = LayoutInflater.from(myActivity).inflate(
                 layout.title_dialog,
                 null
             )
-            editTitle.tvDialogTitle.text = MainActivity.act.resources.getText(string.menuTitleTasks)
+            editTitle.tvDialogTitle.text = myActivity.resources.getText(string.menuTitleTasks)
             myBuilder.setCustomTitle(editTitle)
 
             //show dialog
@@ -530,7 +531,7 @@ class TodoTaskAdapter : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>
                 button.setOnClickListener Button@{
                     if (myDialogView.etxTitleAddTask.text.toString() == "") {
                         val animationShake =
-                            AnimationUtils.loadAnimation(MainActivity.act, anim.shake)
+                            AnimationUtils.loadAnimation(myActivity, anim.shake)
                         myDialogView.etxTitleAddTask.startAnimation(animationShake)
                         return@Button
                     }
