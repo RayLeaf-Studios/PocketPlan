@@ -82,14 +82,14 @@ class NoteEditorFr : Fragment() {
             R.id.item_editor_delete -> openDeleteNoteDialog()
             R.id.item_editor_color -> openColorChooser()
             R.id.item_editor_save -> {
-                val noteContent = MainActivity.noteEditorFr.etNoteContent.text.toString()
-                val noteTitle = MainActivity.noteEditorFr.etNoteTitle.text.toString()
+                val noteContent = etNoteContent.text.toString()
+                val noteTitle = etNoteTitle.text.toString()
 
                 if(noteContent=="" && noteTitle==""){
                     val animationShake =
                         AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
-                    MainActivity.noteEditorFr.etNoteContent.startAnimation(animationShake)
-                    MainActivity.noteEditorFr.etNoteTitle.startAnimation(animationShake)
+                    etNoteContent.startAnimation(animationShake)
+                    etNoteTitle.startAnimation(animationShake)
                     return true
                 }
                 //act as check mark to add / confirm note edit
@@ -133,8 +133,8 @@ class NoteEditorFr : Fragment() {
 
         var result = true
         //check if note was edited, return otherwise
-        if (MainActivity.editNoteHolder != null && MainActivity.editNoteHolder!!.title == MainActivity.noteEditorFr.etNoteTitle.text.toString() &&
-            MainActivity.editNoteHolder!!.content == MainActivity.noteEditorFr.etNoteContent.text.toString() &&
+        if (MainActivity.editNoteHolder != null && MainActivity.editNoteHolder!!.title == etNoteTitle.text.toString() &&
+            MainActivity.editNoteHolder!!.content == etNoteContent.text.toString() &&
             MainActivity.editNoteHolder!!.color == noteColor
         ) {
             //no relevant note changes if the title, content and color did not get changed
@@ -142,8 +142,8 @@ class NoteEditorFr : Fragment() {
         }
 
         //check if anything was written when adding new note, return otherwise
-        if (MainActivity.editNoteHolder == null && MainActivity.noteEditorFr.etNoteTitle.text.toString() == "" &&
-            MainActivity.noteEditorFr.etNoteContent.text.toString() == ""
+        if (MainActivity.editNoteHolder == null && etNoteTitle.text.toString() == "" &&
+            etNoteContent.text.toString() == ""
         ) {
             //no relevant note changes if its a new empty note
             result = false
@@ -201,8 +201,8 @@ class NoteEditorFr : Fragment() {
 
     private fun manageAddNote() {
         MainActivity.act.hideKeyboard()
-        val noteContent = MainActivity.noteEditorFr.etNoteContent.text.toString()
-        val noteTitle = MainActivity.noteEditorFr.etNoteTitle.text.toString()
+        val noteContent = etNoteContent.text.toString()
+        val noteTitle = etNoteTitle.text.toString()
         NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
@@ -213,8 +213,8 @@ class NoteEditorFr : Fragment() {
 
     private fun manageEditNote() {
         MainActivity.act.hideKeyboard()
-        val noteContent = MainActivity.noteEditorFr.etNoteContent.text.toString()
-        val noteTitle = MainActivity.noteEditorFr.etNoteTitle.text.toString()
+        val noteContent = etNoteContent.text.toString()
+        val noteTitle = etNoteTitle.text.toString()
         MainActivity.editNoteHolder!!.title = noteTitle
         MainActivity.editNoteHolder!!.content = noteContent
         MainActivity.editNoteHolder!!.color = noteColor

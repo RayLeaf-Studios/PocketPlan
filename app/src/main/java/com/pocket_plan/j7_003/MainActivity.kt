@@ -60,6 +60,8 @@ class MainActivity : AppCompatActivity() {
     private var birthdayFr: BirthdayFr? = null
     private var homeFr: HomeFr? = null
     private var shoppingFr: ShoppingFr? = null
+    private var noteEditorFr: NoteEditorFr? = null
+
     var addItemDialogView: View? = null
     var shoppingTitle: View? = null
 
@@ -74,7 +76,6 @@ class MainActivity : AppCompatActivity() {
 
         var justRestarted = false
 
-        lateinit var noteEditorFr: NoteEditorFr
         val previousFragmentStack: Stack<FT> = Stack()
         lateinit var act: MainActivity
         lateinit var toolBar: Toolbar
