@@ -58,7 +58,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
 
-    private lateinit var birthdayFr: BirthdayFr
+    private var birthdayFr: BirthdayFr? = null
+    private var homeFr: HomeFr? = null
 
     companion object {
         //contents for shopping list
@@ -133,38 +134,38 @@ class MainActivity : AppCompatActivity() {
         }
         setLocale(this, languageCode)
 
-        //check if settings say to use system theme, if yes, set theme to system theme
+        //check if settings say to use system theme, if yes, set theme setting to system theme
         if (SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean) {
                 when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES) {
                     true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
                     else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
                 }
             }
-        //set correct theme
+
+        //set correct theme depending on setting
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
             else -> R.style.AppThemeLight
         }
         setTheme(themeToSet)
 
-
-
+        //create main_panel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_panel)
 
-        //IMPORTANT; ORDER IS CRITICAL
-        //Initialize Settings Manager and Time api and AlarmHandler
+        //IMPORTANT: ORDER IS CRITICAL HERE
+        //Initialize Time api and AlarmHandler
         AndroidThreeTen.init(this)
         AlarmHandler.setBirthdayAlarms(context = this)
 
-        //Initialize Sleepreminder
+        //Initialize Sleep Reminder
         SleepReminder.context = this
         SleepFr.sleepReminderInstance = SleepReminder()
 
         //Initialize temporary ShoppingFr Instance
         tempShoppingFr = ShoppingFr()
 
-        //initialize toolbar
+        //Initialize toolbar
         setSupportActionBar(myNewToolbar)
         toolBar = myNewToolbar
         supportActionBar?.setHomeButtonEnabled(true)
@@ -177,7 +178,9 @@ class MainActivity : AppCompatActivity() {
         NoteFr.myAdapter = NoteAdapter()
         ShoppingFr.myAdapter = ShoppingListAdapter()
         SleepFr.myAdapter = SleepAdapter()
-        BirthdayFr.myAdapter = BirthdayAdapter()
+
+        birthdayFr = BirthdayFr()
+        homeFr = HomeFr(birthdayFr!!)
 
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
@@ -219,7 +222,23 @@ class MainActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
 
-        //initialize navigation drawer
+        //initialize bottom navigation
+        bottomNavigation = findViewById(R.id.btm_nav)
+
+        //When activity is entered via special intent, change to respective fragment
+        when (intent.extras?.get("NotificationEntry").toString()) {
+            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder" -> changeToFragment(FT.HOME)
+            "settings" -> changeToFragment(FT.SETTINGS)
+            "appearance" -> changeToFragment(FT.SETTINGS_APPEARANCE)
+            else -> {
+                justRestarted = true
+                bottomNavigation.menu.getItem(2).isChecked = true
+                changeToFragment(FT.HOME)
+            }
+        }
+
+        //initialize navigation drawer listener
         nav_drawer.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
@@ -246,9 +265,11 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+        //preload add item dialog to reduce loading time
+        tempShoppingFr.preloadAddItemDialog(layoutInflater)
+
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
-        bottomNavigation = findViewById(R.id.btm_nav)
         bottomNavigation.setOnNavigationItemSelectedListener { item ->
             if (!navList.contains(previousFragmentStack.peek()) || bottomNavigation.selectedItemId != item.itemId) {
                 when (item.itemId) {
@@ -262,20 +283,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        //removes longClick tooltips for bottom navigation
-        for (i in 0 until bottomNavigation.menu.size()) {
-            val view = bottomNavigation.findViewById<View>(bottomNavigation.menu.getItem(i).itemId)
-            view.setOnLongClickListener {
-                true
-            }
-        }
-
         //initialize btn to add elements, depending on which fragment is active
         btnAdd.setOnClickListener {
             when (previousFragmentStack.peek()) {
                 FT.BIRTHDAYS -> {
                     BirthdayFr.editBirthdayHolder = null
-                    birthdayFr.openAddBirthdayDialog()
+                    birthdayFr!!.openAddBirthdayDialog()
                 }
 
                 FT.TASKS -> {
@@ -298,21 +311,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //When activity is entered via special intent, change to respective fragment
-        when (intent.extras?.get("NotificationEntry").toString()) {
-            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
-            "SReminder" -> changeToFragment(FT.HOME)
-            "settings" -> changeToFragment(FT.SETTINGS)
-            "appearance" -> changeToFragment(FT.SETTINGS_APPEARANCE)
-            else -> {
-                justRestarted = true
-                bottomNavigation.menu.getItem(2).isChecked = true
-                changeToFragment(FT.HOME)
+        //todo, check if this works on phone, not only emulator
+        //removes longClick tooltips for bottom navigation
+        for (i in 0 until bottomNavigation.menu.size()) {
+            val view = bottomNavigation.findViewById<View>(bottomNavigation.menu.getItem(i).itemId)
+            view.setOnLongClickListener {
+                true
             }
         }
-
-        //preload add item dialog to reduce loading time
-        tempShoppingFr.preloadAddItemDialog(layoutInflater)
 
 
     }
@@ -431,7 +437,7 @@ class MainActivity : AppCompatActivity() {
 
         //create fragment object
         val fragment = when (fragmentTag) {
-            FT.HOME -> HomeFr()
+            FT.HOME -> homeFr
             FT.TASKS -> TodoFr()
             FT.SHOPPING -> ShoppingFr()
             FT.NOTES -> {
@@ -443,8 +449,7 @@ class MainActivity : AppCompatActivity() {
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
-                BirthdayFr.searching = false
-                birthdayFr = BirthdayFr()
+                birthdayFr!!.searching = false
                 birthdayFr
             }
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
@@ -455,15 +460,17 @@ class MainActivity : AppCompatActivity() {
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> SleepFr()
             FT.SETTINGS_HOWTO -> SettingsHowTo()
-            else -> HomeFr()
+            else -> homeFr
         }
 
         //animate fragment change
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frame_layout, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .commit()
+        if (fragment != null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .commit()
+        }
     }
 
     /**
@@ -478,12 +485,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         //When in birthdayFragment and searching, close search and restore fragment to normal mode
-        if (previousFragmentStack.peek() == FT.BIRTHDAYS && BirthdayFr.searching) {
+        if (previousFragmentStack.peek() == FT.BIRTHDAYS && birthdayFr!!.searching) {
             toolBar.title = getString(R.string.menuTitleBirthdays)
-            BirthdayFr.searchView.onActionViewCollapsed()
-            BirthdayFr.searching = false
-            BirthdayFr.myFragment.updateUndoBirthdayIcon()
-            BirthdayFr.myAdapter.notifyDataSetChanged()
+            birthdayFr!!.searchView.onActionViewCollapsed()
+            birthdayFr!!.searching = false
+            birthdayFr!!.updateUndoBirthdayIcon()
+            birthdayFr!!.myAdapter.notifyDataSetChanged()
             return
         }
 
@@ -520,7 +527,7 @@ class MainActivity : AppCompatActivity() {
 
     fun refreshData() {
         NoteFr.noteListInstance = NoteList()
-        BirthdayFr.birthdayListInstance = BirthdayList(act)
+        birthdayFr!!.birthdayListInstance = BirthdayList(act)
         ShoppingFr.shoppingListInstance = ShoppingList()
         SettingsManager.init()
         SleepFr.sleepReminderInstance = SleepReminder()

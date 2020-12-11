@@ -250,7 +250,7 @@ class SettingsAppearanceFr : Fragment() {
                 SettingsManager.settings.clear()
                 MainActivity.act.loadDefaultSettings()
 
-                //Todo, only do this if language and theme differ from default values
+                //Todo, only do this if language or theme differ from default values
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("NotificationEntry", "appearance")
                 startActivity(intent)

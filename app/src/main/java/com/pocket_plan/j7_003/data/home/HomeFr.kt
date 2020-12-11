@@ -30,10 +30,11 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr : Fragment() {
+class HomeFr(birthdayFr: BirthdayFr) : Fragment() {
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val myBirthdayFr = birthdayFr
 
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
@@ -198,7 +199,7 @@ class HomeFr : Fragment() {
             myView.panelBirthdays.radius = cr
         }
 
-        val birthdaysToday = BirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
+        val birthdaysToday = myBirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
         if (birthdaysToDisplay == 0) {
             myView.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)

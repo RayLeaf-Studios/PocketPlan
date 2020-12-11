@@ -44,29 +44,27 @@ class BirthdayFr : Fragment() {
     var date: LocalDate = LocalDate.now()
     private lateinit var myMenu: Menu
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK)
+    lateinit var myAdapter: BirthdayAdapter
+    var searching: Boolean = false
+    lateinit var searchView: SearchView
+
+    var birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
+        myAdapter = BirthdayAdapter(this)
         super.onCreate(savedInstanceState)
-
     }
 
     companion object {
         var deletedBirthday: Birthday? = null
 
         var editBirthdayHolder: Birthday? = null
-        lateinit var myAdapter: BirthdayAdapter
 
-        var searching: Boolean = false
         lateinit var adjustedList: ArrayList<Birthday>
         lateinit var lastQuery: String
 
-        lateinit var myFragment: BirthdayFr
-
-        lateinit var searchView: SearchView
-
-        var birthdayListInstance: BirthdayList = BirthdayList(MainActivity.act)
     }
 
 
@@ -86,7 +84,7 @@ class BirthdayFr : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (searching) {
-                    myFragment.search(newText.toString())
+                    search(newText.toString())
                 }
                 return true
             }
@@ -163,25 +161,23 @@ class BirthdayFr : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
         adjustedList = arrayListOf()
         myRecycler = myView.recycler_view_birthday
-        myFragment = this
-
 
         //collapse all birthdays when reentering fragment
         birthdayListInstance.collapseAll()
 
         //initialize recyclerview and adapter
-        myAdapter = BirthdayAdapter()
+        myAdapter = BirthdayAdapter(this)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
 
         //initialize and attach swipe helpers
         val swipeHelperLeft =
-            ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.LEFT))
+            ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.LEFT, this))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
 
         val swipeHelperRight =
-            ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.RIGHT))
+            ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.RIGHT, this))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
         return myView
@@ -882,14 +878,15 @@ class BirthdayFr : Fragment() {
 
 }
 
-class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
+class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int, birthdayFr: BirthdayFr) :
     ItemTouchHelper.SimpleCallback(0, direction) {
+    val myFragment = birthdayFr
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val parsed = viewHolder as BirthdayAdapter.BirthdayViewHolder
-        return if (viewHolder.adapterPosition == BirthdayFr.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
+        return if (viewHolder.adapterPosition == myFragment.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
             0
         } else {
             super.getSwipeDirs(recyclerView, viewHolder)
@@ -907,9 +904,10 @@ class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int) :
 }
 
 
-class BirthdayAdapter :
+class BirthdayAdapter(birthdayFr: BirthdayFr) :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
-    private val listInstance = BirthdayFr.birthdayListInstance
+    private val myFragment = birthdayFr
+    private val listInstance = myFragment.birthdayListInstance
     private val density = MainActivity.act.resources.displayMetrics.density
     private val marginSide = (density * 20).toInt()
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
@@ -923,17 +921,17 @@ class BirthdayAdapter :
         val parsed = viewHolder as BirthdayViewHolder
         BirthdayFr.deletedBirthday = listInstance.getBirthday(viewHolder.adapterPosition)
         val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
-        if (BirthdayFr.searching) {
-            BirthdayFr.myFragment.search(BirthdayFr.lastQuery)
+        if (myFragment.searching) {
+            myFragment.search(BirthdayFr.lastQuery)
         }
         if(round){
-            if(deleteInfo.second == 1 && BirthdayFr.birthdayListInstance[deleteInfo.first-1].daysToRemind >= 0){
-                BirthdayFr.myAdapter.notifyItemChanged(deleteInfo.first-1)
+            if(deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first-1].daysToRemind >= 0){
+                myFragment.myAdapter.notifyItemChanged(deleteInfo.first-1)
             }
         }
         notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
-        BirthdayFr.myFragment.updateUndoBirthdayIcon()
-        BirthdayFr.myFragment.updateBirthdayMenu()
+        myFragment.updateUndoBirthdayIcon()
+        myFragment.updateBirthdayMenu()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
@@ -946,7 +944,7 @@ class BirthdayAdapter :
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
         //Last birthday is spacer birthday
-        if (position == BirthdayFr.birthdayListInstance.size) {
+        if (position == myFragment.birthdayListInstance.size) {
             val density = MainActivity.act.resources.displayMetrics.density
             holder.itemView.layoutParams.height = (100 * density).toInt()
             holder.itemView.visibility = View.INVISIBLE
@@ -963,7 +961,7 @@ class BirthdayAdapter :
 
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
-        val currentBirthday = when (BirthdayFr.searching) {
+        val currentBirthday = when (myFragment.searching) {
             true -> BirthdayFr.adjustedList[position]
             false -> listInstance.getBirthday(position)
         }
@@ -1061,7 +1059,7 @@ class BirthdayAdapter :
 
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-        if (BirthdayFr.searching) {
+        if (myFragment.searching) {
             if (round) {
                 myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
             }
@@ -1080,7 +1078,7 @@ class BirthdayAdapter :
             params.setMargins(marginSide, (density * 1).toInt(), marginSide, (density * 1).toInt())
             if (round) {
                 //if its the last birthday in list, or the following birthday is a monthDivider (daysToRemind < 0) bottom corners become round
-                if ((holder.adapterPosition == BirthdayFr.birthdayListInstance.size - 1) || (BirthdayFr.birthdayListInstance[holder.adapterPosition + 1].daysToRemind < 0)) {
+                if ((holder.adapterPosition == myFragment.birthdayListInstance.size - 1) || (myFragment.birthdayListInstance[holder.adapterPosition + 1].daysToRemind < 0)) {
                     myGradientDrawable.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cr, cr, cr, cr)
                 }
             }
@@ -1202,17 +1200,17 @@ class BirthdayAdapter :
         //opens dialog to edit this birthday
         holder.itemView.tvRowBirthdayName.setOnLongClickListener {
             BirthdayFr.editBirthdayHolder = holder.birthday
-            BirthdayFr.myFragment.openEditBirthdayDialog()
+            myFragment.openEditBirthdayDialog()
             true
         }
         holder.itemView.tvRowBirthdayDate.setOnLongClickListener {
             BirthdayFr.editBirthdayHolder = holder.birthday
-            BirthdayFr.myFragment.openEditBirthdayDialog()
+            myFragment.openEditBirthdayDialog()
             true
         }
         holder.itemView.icon_bell.setOnLongClickListener {
             BirthdayFr.editBirthdayHolder = holder.birthday
-            BirthdayFr.myFragment.openEditBirthdayDialog()
+            myFragment.openEditBirthdayDialog()
             true
         }
 
@@ -1230,14 +1228,14 @@ class BirthdayAdapter :
 
         holder.itemView.icon_bell.setOnClickListener {
             holder.birthday.notify = !holder.birthday.notify
-            BirthdayFr.myAdapter.notifyItemChanged(holder.adapterPosition)
+            myFragment.myAdapter.notifyItemChanged(holder.adapterPosition)
         }
 
 
     }
 
     override fun getItemCount(): Int {
-        return when (BirthdayFr.searching) {
+        return when (myFragment.searching) {
             true -> BirthdayFr.adjustedList.size
             false -> listInstance.size + 1
         }
