@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     var addItemDialogView: View? = null
     var shoppingTitle: View? = null
+    lateinit var toolBar: Toolbar
 
     companion object {
         //contents for shopping list
@@ -78,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
         val previousFragmentStack: Stack<FT> = Stack()
         lateinit var act: MainActivity
-        lateinit var toolBar: Toolbar
         var editNoteHolder: Note? = null
         lateinit var bottomNavigation: BottomNavigationView
     }

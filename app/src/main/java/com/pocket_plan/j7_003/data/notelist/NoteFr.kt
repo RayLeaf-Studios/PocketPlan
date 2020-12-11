@@ -74,7 +74,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         searchView.setOnQueryTextListener(textListener)
 
         val onCloseListener = SearchView.OnCloseListener {
-            MainActivity.toolBar.title = getString(R.string.menuTitleNotes)
+            myActivity.toolBar.title = getString(R.string.menuTitleNotes)
             searchView.onActionViewCollapsed()
             searching = false
             myAdapter.notifyDataSetChanged()
@@ -84,7 +84,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         searchView.setOnCloseListener(onCloseListener)
 
         searchView.setOnSearchClickListener {
-            MainActivity.toolBar.title = ""
+            myActivity.toolBar.title = ""
             searching = true
             adjustedList.clear()
             myAdapter.notifyDataSetChanged()

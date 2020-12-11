@@ -94,7 +94,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         searchView.setOnQueryTextListener(textListener)
 
         val onCloseListener = SearchView.OnCloseListener {
-            MainActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
+            myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
             searchView.onActionViewCollapsed()
             searching = false
             updateUndoBirthdayIcon()
@@ -105,7 +105,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         searchView.setOnCloseListener(onCloseListener)
 
         searchView.setOnSearchClickListener {
-            MainActivity.toolBar.title = ""
+            myActivity.toolBar.title = ""
             searching = true
             adjustedList.clear()
             myAdapter.notifyDataSetChanged()
