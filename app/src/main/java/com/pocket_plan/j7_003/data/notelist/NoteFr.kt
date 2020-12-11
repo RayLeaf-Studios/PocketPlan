@@ -28,8 +28,9 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
 
-class NoteFr : Fragment() {
+class NoteFr(mainActivity: MainActivity) : Fragment() {
 
+    private val myActivity = mainActivity
     private lateinit var myMenu: Menu
 
     companion object {
@@ -53,12 +54,12 @@ class NoteFr : Fragment() {
         adjustedList = arrayListOf()
 
         //color tint for undo icon
-        myMenu.findItem(R.id.item_notes_undo)?.icon?.setTint(MainActivity.act.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_notes_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         searchView = menu.findItem(R.id.item_notes_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                MainActivity.act.hideKeyboard()
+                myActivity.hideKeyboard()
                 return true
             }
 
@@ -171,7 +172,7 @@ class NoteFr : Fragment() {
 
         //initialize Recyclerview and Adapter
         val myRecycler = myView.recycler_view_note
-        myAdapter = NoteAdapter()
+        myAdapter = NoteAdapter(myActivity)
         myRecycler.adapter = myAdapter
         val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
@@ -241,10 +242,11 @@ class NoteFr : Fragment() {
 }
 
 
-class NoteAdapter :
+class NoteAdapter(mainActivity: MainActivity) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+    private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -269,7 +271,7 @@ class NoteAdapter :
 
         holder.itemView.setOnLongClickListener {
             val animationShake =
-                AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_small)
+                AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
             true
         }
@@ -279,8 +281,8 @@ class NoteAdapter :
             NoteFr.searching = false
             MainActivity.editNoteHolder = currentNote
             noteColor = NoteFr.noteListInstance.getNote(holder.adapterPosition).color
-            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
-            MainActivity.act.hideKeyboard()
+            myActivity.changeToFragment(FT.NOTE_EDITOR)
+            myActivity.hideKeyboard()
         }
 
         //when title is empty, hide it else show it and set the proper text
@@ -306,7 +308,7 @@ class NoteAdapter :
             else -> 0f
         }
 
-        holder.itemView.cvNoteCard.setCardBackgroundColor(MainActivity.act.colorForAttr(currentNote.color.colorCode))
+        holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(currentNote.color.colorCode))
     }
 
     override fun getItemCount(): Int {

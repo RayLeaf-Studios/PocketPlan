@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize adapters and necessary list instances
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter(this)
-        NoteFr.myAdapter = NoteAdapter()
+        NoteFr.myAdapter = NoteAdapter(this)
         ShoppingFr.myAdapter = ShoppingListAdapter()
         SleepFr.myAdapter = SleepAdapter()
 
@@ -443,7 +443,7 @@ class MainActivity : AppCompatActivity() {
             FT.SHOPPING -> shoppingFr
             FT.NOTES -> {
                 NoteFr.searching = false
-                NoteFr()
+                NoteFr(this)
             }
             FT.NOTE_EDITOR -> {
                 noteEditorFr = NoteEditorFr(this)

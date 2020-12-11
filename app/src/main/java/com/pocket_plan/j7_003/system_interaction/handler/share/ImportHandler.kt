@@ -120,7 +120,6 @@ class ImportHandler(private val parentActivity: Activity) {
             SleepReminder()
             ShoppingList()
             UserItemTemplateList()
-            NoteAdapter()
             Toast.makeText(parentActivity, "Import successful!", Toast.LENGTH_SHORT).show()
             true
         } catch (e: Exception) {
