@@ -456,7 +456,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
             FT.SETTINGS_NOTES -> SettingsNotesFr()
             FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
-            FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr()
+            FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr(this)
             FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> SleepFr(this)

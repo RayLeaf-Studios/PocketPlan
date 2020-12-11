@@ -21,7 +21,8 @@ import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsAppearanceFr : Fragment() {
+class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
+    private val myActivity = mainActivity
     private lateinit var spTheme: Spinner
     private lateinit var spShapes: Spinner
     private lateinit var spLanguages: Spinner
@@ -68,7 +69,7 @@ class SettingsAppearanceFr : Fragment() {
     private fun initializeAdapters() {
         //Spinner for color theme
         val spAdapterTheme = ArrayAdapter(
-            MainActivity.act,
+            myActivity,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.themes)
         )
@@ -77,7 +78,7 @@ class SettingsAppearanceFr : Fragment() {
 
         //Spinner for shapes
         val spAdapterShapes = ArrayAdapter(
-            MainActivity.act,
+            myActivity,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.shapes)
         )
@@ -86,7 +87,7 @@ class SettingsAppearanceFr : Fragment() {
 
         //Spinner for languages
         val spAdapterLanguages = ArrayAdapter(
-            MainActivity.act,
+            myActivity,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.languages)
         )
@@ -141,7 +142,7 @@ class SettingsAppearanceFr : Fragment() {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("NotificationEntry", "appearance")
                     startActivity(intent)
-                    MainActivity.act.finish()
+                    myActivity.finish()
                 }
             }
 
@@ -182,7 +183,7 @@ class SettingsAppearanceFr : Fragment() {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("NotificationEntry", "appearance")
                     startActivity(intent)
-                    MainActivity.act.finish()
+                    myActivity.finish()
                 }
 
             }
@@ -240,7 +241,7 @@ class SettingsAppearanceFr : Fragment() {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("NotificationEntry", "appearance")
                 startActivity(intent)
-                MainActivity.act.finish()
+                myActivity.finish()
             }
 
         }
@@ -248,15 +249,15 @@ class SettingsAppearanceFr : Fragment() {
         clResetToDefault.setOnClickListener {
             val action: () -> Unit = {
                 SettingsManager.settings.clear()
-                MainActivity.act.loadDefaultSettings()
+                myActivity.loadDefaultSettings()
 
                 //Todo, only do this if language or theme differ from default values
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("NotificationEntry", "appearance")
                 startActivity(intent)
-                MainActivity.act.finish()
+                myActivity.finish()
             }
-            MainActivity.act.dialogConfirmDelete(R.string.titleRestoreSettings, action)
+            myActivity.dialogConfirmDelete(R.string.titleRestoreSettings, action)
         }
 
     }
