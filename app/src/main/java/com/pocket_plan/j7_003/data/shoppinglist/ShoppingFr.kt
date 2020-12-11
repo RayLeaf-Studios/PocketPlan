@@ -34,8 +34,9 @@ import kotlin.collections.ArrayList
 /**
  * A simple [Fragment] subclass.
  */
-class ShoppingFr : Fragment() {
+class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     private lateinit var myMenu: Menu
+    private var myActivity = mainActivity
 
     companion object {
 
@@ -292,12 +293,12 @@ class ShoppingFr : Fragment() {
         }
 
         //inflate view for this dialog
-        MainActivity.addItemDialogView =
+        myActivity.addItemDialogView =
             mylayoutInflater.inflate(R.layout.dialog_add_item, null)
 
         //Initialize dialogBuilder and set its title
         val myBuilder = MainActivity.act.let { it1 ->
-            AlertDialog.Builder(it1).setView(MainActivity.addItemDialogView)
+            AlertDialog.Builder(it1).setView(myActivity.addItemDialogView)
         }
         val customTitle = mylayoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
@@ -316,12 +317,12 @@ class ShoppingFr : Fragment() {
         }
 
         //initialize autocompleteTextView and spinner for item unit
-        val actvItem = MainActivity.addItemDialogView!!.actvItem
-        val spItemUnit = MainActivity.addItemDialogView!!.spItemUnit
+        val actvItem = myActivity.addItemDialogView!!.actvItem
+        val spItemUnit = myActivity.addItemDialogView!!.spItemUnit
 
 
         //initialize spinner for categories
-        val spCategory = MainActivity.addItemDialogView!!.spCategory
+        val spCategory = myActivity.addItemDialogView!!.spCategory
         val categoryAdapter = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_list_item_1,
@@ -361,7 +362,7 @@ class ShoppingFr : Fragment() {
 
 
         //initialize autocompleteTextView and its adapter
-        autoCompleteTv = MainActivity.addItemDialogView!!.actvItem
+        autoCompleteTv = myActivity.addItemDialogView!!.actvItem
         val autoCompleteTvAdapter = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_spinner_dropdown_item,
@@ -426,7 +427,7 @@ class ShoppingFr : Fragment() {
         autoCompleteTv.addTextChangedListener(textWatcher)
 
         //initialize edit text for item amount string
-        val etItemAmount = MainActivity.addItemDialogView!!.etItemAmount
+        val etItemAmount = myActivity.addItemDialogView!!.etItemAmount
         etItemAmount.setText("1")
 
         etItemAmount.setOnFocusChangeListener { _, hasFocus ->
@@ -435,28 +436,28 @@ class ShoppingFr : Fragment() {
             }
         }
 
-        MainActivity.addItemDialogView!!.btnCancelItem.setOnClickListener {
+        myActivity.addItemDialogView!!.btnCancelItem.setOnClickListener {
             MainActivity.addItemDialog?.dismiss()
         }
 
         autoCompleteTv.setOnKeyListener { _, keyCode, event ->
             if(keyCode==KeyEvent.KEYCODE_ENTER && event.action==KeyEvent.ACTION_DOWN){
-                MainActivity.addItemDialogView!!.btnAddItemToList.performClick()
+                myActivity.addItemDialogView!!.btnAddItemToList.performClick()
             }
             true
         }
 
-        val checkMark = MainActivity.addItemDialogView!!.ivCheckItemAdded
+        val checkMark = myActivity.addItemDialogView!!.ivCheckItemAdded
         checkMark.visibility = View.GONE
         //Button to Confirm adding Item to list
-        MainActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
+        myActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
 
 
             if (actvItem.text.toString() == "") {
                 //No item string entered => play shake animation
                 val animationShake =
                     AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
-                MainActivity.addItemDialogView!!.actvItem.startAnimation(animationShake)
+                myActivity.addItemDialogView!!.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
 
@@ -597,24 +598,24 @@ class ShoppingFr : Fragment() {
      */
     fun openAddItemDialog() {
         MainActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
-        MainActivity.addItemDialogView!!.actvItem.setText("")
-        MainActivity.addItemDialogView!!.btnAddItemToList.text = MainActivity.act.getString(R.string.birthdayDialogAdd)
-        MainActivity.addItemDialogView!!.spItemUnit.setSelection(0)
+        myActivity.addItemDialogView!!.actvItem.setText("")
+        myActivity.addItemDialogView!!.btnAddItemToList.text = MainActivity.act.getString(R.string.birthdayDialogAdd)
+        myActivity.addItemDialogView!!.spItemUnit.setSelection(0)
         MainActivity.unitChanged = false
-        MainActivity.addItemDialogView!!.etItemAmount.setText("1")
+        myActivity.addItemDialogView!!.etItemAmount.setText("1")
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         MainActivity.addItemDialog?.show()
     }
 
     fun openEditItemDialog(item: ShoppingItem) {
         MainActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingEditItemTitle)
-        MainActivity.addItemDialogView!!.btnAddItemToList.text = resources.getString(R.string.noteDiscardDialogSave)
+        myActivity.addItemDialogView!!.btnAddItemToList.text = resources.getString(R.string.noteDiscardDialogSave)
         //show item name
-        MainActivity.addItemDialogView!!.actvItem.setText(item.name)
+        myActivity.addItemDialogView!!.actvItem.setText(item.name)
         //set cursor to end of item name
-        MainActivity.addItemDialogView!!.actvItem.setSelection(item.name!!.length)
+        myActivity.addItemDialogView!!.actvItem.setSelection(item.name!!.length)
         //select correct unit
-        MainActivity.addItemDialogView!!.spItemUnit.setSelection(
+        myActivity.addItemDialogView!!.spItemUnit.setSelection(
             MainActivity.act.resources.getStringArray(
                 R.array.units
             ).indexOf(item.suggestedUnit)
@@ -622,10 +623,10 @@ class ShoppingFr : Fragment() {
         //mark that unit did not get changed
         MainActivity.unitChanged = false
         //show correct item amount
-        MainActivity.addItemDialogView!!.etItemAmount.setText(item.amount.toString())
+        myActivity.addItemDialogView!!.etItemAmount.setText(item.amount.toString())
         //open keyboard
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        MainActivity.addItemDialogView!!.actvItem.dismissDropDown()
+        myActivity.addItemDialogView!!.actvItem.dismissDropDown()
         //show dialog
         MainActivity.addItemDialog?.show()
         editing = true

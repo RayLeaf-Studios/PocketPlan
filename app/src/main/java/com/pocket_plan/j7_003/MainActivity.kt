@@ -24,7 +24,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.pocket_plan.j7_003.data.birthdaylist.BirthdayAdapter
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.fragmenttags.FT
@@ -60,6 +59,8 @@ class MainActivity : AppCompatActivity() {
 
     private var birthdayFr: BirthdayFr? = null
     private var homeFr: HomeFr? = null
+    private var shoppingFr: ShoppingFr? = null
+    var addItemDialogView: View? = null
 
     companion object {
         //contents for shopping list
@@ -69,10 +70,8 @@ class MainActivity : AppCompatActivity() {
         var unitChanged: Boolean = false
 
         var addItemDialog: AlertDialog? = null
-        var addItemDialogView: View? = null
         var shoppingTitle: View? = null
 
-        lateinit var tempShoppingFr: ShoppingFr
         var justRestarted = false
 
         lateinit var noteEditorFr: NoteEditorFr
@@ -162,8 +161,6 @@ class MainActivity : AppCompatActivity() {
         SleepReminder.context = this
         SleepFr.sleepReminderInstance = SleepReminder()
 
-        //Initialize temporary ShoppingFr Instance
-        tempShoppingFr = ShoppingFr()
 
         //Initialize toolbar
         setSupportActionBar(myNewToolbar)
@@ -179,8 +176,10 @@ class MainActivity : AppCompatActivity() {
         ShoppingFr.myAdapter = ShoppingListAdapter()
         SleepFr.myAdapter = SleepAdapter()
 
+        //Initialize fragment classes necessary for home
+        shoppingFr = ShoppingFr(this)
         birthdayFr = BirthdayFr()
-        homeFr = HomeFr(birthdayFr!!)
+        homeFr = HomeFr(birthdayFr!!, shoppingFr!!)
 
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
@@ -265,8 +264,9 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+
         //preload add item dialog to reduce loading time
-        tempShoppingFr.preloadAddItemDialog(layoutInflater)
+        shoppingFr!!.preloadAddItemDialog(layoutInflater)
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
@@ -303,7 +303,7 @@ class MainActivity : AppCompatActivity() {
 
                 FT.SHOPPING -> {
                     ShoppingFr.editing = false
-                    tempShoppingFr.openAddItemDialog()
+                    shoppingFr!!.openAddItemDialog()
                 }
 
                 else -> {/* no-op */
@@ -439,7 +439,7 @@ class MainActivity : AppCompatActivity() {
         val fragment = when (fragmentTag) {
             FT.HOME -> homeFr
             FT.TASKS -> TodoFr()
-            FT.SHOPPING -> ShoppingFr()
+            FT.SHOPPING -> shoppingFr
             FT.NOTES -> {
                 NoteFr.searching = false
                 NoteFr()

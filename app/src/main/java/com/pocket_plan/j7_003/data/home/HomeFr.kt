@@ -30,11 +30,12 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr(birthdayFr: BirthdayFr) : Fragment() {
+class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
     private val myBirthdayFr = birthdayFr
+    private val myShoppingFr = shoppingFr
 
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
@@ -81,7 +82,7 @@ class HomeFr(birthdayFr: BirthdayFr) : Fragment() {
         myView.clAddTask.setOnClickListener { createTaskFromHome() }
         myView.clAddItem.setOnClickListener {
             ShoppingFr.editing = false
-            MainActivity.tempShoppingFr.openAddItemDialog()
+            myShoppingFr.openAddItemDialog()
         }
 
         return myView
