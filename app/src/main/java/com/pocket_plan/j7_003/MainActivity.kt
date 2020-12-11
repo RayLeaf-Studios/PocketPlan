@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
         TodoFr.myAdapter = TodoTaskAdapter(this)
         NoteFr.myAdapter = NoteAdapter(this)
         ShoppingFr.myAdapter = ShoppingListAdapter(this)
-        SleepFr.myAdapter = SleepAdapter()
+        SleepFr.myAdapter = SleepAdapter(this)
 
         //Initialize fragment classes necessary for home
         shoppingFr = ShoppingFr(this)
@@ -459,7 +459,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr()
             FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
-            FT.SLEEP -> SleepFr()
+            FT.SLEEP -> SleepFr(this)
             FT.SETTINGS_HOWTO -> SettingsHowTo()
             else -> homeFr
         }

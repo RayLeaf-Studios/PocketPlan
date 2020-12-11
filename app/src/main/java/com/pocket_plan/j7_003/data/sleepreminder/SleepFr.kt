@@ -27,11 +27,13 @@ import org.threeten.bp.DayOfWeek
  * A simple [Fragment] subclass.
  */
 
-class SleepFr : Fragment() {
+class SleepFr(mainActivity: MainActivity) : Fragment() {
     companion object {
         lateinit var sleepReminderInstance: SleepReminder
         lateinit var myAdapter: SleepAdapter
     }
+
+    private val myActivity = mainActivity
 
     private lateinit var regularCheckBoxList: ArrayList<CheckBox>
     private lateinit var regularWakeTimeText: TextView
@@ -54,7 +56,7 @@ class SleepFr : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_sleep, null)
 
         val myRecycler = myView.recycler_view_sleep
-        myAdapter = SleepAdapter()
+        myAdapter = SleepAdapter(myActivity)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
@@ -161,14 +163,14 @@ class SleepFr : Fragment() {
                 }
             val tpd = when (dark) {
                 true -> TimePickerDialog(
-                    MainActivity.act,
+                    myActivity,
                     timeSetListener,
                     sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeHour()!!,
                     sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeMinute()!!,
                     true
                 )
                 else -> TimePickerDialog(
-                    MainActivity.act,
+                    myActivity,
                     R.style.DialogTheme,
                     timeSetListener,
                     sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeHour()!!,
@@ -179,11 +181,11 @@ class SleepFr : Fragment() {
             tpd.show()
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
             tpd.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
         }
 
@@ -203,7 +205,7 @@ class SleepFr : Fragment() {
             myDialogView.tvHourMinuteDivider.text = "h"
             myDialogView.tvHourMinuteAttachment.text = "m"
 
-            val myBuilder = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
+            val myBuilder = AlertDialog.Builder(myActivity).setView(myDialogView)
             val customTitle = LayoutInflater.from(activity)
                 .inflate(R.layout.title_dialog, null)
 
@@ -264,14 +266,14 @@ class SleepFr : Fragment() {
     private fun animationShowCustom(v: View) {
         v.panelNotCustom.visibility = View.GONE
         val animationHide =
-            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down_reverse)
+            AnimationUtils.loadAnimation(myActivity, R.anim.scale_down_reverse)
         animationHide.duration = 350
         animationHide.fillAfter = false
         v.panelNotCustom.startAnimation(animationHide)
 
         v.panelCustom.visibility = View.VISIBLE
         val animationShow =
-            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down)
+            AnimationUtils.loadAnimation(myActivity, R.anim.scale_down)
         animationShow.duration = 700
         animationShow.fillAfter = false
         v.panelCustom.startAnimation(animationShow)
@@ -280,7 +282,7 @@ class SleepFr : Fragment() {
     private fun animationShowRegular(v: View) {
         v.panelCustom.visibility = View.GONE
         val animationHide =
-            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down_reverse)
+            AnimationUtils.loadAnimation(myActivity, R.anim.scale_down_reverse)
         animationHide.duration = 700
         animationHide.fillAfter = false
         v.panelCustom.startAnimation(animationHide)
@@ -290,7 +292,7 @@ class SleepFr : Fragment() {
 
         v.panelNotCustom.visibility = View.VISIBLE
         val animationShow =
-            AnimationUtils.loadAnimation(MainActivity.act, R.anim.scale_down)
+            AnimationUtils.loadAnimation(myActivity, R.anim.scale_down)
         animationShow.duration = 350
         animationShow.fillAfter = false
         animationShow.startOffset = 280
@@ -298,21 +300,23 @@ class SleepFr : Fragment() {
     }
 }
 
-class SleepAdapter :
+class SleepAdapter(mainActivity: MainActivity) :
     RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
+    private val myActivity = mainActivity
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
+
 
 
     private var dayStrings = arrayOf(
-        MainActivity.act.resources.getString(R.string.sleepMon),
-        MainActivity.act.resources.getString(R.string.sleepTue),
-        MainActivity.act.resources.getString(R.string.sleepWed),
-        MainActivity.act.resources.getString(R.string.sleepThu),
-        MainActivity.act.resources.getString(R.string.sleepFri),
-        MainActivity.act.resources.getString(R.string.sleepSat),
-        MainActivity.act.resources.getString(R.string.sleepSun)
+        myActivity.resources.getString(R.string.sleepMon),
+        myActivity.resources.getString(R.string.sleepTue),
+        myActivity.resources.getString(R.string.sleepWed),
+        myActivity.resources.getString(R.string.sleepThu),
+        myActivity.resources.getString(R.string.sleepFri),
+        myActivity.resources.getString(R.string.sleepSat),
+        myActivity.resources.getString(R.string.sleepSun)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepViewHolder {
@@ -357,7 +361,7 @@ class SleepAdapter :
         }
 
         holder.itemView.clTapFieldDuration.setOnClickListener {
-            val myDialogView = LayoutInflater.from(MainActivity.act)
+            val myDialogView = LayoutInflater.from(myActivity)
                 .inflate(R.layout.dialog_pick_time, null)
 
             myDialogView.npHour.minValue = 0
@@ -369,10 +373,10 @@ class SleepAdapter :
             myDialogView.tvHourMinuteDivider.text = "h"
             myDialogView.tvHourMinuteAttachment.text = "m"
 
-            val myBuilder2 = AlertDialog.Builder(MainActivity.act).setView(myDialogView)
+            val myBuilder2 = AlertDialog.Builder(myActivity).setView(myDialogView)
             val customTitle2 =
-                LayoutInflater.from(MainActivity.act).inflate(R.layout.title_dialog, null)
-            customTitle2.tvDialogTitle.text = MainActivity.act.getString(
+                LayoutInflater.from(myActivity).inflate(R.layout.title_dialog, null)
+            customTitle2.tvDialogTitle.text = myActivity.getString(
                 R.string.sleepDurationDay
             )
             myBuilder2.setCustomTitle(customTitle2)
@@ -406,7 +410,7 @@ class SleepAdapter :
             val tpd = when (dark) {
                 true ->
                     TimePickerDialog(
-                        MainActivity.act,
+                        myActivity,
                         timeSetListener,
                         SleepFr.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
                         SleepFr.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
@@ -414,7 +418,7 @@ class SleepAdapter :
                     )
                 else ->
                     TimePickerDialog(
-                        MainActivity.act,
+                        myActivity,
                         R.style.DialogTheme,
                         timeSetListener,
                         SleepFr.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
@@ -425,11 +429,11 @@ class SleepAdapter :
             tpd.show()
             tpd.getButton(AlertDialog.BUTTON_NEGATIVE)
                 .setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
             tpd.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
         }
     }
