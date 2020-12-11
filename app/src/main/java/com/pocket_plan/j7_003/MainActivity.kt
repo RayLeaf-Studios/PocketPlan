@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
     private var homeFr: HomeFr? = null
     private var shoppingFr: ShoppingFr? = null
     var addItemDialogView: View? = null
+    var shoppingTitle: View? = null
 
     companion object {
         //contents for shopping list
@@ -70,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         var unitChanged: Boolean = false
 
         var addItemDialog: AlertDialog? = null
-        var shoppingTitle: View? = null
 
         var justRestarted = false
 

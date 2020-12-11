@@ -302,7 +302,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         }
         val customTitle = mylayoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
-        MainActivity.shoppingTitle = customTitle
+        myActivity.shoppingTitle = customTitle
         myBuilder?.setCustomTitle(customTitle)
         myBuilder.setCancelable(true)
         MainActivity.addItemDialog = myBuilder?.create()
@@ -597,7 +597,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
      * Reset and open addItemDialog
      */
     fun openAddItemDialog() {
-        MainActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
+        myActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingAddItemTitle)
         myActivity.addItemDialogView!!.actvItem.setText("")
         myActivity.addItemDialogView!!.btnAddItemToList.text = MainActivity.act.getString(R.string.birthdayDialogAdd)
         myActivity.addItemDialogView!!.spItemUnit.setSelection(0)
@@ -608,7 +608,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     }
 
     fun openEditItemDialog(item: ShoppingItem) {
-        MainActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingEditItemTitle)
+        myActivity.shoppingTitle!!.tvDialogTitle.text = MainActivity.act.getString(R.string.shoppingEditItemTitle)
         myActivity.addItemDialogView!!.btnAddItemToList.text = resources.getString(R.string.noteDiscardDialogSave)
         //show item name
         myActivity.addItemDialogView!!.actvItem.setText(item.name)
