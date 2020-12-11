@@ -30,10 +30,11 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
+class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainActivity) : Fragment() {
 
+    private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
     private val myBirthdayFr = birthdayFr
     private val myShoppingFr = shoppingFr
 
@@ -66,18 +67,18 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
         myView.panelTasks.setOnClickListener {
-            MainActivity.act.changeToFragment(FT.TASKS)
+            myActivity.changeToFragment(FT.TASKS)
         }
-        myView.panelBirthdays.setOnClickListener { MainActivity.act.changeToFragment(FT.BIRTHDAYS) }
-        myView.tvRemainingWakeTime.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP) }
-        myView.icSleepHome.setOnClickListener { MainActivity.act.changeToFragment(FT.SLEEP) }
+        myView.panelBirthdays.setOnClickListener { myActivity.changeToFragment(FT.BIRTHDAYS) }
+        myView.tvRemainingWakeTime.setOnClickListener { myActivity.changeToFragment(FT.SLEEP) }
+        myView.icSleepHome.setOnClickListener { myActivity.changeToFragment(FT.SLEEP) }
 
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.clAddNote.setOnClickListener {
             MainActivity.editNoteHolder = null
             NoteEditorFr.noteColor = NoteColors.GREEN
-            MainActivity.act.changeToFragment(FT.NOTE_EDITOR)
+            myActivity.changeToFragment(FT.NOTE_EDITOR)
         }
         myView.clAddTask.setOnClickListener { createTaskFromHome() }
         myView.clAddItem.setOnClickListener {
@@ -109,7 +110,7 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
 
     @SuppressLint("ResourceType")
     private fun updateTaskPanel(shake: Boolean) {
-        val density = MainActivity.act.resources.displayMetrics.density
+        val density = myActivity.resources.displayMetrics.density
         val (_, status) = SleepFr.sleepReminderInstance.getRemainingWakeDurationString()
         val params = myView.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
         val sideMargin = (density * 3).toInt()
@@ -150,24 +151,24 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
         if (displayTaskCount == 0) {
             myView.tvTasks.text = resources.getText(R.string.homeNoTasks)
             myView.tvTasks.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorHint)
+                myActivity.colorForAttr(R.attr.colorHint)
             )
             myView.ivTasksHome.setColorFilter(
-                MainActivity.act.colorForAttr(R.attr.colorHint)
+                myActivity.colorForAttr(R.attr.colorHint)
             )
             return
         } else {
             myView.tvTasks.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                myActivity.colorForAttr(R.attr.colorOnBackGround)
             )
 
             myView.ivTasksHome.setColorFilter(
-                MainActivity.act.colorForAttr(R.attr.colorGoToSleep)
+                myActivity.colorForAttr(R.attr.colorGoToSleep)
             )
 
             if (myShake) {
                 val animationShake =
-                    AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake_long)
+                    AnimationUtils.loadAnimation(myActivity, R.anim.shake_long)
                 myView.ivTasksHome.startAnimation(animationShake)
             }
 
@@ -205,19 +206,19 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
         if (birthdaysToDisplay == 0) {
             myView.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)
             myView.tvBirthday.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorHint)
+                myActivity.colorForAttr(R.attr.colorHint)
             )
             myView.icBirthdaysHome.setColorFilter(
-                MainActivity.act.colorForAttr(R.attr.colorHint)
+                myActivity.colorForAttr(R.attr.colorHint)
             )
             return
         } else {
 
             myView.tvBirthday.setTextColor(
-                MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                myActivity.colorForAttr(R.attr.colorOnBackGround)
             )
             myView.icBirthdaysHome.setColorFilter(
-                MainActivity.act.colorForAttr(R.attr.colorBirthdayNotify)
+                myActivity.colorForAttr(R.attr.colorBirthdayNotify)
             )
         }
         var birthdayText = "\n"
@@ -243,10 +244,10 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
                 myView.tvRemainingWakeTime.text = message
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
                 myView.icSleepHome.setColorFilter(
-                    MainActivity.act.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
             }
             1 -> {
@@ -255,10 +256,10 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
                 myView.tvRemainingWakeTime.text = message
                 myView.tvRemainingWakeTime.visibility = View.VISIBLE
                 myView.tvRemainingWakeTime.setTextColor(
-                    MainActivity.act.colorForAttr(R.attr.colorGoToSleep)
+                    myActivity.colorForAttr(R.attr.colorGoToSleep)
                 )
                 myView.icSleepHome.setColorFilter(
-                    MainActivity.act.colorForAttr(R.attr.colorGoToSleep)
+                    myActivity.colorForAttr(R.attr.colorGoToSleep)
                 )
             }
             2 -> {
@@ -295,7 +296,7 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
                 val title = myDialogView.etxTitleAddTask.text.toString()
                 if (title.isEmpty()) {
                     val animationShake =
-                        AnimationUtils.loadAnimation(MainActivity.act, R.anim.shake)
+                        AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                     myDialogView.etxTitleAddTask.startAnimation(animationShake)
                     return@setOnClickListener
                 } else {
@@ -304,7 +305,7 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr) : Fragment() {
                 }
                 if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                     Toast.makeText(
-                        MainActivity.act,
+                        myActivity,
                         resources.getString(R.string.home_notification_add_task),
                         Toast.LENGTH_SHORT
                     ).show()

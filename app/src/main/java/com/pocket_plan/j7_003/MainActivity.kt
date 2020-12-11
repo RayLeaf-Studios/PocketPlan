@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize fragment classes necessary for home
         shoppingFr = ShoppingFr(this)
         birthdayFr = BirthdayFr(this)
-        homeFr = HomeFr(birthdayFr!!, shoppingFr!!)
+        homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this)
 
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
