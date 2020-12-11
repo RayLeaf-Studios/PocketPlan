@@ -37,6 +37,7 @@ import kotlin.collections.ArrayList
 class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     private lateinit var myMenu: Menu
     private var myActivity = mainActivity
+    lateinit var autoCompleteTv: AutoCompleteTextView
 
     companion object {
 
@@ -45,13 +46,11 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         lateinit var shoppingListInstance: ShoppingList
         lateinit var myAdapter: ShoppingListAdapter
         lateinit var layoutManager: LinearLayoutManager
-        lateinit var myFragment: ShoppingFr
 
         var editTag: String = ""
         var editPos: Int = 0
         var editing = false
 
-        lateinit var autoCompleteTv: AutoCompleteTextView
 
         var offsetTop: Int = 0
         var firstPos: Int = 0
@@ -118,7 +117,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        myFragment = this
         deletedItem = null
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
@@ -144,7 +142,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
         //Initialize references to recycler and its adapter
         val myRecycler = myView.recycler_view_shopping
-        myAdapter = ShoppingListAdapter(myActivity)
+        myAdapter = ShoppingListAdapter(myActivity, this)
 
         //attach adapter to recycler and initialize parameters of recycler
         myRecycler.adapter = myAdapter
@@ -240,7 +238,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             shoppingListInstance.save()
             myAdapter.notifyDataSetChanged()
             deletedItem = null
-            myFragment.updateShoppingMenu()
+            updateShoppingMenu()
         }
         myActivity.dialogConfirmDelete(titleId, action)
     }
@@ -512,7 +510,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
                     if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
                         myAdapter.notifyDataSetChanged()
-                        myFragment.updateShoppingMenu()
+                        updateShoppingMenu()
                     } else {
                         Toast.makeText(
                             myActivity,
@@ -570,7 +568,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             }
             if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
                 myAdapter.notifyDataSetChanged()
-                myFragment.updateShoppingMenu()
+                updateShoppingMenu()
             } else {
                 Toast.makeText(
                     myActivity,
@@ -637,8 +635,9 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 /**
  * Adapter for categories
  */
-class ShoppingListAdapter(mainActivity: MainActivity) :
+class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     RecyclerView.Adapter<ShoppingListAdapter.CategoryViewHolder>() {
+    private val myFragment = shoppingFr
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
@@ -711,7 +710,7 @@ class ShoppingListAdapter(mainActivity: MainActivity) :
         )
 
         //Setting adapter for this sublist
-        val subAdapter = SublistAdapter(tag, holder, myActivity)
+        val subAdapter = SublistAdapter(tag, holder, myActivity, myFragment)
         holder.subRecyclerView.adapter = subAdapter
         holder.subRecyclerView.layoutManager = LinearLayoutManager(myActivity)
         holder.subRecyclerView.setHasFixedSize(true)
@@ -724,10 +723,10 @@ class ShoppingListAdapter(mainActivity: MainActivity) :
         }
 
         //Initialize and attach swipe helpers
-        val swipeHelperLeft = ItemTouchHelper(SwipeItemToDelete(ItemTouchHelper.LEFT))
+        val swipeHelperLeft = ItemTouchHelper(SwipeItemToDelete(ItemTouchHelper.LEFT, myFragment))
         swipeHelperLeft.attachToRecyclerView(holder.subRecyclerView)
 
-        val swipeHelperRight = ItemTouchHelper(SwipeItemToDelete(ItemTouchHelper.RIGHT))
+        val swipeHelperRight = ItemTouchHelper(SwipeItemToDelete(ItemTouchHelper.RIGHT, myFragment))
         swipeHelperRight.attachToRecyclerView(holder.subRecyclerView)
 
         //Onclick reaction to expand / contract this sublist
@@ -748,8 +747,8 @@ class ShoppingListAdapter(mainActivity: MainActivity) :
                 }
             }
             notifyItemChanged(holder.adapterPosition)
-            ShoppingFr.myFragment.updateExpandAllIcon()
-            ShoppingFr.myFragment.updateCollapseAllIcon()
+            myFragment.updateExpandAllIcon()
+            myFragment.updateCollapseAllIcon()
         }
 
         //long click listener on clTapExpand to ensure shake animation for long click on whole category holder
@@ -879,9 +878,10 @@ class ShoppingListAdapter(mainActivity: MainActivity) :
  * Adapter for items in the sublists
  */
 class SublistAdapter(
-    private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder, mainActivity: MainActivity
+    private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder, mainActivity: MainActivity, shoppingFr: ShoppingFr
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
     private val myActivity = mainActivity
+    private val myFragment = shoppingFr
 
     //boolean stating if design is round or not
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
@@ -915,7 +915,7 @@ class SublistAdapter(
         holder.itemView.setOnClickListener {
             ShoppingFr.editTag = tag
             ShoppingFr.editPos = position
-            ShoppingFr.myFragment.openEditItemDialog(item)
+            myFragment.openEditItemDialog(item)
         }
 
         //set tag of surrounding category for holder
@@ -1016,15 +1016,15 @@ class SublistAdapter(
             if (moveCheckedSublistsDown) {
                 val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(tag)
                 if (sublistMoveInfo != null) {
-                    ShoppingFr.myFragment.prepareForMove()
+                    myFragment.prepareForMove()
                     ShoppingFr.myAdapter
                         .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
 
-                    ShoppingFr.myFragment.reactToMove()
+                    myFragment.reactToMove()
                 }
 
             }
-            ShoppingFr.myFragment.updateShoppingMenu()
+            myFragment.updateShoppingMenu()
         }
 
         holder.itemView.clItemTapfield.setOnLongClickListener {
@@ -1051,7 +1051,10 @@ class SublistAdapter(
 /**
  * ItemTouchHelper to support swipe to delete of shopping items
  */
-class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, direction) {
+class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) : ItemTouchHelper.SimpleCallback(0, direction) {
+
+    private val myFragment = shoppingFr
+
     override fun onMove(
         recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target:
         RecyclerView.ViewHolder
@@ -1085,11 +1088,11 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
 
             if (positions != null) {
                 //sublist did move => animate movement
-                ShoppingFr.myFragment.prepareForMove()
+                myFragment.prepareForMove()
                 ShoppingFr.myAdapter.notifyItemMoved(
                     positions.first, positions.second
                 )
-                ShoppingFr.myFragment.reactToMove()
+                myFragment.reactToMove()
             }
         }
 
@@ -1097,7 +1100,7 @@ class SwipeItemToDelete(direction: Int) : ItemTouchHelper.SimpleCallback(0, dire
         ShoppingFr.deletedItem = removeInfo.first
 
         //update options menu
-        ShoppingFr.myFragment.updateShoppingMenu()
+        myFragment.updateShoppingMenu()
 
     }
 }

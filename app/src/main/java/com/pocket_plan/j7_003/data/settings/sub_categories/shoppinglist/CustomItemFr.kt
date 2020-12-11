@@ -18,7 +18,8 @@ import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
-class CustomItemFr : Fragment() {
+class CustomItemFr(shoppingFr: ShoppingFr) : Fragment() {
+    private val myShoppingFr = shoppingFr
 
     private lateinit var myMenu: Menu
 
@@ -50,9 +51,9 @@ class CustomItemFr : Fragment() {
         myRecycler.setHasFixedSize(true)
 
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
@@ -75,7 +76,7 @@ class CustomItemFr : Fragment() {
                        android.R.layout.simple_spinner_dropdown_item,
                        MainActivity.itemNameList
                    )
-                   ShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
+                   myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 
                    MainActivity.userItemTemplateList.clear()
                    MainActivity.userItemTemplateList.save()
@@ -120,8 +121,11 @@ class CustomItemFr : Fragment() {
     //Deletes all checked tasks and animates the deletion
 
 }
-class SwipeToDeleteCustomItem(direction: Int): ItemTouchHelper
+class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr): ItemTouchHelper
 .SimpleCallback(0, direction){
+
+    private val myShoppingFr = shoppingFr
+
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder): Boolean {
         return false
@@ -137,7 +141,7 @@ class SwipeToDeleteCustomItem(direction: Int): ItemTouchHelper
             android.R.layout.simple_spinner_dropdown_item,
             MainActivity.itemNameList
         )
-        ShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
+        myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 
 //        MainActivity.userItemTemplateList.removeItem(parsed.itemView.tvName.text.split(" ")[0])
         CustomItemFr.deletedItem = parsed.myItem
