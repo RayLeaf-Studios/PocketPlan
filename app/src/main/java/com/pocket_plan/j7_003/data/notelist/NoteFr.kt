@@ -32,17 +32,16 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
     private val myActivity = mainActivity
     private lateinit var myMenu: Menu
+    lateinit var searchView: SearchView
 
     companion object {
         lateinit var myAdapter: NoteAdapter
         var noteLines = 0
         var noteListInstance: NoteList = NoteList()
-        lateinit var myFragment: NoteFr
 
         var deletedNote: Note? = null
 
         var searching = false
-        lateinit var searchView: SearchView
 
         lateinit var adjustedList: ArrayList<Note>
         lateinit var lastQuery: String
@@ -65,7 +64,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (searching) {
-                    myFragment.search(newText.toString())
+                    search(newText.toString())
                 }
                 return true
             }
@@ -143,7 +142,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
                 myAdapter.notifyDataSetChanged()
 
                 deletedNote = null
-                myFragment.updateNoteUndoIcon()
+                updateNoteUndoIcon()
 
             }
         }
@@ -156,7 +155,6 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        myFragment = this
         //inflating layout for NoteFragment
         val myView = inflater.inflate(R.layout.fragment_note, container, false)
         deletedNote = null
@@ -229,8 +227,8 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
                     noteListInstance.removeAt(viewHolder.adapterPosition)
                     noteListInstance.save()
                     myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-                    myFragment.updateNoteSearchIcon()
-                    myFragment.updateNoteUndoIcon()
+                    updateNoteSearchIcon()
+                    updateNoteUndoIcon()
 
 
                 }

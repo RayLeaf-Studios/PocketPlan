@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
     private var homeFr: HomeFr? = null
     private var shoppingFr: ShoppingFr? = null
     private var noteEditorFr: NoteEditorFr? = null
+    private var noteFr: NoteFr? = null
 
     var addItemDialogView: View? = null
     var shoppingTitle: View? = null
@@ -181,6 +182,7 @@ class MainActivity : AppCompatActivity() {
         shoppingFr = ShoppingFr(this)
         birthdayFr = BirthdayFr(this)
         homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this)
+        noteFr = NoteFr(this)
 
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
@@ -443,7 +445,7 @@ class MainActivity : AppCompatActivity() {
             FT.SHOPPING -> shoppingFr
             FT.NOTES -> {
                 NoteFr.searching = false
-                NoteFr(this)
+                noteFr
             }
             FT.NOTE_EDITOR -> {
                 noteEditorFr = NoteEditorFr(this)
@@ -498,7 +500,7 @@ class MainActivity : AppCompatActivity() {
         //When in noteFragment and searching, close search and restore fragment to normal mode
         if (previousFragmentStack.peek() == FT.NOTES && NoteFr.searching) {
             toolBar.title = getString(R.string.menuTitleNotes)
-            NoteFr.searchView.onActionViewCollapsed()
+            noteFr!!.searchView.onActionViewCollapsed()
             NoteFr.searching = false
             NoteFr.myAdapter.notifyDataSetChanged()
             return
