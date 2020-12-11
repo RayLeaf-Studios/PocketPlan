@@ -33,7 +33,6 @@ class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
     private lateinit var myMenu: Menu
 
     companion object {
-        lateinit var myFragment: NoteEditorFr
         var noteColor: NoteColors = NoteColors.GREEN
     }
 
@@ -42,7 +41,6 @@ class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        myFragment = this
         val myView = inflater.inflate(R.layout.fragment_note_editor, container, false)
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 

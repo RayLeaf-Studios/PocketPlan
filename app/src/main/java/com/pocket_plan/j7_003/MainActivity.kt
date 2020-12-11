@@ -368,8 +368,8 @@ class MainActivity : AppCompatActivity() {
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                NoteEditorFr.myFragment.dialogDiscardNoteChanges(fragmentTag)
+            if (noteEditorFr!!.relevantNoteChanges()) {
+                noteEditorFr!!.dialogDiscardNoteChanges(fragmentTag)
                 return
             }
         }
@@ -506,8 +506,8 @@ class MainActivity : AppCompatActivity() {
 
         //handles going back from editor
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            if (NoteEditorFr.myFragment.relevantNoteChanges()) {
-                NoteEditorFr.myFragment.dialogDiscardNoteChanges()
+            if (noteEditorFr!!.relevantNoteChanges()) {
+                noteEditorFr!!.dialogDiscardNoteChanges()
                 return
             }
         }
