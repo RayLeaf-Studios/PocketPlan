@@ -179,7 +179,7 @@ class MainActivity : AppCompatActivity() {
 
         //Initialize fragment classes necessary for home
         shoppingFr = ShoppingFr(this)
-        birthdayFr = BirthdayFr()
+        birthdayFr = BirthdayFr(this)
         homeFr = HomeFr(birthdayFr!!, shoppingFr!!)
 
         //Initialize header and icon in side drawer
