@@ -18,8 +18,7 @@ class RebootReceiver : BroadcastReceiver() {
             AlarmHandler.run {
                 setBirthdayAlarms(context = context)
             }
-            SleepReminder.context = context
-            SleepReminder().updateReminder()
+            SleepReminder(context).updateReminder()
         }
 
         Logger(context).log("RebootReceiver", "Set new birthday alarm")

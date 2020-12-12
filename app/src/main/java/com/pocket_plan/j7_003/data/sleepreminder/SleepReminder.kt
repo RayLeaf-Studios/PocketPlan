@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.sleepreminder
 
 import android.content.Context
+import android.util.Log
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
@@ -19,13 +20,10 @@ import kotlin.math.abs
 /**
  * A simple class to handle different Reminders for a sleep schedule
  */
-class SleepReminder {
+class SleepReminder(passedContext: Context) {
+    var myContext = passedContext
     var daysAreCustom: Boolean = false
     var reminder = HashMap<DayOfWeek, Reminder>(7)
-
-    companion object {
-        lateinit var context: Context
-    }
 
     init {
         initMap()
@@ -175,13 +173,13 @@ class SleepReminder {
 
     private fun initMap() {
         DayOfWeek.values().forEach { n ->
-            reminder[n] = Reminder(n)
+            reminder[n] = Reminder(n, this)
         }
     }
 
     private fun createFile() {
         StorageHandler.createJsonFile(
-            StorageId.SLEEP, text = Gson().toJson(reminder), context = context
+            StorageId.SLEEP, text = Gson().toJson(reminder), context = myContext
         )
 
         if (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
@@ -201,6 +199,10 @@ class SleepReminder {
             .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
 
         daysAreCustom = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
+
+        reminder.forEach { entry ->
+            entry.value.mySleepReminder = this
+        }
 
         updateReminder()
     }
@@ -271,9 +273,10 @@ class SleepReminder {
      */
     inner class Reminder(
         @SerializedName(value = "w")
-        private val weekday: DayOfWeek
+        private val weekday: DayOfWeek,
+        @Transient
+        var mySleepReminder: SleepReminder
     ) {
-
         @SerializedName(value = "i")
         var isSet: Boolean = false
 
@@ -333,21 +336,22 @@ class SleepReminder {
          * @see disable for the counterpart.
          */
         fun enable(day: DayOfWeek) {
-            isSet = true; SleepFr.sleepReminderInstance.updateSingleReminder(day)
+            isSet = true; mySleepReminder.updateSingleReminder(day)
         }
 
         /**
-         * Marks the Reminder as not notifiable.
+         * Marks the Reminder as not notifiable.^^
          * @see enable for the counterpart.
          */
         fun disable(day: DayOfWeek) {
-            isSet = false; SleepFr.sleepReminderInstance.updateSingleReminder(day)
+            isSet = false; mySleepReminder.updateSingleReminder(day)
         }
 
         /**
          * @return The WakeUpTime formatted as a string.
          */
         fun getWakeUpTimeString(): String = wakeUpTime.toString()
+
 
         /**
          * @return The Duration formatted as "HHh MMm".
@@ -371,7 +375,7 @@ class SleepReminder {
                 requestCode = requestCode,
                 reminderTime = nextReminder,
                 isSet = isSet,
-                context = context
+                context = mySleepReminder.myContext
             )
         }
 

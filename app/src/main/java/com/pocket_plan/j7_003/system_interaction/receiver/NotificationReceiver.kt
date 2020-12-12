@@ -46,8 +46,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun checkSleepNotification(intent: Intent) {
-        SleepReminder.context = context
-        SleepReminder().reminder[intent.extras?.get("weekday")]?.updateAlarm(
+        SleepReminder(context).reminder[intent.extras?.get("weekday")]?.updateAlarm(
             intent.extras?.getInt("requestCode")!!
         )
         sRNotification()

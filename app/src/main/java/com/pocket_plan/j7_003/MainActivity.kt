@@ -39,7 +39,6 @@ import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsNotesFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
-import com.pocket_plan.j7_003.data.sleepreminder.SleepAdapter
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoFr
@@ -62,6 +61,7 @@ class MainActivity : AppCompatActivity() {
     private var shoppingFr: ShoppingFr? = null
     private var noteEditorFr: NoteEditorFr? = null
     private var noteFr: NoteFr? = null
+    private var sleepFr: SleepFr? = null
 
     var addItemDialogView: View? = null
     var shoppingTitle: View? = null
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setLocale(activity: Activity, languageCode: String?) {
-        val locale = Locale(languageCode)
+        val locale = Locale(languageCode!!)
         Locale.setDefault(locale)
         val resources: Resources = activity.resources
         val config: Configuration = resources.getConfiguration()
@@ -159,9 +159,6 @@ class MainActivity : AppCompatActivity() {
         AndroidThreeTen.init(this)
         AlarmHandler.setBirthdayAlarms(context = this)
 
-        //Initialize Sleep Reminder
-        SleepReminder.context = this
-        SleepFr.sleepReminderInstance = SleepReminder()
 
 
         //Initialize toolbar
@@ -175,12 +172,14 @@ class MainActivity : AppCompatActivity() {
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter(this)
         NoteFr.myAdapter = NoteAdapter(this)
-        SleepFr.myAdapter = SleepAdapter(this)
+
+        //Initialize Sleep Reminder
+        sleepFr = SleepFr(this)
 
         //Initialize fragment classes necessary for home
         shoppingFr = ShoppingFr(this)
         birthdayFr = BirthdayFr(this)
-        homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this)
+        homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this, sleepFr!!)
         noteFr = NoteFr(this)
 
         //Initialize header and icon in side drawer
@@ -460,7 +459,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr(this)
             FT.SETTINGS -> SettingsMainFr(this)
             FT.CUSTOM_ITEMS -> CustomItemFr(shoppingFr!!)
-            FT.SLEEP -> SleepFr(this)
+            FT.SLEEP -> sleepFr
             FT.SETTINGS_HOWTO -> SettingsHowTo()
             else -> homeFr
         }
@@ -532,7 +531,7 @@ class MainActivity : AppCompatActivity() {
         birthdayFr!!.birthdayListInstance = BirthdayList(act)
         ShoppingFr.shoppingListInstance = ShoppingList()
         SettingsManager.init()
-        SleepFr.sleepReminderInstance = SleepReminder()
+        sleepFr!!.sleepReminderInstance = SleepReminder(this)
         TodoFr.todoListInstance = TodoList()
     }
 

@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.data.sleepreminder
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.CheckBox
@@ -28,8 +29,11 @@ import org.threeten.bp.DayOfWeek
  */
 
 class SleepFr(mainActivity: MainActivity) : Fragment() {
+
+    var sleepReminderInstance: SleepReminder = SleepReminder(mainActivity)
+
+
     companion object {
-        lateinit var sleepReminderInstance: SleepReminder
         lateinit var myAdapter: SleepAdapter
     }
 
@@ -56,7 +60,7 @@ class SleepFr(mainActivity: MainActivity) : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_sleep, null)
 
         val myRecycler = myView.recycler_view_sleep
-        myAdapter = SleepAdapter(myActivity)
+        myAdapter = SleepAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
@@ -300,8 +304,9 @@ class SleepFr(mainActivity: MainActivity) : Fragment() {
     }
 }
 
-class SleepAdapter(mainActivity: MainActivity) :
+class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
     RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
+    private val myFragment = sleepFr
     private val myActivity = mainActivity
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
@@ -339,23 +344,23 @@ class SleepAdapter(mainActivity: MainActivity) :
 
         //initialize the checked State of the reminder checkBox
         holder.itemView.cbRemindMe.isChecked =
-            SleepFr.sleepReminderInstance.reminder[day]?.isSet!!
+            myFragment.sleepReminderInstance.reminder[day]?.isSet!!
 
         //initialize wake up time string
         holder.itemView.tvWakeTimeRow.text =
-            SleepFr.sleepReminderInstance.reminder[day]?.getWakeUpTimeString()
+            myFragment.sleepReminderInstance.reminder[day]?.getWakeUpTimeString()
 
         //initialize duration string
         holder.itemView.tvDurationRow.text =
-            SleepFr.sleepReminderInstance.reminder[day]?.getDurationTimeString()
+            myFragment.sleepReminderInstance.reminder[day]?.getDurationTimeString()
 
 
         //listener for checkbox enabling reminder
         holder.itemView.cbRemindMe.setOnClickListener {
             if (holder.itemView.cbRemindMe.isChecked) {
-                SleepFr.sleepReminderInstance.reminder[day]?.enable(day)
+                myFragment.sleepReminderInstance.reminder[day]?.enable(day)
             } else {
-                SleepFr.sleepReminderInstance.reminder[day]?.disable(day)
+                myFragment.sleepReminderInstance.reminder[day]?.disable(day)
             }
 
         }
@@ -385,12 +390,12 @@ class SleepAdapter(mainActivity: MainActivity) :
             myAlertDialog2.show()
 
             myDialogView.npHour.value =
-                SleepFr.sleepReminderInstance.reminder[day]?.getDurationHour()!!
+                myFragment.sleepReminderInstance.reminder[day]?.getDurationHour()!!
             myDialogView.npMinute.value =
-                SleepFr.sleepReminderInstance.reminder[day]?.getDurationMinute()!!
+                myFragment.sleepReminderInstance.reminder[day]?.getDurationMinute()!!
 
             myDialogView.btnApplyTime.setOnClickListener {
-                SleepFr.sleepReminderInstance.editDurationAtDay(
+                myFragment.sleepReminderInstance.editDurationAtDay(
                     day,
                     myDialogView.npHour.value,
                     myDialogView.npMinute.value
@@ -404,7 +409,7 @@ class SleepAdapter(mainActivity: MainActivity) :
         holder.itemView.clTapFieldWakeUp.setOnClickListener {
             val timeSetListener =
                 TimePickerDialog.OnTimeSetListener { _: TimePicker?, h: Int, m: Int ->
-                    SleepFr.sleepReminderInstance.editWakeUpAtDay(day, h, m)
+                    myFragment.sleepReminderInstance.editWakeUpAtDay(day, h, m)
                     SleepFr.myAdapter.notifyItemChanged(position)
                 }
             val tpd = when (dark) {
@@ -412,8 +417,8 @@ class SleepAdapter(mainActivity: MainActivity) :
                     TimePickerDialog(
                         myActivity,
                         timeSetListener,
-                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
-                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
+                        myFragment.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
+                        myFragment.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
                         true
                     )
                 else ->
@@ -421,8 +426,8 @@ class SleepAdapter(mainActivity: MainActivity) :
                         myActivity,
                         R.style.DialogTheme,
                         timeSetListener,
-                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
-                        SleepFr.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
+                        myFragment.sleepReminderInstance.reminder[day]?.getWakeHour()!!,
+                        myFragment.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
                         true
                     )
             }

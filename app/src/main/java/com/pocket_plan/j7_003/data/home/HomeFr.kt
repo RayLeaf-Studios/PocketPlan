@@ -30,13 +30,14 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainActivity) : Fragment() {
+class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainActivity, sleepFr: SleepFr) : Fragment() {
 
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
     private val myBirthdayFr = birthdayFr
     private val myShoppingFr = shoppingFr
+    private val mySleepFr = sleepFr
 
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
@@ -111,7 +112,7 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
     @SuppressLint("ResourceType")
     private fun updateTaskPanel(shake: Boolean) {
         val density = myActivity.resources.displayMetrics.density
-        val (_, status) = SleepFr.sleepReminderInstance.getRemainingWakeDurationString()
+        val (_, status) = mySleepFr.sleepReminderInstance.getRemainingWakeDurationString()
         val params = myView.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
         val sideMargin = (density * 3).toInt()
         val bottomMargin = (density * 10).toInt()
@@ -235,7 +236,7 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
 
     private fun updateWakeTimePanel() {
 
-        val (message, status) = SleepFr.sleepReminderInstance.getRemainingWakeDurationString()
+        val (message, status) = mySleepFr.sleepReminderInstance.getRemainingWakeDurationString()
 
         //0 -> positive wake time, 1 -> negative wake time, 2 -> no reminder set
         when (status) {

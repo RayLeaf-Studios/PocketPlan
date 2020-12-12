@@ -117,7 +117,7 @@ class ImportHandler(private val parentActivity: Activity) {
             NoteList()
             TodoList()
             SettingsManager.init()
-            SleepReminder()
+            SleepReminder(parentActivity)
             ShoppingList()
             UserItemTemplateList()
             Toast.makeText(parentActivity, "Import successful!", Toast.LENGTH_SHORT).show()
