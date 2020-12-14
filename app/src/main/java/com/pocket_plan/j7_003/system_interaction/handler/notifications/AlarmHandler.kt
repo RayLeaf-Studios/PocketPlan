@@ -6,14 +6,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
-import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.*
 
 class AlarmHandler {
     companion object {
         fun setBirthdayAlarms(hour: Int = 12, minute: Int = 0, context: Context) {
-            val logger = Logger(context)
             try {
                 val intent = Intent(context, NotificationReceiver::class.java)
                 intent.putExtra("Notification", "Birthday")
@@ -52,33 +50,21 @@ class AlarmHandler {
                     pendingIntent
                 )
 
-                logger.log("AlarmHandler", "Birthday Alarm Time set to $notificationTime")
-            } catch (e: Exception) {
-                logger.log("AlarmHandler", e.message!!)
-                e.stackTrace.forEach {
-                    logger.log("AlarmHandler StackTrace", it.toString())
-                }
-            }
+            } catch (_: Exception) { }
         }
 
         fun setNewSleepReminderAlarm(
-            context: Context = MainActivity.act,
-            dayOfWeek: DayOfWeek,
-            reminderTime: LocalDateTime,
-            requestCode: Int,
-            isSet: Boolean
+            context: Context = MainActivity.act, dayOfWeek: DayOfWeek,
+            reminderTime: LocalDateTime, requestCode: Int, isSet: Boolean
         ) {
             val intent = Intent(context, NotificationReceiver::class.java)
+
             intent.putExtra("Notification", "SReminder")
             intent.putExtra("weekday", dayOfWeek.toString())
             intent.putExtra("requestCode", requestCode)
 
             val pendingIntent: PendingIntent = PendingIntent.getBroadcast(
-                context,
-                requestCode,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
+                context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val alarmManager: AlarmManager =
                 context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

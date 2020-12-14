@@ -15,5 +15,11 @@ class Logger(context: Context) {
         logFile.appendText("[${Calendar.getInstance().time}], \\$location,\t$msg\n")
     }
 
+    fun deleteFile() {
+        if (logFile.exists()) {
+            logFile.delete()
+        }
+    }
+
     private fun setStorageLocation(context: Context): File = File(context.filesDir, "Log.txt")
 }
