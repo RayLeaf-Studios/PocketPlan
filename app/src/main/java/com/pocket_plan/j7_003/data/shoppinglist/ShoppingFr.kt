@@ -22,6 +22,7 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.dialog_add_item.*
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
@@ -108,7 +109,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             }
         }
 
-        if(menuRefresh) updateShoppingMenu()
+        if (menuRefresh) updateShoppingMenu()
 
         return super.onOptionsItemSelected(item)
     }
@@ -276,13 +277,15 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         MainActivity.userItemTemplateList = UserItemTemplateList()
         shoppingListInstance = ShoppingList()
 
-        //initialize itemNameList
+        //initialize itemNameList c
         MainActivity.itemNameList = ArrayList()
 
+        //add userItemNames to itemNameList
         MainActivity.userItemTemplateList.forEach {
             MainActivity.itemNameList.add(it.n)
         }
 
+        //add all regular items to itemNameList
         MainActivity.itemTemplateList.forEach {
             //Todo check why this if is necessary
             if (!MainActivity.itemNameList.contains(it.n)) {
@@ -307,35 +310,26 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         MainActivity.addItemDialog?.setCancelable(true)
 
 
-        MainActivity.addItemDialog?.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
-                MainActivity.addItemDialog?.dismiss()
-            }
-            true
-        }
-
         //initialize autocompleteTextView and spinner for item unit
         val actvItem = myActivity.addItemDialogView!!.actvItem
         val spItemUnit = myActivity.addItemDialogView!!.spItemUnit
 
 
-        //initialize spinner for categories
+        //initialize spinner and its adapter for categories
         val spCategory = myActivity.addItemDialogView!!.spCategory
         val categoryAdapter = ArrayAdapter(
             myActivity,
             android.R.layout.simple_list_item_1,
             myActivity.resources.getStringArray(R.array.categoryNames)
         )
-
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = categoryAdapter
 
-
+        //initialize spinner and its adapter for units
         val unitAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             myActivity.resources.getStringArray(R.array.units)
         )
-
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spItemUnit.adapter = unitAdapter
 
@@ -347,9 +341,10 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                if (position != 0) {
+                if (spItemUnit.tag != position && position != 0) {
                     MainActivity.unitChanged = true
                 }
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -361,13 +356,24 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
         //initialize autocompleteTextView and its adapter
         autoCompleteTv = myActivity.addItemDialogView!!.actvItem
+
+//  TODO USE CUSTOM ADAPTER (REMOVE BLOCK BELOW)
+//        val customAdapter = AutoCompleteAdapter(
+//            context = myActivity,
+//            resource = android.R.layout.simple_spinner_dropdown_item,
+//            items = MainActivity.itemNameList
+//        )
+//        autoCompleteTv.setAdapter(customAdapter)
+
+
+        //Initializes regular array adapter (no search for spelling mistakes)
         val autoCompleteTvAdapter = ArrayAdapter(
             myActivity,
             android.R.layout.simple_spinner_dropdown_item,
             MainActivity.itemNameList
         )
-
         autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+
 
         autoCompleteTv.requestFocus()
 
@@ -377,28 +383,19 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //read user input into item text field
+                val input = actvItem.text.toString()
+
                 //check for existing user template
                 var template =
-                    MainActivity.userItemTemplateList.getTemplateByName(actvItem.text.toString())
-                if (template != null) {
-                    //display correct category
-                    spCategory.setSelection(
-                        myActivity.resources.getStringArray(R.array.categoryCodes)
-                            .indexOf(template.c)
-                    )
+                    MainActivity.userItemTemplateList.getTemplateByName(input)
 
-                    //display correct unit
-                    val unitPointPos =
-                        myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
-                    if (!MainActivity.unitChanged) {
-                        spItemUnit.setSelection(unitPointPos)
-                        MainActivity.unitChanged = false
-                    }
-                    return
+                //if there is none, check for existing regular template
+                if (template == null) {
+                    template = MainActivity.itemTemplateList.getTemplateByName(input)
                 }
 
-                //check for existing item template
-                template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
+                //if template now is not null, select correct unit and category
                 if (template != null) {
                     //display correct category
                     spCategory.setSelection(
@@ -410,11 +407,16 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     val unitPointPos =
                         myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
                     if (!MainActivity.unitChanged) {
+                        spItemUnit.tag = unitPointPos
                         spItemUnit.setSelection(unitPointPos)
-                        MainActivity.unitChanged = false
                     }
                 } else {
+                    //else if entered string is unknown select "other" and "x" as defaults
                     spCategory.setSelection(0)
+                    if (!MainActivity.unitChanged) {
+                        spItemUnit.tag = 0
+                        spItemUnit.setSelection(0)
+                    }
                 }
             }
 
@@ -439,37 +441,39 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         }
 
         autoCompleteTv.setOnKeyListener { _, keyCode, event ->
-            if(keyCode==KeyEvent.KEYCODE_ENTER && event.action==KeyEvent.ACTION_DOWN){
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 myActivity.addItemDialogView!!.btnAddItemToList.performClick()
-            }
-            true
+                true
+            } else false
         }
 
         val checkMark = myActivity.addItemDialogView!!.ivCheckItemAdded
         checkMark.visibility = View.GONE
+
+
         //Button to Confirm adding Item to list
         myActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
 
+            MainActivity.unitChanged = false
 
-            if (actvItem.text.toString() == "") {
-                //No item string entered => play shake animation
+            val nameInput = actvItem.text.toString()
+
+            //No item string entered => play shake animation
+            if (nameInput == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myActivity.addItemDialogView!!.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
 
-            //check mark animation to confirm adding of item
+            //checkMark animation to confirm adding of item
             checkMark.visibility = View.VISIBLE
-            checkMark.animate().translationYBy(-80f).setDuration(600L).withEndAction { checkMark.animate().translationY(
-                0f
-            ).setDuration(0).start() }.start()
-            checkMark.animate().alpha(0f).setDuration(600L).withEndAction {
-                checkMark.animate().alpha(1f).setDuration(0).start()
+            checkMark.animate().translationYBy(-80f).alpha(0f).setDuration(600L).withEndAction {
+                checkMark.animate().translationY(0f).alpha(1f).setDuration(0).start()
                 checkMark.visibility = View.GONE
             }.start()
 
-            //selected categoryCode
+            //get selected categoryCode
             val categoryCode =
                 myActivity.resources.getStringArray(R.array.categoryCodes)[myActivity.resources.getStringArray(
                     R.array.categoryNames
@@ -477,41 +481,47 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
             //check if user template exists for this string
             var template =
-                MainActivity.userItemTemplateList.getTemplateByName(actvItem.text.toString())
+                MainActivity.userItemTemplateList.getTemplateByName(nameInput)
 
             if (template == null) {
                 //no user item with this name => check for regular template
 
-                template = MainActivity.itemTemplateList.getTemplateByName(actvItem.text.toString())
+                template = MainActivity.itemTemplateList.getTemplateByName(nameInput)
                 if (template == null || categoryCode != template!!.c || spItemUnit.selectedItemPosition != 0) {
                     //item unknown, or item known under different category or with different unit, use selected category and unit,
-                    // add item, and save it to userTemplate list
-
+                    // add item new ItemTemplate to userItemTemplate list, using entered values
                     MainActivity.userItemTemplateList.add(
                         ItemTemplate(
-                            actvItem.text.toString(), categoryCode,
+                            nameInput, categoryCode,
                             spItemUnit.selectedItem.toString()
                         )
                     )
 
+                    //create new Shopping item using entered values
                     val item = ShoppingItem(
-                        actvItem.text.toString(), categoryCode,
+                        nameInput, categoryCode,
                         spItemUnit.selectedItem.toString(),
                         etItemAmount.text.toString(),
                         spItemUnit.selectedItem.toString(),
                         false
                     )
-                    if(editing){
+
+                    //if currently editing, remove the item that was tapped to edit
+                    if (editing) {
                         shoppingListInstance.removeItem(editTag, editPos)
                         editing = false
                         MainActivity.addItemDialog?.dismiss()
                     }
+
+                    //add new item to list
                     shoppingListInstance.add(item)
 
+                    //trigger adapter and menu refresh if currently in shoppingFr
                     if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
                         myAdapter.notifyDataSetChanged()
                         updateShoppingMenu()
                     } else {
+                        //display "Item added" Toast, when adding from home
                         Toast.makeText(
                             myActivity,
                             myActivity.getString(R.string.shopping_item_added),
@@ -519,18 +529,29 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                         )
                             .show()
                     }
-                    MainActivity.itemNameList.add(actvItem.text.toString())
-                    val autoCompleteTvAdapter2 = ArrayAdapter(
-                        myActivity,
-                        android.R.layout.simple_spinner_dropdown_item,
-                        MainActivity.itemNameList
-                    )
-                    autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
+
+                    //if itemNameList does not contain this item name, add it to the list and create
+                    //and set a new adapter for autocompleteTv
+                    //todo check why theres actvitem and autocompleteTv
+                    if (!MainActivity.itemNameList.contains(nameInput)) {
+                        MainActivity.itemNameList.add(nameInput)
+                        //create and set a new adapter for
+                        val autoCompleteTvAdapter2 = ArrayAdapter(
+                            myActivity,
+                            android.R.layout.simple_spinner_dropdown_item,
+                            MainActivity.itemNameList
+                        )
+                        autoCompleteTv.setAdapter(autoCompleteTvAdapter2)
+                    }
+
+                    //restore dialog to normal after adding
                     actvItem.setText("")
                     etItemAmount.setText("1")
+                    spItemUnit.tag = 0
                     spItemUnit.setSelection(0)
-                    MainActivity.unitChanged = false
                     actvItem.requestFocus()
+
+                    //close dialog if setting says so, or dialog was opened from home fragment
                     if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
                             SettingId.CLOSE_ITEM_DIALOG
                         ) as Boolean
@@ -561,7 +582,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 false
             )
             shoppingListInstance.add(item)
-            if(editing){
+            if (editing) {
                 shoppingListInstance.removeItem(editTag, editPos)
                 editing = false
                 MainActivity.addItemDialog?.dismiss()
@@ -578,8 +599,8 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             }
             actvItem.setText("")
             etItemAmount.setText("1")
+            spItemUnit.tag = 0
             spItemUnit.setSelection(0)
-            MainActivity.unitChanged = false
             actvItem.requestFocus()
             if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                 MainActivity.addItemDialog?.dismiss()
@@ -595,38 +616,69 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
      * Reset and open addItemDialog
      */
     fun openAddItemDialog() {
-        myActivity.shoppingTitle!!.tvDialogTitle.text = myActivity.getString(R.string.shoppingAddItemTitle)
+        //set dialog title to "add item"
+        myActivity.shoppingTitle!!.tvDialogTitle.text =
+            myActivity.getString(R.string.shoppingAddItemTitle)
+
+        //Clear item autoCompleteTextView
         myActivity.addItemDialogView!!.actvItem.setText("")
-        myActivity.addItemDialogView!!.btnAddItemToList.text = myActivity.getString(R.string.birthdayDialogAdd)
+
+        //Request focus in item autoCompleteTextView
+        myActivity.addItemDialogView!!.actvItem.requestFocus()
+
+        //set confirm button text to "add"
+        myActivity.addItemDialogView!!.btnAddItemToList.text =
+            myActivity.getString(R.string.birthdayDialogAdd)
+
+        myActivity.addItemDialogView!!.spItemUnit.tag = 0
         myActivity.addItemDialogView!!.spItemUnit.setSelection(0)
-        MainActivity.unitChanged = false
+
+        //set default amount text to 1
         myActivity.addItemDialogView!!.etItemAmount.setText("1")
+
+        //open keyboard
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         MainActivity.addItemDialog?.show()
     }
 
     fun openEditItemDialog(item: ShoppingItem) {
-        myActivity.shoppingTitle!!.tvDialogTitle.text = myActivity.getString(R.string.shoppingEditItemTitle)
-        myActivity.addItemDialogView!!.btnAddItemToList.text = resources.getString(R.string.noteDiscardDialogSave)
+        //set dialog title to "editing"
+        myActivity.shoppingTitle!!.tvDialogTitle.text =
+            myActivity.getString(R.string.shoppingEditItemTitle)
+
+        //set confirm Button text to "save"
+        myActivity.addItemDialogView!!.btnAddItemToList.text =
+            resources.getString(R.string.noteDiscardDialogSave)
+
         //show item name
         myActivity.addItemDialogView!!.actvItem.setText(item.name)
+
+        //request focus in item autoCompleteTextView
+        myActivity.addItemDialogView!!.actvItem.requestFocus()
+
         //set cursor to end of item name
         myActivity.addItemDialogView!!.actvItem.setSelection(item.name!!.length)
+
         //select correct unit
-        myActivity.addItemDialogView!!.spItemUnit.setSelection(
-            myActivity.resources.getStringArray(
-                R.array.units
-            ).indexOf(item.suggestedUnit)
-        )
-        //mark that unit did not get changed
+        val unitIndex = myActivity.resources.getStringArray(
+            R.array.units
+        ).indexOf(item.suggestedUnit)
+
+        myActivity.addItemDialogView!!.spItemUnit.tag = unitIndex
+        myActivity.addItemDialogView!!.spItemUnit.setSelection(unitIndex)
+
         MainActivity.unitChanged = false
+
         //show correct item amount
         myActivity.addItemDialogView!!.etItemAmount.setText(item.amount.toString())
+
         //open keyboard
         MainActivity.addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myActivity.addItemDialogView!!.actvItem.dismissDropDown()
+
         //show dialog
         MainActivity.addItemDialog?.show()
+
         editing = true
     }
 
@@ -878,7 +930,10 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
  * Adapter for items in the sublists
  */
 class SublistAdapter(
-    private val tag: String, private val parentHolder: ShoppingListAdapter.CategoryViewHolder, mainActivity: MainActivity, shoppingFr: ShoppingFr
+    private val tag: String,
+    private val parentHolder: ShoppingListAdapter.CategoryViewHolder,
+    mainActivity: MainActivity,
+    shoppingFr: ShoppingFr
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
     private val myActivity = mainActivity
     private val myFragment = shoppingFr
@@ -912,6 +967,7 @@ class SublistAdapter(
         //get shopping item
         val item = ShoppingFr.shoppingListInstance.getItem(tag, position)!!
 
+        //manage onClickListener to edit item
         holder.itemView.setOnClickListener {
             ShoppingFr.editTag = tag
             ShoppingFr.editPos = position
@@ -925,9 +981,13 @@ class SublistAdapter(
         holder.itemView.cbItem.isChecked = item.checked
 
         //initialize text
-        holder.itemView.tvItemTitle.text = myActivity.getString(
-            R.string.shoppingItemTitle, item.amount, item.unit, item.name
-        )
+        holder.itemView.tvItemTitle.text = when(item.amount==""){
+            true -> item.name
+            else ->
+                myActivity.getString(
+                    R.string.shoppingItemTitle, item.amount, item.unit, item.name
+                )
+        }
 
         //background drawable for item
         val myGradientDrawable: GradientDrawable
@@ -1051,7 +1111,8 @@ class SublistAdapter(
 /**
  * ItemTouchHelper to support swipe to delete of shopping items
  */
-class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) : ItemTouchHelper.SimpleCallback(0, direction) {
+class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
+    ItemTouchHelper.SimpleCallback(0, direction) {
 
     private val myFragment = shoppingFr
 
@@ -1104,3 +1165,114 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) : ItemTouchHelpe
 
     }
 }
+
+//class AutoCompleteAdapter(
+//    context: Context,
+//    resource: Int,
+//    textViewResourceId: Int = 0,
+//    items: List<String> = listOf()
+//) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
+//
+//
+//    internal var itemNames: MutableList<String> = mutableListOf()
+//    internal var suggestions: MutableList<String> = mutableListOf()
+//
+//    /**
+//     * Custom Filter implementation for custom suggestions we provide.
+//     */
+//    private var filter: Filter = object : Filter() {
+//
+//        override fun performFiltering(input: CharSequence?): FilterResults {
+//            var result = FilterResults()
+//
+//            if (input == null || input.length < 2) {
+//                return result
+//            }
+//
+//            suggestions.clear()
+//
+//            //do regular "contains" search
+//            itemNames.forEach {
+//                //checks for every item if its name contains the input
+//                if (it.toLowerCase(Locale.getDefault())
+//                        .contains(input.toString().toLowerCase(Locale.getDefault()))
+//                ) {
+//                    suggestions.add(it)
+//                }
+//            }
+//
+//            //return if anything was found
+//            if (suggestions.isNotEmpty()) {
+//                result.values = suggestions
+//                result.count = suggestions.size
+//                return result
+//            }
+//
+//
+//
+//            val possibles: MutableList<String> = mutableListOf()
+//            //add all items with same start letter to possible list
+////            itemNames.forEach {
+////                if (it.toLowerCase(Locale.getDefault())[0] == input.toString()
+////                        .toLowerCase(Locale.getDefault())[0] && abs(it.length - input.toString().length) < 2
+////                ) {
+////                    possibles.add(it)
+////                }
+////            }
+//            possibles.addAll(itemNames)
+//
+//            //create map that saves possible values with likelihood value
+//            var withValues: MutableMap<String, Int> = mutableMapOf()
+//
+//            //calculates likelihood value for every possible string
+//            possibles.forEach { itemName ->
+//                var i = 0
+//                var currentval = 0
+//                while (i < min(itemName.length, input.toString().length)) {
+//                    if (itemName[i].toLowerCase()==input.toString()[i].toLowerCase()) {
+//                        currentval += 2
+//                    }else if (itemName.toLowerCase().contains(input.toString()[i].toLowerCase())) {
+//                        currentval++
+//                    }
+//                    i++
+//                }
+//                withValues[itemName] = currentval - abs(itemName.length - input.toString().length)
+//            }
+//            val withValuesSortedAsList = withValues.toList().sortedBy { (_, value) -> value }.reversed()
+//            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
+//            val show = min(suggestions.size, 5)
+//            result.values = suggestions.subList(0, show)
+//            result.count = show
+//            return result
+//
+////            } else {
+////                filterResults.values =
+////                filterResults.count = suggestions.size
+////            }
+//
+//        }
+//        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+//            if(results.values==null){
+//                return
+//            }
+//            val filterList = Collections.synchronizedList(results.values as List<*>)
+//            if (results.count > 0) {
+//                clear()
+//                filterList.forEach {
+//                    add(it)
+//                }.also {
+//                    notifyDataSetChanged()
+//                }
+//            }
+//        }
+//    }
+//
+//    init {
+//        itemNames = items.toMutableList()
+//        suggestions = ArrayList()
+//    }
+//
+//    override fun getFilter(): Filter {
+//        return filter
+//    }
+//}

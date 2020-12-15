@@ -132,10 +132,16 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr): ItemTouch
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val parsed = viewHolder as CustomItemAdapter.CustomItemViewHolder
+        val parsedViewHolder = viewHolder as CustomItemAdapter.CustomItemViewHolder
+        val item = parsedViewHolder.myItem
+        val itemName = item.n
 
-        //remove item from item name list and update adapter for autocomplete
-        MainActivity.itemNameList.remove(parsed.itemView.tvName.text.split(" ")[0])
+        //remove item from item name list, if it doesn't exist as a regular item
+        if(MainActivity.itemTemplateList.getTemplateByName(itemName)==null){
+            MainActivity.itemNameList.remove(itemName)
+        }
+
+        //set new adapter for autocomplete text in add item dialog
         val newActAdapter = ArrayAdapter(
             MainActivity.act,
             android.R.layout.simple_spinner_dropdown_item,
@@ -143,10 +149,19 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr): ItemTouch
         )
         myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 
-//        MainActivity.userItemTemplateList.removeItem(parsed.itemView.tvName.text.split(" ")[0])
-        CustomItemFr.deletedItem = parsed.myItem
-        MainActivity.userItemTemplateList.remove(parsed.myItem)
+        //save deleted item for undo purposes
+        CustomItemFr.deletedItem = item
+
+        //delete item from userItemTemplateList
+        MainActivity.userItemTemplateList.remove(item)
+
+        //Save changes in userItemTemplateList
+        MainActivity.userItemTemplateList.save()
+
+        //animate remove in recycler view adapter
         CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+
+        //update options menu
         CustomItemFr.myFragment.updateUndoCustomIcon()
     }
 }
