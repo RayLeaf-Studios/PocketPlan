@@ -287,7 +287,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
         //add all regular items to itemNameList
         MainActivity.itemTemplateList.forEach {
-            //Todo check why this if is necessary
             if (!MainActivity.itemNameList.contains(it.n)) {
                 MainActivity.itemNameList.add(it.n)
             }
@@ -311,9 +310,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
 
         //initialize autocompleteTextView and spinner for item unit
-        val actvItem = myActivity.addItemDialogView!!.actvItem
         val spItemUnit = myActivity.addItemDialogView!!.spItemUnit
-
 
         //initialize spinner and its adapter for categories
         val spCategory = myActivity.addItemDialogView!!.spCategory
@@ -384,7 +381,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //read user input into item text field
-                val input = actvItem.text.toString()
+                val input = autoCompleteTv.text.toString()
 
                 //check for existing user template
                 var template =
@@ -456,7 +453,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
             MainActivity.unitChanged = false
 
-            val nameInput = actvItem.text.toString()
+            val nameInput = autoCompleteTv.text.toString()
 
             //No item string entered => play shake animation
             if (nameInput == "") {
@@ -532,7 +529,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
                     //if itemNameList does not contain this item name, add it to the list and create
                     //and set a new adapter for autocompleteTv
-                    //todo check why theres actvitem and autocompleteTv
                     if (!MainActivity.itemNameList.contains(nameInput)) {
                         MainActivity.itemNameList.add(nameInput)
                         //create and set a new adapter for
@@ -545,11 +541,11 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     }
 
                     //restore dialog to normal after adding
-                    actvItem.setText("")
+                    autoCompleteTv.setText("")
                     etItemAmount.setText("1")
                     spItemUnit.tag = 0
                     spItemUnit.setSelection(0)
-                    actvItem.requestFocus()
+                    autoCompleteTv.requestFocus()
 
                     //close dialog if setting says so, or dialog was opened from home fragment
                     if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
@@ -564,10 +560,10 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
             if (categoryCode != template!!.c || spItemUnit.selectedItem.toString() != template!!.s) {
                 //known as user item but with different tag or different suggested unit
-                MainActivity.userItemTemplateList.removeItem(actvItem.text.toString())
+                MainActivity.userItemTemplateList.removeItem(autoCompleteTv.text.toString())
                 MainActivity.userItemTemplateList.add(
                     ItemTemplate(
-                        actvItem.text.toString(), categoryCode,
+                        autoCompleteTv.text.toString(), categoryCode,
                         spItemUnit.selectedItem.toString()
                     )
                 )
@@ -597,11 +593,11 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            actvItem.setText("")
+            autoCompleteTv.setText("")
             etItemAmount.setText("1")
             spItemUnit.tag = 0
             spItemUnit.setSelection(0)
-            actvItem.requestFocus()
+            autoCompleteTv.requestFocus()
             if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                 MainActivity.addItemDialog?.dismiss()
             }
