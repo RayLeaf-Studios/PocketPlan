@@ -33,11 +33,11 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
     private val myActivity = mainActivity
     private lateinit var myMenu: Menu
     lateinit var searchView: SearchView
+    var noteListInstance: NoteList = NoteList()
 
     companion object {
         lateinit var myAdapter: NoteAdapter
         var noteLines = 0
-        var noteListInstance: NoteList = NoteList()
 
         var deletedNote: Note? = null
 
@@ -170,7 +170,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
         //initialize Recyclerview and Adapter
         val myRecycler = myView.recycler_view_note
-        myAdapter = NoteAdapter(myActivity)
+        myAdapter = NoteAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
         val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
@@ -240,11 +240,12 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 }
 
 
-class NoteAdapter(mainActivity: MainActivity) :
+class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
+    private val myNoteFr = noteFr
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -264,7 +265,7 @@ class NoteAdapter(mainActivity: MainActivity) :
             /**
              * NoteFr is currently in normal mode, current note gets grabbed from noteList
              */
-            false -> NoteFr.noteListInstance.getNote(position)
+            false -> myNoteFr.noteListInstance.getNote(position)
         }
 
         holder.itemView.setOnLongClickListener {
@@ -278,7 +279,7 @@ class NoteAdapter(mainActivity: MainActivity) :
         holder.itemView.setOnClickListener {
             NoteFr.searching = false
             MainActivity.editNoteHolder = currentNote
-            noteColor = NoteFr.noteListInstance.getNote(holder.adapterPosition).color
+            noteColor = myNoteFr.noteListInstance.getNote(holder.adapterPosition).color
             myActivity.changeToFragment(FT.NOTE_EDITOR)
             myActivity.hideKeyboard()
         }
@@ -312,7 +313,7 @@ class NoteAdapter(mainActivity: MainActivity) :
     override fun getItemCount(): Int {
         return when (NoteFr.searching) {
             true -> NoteFr.adjustedList.size
-            false -> NoteFr.noteListInstance.size
+            false -> myNoteFr.noteListInstance.size
         }
     }
 

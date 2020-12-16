@@ -123,6 +123,8 @@ class MainActivity : AppCompatActivity() {
             previousFragmentStack.push(FT.EMPTY)
         }
 
+        act = this
+
 
         SettingsManager.init()
 
@@ -174,7 +176,6 @@ class MainActivity : AppCompatActivity() {
         //Initialize adapters and necessary list instances
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter(this)
-        NoteFr.myAdapter = NoteAdapter(this)
 
         //Initialize Sleep Reminder
         sleepFr = SleepFr(this)
@@ -184,6 +185,9 @@ class MainActivity : AppCompatActivity() {
         birthdayFr = BirthdayFr(this)
         homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this, sleepFr!!)
         noteFr = NoteFr(this)
+        noteEditorFr = NoteEditorFr(this, noteFr!!)
+
+        NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
 
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
@@ -452,7 +456,7 @@ class MainActivity : AppCompatActivity() {
                 noteFr
             }
             FT.NOTE_EDITOR -> {
-                noteEditorFr = NoteEditorFr(this)
+                noteEditorFr = NoteEditorFr(this, noteFr!!)
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
@@ -533,7 +537,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun refreshData() {
-        NoteFr.noteListInstance = NoteList()
+        noteFr!!.noteListInstance = NoteList()
         birthdayFr!!.birthdayListInstance = BirthdayList()
         ShoppingFr.shoppingListInstance = ShoppingList()
         SettingsManager.init()

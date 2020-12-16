@@ -23,9 +23,10 @@ import kotlinx.android.synthetic.main.fragment_note_editor.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 
 
-class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
+class NoteEditorFr(mainActivity: MainActivity, noteFr: NoteFr) : Fragment() {
 
     private val myActivity = mainActivity
+    private val myNoteFr: NoteFr = noteFr
     private lateinit var myEtTitle: EditText
     private lateinit var myEtContent: EditText
     private var dialogOpened = false
@@ -52,7 +53,7 @@ class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
         myEtContent.textSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().toFloat()
 
         /**
-         * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when
+         * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when = noteFr
          * called from an editing context
          */
 
@@ -202,7 +203,7 @@ class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
         myActivity.hideKeyboard()
         val noteContent = etNoteContent.text.toString()
         val noteTitle = etNoteTitle.text.toString()
-        NoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
+        myNoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
             Toast.makeText(myActivity, R.string.notificationNoteAdded, Toast.LENGTH_SHORT).show()
@@ -218,7 +219,7 @@ class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
         MainActivity.editNoteHolder!!.content = noteContent
         MainActivity.editNoteHolder!!.color = noteColor
         MainActivity.editNoteHolder = null
-        NoteFr.noteListInstance.save()
+        myNoteFr.noteListInstance.save()
     }
 
     @SuppressLint("InflateParams")
@@ -263,9 +264,9 @@ class NoteEditorFr(mainActivity: MainActivity) : Fragment() {
     private fun openDeleteNoteDialog() {
         val titleId = R.string.noteDeleteDialogText
         val action: () -> Unit = {
-            NoteFr.noteListInstance.remove(MainActivity.editNoteHolder)
+            myNoteFr.noteListInstance.remove(MainActivity.editNoteHolder)
             MainActivity.editNoteHolder = null
-            NoteFr.noteListInstance.save()
+            myNoteFr.noteListInstance.save()
             myActivity.hideKeyboard()
             MainActivity.previousFragmentStack.push(FT.EMPTY)
             myActivity.changeToFragment(FT.NOTES)
