@@ -113,14 +113,14 @@
     <string name="settingsCloseItemDialog">Close item dialog after adding</string>
     <string name="backup">Backup</string>
 
-<!--    Options-->
+    <!--    Options-->
     <string name="options_tasks_uncheck_all">Uncheck all</string>
     <string name="options_task_clear_list">Clear list</string>
     <string name="options_task_delete_checked">Clear checked tasks</string>
     <string name="options_shopping_expand_all">Expand all</string>
     <string name="options_shopping_collapse_all">Collapse all</string>
 
-<!--    Home-->
+    <!--    Home-->
     <string name="home_notification_add_task">Task added!</string>
 
     <!--    NavigationDrawer-->
@@ -298,5 +298,8 @@
         <item quantity="one">day</item>
         <item quantity="other">days</item>
     </plurals>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="show_month_for_every_birthday">Show month for every Birthday</string>
 
 </resources>

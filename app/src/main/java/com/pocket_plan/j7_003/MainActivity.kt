@@ -32,10 +32,7 @@ import com.pocket_plan.j7_003.data.notelist.*
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAboutFr
-import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsAppearanceFr
-import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsHowTo
-import com.pocket_plan.j7_003.data.settings.sub_categories.SettingsNotesFr
+import com.pocket_plan.j7_003.data.settings.sub_categories.*
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
@@ -416,6 +413,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_BACKUP -> resources.getText(R.string.backup)
             FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settings_title_appearance)
             FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHelp)
+            FT.SETTINGS_BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             else -> ""
         }
 
@@ -471,6 +469,7 @@ class MainActivity : AppCompatActivity() {
             FT.CUSTOM_ITEMS -> CustomItemFr(shoppingFr!!)
             FT.SLEEP -> sleepFr
             FT.SETTINGS_HOWTO -> SettingsHowTo()
+            FT.SETTINGS_BIRTHDAYS -> SettingsBirthdays()
             else -> homeFr
         }
 
@@ -572,6 +571,7 @@ class MainActivity : AppCompatActivity() {
             else -> 0.0
         }
         setDefault(SettingId.LANGUAGE, languageNumber)
+        setDefault(SettingId.BIRTHDAY_SHOW_MONTH, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {

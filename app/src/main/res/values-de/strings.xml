@@ -141,6 +141,7 @@
     <string name="use_system_theme_android_10">Übernehme Systemdesign (Android 10+)</string>
     <string name="dialog_pick_time_minute">m</string>
     <string name="setting_title_languages">Sprache</string>
+    <string name="show_month_for_every_birthday">Zeige Monat für jeden Geburtstag</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

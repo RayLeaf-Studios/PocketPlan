@@ -216,4 +216,5 @@
     <string name="use_system_theme_android_10">tba</string>
     <string name="dialog_pick_time_minute">m</string>
     <string name="setting_title_languages">Languages</string>
+    <string name="show_month_for_every_birthday">tba</string>
 </resources>

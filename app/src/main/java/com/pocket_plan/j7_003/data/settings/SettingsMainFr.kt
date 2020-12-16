@@ -22,6 +22,7 @@ class SettingsMainFr(mainActivity: MainActivity) : Fragment() {
     private lateinit var clSettingBackup: ConstraintLayout
     private lateinit var clSettingAbout: ConstraintLayout
     private lateinit var clSettingAppearance: ConstraintLayout
+    private lateinit var clSettingBirthdays: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +43,7 @@ class SettingsMainFr(mainActivity: MainActivity) : Fragment() {
         clSettingShopping = myView.clSettingShopping
         clSettingNotes = myView.clSettingNotes
         clSettingAppearance = myView.clSettingAppearance
+        clSettingBirthdays = myView.clSettingBirthdays
     }
 
     private fun initializeListeners() {
@@ -53,6 +55,7 @@ class SettingsMainFr(mainActivity: MainActivity) : Fragment() {
         clSettingShopping.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_SHOPPING) }
         clSettingAbout.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_ABOUT) }
         clSettingAppearance.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_APPEARANCE) }
+        clSettingBirthdays.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_BIRTHDAYS) }
     }
 
 }

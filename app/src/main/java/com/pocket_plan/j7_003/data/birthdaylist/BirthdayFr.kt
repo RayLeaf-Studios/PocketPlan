@@ -1129,9 +1129,15 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         }
 
 
-        val dateString =
-            currentBirthday.day.toString().padStart(2, '0') + "." + currentBirthday.month.toString()
-                .padStart(2, '0')
+        var dateString =
+            currentBirthday.day.toString().padStart(2, '0')
+
+
+       if(SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean){
+           dateString += "."+currentBirthday.month.toString()
+               .padStart(2, '0')
+       }
+
 
         //Display name and date
         holder.tvRowBirthdayDate.text = dateString
