@@ -16,10 +16,16 @@
             <androidx.appcompat.widget.Toolbar
                 app:title="@string/backup"
                 android:background="?attr/colorBackgroundElevated"
+                android:id="@+id/backupToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </androidx.appcompat.widget.Toolbar>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@drawable/shadow_down"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -100,6 +106,8 @@
                     android:text="@string/backupExportJson"
                     android:textColor="?attr/colorOnBackGroundTask"
                     android:textSize="@dimen/font_size_small"
+                    android:elevation="3dp"
+                    android:layout_margin="3dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/spExportOne"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -135,6 +143,8 @@
                     android:background="@drawable/round_corner_accent"
                     android:padding="10dp"
                     android:text="@string/backupImportJson"
+                    android:elevation="3dp"
+                    android:layout_margin="3dp"
                     android:textColor="?attr/colorOnBackGroundTask"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
