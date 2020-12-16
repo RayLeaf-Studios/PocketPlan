@@ -461,12 +461,12 @@ class MainActivity : AppCompatActivity() {
                 birthdayFr!!.searching = false
                 birthdayFr
             }
-            FT.SETTINGS_ABOUT -> SettingsAboutFr()
-            FT.SETTINGS_NOTES -> SettingsNotesFr()
-            FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
+            FT.SETTINGS_ABOUT -> SettingsAboutFr(this)
+            FT.SETTINGS_NOTES -> SettingsNotesFr(this)
+            FT.SETTINGS_SHOPPING -> SettingsShoppingFr(this)
             FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr(this)
             FT.SETTINGS -> SettingsMainFr(this)
-            FT.CUSTOM_ITEMS -> CustomItemFr(shoppingFr!!)
+            FT.CUSTOM_ITEMS -> CustomItemFr(shoppingFr!!, this)
             FT.SLEEP -> sleepFr
             FT.SETTINGS_HOWTO -> SettingsHowTo()
             FT.SETTINGS_BIRTHDAYS -> SettingsBirthdays()

@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
-class CustomItemFr(shoppingFr: ShoppingFr) : Fragment() {
+class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fragment() {
     private val myShoppingFr = shoppingFr
 
     private lateinit var myMenu: Menu
@@ -45,15 +45,15 @@ class CustomItemFr(shoppingFr: ShoppingFr) : Fragment() {
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        myAdapter = CustomItemAdapter()
+        myAdapter = CustomItemAdapter(mainActivity)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
 
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr, mainActivity))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr, mainActivity))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
@@ -72,7 +72,7 @@ class CustomItemFr(shoppingFr: ShoppingFr) : Fragment() {
                        MainActivity.itemNameList.remove(item.n)
                    }
                    val newActAdapter = ArrayAdapter(
-                       MainActivity.act,
+                       mainActivity,
                        android.R.layout.simple_spinner_dropdown_item,
                        MainActivity.itemNameList
                    )
@@ -84,7 +84,7 @@ class CustomItemFr(shoppingFr: ShoppingFr) : Fragment() {
                    updateClearCustomListIcon()
                }
                val titleId = R.string.custom_item_delete_title
-               MainActivity.act.dialogConfirmDelete(titleId, action)
+               mainActivity.dialogConfirmDelete(titleId, action)
            }
             R.id.item_custom_undo -> {
                 MainActivity.userItemTemplateList.add(deletedItem!!)
@@ -121,7 +121,7 @@ class CustomItemFr(shoppingFr: ShoppingFr) : Fragment() {
     //Deletes all checked tasks and animates the deletion
 
 }
-class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr): ItemTouchHelper
+class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainActivity: MainActivity): ItemTouchHelper
 .SimpleCallback(0, direction){
 
     private val myShoppingFr = shoppingFr
@@ -143,7 +143,7 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr): ItemTouch
 
         //set new adapter for autocomplete text in add item dialog
         val newActAdapter = ArrayAdapter(
-            MainActivity.act,
+            mainActivity,
             android.R.layout.simple_spinner_dropdown_item,
             MainActivity.itemNameList
         )
@@ -166,11 +166,11 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr): ItemTouch
     }
 }
 
-class CustomItemAdapter :
+class CustomItemAdapter(val mainActivity: MainActivity) :
     RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>(){
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = MainActivity.act.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = mainActivity.resources.getDimension(R.dimen.cornerRadius)
 
     override fun getItemCount() = MainActivity.userItemTemplateList.size
 
@@ -194,8 +194,8 @@ class CustomItemAdapter :
 
         //changes design of task based on priority and being checked
         holder.itemView.tvName.text = currentItem.n + " : "+currentItem.s
-        val id = MainActivity.act.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
-        holder.itemView.tvCategory.text = MainActivity.act.resources.getStringArray(R.array.categoryNames)[id]
+        val id = mainActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
+        holder.itemView.tvCategory.text = mainActivity.resources.getStringArray(R.array.categoryNames)[id]
     }
 
     class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){

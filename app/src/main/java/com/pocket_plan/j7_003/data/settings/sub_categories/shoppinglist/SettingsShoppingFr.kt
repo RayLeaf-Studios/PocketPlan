@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_settings_shopping.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsShoppingFr : Fragment() {
+class SettingsShoppingFr(val mainActivity: MainActivity) : Fragment() {
     private lateinit var clManageCustomItems: ConstraintLayout
     private lateinit var swExpandOneCategory: SwitchCompat
     private lateinit var swCollapseCheckedSublists: SwitchCompat
@@ -70,7 +70,7 @@ class SettingsShoppingFr : Fragment() {
     private fun initializeListeners() {
         //changing to custom item fragment via onclick listener
         clManageCustomItems.setOnClickListener {
-            MainActivity.act.changeToFragment(FT.CUSTOM_ITEMS)
+            mainActivity.changeToFragment(FT.CUSTOM_ITEMS)
         }
 
         //Switch for only showing one category as expanded
