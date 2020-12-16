@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.pocket_plan.j7_003.BuildConfig
 import com.pocket_plan.j7_003.MainActivity
@@ -11,7 +12,7 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class ExportHandler {
+class ExportHandler(val parentActivity: AppCompatActivity) {
     fun shareAll() {
         backUpAsZip()
 
@@ -25,7 +26,7 @@ class ExportHandler {
         sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
-        MainActivity.act.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+        parentActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 
     fun shareById(id: StorageId) {
@@ -37,7 +38,7 @@ class ExportHandler {
         sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
-        MainActivity.act.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+        parentActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 
     private fun backUpAsZip() {

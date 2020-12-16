@@ -2,11 +2,9 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -16,7 +14,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import java.io.File
 
 class BackUpActivity: AppCompatActivity() {
-    private val eHandler = ExportHandler()
+    private val eHandler = ExportHandler(this)
     private val iHandler = ImportHandler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,14 +29,11 @@ class BackUpActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_settings_backup)
 
-
         setSupportActionBar(myNewToolbar)
-
 
         //Spinner for single file export
         val spExportOneAdapter = ArrayAdapter(
-            MainActivity.act,
-            android.R.layout.simple_list_item_1,
+            this, android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fileOptions)
         )
         spExportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -46,8 +41,7 @@ class BackUpActivity: AppCompatActivity() {
 
         //Spinner for single file import
         val spImportOneAdapter = ArrayAdapter(
-            MainActivity.act,
-            android.R.layout.simple_list_item_1,
+            this, android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fileOptions)
         )
         spImportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -108,8 +102,6 @@ class BackUpActivity: AppCompatActivity() {
                     zipFile.delete()
                     file.delete()
 
-                    MainActivity.act.refreshData()
-
                     return
                 }
 
@@ -123,7 +115,6 @@ class BackUpActivity: AppCompatActivity() {
                     zipFile.delete()
                     file.delete()
 
-                    MainActivity.act.refreshData()
                     Toast.makeText(this, "Import successful!", Toast.LENGTH_SHORT).show()
 
                     return
@@ -133,7 +124,6 @@ class BackUpActivity: AppCompatActivity() {
             Toast.makeText(this, "Import failed", Toast.LENGTH_SHORT).show()
             zipFile.delete()
             file.delete()
-            Log.e("e", e.toString())
             return
         }
     }

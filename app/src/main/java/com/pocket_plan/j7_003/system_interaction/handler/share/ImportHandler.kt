@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
-import com.pocket_plan.j7_003.data.notelist.NoteAdapter
 import com.pocket_plan.j7_003.data.notelist.NoteList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingList
