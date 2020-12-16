@@ -111,11 +111,13 @@ class MainActivity : AppCompatActivity() {
         return typedValue.data
     }
 
+    override fun onResume() {
+        refreshData()
+        super.onResume()
+    }
+
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        //Set a reference to this activity in the companion object
-        act = this
 
         if (previousFragmentStack.isEmpty()) {
             previousFragmentStack.push(FT.EMPTY)
@@ -202,7 +204,7 @@ class MainActivity : AppCompatActivity() {
             }
             allowSpin = false
             val animationSpin =
-                AnimationUtils.loadAnimation(act, R.anim.icon_easter_egg)
+                AnimationUtils.loadAnimation(this, R.anim.icon_easter_egg)
 
             animationSpin.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation?) {
@@ -231,10 +233,10 @@ class MainActivity : AppCompatActivity() {
 
         //When activity is entered via special intent, change to respective fragment
         when (intent.extras?.get("NotificationEntry").toString()) {
-            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
-            "SReminder" -> changeToFragment(FT.HOME)
-            "settings" -> changeToFragment(FT.SETTINGS)
-            "appearance" -> changeToFragment(FT.SETTINGS_APPEARANCE)
+            "birthdays"     -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder"     -> changeToFragment(FT.HOME)
+            "settings"      -> changeToFragment(FT.SETTINGS)
+            "appearance"    -> changeToFragment(FT.SETTINGS_APPEARANCE)
             else -> {
                 justRestarted = true
                 bottomNavigation.menu.getItem(2).isChecked = true
@@ -333,7 +335,7 @@ class MainActivity : AppCompatActivity() {
      */
 
     fun toast(msg: String) {
-        Toast.makeText(act, msg, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -343,10 +345,10 @@ class MainActivity : AppCompatActivity() {
     fun hideKeyboard() {
         val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         //Find the currently focused view, so we can grab the correct window token from it.
-        var view: View? = act.currentFocus
+        var view: View? = this.currentFocus
         //If no view currently has focus, create a new one, just so we can grab a window token from it
         if (view == null) {
-            view = View(act)
+            view = View(this)
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
@@ -388,7 +390,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Set correct soft input mode
-        act.window.setSoftInputMode(
+        this.window.setSoftInputMode(
             when (fragmentTag) {
                 FT.NOTE_EDITOR -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                 else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
@@ -532,7 +534,7 @@ class MainActivity : AppCompatActivity() {
 
     fun refreshData() {
         NoteFr.noteListInstance = NoteList()
-        birthdayFr!!.birthdayListInstance = BirthdayList(act)
+        birthdayFr!!.birthdayListInstance = BirthdayList()
         ShoppingFr.shoppingListInstance = ShoppingList()
         SettingsManager.init()
         sleepFr!!.sleepReminderInstance = SleepReminder(this)
@@ -588,7 +590,7 @@ class MainActivity : AppCompatActivity() {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
 
         //AlertDialogBuilder
-        val myBuilder = AlertDialog.Builder(act).setView(myDialogView)
+        val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = getString(titleId)
         myBuilder.setCustomTitle(customTitle)
@@ -618,14 +620,14 @@ class MainActivity : AppCompatActivity() {
                         allowDelete = true
                         btnDelete.setBackgroundResource(R.drawable.round_corner_red)
                         btnDelete.setTextColor(
-                            act.colorForAttr(R.attr.colorOnBackGroundTask)
+                            this@MainActivity.colorForAttr(R.attr.colorOnBackGroundTask)
                         )
                     } else {
                         if (allowDelete) {
                             allowDelete = false
                             btnDelete.setBackgroundResource(R.drawable.round_corner_gray)
                             btnDelete.setTextColor(
-                                act.colorForAttr(R.attr.colorHint)
+                                this@MainActivity.colorForAttr(R.attr.colorHint)
                             )
                         }
                     }
@@ -640,7 +642,7 @@ class MainActivity : AppCompatActivity() {
             myDialogView.tvSwipeToDelete.visibility = View.GONE
             btnDelete.setBackgroundResource(R.drawable.round_corner_red)
             btnDelete.setTextColor(
-                act.colorForAttr(R.attr.colorOnBackGroundTask)
+                this.colorForAttr(R.attr.colorOnBackGroundTask)
             )
         }
 
@@ -648,7 +650,7 @@ class MainActivity : AppCompatActivity() {
         btnDelete.setOnClickListener {
             if (!allowDelete) {
                 val animationShake =
-                    AnimationUtils.loadAnimation(act, R.anim.shake)
+                    AnimationUtils.loadAnimation(this, R.anim.shake)
                 sbDelete.startAnimation(animationShake)
                 return@setOnClickListener
             }
