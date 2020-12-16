@@ -17,7 +17,7 @@ class ExportHandler(val parentActivity: AppCompatActivity) {
         backUpAsZip()
 
         val uri = FileProvider.getUriForFile(
-            MainActivity.act, "${BuildConfig.APPLICATION_ID}.provider",
+            parentActivity, "${BuildConfig.APPLICATION_ID}.provider",
             StorageHandler.files[StorageId.ZIP]!!)
 
         val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -30,8 +30,8 @@ class ExportHandler(val parentActivity: AppCompatActivity) {
     }
 
     fun shareById(id: StorageId) {
-        val uri = FileProvider.getUriForFile(MainActivity.act,
-            "${MainActivity.act.applicationContext.packageName}.provider", StorageHandler.files[id]!!)
+        val uri = FileProvider.getUriForFile(parentActivity,
+            "${parentActivity.applicationContext.packageName}.provider", StorageHandler.files[id]!!)
         val sharingIntent = Intent(Intent.ACTION_SEND)
 
         sharingIntent.type = "application/json"
