@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_settings_shopping.view.*
 
 class SettingsBirthdays : Fragment() {
     private lateinit var swShowMonth: SwitchCompat
+    private lateinit var swSouth: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +37,7 @@ class SettingsBirthdays : Fragment() {
 
         //initialize references to view
         swShowMonth = myView.swShowMonth
+        swSouth = myView.swSouthColors
     }
 
     private fun initializeAdapters(){}
@@ -44,12 +46,19 @@ class SettingsBirthdays : Fragment() {
 
         swShowMonth.isChecked =
             SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean
+
+        swSouth.isChecked =
+            SettingsManager.getSetting(SettingId.BIRTHDAY_COLORS_SOUTH) as Boolean
     }
 
     private fun initializeListeners() {
         //Switch for only showing one category as expanded
         swShowMonth.setOnClickListener {
             SettingsManager.addSetting(SettingId.BIRTHDAY_SHOW_MONTH, swShowMonth.isChecked)
+        }
+
+        swSouth.setOnClickListener {
+            SettingsManager.addSetting(SettingId.BIRTHDAY_COLORS_SOUTH, swSouth.isChecked)
         }
     }
 }

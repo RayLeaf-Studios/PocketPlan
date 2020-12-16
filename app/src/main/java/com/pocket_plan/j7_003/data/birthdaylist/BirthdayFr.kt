@@ -141,9 +141,9 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 deletedBirthday = null
                 updateUndoBirthdayIcon()
                 updateBirthdayMenu()
-                if(round){
-                    if(addInfo.second == 1 && birthdayListInstance[addInfo.first-1].daysToRemind >= 0){
-                        myAdapter.notifyItemChanged(addInfo.first-1)
+                if (round) {
+                    if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
+                        myAdapter.notifyItemChanged(addInfo.first - 1)
                     }
                 }
                 myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
@@ -195,8 +195,10 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
     fun updateBirthdayMenu() {
         myMenu.findItem(R.id.item_birthdays_search).isVisible = birthdayListInstance.size > 0
-        myMenu.findItem(R.id.item_birthdays_enable_reminders).isVisible = birthdayListInstance.size > 0
-        myMenu.findItem(R.id.item_birthdays_disable_reminders).isVisible = birthdayListInstance.size > 0
+        myMenu.findItem(R.id.item_birthdays_enable_reminders).isVisible =
+            birthdayListInstance.size > 0
+        myMenu.findItem(R.id.item_birthdays_disable_reminders).isVisible =
+            birthdayListInstance.size > 0
     }
 
     fun updateUndoBirthdayIcon() {
@@ -834,9 +836,9 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             )
 
             myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
-            if(round){
-                if(addInfo.second == 1 && birthdayListInstance[addInfo.first-1].daysToRemind >= 0){
-                    myAdapter.notifyItemChanged(addInfo.first-1)
+            if (round) {
+                if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
+                    myAdapter.notifyItemChanged(addInfo.first - 1)
                 }
             }
             updateBirthdayMenu()
@@ -911,6 +913,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     private val density = myActivity.resources.displayMetrics.density
     private val marginSide = (density * 20).toInt()
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val southColors = SettingsManager.getSetting(SettingId.BIRTHDAY_COLORS_SOUTH) as Boolean
 
     //calculate corner radius
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
@@ -924,9 +927,9 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         if (myFragment.searching) {
             myFragment.search(BirthdayFr.lastQuery)
         }
-        if(round){
-            if(deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first-1].daysToRemind >= 0){
-                myFragment.myAdapter.notifyItemChanged(deleteInfo.first-1)
+        if (round) {
+            if (deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first - 1].daysToRemind >= 0) {
+                myFragment.myAdapter.notifyItemChanged(deleteInfo.first - 1)
             }
         }
         notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
@@ -1009,20 +1012,40 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
                 )
 
                 //determine the background color of the card
-                val gradientPair: Pair<Int, Int> = when (currentBirthday.daysToRemind) {
-                    -1 -> Pair(R.attr.colorMonth2, R.attr.colorMonth1)
-                    -2 -> Pair(R.attr.colorMonth3, R.attr.colorMonth2)
-                    -3 -> Pair(R.attr.colorMonth4, R.attr.colorMonth3)
-                    -4 -> Pair(R.attr.colorMonth5, R.attr.colorMonth4)
-                    -5 -> Pair(R.attr.colorMonth6, R.attr.colorMonth5)
-                    -6 -> Pair(R.attr.colorMonth7, R.attr.colorMonth6)
-                    -7 -> Pair(R.attr.colorMonth8, R.attr.colorMonth7)
-                    -8 -> Pair(R.attr.colorMonth9, R.attr.colorMonth8)
-                    -9 -> Pair(R.attr.colorMonth10, R.attr.colorMonth9)
-                    -10 -> Pair(R.attr.colorMonth11, R.attr.colorMonth10)
-                    -11 -> Pair(R.attr.colorMonth12, R.attr.colorMonth11)
-                    else -> Pair(R.attr.colorMonth1, R.attr.colorMonth12)
-                }
+                val gradientPair: Pair<Int, Int> =
+                    when (southColors) {
+                        true ->
+                            when (currentBirthday.daysToRemind) {
+                                -7 -> Pair(R.attr.colorMonth2, R.attr.colorMonth1)
+                                -8 -> Pair(R.attr.colorMonth3, R.attr.colorMonth2)
+                                -9 -> Pair(R.attr.colorMonth4, R.attr.colorMonth3)
+                                -10 -> Pair(R.attr.colorMonth5, R.attr.colorMonth4)
+                                -11 -> Pair(R.attr.colorMonth6, R.attr.colorMonth5)
+                                -12 -> Pair(R.attr.colorMonth7, R.attr.colorMonth6)
+                                -1 -> Pair(R.attr.colorMonth8, R.attr.colorMonth7)
+                                -2 -> Pair(R.attr.colorMonth9, R.attr.colorMonth8)
+                                -3 -> Pair(R.attr.colorMonth10, R.attr.colorMonth9)
+                                -4 -> Pair(R.attr.colorMonth11, R.attr.colorMonth10)
+                                -5 -> Pair(R.attr.colorMonth12, R.attr.colorMonth11)
+                                else -> Pair(R.attr.colorMonth1, R.attr.colorMonth12)
+                            }
+                        else ->
+                            when (currentBirthday.daysToRemind) {
+                                -1 -> Pair(R.attr.colorMonth2, R.attr.colorMonth1)
+                                -2 -> Pair(R.attr.colorMonth3, R.attr.colorMonth2)
+                                -3 -> Pair(R.attr.colorMonth4, R.attr.colorMonth3)
+                                -4 -> Pair(R.attr.colorMonth5, R.attr.colorMonth4)
+                                -5 -> Pair(R.attr.colorMonth6, R.attr.colorMonth5)
+                                -6 -> Pair(R.attr.colorMonth7, R.attr.colorMonth6)
+                                -7 -> Pair(R.attr.colorMonth8, R.attr.colorMonth7)
+                                -8 -> Pair(R.attr.colorMonth9, R.attr.colorMonth8)
+                                -9 -> Pair(R.attr.colorMonth10, R.attr.colorMonth9)
+                                -10 -> Pair(R.attr.colorMonth11, R.attr.colorMonth10)
+                                -11 -> Pair(R.attr.colorMonth12, R.attr.colorMonth11)
+                                else -> Pair(R.attr.colorMonth1, R.attr.colorMonth12)
+                            }
+                    }
+
 
                 val myGradientDrawable = GradientDrawable(
                     GradientDrawable.Orientation.TL_BR,
@@ -1133,10 +1156,10 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             currentBirthday.day.toString().padStart(2, '0')
 
 
-       if(SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean){
-           dateString += "."+currentBirthday.month.toString()
-               .padStart(2, '0')
-       }
+        if (SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean) {
+            dateString += "." + currentBirthday.month.toString()
+                .padStart(2, '0')
+        }
 
 
         //Display name and date
