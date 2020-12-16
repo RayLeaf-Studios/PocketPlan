@@ -503,7 +503,7 @@ class TodoTaskAdapter(activity: MainActivity) : RecyclerView.Adapter<TodoTaskAda
                 layout.title_dialog,
                 null
             )
-            editTitle.tvDialogTitle.text = myActivity.resources.getText(string.menuTitleTasks)
+            editTitle.tvDialogTitle.text = myActivity.resources.getText(string.tasksEditTitle)
             myBuilder.setCustomTitle(editTitle)
 
             //show dialog

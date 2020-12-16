@@ -14,6 +14,7 @@
     <string name="noteEditorTitle">Название</string>
     <string name="noteEditorText">Заметка</string>
     <string name="noteDiscardDialogSave">Сохранить</string>
+    <string name="tasksEditTitle">tba</string>
     <string name="noteDiscardDialogDiscard">Сбросить</string>
     <string name="noteDiscardDialogTitle">Сохранить изменения?</string>
     <string name="noteDeleteDialogCancel">Oтменить</string>

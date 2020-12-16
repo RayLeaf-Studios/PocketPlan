@@ -29,6 +29,7 @@
 
     <!-- Tasks -->
     <string name="tasksAddTitle">Add Task</string>
+    <string name="tasksEditTitle">Edit Task</string>
     <string name="tasksAddHint">Title</string>
     <string name="prioDisplay1" translatable="false">1</string>
     <string name="prioDisplay3" translatable="false">3</string>
@@ -155,8 +156,8 @@
     <string name="birthdayIn">in</string>
     <string name="notesSwipeToDElete">Swipe to delete</string>
     <string name="notificationNoteAdded">Note was added!</string>
-    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at rayleaf.studios@gmail.com.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.</string>
-    <string name="contact_us">Contact us</string>
+    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.</string>
+    <string name="contact_us">Feedback</string>
     <string name="rayleaf_studios">RayLeaf Studios</string>
     <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
     <string name="version">Version</string>
@@ -243,9 +244,9 @@
         <item>Fruits &amp; Vegetables</item>
         <item>Drinks</item>
         <item>Pasta &amp; Grains</item>
-        <item>Bread and Pastries</item>
-        <item>Cooling shelf milk</item>
-        <item>Cooling shelf meat</item>
+        <item>Bread &amp; Pastries</item>
+        <item>Dairy</item>
+        <item>Meat</item>
         <item>Frozen</item>
         <item>Canned &amp; ready-made</item>
         <item>Breakfast &amp; Co.</item>

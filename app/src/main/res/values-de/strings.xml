@@ -26,6 +26,7 @@
 
     <!-- Tasks -->
     <string name="tasksAddTitle">Aufgabe hinzufügen</string>
+    <string name="tasksEditTitle">Aufgabe bearbeiten</string>
     <string name="tasksAddHint">Titel</string>
 
     <!-- Shopping -->
@@ -129,8 +130,8 @@
     <string name="birthdayIn">in</string>
     <string name="notesSwipeToDElete">Wischen um zu löschen</string>
     <string name="notificationNoteAdded">Notiz hinzugefügt!</string>
-    <string name="settingsAboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter rayleaf.studios@gmail.com.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.</string>
-    <string name="contact_us">Kontakt</string>
+    <string name="settingsAboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter der oben genannten E-Mail Adresse.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.</string>
+    <string name="contact_us">Feedback</string>
     <string name="rayleaf_studios">RayLeaf Studios</string>
     <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
     <string name="version">Version</string>
