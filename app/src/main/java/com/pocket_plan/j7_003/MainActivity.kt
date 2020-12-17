@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         //load default values for settings in case none have been set yet
         loadDefaultSettings()
 
-        //set correct language
+        //set correct language depending on setting
         val languageCode = when(SettingsManager.getSetting(SettingId.LANGUAGE)){
             0.0 -> "en"
             //1.0 = de
@@ -163,8 +163,6 @@ class MainActivity : AppCompatActivity() {
         AndroidThreeTen.init(this)
         AlarmHandler.setBirthdayAlarms(context = this)
 
-
-
         //Initialize toolbar
         setSupportActionBar(myNewToolbar)
         toolBar = myNewToolbar
@@ -176,17 +174,13 @@ class MainActivity : AppCompatActivity() {
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter(this)
 
-        //Initialize Sleep Reminder
-        sleepFr = SleepFr(this)
 
         //Initialize fragment classes necessary for home
-        shoppingFr = ShoppingFr(this)
+        sleepFr = SleepFr(this)
         birthdayFr = BirthdayFr(this)
+        shoppingFr = ShoppingFr(this)
         homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this, sleepFr!!)
-        noteFr = NoteFr(this)
-        noteEditorFr = NoteEditorFr(this, noteFr!!)
 
-        NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
 
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
@@ -246,6 +240,10 @@ class MainActivity : AppCompatActivity() {
                 changeToFragment(FT.HOME)
             }
         }
+
+        //Initialize remaining fragments
+        noteFr = NoteFr(this)
+        NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
 
         //initialize navigation drawer listener
         nav_drawer.setNavigationItemSelectedListener { item ->

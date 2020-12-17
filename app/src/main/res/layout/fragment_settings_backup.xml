@@ -16,7 +16,6 @@
             <androidx.appcompat.widget.Toolbar
                 app:title="@string/backup"
                 android:background="?attr/colorBackgroundElevated"
-                android:id="@+id/backupToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
