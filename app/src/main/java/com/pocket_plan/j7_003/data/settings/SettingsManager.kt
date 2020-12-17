@@ -4,6 +4,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 
 class SettingsManager {
     companion object {
@@ -26,20 +27,20 @@ class SettingsManager {
         }
 
         private fun save() {
-            StorageHandler.saveAsJsonToFile(
-                StorageHandler.files[StorageId.SETTINGS], settings
+            MainActivity.storageHandler.saveAsJsonToFile(
+                MainActivity.storageHandler.files[StorageId.SETTINGS], settings
             )
         }
 
         private fun load() {
-            val jsonString = StorageHandler.files[StorageId.SETTINGS]?.readText()
+            val jsonString = MainActivity.storageHandler.files[StorageId.SETTINGS]?.readText()
 
             settings = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<HashMap<SettingId, Any>>() {}.type)
         }
 
         private fun createFile() {
-            StorageHandler.createJsonFile(StorageId.SETTINGS)
+            MainActivity.storageHandler.createJsonFile(StorageId.SETTINGS)
         }
     }
 }

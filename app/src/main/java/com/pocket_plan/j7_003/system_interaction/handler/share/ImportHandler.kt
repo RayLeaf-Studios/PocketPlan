@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -38,11 +39,11 @@ class ImportHandler(private val parentActivity: Activity) {
         val fileDir = "${parentActivity.filesDir}/"
         val oldFile = File("${fileDir}old_${id.s}")
 
-        oldFile.writeText(StorageHandler.files[id]!!.readText())
-        StorageHandler.files[id]!!.writeText(file.readText())
+        oldFile.writeText(MainActivity.storageHandler.files[id]!!.readText())
+        MainActivity.storageHandler.files[id]!!.writeText(file.readText())
 
         if (!testFiles()) {
-            StorageHandler.files[id]!!.writeText(oldFile.readText())
+            MainActivity.storageHandler.files[id]!!.writeText(oldFile.readText())
         }
 
         oldFile.delete()
@@ -90,7 +91,7 @@ class ImportHandler(private val parentActivity: Activity) {
         }
 
         newFiles.forEach { (id, file) ->
-            StorageHandler.files[id]?.writeText(file.readText())
+            MainActivity.storageHandler.files[id]?.writeText(file.readText())
         }
 
         if (!testFiles()) {

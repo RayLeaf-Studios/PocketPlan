@@ -18,7 +18,7 @@ class ExportHandler(val parentActivity: AppCompatActivity) {
 
         val uri = FileProvider.getUriForFile(
             parentActivity, "${BuildConfig.APPLICATION_ID}.provider",
-            StorageHandler.files[StorageId.ZIP]!!)
+            MainActivity.storageHandler.files[StorageId.ZIP]!!)
 
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "application/zip"
@@ -31,7 +31,7 @@ class ExportHandler(val parentActivity: AppCompatActivity) {
 
     fun shareById(id: StorageId) {
         val uri = FileProvider.getUriForFile(parentActivity,
-            "${parentActivity.applicationContext.packageName}.provider", StorageHandler.files[id]!!)
+            "${parentActivity.applicationContext.packageName}.provider", MainActivity.storageHandler.files[id]!!)
         val sharingIntent = Intent(Intent.ACTION_SEND)
 
         sharingIntent.type = "application/json"
@@ -42,11 +42,11 @@ class ExportHandler(val parentActivity: AppCompatActivity) {
     }
 
     private fun backUpAsZip() {
-        StorageHandler.createFile(StorageId.ZIP, StorageId.ZIP.s)
-        val outputStream = FileOutputStream(StorageHandler.files[StorageId.ZIP])
+        MainActivity.storageHandler.createFile(StorageId.ZIP, StorageId.ZIP.s)
+        val outputStream = FileOutputStream(MainActivity.storageHandler.files[StorageId.ZIP])
         val zipStream = ZipOutputStream(outputStream)
 
-        StorageHandler.files.forEach { (_, file) ->
+        MainActivity.storageHandler.files.forEach { (_, file) ->
             if (file.name != StorageId.ZIP.s) {
                 writeToZipFile(zipStream, file)
             }

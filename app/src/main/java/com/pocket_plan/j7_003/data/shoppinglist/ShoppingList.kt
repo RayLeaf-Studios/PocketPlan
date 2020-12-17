@@ -4,6 +4,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import java.lang.Exception
@@ -11,7 +12,7 @@ import kotlin.collections.ArrayList
 
 class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     init {
-        StorageHandler.createJsonFile(StorageId.SHOPPING)
+        MainActivity.storageHandler.createJsonFile(StorageId.SHOPPING)
         fetchList()
     }
 
@@ -310,13 +311,13 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     }
 
     fun save() {
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.SHOPPING], this
+        MainActivity.storageHandler.saveAsJsonToFile(
+            MainActivity.storageHandler.files[StorageId.SHOPPING], this
         )
     }
 
     private fun fetchList() {
-        val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
+        val jsonString = MainActivity.storageHandler.files[StorageId.SHOPPING]?.readText()
 
         this.addAll(
             GsonBuilder().create()

@@ -1,7 +1,6 @@
 package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.content.Context
-import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -17,7 +16,7 @@ import kotlin.collections.ArrayList
 class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday>() {
 
     init {
-        StorageHandler.createJsonFile(StorageId.BIRTHDAYS, context)
+        MainActivity.storageHandler.createJsonFile(StorageId.BIRTHDAYS, context)
         fetchFromFile()
         sortBirthday()
     }
@@ -213,7 +212,7 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.BIRTHDAYS]?.readText()
+        val jsonString = MainActivity.storageHandler.files[StorageId.BIRTHDAYS]?.readText()
 
         this.addAll(
             GsonBuilder().create()
@@ -222,8 +221,8 @@ class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday
     }
 
     private fun save() {
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.BIRTHDAYS], this
+        MainActivity.storageHandler.saveAsJsonToFile(
+            MainActivity.storageHandler.files[StorageId.BIRTHDAYS], this
         )
     }
 }

@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.settings.SettingId
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
@@ -178,7 +179,7 @@ class SleepReminder(passedContext: Context) {
     }
 
     private fun createFile() {
-        StorageHandler.createJsonFile(
+        MainActivity.storageHandler.createJsonFile(
             StorageId.SLEEP, text = Gson().toJson(reminder), context = myContext
         )
 
@@ -188,12 +189,12 @@ class SleepReminder(passedContext: Context) {
     }
 
     private fun save() {
-        StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
+        MainActivity.storageHandler.saveAsJsonToFile(MainActivity.storageHandler.files[StorageId.SLEEP], reminder)
         SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
     }
 
     private fun load() {
-        val jsonString = StorageHandler.files[StorageId.SLEEP]?.readText()
+        val jsonString = MainActivity.storageHandler.files[StorageId.SLEEP]?.readText()
 
         reminder = GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)

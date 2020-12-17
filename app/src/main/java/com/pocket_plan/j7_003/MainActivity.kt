@@ -43,6 +43,7 @@ import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import kotlinx.android.synthetic.main.dialog_delete.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var itemTemplateList: ItemTemplateList
         lateinit var userItemTemplateList: UserItemTemplateList
         lateinit var itemNameList: ArrayList<String>
+        lateinit var storageHandler: StorageHandler
         var unitChanged: Boolean = false
 
         var addItemDialog: AlertDialog? = null
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         act = this
-
+        storageHandler = StorageHandler(this)
 
         SettingsManager.init()
 

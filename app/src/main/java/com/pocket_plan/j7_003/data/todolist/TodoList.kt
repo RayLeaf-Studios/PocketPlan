@@ -4,10 +4,11 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 
 class TodoList: ArrayList<Task>() {
    init {
-       StorageHandler.createJsonFile(StorageId.TASKS)
+       MainActivity.storageHandler.createJsonFile(StorageId.TASKS)
        fetchFromFile()
    }
 
@@ -106,14 +107,14 @@ class TodoList: ArrayList<Task>() {
     }
 
     fun save() {
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.TASKS],
+        MainActivity.storageHandler.saveAsJsonToFile(
+            MainActivity.storageHandler.files[StorageId.TASKS],
             this
         )
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.TASKS]?.readText()
+        val jsonString = MainActivity.storageHandler.files[StorageId.TASKS]?.readText()
 
         this.addAll(
             GsonBuilder().create().fromJson(

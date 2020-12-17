@@ -4,11 +4,12 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 import java.util.*
 
 class NoteList : LinkedList<Note>() {
     init {
-        StorageHandler.createJsonFile(StorageId.NOTES)
+        MainActivity.storageHandler.createJsonFile(StorageId.NOTES)
         fetchFromFile()
     }
 
@@ -38,13 +39,13 @@ class NoteList : LinkedList<Note>() {
     fun getNote(index: Int): Note = this[index]
 
     fun save() {
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.NOTES], this
+        MainActivity.storageHandler.saveAsJsonToFile(
+            MainActivity.storageHandler.files[StorageId.NOTES], this
         )
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
+        val jsonString = MainActivity.storageHandler.files[StorageId.NOTES]?.readText()
 
         this.addAll(
             GsonBuilder().create().fromJson(

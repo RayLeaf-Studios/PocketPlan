@@ -4,12 +4,13 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.MainActivity
 import java.lang.NullPointerException
 import kotlin.collections.ArrayList
 
 class UserItemTemplateList: ArrayList<ItemTemplate>() {
     init {
-        StorageHandler.createJsonFile(StorageId.USER_TEMPLATE_LIST)
+        MainActivity.storageHandler.createJsonFile(StorageId.USER_TEMPLATE_LIST)
         fetchList()
     }
 
@@ -90,13 +91,13 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
             list.add(TMPTemplate(e.n, e.c, e.s))
         }
 
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.USER_TEMPLATE_LIST], list)
+        MainActivity.storageHandler.saveAsJsonToFile(
+            MainActivity.storageHandler.files[StorageId.USER_TEMPLATE_LIST], list)
     }
 
     private fun fetchList() {
         val list = ArrayList<TMPTemplate>()
-        val jsonString = StorageHandler.files[StorageId.USER_TEMPLATE_LIST]?.readText()
+        val jsonString = MainActivity.storageHandler.files[StorageId.USER_TEMPLATE_LIST]?.readText()
 
         list.addAll(
             GsonBuilder().create()
