@@ -113,7 +113,7 @@ class ImportHandler(private val parentActivity: Activity) {
 
     private fun testFiles(): Boolean {
         return try {
-            BirthdayList()
+            BirthdayList(parentActivity)
             NoteList()
             TodoList()
             SettingsManager.init()

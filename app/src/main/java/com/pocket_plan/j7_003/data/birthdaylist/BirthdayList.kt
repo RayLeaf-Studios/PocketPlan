@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList(val context: Context = MainActivity.act) : ArrayList<Birthday>() {
+class BirthdayList(val context: Context) : ArrayList<Birthday>() {
 
     init {
         MainActivity.storageHandler.createJsonFile(StorageId.BIRTHDAYS, context)
