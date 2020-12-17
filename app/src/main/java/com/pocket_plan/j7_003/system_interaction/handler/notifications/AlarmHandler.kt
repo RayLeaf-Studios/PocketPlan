@@ -54,7 +54,7 @@ class AlarmHandler {
         }
 
         fun setNewSleepReminderAlarm(
-            context: Context = MainActivity.act, dayOfWeek: DayOfWeek,
+            context: Context, dayOfWeek: DayOfWeek,
             reminderTime: LocalDateTime, requestCode: Int, isSet: Boolean
         ) {
             val intent = Intent(context, NotificationReceiver::class.java)

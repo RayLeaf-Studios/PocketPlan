@@ -1,12 +1,12 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
-import com.pocket_plan.j7_003.MainActivity
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ItemTemplateList : ArrayList<ItemTemplate>() {
+class ItemTemplateList(val context: Context) : ArrayList<ItemTemplate>() {
     init {
         loadFromAssets()
     }
@@ -31,17 +31,16 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
         val jsonString =
             when {
                 Locale.getDefault().displayLanguage == Locale.GERMAN.displayLanguage -> {
-                    MainActivity.act.assets.open("item_list_de.json").bufferedReader().readText()
+                    context.assets.open("item_list_de.json").bufferedReader().readText()
                 }
                 Locale.getDefault().displayLanguage.toString() == "русский" -> {
-                    MainActivity.act.assets.open("item_list_ru.json").bufferedReader().readText()
+                    context.assets.open("item_list_ru.json").bufferedReader().readText()
                 }
-                else -> MainActivity.act.assets.open("item_list_en.json").bufferedReader().readText()
+                else -> context.assets.open("item_list_en.json").bufferedReader().readText()
             }
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type
-        )
+                .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type)
 
         list.forEach { e ->
             this.add(ItemTemplate(e.n, e.c, "x"))

@@ -273,7 +273,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     fun preloadAddItemDialog(mylayoutInflater: LayoutInflater) {
 
         //initialize shopping list data
-        MainActivity.itemTemplateList = ItemTemplateList()
+        MainActivity.itemTemplateList = ItemTemplateList(myActivity)
         MainActivity.userItemTemplateList = UserItemTemplateList()
         shoppingListInstance = ShoppingList()
 
