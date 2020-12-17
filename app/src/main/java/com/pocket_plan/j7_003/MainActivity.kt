@@ -539,7 +539,7 @@ class MainActivity : AppCompatActivity() {
 
     fun refreshData() {
         noteFr!!.noteListInstance = NoteList()
-        birthdayFr!!.birthdayListInstance = BirthdayList()
+        birthdayFr!!.birthdayListInstance = BirthdayList(this)
         ShoppingFr.shoppingListInstance = ShoppingList()
         SettingsManager.init()
         sleepFr!!.sleepReminderInstance = SleepReminder(this)
