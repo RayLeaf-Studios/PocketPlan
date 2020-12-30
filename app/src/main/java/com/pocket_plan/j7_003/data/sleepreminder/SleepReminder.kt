@@ -179,8 +179,8 @@ class SleepReminder(passedContext: Context) {
     }
 
     private fun createFile() {
-        MainActivity.storageHandler.createJsonFile(
-            StorageId.SLEEP, text = Gson().toJson(reminder), context = myContext
+        StorageHandler.createJsonFile(
+            StorageId.SLEEP, text = Gson().toJson(reminder)
         )
 
         if (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
@@ -189,12 +189,12 @@ class SleepReminder(passedContext: Context) {
     }
 
     private fun save() {
-        MainActivity.storageHandler.saveAsJsonToFile(MainActivity.storageHandler.files[StorageId.SLEEP], reminder)
+        StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
         SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
     }
 
     private fun load() {
-        val jsonString = MainActivity.storageHandler.files[StorageId.SLEEP]?.readText()
+        val jsonString = StorageHandler.files[StorageId.SLEEP]?.readText()
 
         reminder = GsonBuilder().create()
             .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)

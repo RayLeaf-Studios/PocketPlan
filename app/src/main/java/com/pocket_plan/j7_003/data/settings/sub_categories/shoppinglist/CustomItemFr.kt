@@ -137,7 +137,7 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainAc
         val itemName = item.n
 
         //remove item from item name list, if it doesn't exist as a regular item
-        if(MainActivity.itemTemplateList.getTemplateByName(itemName)==null){
+        if(mainActivity.itemTemplateList.getTemplateByName(itemName)==null){
             MainActivity.itemNameList.remove(itemName)
         }
 

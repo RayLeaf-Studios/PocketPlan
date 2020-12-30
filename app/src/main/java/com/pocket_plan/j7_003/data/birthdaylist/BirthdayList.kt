@@ -1,13 +1,12 @@
 package com.pocket_plan.j7_003.data.birthdaylist
 
 import android.content.Context
-import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import org.threeten.bp.LocalDate
-import kotlin.collections.ArrayList
 
 /**
  * A simple handler to manage the interaction of different objects
@@ -16,7 +15,7 @@ import kotlin.collections.ArrayList
 class BirthdayList(val context: Context) : ArrayList<Birthday>() {
 
     init {
-        MainActivity.storageHandler.createJsonFile(StorageId.BIRTHDAYS, context)
+        StorageHandler.createJsonFile(StorageId.BIRTHDAYS)
         fetchFromFile()
         sortBirthday()
     }
@@ -212,7 +211,7 @@ class BirthdayList(val context: Context) : ArrayList<Birthday>() {
     }
 
     private fun fetchFromFile() {
-        val jsonString = MainActivity.storageHandler.files[StorageId.BIRTHDAYS]?.readText()
+        val jsonString = StorageHandler.files[StorageId.BIRTHDAYS]?.readText()
 
         this.addAll(
             GsonBuilder().create()
@@ -221,8 +220,8 @@ class BirthdayList(val context: Context) : ArrayList<Birthday>() {
     }
 
     private fun save() {
-        MainActivity.storageHandler.saveAsJsonToFile(
-            MainActivity.storageHandler.files[StorageId.BIRTHDAYS], this
+        StorageHandler.saveAsJsonToFile(
+            StorageHandler.files[StorageId.BIRTHDAYS], this
         )
     }
 }

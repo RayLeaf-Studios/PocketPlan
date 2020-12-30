@@ -27,20 +27,20 @@ class SettingsManager {
         }
 
         private fun save() {
-            MainActivity.storageHandler.saveAsJsonToFile(
-                MainActivity.storageHandler.files[StorageId.SETTINGS], settings
+            StorageHandler.saveAsJsonToFile(
+                StorageHandler.files[StorageId.SETTINGS], settings
             )
         }
 
         private fun load() {
-            val jsonString = MainActivity.storageHandler.files[StorageId.SETTINGS]?.readText()
+            val jsonString = StorageHandler.files[StorageId.SETTINGS]?.readText()
 
             settings = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<HashMap<SettingId, Any>>() {}.type)
         }
 
         private fun createFile() {
-            MainActivity.storageHandler.createJsonFile(StorageId.SETTINGS)
+            StorageHandler.createJsonFile(StorageId.SETTINGS)
         }
     }
 }

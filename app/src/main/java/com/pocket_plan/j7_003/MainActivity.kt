@@ -41,7 +41,6 @@ import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
-import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import kotlinx.android.synthetic.main.dialog_delete.view.*
@@ -65,13 +64,12 @@ class MainActivity : AppCompatActivity() {
     var addItemDialogView: View? = null
     var shoppingTitle: View? = null
     lateinit var toolBar: Toolbar
+    lateinit var itemTemplateList: ItemTemplateList
 
     companion object {
         //contents for shopping list
-        lateinit var itemTemplateList: ItemTemplateList
         lateinit var userItemTemplateList: UserItemTemplateList
         lateinit var itemNameList: ArrayList<String>
-        lateinit var storageHandler: StorageHandler
         var unitChanged: Boolean = false
 
         var addItemDialog: AlertDialog? = null
@@ -79,7 +77,6 @@ class MainActivity : AppCompatActivity() {
         var justRestarted = false
 
         val previousFragmentStack: Stack<FT> = Stack()
-        lateinit var act: MainActivity
         var editNoteHolder: Note? = null
         lateinit var bottomNavigation: BottomNavigationView
     }
@@ -122,8 +119,7 @@ class MainActivity : AppCompatActivity() {
             previousFragmentStack.push(FT.EMPTY)
         }
 
-        act = this
-        storageHandler = StorageHandler(this)
+        StorageHandler.path = this.filesDir.absolutePath
 
         SettingsManager.init()
 
@@ -186,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
 
         // deletion of log file
-        Logger(this).deleteFile()
+//        Logger(this).deleteFile()
 
         //display current versionName
         val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName

@@ -39,11 +39,11 @@ class ImportHandler(private val parentActivity: Activity) {
         val fileDir = "${parentActivity.filesDir}/"
         val oldFile = File("${fileDir}old_${id.s}")
 
-        oldFile.writeText(MainActivity.storageHandler.files[id]!!.readText())
-        MainActivity.storageHandler.files[id]!!.writeText(file.readText())
+        oldFile.writeText(StorageHandler.files[id]!!.readText())
+        StorageHandler.files[id]!!.writeText(file.readText())
 
         if (!testFiles()) {
-            MainActivity.storageHandler.files[id]!!.writeText(oldFile.readText())
+            StorageHandler.files[id]!!.writeText(oldFile.readText())
         }
 
         oldFile.delete()
@@ -91,7 +91,7 @@ class ImportHandler(private val parentActivity: Activity) {
         }
 
         newFiles.forEach { (id, file) ->
-            MainActivity.storageHandler.files[id]?.writeText(file.readText())
+            StorageHandler.files[id]?.writeText(file.readText())
         }
 
         if (!testFiles()) {

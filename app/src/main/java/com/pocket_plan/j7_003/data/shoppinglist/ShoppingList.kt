@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
 
 class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     init {
-        MainActivity.storageHandler.createJsonFile(StorageId.SHOPPING)
+        StorageHandler.createJsonFile(StorageId.SHOPPING)
         fetchList()
     }
 
@@ -311,13 +311,13 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
     }
 
     fun save() {
-        MainActivity.storageHandler.saveAsJsonToFile(
-            MainActivity.storageHandler.files[StorageId.SHOPPING], this
+        StorageHandler.saveAsJsonToFile(
+            StorageHandler.files[StorageId.SHOPPING], this
         )
     }
 
     private fun fetchList() {
-        val jsonString = MainActivity.storageHandler.files[StorageId.SHOPPING]?.readText()
+        val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
 
         this.addAll(
             GsonBuilder().create()

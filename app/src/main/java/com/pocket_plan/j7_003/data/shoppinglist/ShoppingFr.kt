@@ -273,7 +273,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     fun preloadAddItemDialog(mylayoutInflater: LayoutInflater) {
 
         //initialize shopping list data
-        MainActivity.itemTemplateList = ItemTemplateList(myActivity)
+        myActivity.itemTemplateList = ItemTemplateList(myActivity)
         MainActivity.userItemTemplateList = UserItemTemplateList()
         shoppingListInstance = ShoppingList()
 
@@ -286,7 +286,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         }
 
         //add all regular items to itemNameList
-        MainActivity.itemTemplateList.forEach {
+        myActivity.itemTemplateList.forEach {
             if (!MainActivity.itemNameList.contains(it.n)) {
                 MainActivity.itemNameList.add(it.n)
             }
@@ -389,7 +389,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
                 //if there is none, check for existing regular template
                 if (template == null) {
-                    template = MainActivity.itemTemplateList.getTemplateByName(input)
+                    template = myActivity.itemTemplateList.getTemplateByName(input)
                 }
 
                 //if template now is not null, select correct unit and category
@@ -483,7 +483,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             if (template == null) {
                 //no user item with this name => check for regular template
 
-                template = MainActivity.itemTemplateList.getTemplateByName(nameInput)
+                template = myActivity.itemTemplateList.getTemplateByName(nameInput)
                 if (template == null || categoryCode != template!!.c || spItemUnit.selectedItemPosition != 0) {
                     //item unknown, or item known under different category or with different unit, use selected category and unit,
                     // add item new ItemTemplate to userItemTemplate list, using entered values

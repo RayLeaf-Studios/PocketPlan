@@ -8,7 +8,7 @@ import com.pocket_plan.j7_003.MainActivity
 
 class TodoList: ArrayList<Task>() {
    init {
-       MainActivity.storageHandler.createJsonFile(StorageId.TASKS)
+       StorageHandler.createJsonFile(StorageId.TASKS)
        fetchFromFile()
    }
 
@@ -107,14 +107,14 @@ class TodoList: ArrayList<Task>() {
     }
 
     fun save() {
-        MainActivity.storageHandler.saveAsJsonToFile(
-            MainActivity.storageHandler.files[StorageId.TASKS],
+        StorageHandler.saveAsJsonToFile(
+            StorageHandler.files[StorageId.TASKS],
             this
         )
     }
 
     private fun fetchFromFile() {
-        val jsonString = MainActivity.storageHandler.files[StorageId.TASKS]?.readText()
+        val jsonString = StorageHandler.files[StorageId.TASKS]?.readText()
 
         this.addAll(
             GsonBuilder().create().fromJson(

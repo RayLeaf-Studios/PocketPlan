@@ -1,36 +1,36 @@
 package com.pocket_plan.j7_003.system_interaction.handler.storage
 
-import android.content.Context
 import com.google.gson.Gson
 import java.io.File
 
-class StorageHandler(val context: Context) {
-    var files = HashMap<StorageId, File>()
+class StorageHandler {
 
-    fun saveAsJsonToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
+    companion object{
+        var files = HashMap<StorageId, File>()
+        lateinit var path: String
 
-    fun createFile(identifier: StorageId, fileName: String) {
-        files[identifier] =
-            setStorageLocation(fileName, context)
+        fun saveAsJsonToFile(file: File?, any: Any) = file?.writeText(Gson().toJson(any))
 
-        if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
-            files[identifier]?.createNewFile()
+        fun createFile(identifier: StorageId, fileName: String) {
+            files[identifier] =
+                setStorageLocation(fileName)
+
+            if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
+                files[identifier]?.createNewFile()
+            }
         }
-    }
 
-    fun createJsonFile(identifier: StorageId, context: Context = this.context,
-                       text: String = "[]") {
-        files[identifier] =
-            setStorageLocation(
-                identifier.s,
-                context
-            )
+        fun createJsonFile(identifier: StorageId, text: String = "[]") {
+            files[identifier] =
+                setStorageLocation(identifier.s)
 
-        if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
-            files[identifier]?.writeText(text)
+            if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
+                files[identifier]?.writeText(text)
+            }
         }
-    }
 
-    private fun setStorageLocation(fileName: String, context: Context): File =
-        File(context.filesDir, fileName)
+        private fun setStorageLocation(fileName: String): File =
+            File(path, fileName)
+
+    }
 }
