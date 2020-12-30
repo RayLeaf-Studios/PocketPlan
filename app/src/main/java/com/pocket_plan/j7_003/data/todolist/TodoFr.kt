@@ -73,10 +73,6 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
             R.id.item_tasks_undo -> {
 //                undo deletion of last task
 
-
-//                val newPos = todoListInstance.addFullTask(deletedTask!!)
-//                myAdapter.notifyItemInserted(newPos)
-
                 todoListInstance.addFullTask(deletedTask!!)
                 myAdapter.notifyDataSetChanged()
 
@@ -154,10 +150,6 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                         return
                     }
 
-                    if (viewHolder.adapterPosition == todoListInstance.size) {
-                        return
-                    }
-
                     //indicate the current move is over
                     moving = false
 
@@ -218,8 +210,6 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                     todoListInstance[viewHolder.adapterPosition].priority = newPriority
                     todoListInstance.save()
 
-                    //if priority or checkedState did change, refresh adapter
-//                    myAdapter.notifyDataSetChanged()
                     if (oldPriority != newPriority || oldCheckedState != newCheckedState) {
                         myAdapter.notifyItemChanged(viewHolder.adapterPosition)
                     }
@@ -233,13 +223,8 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                 ): Boolean {
 
                     val fromPos = viewHolder.adapterPosition
-                    if (fromPos == todoListInstance.size) {
-                        return true
-                    }
 
                     var toPos = target.adapterPosition
-
-                    if (toPos == todoListInstance.size) toPos--
 
                     if (!moving) {
                         moving = true
@@ -429,15 +414,6 @@ class TodoTaskAdapter(activity: MainActivity) : RecyclerView.Adapter<TodoTaskAda
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
-        if (position == TodoFr.todoListInstance.size) {
-            holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.tvName.setOnLongClickListener { true }
-            holder.itemView.tapField.setOnClickListener { }
-            val density = myActivity.resources.displayMetrics.density
-            holder.itemView.layoutParams.height = (100 * density).toInt()
-            return
-        }
-
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
 
@@ -574,7 +550,7 @@ class TodoTaskAdapter(activity: MainActivity) : RecyclerView.Adapter<TodoTaskAda
 //        holder.itemView.cbTask.
     }
 
-    override fun getItemCount() = TodoFr.todoListInstance.size + 1
+    override fun getItemCount() = TodoFr.todoListInstance.size
 
     class TodoTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
