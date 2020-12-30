@@ -27,7 +27,6 @@ class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
     private lateinit var spShapes: Spinner
     private lateinit var spLanguages: Spinner
 
-    private lateinit var swSafetySlider: SwitchCompat
     private lateinit var swShakeTaskInHome: SwitchCompat
     private lateinit var swSystemTheme: SwitchCompat
 
@@ -58,7 +57,6 @@ class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
         spLanguages = myView.spLanguages
 
         //switches
-        swSafetySlider = myView.swSafetySlider
         swShakeTaskInHome = myView.swShakeTaskInHome
         swSystemTheme = myView.swSystemTheme
 
@@ -95,7 +93,7 @@ class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
         spLanguages.adapter = spAdapterLanguages
     }
 
-    fun initializeDisplayValues() {
+    private fun initializeDisplayValues() {
         val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME_DARK)){
             //show "dark" setting
             true -> 0
@@ -120,7 +118,6 @@ class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
                 else -> 1
             }
         )
-//        swSafetySlider.isChecked = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
         swShakeTaskInHome.isChecked = SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean
         swSystemTheme.isChecked = SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean
     }
@@ -207,10 +204,6 @@ class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
             }
-        }
-
-        swSafetySlider.setOnClickListener {
-//            SettingsManager.addSetting(SettingId.SAFETY_SLIDER_DIALOG, swSafetySlider.isChecked)
         }
 
         swShakeTaskInHome.setOnClickListener {

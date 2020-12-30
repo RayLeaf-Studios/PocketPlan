@@ -36,6 +36,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tvOneCategory"
+                    android:text="@string/settings_birthdays_month_addition"
+                    android:textColor="?attr/colorHint"
+                    app:layout_constraintStart_toStartOf="@id/tvOneCategory"/>
+
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swShowMonth"
                     app:layout_constraintTop_toTopOf="@id/tvOneCategory"
@@ -90,12 +98,10 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:paddingHorizontal="20dp">
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:paddingHorizontal="20dp"></androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

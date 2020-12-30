@@ -143,6 +143,7 @@
     <string name="setting_title_languages">Sprache</string>
     <string name="show_month_for_every_birthday">Zeige Monat für jeden Geburtstag</string>
     <string name="month_colors_for_southern_hemisphere">Monats-Farben für südliche Hemisphäre</string>
+    <string name="settings_birthdays_month_addition">z.B. \"14.03\" statt \"14\"</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
