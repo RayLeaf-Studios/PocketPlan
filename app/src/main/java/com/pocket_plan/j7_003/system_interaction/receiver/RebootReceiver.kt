@@ -15,21 +15,12 @@ import java.lang.Exception
 class RebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         AndroidThreeTen.init(context)
-        val myLogger = Logger(context)
-        myLogger.log("RebootReceiver", "Reboot received")
-
-        try {
-            if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
-                StorageHandler.path = context.filesDir.absolutePath
-                AlarmHandler.run {
-                    setBirthdayAlarms(context = context)
-                }
-                SleepReminder(context).updateReminder()
-                myLogger.log("RebootReceiver", "Reboot worked!")
+        if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
+            StorageHandler.path = context.filesDir.absolutePath
+            AlarmHandler.run {
+                setBirthdayAlarms(context = context)
             }
-        }catch(e: Exception) {
-            myLogger.log("RebootReceiver", e.stackTraceToString())
+            SleepReminder(context).updateReminder()
         }
-
     }
 }
