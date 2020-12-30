@@ -122,7 +122,6 @@ class ImportHandler(private val parentActivity: Activity) {
             BirthdayList(parentActivity).check()
             val noteList = NoteList()
             noteList.check()
-            Log.e("noteList", noteList.toString())
 
             TodoList().check()
 

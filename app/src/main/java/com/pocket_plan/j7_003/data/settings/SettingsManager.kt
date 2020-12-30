@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.settings
 
+import android.util.Log
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
@@ -36,9 +37,16 @@ class SettingsManager{
 
         private fun load() {
             val jsonString = StorageHandler.files[StorageId.SETTINGS]?.readText()
+            val cacheMap: HashMap<SettingId, Any>
 
-            settings = GsonBuilder().create()
+            cacheMap = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<HashMap<SettingId, Any>>() {}.type)
+
+            cacheMap.forEach { (settingId, value) ->
+                if (SettingId.values().contains(settingId)) {
+                    settings[settingId] = value
+                }
+            }
         }
 
         private fun createFile() {
