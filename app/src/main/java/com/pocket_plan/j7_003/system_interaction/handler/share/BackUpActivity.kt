@@ -115,13 +115,10 @@ class BackUpActivity: AppCompatActivity() {
                     zipFile.delete()
                     file.delete()
 
-                    Toast.makeText(this, "Import successful!", Toast.LENGTH_SHORT).show()
-
                     return
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(this, "Import failed", Toast.LENGTH_SHORT).show()
             zipFile.delete()
             file.delete()
             return

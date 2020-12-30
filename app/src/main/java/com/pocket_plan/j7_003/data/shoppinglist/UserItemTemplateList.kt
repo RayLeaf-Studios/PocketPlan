@@ -4,11 +4,11 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.data.Checkable
 import java.lang.NullPointerException
 import kotlin.collections.ArrayList
 
-class UserItemTemplateList: ArrayList<ItemTemplate>() {
+class UserItemTemplateList: ArrayList<ItemTemplate>(), Checkable {
     init {
         StorageHandler.createJsonFile(StorageId.USER_TEMPLATE_LIST)
         fetchList()
@@ -110,4 +110,13 @@ class UserItemTemplateList: ArrayList<ItemTemplate>() {
     }
 
     private class TMPTemplate(val n: String, val c: String, val s: String)
+
+    override fun check() {
+        this.forEach {
+            if(it == null){
+                throw NullPointerException()
+            }
+        }
+    }
+
 }

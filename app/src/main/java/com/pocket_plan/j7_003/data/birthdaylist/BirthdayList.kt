@@ -4,15 +4,17 @@ import android.content.Context
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import org.threeten.bp.LocalDate
+import java.lang.NullPointerException
 
 /**
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList(val context: Context) : ArrayList<Birthday>() {
+class BirthdayList(val context: Context) : ArrayList<Birthday>(), Checkable {
 
     init {
         StorageHandler.createJsonFile(StorageId.BIRTHDAYS)
@@ -224,4 +226,13 @@ class BirthdayList(val context: Context) : ArrayList<Birthday>() {
             StorageHandler.files[StorageId.BIRTHDAYS], this
         )
     }
+
+    override fun check() {
+        this.forEach {
+            if(it == null){
+                throw NullPointerException()
+            }
+        }
+    }
+
 }

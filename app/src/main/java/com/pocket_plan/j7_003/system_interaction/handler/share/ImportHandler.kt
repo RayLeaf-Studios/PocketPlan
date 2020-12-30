@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
@@ -15,6 +16,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.io.File
 import java.io.InputStream
+import java.lang.NullPointerException
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -108,22 +110,32 @@ class ImportHandler(private val parentActivity: Activity) {
         val chooseFileIntent = Intent(Intent.ACTION_GET_CONTENT)
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
-        parentActivity.startActivityForResult(Intent.createChooser(chooseFileIntent, "Choose file"), id.i)
+        parentActivity.startActivityForResult(
+            Intent.createChooser(chooseFileIntent, "Choose file"),
+            id.i
+        )
     }
 
     private fun testFiles(): Boolean {
         return try {
-            BirthdayList(parentActivity)
-            NoteList()
-            TodoList()
+            ShoppingList().check()
+            BirthdayList(parentActivity).check()
+            val noteList = NoteList()
+            noteList.check()
+            Log.e("noteList", noteList.toString())
+
+            TodoList().check()
+
             SettingsManager.init()
-            SleepReminder(parentActivity)
-            ShoppingList()
-            UserItemTemplateList()
+            SettingsManager.check()
+
+            SleepReminder(parentActivity).check()
+            UserItemTemplateList().check()
+
             Toast.makeText(parentActivity, "Import successful!", Toast.LENGTH_SHORT).show()
+
             true
         } catch (e: Exception) {
-            // inform the user that the import didn't succeed
             Toast.makeText(parentActivity, "Import failed", Toast.LENGTH_SHORT).show()
             false
         }

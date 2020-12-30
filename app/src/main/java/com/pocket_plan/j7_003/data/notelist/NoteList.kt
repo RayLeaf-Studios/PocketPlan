@@ -2,11 +2,13 @@ package com.pocket_plan.j7_003.data.notelist
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import java.lang.NullPointerException
 import java.util.*
 
-class NoteList : LinkedList<Note>() {
+class NoteList : LinkedList<Note>(), Checkable {
     init {
         StorageHandler.createJsonFile(StorageId.NOTES)
         fetchFromFile()
@@ -52,4 +54,13 @@ class NoteList : LinkedList<Note>() {
             )
         )
     }
+
+    override fun check() {
+        this.forEach {
+            if(it.color == null || it.title == null || it.content== null){
+                throw NullPointerException()
+            }
+        }
+    }
+
 }

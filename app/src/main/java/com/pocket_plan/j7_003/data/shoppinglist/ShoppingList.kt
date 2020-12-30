@@ -5,12 +5,13 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
-class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
+class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable {
     init {
         StorageHandler.createJsonFile(StorageId.SHOPPING)
         fetchList()
@@ -326,5 +327,13 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>() {
                     object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
                 )
         )
+    }
+
+    override fun check() {
+        this.forEach {
+            if (it.first == null || it.second == null) {
+                throw java.lang.NullPointerException()
+            }
+        }
     }
 }

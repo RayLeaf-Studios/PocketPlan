@@ -5,9 +5,11 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.data.Checkable
+import java.lang.NullPointerException
 
-class SettingsManager {
-    companion object {
+class SettingsManager{
+    companion object : Checkable{
         var settings = HashMap<SettingId, Any>()
 
         fun init() {
@@ -42,5 +44,16 @@ class SettingsManager {
         private fun createFile() {
             StorageHandler.createJsonFile(StorageId.SETTINGS)
         }
+
+        override fun check() {
+            settings.forEach {
+                if(it.key == null || it.value == null){
+                    throw NullPointerException()
+                }
+            }
+        }
+
     }
+
+
 }

@@ -5,8 +5,10 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.data.Checkable
+import java.lang.NullPointerException
 
-class TodoList: ArrayList<Task>() {
+class TodoList: ArrayList<Task>(), Checkable{
    init {
        StorageHandler.createJsonFile(StorageId.TASKS)
        fetchFromFile()
@@ -120,4 +122,13 @@ class TodoList: ArrayList<Task>() {
             GsonBuilder().create().fromJson(
                 jsonString, object : TypeToken<ArrayList<Task>>() {}.type))
     }
+
+    override fun check() {
+        this.forEach {
+            if(it.priority == null || it.isChecked == null || it.title == null){
+                throw NullPointerException()
+            }
+        }
+    }
+
 }

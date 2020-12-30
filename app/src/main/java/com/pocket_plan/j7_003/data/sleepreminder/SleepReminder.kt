@@ -11,17 +11,19 @@ import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
 import org.threeten.bp.temporal.ChronoUnit
 import org.threeten.bp.temporal.TemporalAdjusters
+import java.lang.NullPointerException
 import kotlin.math.abs
 
 /**
  * A simple class to handle different Reminders for a sleep schedule
  */
-class SleepReminder(passedContext: Context) {
+class SleepReminder(passedContext: Context) : Checkable{
     var myContext = passedContext
     var daysAreCustom: Boolean = false
     var reminder = HashMap<DayOfWeek, Reminder>(7)
@@ -266,6 +268,14 @@ class SleepReminder(passedContext: Context) {
             }
         )
         save()
+    }
+
+    override fun check() {
+        reminder.forEach {
+            if(it.key == null || it.value == null){
+                throw NullPointerException()
+            }
+        }
     }
 
     /**
