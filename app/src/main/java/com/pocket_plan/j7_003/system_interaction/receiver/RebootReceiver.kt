@@ -3,14 +3,10 @@ package com.pocket_plan.j7_003.system_interaction.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
-import com.google.android.gms.auth.api.signin.internal.Storage
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
-import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
-import java.lang.Exception
 
 class RebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

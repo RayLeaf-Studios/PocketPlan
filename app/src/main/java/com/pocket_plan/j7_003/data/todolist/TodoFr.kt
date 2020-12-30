@@ -224,7 +224,7 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
 
                     val fromPos = viewHolder.adapterPosition
 
-                    var toPos = target.adapterPosition
+                    val toPos = target.adapterPosition
 
                     if (!moving) {
                         moving = true
@@ -369,7 +369,7 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
     }
 }
 
-class SwipeToDeleteTask(direction: Int, val adapter: TodoTaskAdapter) : ItemTouchHelper
+class SwipeToDeleteTask(direction: Int, private val adapter: TodoTaskAdapter) : ItemTouchHelper
 .SimpleCallback(0, direction) {
     override fun onMove(
         recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,

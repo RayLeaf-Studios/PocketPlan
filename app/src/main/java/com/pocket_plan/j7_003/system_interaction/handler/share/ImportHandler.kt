@@ -2,9 +2,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
-import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -16,7 +14,6 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.io.File
 import java.io.InputStream
-import java.lang.NullPointerException
 import java.util.*
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile

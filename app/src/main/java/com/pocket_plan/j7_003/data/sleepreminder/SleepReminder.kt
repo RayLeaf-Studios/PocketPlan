@@ -1,7 +1,6 @@
 package com.pocket_plan.j7_003.data.sleepreminder
 
 import android.content.Context
-import android.util.Log
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
@@ -10,7 +9,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import org.threeten.bp.*

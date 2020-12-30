@@ -5,9 +5,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.system_interaction.receiver.NotificationReceiver
-import org.threeten.bp.*
+import org.threeten.bp.DayOfWeek
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 
 class AlarmHandler {
     companion object {

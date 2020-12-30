@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.data.sleepreminder
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.CheckBox

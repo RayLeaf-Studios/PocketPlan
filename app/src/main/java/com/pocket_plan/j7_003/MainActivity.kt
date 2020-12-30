@@ -13,7 +13,6 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -85,9 +84,9 @@ class MainActivity : AppCompatActivity() {
         val locale = Locale(languageCode!!)
         Locale.setDefault(locale)
         val resources: Resources = activity.resources
-        val config: Configuration = resources.getConfiguration()
+        val config: Configuration = resources.configuration
         config.setLocale(locale)
-        resources.updateConfiguration(config, resources.getDisplayMetrics())
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     override fun onRestart() {
@@ -531,7 +530,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun refreshData() {
+    private fun refreshData() {
         noteFr!!.noteListInstance = NoteList()
         birthdayFr!!.birthdayListInstance = BirthdayList(this)
         ShoppingFr.shoppingListInstance = ShoppingList()

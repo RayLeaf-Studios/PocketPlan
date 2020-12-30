@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.pocket_plan.j7_003.BuildConfig
-import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.io.File
@@ -12,7 +11,7 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
-class ExportHandler(val parentActivity: AppCompatActivity) {
+class ExportHandler(private val parentActivity: AppCompatActivity) {
     fun shareAll() {
         backUpAsZip()
 

@@ -26,29 +26,6 @@ class UserItemTemplateList: ArrayList<ItemTemplate>(), Checkable {
     }
 
     /**
-     * Edits an element if it could be found by its name. Only the name is required to edit, while
-     * tags and units can be edited too, they don't need to.
-     * @param name The name of the item.
-     * @param tag The tag that can be supplied.
-     * @param unit The unit that can be supplied.
-     */
-    fun edit(name: String, tag: String = "", unit: String = "") {
-        val index = getIndexByName(name)
-        if (index != -1) {
-            this[index].n = name
-
-            if (unit.isNotEmpty()) {
-                this[index].s = unit
-            }
-
-            save()
-            return
-        }
-
-        throw NullPointerException("there is no such item")
-    }
-
-    /**
      * Removes an item from this list and returns it to the caller, if there is
      * no item with the supplied name null is returned.
      * @param itemName The name of item.

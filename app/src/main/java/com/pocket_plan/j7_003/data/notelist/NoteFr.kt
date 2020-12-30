@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.SearchView

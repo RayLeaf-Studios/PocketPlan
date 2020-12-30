@@ -879,9 +879,9 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
 }
 
-class SwipeToDeleteBirthday(var adapter: BirthdayAdapter, direction: Int, birthdayFr: BirthdayFr) :
+class SwipeToDeleteBirthday(private var adapter: BirthdayAdapter, direction: Int, birthdayFr: BirthdayFr) :
     ItemTouchHelper.SimpleCallback(0, direction) {
-    val myFragment = birthdayFr
+    private val myFragment = birthdayFr
     override fun getSwipeDirs(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder
