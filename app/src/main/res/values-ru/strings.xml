@@ -93,11 +93,9 @@
     <string name="settings_import">Импорт с резервнай копие</string>
     <string name="settings_title_appearance">Вид и поведение</string>
     <string name="settings_shopping_move_down">Отмеченые категории передвигаются в конец списко</string>
-    <string name="swipe_right">Тянитье на право</string>
     <string name="shopping_item_added">Закупка добавлено!</string>
     <string name="settingsAppearanceShakeTask">Анимирывать картину задачах на старте</string>
     <string name="customOptionClearItems">Удалить нестандартные элементы</string>
-    <string name="settings_delete_dialog_title">Бесопасный диалог удаление</string>
     <string name="options_shopping_collapse_all">Коллапс все</string>
     <string name="options_shopping_expand_all">Раскрывать все</string>
     <string name="settingsCloseItemDialog">Закрывать диалог после добовление</string>

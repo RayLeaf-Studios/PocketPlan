@@ -52,16 +52,6 @@ class UserItemTemplateList: ArrayList<ItemTemplate>(), Checkable {
         return null
     }
 
-    private fun getIndexByName(name: String): Int {
-        this.forEach { e ->
-            if (e.n == name) {
-                return indexOf(e)
-            }
-        }
-
-        return -1
-    }
-
     fun save() {
         val list = ArrayList<TMPTemplate>()
         this.forEach { e ->

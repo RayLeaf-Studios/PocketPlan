@@ -91,7 +91,6 @@
     <string name="options_task_delete_checked">Abgehaktes löschen</string>
     <string name="options_shopping_expand_all">Alles aufklappen</string>
     <string name="options_shopping_collapse_all">Alles einklappen</string>
-    <string name="swipe_right">Ziehe nach rechts</string>
     <string name="shopping_dialog_clear_title">Einkaufsliste löschen?</string>
     <string name="birthdayOldBornIn">" alt, geboren "</string>
     <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
@@ -108,7 +107,6 @@
     <string name="setting_title_shapes">Formen</string>
     <string name="setting_title_theme">Design</string>
     <string name="customOptionClearItems">Benutzerdef. Artikel löschen</string>
-    <string name="settings_delete_dialog_title">Löschdialog mit Bestätigungs-Slider</string>
     <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
     <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
     <string name="titleRestoreSettings">Alle Einstellungen zurücksetzen?</string>

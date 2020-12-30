@@ -128,7 +128,6 @@
     <string name="close">close</string>
 
     <string name="aboutSourcecode">Sourcecode</string>
-    <string name="swipe_right">Swipe right</string>
     <string name="shopping_dialog_clear_title">Clear shopping list?</string>
     <string name="shopping_item_added">Item added!</string>
     <string name="birthdayOldBornIn">" old, born in "</string>
@@ -137,7 +136,6 @@
     <string name="todo_dialog_clear_title">Clear To-Do List?</string>
     <string name="todo_dialog_clear_checked_title">Delete checked tasks?</string>
     <string name="customOptionClearItems">Clear custom items</string>
-    <string name="settings_delete_dialog_title">Delete dialogs have confirmation slider</string>
     <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
     <string name="settingsAppearanceResetToDefault">Reset all settings to default</string>
     <string name="titleRestoreSettings">Reset all settings?</string>

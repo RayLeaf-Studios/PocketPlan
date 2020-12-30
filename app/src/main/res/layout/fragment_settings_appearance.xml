@@ -236,7 +236,7 @@
                     android:textColor="?attr/colorGoToSleep"
                     android:textSize="@dimen/font_size_small"
                     android:textStyle="bold"
-                    android:paddingLeft="10dp"
+                    android:paddingStart="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
