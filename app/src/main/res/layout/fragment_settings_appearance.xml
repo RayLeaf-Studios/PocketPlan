@@ -175,15 +175,24 @@
                 >
 
                 <TextView
+                    android:id="@+id/tvShake"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsAppearanceShakeTask"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swShakeTaskInHome"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_appearance_shake_addition"
+                    android:textColor="?attr/colorHint"
+                    app:layout_constraintEnd_toStartOf="@+id/swShakeTaskInHome"
+                    app:layout_constraintStart_toStartOf="@+id/tvShake"
+                    app:layout_constraintTop_toBottomOf="@id/tvShake" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="wrap_content"
@@ -210,15 +219,27 @@
                 android:paddingHorizontal="20dp"
                 >
 
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    app:tint="?attr/colorGoToSleep"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_restore"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsAppearanceResetToDefault"
-                    android:textColor="?attr/colorOnBackGround"
+                    android:textColor="?attr/colorGoToSleep"
                     android:textSize="@dimen/font_size_small"
+                    android:textStyle="bold"
+                    android:paddingLeft="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -301,5 +301,6 @@
     <string name="show_month_for_every_birthday">Show month for every Birthday</string>
     <string name="month_colors_for_southern_hemisphere">Month colors for southern hemisphere</string>
     <string name="settings_birthdays_month_addition">e.g. "14.03" instead of "14"</string>
+    <string name="setting_appearance_shake_addition">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
 
 </resources>

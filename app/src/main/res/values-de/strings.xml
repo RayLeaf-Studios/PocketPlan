@@ -144,6 +144,7 @@
     <string name="show_month_for_every_birthday">Zeige Monat für jeden Geburtstag</string>
     <string name="month_colors_for_southern_hemisphere">Monats-Farben für südliche Hemisphäre</string>
     <string name="settings_birthdays_month_addition">z.B. \"14.03\" statt \"14\"</string>
+    <string name="setting_appearance_shake_addition">Wenn es eine oder mehr Aufgaben mit Priorität 1 gibt, bewegt sich das Aufgaben Icon, sobald du das Home Panel öffnest.</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
