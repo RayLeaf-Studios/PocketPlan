@@ -78,8 +78,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         searchView = menu.findItem(R.id.item_birthdays_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                //todo fix this
-                //close keyboard?
+                myActivity.hideKeyboard()
                 return true
             }
 

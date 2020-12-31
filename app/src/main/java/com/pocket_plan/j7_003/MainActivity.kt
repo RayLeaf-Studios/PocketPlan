@@ -314,7 +314,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        //todo, check if this works on phone, not only emulator
         //removes longClick tooltips for bottom navigation
         for (i in 0 until bottomNavigation.menu.size()) {
             val view = bottomNavigation.findViewById<View>(bottomNavigation.menu.getItem(i).itemId)
