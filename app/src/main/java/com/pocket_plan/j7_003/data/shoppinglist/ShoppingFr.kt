@@ -698,18 +698,6 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
 
-        if (position == ShoppingFr.shoppingListInstance.size) {
-            val density = myActivity.resources.displayMetrics.density
-            holder.itemView.layoutParams.height = (100 * density).toInt()
-            holder.itemView.visibility = View.INVISIBLE
-            holder.itemView.subRecyclerView.visibility = View.GONE
-            holder.itemView.setOnClickListener {}
-            holder.itemView.setOnLongClickListener { true }
-            return
-        }
-        holder.itemView.visibility = View.VISIBLE
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-
         //long click listener playing shake animation to indicate moving is possible
         holder.itemView.setOnLongClickListener {
             val animationShake =
@@ -903,10 +891,10 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     }
 
     /**
-     * Returns amount of categories + 1 (List buffer item)
+     * Returns amount of categories
      */
     override fun getItemCount(): Int {
-        return ShoppingFr.shoppingListInstance.size + 1
+        return ShoppingFr.shoppingListInstance.size
     }
 
     /**
