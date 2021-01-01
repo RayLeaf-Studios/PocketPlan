@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import java.util.*
 
-
 /**
  * A simple [Fragment] subclass.
  */
@@ -42,14 +41,14 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
         var searching = false
 
-        lateinit var adjustedList: ArrayList<Note>
+        lateinit var searchResults: ArrayList<Note>
         lateinit var lastQuery: String
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_notes, menu)
         myMenu = menu
-        adjustedList = arrayListOf()
+        searchResults = arrayListOf()
 
         //color tint for undo icon
         myMenu.findItem(R.id.item_notes_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
@@ -71,6 +70,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
         searchView.setOnQueryTextListener(textListener)
 
+        //close listener to restore fragment to normal after search is finished
         val onCloseListener = SearchView.OnCloseListener {
             myActivity.toolBar.title = getString(R.string.menuTitleNotes)
             searchView.onActionViewCollapsed()
@@ -78,13 +78,12 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
             myAdapter.notifyDataSetChanged()
             true
         }
-
         searchView.setOnCloseListener(onCloseListener)
 
         searchView.setOnSearchClickListener {
             myActivity.toolBar.title = ""
             searching = true
-            adjustedList.clear()
+            searchResults.clear()
             myAdapter.notifyDataSetChanged()
         }
 
@@ -109,17 +108,19 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
     fun search(query: String) {
         if (query == "") {
-            adjustedList.clear()
+            searchResults.clear()
         } else {
             lastQuery = query
-            adjustedList.clear()
+            searchResults.clear()
+
+            //search all notes for occurrences of query text, add them to search results
             noteListInstance.forEach { note ->
                 if (note.content.toLowerCase(Locale.ROOT)
                         .contains(query.toLowerCase(Locale.ROOT)) ||
                     note.title.toLowerCase(Locale.ROOT)
                         .contains(query.toLowerCase(Locale.ROOT))
                 ) {
-                    adjustedList.add(note)
+                    searchResults.add(note)
                 }
             }
         }
@@ -133,7 +134,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
             }
 
             R.id.item_notes_undo -> {
-                //undo deletion of last deleted task
+//                undo deletion of last deleted note
 //                val newPos = noteListInstance.addFullNote(deletedNote!!)
 //                myAdapter.notifyItemInserted(newPos)
 
@@ -171,16 +172,18 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         val myRecycler = myView.recycler_view_note
         myAdapter = NoteAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
+
+        //nitiailize and set layoutManager
         val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
         myRecycler.setHasFixedSize(true)
-
 
         val swipeDirections =
             when (SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean) {
                 true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
                 else -> 0
             }
+
         //itemTouchHelper to drag and reorder notes
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
@@ -193,8 +196,6 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
                 ): Boolean {
                     val fromPos = viewHolder.adapterPosition
                     val toPos = target.adapterPosition
-
-
 
                     //swap items in list
                     if(fromPos < toPos){
@@ -260,7 +261,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
              * NoteFr is currently in search mode, current note gets grabbed from
              * NoteFr. adjusted list
              */
-            true -> NoteFr.adjustedList[position]
+            true -> NoteFr.searchResults[position]
             /**
              * NoteFr is currently in normal mode, current note gets grabbed from noteList
              */
@@ -311,7 +312,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
     override fun getItemCount(): Int {
         return when (NoteFr.searching) {
-            true -> NoteFr.adjustedList.size
+            true -> NoteFr.searchResults.size
             false -> myNoteFr.noteListInstance.size
         }
     }
@@ -324,6 +325,4 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         var cvNoteCard: CardView = itemView.cvNoteCard
     }
 
-
 }
-

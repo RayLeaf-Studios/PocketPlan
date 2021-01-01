@@ -80,12 +80,14 @@ class NoteEditorFr(mainActivity: MainActivity, noteFr: NoteFr) : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_editor_delete -> openDeleteNoteDialog()
+
             R.id.item_editor_color -> openColorChooser()
+
             R.id.item_editor_save -> {
                 val noteContent = etNoteContent.text.toString()
                 val noteTitle = etNoteTitle.text.toString()
 
-                if(noteContent=="" && noteTitle==""){
+                if (noteContent == "" && noteTitle == "") {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
                     etNoteContent.startAnimation(animationShake)
@@ -110,13 +112,19 @@ class NoteEditorFr(mainActivity: MainActivity, noteFr: NoteFr) : Fragment() {
 
         if (MainActivity.editNoteHolder != null) {
             myMenu.findItem(R.id.item_editor_delete)?.isVisible = true
-            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(myActivity.colorForAttr(MainActivity.editNoteHolder!!.color.colorCode))
+            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
+                myActivity.colorForAttr(
+                    MainActivity.editNoteHolder!!.color.colorCode
+                )
+            )
         } else {
             myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(myActivity.colorForAttr(noteColor.colorCode))
 
         }
+
         myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         myMenu.findItem(R.id.item_editor_save)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -131,14 +139,13 @@ class NoteEditorFr(mainActivity: MainActivity, noteFr: NoteFr) : Fragment() {
 
     fun relevantNoteChanges(): Boolean {
 
-        var result = true
         //check if note was edited, return otherwise
         if (MainActivity.editNoteHolder != null && MainActivity.editNoteHolder!!.title == etNoteTitle.text.toString() &&
             MainActivity.editNoteHolder!!.content == etNoteContent.text.toString() &&
             MainActivity.editNoteHolder!!.color == noteColor
         ) {
             //no relevant note changes if the title, content and color did not get changed
-            result = false
+            return false
         }
 
         //check if anything was written when adding new note, return otherwise
@@ -146,9 +153,11 @@ class NoteEditorFr(mainActivity: MainActivity, noteFr: NoteFr) : Fragment() {
             etNoteContent.text.toString() == ""
         ) {
             //no relevant note changes if its a new empty note
-            result = false
+            return false
         }
-        return result
+
+        //Either a new non-empty not was created, or a note was edited in a relevant way
+        return true
     }
 
     @SuppressLint("InflateParams")
