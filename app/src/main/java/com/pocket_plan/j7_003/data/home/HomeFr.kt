@@ -178,7 +178,6 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
         //creates text displaying the tasks by concatenating their titles with newlines
         var taskPanelText = "\n"
         for (i in 0 until displayTaskCount) {
-//            taskPanelText += "•  "+taskList[i].title
             taskPanelText += taskList[i].title
             if (i < displayTaskCount) {
                 taskPanelText += "\n"
@@ -234,6 +233,9 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
 
     }
 
+    /**
+     * Checks if SleepReminder is active and shows time / icon in correct color if that's the case.
+     */
     private fun updateWakeTimePanel() {
 
         val (message, status) = mySleepFr.sleepReminderInstance.getRemainingWakeDurationString()
@@ -271,6 +273,9 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
         }
     }
 
+    /**
+     * Prompts the user with a dialog that allows adding a task without leaving the home panel.
+     */
     @SuppressLint("InflateParams")
     private fun createTaskFromHome() {
         //inflate the dialog with custom view
@@ -314,7 +319,6 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
                 myAlertDialog?.dismiss()
             }
         }
-
         myDialogView.etxTitleAddTask.requestFocus()
     }
 }
