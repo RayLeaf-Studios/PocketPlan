@@ -12,17 +12,23 @@ import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.io.File
 
+/**
+ * A simple activity used to handle the backup process of the app.
+ */
 class BackUpActivity: AppCompatActivity() {
     private val eHandler = ExportHandler(this)
     private val iHandler = ImportHandler(this)
 
+    /**
+     * Called at creation of the activity and handles the displayed buttons,
+     * text and listeners for the logic.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
-        val themeToSet = when(SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean){
+        val themeToSet = when(SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
             else -> R.style.AppThemeLight
         }
+
         setTheme(themeToSet)
 
         super.onCreate(savedInstanceState)
@@ -35,6 +41,7 @@ class BackUpActivity: AppCompatActivity() {
             this, android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fileOptions)
         )
+
         spExportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spExportOne.adapter = spExportOneAdapter
 
@@ -43,6 +50,7 @@ class BackUpActivity: AppCompatActivity() {
             this, android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fileOptions)
         )
+
         spImportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spImportOne.adapter = spImportOneAdapter
 
@@ -50,8 +58,8 @@ class BackUpActivity: AppCompatActivity() {
         spImportOne.setSelection(0)
         spExportOne.setSelection(0)
 
+        // adds the logic to the export/import buttons
         initializeListeners()
-
     }
 
     private fun initializeListeners(){
@@ -83,21 +91,32 @@ class BackUpActivity: AppCompatActivity() {
 
     }
 
+    /**
+     * Called when the file picker activity (from the ImportHandler) returns.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        // if no file was selected or the picking was interrupted/cancelled
         if (data == null) {
             return
         }
 
+        // creation of used file objects for the different types of import
         val zipFile = File("$filesDir/newBundle.zip")
         val file = File("$filesDir/file_from_backup.tmp")
 
         try {
             when (requestCode) {
-                StorageId.ZIP.i -> {
+                StorageId.ZIP.i -> {// run if the request code corresponds to the storage id of the zip file
+                    // input stream of the picked file/the file to read from
+                    // is closed by the import handler
                     val inputStream = contentResolver.openInputStream(data.data!!)!!
 
+                    // actual import process
                     iHandler.importFromZip(inputStream, zipFile)
+
+                    // removing now not needed files
                     zipFile.delete()
                     file.delete()
 
@@ -105,19 +124,23 @@ class BackUpActivity: AppCompatActivity() {
                 }
 
                 else -> {
+                    // input stream of the picked file/the file to read from
+                    // is closed by the import handler
                     val inputStream = contentResolver.openInputStream(data.data!!)!!
+                    // getting the storage id of the requested file by the request code
                     val targetId = StorageId.getByI(requestCode)
 
+                    // actual import process
                     iHandler.importFromJson(targetId!!, inputStream, file)
 
-                    inputStream.close()
+                    // removing now not needed files
                     zipFile.delete()
                     file.delete()
 
                     return
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
             return

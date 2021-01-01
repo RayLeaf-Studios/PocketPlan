@@ -11,32 +11,50 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
+/**
+ * A simple class used to handle exporting of the apps save files.
+ */
 class ExportHandler(private val parentActivity: AppCompatActivity) {
-    fun shareAll() {
-        backUpAsZip()
 
+    /**
+     * Starts an activity to share a zip file, containing all save files.
+     */
+    fun shareAll() {
+        backUpAsZip()   // creates and adds the backup file object to the StorageHandler
+
+        // a uri to the backup file
         val uri = FileProvider.getUriForFile(
             parentActivity, "${BuildConfig.APPLICATION_ID}.provider",
             StorageHandler.files[StorageId.ZIP]!!)
 
+        // the intent used to share the zip archived backup
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "application/zip"
 
         sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
+        // actual start of sharing
         parentActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 
+    /**
+     * Starts an activity to share a json file, containing the requested modules save file.
+     * @param id The storage id of the requested file.
+     */
     fun shareById(id: StorageId) {
+        // a uri to the backup file
         val uri = FileProvider.getUriForFile(parentActivity,
             "${parentActivity.applicationContext.packageName}.provider", StorageHandler.files[id]!!)
-        val sharingIntent = Intent(Intent.ACTION_SEND)
 
+        // the intent used to share the zip archived backup
+        val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "application/json"
+
         sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
 
+        // actual start of sharing
         parentActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 
