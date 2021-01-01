@@ -123,6 +123,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
         collapseCheckedSublists =
             SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
+
         //if expandOne Setting = true, expand one category, contract all others
         if (expandOne) {
             shoppingListInstance.forEach {
@@ -161,23 +162,16 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
+                    //get start and target position of item that gets dragged
                     val fromPos = viewHolder.adapterPosition
-
-                    if (fromPos == shoppingListInstance.size) {
-                        return true
-                    }
-
-
-                    var toPos = target.adapterPosition
-
-                    if (toPos == shoppingListInstance.size) toPos--
+                    val toPos = target.adapterPosition
 
                     //swap items in list
                     Collections.swap(
                         shoppingListInstance, fromPos, toPos
                     )
-
                     shoppingListInstance.save()
+
 
                     // move item in `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
@@ -277,7 +271,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         MainActivity.userItemTemplateList = UserItemTemplateList()
         shoppingListInstance = ShoppingList()
 
-        //initialize itemNameList c
+        //initialize itemNameList
         MainActivity.itemNameList = ArrayList()
 
         //add userItemNames to itemNameList
