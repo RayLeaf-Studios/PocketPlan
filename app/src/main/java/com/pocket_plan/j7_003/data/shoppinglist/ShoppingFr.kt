@@ -30,6 +30,8 @@ import kotlinx.android.synthetic.main.row_item.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
+import kotlin.math.min
 
 
 /**
@@ -345,30 +347,21 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         }
 
 
-        //initialize autocompleteTextView and its adapter
+        //initialize autocompleteTextView
         autoCompleteTv = myActivity.addItemDialogView!!.actvItem
 
-//  TODO USE CUSTOM ADAPTER (REMOVE BLOCK BELOW)
-//        val customAdapter = AutoCompleteAdapter(
-//            context = myActivity,
-//            resource = android.R.layout.simple_spinner_dropdown_item,
-//            items = MainActivity.itemNameList
-//        )
-//        autoCompleteTv.setAdapter(customAdapter)
-
-
-        //Initializes regular array adapter (no search for spelling mistakes)
-        val autoCompleteTvAdapter = ArrayAdapter(
-            myActivity,
-            android.R.layout.simple_spinner_dropdown_item,
-            MainActivity.itemNameList
+        //initialize custom ArrayAdapter
+        val customAdapter = AutoCompleteAdapter(
+            context = myActivity,
+            resource = android.R.layout.simple_spinner_dropdown_item,
+            items = MainActivity.itemNameList
         )
-        autoCompleteTv.setAdapter(autoCompleteTvAdapter)
+        autoCompleteTv.setAdapter(customAdapter)
 
-
+        //request focus in item name text field
         autoCompleteTv.requestFocus()
 
-
+        //initialize textwatcher to trigger updating of category and unit
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -1144,113 +1137,99 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
     }
 }
 
-//class AutoCompleteAdapter(
-//    context: Context,
-//    resource: Int,
-//    textViewResourceId: Int = 0,
-//    items: List<String> = listOf()
-//) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
-//
-//
-//    internal var itemNames: MutableList<String> = mutableListOf()
-//    internal var suggestions: MutableList<String> = mutableListOf()
-//
-//    /**
-//     * Custom Filter implementation for custom suggestions we provide.
-//     */
-//    private var filter: Filter = object : Filter() {
-//
-//        override fun performFiltering(input: CharSequence?): FilterResults {
-//            var result = FilterResults()
-//
-//            if (input == null || input.length < 2) {
-//                return result
-//            }
-//
-//            suggestions.clear()
-//
-//            //do regular "contains" search
-//            itemNames.forEach {
-//                //checks for every item if its name contains the input
-//                if (it.toLowerCase(Locale.getDefault())
-//                        .contains(input.toString().toLowerCase(Locale.getDefault()))
-//                ) {
-//                    suggestions.add(it)
-//                }
-//            }
-//
-//            //return if anything was found
-//            if (suggestions.isNotEmpty()) {
-//                result.values = suggestions
-//                result.count = suggestions.size
-//                return result
-//            }
-//
-//
-//
-//            val possibles: MutableList<String> = mutableListOf()
-//            //add all items with same start letter to possible list
-////            itemNames.forEach {
-////                if (it.toLowerCase(Locale.getDefault())[0] == input.toString()
-////                        .toLowerCase(Locale.getDefault())[0] && abs(it.length - input.toString().length) < 2
-////                ) {
-////                    possibles.add(it)
-////                }
-////            }
-//            possibles.addAll(itemNames)
-//
-//            //create map that saves possible values with likelihood value
-//            var withValues: MutableMap<String, Int> = mutableMapOf()
-//
-//            //calculates likelihood value for every possible string
-//            possibles.forEach { itemName ->
-//                var i = 0
-//                var currentval = 0
-//                while (i < min(itemName.length, input.toString().length)) {
-//                    if (itemName[i].toLowerCase()==input.toString()[i].toLowerCase()) {
-//                        currentval += 2
-//                    }else if (itemName.toLowerCase().contains(input.toString()[i].toLowerCase())) {
-//                        currentval++
-//                    }
-//                    i++
-//                }
-//                withValues[itemName] = currentval - abs(itemName.length - input.toString().length)
-//            }
-//            val withValuesSortedAsList = withValues.toList().sortedBy { (_, value) -> value }.reversed()
-//            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
-//            val show = min(suggestions.size, 5)
-//            result.values = suggestions.subList(0, show)
-//            result.count = show
-//            return result
-//
-////            } else {
-////                filterResults.values =
-////                filterResults.count = suggestions.size
-////            }
-//
-//        }
-//        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-//            if(results.values==null){
-//                return
-//            }
-//            val filterList = Collections.synchronizedList(results.values as List<*>)
-//            if (results.count > 0) {
-//                clear()
-//                filterList.forEach {
-//                    add(it)
-//                }.also {
-//                    notifyDataSetChanged()
-//                }
-//            }
-//        }
-//    }
-//
-//    init {
-//        itemNames = items.toMutableList()
-//        suggestions = ArrayList()
-//    }
-//
-//    override fun getFilter(): Filter {
-//        return filter
-//    }
-//}
+class AutoCompleteAdapter(
+    context: Context,
+    resource: Int,
+    textViewResourceId: Int = 0,
+    items: List<String> = listOf()
+) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
+
+
+    internal var itemNames: MutableList<String> = mutableListOf()
+    internal var suggestions: MutableList<String> = mutableListOf()
+    var imWorking: Boolean = false
+
+    /**
+     * Custom Filter implementation for custom suggestions we provide.
+     */
+    private var filter: Filter = object : Filter() {
+
+        override fun performFiltering(input: CharSequence?): FilterResults {
+            val result = FilterResults()
+
+            if (imWorking || input == null || input.length < 2) {
+                return result
+            }
+
+            imWorking = true
+
+            suggestions.clear()
+
+            //do regular "contains" search
+            itemNames.forEach {
+                //checks for every item if its name contains the input
+                if (it.toLowerCase(Locale.getDefault())
+                        .contains(input.toString().toLowerCase(Locale.getDefault()))
+                ) {
+                    suggestions.add(it)
+                }
+            }
+
+            //return if anything was found
+            if (suggestions.isNotEmpty()) {
+                result.values = suggestions
+                result.count = suggestions.size
+                return result
+            }
+
+            val possibles: MutableList<String> = mutableListOf()
+            possibles.addAll(itemNames)
+
+            //create map that saves possible values with likelihood value
+            val withValues: MutableMap<String, Int> = mutableMapOf()
+
+            //calculates likelihood value for every possible string
+            possibles.forEach { itemName ->
+                var i = 0
+                var currentVal = 0
+                while (i < min(itemName.length, input.toString().length)) {
+                    if (itemName[i].equals(input.toString()[i], ignoreCase = true)) {
+                        currentVal += 2
+                    }else if (itemName.toLowerCase(Locale.ROOT).contains(input.toString()[i].toLowerCase())) {
+                        currentVal++
+                    }
+                    i++
+                }
+                withValues[itemName] = currentVal - abs(itemName.length - input.toString().length)
+            }
+            val withValuesSortedAsList = withValues.toList().sortedBy { (_, value) -> value }.reversed()
+            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
+            val show = min(suggestions.size, 5)
+            result.values = suggestions.subList(0, show)
+            result.count = show
+            return result
+
+        }
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            if(results.values==null){
+                return
+            }
+            val filterList = Collections.synchronizedList(results.values as List<*>)
+            if (results.count > 0) {
+                clear()
+                addAll(filterList)
+                notifyDataSetChanged()
+            }
+            imWorking = false
+        }
+    }
+
+    init {
+        itemNames = items.toMutableList()
+        suggestions = ArrayList()
+    }
+
+    override fun getFilter(): Filter {
+        return filter
+    }
+}
