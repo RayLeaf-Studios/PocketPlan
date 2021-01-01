@@ -878,7 +878,11 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
 }
 
-class SwipeToDeleteBirthday(private var adapter: BirthdayAdapter, direction: Int, birthdayFr: BirthdayFr) :
+class SwipeToDeleteBirthday(
+    private var adapter: BirthdayAdapter,
+    direction: Int,
+    birthdayFr: BirthdayFr
+) :
     ItemTouchHelper.SimpleCallback(0, direction) {
     private val myFragment = birthdayFr
     override fun getSwipeDirs(
@@ -945,22 +949,6 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
-        //Last birthday is spacer birthday
-        if (position == myFragment.birthdayListInstance.size) {
-            val density = myActivity.resources.displayMetrics.density
-            holder.itemView.layoutParams.height = (100 * density).toInt()
-            holder.itemView.visibility = View.INVISIBLE
-            holder.cvBirthday.elevation = 0f
-            holder.itemView.setOnLongClickListener { true }
-            holder.itemView.setOnClickListener {}
-            return
-        }
-
-        //reset parameters visibility and height, to undo spacer birthday values (recycler view)
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        holder.itemView.visibility = View.VISIBLE
-        holder.cvBirthday.elevation = elevation
-
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
         val currentBirthday = when (myFragment.searching) {
@@ -983,7 +971,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             holder.itemView.icon_bell.visibility = View.GONE
 
             if (currentBirthday.daysToRemind == -200) {
-                //YEAR
+                //initialize values specific for year divider
                 holder.cvBirthday.elevation = 0f
                 holder.itemView.layoutParams.height = (70 * density).toInt()
                 holder.tvRowBirthdayDivider.textSize = 22f
@@ -991,6 +979,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
                     myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
 
+                //removes margin at sides so year divider spans parent width
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
                 params.setMargins(0, marginSide, 0, (0 * density).toInt())
 
@@ -1000,52 +989,48 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
 
 
             } else {
+                //initialize values specific to month divider
+                // reintroduces margin at sides
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
                 params.setMargins(marginSide, marginSide, marginSide, (2 * density).toInt())
 
-                //MONTH
+                //sets correct textsize, height and textcolor
                 holder.tvRowBirthdayDivider.textSize = 20f
                 holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 holder.tvRowBirthdayDivider.setTextColor(
                     myActivity.colorForAttr(R.attr.colorCategory)
                 )
 
+                val monthColors = listOf(
+                    Pair(R.attr.colorMonth2, R.attr.colorMonth1),
+                    Pair(R.attr.colorMonth3, R.attr.colorMonth2),
+                    Pair(R.attr.colorMonth4, R.attr.colorMonth3),
+                    Pair(R.attr.colorMonth5, R.attr.colorMonth4),
+                    Pair(R.attr.colorMonth6, R.attr.colorMonth5),
+                    Pair(R.attr.colorMonth7, R.attr.colorMonth6),
+                    Pair(R.attr.colorMonth8, R.attr.colorMonth7),
+                    Pair(R.attr.colorMonth9, R.attr.colorMonth8),
+                    Pair(R.attr.colorMonth10, R.attr.colorMonth9),
+                    Pair(R.attr.colorMonth11, R.attr.colorMonth10),
+                    Pair(R.attr.colorMonth12, R.attr.colorMonth11),
+                    Pair(R.attr.colorMonth1, R.attr.colorMonth12)
+                )
+
                 //determine the background color of the card
+                //daysToRemind acts as a marker in mothDividers to mark the month they display
+                // -1 = january, -2 february etc
                 val gradientPair: Pair<Int, Int> =
                     when (southColors) {
                         true ->
-                            when (currentBirthday.daysToRemind) {
-                                -7 -> Pair(R.attr.colorMonth2, R.attr.colorMonth1)
-                                -8 -> Pair(R.attr.colorMonth3, R.attr.colorMonth2)
-                                -9 -> Pair(R.attr.colorMonth4, R.attr.colorMonth3)
-                                -10 -> Pair(R.attr.colorMonth5, R.attr.colorMonth4)
-                                -11 -> Pair(R.attr.colorMonth6, R.attr.colorMonth5)
-                                -12 -> Pair(R.attr.colorMonth7, R.attr.colorMonth6)
-                                -1 -> Pair(R.attr.colorMonth8, R.attr.colorMonth7)
-                                -2 -> Pair(R.attr.colorMonth9, R.attr.colorMonth8)
-                                -3 -> Pair(R.attr.colorMonth10, R.attr.colorMonth9)
-                                -4 -> Pair(R.attr.colorMonth11, R.attr.colorMonth10)
-                                -5 -> Pair(R.attr.colorMonth12, R.attr.colorMonth11)
-                                else -> Pair(R.attr.colorMonth1, R.attr.colorMonth12)
-                            }
+                            //month colors for southern hemisphere, days to remind gets turned positive, then + 7 % 12, to shift the colors by 7 month
+                            //now warm colors are represented in months 8 - 2 etc
+                            monthColors[((currentBirthday.daysToRemind * -1) + 7) % 12]
                         else ->
-                            when (currentBirthday.daysToRemind) {
-                                -1 -> Pair(R.attr.colorMonth2, R.attr.colorMonth1)
-                                -2 -> Pair(R.attr.colorMonth3, R.attr.colorMonth2)
-                                -3 -> Pair(R.attr.colorMonth4, R.attr.colorMonth3)
-                                -4 -> Pair(R.attr.colorMonth5, R.attr.colorMonth4)
-                                -5 -> Pair(R.attr.colorMonth6, R.attr.colorMonth5)
-                                -6 -> Pair(R.attr.colorMonth7, R.attr.colorMonth6)
-                                -7 -> Pair(R.attr.colorMonth8, R.attr.colorMonth7)
-                                -8 -> Pair(R.attr.colorMonth9, R.attr.colorMonth8)
-                                -9 -> Pair(R.attr.colorMonth10, R.attr.colorMonth9)
-                                -10 -> Pair(R.attr.colorMonth11, R.attr.colorMonth10)
-                                -11 -> Pair(R.attr.colorMonth12, R.attr.colorMonth11)
-                                else -> Pair(R.attr.colorMonth1, R.attr.colorMonth12)
-                            }
+                            //regular month colors, days to remind gets turned positive, then -1 so january => index 0
+                            monthColors[(currentBirthday.daysToRemind * -1) - 1]
                     }
 
-
+                //create a gradient drawable as a background for the month divider
                 val myGradientDrawable = GradientDrawable(
                     GradientDrawable.Orientation.TL_BR,
                     intArrayOf(
@@ -1053,8 +1038,11 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
                         myActivity.colorForAttr(gradientPair.first)
                     )
                 )
+
+                //check if setting says to use round design, apply correct corner angles
                 if (round) myGradientDrawable.cornerRadii =
                     floatArrayOf(cr, cr, cr, cr, 0f, 0f, 0f, 0f)
+
                 holder.cvBirthday.background = myGradientDrawable
             }
 
@@ -1063,6 +1051,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
                 true -> View.VISIBLE
                 else -> View.GONE
             }
+
             holder.myDividerRight.visibility = dividerVisibility
             holder.myDividerLeft.visibility = dividerVisibility
             return
@@ -1072,16 +1061,14 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         val colorA =
             myActivity.colorForAttr(R.attr.colorHomePanel)
 
-        val colorB =
-            myActivity.colorForAttr(R.attr.colorHomePanel)
-
         val myGradientDrawable =
-            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorB))
-
+            GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorA))
 
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+
         if (myFragment.searching) {
+            //display all corners as round if in searching mode
             if (round) {
                 myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
             }
@@ -1265,7 +1252,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     override fun getItemCount(): Int {
         return when (myFragment.searching) {
             true -> BirthdayFr.adjustedList.size
-            false -> listInstance.size + 1
+            false -> listInstance.size
         }
     }
 
