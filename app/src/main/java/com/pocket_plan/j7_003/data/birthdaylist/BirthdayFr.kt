@@ -351,7 +351,8 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                     myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
                 )
                 yearChanged = true
-                if (year != 2020 && !cbSaveBirthdayYear.isChecked && year != chosenYear) {
+
+                if (!cbSaveBirthdayYear.isChecked && year != chosenYear) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
                         myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
@@ -378,7 +379,12 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 }
             }
 
-            var yearToDisplay = 2020
+            var yearToDisplay = if (cbSaveBirthdayYear.isChecked) {
+                date.year
+            } else {
+                LocalDate.now().year
+            }
+
             if (cbSaveBirthdayYear.isChecked && yearChanged) {
                 yearToDisplay = date.year
             }
@@ -416,22 +422,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
         //checkbox to include year
         cbSaveBirthdayYear.setOnClickListener {
-            //if year is supposed to be included,
-            date = if (cbSaveBirthdayYear.isChecked) {
-                //if user wants so include year, set it to 2020 as default or chosenYear if he changed the year in the date setter before
-                if (!yearChanged) {
-                    if (editBirthdayHolder!!.year != 0) {
-                        LocalDate.of(editBirthdayHolder!!.year, date.month, date.dayOfMonth)
-                    } else {
-                        LocalDate.of(LocalDate.now().year, date.month, date.dayOfMonth)
-                    }
-                } else {
-                    LocalDate.of(chosenYear, date.month, date.dayOfMonth)
-                }
-            } else {
-                LocalDate.of(2020, date.month, date.dayOfMonth)
-            }
-
             //set correct text of tvBirthdayDate (add / remove year)
             val dayMonthString =
                 date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
@@ -635,9 +625,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 yearChanged = true
 
                 val prevChecked = cbSaveBirthdayYear.isChecked
-                if (pickedYear != 2020 && !cbSaveBirthdayYear.isChecked &&
-                    (date.year != 0 || pickedYear != chosenYear)
-                ) {
+                if (!cbSaveBirthdayYear.isChecked && (date.year != 0 || pickedYear != chosenYear)) {
 
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
@@ -669,7 +657,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 }
             }
 
-            var yearToDisplay = 2020
+            var yearToDisplay = LocalDate.now().year
             if (cbSaveBirthdayYear.isChecked && yearChanged) {
                 yearToDisplay = date.year
             } else if (cbSaveBirthdayYear.isChecked) {
@@ -918,10 +906,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val southColors = SettingsManager.getSetting(SettingId.BIRTHDAY_COLORS_SOUTH) as Boolean
 
-    //calculate corner radius
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
-    private val elevation = myActivity.resources.getDimension(R.dimen.elevation)
-
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
@@ -994,7 +979,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
                 val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
                 params.setMargins(marginSide, marginSide, marginSide, (2 * density).toInt())
 
-                //sets correct textsize, height and textcolor
+                //sets correct text size, height and text color
                 holder.tvRowBirthdayDivider.textSize = 20f
                 holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 holder.tvRowBirthdayDivider.setTextColor(
