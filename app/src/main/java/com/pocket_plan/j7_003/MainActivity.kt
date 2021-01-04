@@ -587,9 +587,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     fun dialogConfirmDelete(titleId: Int, action: () -> Unit) {
-//        val safetySlider = SettingsManager.getSetting(SettingId.SAFETY_SLIDER_DIALOG) as Boolean
-        val safetySlider = false
-
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
 
         //AlertDialogBuilder
