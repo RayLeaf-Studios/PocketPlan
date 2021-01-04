@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
@@ -18,6 +19,7 @@ import java.io.File
 class BackUpActivity: AppCompatActivity() {
     private val eHandler = ExportHandler(this)
     private val iHandler = ImportHandler(this)
+
 
     /**
      * Called at creation of the activity and handles the displayed buttons,
@@ -35,6 +37,12 @@ class BackUpActivity: AppCompatActivity() {
         setContentView(R.layout.fragment_settings_backup)
 
         setSupportActionBar(myNewToolbar)
+
+        //todo remove this debug button
+        btnShareLog.setOnClickListener {
+            Toast.makeText(this, "DEBUG TOAST", Toast.LENGTH_LONG).show()
+        }
+
 
         //Spinner for single file export
         val spExportOneAdapter = ArrayAdapter(

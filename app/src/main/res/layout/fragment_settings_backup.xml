@@ -161,6 +161,12 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <Button
+                android:id="@+id/btnShareLog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share Debug Logs"/>
+
         </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
