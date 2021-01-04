@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.pocket_plan.j7_003.BuildConfig
@@ -15,6 +16,29 @@ import java.util.zip.ZipOutputStream
  * A simple class used to handle exporting of the apps save files.
  */
 class ExportHandler(private val parentActivity: AppCompatActivity) {
+
+    /**
+     * Used to share logs if they exist on the device.
+     */
+    fun shareLog() {
+        val file = File(parentActivity.filesDir, "Log.txt")
+
+        if (!file.exists()) {
+            return
+        }
+
+        val uri = FileProvider.getUriForFile(parentActivity,
+            "${parentActivity.applicationContext.packageName}.provider", file)
+
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "application/text"
+
+        sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+        // actual start of sharing
+        parentActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+    }
 
     /**
      * Starts an activity to share a zip file, containing all save files.

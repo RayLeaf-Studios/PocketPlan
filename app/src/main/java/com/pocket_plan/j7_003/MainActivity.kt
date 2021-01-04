@@ -519,7 +519,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         previousFragmentStack.pop()
-        Log.e("stack", previousFragmentStack.toString())
         if (previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())
         } else super.onBackPressed()

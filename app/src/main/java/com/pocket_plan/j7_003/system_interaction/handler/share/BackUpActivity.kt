@@ -40,7 +40,8 @@ class BackUpActivity: AppCompatActivity() {
 
         //todo remove this debug button
         btnShareLog.setOnClickListener {
-            Toast.makeText(this, "DEBUG TOAST", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "DEBUG TOAST", Toast.LENGTH_LONG).show()
+            eHandler.shareLog()
         }
 
 
