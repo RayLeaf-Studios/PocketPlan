@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
@@ -372,6 +373,8 @@ class MainActivity : AppCompatActivity() {
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges(fragmentTag)
                 return
+            } else {
+                previousFragmentStack.pop()
             }
         }
 
@@ -516,6 +519,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         previousFragmentStack.pop()
+        Log.e("stack", previousFragmentStack.toString())
         if (previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())
         } else super.onBackPressed()
