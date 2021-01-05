@@ -7,7 +7,6 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -34,10 +33,6 @@ import kotlin.collections.ArrayList
 import kotlin.math.abs
 import kotlin.math.min
 
-
-/**
- * A simple [Fragment] subclass.
- */
 class ShoppingFr(mainActivity: MainActivity) : Fragment() {
     private lateinit var myMenu: Menu
     private var myActivity = mainActivity
@@ -203,7 +198,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         updateCollapseAllIcon()
     }
 
-    private fun updateUndoItemIcon() {
+    private fun updateUndoItemIcon(){
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
     }
 
@@ -352,7 +347,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         autoCompleteTv = myActivity.addItemDialogView!!.actvItem
 
 //        initialize custom ArrayAdapter
-        Log.e("NEW ADAPTER", MainActivity.itemNameList.toString())
         val itemNameClone = MainActivity.itemNameList.toMutableList()
         val customAdapter = AutoCompleteAdapter(
             context = myActivity,
@@ -529,8 +523,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     //and set a new adapter for autocompleteTv
                     if (!MainActivity.itemNameList.contains(nameInput)) {
                         MainActivity.itemNameList.add(nameInput)
-//                        create and set a new adapter for
-                        Log.e("NEW ADAPTER", MainActivity.itemNameList.toString())
                         val itemClone2 = MainActivity.itemNameList.toMutableList()
                         val newCustomAdapter = AutoCompleteAdapter(
                             context = myActivity,
@@ -538,13 +530,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                             items = itemClone2
                         )
                         autoCompleteTv.setAdapter(newCustomAdapter)
-
-//                        val regularAdapterNew = ArrayAdapter(
-//                            myActivity,
-//                            android.R.layout.simple_spinner_dropdown_item,
-//                            MainActivity.itemNameList
-//                        )
-//                        autoCompleteTv.setAdapter(regularAdapterNew)
 
                     }
 
