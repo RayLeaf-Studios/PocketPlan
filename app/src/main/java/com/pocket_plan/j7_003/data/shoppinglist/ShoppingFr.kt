@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -350,21 +351,23 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         //initialize autocompleteTextView
         autoCompleteTv = myActivity.addItemDialogView!!.actvItem
 
-        //initialize custom ArrayAdapter
-//        val customAdapter = AutoCompleteAdapter(
-//            context = myActivity,
-//            resource = android.R.layout.simple_spinner_dropdown_item,
-//            items = MainActivity.itemNameList
-//        )
-//        autoCompleteTv.setAdapter(customAdapter)
+//        initialize custom ArrayAdapter
+        Log.e("NEW ADAPTER", MainActivity.itemNameList.toString())
+        val itemNameClone = MainActivity.itemNameList.toMutableList()
+        val customAdapter = AutoCompleteAdapter(
+            context = myActivity,
+            resource = android.R.layout.simple_spinner_dropdown_item,
+            items = itemNameClone
+        )
+        autoCompleteTv.setAdapter(customAdapter)
 
         //init regular adapter
-        val regularAdapter = ArrayAdapter(
-            myActivity,
-            android.R.layout.simple_spinner_dropdown_item,
-            MainActivity.itemNameList
-        )
-        autoCompleteTv.setAdapter(regularAdapter)
+//        val regularAdapter = ArrayAdapter(
+//            myActivity,
+//            android.R.layout.simple_spinner_dropdown_item,
+//            MainActivity.itemNameList
+//        )
+//        autoCompleteTv.setAdapter(regularAdapter)
 
         //request focus in item name text field
         autoCompleteTv.requestFocus()
@@ -526,20 +529,22 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     //and set a new adapter for autocompleteTv
                     if (!MainActivity.itemNameList.contains(nameInput)) {
                         MainActivity.itemNameList.add(nameInput)
-                        //create and set a new adapter for
-//                        val newCustomAdapter = AutoCompleteAdapter(
-//                            context = myActivity,
-//                            resource = android.R.layout.simple_spinner_dropdown_item,
-//                            items = MainActivity.itemNameList
-//                        )
-//                        autoCompleteTv.setAdapter(newCustomAdapter)
-
-                        val regularAdapterNew = ArrayAdapter(
-                            myActivity,
-                            android.R.layout.simple_spinner_dropdown_item,
-                            MainActivity.itemNameList
+//                        create and set a new adapter for
+                        Log.e("NEW ADAPTER", MainActivity.itemNameList.toString())
+                        val itemClone2 = MainActivity.itemNameList.toMutableList()
+                        val newCustomAdapter = AutoCompleteAdapter(
+                            context = myActivity,
+                            resource = android.R.layout.simple_spinner_dropdown_item,
+                            items = itemClone2
                         )
-                        autoCompleteTv.setAdapter(regularAdapterNew)
+                        autoCompleteTv.setAdapter(newCustomAdapter)
+
+//                        val regularAdapterNew = ArrayAdapter(
+//                            myActivity,
+//                            android.R.layout.simple_spinner_dropdown_item,
+//                            MainActivity.itemNameList
+//                        )
+//                        autoCompleteTv.setAdapter(regularAdapterNew)
 
                     }
 
@@ -1153,100 +1158,99 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
     }
 }
 
-//class AutoCompleteAdapter(
-//    context: Context,
-//    resource: Int,
-//    textViewResourceId: Int = 0,
-//    items: List<String> = listOf()
-//) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
-//
-//
-//    internal var itemNames: MutableList<String> = mutableListOf()
-//    internal var suggestions: MutableList<String> = mutableListOf()
-//    var imWorking: Boolean = false
-//
-//    init {
-//        itemNames = items.toMutableList()
-//        suggestions = ArrayList()
-//    }
-//
-//    /**
-//     * Custom Filter implementation for custom suggestions we provide.
-//     */
-//    private var filter: Filter = object : Filter() {
-//
-//        override fun performFiltering(input: CharSequence?): FilterResults {
-//            val result = FilterResults()
-//
-//            if (imWorking || input == null || input.length < 2) {
-//                return result
-//            }
-//
-//            imWorking = true
-//
-//            suggestions.clear()
-//
-//            //do regular "contains" search
-//            itemNames.forEach {
-//                //checks for every item if its name contains the input
-//                if (it.toLowerCase(Locale.getDefault())
-//                        .contains(input.toString().toLowerCase(Locale.getDefault()))
-//                ) {
-//                    suggestions.add(it)
-//                }
-//            }
-//
-//            //return if anything was found
-//            if (suggestions.isNotEmpty()) {
-//                result.values = suggestions
-//                result.count = suggestions.size
-//                return result
-//            }
-//
-//            val possibles: MutableList<String> = mutableListOf()
-//            possibles.addAll(itemNames)
-//
-//            //create map that saves possible values with likelihood value
-//            val withValues: MutableMap<String, Int> = mutableMapOf()
-//
-//            //calculates likelihood value for every possible string
-//            possibles.forEach { itemName ->
-//                var i = 0
-//                var currentVal = 0
-//                while (i < min(itemName.length, input.toString().length)) {
-//                    if (itemName[i].equals(input.toString()[i], ignoreCase = true)) {
-//                        currentVal += 2
-//                    }else if (itemName.toLowerCase(Locale.ROOT).contains(input.toString()[i].toLowerCase())) {
-//                        currentVal++
-//                    }
-//                    i++
-//                }
-//                withValues[itemName] = currentVal - abs(itemName.length - input.toString().length)
-//            }
-//            val withValuesSortedAsList = withValues.toList().sortedBy { (_, value) -> value }.reversed()
-//            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
-//            val show = min(suggestions.size, 5)
-//            result.values = suggestions.subList(0, show)
-//            result.count = show
-//            return result
-//
-//        }
-//        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-//            if(results.values==null){
-//                return
-//            }
-//            val filterList = Collections.synchronizedList(results.values as List<*>)
-//            if (results.count > 0) {
-//                clear()
-//                addAll(filterList)
-//                notifyDataSetChanged()
-//            }
-//            imWorking = false
-//        }
-//    }
-//
-//
-//    override fun getFilter(): Filter {
-//        return filter
-//    }
-//}
+class AutoCompleteAdapter(
+    context: Context,
+    resource: Int,
+    textViewResourceId: Int = 0,
+    items: List<String> = listOf()
+) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
+
+
+    internal var itemNames: MutableList<String> = mutableListOf()
+    internal var suggestions: MutableList<String> = mutableListOf()
+    var imWorking: Boolean = false
+
+    init {
+        itemNames = items.toMutableList()
+        suggestions = ArrayList()
+    }
+
+    /**
+     * Custom Filter implementation for custom suggestions we provide.
+     */
+    private var filter: Filter = object : Filter() {
+
+        override fun performFiltering(input: CharSequence?): FilterResults {
+            val result = FilterResults()
+            if (imWorking || input == null || input.length < 2) {
+                return result
+            }
+
+            imWorking = true
+
+            suggestions.clear()
+
+            //do regular "contains" search
+            itemNames.forEach {
+                //checks for every item if its name contains the input
+                if (it.toLowerCase(Locale.getDefault())
+                        .contains(input.toString().toLowerCase(Locale.getDefault()))
+                ) {
+                    suggestions.add(it)
+                }
+            }
+
+            //return if anything was found
+            if (suggestions.isNotEmpty()) {
+                result.values = suggestions
+                result.count = suggestions.size
+                return result
+            }
+
+            val possibles: MutableList<String> = mutableListOf()
+            possibles.addAll(itemNames)
+
+            //create map that saves possible values with likelihood value
+            val withValues: MutableMap<String, Int> = mutableMapOf()
+
+            //calculates likelihood value for every possible string
+            possibles.forEach { itemName ->
+                var i = 0
+                var currentVal = 0
+                while (i < min(itemName.length, input.toString().length)) {
+                    if (itemName[i].equals(input.toString()[i], ignoreCase = true)) {
+                        currentVal += 2
+                    }else if (itemName.toLowerCase(Locale.ROOT).contains(input.toString()[i].toLowerCase())) {
+                        currentVal++
+                    }
+                    i++
+                }
+                withValues[itemName] = currentVal - abs(itemName.length - input.toString().length)
+            }
+            val withValuesSortedAsList = withValues.toList().sortedBy { (_, value) -> value }.reversed()
+            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
+            val show = min(suggestions.size, 5)
+            result.values = suggestions.subList(0, show)
+            result.count = show
+            return result
+
+        }
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+            if(results.values==null){
+                return
+            }
+            val filterList = Collections.synchronizedList(results.values as List<*>)
+            if (results.count > 0) {
+                clear()
+                addAll(filterList)
+                notifyDataSetChanged()
+            }
+            imWorking = false
+        }
+    }
+
+
+    override fun getFilter(): Filter {
+        return filter
+    }
+}
