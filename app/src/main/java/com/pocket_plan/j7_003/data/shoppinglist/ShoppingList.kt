@@ -71,6 +71,18 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkab
         save()
     }
 
+    fun equalize(tag: String): Boolean {
+        val equalizer: Boolean = !areAllChecked(tag)
+        this[getTagIndex(tag)].second.forEachIndexed { index, shoppingItem ->
+            if (index != 0) {
+                shoppingItem.checked = equalizer
+            }
+        }
+
+        save()
+        return equalizer
+    }
+
     fun collapseAllTags() {
         this.forEach { e ->
             e.second[0].checked = false

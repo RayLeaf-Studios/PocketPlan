@@ -156,6 +156,39 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
                 0
             ) {
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ) {
+                    //get parsed viewHolder
+                    val categoryViewholder = viewHolder as ShoppingListAdapter.CategoryViewHolder
+                    val tag = categoryViewholder.tag
+
+
+                    //get position
+                    val position = viewHolder.adapterPosition
+
+                    //get boolean if all items are checked
+                    val allChecked = shoppingListInstance.areAllChecked(tag)
+
+                    //if allChecked and not last item
+                    if (allChecked && position != shoppingListInstance.size - 1) {
+                        val allCheckedBelow =
+                            shoppingListInstance.areAllChecked(shoppingListInstance[position + 1].first)
+                        if(!allCheckedBelow){
+                            shoppingListInstance.equalize(tag)
+                            myAdapter.notifyItemChanged(position)
+                        }
+                    }else if(!allChecked && position != 0){
+                        val allCheckedAbove = shoppingListInstance.areAllChecked(shoppingListInstance[position-1].first)
+                        if(allCheckedAbove){
+                            shoppingListInstance.equalize(tag)
+                            myAdapter.notifyItemChanged(position)
+                        }
+                    }
+
+                }
+
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
@@ -198,7 +231,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         updateCollapseAllIcon()
     }
 
-    private fun updateUndoItemIcon(){
+    private fun updateUndoItemIcon() {
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
     }
 
@@ -354,14 +387,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             items = itemNameClone
         )
         autoCompleteTv.setAdapter(customAdapter)
-
-        //init regular adapter
-//        val regularAdapter = ArrayAdapter(
-//            myActivity,
-//            android.R.layout.simple_spinner_dropdown_item,
-//            MainActivity.itemNameList
-//        )
-//        autoCompleteTv.setAdapter(regularAdapter)
 
         //request focus in item name text field
         autoCompleteTv.requestFocus()
@@ -681,6 +706,8 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val myFragment = shoppingFr
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val moveCheckedSublistsDown =
+        SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -786,6 +813,28 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
             true
+        }
+
+
+        holder.tvNumberOfItems.setOnClickListener {
+            val result = shoppingListInstance.equalize(tag)
+            if (result && shoppingListInstance.isTagExpanded(tag)) {
+                shoppingListInstance.flipExpansionState(tag)
+            }
+            notifyItemChanged(holder.adapterPosition)
+
+            if (moveCheckedSublistsDown) {
+                val sublistMoveInfo = ShoppingFr.shoppingListInstance.sortCategoriesByChecked(tag)
+                if (sublistMoveInfo != null) {
+                    myFragment.prepareForMove()
+                    ShoppingFr.myAdapter
+                        .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
+
+                    myFragment.reactToMove()
+                }
+
+            }
+            myFragment.updateShoppingMenu()
         }
     }
 
@@ -958,7 +1007,7 @@ class SublistAdapter(
         holder.itemView.cbItem.isChecked = item.checked
 
         //initialize text
-        holder.itemView.tvItemTitle.text = when(item.amount==""){
+        holder.itemView.tvItemTitle.text = when (item.amount == "") {
             true -> item.name
             else ->
                 myActivity.getString(
@@ -1205,14 +1254,17 @@ class AutoCompleteAdapter(
                 while (i < min(itemName.length, input.toString().length)) {
                     if (itemName[i].equals(input.toString()[i], ignoreCase = true)) {
                         currentVal += 2
-                    }else if (itemName.toLowerCase(Locale.ROOT).contains(input.toString()[i].toLowerCase())) {
+                    } else if (itemName.toLowerCase(Locale.ROOT)
+                            .contains(input.toString()[i].toLowerCase())
+                    ) {
                         currentVal++
                     }
                     i++
                 }
                 withValues[itemName] = currentVal - abs(itemName.length - input.toString().length)
             }
-            val withValuesSortedAsList = withValues.toList().sortedBy { (_, value) -> value }.reversed()
+            val withValuesSortedAsList =
+                withValues.toList().sortedBy { (_, value) -> value }.reversed()
             suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
             val show = min(suggestions.size, 5)
             result.values = suggestions.subList(0, show)
@@ -1220,8 +1272,9 @@ class AutoCompleteAdapter(
             return result
 
         }
+
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-            if(results.values==null){
+            if (results.values == null) {
                 return
             }
             val filterList = Collections.synchronizedList(results.values as List<*>)

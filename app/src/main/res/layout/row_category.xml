@@ -59,21 +59,23 @@
             app:layout_constraintTop_toTopOf="@+id/tvNumberOfItems" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
             android:id="@+id/clTapExpand"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="10dp"
-            android:paddingStart="30dp"
-            android:paddingVertical="2dp"
-            app:layout_constraintTop_toTopOf="@id/tvNumberOfItems"
-            app:layout_constraintBottom_toBottomOf="@id/tvNumberOfItems"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:paddingVertical="2dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvNumberOfItems"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvNumberOfItems"
+            app:layout_constraintTop_toTopOf="@id/tvNumberOfItems"
             tools:ignore="RtlSymmetry">
+
             <ImageView
+                android:id="@+id/ivExpand"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_action_expand"
-                android:id="@+id/ivExpand"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

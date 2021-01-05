@@ -12,6 +12,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.shoppinglist.AutoCompleteAdapter
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import kotlinx.android.synthetic.main.fragment_custom_items.view.*
@@ -71,10 +72,10 @@ class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fra
                    MainActivity.userItemTemplateList.forEach{ item ->
                        MainActivity.itemNameList.remove(item.n)
                    }
-                   val newActAdapter = ArrayAdapter(
-                       mainActivity,
-                       android.R.layout.simple_spinner_dropdown_item,
-                       MainActivity.itemNameList
+                   val newActAdapter = AutoCompleteAdapter(
+                       context = mainActivity,
+                       resource = android.R.layout.simple_spinner_dropdown_item,
+                       items = MainActivity.itemNameList.toMutableList()
                    )
                    myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 
@@ -142,10 +143,10 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainAc
         }
 
         //set new adapter for autocomplete text in add item dialog
-        val newActAdapter = ArrayAdapter(
+        val newActAdapter = AutoCompleteAdapter(
             mainActivity,
             android.R.layout.simple_spinner_dropdown_item,
-            MainActivity.itemNameList
+            items = MainActivity.itemNameList.toMutableList()
         )
         myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 

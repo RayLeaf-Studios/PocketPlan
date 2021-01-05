@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:completionThreshold="1"
             android:popupTheme="@style/ThemeOverlay.AppCompat"
+            android:maxLength="70"
             android:singleLine="true"
             android:textColor="?attr/colorOnBackGround"
             android:theme="@style/CardView.Dark"
