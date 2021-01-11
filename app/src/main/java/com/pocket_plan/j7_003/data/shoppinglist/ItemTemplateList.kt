@@ -29,12 +29,9 @@ class ItemTemplateList(val context: Context) : ArrayList<ItemTemplate>() {
 
     private fun loadFromAssets() {
         val jsonString =
-            when {
-                Locale.getDefault().displayLanguage == Locale.GERMAN.displayLanguage -> {
+            when (Locale.getDefault().displayLanguage) {
+                Locale.GERMAN.displayLanguage -> {
                     context.assets.open("item_list_de.json").bufferedReader().readText()
-                }
-                Locale.getDefault().displayLanguage.toString() == "русский" -> {
-                    context.assets.open("item_list_ru.json").bufferedReader().readText()
                 }
                 else -> context.assets.open("item_list_en.json").bufferedReader().readText()
             }

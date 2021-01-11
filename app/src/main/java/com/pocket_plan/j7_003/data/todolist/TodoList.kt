@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import java.lang.NullPointerException
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TodoList: ArrayList<Task>(), Checkable{
    init {
@@ -40,6 +42,17 @@ class TodoList: ArrayList<Task>(), Checkable{
      */
     fun deleteTask(index: Int) {
         this.removeAt(index)
+        save()
+    }
+
+    /**
+     * Swaps item from
+     * @param fromPos to
+     * @param toPos
+     * and then saves
+     */
+    fun swap(fromPos: Int, toPos: Int){
+        Collections.swap(this, fromPos, toPos)
         save()
     }
 

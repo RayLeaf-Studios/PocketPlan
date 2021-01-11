@@ -129,37 +129,34 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
         myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.LEFT, myAdapter))
-        swipeHelperLeft.attachToRecyclerView(myRecycler)
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteTask(ItemTouchHelper.RIGHT, myAdapter))
-        swipeHelperRight.attachToRecyclerView(myRecycler)
-
         //itemTouchHelper to drag and reorder notes
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-                0
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
             ) {
                 var lastMovePos: Int = -1
                 var moving = false
+
                 override fun clearView(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
-                    if (!moving) {
-                        return
-                    }
 
-                    //indicate the current move is over
+                    //mark that moving has ended
                     moving = false
 
-                    //don't refresh or change anything when the position wasn't changed
-                    if (viewHolder.adapterPosition == lastMovePos || lastMovePos == -1) {
+                    // don't refresh item if
+                    // adapterPosition == -1   =>  clearView got called due to a swipe to delete
+                    // adapterPosition == lastMovePos   =>  item was moved, but placed back to original position
+                    // lastMovePos == -1   =>  item was selected but not moved
+                    if (viewHolder.adapterPosition == -1 || viewHolder.adapterPosition == lastMovePos || lastMovePos == -1) {
                         lastMovePos = -1
+                        super.clearView(recyclerView, viewHolder)
                         return
                     }
 
-                    //save the old checked state
+                    //save the current checked state
                     val oldCheckedState = todoListInstance[viewHolder.adapterPosition].isChecked
 
                     //get new checkedState from item below, or leave it unchanged
@@ -180,42 +177,36 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
 
                     }
 
-                    //set new checkedState
-                    todoListInstance[viewHolder.adapterPosition].isChecked = newCheckedState
-
                     //save old priority
                     val oldPriority = todoListInstance[viewHolder.adapterPosition].priority
 
                     //get new priority from item below or from item above if item is last item
                     val newPriority: Int
                     if (viewHolder.adapterPosition > lastMovePos) {
-                        newPriority = when (viewHolder.adapterPosition) {
-                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition - 1].priority
-                            0 -> oldPriority
-                            else -> {
-                                todoListInstance[viewHolder.adapterPosition - 1].priority
-                            }
-                        }
+                        //if moved down, priority from above
+                        newPriority = todoListInstance[viewHolder.adapterPosition - 1].priority
                     } else {
-                        newPriority = when (viewHolder.adapterPosition) {
-                            todoListInstance.size - 1 -> todoListInstance[viewHolder.adapterPosition - 1].priority
-                            else -> {
-                                todoListInstance[viewHolder.adapterPosition + 1].priority
-                            }
-                        }
-
+                        //if moved up, take priority from below
+                        newPriority = todoListInstance[viewHolder.adapterPosition + 1].priority
                     }
 
-                    //Set new priority
+                    //apply and save changes to list instance
                     todoListInstance[viewHolder.adapterPosition].priority = newPriority
+                    todoListInstance[viewHolder.adapterPosition].isChecked = newCheckedState
                     todoListInstance.save()
 
+                    //notify change if priority or checkedState changed
                     if (oldPriority != newPriority || oldCheckedState != newCheckedState) {
                         myAdapter.notifyItemChanged(viewHolder.adapterPosition)
                     }
 
+                    //reset lastMovePos to -1 to mark that nothing is moving
+                    lastMovePos = -1
 
+                    //clear view
+                    super.clearView(recyclerView, viewHolder)
                 }
+
 
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -232,10 +223,7 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                     }
 
                     //swap items in list
-                    Collections.swap(
-                        todoListInstance, fromPos, toPos
-                    )
-
+                    todoListInstance.swap(fromPos, toPos)
 
                     // move item in `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
@@ -243,7 +231,11 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    // remove from adapter
+                    val position = viewHolder.adapterPosition
+                    deletedTask = todoListInstance.getTask(position)
+                    todoListInstance.deleteTask(position)
+                    myAdapter.notifyItemRemoved(position)
+                    myFragment.updateTodoIcons()
                 }
             })
 
@@ -389,16 +381,12 @@ class SwipeToDeleteTask(direction: Int, private val adapter: TodoTaskAdapter) : 
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        val position = viewHolder.adapterPosition
-        TodoFr.deletedTask = TodoFr.todoListInstance.getTask(position)
-        TodoFr.todoListInstance.deleteTask(position)
-        adapter.notifyItemRemoved(position)
-        TodoFr.myFragment.updateTodoIcons()
     }
 
 }
 
-class TodoTaskAdapter(activity: MainActivity) : RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
+class TodoTaskAdapter(activity: MainActivity) :
+    RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val myActivity = activity
     private val listInstance = TodoFr.todoListInstance
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean

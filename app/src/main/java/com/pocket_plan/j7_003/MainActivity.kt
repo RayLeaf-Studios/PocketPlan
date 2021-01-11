@@ -130,7 +130,6 @@ class MainActivity : AppCompatActivity() {
         val languageCode = when(SettingsManager.getSetting(SettingId.LANGUAGE)){
             0.0 -> "en"
             //1.0 = de
-            //todo add support for russian translation here
             else -> "de"
         }
         setLocale(this, languageCode)
@@ -553,13 +552,11 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, true)
         setDefault(SettingId.MOVE_CHECKED_DOWN, true)
         setDefault(SettingId.SHAPES_ROUND, true)
-//        setDefault(SettingId.SAFETY_SLIDER_DIALOG, false)
         setDefault(SettingId.SHAKE_TASK_HOME, true)
         setDefault(SettingId.THEME_DARK, false)
         setDefault(SettingId.NOTES_SWIPE_DELETE, true)
         setDefault(SettingId.USE_SYSTEM_THEME, true)
         val languageNumber = when (Locale.getDefault().displayLanguage) {
-            //todo add support for russian setting once translation is complete
             Locale.GERMAN.displayLanguage -> {
                 //german
                 1.0
