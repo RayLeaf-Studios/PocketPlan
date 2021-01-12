@@ -567,6 +567,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.LANGUAGE, languageNumber)
         setDefault(SettingId.BIRTHDAY_SHOW_MONTH, true)
         setDefault(SettingId.BIRTHDAY_COLORS_SOUTH, false)
+        setDefault(SettingId.SUGGEST_SIMILAR_ITEMS, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {

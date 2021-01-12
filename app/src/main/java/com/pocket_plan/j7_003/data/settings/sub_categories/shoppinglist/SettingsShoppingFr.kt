@@ -12,6 +12,7 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import kotlinx.android.synthetic.main.fragment_settings_shopping.view.*
 
 /**
@@ -23,6 +24,7 @@ class SettingsShoppingFr(val mainActivity: MainActivity) : Fragment() {
     private lateinit var swCollapseCheckedSublists: SwitchCompat
     private lateinit var swCloseItemDialog: SwitchCompat
     private lateinit var swMoveCheckedCategoriesDown: SwitchCompat
+    private lateinit var swSuggestSimilarItems: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,7 @@ class SettingsShoppingFr(val mainActivity: MainActivity) : Fragment() {
         swCollapseCheckedSublists = myView.swCollapseCheckedSublists
         swCloseItemDialog = myView.swCloseAddItemDialog
         swMoveCheckedCategoriesDown = myView.swMoveCheckedToBottom
+        swSuggestSimilarItems = myView.swSuggestSimilar
 
     }
 
@@ -65,6 +68,9 @@ class SettingsShoppingFr(val mainActivity: MainActivity) : Fragment() {
 
         swMoveCheckedCategoriesDown.isChecked =
             SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
+
+        swSuggestSimilarItems.isChecked =
+            SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
     }
 
     private fun initializeListeners() {
@@ -100,6 +106,15 @@ class SettingsShoppingFr(val mainActivity: MainActivity) : Fragment() {
                 SettingId.MOVE_CHECKED_DOWN,
                 swMoveCheckedCategoriesDown.isChecked
             )
+        }
+
+        //Switch to toggle setting to suggest similar items when adding items to shopping list with unknown names
+        swSuggestSimilarItems.setOnClickListener {
+            SettingsManager.addSetting(
+                SettingId.SUGGEST_SIMILAR_ITEMS,
+                swSuggestSimilarItems.isChecked
+            )
+            ShoppingFr.suggestSimilar = swSuggestSimilarItems.isChecked
         }
     }
 }

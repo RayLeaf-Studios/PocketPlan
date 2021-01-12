@@ -157,7 +157,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="0dp"
+                android:paddingBottom="20dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -174,11 +174,11 @@
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swCloseAddItemDialog"
-                    app:layout_constraintTop_toTopOf="@id/tvCloseAddItemDialog"
-                    app:layout_constraintBottom_toBottomOf="@id/tvCloseAddItemDialog"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvCloseAddItemDialog"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 <TextView
@@ -189,6 +189,49 @@
                     android:textColor="?attr/colorHint"
                     app:layout_constraintStart_toStartOf="@id/tvCloseAddItemDialog"/>
 
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvSuggestSimilarItems"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/suggest_similar_items_for_unknown_names"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swSuggestSimilar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/tvSuggestSimilarItems"
+                    android:text="@string/e_g_suggest_apple_when_aplle_is_entered"
+                    android:textColor="?attr/colorHint"
+                    app:layout_constraintStart_toStartOf="@id/tvSuggestSimilarItems"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swSuggestSimilar"
+                    app:layout_constraintTop_toTopOf="@id/tvSuggestSimilarItems"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSuggestSimilarItems"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

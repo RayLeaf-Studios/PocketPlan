@@ -40,6 +40,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
     companion object {
 
+        var suggestSimilar: Boolean = SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
         var deletedItem: ShoppingItem? = null
 
         lateinit var shoppingListInstance: ShoppingList
@@ -1235,7 +1236,7 @@ class AutoCompleteAdapter(
             }
 
             //return if anything was found
-            if (suggestions.isNotEmpty()) {
+            if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
                 result.values = suggestions
                 result.count = suggestions.size
                 return result
