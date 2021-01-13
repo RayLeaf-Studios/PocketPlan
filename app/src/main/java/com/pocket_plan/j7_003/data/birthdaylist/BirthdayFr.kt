@@ -40,16 +40,29 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
     //initialize recycler view
     private lateinit var myRecycler: RecyclerView
 
+    //round specifies if round or regular design should be used
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
-    private var date: LocalDate = LocalDate.now()
-    private lateinit var myMenu: Menu
+    //dark specifies if dark theme should be used (necessary to properly style date picker)
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK)
-    lateinit var myAdapter: BirthdayAdapter
-    var searching: Boolean = false
-    lateinit var searchView: SearchView
 
+    //Current date to properly initialize date picker
+    private var date: LocalDate = LocalDate.now()
+
+    //reference to birthday options menu
+    private lateinit var myMenu: Menu
+
+    //Adapter for recycler view
+    lateinit var myAdapter: BirthdayAdapter
+
+    //boolean to signal if a search is currently being performed
+    var searching: Boolean = false
+
+    //instance of birthday list, containing all the displayed birthdays
     var birthdayListInstance: BirthdayList = BirthdayList(myActivity)
+
+    //reference to searchView in toolbar
+    lateinit var searchView: SearchView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,18 +83,29 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        //initialize deletedBirthday with null to signal that nothing can be undone
         deletedBirthday = null
+
+        //inflate menu and save reference to it
         inflater.inflate(R.menu.menu_birthdays, menu)
         myMenu = menu
+
+        //set correct color to undo icon
         myMenu.findItem(R.id.item_birthdays_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
+        //set reference to searchView from menu
         searchView = menu.findItem(R.id.item_birthdays_search).actionView as SearchView
+
+        //create textListener, to listen to keyboard input when a birthday search is performed
         val textListener = object : SearchView.OnQueryTextListener {
+
+            //hide keyboard when search is submitted
             override fun onQueryTextSubmit(query: String?): Boolean {
                 myActivity.hideKeyboard()
                 return true
             }
 
+            //start a new search whenever input text has changed
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (searching) {
                     search(newText.toString())
@@ -90,27 +114,41 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             }
         }
 
+        //apply textListener to SearchView
         searchView.setOnQueryTextListener(textListener)
 
-        val onCloseListener = SearchView.OnCloseListener {
+        //set onClose listener, that resets birthdayFragment whenever the searchView gets closed
+        searchView.setOnCloseListener {
+            //reset title
             myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
+            //collapse searchView
             searchView.onActionViewCollapsed()
+            //signal that no search is being performed
             searching = false
+            //reload menu icons
             updateUndoBirthdayIcon()
+            //reload list elements by notifying data set change to adapter
             myAdapter.notifyDataSetChanged()
             true
         }
 
-        searchView.setOnCloseListener(onCloseListener)
-
+        //set onSearchClickListener that initializes searching
         searchView.setOnSearchClickListener {
+            //removes title from toolbar
             myActivity.toolBar.title = ""
+            //sets searching to true, which results in the recyclerViewAdapter reading its elements from
+            //adjusted list instead of birthdayList
             searching = true
+            //clear adjusted list
             adjustedList.clear()
+            //reload adapter dataSet
             myAdapter.notifyDataSetChanged()
         }
 
+        //initialize editBirthdayHolder with null to signal that no birthday is being edited
         editBirthdayHolder = null
+
+        //refresh option menus
         updateUndoBirthdayIcon()
         updateBirthdayMenu()
 
@@ -119,11 +157,13 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            //disable all reminders and refresh adapter
             R.id.item_birthdays_disable_reminders -> {
                 birthdayListInstance.disableAllReminders()
                 myAdapter.notifyDataSetChanged()
             }
 
+            //enable all reminders and refresh adapter
             R.id.item_birthdays_enable_reminders -> {
                 birthdayListInstance.enableAllReminders()
                 myAdapter.notifyDataSetChanged()
@@ -132,19 +172,33 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             R.id.item_birthdays_search -> {/* no-op, listeners for this searchView are set
              in on create options menu*/
             }
+
             R.id.item_birthdays_undo -> {
                 //undo the last deletion
+
+                //re-add previously deleted birthday and get its new position
                 val addInfo = birthdayListInstance.addFullBirthday(
                     deletedBirthday!!
                 )
+
+                //set deletedBirthday to null no signal that no undo is possible
                 deletedBirthday = null
+
+                //update menu content due to new possibilities
                 updateUndoBirthdayIcon()
                 updateBirthdayMenu()
+
+                //if round design is active
                 if (round) {
+                    //addInfo.second == 1 means, only a range of 1 birthday was added. In this case, if the element
+                    //above the added birthday is a birthday (not a month / year divider, marked by daysToRemind < 0)
+                    //the corners of this birthday need to be adjusted, since only the last birthday in a month has round corners.
                     if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
                         myAdapter.notifyItemChanged(addInfo.first - 1)
                     }
                 }
+
+                //animate insertion of birthday and missing month / year labels (addInfo.first = index, addInfo.second = range)
                 myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
             }
         }
@@ -165,6 +219,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         //collapse all birthdays when reentering fragment
         birthdayListInstance.collapseAll()
 
+        //initialize recyclerview and attach its adapter
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
@@ -945,18 +1000,24 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         holder.birthday = currentBirthday
 
         if (currentBirthday.daysToRemind < 0) {
-            //hide everything not related to year or month divider
+            //show tvRowBirthdayDivider and set its text to the correct month name
             holder.tvRowBirthdayDivider.visibility = View.VISIBLE
             holder.tvRowBirthdayDivider.text = currentBirthday.name
-            holder.tvRowBirthdayDate.text = ""
-            holder.tvRowBirthdayName.text = ""
-            holder.itemView.setOnLongClickListener { true }
-            holder.itemView.setOnClickListener { }
+
+            //hide elements only used for a regular birthday
+            holder.tvRowBirthdayDate.visibility = View.GONE
+            holder.tvRowBirthdayName.visibility = View.GONE
             holder.itemView.tvBirthdayInfo.visibility = View.GONE
             holder.itemView.icon_bell.visibility = View.GONE
 
+            //reset onLongClickListener to prevent editDialog
+            holder.itemView.setOnLongClickListener { true }
+
+            //reset onClickListener to prevent expansion
+            holder.itemView.setOnClickListener { }
+
             if (currentBirthday.daysToRemind == -200) {
-                //initialize values specific for year divider
+                //YEAR DIVIDER
                 holder.cvBirthday.elevation = 0f
                 holder.itemView.layoutParams.height = (70 * density).toInt()
                 holder.tvRowBirthdayDivider.textSize = 22f
@@ -1051,6 +1112,9 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
 
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+
+        holder.tvRowBirthdayDate.visibility = View.VISIBLE
+        holder.tvRowBirthdayName.visibility = View.VISIBLE
 
         if (myFragment.searching) {
             //display all corners as round if in searching mode
@@ -1234,9 +1298,13 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
 
     }
 
+    //returns number of items that should be displayed in the recyclerView
     override fun getItemCount(): Int {
         return when (myFragment.searching) {
+            //if a search is currently being performed, the number of items is derived from the adjustedList
             true -> BirthdayFr.adjustedList.size
+
+            //otherwise the number of items will be derived from the regular list instance
             false -> listInstance.size
         }
     }
@@ -1246,15 +1314,24 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
          * One instance of this class will contain one "instance" of row_task and meta data
          * like position, it also holds references to views inside of the layout
          */
+
+        //birthday instance represented by this viewHolder
         lateinit var birthday: Birthday
+
+        //textViews for name, date and monthNames
         val tvRowBirthdayName: TextView = itemView.tvRowBirthdayName
         val tvRowBirthdayDate: TextView = itemView.tvRowBirthdayDate
-        val iconBell: ImageView = itemView.icon_bell
-        val myView: View = itemView
         val tvRowBirthdayDivider: TextView = itemView.tvRowBirthdayDivider
-        val cvBirthday: ConstraintLayout = itemView.cvBirthday
+
+        //reminder bell icon
+        val iconBell: ImageView = itemView.icon_bell
+
+        //dividers used to display a year element
         val myDividerLeft: View = itemView.viewDividerLeft
         val myDividerRight: View = itemView.viewDividerRight
+
+        //reference to the constraintLayout containing the elements above
+        val cvBirthday: ConstraintLayout = itemView.cvBirthday
     }
 
 }
