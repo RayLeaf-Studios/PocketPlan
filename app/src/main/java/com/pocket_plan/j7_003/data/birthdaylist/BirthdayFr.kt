@@ -72,11 +72,16 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
     }
 
     companion object {
+        //Holder for deleted birthday to make undo possible
         var deletedBirthday: Birthday? = null
 
+        //Holder for birthday currently being edited
         var editBirthdayHolder: Birthday? = null
 
+        //List containing birthdays that correspond to current search pattern
         lateinit var adjustedList: ArrayList<Birthday>
+
+        //Last used searchPattern
         lateinit var lastQuery: String
 
     }
@@ -268,7 +273,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
     fun openEditBirthdayDialog() {
         //Mark that user changed year
         var yearChanged = false
-        var chosenYear = -1
 
         //set date to birthdays date
         date = LocalDate.of(
@@ -401,30 +405,18 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
         //onclick listener for tvBirthday
         tvBirthdayDate.setOnClickListener {
-            val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                tvBirthdayDate.setTextColor(
-                    myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
-                )
+            val dateSetListener = DatePickerDialog.OnDateSetListener { _, pickedYear, month, day ->
                 yearChanged = true
 
-                if (!cbSaveBirthdayYear.isChecked && year != chosenYear) {
+                if(abs(date.until(date.withYear(pickedYear)).toTotalMonths()) >= 12 && !cbSaveBirthdayYear.isChecked){
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
                         myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
                     )
                 }
 
-                chosenYear = year
-                if (date.year != 0 && date.year != year && !cbSaveBirthdayYear.isChecked) {
-                    cbSaveBirthdayYear.isChecked = true
-                    tvSaveYear.setTextColor(
-                        myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
-                    )
-                }
-                date = when (cbSaveBirthdayYear.isChecked) {
-                    true -> date.withYear(year).withMonth(month + 1).withDayOfMonth(day)
-                    else -> date.withYear(0).withMonth(month + 1).withDayOfMonth(day)
-                }
+                date = date.withYear(pickedYear).withMonth(month+1).withDayOfMonth(day)
+
                 val dayMonthString =
                     date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
                         .padStart(2, '0')
@@ -477,6 +469,10 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
         //checkbox to include year
         cbSaveBirthdayYear.setOnClickListener {
+            if(!yearChanged){
+                date = date.withYear(LocalDate.now().year)
+                yearChanged = true
+            }
             //set correct text of tvBirthdayDate (add / remove year)
             val dayMonthString =
                 date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
@@ -674,33 +670,16 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         //onclick listener for tvBirthday
         tvBirthdayDate.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, pickedYear, month, day ->
-                tvBirthdayDate.setTextColor(
-                    myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
-                )
                 yearChanged = true
-
-                val prevChecked = cbSaveBirthdayYear.isChecked
-                if (!cbSaveBirthdayYear.isChecked && (date.year != 0 || pickedYear != chosenYear)) {
-
-                    cbSaveBirthdayYear.isChecked = true
-                    tvSaveYear.setTextColor(
-                        myActivity.colorForAttr(R.attr.colorOnBackGround)
-                    )
-                }
                 chosenYear = pickedYear
 
                 date = date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
 
-                when {
-                    abs(LocalDate.now().until(date).toTotalMonths()) < 12 -> {
-                        if (!prevChecked) {
-                            cbSaveBirthdayYear.isChecked = false
-
-                            tvSaveYear.setTextColor(
-                                myActivity.colorForAttr(R.attr.colorHint)
-                            )
-                        }
-                    }
+                if(abs(LocalDate.now().until(date).toTotalMonths()) >= 12 && !cbSaveBirthdayYear.isChecked){
+                    cbSaveBirthdayYear.isChecked = true
+                    tvSaveYear.setTextColor(
+                        myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
+                    )
                 }
 
                 val dayMonthString =
@@ -904,6 +883,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                     it.day.toString().padStart(2, '0') + "." + it.month.toString().padStart(2, '0')
                 val queryLower = query.toLowerCase(Locale.ROOT)
 
+                //only check birthdays (not month or year dividers with daysToRemind < 0)
                 if (it.daysToRemind >= 0) {
                     if (nameString.contains(queryLower) ||
                         dateFull.contains(queryLower) ||
