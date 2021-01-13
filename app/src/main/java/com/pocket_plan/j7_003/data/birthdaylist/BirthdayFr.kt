@@ -999,107 +999,8 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //save a reference for the birthday saved in this holder
         holder.birthday = currentBirthday
 
-        if (currentBirthday.daysToRemind < 0) {
-            //show tvRowBirthdayDivider and set its text to the correct month name
-            holder.tvRowBirthdayDivider.visibility = View.VISIBLE
-            holder.tvRowBirthdayDivider.text = currentBirthday.name
-
-            //hide elements only used for a regular birthday
-            holder.tvRowBirthdayDate.visibility = View.GONE
-            holder.tvRowBirthdayName.visibility = View.GONE
-            holder.itemView.tvBirthdayInfo.visibility = View.GONE
-            holder.itemView.icon_bell.visibility = View.GONE
-
-            //reset onLongClickListener to prevent editDialog
-            holder.itemView.setOnLongClickListener { true }
-
-            //reset onClickListener to prevent expansion
-            holder.itemView.setOnClickListener { }
-
-            if (currentBirthday.daysToRemind == -200) {
-                //YEAR DIVIDER
-                holder.cvBirthday.elevation = 0f
-                holder.itemView.layoutParams.height = (70 * density).toInt()
-                holder.tvRowBirthdayDivider.textSize = 22f
-                holder.tvRowBirthdayDivider.setTextColor(
-                    myActivity.colorForAttr(R.attr.colorOnBackGround)
-                )
-
-                //removes margin at sides so year divider spans parent width
-                val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(0, marginSide, 0, (0 * density).toInt())
-
-                holder.cvBirthday.setBackgroundColor(
-                    myActivity.colorForAttr(R.attr.colorBackground)
-                )
-
-
-            } else {
-                //initialize values specific to month divider
-                // reintroduces margin at sides
-                val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
-                params.setMargins(marginSide, marginSide, marginSide, (2 * density).toInt())
-
-                //sets correct text size, height and text color
-                holder.tvRowBirthdayDivider.textSize = 20f
-                holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                holder.tvRowBirthdayDivider.setTextColor(
-                    myActivity.colorForAttr(R.attr.colorCategory)
-                )
-
-                val monthColors = listOf(
-                    Pair(R.attr.colorMonth2, R.attr.colorMonth1),
-                    Pair(R.attr.colorMonth3, R.attr.colorMonth2),
-                    Pair(R.attr.colorMonth4, R.attr.colorMonth3),
-                    Pair(R.attr.colorMonth5, R.attr.colorMonth4),
-                    Pair(R.attr.colorMonth6, R.attr.colorMonth5),
-                    Pair(R.attr.colorMonth7, R.attr.colorMonth6),
-                    Pair(R.attr.colorMonth8, R.attr.colorMonth7),
-                    Pair(R.attr.colorMonth9, R.attr.colorMonth8),
-                    Pair(R.attr.colorMonth10, R.attr.colorMonth9),
-                    Pair(R.attr.colorMonth11, R.attr.colorMonth10),
-                    Pair(R.attr.colorMonth12, R.attr.colorMonth11),
-                    Pair(R.attr.colorMonth1, R.attr.colorMonth12)
-                )
-
-                //determine the background color of the card
-                //daysToRemind acts as a marker in mothDividers to mark the month they display
-                // -1 = january, -2 february etc
-                val gradientPair: Pair<Int, Int> =
-                    when (southColors) {
-                        true ->
-                            //month colors for southern hemisphere, days to remind gets turned positive, then + 7 % 12, to shift the colors by 7 month
-                            //now warm colors are represented in months 8 - 2 etc
-                            monthColors[((currentBirthday.daysToRemind * -1) + 7) % 12]
-                        else ->
-                            //regular month colors, days to remind gets turned positive, then -1 so january => index 0
-                            monthColors[(currentBirthday.daysToRemind * -1) - 1]
-                    }
-
-                //create a gradient drawable as a background for the month divider
-                val myGradientDrawable = GradientDrawable(
-                    GradientDrawable.Orientation.TL_BR,
-                    intArrayOf(
-                        myActivity.colorForAttr(gradientPair.second),
-                        myActivity.colorForAttr(gradientPair.first)
-                    )
-                )
-
-                //check if setting says to use round design, apply correct corner angles
-                if (round) myGradientDrawable.cornerRadii =
-                    floatArrayOf(cr, cr, cr, cr, 0f, 0f, 0f, 0f)
-
-                holder.cvBirthday.background = myGradientDrawable
-            }
-
-            //check if its a year divider, and display divider lines if its the case
-            val dividerVisibility = when (currentBirthday.daysToRemind == -200) {
-                true -> View.VISIBLE
-                else -> View.GONE
-            }
-
-            holder.myDividerRight.visibility = dividerVisibility
-            holder.myDividerLeft.visibility = dividerVisibility
+        if(currentBirthday.daysToRemind < 0){
+            initializeDividerViewHolder(holder, position, currentBirthday)
             return
         }
 
@@ -1297,6 +1198,125 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
 
 
     }
+
+    private fun initializeYearViewHolder(holder: BirthdayViewHolder){
+        //YEAR DIVIDER
+        holder.cvBirthday.elevation = 0f
+        holder.itemView.layoutParams.height = (70 * density).toInt()
+        holder.tvRowBirthdayDivider.textSize = 22f
+        holder.tvRowBirthdayDivider.setTextColor(
+            myActivity.colorForAttr(R.attr.colorOnBackGround)
+        )
+
+        //removes margin at sides so year divider spans parent width
+        val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+        params.setMargins(0, marginSide, 0, (0 * density).toInt())
+
+        holder.cvBirthday.setBackgroundColor(
+            myActivity.colorForAttr(R.attr.colorBackground)
+        )
+
+        holder.myDividerRight.visibility = View.VISIBLE
+        holder.myDividerLeft.visibility = View.VISIBLE
+    }
+
+    private fun initializeMonthViewHolder(holder: BirthdayViewHolder, position: Int, currentBirthday: Birthday){
+        //initialize values specific to month divider
+        // reintroduces margin at sides
+        val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+        params.setMargins(marginSide, marginSide, marginSide, (2 * density).toInt())
+
+        //sets correct text size, height and text color
+        holder.tvRowBirthdayDivider.textSize = 20f
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        holder.tvRowBirthdayDivider.setTextColor(
+            myActivity.colorForAttr(R.attr.colorCategory)
+        )
+
+        val monthColors = listOf(
+            Pair(R.attr.colorMonth2, R.attr.colorMonth1),
+            Pair(R.attr.colorMonth3, R.attr.colorMonth2),
+            Pair(R.attr.colorMonth4, R.attr.colorMonth3),
+            Pair(R.attr.colorMonth5, R.attr.colorMonth4),
+            Pair(R.attr.colorMonth6, R.attr.colorMonth5),
+            Pair(R.attr.colorMonth7, R.attr.colorMonth6),
+            Pair(R.attr.colorMonth8, R.attr.colorMonth7),
+            Pair(R.attr.colorMonth9, R.attr.colorMonth8),
+            Pair(R.attr.colorMonth10, R.attr.colorMonth9),
+            Pair(R.attr.colorMonth11, R.attr.colorMonth10),
+            Pair(R.attr.colorMonth12, R.attr.colorMonth11),
+            Pair(R.attr.colorMonth1, R.attr.colorMonth12)
+        )
+
+        //determine the background color of the card
+        //daysToRemind acts as a marker in mothDividers to mark the month they display
+        // -1 = january, -2 february etc
+        val gradientPair: Pair<Int, Int> =
+            when (southColors) {
+                true ->
+                    //month colors for southern hemisphere, days to remind gets turned positive, then + 7 % 12, to shift the colors by 7 month
+                    //now warm colors are represented in months 8 - 2 etc
+                    monthColors[((currentBirthday.daysToRemind * -1) + 7) % 12]
+                else ->
+                    //regular month colors, days to remind gets turned positive, then -1 so january => index 0
+                    monthColors[(currentBirthday.daysToRemind * -1) - 1]
+            }
+
+        //create a gradient drawable as a background for the month divider
+        val myGradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.TL_BR,
+            intArrayOf(
+                myActivity.colorForAttr(gradientPair.second),
+                myActivity.colorForAttr(gradientPair.first)
+            )
+        )
+
+        //check if setting says to use round design, apply correct corner angles
+        if (round) myGradientDrawable.cornerRadii =
+            floatArrayOf(cr, cr, cr, cr, 0f, 0f, 0f, 0f)
+
+        holder.cvBirthday.background = myGradientDrawable
+
+        //hide dividers that are specific to year divider
+        holder.myDividerRight.visibility = View.GONE
+        holder.myDividerLeft.visibility = View.GONE
+
+    }
+
+    /**
+     * This gets called when currentBirthday.daysToRemind was < 0. This signals that the ViewHolder is
+     * either a month or a year divider. At first all elements only necessary for a regular birthday
+     * will be hidden or reset, then the proper year or month divider will be initialized.
+     * @param holder the BirthdayViewHolder being modified
+     * @param position the position of this BirthdayViewHolder
+     * @param currentBirthday the birthday being displayed by this BirthdayViewHolder
+      */
+    private fun initializeDividerViewHolder(holder: BirthdayViewHolder, position: Int, currentBirthday: Birthday){
+        //show tvRowBirthdayDivider and set its text to the correct month or year name
+        holder.tvRowBirthdayDivider.visibility = View.VISIBLE
+        holder.tvRowBirthdayDivider.text = currentBirthday.name
+
+        //hide elements only used for a regular birthday
+        holder.tvRowBirthdayDate.visibility = View.GONE
+        holder.tvRowBirthdayName.visibility = View.GONE
+        holder.itemView.tvBirthdayInfo.visibility = View.GONE
+        holder.itemView.icon_bell.visibility = View.GONE
+
+        //reset onLongClickListener to prevent editDialog
+        holder.itemView.setOnLongClickListener { true }
+
+        //reset onClickListener to prevent expansion
+        holder.itemView.setOnClickListener { }
+
+        if (currentBirthday.daysToRemind == -200) {
+            initializeYearViewHolder(holder)
+        } else {
+            initializeMonthViewHolder(holder, position, currentBirthday)
+        }
+        return
+
+    }
+
 
     //returns number of items that should be displayed in the recyclerView
     override fun getItemCount(): Int {
