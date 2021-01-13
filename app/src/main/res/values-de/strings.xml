@@ -118,7 +118,7 @@
     <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu löschen.\n\nTippe eine Aufgabe an, um sie zu bearbeiten.\n\nHalte eine Aufgabe gedrückt, um sie umzusortieren.</string>
     <string name="howtoNotes">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nHalte eine Notiz gedrückt, um sie umzusortieren.</string>
     <string name="howtoBirthdays">Tippe auf einen Geburtstag, um zusätzliche Informationen anzuzeigen.\n\nHalte einen Geburtstag gedrückt, um ihn zu bearbeiten.\n\nWische einen Geburtstag zur Seite, um ihn zu löschen.\n\nWenn ein Geburtstag in 30 oder weniger Tagen ansteht, werden die verbleibenden Tage in der Liste angezeigt.\n\nWenn eine Erinnerung für x Tage vorher gesetzt ist und der Geburtstag in x oder weniger Tagen ansteht, wird er in der Liste farblich markiert.</string>
-    <string name="howtoShopping">Wische einen Gegenstand zur Seite, um ihn zu löschen\n\nHalte eine Kategorie gedrückt, um sie umzusortieren./n/nTippe auf den Kreis oben links, um alle Artikel einer Kategorie abzuhaken.</string>
+    <string name="howtoShopping">Wische einen Gegenstand zur Seite, um ihn zu löschen\n\nHalte eine Kategorie gedrückt, um sie umzusortieren.\n\nTippe auf den Kreis oben links, um alle Artikel einer Kategorie abzuhaken.</string>
     <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
     <string name="howtoHome">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
 
