@@ -380,7 +380,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         //initialize autocompleteTextView
         autoCompleteTv = myActivity.addItemDialogView!!.actvItem
 
-//        initialize custom ArrayAdapter
+        //initialize custom arrayAdapter
         val itemNameClone = MainActivity.itemNameList.toMutableList()
         val customAdapter = AutoCompleteAdapter(
             context = myActivity,
@@ -399,7 +399,10 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 //read user input into item text field
-                val input = autoCompleteTv.text.toString()
+                var input = autoCompleteTv.text.toString()
+
+                //remove leading and trailing white spaces of user input, to recognize items even when accidental whitespaces are added
+                input = input.trim()
 
                 //check for existing user template
                 var template =
