@@ -404,7 +404,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
                 //remove leading and trailing white spaces of user input, to recognize items even when accidental whitespaces are added
                 input = input.trim()
-                Log.e("input", "-"+input+"-")
 
                 //check for existing user template
                 var template =
