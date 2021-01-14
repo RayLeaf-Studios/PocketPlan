@@ -562,7 +562,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
-        //button to confirm adding of birthday
+        //button to confirm edit of birthday
         myDialogView.btnConfirmBirthday.setOnClickListener {
             val name = etName.text.toString()
 
@@ -857,6 +857,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             )
 
             myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
+            myRecycler.scrollToPosition(addInfo.first)
             if (round) {
                 if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
                     myAdapter.notifyItemChanged(addInfo.first - 1)
