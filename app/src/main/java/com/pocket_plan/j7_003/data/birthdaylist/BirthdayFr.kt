@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -180,7 +181,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
             R.id.item_birthdays_undo -> {
                 //undo the last deletion
-
                 //re-add previously deleted birthday and get its new position
                 val addInfo = birthdayListInstance.addFullBirthday(
                     deletedBirthday!!
@@ -205,6 +205,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
                 //animate insertion of birthday and missing month / year labels (addInfo.first = index, addInfo.second = range)
                 myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
+                myRecycler.scrollToPosition(addInfo.first)
             }
         }
 
@@ -408,14 +409,17 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, pickedYear, month, day ->
                 yearChanged = true
 
-                if(abs(date.until(date.withYear(pickedYear)).toTotalMonths()) >= 12 && !cbSaveBirthdayYear.isChecked){
+                if (abs(
+                        date.until(date.withYear(pickedYear)).toTotalMonths()
+                    ) >= 12 && !cbSaveBirthdayYear.isChecked
+                ) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
                         myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
                     )
                 }
 
-                date = date.withYear(pickedYear).withMonth(month+1).withDayOfMonth(day)
+                date = date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
 
                 val dayMonthString =
                     date.dayOfMonth.toString().padStart(2, '0') + "." + (date.monthValue).toString()
@@ -469,7 +473,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
         //checkbox to include year
         cbSaveBirthdayYear.setOnClickListener {
-            if(!yearChanged){
+            if (!yearChanged) {
                 date = date.withYear(LocalDate.now().year)
                 yearChanged = true
             }
@@ -675,7 +679,10 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
                 date = date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
 
-                if(abs(LocalDate.now().until(date).toTotalMonths()) >= 12 && !cbSaveBirthdayYear.isChecked){
+                if (abs(
+                        LocalDate.now().until(date).toTotalMonths()
+                    ) >= 12 && !cbSaveBirthdayYear.isChecked
+                ) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
                         myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
@@ -946,19 +953,26 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
 
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
-        BirthdayFr.deletedBirthday = listInstance.getBirthday(viewHolder.adapterPosition)
+        //get deleted birthday via index
+        BirthdayFr.deletedBirthday = when (myFragment.searching) {
+            true -> BirthdayFr.adjustedList[viewHolder.adapterPosition]
+            else -> listInstance.getBirthday(viewHolder.adapterPosition)
+        }
+
         val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
+
         if (myFragment.searching) {
             myFragment.search(BirthdayFr.lastQuery)
-        }
-        if (round) {
-            if (deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first - 1].daysToRemind >= 0) {
-                myFragment.myAdapter.notifyItemChanged(deleteInfo.first - 1)
+        }else{
+            notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
+            myFragment.updateUndoBirthdayIcon()
+            myFragment.updateBirthdayMenu()
+            if (round) {
+                if (deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first - 1].daysToRemind >= 0) {
+                    myFragment.myAdapter.notifyItemChanged(deleteInfo.first - 1)
+                }
             }
         }
-        notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
-        myFragment.updateUndoBirthdayIcon()
-        myFragment.updateBirthdayMenu()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
@@ -980,7 +994,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //save a reference for the birthday saved in this holder
         holder.birthday = currentBirthday
 
-        if(currentBirthday.daysToRemind < 0){
+        if (currentBirthday.daysToRemind < 0) {
             initializeDividerViewHolder(holder, position, currentBirthday)
             return
         }
@@ -1073,7 +1087,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             currentBirthday.day.toString().padStart(2, '0')
 
 
-        if (SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean) {
+        if (myFragment.searching || SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean) {
             dateString += "." + currentBirthday.month.toString()
                 .padStart(2, '0')
         }
@@ -1180,7 +1194,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
 
     }
 
-    private fun initializeYearViewHolder(holder: BirthdayViewHolder){
+    private fun initializeYearViewHolder(holder: BirthdayViewHolder) {
         //YEAR DIVIDER
         holder.cvBirthday.elevation = 0f
         holder.itemView.layoutParams.height = (70 * density).toInt()
@@ -1201,7 +1215,11 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         holder.myDividerLeft.visibility = View.VISIBLE
     }
 
-    private fun initializeMonthViewHolder(holder: BirthdayViewHolder, position: Int, currentBirthday: Birthday){
+    private fun initializeMonthViewHolder(
+        holder: BirthdayViewHolder,
+        position: Int,
+        currentBirthday: Birthday
+    ) {
         //initialize values specific to month divider
         // reintroduces margin at sides
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
@@ -1271,8 +1289,12 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
      * @param holder the BirthdayViewHolder being modified
      * @param position the position of this BirthdayViewHolder
      * @param currentBirthday the birthday being displayed by this BirthdayViewHolder
-      */
-    private fun initializeDividerViewHolder(holder: BirthdayViewHolder, position: Int, currentBirthday: Birthday){
+     */
+    private fun initializeDividerViewHolder(
+        holder: BirthdayViewHolder,
+        position: Int,
+        currentBirthday: Birthday
+    ) {
         //show tvRowBirthdayDivider and set its text to the correct month or year name
         holder.tvRowBirthdayDivider.visibility = View.VISIBLE
         holder.tvRowBirthdayDivider.text = currentBirthday.name
