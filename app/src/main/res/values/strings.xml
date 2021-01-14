@@ -298,7 +298,7 @@
     <string name="month_colors_for_southern_hemisphere">Month colors for southern hemisphere</string>
     <string name="settings_birthdays_month_addition">e.g. display \"14.03\" instead of \"14\"</string>
     <string name="setting_appearance_shake_addition">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
-    <string name="suggest_similar_items_for_unknown_names">Suggest similar items for unknown names</string>
-    <string name="e_g_suggest_apple_when_aplle_is_entered">E.g. suggest \"Apple\" when \"Aplle\" is entered</string>
+    <string name="suggest_similar_items_for_unknown_names">Improved item search</string>
+    <string name="e_g_suggest_apple_when_aplle_is_entered">E.g. suggest \"Apple\" when \"Appel\" is entered</string>
 
 </resources>
