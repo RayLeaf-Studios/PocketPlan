@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -403,6 +404,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
                 //remove leading and trailing white spaces of user input, to recognize items even when accidental whitespaces are added
                 input = input.trim()
+                Log.e("input", "-"+input+"-")
 
                 //check for existing user template
                 var template =
@@ -1218,9 +1220,12 @@ class AutoCompleteAdapter(
      */
     private var filter: Filter = object : Filter() {
 
-        override fun performFiltering(input: CharSequence?): FilterResults {
+        override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
+            var input = inputCharSequence.toString()
+            input = input.trim()
+
             val result = FilterResults()
-            if (imWorking || input == null || input.length < 2) {
+            if (imWorking || input.length < 2) {
                 return result
             }
 
