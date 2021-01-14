@@ -1237,6 +1237,7 @@ class AutoCompleteAdapter(
 
             //return if anything was found
             if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
+                suggestions.sortBy { it.length }
                 result.values = suggestions
                 result.count = suggestions.size
                 return result
