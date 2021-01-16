@@ -11,7 +11,6 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -39,7 +38,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
     private val myActivity = mainActivity
 
     //initialize recycler view
-    private lateinit var myRecycler: RecyclerView
+    lateinit var myRecycler: RecyclerView
 
     //round specifies if round or regular design should be used
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
@@ -84,7 +83,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
         //Last used searchPattern
         lateinit var lastQuery: String
-
     }
 
 
@@ -134,7 +132,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             //reload menu icons
             updateUndoBirthdayIcon()
             //reload list elements by notifying data set change to adapter
-            myAdapter.notifyDataSetChanged()
+            reloadAdapter()
             true
         }
 
@@ -161,18 +159,24 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    fun reloadAdapter() {
+        val newAdapter = BirthdayAdapter(this, myActivity)
+        myAdapter = newAdapter
+        myRecycler.adapter = newAdapter
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //disable all reminders and refresh adapter
             R.id.item_birthdays_disable_reminders -> {
                 birthdayListInstance.disableAllReminders()
-                myAdapter.notifyDataSetChanged()
+                reloadAdapter()
             }
 
             //enable all reminders and refresh adapter
             R.id.item_birthdays_enable_reminders -> {
                 birthdayListInstance.enableAllReminders()
-                myAdapter.notifyDataSetChanged()
+                reloadAdapter()
             }
 
             R.id.item_birthdays_search -> {/* no-op, listeners for this searchView are set
@@ -192,20 +196,24 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 //update menu content due to new possibilities
                 updateUndoBirthdayIcon()
                 updateBirthdayMenu()
+                reloadAdapter()
+                myRecycler.scrollToPosition(addInfo.first)
 
+                //todo reintroduce animation
                 //if round design is active
-                if (round) {
-                    //addInfo.second == 1 means, only a range of 1 birthday was added. In this case, if the element
-                    //above the added birthday is a birthday (not a month / year divider, marked by daysToRemind < 0)
-                    //the corners of this birthday need to be adjusted, since only the last birthday in a month has round corners.
-                    if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
-                        myAdapter.notifyItemChanged(addInfo.first - 1)
-                    }
-                }
+//                if (round) {
+//                    //addInfo.second == 1 means, only a range of 1 birthday was added. In this case, if the element
+//                    //above the added birthday is a birthday (not a month / year divider, marked by daysToRemind < 0)
+//                    //the corners of this birthday need to be adjusted, since only the last birthday in a month has round corners.
+//                    if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
+//                        myAdapter.notifyItemChanged(addInfo.first - 1)
+//                    }
+//                }
 
                 //animate insertion of birthday and missing month / year labels (addInfo.first = index, addInfo.second = range)
-                myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
-                myRecycler.scrollToPosition(addInfo.first)
+                //todo reintroduce animations
+//                myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
+//                myRecycler.scrollToPosition(addInfo.first)
             }
         }
 
@@ -852,25 +860,39 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 "" -> 0
                 else -> etDaysToRemind.text.toString().toInt()
             }
+
+            //boolean to determine if notifications for this birthday should be activated
             val notifyMe = cbNotifyMe.isChecked
 
+            //determine which year should be saved for the birthday (0 signals, no year being saved)
             val yearToSave = when (cbSaveBirthdayYear.isChecked) {
                 true -> date.year
                 else -> 0
             }
+
+            //add birthday and get info about position and range of added elements (month labels, year labels etc)
             val addInfo = birthdayListInstance.addBirthday(
                 name, date.dayOfMonth, date.monthValue,
                 yearToSave, daysToRemind, false, notifyMe
             )
 
-            myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
+            reloadAdapter()
+
+            //todo reintroduce animations
+//            myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
+//            if (round) {
+//                if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
+//                    myAdapter.notifyItemChanged(addInfo.first - 1)
+//                }
+//            }
+
+            //scroll to added birthday
             myRecycler.scrollToPosition(addInfo.first)
-            if (round) {
-                if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
-                    myAdapter.notifyItemChanged(addInfo.first - 1)
-                }
-            }
+
+            //update options menu
             updateBirthdayMenu()
+
+            //close dialog
             myAlertDialog?.dismiss()
         }
         etName.requestFocus()
@@ -904,7 +926,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 }
             }
         }
-        myAdapter.notifyDataSetChanged()
+        reloadAdapter()
     }
 
 }
@@ -959,19 +981,25 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             else -> listInstance.getBirthday(viewHolder.adapterPosition)
         }
 
+        //delete birthday and get info of deleted range and position back
         val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
+
+        myFragment.reloadAdapter()
+        myFragment.myRecycler.scrollToPosition(deleteInfo.first)
 
         if (myFragment.searching) {
             myFragment.search(BirthdayFr.lastQuery)
-        }else{
-            notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
+        } else {
+            //update option menus
             myFragment.updateUndoBirthdayIcon()
             myFragment.updateBirthdayMenu()
-            if (round) {
-                if (deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first - 1].daysToRemind >= 0) {
-                    myFragment.myAdapter.notifyItemChanged(deleteInfo.first - 1)
-                }
-            }
+            //todo, test and reintroduce animations
+//            notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
+//            if (round) {
+//                if (deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first - 1].daysToRemind >= 0) {
+//                    myFragment.myAdapter.notifyItemChanged(deleteInfo.first - 1)
+//                }
+//            }
         }
     }
 
@@ -995,7 +1023,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         holder.birthday = currentBirthday
 
         if (currentBirthday.daysToRemind < 0) {
-            initializeDividerViewHolder(holder, position, currentBirthday)
+            initializeDividerViewHolder(holder, currentBirthday)
             return
         }
 
@@ -1050,6 +1078,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         if (currentBirthday.expanded) {
             holder.itemView.tvBirthdayInfo.visibility = View.VISIBLE
             var ageText = myActivity.resources.getString(R.string.birthdayAgeUnknown)
+            //if a year is saved, calculate age and display it
             if (holder.birthday.year != 0) {
                 val birthday = holder.birthday
                 val age = LocalDate.of(birthday.year, birthday.month, birthday.day)
@@ -1083,67 +1112,55 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         }
 
 
+        //creates initial dateString containing padded dayOfMonth "03" or "12" e.g.
         var dateString =
             currentBirthday.day.toString().padStart(2, '0')
 
-
+        //adds month to this string if searching, or setting says to show month
         if (myFragment.searching || SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean) {
             dateString += "." + currentBirthday.month.toString()
                 .padStart(2, '0')
         }
 
-
         //Display name and date
         holder.tvRowBirthdayDate.text = dateString
         val daysUntilString = when (currentBirthday.daysUntil()) {
+            //"today"
             0 -> myActivity.resources.getString(R.string.birthdayToday)
+            //"tomorrow"
             1 -> myActivity.resources.getString(R.string.birthdayTomorrow)
-            else -> if (currentBirthday.daysUntil() < 30) {
+            //"in x days"
+            in 2..30 ->
                 myActivity.resources.getString(R.string.birthdayIn) + " " + currentBirthday.daysUntil()
                     .toString() + " " + myActivity.resources.getQuantityString(
                     R.plurals.dayIn,
                     currentBirthday.daysUntil()
                 )
-            } else {
-                ""
-            }
+            //no addition
+            else -> ""
         }
+        //combines name and daysUntil addition to displayed text and applies it
         val birthdayText = currentBirthday.name + " " + daysUntilString
         holder.tvRowBirthdayName.text = birthdayText
 
-        //set icon / text color to blue if birthday is today, to pink if its daysToRemind < days.Until, to white otherwise
+        //signalColor applied to birthday bell icon and text
         val today = LocalDate.now()
-        if (holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue) {
-            holder.tvRowBirthdayDate.setTextColor(
+        val signalColor =
+            if (holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue) {
+                //if birthday is today
                 myActivity.colorForAttr(R.attr.colorBirthdayToday)
-            )
-            holder.tvRowBirthdayName.setTextColor(
-                myActivity.colorForAttr(R.attr.colorBirthdayToday)
-            )
-            holder.iconBell.setColorFilter(
-                myActivity.colorForAttr(R.attr.colorBirthdayToday)
-            )
-        } else if (holder.birthday.daysToRemind > 0 && holder.birthday.daysUntil() <= holder.birthday.daysToRemind) {
-            holder.tvRowBirthdayDate.setTextColor(
+            } else if (holder.birthday.daysToRemind > 0 && holder.birthday.daysUntil() <= holder.birthday.daysToRemind) {
+                //if birthday is soon
                 myActivity.colorForAttr(R.attr.colorBirthdaySoon)
-            )
-            holder.tvRowBirthdayName.setTextColor(
-                myActivity.colorForAttr(R.attr.colorBirthdaySoon)
-            )
-            holder.iconBell.setColorFilter(
-                myActivity.colorForAttr(R.attr.colorBirthdaySoon)
-            )
-        } else {
-            holder.tvRowBirthdayDate.setTextColor(
+            } else {
+                //regular color otherwise
                 myActivity.colorForAttr(R.attr.colorOnBackGround)
-            )
-            holder.tvRowBirthdayName.setTextColor(
-                myActivity.colorForAttr(R.attr.colorOnBackGround)
-            )
-            holder.iconBell.setColorFilter(
-                myActivity.colorForAttr(R.attr.colorOnBackGround)
-            )
-        }
+            }
+
+        //apply signal color
+        holder.tvRowBirthdayDate.setTextColor(signalColor)
+        holder.tvRowBirthdayName.setTextColor(signalColor)
+        holder.iconBell.setColorFilter(signalColor)
 
         //display bell if birthday has a reminder
         holder.iconBell.visibility = View.VISIBLE
@@ -1157,38 +1174,47 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             holder.iconBell.setImageResource(R.drawable.ic_action_no_notification)
         }
 
-        //opens dialog to edit this birthday
-        holder.itemView.tvRowBirthdayName.setOnLongClickListener {
+        //lambda that initializes edit, by saving birthday to editBirthdayHolder and opening dialog
+        val initializeEdit: () -> Boolean = {
             BirthdayFr.editBirthdayHolder = holder.birthday
             myFragment.openEditBirthdayDialog()
             true
+        }
+
+        //onLonClickListeners on name, date and icon to initialize edit
+        holder.itemView.tvRowBirthdayName.setOnLongClickListener {
+            initializeEdit()
         }
         holder.itemView.tvRowBirthdayDate.setOnLongClickListener {
-            BirthdayFr.editBirthdayHolder = holder.birthday
-            myFragment.openEditBirthdayDialog()
-            true
+            initializeEdit()
         }
         holder.itemView.icon_bell.setOnLongClickListener {
-            BirthdayFr.editBirthdayHolder = holder.birthday
-            myFragment.openEditBirthdayDialog()
-            true
+            initializeEdit()
         }
 
         //expands info
-        holder.itemView.tvRowBirthdayDate.setOnClickListener {
-            holder.birthday.expanded = !holder.birthday.expanded
-            listInstance.sortAndSaveBirthdays()
-            notifyItemChanged(holder.adapterPosition)
-        }
-        holder.itemView.tvRowBirthdayName.setOnClickListener {
+        val switchExpandState: () -> Unit = {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
             notifyItemChanged(holder.adapterPosition)
         }
 
+        //onClickListener on name and Date to switch expansion state
+        holder.itemView.tvRowBirthdayDate.setOnClickListener {
+            switchExpandState()
+        }
+
+        holder.itemView.tvRowBirthdayName.setOnClickListener {
+            switchExpandState()
+        }
+        holder.itemView.tvBirthdayInfo.setOnClickListener {
+            switchExpandState()
+        }
+
+        //onClickListener on bell icon to enable / disable reminder
         holder.itemView.icon_bell.setOnClickListener {
             holder.birthday.notify = !holder.birthday.notify
-            myFragment.myAdapter.notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.adapterPosition)
         }
 
 
@@ -1207,17 +1233,16 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
         params.setMargins(0, marginSide, 0, (0 * density).toInt())
 
+        //change backgroundColor to app background color and show year dividers
         holder.cvBirthday.setBackgroundColor(
             myActivity.colorForAttr(R.attr.colorBackground)
         )
-
         holder.myDividerRight.visibility = View.VISIBLE
         holder.myDividerLeft.visibility = View.VISIBLE
     }
 
     private fun initializeMonthViewHolder(
         holder: BirthdayViewHolder,
-        position: Int,
         currentBirthday: Birthday
     ) {
         //initialize values specific to month divider
@@ -1287,12 +1312,10 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
      * either a month or a year divider. At first all elements only necessary for a regular birthday
      * will be hidden or reset, then the proper year or month divider will be initialized.
      * @param holder the BirthdayViewHolder being modified
-     * @param position the position of this BirthdayViewHolder
      * @param currentBirthday the birthday being displayed by this BirthdayViewHolder
      */
     private fun initializeDividerViewHolder(
         holder: BirthdayViewHolder,
-        position: Int,
         currentBirthday: Birthday
     ) {
         //show tvRowBirthdayDivider and set its text to the correct month or year name
@@ -1314,12 +1337,11 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         if (currentBirthday.daysToRemind == -200) {
             initializeYearViewHolder(holder)
         } else {
-            initializeMonthViewHolder(holder, position, currentBirthday)
+            initializeMonthViewHolder(holder, currentBirthday)
         }
         return
 
     }
-
 
     //returns number of items that should be displayed in the recyclerView
     override fun getItemCount(): Int {
