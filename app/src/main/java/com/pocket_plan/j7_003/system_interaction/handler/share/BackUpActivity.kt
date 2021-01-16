@@ -37,13 +37,6 @@ class BackUpActivity: AppCompatActivity() {
 
         setSupportActionBar(myNewToolbar)
 
-        //todo remove this debug button
-        btnShareLog.setOnClickListener {
-//            Toast.makeText(this, "DEBUG TOAST", Toast.LENGTH_LONG).show()
-            eHandler.shareLog()
-        }
-
-
         //Spinner for single file export
         val spExportOneAdapter = ArrayAdapter(
             this, android.R.layout.simple_list_item_1,
