@@ -98,7 +98,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
     }
 
     private fun updateNoteUndoIcon() {
-        myMenu.findItem(R.id.item_notes_undo).isVisible = deletedNote!=null
+        myMenu.findItem(R.id.item_notes_undo).isVisible = deletedNote != null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,7 +139,11 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 //                myAdapter.notifyItemInserted(newPos)
 
                 noteListInstance.addFullNote(deletedNote!!)
-                myAdapter.notifyDataSetChanged()
+                if (searching) {
+                    search(lastQuery)
+                } else {
+                    myAdapter.notifyDataSetChanged()
+                }
 
                 deletedNote = null
                 updateNoteUndoIcon()
@@ -190,6 +194,15 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
                 swipeDirections
             ) {
+                //blocks dragging and dropping in search mode
+                override fun getDragDirs(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
+                    return if (searching) {
+                        0
+                    } else {
+                        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START
+                    }
+                }
+
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: ViewHolder, target: ViewHolder
@@ -198,17 +211,17 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
                     val toPos = target.adapterPosition
 
                     //swap items in list
-                    if(fromPos < toPos){
+                    if (fromPos < toPos) {
                         val movingNote = noteListInstance[fromPos]
-                        for(i in fromPos+1..toPos){
-                            noteListInstance[i-1] = noteListInstance[i]
+                        for (i in fromPos + 1..toPos) {
+                            noteListInstance[i - 1] = noteListInstance[i]
                         }
                         noteListInstance[toPos] = movingNote
                     }
-                    if(fromPos > toPos){
+                    if (fromPos > toPos) {
                         val movingNote = noteListInstance[fromPos]
-                        for(i in fromPos downTo toPos+1){
-                            noteListInstance[i] = noteListInstance[i-1]
+                        for (i in fromPos downTo toPos + 1) {
+                            noteListInstance[i] = noteListInstance[i - 1]
                         }
                         noteListInstance[toPos] = movingNote
                     }
@@ -217,20 +230,28 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
                     // move item in `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
+                    myRecycler.scrollToPosition(0)
 
                     return true // true if moved, false otherwise
                 }
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
-                    // remove from adapter
-                    deletedNote = noteListInstance.getNote(viewHolder.adapterPosition)
-                    noteListInstance.removeAt(viewHolder.adapterPosition)
+                    val parsed = viewHolder as NoteAdapter.NoteViewHolder
+                    deletedNote = parsed.note
+
+                    //delete note from noteList and save
+                    noteListInstance.remove(parsed.note)
                     noteListInstance.save()
-                    myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+
+                    //refresh search if searching currently
+                    if (searching) {
+                        search(lastQuery)
+                    } else {
+                        myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                    }
+
                     updateNoteSearchIcon()
                     updateNoteUndoIcon()
-
-
                 }
             })
 
@@ -268,7 +289,14 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             false -> myNoteFr.noteListInstance.getNote(position)
         }
 
+        holder.note = currentNote
+
         holder.itemView.setOnLongClickListener {
+            //no animation indicating reordering when in search mode
+            if(NoteFr.searching){
+                return@setOnLongClickListener true
+            }
+
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
@@ -279,7 +307,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         holder.itemView.setOnClickListener {
             NoteFr.searching = false
             MainActivity.editNoteHolder = currentNote
-            noteColor = myNoteFr.noteListInstance.getNote(holder.adapterPosition).color
+            noteColor = currentNote.color
             myActivity.changeToFragment(FT.NOTE_EDITOR)
             myActivity.hideKeyboard()
         }
@@ -323,6 +351,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         val tvNoteTitle: TextView = itemView.tvNoteTitle
         val tvNoteContent: TextView = itemView.tvNoteContent
         var cvNoteCard: CardView = itemView.cvNoteCard
+        lateinit var note: Note
     }
 
 }
