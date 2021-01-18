@@ -1236,7 +1236,7 @@ class AutoCompleteAdapter(
             itemNames.forEach {
                 //checks for every item if its name contains the input
                 if (it.toLowerCase(Locale.getDefault())
-                        .contains(input.toString().toLowerCase(Locale.getDefault()))
+                        .contains(input.toLowerCase(Locale.getDefault()))
                 ) {
                     suggestions.add(it)
                 }
@@ -1260,17 +1260,17 @@ class AutoCompleteAdapter(
             possibles.forEach { itemName ->
                 var i = 0
                 var currentVal = 0
-                while (i < min(itemName.length, input.toString().length)) {
-                    if (itemName[i].equals(input.toString()[i], ignoreCase = true)) {
+                while (i < min(itemName.length, input.length)) {
+                    if (itemName[i].equals(input[i], ignoreCase = true)) {
                         currentVal += 2
                     } else if (itemName.toLowerCase(Locale.ROOT)
-                            .contains(input.toString()[i].toLowerCase())
+                            .contains(input[i].toLowerCase())
                     ) {
                         currentVal++
                     }
                     i++
                 }
-                withValues[itemName] = currentVal - abs(itemName.length - input.toString().length)
+                withValues[itemName] = currentVal - abs(itemName.length - input.length)
             }
             val withValuesSortedAsList =
                 withValues.toList().sortedBy { (_, value) -> value }.reversed()
