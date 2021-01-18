@@ -18,6 +18,7 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_pick_time.view.*
+import kotlinx.android.synthetic.main.fragment_sleep.*
 import kotlinx.android.synthetic.main.fragment_sleep.view.*
 import kotlinx.android.synthetic.main.row_sleep.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
@@ -248,6 +249,13 @@ class SleepFr(mainActivity: MainActivity) : Fragment() {
                 } else {
                     sleepReminderInstance.reminder[day]?.disable(day)
                 }
+
+                if (!sleepReminderInstance.isAnySet()) {
+                    switchEnableReminder.isChecked = false
+                } else if (!switchEnableReminder.isChecked) {
+                    switchEnableReminder.isChecked = true
+                }
+
             }
         }
     }
@@ -312,7 +320,6 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
 
-
     private var dayStrings = arrayOf(
         myActivity.resources.getString(R.string.sleepMon),
         myActivity.resources.getString(R.string.sleepTue),
@@ -362,6 +369,11 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
                 myFragment.sleepReminderInstance.reminder[day]?.disable(day)
             }
 
+            if (!myFragment.sleepReminderInstance.isAnySet()) {
+                myFragment.switchEnableReminder.isChecked = false
+            } else if (!myFragment.switchEnableReminder.isChecked) {
+                myFragment.switchEnableReminder.isChecked = true
+            }
         }
 
         holder.itemView.clTapFieldDuration.setOnClickListener {
