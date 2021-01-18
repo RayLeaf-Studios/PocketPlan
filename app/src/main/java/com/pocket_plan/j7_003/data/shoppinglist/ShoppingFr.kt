@@ -7,7 +7,6 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -722,7 +721,6 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-
         //long click listener playing shake animation to indicate moving is possible
         holder.itemView.setOnLongClickListener {
             val animationShake =
@@ -792,9 +790,9 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         //Onclick reaction to expand / contract this sublist
         holder.itemView.clTapExpand.setOnClickListener {
-            val newState = shoppingListInstance.flipExpansionState(holder.tag)
+            val newState: Boolean = shoppingListInstance.flipExpansionState(holder.tag)!!
             //if the item gets expanded and the setting says to only expand one
-            if (newState == true && ShoppingFr.expandOne) {
+            if (newState && ShoppingFr.expandOne) {
                 //iterate through all categories and contract one if you find one that's expanded and not the current sublist
                 shoppingListInstance.forEach {
                     if (shoppingListInstance.isTagExpanded(it.first) && it.first != holder.tag) {

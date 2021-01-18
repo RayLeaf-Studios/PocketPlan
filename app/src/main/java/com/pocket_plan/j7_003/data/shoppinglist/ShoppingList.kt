@@ -140,7 +140,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkab
     /**
      * Flips the current expansion state markers checked boolean.
      * @param tag The tag of the sublist to flip.
-     * @return True if the expansion state markers checked boolean is flipped, false otherwise.
+     * @return boolean of new expansion state or null if unsuccessful
      */
     fun flipExpansionState(tag: String): Boolean? {
         return try {
