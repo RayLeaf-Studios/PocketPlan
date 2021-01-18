@@ -193,6 +193,7 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                     //apply and save changes to list instance
                     todoListInstance[viewHolder.adapterPosition].priority = newPriority
                     todoListInstance[viewHolder.adapterPosition].isChecked = newCheckedState
+                    todoListInstance.sortTasks()
                     todoListInstance.save()
 
                     //notify change if priority or checkedState changed
@@ -202,6 +203,7 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
 
                     //reset lastMovePos to -1 to mark that nothing is moving
                     lastMovePos = -1
+                    myAdapter.notifyDataSetChanged()
 
                     //clear view
                     super.clearView(recyclerView, viewHolder)

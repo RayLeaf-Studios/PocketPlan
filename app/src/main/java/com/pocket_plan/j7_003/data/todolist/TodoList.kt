@@ -82,7 +82,7 @@ class TodoList: ArrayList<Task>(), Checkable{
      */
     fun getTask(index: Int): Task = this[index]
 
-    private fun sortTasks() {
+    fun sortTasks() {
         this.sortWith(compareBy({ it.isChecked }, { it.priority }))
     }
 

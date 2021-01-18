@@ -305,7 +305,6 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener {
-            NoteFr.searching = false
             MainActivity.editNoteHolder = currentNote
             noteColor = currentNote.color
             myActivity.changeToFragment(FT.NOTE_EDITOR)
