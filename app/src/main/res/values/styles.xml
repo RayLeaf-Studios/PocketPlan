@@ -1,5 +1,7 @@
 <resources>
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:colorForeground">?attr/colorOnBackGround</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
         <item name="android:spinnerStyle">@android:style/Widget.Material.Spinner</item>
@@ -101,6 +103,8 @@
 
     <style name="AppThemeLight" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:colorForeground">?attr/colorOnBackGround</item>
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyleLight</item>
