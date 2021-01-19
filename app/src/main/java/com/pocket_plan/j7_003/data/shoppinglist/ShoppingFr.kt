@@ -40,7 +40,8 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
     companion object {
 
-        var suggestSimilar: Boolean = SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
+        var suggestSimilar: Boolean =
+            SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
         var deletedItem: ShoppingItem? = null
 
         lateinit var shoppingListInstance: ShoppingList
@@ -176,13 +177,14 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     if (allChecked && position != shoppingListInstance.size - 1) {
                         val allCheckedBelow =
                             shoppingListInstance.areAllChecked(shoppingListInstance[position + 1].first)
-                        if(!allCheckedBelow){
+                        if (!allCheckedBelow) {
                             shoppingListInstance.equalize(tag)
                             myAdapter.notifyItemChanged(position)
                         }
-                    }else if(!allChecked && position != 0){
-                        val allCheckedAbove = shoppingListInstance.areAllChecked(shoppingListInstance[position-1].first)
-                        if(allCheckedAbove){
+                    } else if (!allChecked && position != 0) {
+                        val allCheckedAbove =
+                            shoppingListInstance.areAllChecked(shoppingListInstance[position - 1].first)
+                        if (allCheckedAbove) {
                             shoppingListInstance.equalize(tag)
                             myAdapter.notifyItemChanged(position)
                         }
@@ -1218,73 +1220,113 @@ class AutoCompleteAdapter(
     private var filter: Filter = object : Filter() {
 
         override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
-            var input = inputCharSequence.toString()
-            input = input.trim()
+            //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
+            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault())
 
             val result = FilterResults()
+
+            //don't perform search if a search is currently being performed, or input length is < 2
             if (imWorking || input.length < 2) {
                 return result
             }
 
+            //indicate that a search is being performed
             imWorking = true
 
+            //clear suggestions from previous search
             suggestions.clear()
 
-            //do regular "contains" search
+
+            //checks for every item if it starts with input (case insensitive search)
             itemNames.forEach {
-                //checks for every item if its name contains the input
                 if (it.toLowerCase(Locale.getDefault())
-                        .contains(input.toLowerCase(Locale.getDefault()))
+                        .startsWith(input)
                 ) {
                     suggestions.add(it)
                 }
             }
 
-            //return if anything was found
+            //sort all results starting with the input by length to suggest the shortest ones first
+            suggestions.sortBy { it.length }
+
+            //If less than 5 items that start with "input" have been found, add
+            //items that contain "input" to the end of the list
+            if(suggestions.size < 5){
+                itemNames.forEach {
+                    if (it.toLowerCase(Locale.getDefault())
+                            .contains(input)
+                    ) {
+                        if (!suggestions.contains(it)) {
+                            suggestions.add(it)
+                        }
+                    }
+                }
+            }
+
+            //if anything was found that starts with, or contains the "input", or if the setting says
+            //to only show perfect matches and don't suggest similar items, return the current suggestions
             if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
-                suggestions.sortBy { it.length }
                 result.values = suggestions
                 result.count = suggestions.size
                 return result
             }
 
+            //create a new mutable list containing all item names
             val possibles: MutableList<String> = mutableListOf()
             possibles.addAll(itemNames)
 
-            //create map that saves possible values with likelihood value
+            //create map that saves itemNames with their "likelihood score"
             val withValues: MutableMap<String, Int> = mutableMapOf()
 
-            //calculates likelihood value for every possible string
+            //calculates likelihood score for every item
             possibles.forEach { itemName ->
+                //index to iterate over string
                 var i = 0
-                var currentVal = 0
+                //score that indicates how much this item matches the input
+                var likelihoodScore = 0
                 while (i < min(itemName.length, input.length)) {
                     if (itemName[i].equals(input[i], ignoreCase = true)) {
-                        currentVal += 2
-                    } else if (itemName.toLowerCase(Locale.ROOT)
-                            .contains(input[i].toLowerCase())
-                    ) {
-                        currentVal++
+                        //increase score by 2 if this char occurs at this index
+                        likelihoodScore += 2
+                    } else if (itemName.toLowerCase(Locale.ROOT).contains(input[i].toLowerCase())) {
+                        //increase score by 1 if this char occurs anywhere in the string
+                        likelihoodScore++
                     }
                     i++
                 }
-                withValues[itemName] = currentVal - abs(itemName.length - input.length)
+                //subtract length difference from likelihood score
+                likelihoodScore -= abs(itemName.length - input.length)
+                //store score for this item name in the withValues map
+                withValues[itemName] = likelihoodScore
             }
+
+            //save the "withValues" map as reverse sorted list (by likelihood score), so that the
+            //most likely items are at the beginning of the list
             val withValuesSortedAsList =
                 withValues.toList().sortedBy { (_, value) -> value }.reversed()
+
+            //set suggestions to a list containing only the item names
             suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
-            val show = min(suggestions.size, 5)
-            result.values = suggestions.subList(0, show)
-            result.count = show
+
+            //set amount to display to minimum of 5 and current size of suggestions
+            val amountToDisplay = min(suggestions.size, 5)
+
+            //take the top "amountToDisplay" (0..5) results and return them as result
+            result.values = suggestions.subList(0, amountToDisplay)
+            result.count = amountToDisplay
             return result
 
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+
             if (results.values == null) {
+                //return nothing was found
                 return
             }
+
             val filterList = Collections.synchronizedList(results.values as List<*>)
+
             if (results.count > 0) {
                 clear()
                 addAll(filterList)
