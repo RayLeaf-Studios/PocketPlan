@@ -92,7 +92,7 @@ class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fra
                 deletedItem = null
                 myAdapter.notifyDataSetChanged()
                 updateUndoCustomIcon()
-
+                updateClearCustomListIcon()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -103,7 +103,7 @@ class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fra
         super.onCreate(savedInstanceState)
     }
 
-    private fun updateClearCustomListIcon(){
+    fun updateClearCustomListIcon(){
        myMenu.findItem(R.id.item_custom_clear).isVisible = MainActivity.userItemTemplateList.size > 0
     }
 
@@ -164,6 +164,7 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainAc
 
         //update options menu
         CustomItemFr.myFragment.updateUndoCustomIcon()
+        CustomItemFr.myFragment.updateClearCustomListIcon()
     }
 }
 
