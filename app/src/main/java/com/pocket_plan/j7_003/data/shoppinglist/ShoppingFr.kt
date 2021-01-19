@@ -158,56 +158,78 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
                 0
             ) {
+                var previousPosition: Int = -1
+                var moving = false
+
                 override fun clearView(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
-                    //get parsed viewHolder
-                    val categoryViewholder = viewHolder as ShoppingListAdapter.CategoryViewHolder
-                    val tag = categoryViewholder.tag
+                    val currentPosition = viewHolder.adapterPosition
+                    //mark that moving has ended (to allow a new previousPosition when move is detected)
+                    moving = false
 
-
-                    //get position
-                    val position = viewHolder.adapterPosition
-
-                    //get boolean if all items are checked
-                    val allChecked = shoppingListInstance.areAllChecked(tag)
-
-                    //if allChecked and not last item
-                    if (allChecked && position != shoppingListInstance.size - 1) {
-                        val allCheckedBelow =
-                            shoppingListInstance.areAllChecked(shoppingListInstance[position + 1].first)
-                        if (!allCheckedBelow) {
-                            shoppingListInstance.equalize(tag)
-                            myAdapter.notifyItemChanged(position)
-                        }
-                    } else if (!allChecked && position != 0) {
-                        val allCheckedAbove =
-                            shoppingListInstance.areAllChecked(shoppingListInstance[position - 1].first)
-                        if (allCheckedAbove) {
-                            shoppingListInstance.equalize(tag)
-                            myAdapter.notifyItemChanged(position)
-                        }
+                    // don't refresh item if
+                    // currentPosition == -1   =>  clearView got called due to a swipe to delete
+                    // currentPosition == previousPosition   =>  item was moved, but placed back to original position
+                    // previousPosition == -1   =>  item was selected but not moved
+                    if (currentPosition == -1 || currentPosition == previousPosition || previousPosition == -1) {
+                        previousPosition = -1
+                        super.clearView(recyclerView, viewHolder)
+                        return
                     }
 
+                    //save category that was moved
+                    val movedCategory = shoppingListInstance[previousPosition]
+                    //remove it from its previous position
+                    shoppingListInstance.removeAt(previousPosition)
+                    //re-add it at the current adapter position
+                    shoppingListInstance.add(currentPosition, movedCategory)
+
+                    //get tag of this category
+                    val tag = (viewHolder as ShoppingListAdapter.CategoryViewHolder).tag
+                    //get position
+                    val position = viewHolder.adapterPosition
+                    //get boolean if all items are checked
+                    val oldAllChecked = shoppingListInstance.areAllChecked(tag)
+
+                    //get new checked state
+                    val newAllChecked = if (currentPosition > previousPosition) {
+                        //if moved down, take status from above
+                        shoppingListInstance.areAllChecked(shoppingListInstance[position - 1].first)
+                    } else {
+                        //if moved up, take status from below
+                        shoppingListInstance.areAllChecked(shoppingListInstance[position + 1].first)
+                    }
+
+                    if (oldAllChecked != newAllChecked) {
+                        //flip checked state of this category
+                        shoppingListInstance.equalize(tag)
+                        myAdapter.notifyItemChanged(position)
+                        shoppingListInstance.save()
+                    }
+
+                    super.clearView(recyclerView, viewHolder)
                 }
 
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
+
+                    if (!moving) {
+                        //if not moving, save new previous position
+                        previousPosition = viewHolder.adapterPosition
+
+                        //and prevent new previous positions from being set until this move is over
+                        moving = true
+                    }
+
                     //get start and target position of item that gets dragged
                     val fromPos = viewHolder.adapterPosition
                     val toPos = target.adapterPosition
 
-                    //swap items in list
-                    Collections.swap(
-                        shoppingListInstance, fromPos, toPos
-                    )
-                    shoppingListInstance.save()
-
-
-                    // move item in `fromPos` to `toPos` in adapter.
+                    // animate move of category from `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
 
                     return true // true if moved, false otherwise
@@ -1251,7 +1273,7 @@ class AutoCompleteAdapter(
 
             //If less than 5 items that start with "input" have been found, add
             //items that contain "input" to the end of the list
-            if(suggestions.size < 5){
+            if (suggestions.size < 5) {
                 itemNames.forEach {
                     if (it.toLowerCase(Locale.getDefault())
                             .contains(input)

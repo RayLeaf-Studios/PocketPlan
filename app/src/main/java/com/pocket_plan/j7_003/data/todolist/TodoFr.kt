@@ -149,9 +149,9 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                     moving = false
 
                     // don't refresh item if
-                    // adapterPosition == -1   =>  clearView got called due to a swipe to delete
-                    // adapterPosition == lastMovePos   =>  item was moved, but placed back to original position
-                    // lastMovePos == -1   =>  item was selected but not moved
+                    // currentPosition == -1   =>  clearView got called due to a swipe to delete
+                    // currentPosition == previousPosition   =>  item was moved, but placed back to original position
+                    // previousPosition == -1   =>  item was selected but not moved
                     if (currentPosition == -1 || currentPosition == previousPosition || previousPosition == -1) {
                         previousPosition = -1
                         super.clearView(recyclerView, viewHolder)
@@ -221,7 +221,7 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
                     val fromPos = viewHolder.adapterPosition
                     val toPos = target.adapterPosition
 
-                    // move item in `fromPos` to `toPos` in adapter.
+                    // animate move of task from `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
 
                     //indicates successful move
