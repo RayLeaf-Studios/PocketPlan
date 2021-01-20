@@ -606,13 +606,21 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
             if (categoryCode != template!!.c || spItemUnit.selectedItem.toString() != template!!.s) {
                 //known as user item but with different tag or different suggested unit
                 MainActivity.userItemTemplateList.removeItem(autoCompleteTv.text.toString())
-                MainActivity.userItemTemplateList.add(
-                    ItemTemplate(
-                        autoCompleteTv.text.toString(), categoryCode,
-                        spItemUnit.selectedItem.toString()
+
+                //check if there is a regularItem with this name
+                val regularTemplate = myActivity.itemTemplateList.getTemplateByName(autoCompleteTv.text.toString())
+
+                //only add a new user item if there is no regular item with this name, this category and this unit
+                if(!(regularTemplate!=null && regularTemplate.c == categoryCode && regularTemplate.s == spItemUnit.selectedItem.toString())){
+                    MainActivity.userItemTemplateList.add(
+                        ItemTemplate(
+                            autoCompleteTv.text.toString(), categoryCode,
+                            spItemUnit.selectedItem.toString()
+                        )
                     )
-                )
+                }
             }
+
             //add already known item to list
             val item = ShoppingItem(
                 template!!.n,
