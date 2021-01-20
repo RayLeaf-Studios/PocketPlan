@@ -204,10 +204,13 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
                     if (oldAllChecked != newAllChecked) {
                         //auto expand / collapse when checkedState changed
-                        if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
-                            shoppingListInstance.flipExpansionState(tag)
-                        } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
-                            shoppingListInstance.flipExpansionState(tag)
+                        if (collapseCheckedSublists) {
+                            if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
+                                shoppingListInstance.flipExpansionState(tag)
+                            } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
+                                shoppingListInstance.flipExpansionState(tag)
+                            }
+
                         }
                         //flip checked state of this category
                         shoppingListInstance.equalize(tag)
@@ -750,6 +753,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val myFragment = shoppingFr
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val collapseCheckedSublists = SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
@@ -862,10 +866,12 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         holder.tvNumberOfItems.setOnClickListener {
             //get new checked state of all items (result)
             val newAllChecked = shoppingListInstance.equalize(tag)
-            if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
-                shoppingListInstance.flipExpansionState(tag)
-            } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
-                shoppingListInstance.flipExpansionState(tag)
+            if(collapseCheckedSublists){
+                if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
+                    shoppingListInstance.flipExpansionState(tag)
+                } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
+                    shoppingListInstance.flipExpansionState(tag)
+                }
             }
 
             notifyItemChanged(holder.adapterPosition)
