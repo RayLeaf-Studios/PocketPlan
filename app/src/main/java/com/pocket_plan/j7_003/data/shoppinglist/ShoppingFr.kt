@@ -527,7 +527,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
             if (template == null) {
                 //no user item with this name => check for regular template
-
                 template = myActivity.itemTemplateList.getTemplateByName(nameInput)
                 if (template == null || categoryCode != template!!.c || spItemUnit.selectedItemPosition != 0) {
                     //item unknown, or item known under different category or with different unit, use selected category and unit,
@@ -623,12 +622,15 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 spItemUnit.selectedItem.toString(),
                 false
             )
-            shoppingListInstance.add(item)
+
             if (editing) {
+                //remove item that was tapped to edit, if editing
                 shoppingListInstance.removeItem(editTag, editPos)
                 editing = false
                 MainActivity.addItemDialog?.dismiss()
             }
+            //add new item to list
+            shoppingListInstance.add(item)
             if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
                 myAdapter.notifyDataSetChanged()
                 updateShoppingMenu()
@@ -705,7 +707,6 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         val unitIndex = myActivity.resources.getStringArray(
             R.array.units
         ).indexOf(item.suggestedUnit)
-
         myActivity.addItemDialogView!!.spItemUnit.tag = unitIndex
         myActivity.addItemDialogView!!.spItemUnit.setSelection(unitIndex)
 
@@ -1120,8 +1121,6 @@ class SublistAdapter(
 
             if (newPosition > -1) {
                 notifyItemMoved(holder.adapterPosition, newPosition)
-            } else {
-                myActivity.toast("invalid item checked state")
             }
 
             //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
