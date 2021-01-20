@@ -141,7 +141,7 @@
     <string name="backupImportJson">Import</string>
     <string name="birthdaysNoReminder">\nNo reminder set</string>
     <string name="howtoTodo">Swipe a task left or right to delete it.\n\nTap a task to edit it.\n\nLongpress and drag a task to re-order it.</string>
-    <string name="howtoNotes">Tap a note to edit it.\n\nLongpress and drag a note to re-order it</string>
+    <string name="howtoNotes">Tap a note to edit it.\n\nNewly added, edited or viewed notes are moved to the top.</string>
     <string name="howtoBirthdays">Tap a birthday to show additional information.\n\nLongpress a birthday to edit it.\n\nSwipe a birthday left or right to delete it.\n\nIf a birthday is upcoming in 30 days or less, the remaining days will be displayed in the list.\n\nIf a reminder is set for x days prior and the birthday is upcoming in x or less days, it is color-highlighted in the list.</string>
     <string name="howtoShopping">Swipe an item left or right to delete it.\n\nLongpress and drag a category to re-order it.\n\nTap the circle at the top of a category to check all contained items.</string>
     <string name="howtoSleep">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>

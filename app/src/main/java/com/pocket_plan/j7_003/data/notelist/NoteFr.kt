@@ -2,10 +2,12 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -30,6 +32,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
     private val myActivity = mainActivity
     private lateinit var myMenu: Menu
+    lateinit var myRecycler: RecyclerView
     lateinit var searchView: SearchView
     var noteListInstance: NoteList = NoteList()
 
@@ -43,6 +46,21 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
         lateinit var searchResults: ArrayList<Note>
         lateinit var lastQuery: String
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        //inflating layout for NoteFragment
+        val myView = inflater.inflate(R.layout.fragment_note, container, false)
+        myRecycler = myView.recycler_view_note
+        deletedNote = null
+        initializeComponents(myView)
+        myAdapter.notifyDataSetChanged()
+        myRecycler.scrollToPosition(0)
+        return myView
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -80,6 +98,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         }
         searchView.setOnCloseListener(onCloseListener)
 
+        //onSearchCloseListener to refresh fragment once search is ended
         searchView.setOnSearchClickListener {
             myActivity.toolBar.title = ""
             searching = true
@@ -89,6 +108,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
         updateNoteSearchIcon()
         updateNoteUndoIcon()
+        myRecycler.scrollToPosition(0)
         super.onCreateOptionsMenu(menu, inflater)
 
     }
@@ -134,10 +154,6 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
             }
 
             R.id.item_notes_undo -> {
-//                undo deletion of last deleted note
-//                val newPos = noteListInstance.addFullNote(deletedNote!!)
-//                myAdapter.notifyItemInserted(newPos)
-
                 noteListInstance.addFullNote(deletedNote!!)
                 if (searching) {
                     search(lastQuery)
@@ -147,24 +163,12 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
                 deletedNote = null
                 updateNoteUndoIcon()
-
             }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        //inflating layout for NoteFragment
-        val myView = inflater.inflate(R.layout.fragment_note, container, false)
-        deletedNote = null
-        initializeComponents(myView)
-        return myView
-    }
 
     private fun initializeComponents(myView: View) {
         val noteColumns = SettingsManager.getSetting(SettingId.NOTE_COLUMNS) as String
@@ -173,11 +177,10 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         noteLines = setting.toInt()
 
         //initialize Recyclerview and Adapter
-        val myRecycler = myView.recycler_view_note
         myAdapter = NoteAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
 
-        //nitiailize and set layoutManager
+        //initialize and set layoutManager
         val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
         myRecycler.layoutManager = lm
         myRecycler.setHasFixedSize(true)
@@ -191,48 +194,15 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         //itemTouchHelper to drag and reorder notes
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+               0,
                 swipeDirections
             ) {
-                //blocks dragging and dropping in search mode
-                override fun getDragDirs(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
-                    return if (searching) {
-                        0
-                    } else {
-                        ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START
-                    }
-                }
-
                 override fun onMove(
                     recyclerView: RecyclerView,
-                    viewHolder: ViewHolder, target: ViewHolder
+                    viewHolder: ViewHolder,
+                    target: ViewHolder
                 ): Boolean {
-                    val fromPos = viewHolder.adapterPosition
-                    val toPos = target.adapterPosition
-
-                    //swap items in list
-                    if (fromPos < toPos) {
-                        val movingNote = noteListInstance[fromPos]
-                        for (i in fromPos + 1..toPos) {
-                            noteListInstance[i - 1] = noteListInstance[i]
-                        }
-                        noteListInstance[toPos] = movingNote
-                    }
-                    if (fromPos > toPos) {
-                        val movingNote = noteListInstance[fromPos]
-                        for (i in fromPos downTo toPos + 1) {
-                            noteListInstance[i] = noteListInstance[i - 1]
-                        }
-                        noteListInstance[toPos] = movingNote
-                    }
-
-                    noteListInstance.save()
-
-                    // move item in `fromPos` to `toPos` in adapter.
-                    myAdapter.notifyItemMoved(fromPos, toPos)
-                    myRecycler.scrollToPosition(0)
-
-                    return true // true if moved, false otherwise
+                    return true
                 }
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
@@ -291,22 +261,17 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
         holder.note = currentNote
 
-        holder.itemView.setOnLongClickListener {
-            //no animation indicating reordering when in search mode
-            if(NoteFr.searching){
-                return@setOnLongClickListener true
-            }
-
-            val animationShake =
-                AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
-            holder.itemView.startAnimation(animationShake)
-            true
-        }
-
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener {
             MainActivity.editNoteHolder = currentNote
             noteColor = currentNote.color
+
+            //move current note to top
+            val noteToMove = holder.note
+            myNoteFr.noteListInstance.removeAt(holder.adapterPosition)
+            myNoteFr.noteListInstance.add(0, noteToMove)
+            myNoteFr.noteListInstance.save()
+
             myActivity.changeToFragment(FT.NOTE_EDITOR)
             myActivity.hideKeyboard()
         }
