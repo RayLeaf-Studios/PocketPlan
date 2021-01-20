@@ -203,6 +203,12 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     }
 
                     if (oldAllChecked != newAllChecked) {
+                        //auto expand / collapse when checkedState changed
+                        if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
+                            shoppingListInstance.flipExpansionState(tag)
+                        } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
+                            shoppingListInstance.flipExpansionState(tag)
+                        }
                         //flip checked state of this category
                         shoppingListInstance.equalize(tag)
                         myAdapter.notifyItemChanged(position)
@@ -608,10 +614,11 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                 MainActivity.userItemTemplateList.removeItem(autoCompleteTv.text.toString())
 
                 //check if there is a regularItem with this name
-                val regularTemplate = myActivity.itemTemplateList.getTemplateByName(autoCompleteTv.text.toString())
+                val regularTemplate =
+                    myActivity.itemTemplateList.getTemplateByName(autoCompleteTv.text.toString())
 
                 //only add a new user item if there is no regular item with this name, this category and this unit
-                if(!(regularTemplate!=null && regularTemplate.c == categoryCode && regularTemplate.s == spItemUnit.selectedItem.toString())){
+                if (!(regularTemplate != null && regularTemplate.c == categoryCode && regularTemplate.s == spItemUnit.selectedItem.toString())) {
                     MainActivity.userItemTemplateList.add(
                         ItemTemplate(
                             autoCompleteTv.text.toString(), categoryCode,
@@ -853,10 +860,14 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
 
         holder.tvNumberOfItems.setOnClickListener {
-            val result = shoppingListInstance.equalize(tag)
-            if (result && shoppingListInstance.isTagExpanded(tag)) {
+            //get new checked state of all items (result)
+            val newAllChecked = shoppingListInstance.equalize(tag)
+            if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
+                shoppingListInstance.flipExpansionState(tag)
+            } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
                 shoppingListInstance.flipExpansionState(tag)
             }
+
             notifyItemChanged(holder.adapterPosition)
 
             if (moveCheckedSublistsDown) {
