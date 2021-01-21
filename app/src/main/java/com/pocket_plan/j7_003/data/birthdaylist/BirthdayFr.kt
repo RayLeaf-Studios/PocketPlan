@@ -23,6 +23,7 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
+import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
@@ -123,6 +124,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
         //set onClose listener, that resets birthdayFragment whenever the searchView gets closed
         searchView.setOnCloseListener {
+            myActivity.btnAdd.visibility = View.VISIBLE
             //reset title
             myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
             //collapse searchView
@@ -138,6 +140,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
         //set onSearchClickListener that initializes searching
         searchView.setOnSearchClickListener {
+            myActivity.myBtnAdd.visibility = View.GONE
             //removes title from toolbar
             myActivity.toolBar.title = ""
             //sets searching to true, which results in the recyclerViewAdapter reading its elements from

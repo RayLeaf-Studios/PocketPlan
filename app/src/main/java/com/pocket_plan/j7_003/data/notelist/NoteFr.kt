@@ -88,6 +88,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         //close listener to restore fragment to normal after search is finished
         val onCloseListener = SearchView.OnCloseListener {
             myActivity.toolBar.title = getString(R.string.menuTitleNotes)
+            myActivity.myBtnAdd.visibility = View.VISIBLE
             searchView.onActionViewCollapsed()
             searching = false
             myAdapter.notifyDataSetChanged()
@@ -97,6 +98,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
         //onSearchCloseListener to refresh fragment once search is ended
         searchView.setOnSearchClickListener {
+            myActivity.myBtnAdd.visibility = View.GONE
             myActivity.toolBar.title = ""
             searching = true
             searchResults.clear()

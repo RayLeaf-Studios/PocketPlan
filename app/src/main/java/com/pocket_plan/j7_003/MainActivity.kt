@@ -22,6 +22,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
@@ -65,6 +66,8 @@ class MainActivity : AppCompatActivity() {
     var shoppingTitle: View? = null
     lateinit var toolBar: Toolbar
     lateinit var itemTemplateList: ItemTemplateList
+
+    lateinit var myBtnAdd: FloatingActionButton
 
     companion object {
         //contents for shopping list
@@ -286,6 +289,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        this.myBtnAdd = btnAdd
+
         //initialize btn to add elements, depending on which fragment is active
         btnAdd.setOnClickListener {
             when (previousFragmentStack.peek()) {
@@ -492,6 +497,7 @@ class MainActivity : AppCompatActivity() {
 
         //When in birthdayFragment and searching, close search and restore fragment to normal mode
         if (previousFragmentStack.peek() == FT.BIRTHDAYS && birthdayFr!!.searching) {
+            myBtnAdd.visibility = View.VISIBLE
             toolBar.title = getString(R.string.menuTitleBirthdays)
             birthdayFr!!.searchView.onActionViewCollapsed()
             birthdayFr!!.searching = false
@@ -502,6 +508,7 @@ class MainActivity : AppCompatActivity() {
 
         //When in noteFragment and searching, close search and restore fragment to normal mode
         if (previousFragmentStack.peek() == FT.NOTES && NoteFr.searching) {
+            myBtnAdd.visibility = View.VISIBLE
             toolBar.title = getString(R.string.menuTitleNotes)
             noteFr!!.searchView.onActionViewCollapsed()
             NoteFr.searching = false
