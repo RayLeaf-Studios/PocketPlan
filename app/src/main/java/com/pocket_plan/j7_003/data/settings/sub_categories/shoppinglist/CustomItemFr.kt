@@ -195,7 +195,11 @@ class CustomItemAdapter(val mainActivity: MainActivity) :
         holder.myItem = currentItem
 
         //changes design of task based on priority and being checked
-        holder.itemView.tvName.text = currentItem.n + " : "+currentItem.s
+        var itemText = currentItem.n
+        if(currentItem.n.length > 12){
+            itemText = itemText.substring(0,11)+".."
+        }
+        holder.itemView.tvName.text = itemText + " : "+currentItem.s
         val id = mainActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
         holder.itemView.tvCategory.text = mainActivity.resources.getStringArray(R.array.categoryNames)[id]
     }

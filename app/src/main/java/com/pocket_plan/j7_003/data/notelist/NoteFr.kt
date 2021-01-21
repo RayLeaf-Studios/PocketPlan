@@ -162,6 +162,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
                 deletedNote = null
                 updateNoteUndoIcon()
+                updateNoteSearchIcon()
             }
         }
 
