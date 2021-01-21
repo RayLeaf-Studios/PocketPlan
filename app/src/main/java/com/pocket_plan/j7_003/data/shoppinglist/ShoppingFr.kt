@@ -185,6 +185,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
                     shoppingListInstance.removeAt(previousPosition)
                     //re-add it at the current adapter position
                     shoppingListInstance.add(currentPosition, movedCategory)
+                    shoppingListInstance.save()
 
                     //get tag of this category
                     val tag = (viewHolder as ShoppingListAdapter.CategoryViewHolder).tag
@@ -204,14 +205,35 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
 
                     if (oldAllChecked != newAllChecked) {
                         //auto expand / collapse when checkedState changed
-                        if (collapseCheckedSublists) {
-                            if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
-                                shoppingListInstance.flipExpansionState(tag)
-                            } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
-                                shoppingListInstance.flipExpansionState(tag)
-                            }
 
+                        //if setting says to collapse all sublists, the new checked state is all checked,
+                        //and its currently expanded, collapse it
+                        if (collapseCheckedSublists && newAllChecked && shoppingListInstance.isTagExpanded(
+                                tag
+                            )
+                        ) {
+                            shoppingListInstance.flipExpansionState(tag)
                         }
+
+                        //if new state is all unchecked, and its currently not expanded, expand it
+                        if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
+                            shoppingListInstance.flipExpansionState(tag)
+                            //adjust other categories if setting says to only expand one
+                            if (expandOne) {
+                                //iterate through all categories and contract one if you find one that's expanded and not the current sublist
+                                shoppingListInstance.forEach {
+                                    if (shoppingListInstance.isTagExpanded(it.first) && it.first != tag) {
+                                        shoppingListInstance.flipExpansionState(it.first)
+                                        myAdapter.notifyItemChanged(
+                                            shoppingListInstance.getTagIndex(
+                                                it.first
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
                         //flip checked state of this category
                         shoppingListInstance.equalize(tag)
                         myAdapter.notifyItemChanged(position)
@@ -753,7 +775,8 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val myFragment = shoppingFr
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val collapseCheckedSublists = SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
+    private val collapseCheckedSublists =
+        SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
@@ -866,11 +889,24 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         holder.tvNumberOfItems.setOnClickListener {
             //get new checked state of all items (result)
             val newAllChecked = shoppingListInstance.equalize(tag)
-            if(collapseCheckedSublists){
+            if (collapseCheckedSublists) {
                 if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
                     shoppingListInstance.flipExpansionState(tag)
                 } else if (!newAllChecked && !shoppingListInstance.isTagExpanded(tag)) {
                     shoppingListInstance.flipExpansionState(tag)
+                    if (ShoppingFr.expandOne) {
+                        //iterate through all categories and contract one if you find one that's expanded and not the current sublist
+                        ShoppingFr.shoppingListInstance.forEach {
+                            if (ShoppingFr.shoppingListInstance.isTagExpanded(it.first) && it.first != tag) {
+                                ShoppingFr.shoppingListInstance.flipExpansionState(it.first)
+                                ShoppingFr.myAdapter.notifyItemChanged(
+                                    ShoppingFr.shoppingListInstance.getTagIndex(
+                                        it.first
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
             }
 
