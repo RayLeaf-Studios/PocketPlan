@@ -421,7 +421,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 yearChanged = true
 
                 if (abs(
-                        date.until(date.withYear(pickedYear)).toTotalMonths()
+                        date.withYear(LocalDate.now().year).until(date.withYear(pickedYear)).toTotalMonths()
                     ) >= 12 && !cbSaveBirthdayYear.isChecked
                 ) {
                     cbSaveBirthdayYear.isChecked = true
