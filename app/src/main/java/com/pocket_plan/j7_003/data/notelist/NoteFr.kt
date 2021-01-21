@@ -2,12 +2,9 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.*
-import android.view.animation.AnimationUtils
 import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -57,7 +54,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_note, container, false)
         myRecycler = myView.recycler_view_note
         deletedNote = null
-        initializeComponents(myView)
+        initializeComponents()
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
         return myView
@@ -170,7 +167,7 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
     }
 
 
-    private fun initializeComponents(myView: View) {
+    private fun initializeComponents() {
         val noteColumns = SettingsManager.getSetting(SettingId.NOTE_COLUMNS) as String
 
         val setting = SettingsManager.getSetting(SettingId.NOTE_LINES) as Double
@@ -268,7 +265,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             //move current note to top
             val noteToMove = holder.note
-            myNoteFr.noteListInstance.removeAt(holder.adapterPosition)
+            val noteIndex = myNoteFr.noteListInstance.indexOf(currentNote)
+
+            myNoteFr.noteListInstance.removeAt(noteIndex)
             myNoteFr.noteListInstance.add(0, noteToMove)
             myNoteFr.noteListInstance.save()
 

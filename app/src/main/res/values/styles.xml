@@ -6,6 +6,7 @@
         <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
         <item name="android:spinnerStyle">@android:style/Widget.Material.Spinner</item>
         <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
+        <item name="android:navigationBarColor">?attr/colorBackground</item>
         <item name="android:textColorPrimary">?attr/colorOnBackGround</item>
         <item name="android:timePickerDialogTheme">@style/MyTimePickerDialogTheme</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -110,6 +111,7 @@
         <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyleLight</item>
         <item name="android:spinnerStyle">@android:style/Widget.Material.Light.Spinner</item>
         <item name="android:statusBarColor">?attr/colorBackgroundElevated</item>
+        <item name="android:navigationBarColor">?attr/colorOnBackGround</item>
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="colorControlHighlight">#282729</item>
