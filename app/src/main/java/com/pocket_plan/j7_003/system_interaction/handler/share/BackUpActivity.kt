@@ -8,6 +8,8 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
+import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -16,7 +18,7 @@ import java.io.File
 /**
  * A simple activity used to handle the backup process of the app.
  */
-class BackUpActivity: AppCompatActivity() {
+class BackUpActivity : AppCompatActivity() {
     private val eHandler = ExportHandler(this)
     private val iHandler = ImportHandler(this)
 
@@ -26,7 +28,7 @@ class BackUpActivity: AppCompatActivity() {
      * text and listeners for the logic.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        val themeToSet = when(SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
+        val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
             else -> R.style.AppThemeLight
         }
@@ -64,7 +66,7 @@ class BackUpActivity: AppCompatActivity() {
         initializeListeners()
     }
 
-    private fun initializeListeners(){
+    private fun initializeListeners() {
         clExport.setOnClickListener {
             eHandler.shareAll()
         }
@@ -76,7 +78,7 @@ class BackUpActivity: AppCompatActivity() {
         tvExport.setOnClickListener {
             val storageId = StorageId.getByI(spExportOne.selectedItemPosition)
 
-            if(storageId!=null){
+            if (storageId != null) {
                 eHandler.shareById(storageId)
             }
 
@@ -85,7 +87,7 @@ class BackUpActivity: AppCompatActivity() {
         tvImport.setOnClickListener {
             val storageId = StorageId.getByI(spImportOne.selectedItemPosition)
 
-            if(storageId!=null){
+            if (storageId != null) {
                 iHandler.browse("json", storageId)
             }
 
@@ -140,6 +142,10 @@ class BackUpActivity: AppCompatActivity() {
                     // removing now not needed files
                     zipFile.delete()
                     file.delete()
+
+                    if (targetId == StorageId.SLEEP) {
+                        SleepReminder(this).updateReminder()
+                    }
 
                     return
                 }
