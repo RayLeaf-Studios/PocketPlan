@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -121,7 +122,9 @@ class BackUpActivity: AppCompatActivity() {
                     zipFile.delete()
                     file.delete()
 
-                    return
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("NotificationEntry", "settings")
+                    startActivity(intent)
                 }
 
                 else -> {
@@ -135,7 +138,7 @@ class BackUpActivity: AppCompatActivity() {
                     iHandler.importFromJson(targetId!!, inputStream, file)
 
                     // removing now not needed files
-                    zipFile.delete()
+//                    zipFile.delete()
                     file.delete()
 
                     return

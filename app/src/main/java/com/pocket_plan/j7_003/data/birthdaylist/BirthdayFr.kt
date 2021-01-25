@@ -230,8 +230,13 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
-        adjustedList = arrayListOf()
         myRecycler = myView.recycler_view_birthday
+
+        adjustedList = arrayListOf()
+
+        birthdayListInstance = BirthdayList(myActivity)
+        myAdapter = BirthdayAdapter(this, myActivity)
+
 
         //collapse all birthdays when reentering fragment
         birthdayListInstance.collapseAll()

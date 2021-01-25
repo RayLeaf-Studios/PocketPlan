@@ -52,11 +52,25 @@ class NoteFr(mainActivity: MainActivity) : Fragment() {
 
         //inflating layout for NoteFragment
         val myView = inflater.inflate(R.layout.fragment_note, container, false)
-        myRecycler = myView.recycler_view_note
+
+        //reset deletedNote to signal no undo is possible
         deletedNote = null
+
+        //reference to recycler view
+        myRecycler = myView.recycler_view_note
+
+        //load new note list from file
+        noteListInstance = NoteList()
+
+        //create and set new adapter for recyclerview
+        myAdapter = NoteAdapter(myActivity, this)
+        myRecycler.adapter = myAdapter
+
         initializeComponents()
+
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
+
         return myView
     }
 

@@ -25,7 +25,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
-import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.notelist.*
@@ -37,7 +36,6 @@ import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomIt
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.*
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
-import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
@@ -108,11 +106,6 @@ class MainActivity : AppCompatActivity() {
     ): Int {
         theme.resolveAttribute(attrColor, typedValue, resolveRefs)
         return typedValue.data
-    }
-
-    override fun onResume() {
-        refreshData()
-        super.onResume()
     }
 
     @SuppressLint("InflateParams")
@@ -537,15 +530,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    private fun refreshData() {
-        noteFr!!.noteListInstance = NoteList()
-        birthdayFr!!.birthdayListInstance = BirthdayList(this)
-        SettingsManager.init()
-        sleepFr!!.sleepReminderInstance = SleepReminder(this)
-        TodoFr.todoListInstance = TodoList()
-    }
-
 
     @SuppressLint("InflateParams")
 
