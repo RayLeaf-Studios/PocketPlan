@@ -60,6 +60,7 @@ class SleepFr(mainActivity: MainActivity) : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_sleep, null)
 
         val myRecycler = myView.recycler_view_sleep
+        sleepReminderInstance = SleepReminder(myActivity)
         myAdapter = SleepAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)

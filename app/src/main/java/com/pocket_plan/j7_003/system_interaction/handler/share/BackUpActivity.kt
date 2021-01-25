@@ -138,7 +138,7 @@ class BackUpActivity: AppCompatActivity() {
                     iHandler.importFromJson(targetId!!, inputStream, file)
 
                     // removing now not needed files
-//                    zipFile.delete()
+                    zipFile.delete()
                     file.delete()
 
                     return
