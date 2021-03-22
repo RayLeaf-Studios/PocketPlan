@@ -34,11 +34,13 @@
         android:id="@+id/npHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
         app:layout_constraintEnd_toStartOf="@+id/tvHourMinuteDivider"
         app:layout_constraintTop_toTopOf="parent" />
 
     <NumberPicker
         android:id="@+id/npMinute"
+        android:descendantFocusability="blocksDescendants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/tvHourMinuteDivider"
