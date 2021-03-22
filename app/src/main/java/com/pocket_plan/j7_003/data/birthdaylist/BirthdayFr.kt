@@ -41,11 +41,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
     //initialize recycler view
     lateinit var myRecycler: RecyclerView
 
-    //round specifies if round or regular design should be used
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-
-    //dark specifies if dark theme should be used (necessary to properly style date picker)
-    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK)
+    private val darkMode:Boolean = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
     //Current date to properly initialize date picker
     private var date: LocalDate = LocalDate.now()
@@ -201,22 +197,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 updateBirthdayMenu()
                 reloadAdapter()
                 myRecycler.scrollToPosition(addInfo.first)
-
-                //todo reintroduce animation
-                //if round design is active
-//                if (round) {
-//                    //addInfo.second == 1 means, only a range of 1 birthday was added. In this case, if the element
-//                    //above the added birthday is a birthday (not a month / year divider, marked by daysToRemind < 0)
-//                    //the corners of this birthday need to be adjusted, since only the last birthday in a month has round corners.
-//                    if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
-//                        myAdapter.notifyItemChanged(addInfo.first - 1)
-//                    }
-//                }
-
-                //animate insertion of birthday and missing month / year labels (addInfo.first = index, addInfo.second = range)
-                //todo reintroduce animations
-//                myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
-//                myRecycler.scrollToPosition(addInfo.first)
             }
         }
 
@@ -288,7 +268,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
     @SuppressLint("InflateParams")
     fun openEditBirthdayDialog() {
-        //Mark that user changed year
         var yearChanged = false
 
         //set date to birthdays date
@@ -319,11 +298,11 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
          * INITIALIZE DISPLAY VALUES
          */
 
-        //initialize name edit text with birthday name
+        //initialize name text field with birthday name
         etName.setText(editBirthdayHolder!!.name)
         etName.setSelection(etName.text.length)
 
-        //initialize color of tvNotifyMe with
+        //initialize color of tvNotifyMe depending on notification status
         if (editBirthdayHolder!!.notify) {
             tvNotifyMe.setTextColor(
                 myActivity.colorForAttr(R.attr.colorOnBackGround)
@@ -345,7 +324,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         val dateText = editBirthdayHolder!!.day.toString().padStart(2, '0') + "." +
                 editBirthdayHolder!!.month.toString()
                     .padStart(2, '0') + yearString
-
         tvBirthdayDate.text = dateText
 
         //initialize color of tvSaveYear
@@ -368,11 +346,11 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         etDaysToRemind.setTextColor(myActivity.colorForAttr(remindMeColor))
         tvDaysPrior.setTextColor(myActivity.colorForAttr(remindMeColor))
 
+        //set correct text to tvDaysPrior
         val daysToRemind = when (etDaysToRemind.text.toString() == "") {
             true -> 0
             else -> etDaysToRemind.text.toString().toInt()
         }
-
         val daysPriorTextEdit =
             myActivity.resources.getQuantityText(R.plurals.day, daysToRemind)
                 .toString() + " " + myActivity.resources.getString(R.string.birthdaysDaysPrior)
@@ -456,7 +434,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 yearToDisplay = date.year
             }
 
-            val dpd = when (dark) {
+            val dpd = when (darkMode) {
                 true ->
                     DatePickerDialog(
                         myActivity,
@@ -720,7 +698,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             } else if (cbSaveBirthdayYear.isChecked) {
                 yearToDisplay = LocalDate.now().year
             }
-            val dpd = when (dark) {
+            val dpd = when (darkMode) {
                 true ->
                     DatePickerDialog(
                         myActivity,
