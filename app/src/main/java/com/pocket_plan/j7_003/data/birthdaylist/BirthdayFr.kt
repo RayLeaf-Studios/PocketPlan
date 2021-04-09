@@ -998,6 +998,9 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
+        //reset elevation
+        holder.cvBirthday.elevation = 10f
+
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
         val currentBirthday = when (myFragment.searching) {
@@ -1008,6 +1011,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //save a reference for the birthday saved in this holder
         holder.birthday = currentBirthday
 
+        //manage design of month or year divider (signaled by days to remind being smaller than 0)
         if (currentBirthday.daysToRemind < 0) {
             initializeDividerViewHolder(holder, currentBirthday)
             return
@@ -1022,7 +1026,13 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
 
         //reset margin
         val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
 
+        //reset elevation
+        holder.cvBirthday.elevation = 10f
+
+
+        //make name and date visible
         holder.tvRowBirthdayDate.visibility = View.VISIBLE
         holder.tvRowBirthdayName.visibility = View.VISIBLE
 
