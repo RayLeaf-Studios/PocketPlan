@@ -449,7 +449,7 @@ class MainActivity : AppCompatActivity() {
         //create fragment object
         val fragment = when (fragmentTag) {
             FT.HOME -> homeFr
-            FT.TASKS -> TodoFr(this)
+            FT.TASKS -> TodoFr()
             FT.SHOPPING -> shoppingFr
             FT.NOTES -> {
                 NoteFr.searching = false

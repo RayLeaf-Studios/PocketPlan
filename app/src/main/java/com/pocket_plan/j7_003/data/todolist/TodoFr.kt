@@ -26,9 +26,9 @@ import java.util.*
  * A simple [Fragment] subclass.
  */
 
-class TodoFr(mainActivity: MainActivity) : Fragment() {
+class TodoFr : Fragment() {
     private lateinit var myMenu: Menu
-    private val myActivity = mainActivity
+    private lateinit var myActivity: MainActivity
 
     companion object {
         lateinit var myFragment: TodoFr
@@ -105,7 +105,7 @@ class TodoFr(mainActivity: MainActivity) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        myActivity = activity as MainActivity
         val myView = inflater.inflate(layout.fragment_todo, container, false)
         myRecycler = myView.recycler_view_todo
         myFragment = this
