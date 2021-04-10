@@ -50,7 +50,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun birthdayNotifications() {
-        val birthdayList = BirthdayList(context)
+        val birthdayList = BirthdayList()
 
         if (birthdayList.isEmpty()) {
             return
