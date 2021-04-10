@@ -17,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:completionThreshold="1"
+            android:inputType="textCapSentences"
             android:popupTheme="@style/ThemeOverlay.AppCompat"
             android:maxLength="70"
             android:singleLine="true"
