@@ -36,6 +36,7 @@ import kotlin.math.abs
  */
 
 class BirthdayFr(mainActivity: MainActivity) : Fragment() {
+    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val myActivity = mainActivity
 
     //initialize recycler view
@@ -130,7 +131,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
             //reload menu icons
             updateUndoBirthdayIcon()
             //reload list elements by notifying data set change to adapter
-            reloadAdapter()
+            myAdapter.notifyDataSetChanged()
             true
         }
 
@@ -158,24 +159,18 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    fun reloadAdapter() {
-        val newAdapter = BirthdayAdapter(this, myActivity)
-        myAdapter = newAdapter
-        myRecycler.adapter = newAdapter
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //disable all reminders and refresh adapter
             R.id.item_birthdays_disable_reminders -> {
                 birthdayListInstance.disableAllReminders()
-                reloadAdapter()
+                myAdapter.notifyDataSetChanged()
             }
 
             //enable all reminders and refresh adapter
             R.id.item_birthdays_enable_reminders -> {
                 birthdayListInstance.enableAllReminders()
-                reloadAdapter()
+                myAdapter.notifyDataSetChanged()
             }
 
             R.id.item_birthdays_search -> {/* no-op, listeners for this searchView are set
@@ -195,7 +190,12 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 //update menu content due to new possibilities
                 updateUndoBirthdayIcon()
                 updateBirthdayMenu()
-                reloadAdapter()
+                myAdapter.notifyItemRangeInserted(addInfo.first, addInfo.second)
+                if (round) {
+                    if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
+                        myAdapter.notifyItemChanged(addInfo.first - 1)
+                    }
+                }
                 myRecycler.scrollToPosition(addInfo.first)
             }
         }
@@ -409,7 +409,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 ) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
-                        myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
+                        myActivity.colorForAttr(R.attr.colorOnBackGround)
                     )
                 }
 
@@ -603,7 +603,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
     @SuppressLint("InflateParams")
     fun openAddBirthdayDialog() {
         var yearChanged = false
-        var chosenYear = LocalDate.now().year
 
         //set date to today
         date = LocalDate.now()
@@ -669,7 +668,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         tvBirthdayDate.setOnClickListener {
             val dateSetListener = DatePickerDialog.OnDateSetListener { _, pickedYear, month, day ->
                 yearChanged = true
-                chosenYear = pickedYear
 
                 date = date.withYear(pickedYear).withMonth(month + 1).withDayOfMonth(day)
 
@@ -679,7 +677,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 ) {
                     cbSaveBirthdayYear.isChecked = true
                     tvSaveYear.setTextColor(
-                        myActivity.colorForAttr(R.attr.colorOnBackGroundTask)
+                        myActivity.colorForAttr(R.attr.colorOnBackGround)
                     )
                 }
 
@@ -862,15 +860,12 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 yearToSave, daysToRemind, false, notifyMe
             )
 
-            reloadAdapter()
-
-            //todo reintroduce animations
-//            myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
-//            if (round) {
-//                if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
-//                    myAdapter.notifyItemChanged(addInfo.first - 1)
-//                }
-//            }
+            myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
+            if (round) {
+                if (addInfo.second == 1 && birthdayListInstance[addInfo.first - 1].daysToRemind >= 0) {
+                    myAdapter.notifyItemChanged(addInfo.first - 1)
+                }
+            }
 
             //scroll to added birthday
             myRecycler.scrollToPosition(addInfo.first)
@@ -912,7 +907,7 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
                 }
             }
         }
-        reloadAdapter()
+        myAdapter.notifyDataSetChanged()
     }
 
 }
@@ -970,22 +965,18 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //delete birthday and get info of deleted range and position back
         val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
 
-        myFragment.reloadAdapter()
-        myFragment.myRecycler.scrollToPosition(deleteInfo.first)
-
         if (myFragment.searching) {
             myFragment.search(BirthdayFr.lastQuery)
         } else {
             //update option menus
             myFragment.updateUndoBirthdayIcon()
             myFragment.updateBirthdayMenu()
-            //todo, test and reintroduce animations
-//            notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
-//            if (round) {
-//                if (deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first - 1].daysToRemind >= 0) {
-//                    myFragment.myAdapter.notifyItemChanged(deleteInfo.first - 1)
-//                }
-//            }
+            notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
+            if (round) {
+                if (deleteInfo.second == 1 && myFragment.birthdayListInstance[deleteInfo.first - 1].daysToRemind >= 0) {
+                    myFragment.myAdapter.notifyItemChanged(deleteInfo.first - 1)
+                }
+            }
         }
     }
 
