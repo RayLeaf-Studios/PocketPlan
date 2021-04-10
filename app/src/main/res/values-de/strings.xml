@@ -122,7 +122,7 @@
     <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
     <string name="howtoHome">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
 
-    <string name="settingsHelp">Hilfe</string>
+    <string name="settingsHelp">Anleitung</string>
     <string name="birthdayToday">heute</string>
     <string name="birthdayTomorrow">morgen</string>
     <string name="birthdayIn">in</string>

@@ -146,7 +146,7 @@
     <string name="howtoShopping">Swipe an item left or right to delete it.\n\nLongpress and drag a category to re-order it.\n\nTap the circle at the top of a category to check all contained items.</string>
     <string name="howtoSleep">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>
     <string name="howtoHome">If the sleepreminder is enabled, an indicator at the top will tell you how much time you got, until you should go to sleep.\n\nThe task panel below will display tasks of priority one.\n\nBelow that, the birthday panel will display current birthdays.</string>
-    <string name="settingsHelp">Help</string>
+    <string name="settingsHelp">HowTo</string>
     <string name="birthdayToday">today</string>
     <string name="birthdayTomorrow">tomorrow</string>
     <string name="birthdayIn">in</string>
