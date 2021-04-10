@@ -31,14 +31,15 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainActivity, sleepFr: SleepFr) : Fragment() {
+class HomeFr : Fragment() {
+    private lateinit var myActivity: MainActivity
 
-    private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
-    private val myBirthdayFr = birthdayFr
-    private val myShoppingFr = shoppingFr
-    private val mySleepFr = sleepFr
+
+    private var cr = 0f
+    private lateinit var myBirthdayFr: BirthdayFr
+    private lateinit var myShoppingFr: ShoppingFr
+    private lateinit var mySleepFr: SleepFr
 
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
@@ -47,6 +48,12 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        myActivity = (activity as MainActivity)
+
+        cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
+        myBirthdayFr = myActivity.getFragment(FT.BIRTHDAYS) as BirthdayFr
+        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as ShoppingFr
+        mySleepFr = myActivity.getFragment(FT.SLEEP) as SleepFr
         mySleepFr.sleepReminderInstance = SleepReminder(myActivity)
 
         //initializing layout

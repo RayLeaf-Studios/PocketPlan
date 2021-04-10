@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -99,6 +100,13 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
     }
 
+    fun getFragment(tag: FT): Fragment? = when(tag){
+        FT.BIRTHDAYS -> birthdayFr as Fragment
+        FT.SLEEP -> sleepFr as Fragment
+        FT.SHOPPING -> shoppingFr as Fragment
+        else -> null
+    }
+
     fun colorForAttr(
         attrColor: Int,
         typedValue: TypedValue = TypedValue(),
@@ -170,7 +178,7 @@ class MainActivity : AppCompatActivity() {
         sleepFr = SleepFr(this)
         birthdayFr = BirthdayFr(this)
         shoppingFr = ShoppingFr(this)
-        homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this, sleepFr!!)
+        homeFr = HomeFr()
 
 
         //Initialize header and icon in side drawer
@@ -233,7 +241,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Initialize remaining fragments
-        noteFr = NoteFr(this)
+        noteFr = NoteFr()
         NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
 
         //initialize navigation drawer listener
