@@ -28,16 +28,15 @@ import org.threeten.bp.DayOfWeek
  * A simple [Fragment] subclass.
  */
 
-class SleepFr(mainActivity: MainActivity) : Fragment() {
+class SleepFr : Fragment() {
 
-    var sleepReminderInstance: SleepReminder = SleepReminder(mainActivity)
+    lateinit var myActivity: MainActivity
+    lateinit var sleepReminderInstance: SleepReminder
 
 
     companion object {
         lateinit var myAdapter: SleepAdapter
     }
-
-    private val myActivity = mainActivity
 
     private lateinit var regularCheckBoxList: ArrayList<CheckBox>
     private lateinit var regularWakeTimeText: TextView
@@ -54,6 +53,8 @@ class SleepFr(mainActivity: MainActivity) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        myActivity = activity as MainActivity
+        sleepReminderInstance = SleepReminder(myActivity)
         customIsInit = false
         regularIsInit = false
 

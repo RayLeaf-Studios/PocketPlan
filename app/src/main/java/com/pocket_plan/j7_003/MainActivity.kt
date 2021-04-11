@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //Initialize fragment classes necessary for home
-        sleepFr = SleepFr(this)
+        sleepFr = SleepFr()
         birthdayFr = BirthdayFr()
         shoppingFr = ShoppingFr()
         homeFr = HomeFr()
