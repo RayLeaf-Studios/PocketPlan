@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr(this)
         birthdayFr = BirthdayFr()
-        shoppingFr = ShoppingFr(this)
+        shoppingFr = ShoppingFr()
         homeFr = HomeFr()
 
 
@@ -273,7 +273,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //preload add item dialog to reduce loading time
-        shoppingFr!!.preloadAddItemDialog(layoutInflater)
+        shoppingFr!!.preloadAddItemDialog(this, layoutInflater)
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
