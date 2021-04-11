@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.AutoCompleteAdapter
@@ -19,9 +20,10 @@ import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
-class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fragment() {
-    private val myShoppingFr = shoppingFr
+class CustomItemFr : Fragment() {
+    private lateinit var myShoppingFr: ShoppingFr
 
+    private lateinit var myActivity: MainActivity
     private lateinit var myMenu: Menu
 
     companion object{
@@ -37,6 +39,9 @@ class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fra
         savedInstanceState: Bundle?
     ): View? {
 
+        myActivity = activity as MainActivity
+        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as ShoppingFr
+
         val myView = inflater.inflate(R.layout.fragment_custom_items, container, false)
         myRecycler = myView.recycler_view_customItems
         myFragment = this
@@ -46,15 +51,15 @@ class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fra
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        myAdapter = CustomItemAdapter(mainActivity)
+        myAdapter = CustomItemAdapter(myActivity)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
 
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr, mainActivity))
+        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr, myActivity))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr, mainActivity))
+        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr, myActivity))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
 
@@ -73,7 +78,7 @@ class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fra
                        MainActivity.itemNameList.remove(item.n)
                    }
                    val newActAdapter = AutoCompleteAdapter(
-                       context = mainActivity,
+                       context = myActivity,
                        resource = android.R.layout.simple_spinner_dropdown_item,
                        items = MainActivity.itemNameList.toMutableList()
                    )
@@ -85,7 +90,7 @@ class CustomItemFr(shoppingFr: ShoppingFr, val mainActivity: MainActivity) : Fra
                    updateClearCustomListIcon()
                }
                val titleId = R.string.custom_item_delete_title
-               mainActivity.dialogConfirmDelete(titleId, action)
+               myActivity.dialogConfirmDelete(titleId, action)
            }
             R.id.item_custom_undo -> {
                 MainActivity.userItemTemplateList.add(deletedItem!!)

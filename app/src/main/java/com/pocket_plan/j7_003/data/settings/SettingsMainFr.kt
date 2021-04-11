@@ -13,9 +13,9 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.system_interaction.handler.share.BackUpActivity
 import kotlinx.android.synthetic.main.fragment_settings_main.view.*
 
-class SettingsMainFr(mainActivity: MainActivity) : Fragment() {
+class SettingsMainFr : Fragment() {
 
-    private val myActivity = mainActivity
+    private lateinit var myActivity: MainActivity
     private lateinit var clSettingNotes: ConstraintLayout
     private lateinit var clSettingShopping: ConstraintLayout
 
@@ -28,6 +28,7 @@ class SettingsMainFr(mainActivity: MainActivity) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        myActivity = activity as MainActivity
         // Inflate the layout for this fragment
         val myView = inflater.inflate(R.layout.fragment_settings_main, container, false)
 

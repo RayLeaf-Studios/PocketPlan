@@ -18,7 +18,8 @@ import kotlinx.android.synthetic.main.fragment_settings_notes.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsNotesFr(val mainActivity: MainActivity) : Fragment() {
+class SettingsNotesFr : Fragment() {
+    lateinit var myActivity: MainActivity
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
     lateinit var spEditorFontSize: Spinner
@@ -28,6 +29,7 @@ class SettingsNotesFr(val mainActivity: MainActivity) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        myActivity = activity as MainActivity
         val myView = inflater.inflate(R.layout.fragment_settings_notes, container, false)
 
         initializeComponents(myView)
@@ -52,7 +54,7 @@ class SettingsNotesFr(val mainActivity: MainActivity) : Fragment() {
         //NOTES
         //Spinner for amount of noteLines to be displayed
         val spAdapterNoteLines = ArrayAdapter(
-            mainActivity,
+            myActivity,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.noteLines)
         )
@@ -61,7 +63,7 @@ class SettingsNotesFr(val mainActivity: MainActivity) : Fragment() {
 
         //Spinner for amount of note columns
         val spAdapterNoteColumns = ArrayAdapter(
-            mainActivity,
+            myActivity,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.noteColumns)
         )
@@ -70,7 +72,7 @@ class SettingsNotesFr(val mainActivity: MainActivity) : Fragment() {
 
         //Spinner for amount of note columns
         val spAdapterEditorFontSize = ArrayAdapter(
-            mainActivity,
+            myActivity,
             android.R.layout.simple_list_item_1,
             resources.getStringArray(R.array.fontSizes)
         )

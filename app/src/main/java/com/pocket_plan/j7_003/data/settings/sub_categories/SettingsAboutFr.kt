@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.pocket_plan.j7_003.App
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.fragment_settings_about.view.*
 
-class SettingsAboutFr(val mainActivity: MainActivity) : Fragment() {
+class SettingsAboutFr : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +26,7 @@ class SettingsAboutFr(val mainActivity: MainActivity) : Fragment() {
         }
 
         //display current version name
-        val versionString = "v "+mainActivity.packageManager.getPackageInfo(mainActivity.packageName, 0).versionName
+        val versionString = "v "+ App.instance.packageManager.getPackageInfo(App.instance.packageName, 0).versionName
         myView.tvVersionAbout.text = versionString
         return myView
     }

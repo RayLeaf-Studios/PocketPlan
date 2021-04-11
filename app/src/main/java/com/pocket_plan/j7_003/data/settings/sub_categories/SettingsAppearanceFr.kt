@@ -21,8 +21,8 @@ import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
-    private val myActivity = mainActivity
+class SettingsAppearanceFr : Fragment() {
+    private lateinit var myActivity: MainActivity
     private lateinit var spTheme: Spinner
     private lateinit var spShapes: Spinner
     private lateinit var spLanguages: Spinner
@@ -38,6 +38,8 @@ class SettingsAppearanceFr(mainActivity: MainActivity) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        myActivity = activity as MainActivity
         val myView = inflater.inflate(R.layout.fragment_settings_appearance, container, false)
 
         initializeComponents(myView)
