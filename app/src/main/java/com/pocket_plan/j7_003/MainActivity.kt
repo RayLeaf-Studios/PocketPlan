@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
@@ -22,6 +23,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -76,10 +78,7 @@ class MainActivity : AppCompatActivity() {
 
         var addItemDialog: AlertDialog? = null
 
-        var justRestarted = false
-
         val previousFragmentStack: Stack<FT> = Stack()
-        var editNoteHolder: Note? = null
         lateinit var bottomNavigation: BottomNavigationView
     }
 
@@ -100,10 +99,12 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
     }
 
+
     fun getFragment(tag: FT): Fragment? = when(tag){
         FT.BIRTHDAYS -> birthdayFr as Fragment
         FT.SLEEP -> sleepFr as Fragment
         FT.SHOPPING -> shoppingFr as Fragment
+        FT.NOTES -> noteFr as Fragment
         else -> null
     }
 
@@ -234,9 +235,13 @@ class MainActivity : AppCompatActivity() {
             "settings"      -> changeToFragment(FT.SETTINGS)
             "appearance"    -> changeToFragment(FT.SETTINGS_APPEARANCE)
             else -> {
-                justRestarted = true
-                bottomNavigation.menu.getItem(2).isChecked = true
-                changeToFragment(FT.HOME)
+                if(previousFragmentStack.peek() == FT.EMPTY){
+                    bottomNavigation.menu.getItem(2).isChecked = true
+                    changeToFragment(FT.HOME)
+                }else{
+                    val target = previousFragmentStack.pop()
+                    changeToFragment(target)
+                }
             }
         }
 
@@ -305,7 +310,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.NOTES -> {
-                    editNoteHolder = null
+                    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("editingNote", false).apply()
                     NoteEditorFr.noteColor = NoteColors.GREEN
                     changeToFragment(FT.NOTE_EDITOR)
                 }
@@ -370,14 +375,15 @@ class MainActivity : AppCompatActivity() {
      * item in bottom navigation
      */
 
-    fun changeToFragment(fragmentTag: FT) {
+    fun changeToFragment(fragmentTag: FT): Fragment? {
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            noteEditorFr = supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges(fragmentTag)
-                return
+                return null
             } else {
                 previousFragmentStack.pop()
             }
@@ -456,7 +462,7 @@ class MainActivity : AppCompatActivity() {
                 noteFr
             }
             FT.NOTE_EDITOR -> {
-                noteEditorFr = NoteEditorFr(this, noteFr!!)
+                noteEditorFr = NoteEditorFr()
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
@@ -479,10 +485,11 @@ class MainActivity : AppCompatActivity() {
         if (fragment != null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
+                .replace(R.id.frame_layout, fragment, fragmentTag.name)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
         }
+        return fragment
     }
 
     /**
@@ -519,6 +526,7 @@ class MainActivity : AppCompatActivity() {
 
         //handles going back from editor
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            noteEditorFr = supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges()
                 return

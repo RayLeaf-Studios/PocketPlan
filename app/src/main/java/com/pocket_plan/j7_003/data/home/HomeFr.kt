@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
@@ -86,7 +87,7 @@ class HomeFr : Fragment() {
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.clAddNote.setOnClickListener {
-            MainActivity.editNoteHolder = null
+            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
             NoteEditorFr.noteColor = NoteColors.GREEN
             myActivity.changeToFragment(FT.NOTE_EDITOR)
         }

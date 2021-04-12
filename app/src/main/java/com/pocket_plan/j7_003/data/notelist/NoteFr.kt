@@ -9,11 +9,11 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.pocket_plan.j7_003.App
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
@@ -67,7 +67,7 @@ class NoteFr : Fragment() {
         noteListInstance = NoteList()
 
         //create and set new adapter for recyclerview
-        myAdapter = NoteAdapter( myActivity, this)
+        myAdapter = NoteAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
 
         initializeComponents()
@@ -84,20 +84,20 @@ class NoteFr : Fragment() {
         searchResults = arrayListOf()
 
         //color tint for undo icon
-        myMenu.findItem(R.id.item_notes_undo)?.icon?.setTint(App.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.getItem(0).icon.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         searchView = menu.findItem(R.id.item_notes_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-            val imm = myActivity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            //Find the currently focused view, so we can grab the correct window token from it.
-            var view: View? = myActivity?.currentFocus
-            //If no view currently has focus, create a new one, just so we can grab a window token from it
-            if (view == null) {
-                view = View(myActivity)
-            }
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
+                val imm = myActivity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                //Find the currently focused view, so we can grab the correct window token from it.
+                var view: View? = myActivity?.currentFocus
+                //If no view currently has focus, create a new one, just so we can grab a window token from it
+                if (view == null) {
+                    view = View(myActivity)
+                }
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
                 return true
             }
 
@@ -122,7 +122,7 @@ class NoteFr : Fragment() {
         }
         searchView.setOnCloseListener(onCloseListener)
 
-        //onSearchCloseListener to refresh fragment once search is ended
+//        onSearchCloseListener to refresh fragment once search is ended
         searchView.setOnSearchClickListener {
             myActivity.myBtnAdd.visibility = View.GONE
             myActivity.toolBar.title = ""
@@ -220,7 +220,7 @@ class NoteFr : Fragment() {
         //itemTouchHelper to drag and reorder notes
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-               0,
+                0,
                 swipeDirections
             ) {
                 override fun onMove(
@@ -257,7 +257,7 @@ class NoteFr : Fragment() {
 }
 
 
-    class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
+class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
@@ -289,7 +289,6 @@ class NoteFr : Fragment() {
 
         //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
         holder.itemView.setOnClickListener {
-            MainActivity.editNoteHolder = currentNote
             noteColor = currentNote.color
 
             //move current note to top
@@ -300,7 +299,10 @@ class NoteFr : Fragment() {
             myNoteFr.noteListInstance.add(0, noteToMove)
             myNoteFr.noteListInstance.save()
 
-            myActivity.changeToFragment(FT.NOTE_EDITOR)
+            PreferenceManager.getDefaultSharedPreferences(myActivity)
+                .edit().putBoolean("editingNote", true).apply()
+
+            myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
             myActivity.hideKeyboard()
         }
 
