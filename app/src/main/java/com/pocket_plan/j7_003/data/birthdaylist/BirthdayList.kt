@@ -183,6 +183,14 @@ class BirthdayList() : ArrayList<Birthday>(), Checkable {
         }
     }
 
+    fun getNextRelevantBirthday(): Birthday? {
+        this.forEach { n ->
+            if (n.daysToRemind >= 0  && n.daysUntil() <= 30) {
+                return n
+            }
+        }
+        return null
+    }
     /**
      * Collects all birthdays that are happening on the current day and returns
      * them as an list.

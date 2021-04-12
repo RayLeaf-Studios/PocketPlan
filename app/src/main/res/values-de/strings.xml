@@ -145,6 +145,7 @@
     <string name="setting_appearance_shake_addition">Wenn es eine oder mehr Aufgaben mit Priorität 1 gibt, bewegt sich das Aufgaben Icon, sobald du das Home Panel öffnest.</string>
     <string name="suggest_similar_items_for_unknown_names">Verbesserte Artikelsuche</string>
     <string name="e_g_suggest_apple_when_aplle_is_entered">Z.b. schlage \"Apfel\" vor, wenn \"Aplfe\" eingegeben wurde</string>
+    <string name="show_next_upcoming_birthday_in_home_panel">Zeige nächsten zukünftigen Geburtstag im Home Panel</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

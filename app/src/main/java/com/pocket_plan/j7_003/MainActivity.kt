@@ -570,6 +570,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.BIRTHDAY_SHOW_MONTH, true)
         setDefault(SettingId.BIRTHDAY_COLORS_SOUTH, false)
         setDefault(SettingId.SUGGEST_SIMILAR_ITEMS, true)
+        setDefault(SettingId.PREVIEW_BIRTHDAY, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
