@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
@@ -236,11 +235,9 @@ class MainActivity : AppCompatActivity() {
             "appearance"    -> changeToFragment(FT.SETTINGS_APPEARANCE)
             else -> {
                 if(previousFragmentStack.peek() == FT.EMPTY){
-                    bottomNavigation.menu.getItem(2).isChecked = true
                     changeToFragment(FT.HOME)
                 }else{
-                    val target = previousFragmentStack.pop()
-                    changeToFragment(target)
+                    changeToFragment(previousFragmentStack.pop())
                 }
             }
         }
@@ -320,8 +317,7 @@ class MainActivity : AppCompatActivity() {
                     shoppingFr!!.openAddItemDialog()
                 }
 
-                else -> {/* no-op */
-                }
+                else -> {/* no-op */}
             }
         }
 
