@@ -4,7 +4,6 @@ package com.pocket_plan.j7_003.data.notelist
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -150,6 +149,24 @@ class NoteEditorFr : Fragment() {
         } else {
             manageEditNote()
         }
+    }
+
+    fun getNoteContent(): String{
+        return etNoteContent.text.toString()
+    }
+
+    fun setNoteContent(previousContent: String){
+        etNoteContent.clearFocus()
+        etNoteContent.setText(previousContent)
+    }
+
+    fun getNoteTitle(): String{
+        return etNoteTitle.text.toString()
+    }
+
+    fun setNoteTitle(previousTitle: String){
+        etNoteTitle.clearFocus()
+        etNoteTitle.setText(previousTitle)
     }
 
     fun relevantNoteChanges(): Boolean {

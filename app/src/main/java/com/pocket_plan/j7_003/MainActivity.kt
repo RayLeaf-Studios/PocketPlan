@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
@@ -99,11 +100,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun getFragment(tag: FT): Fragment? = when(tag){
+    fun getFragment(tag: FT): Fragment? = when (tag) {
         FT.BIRTHDAYS -> birthdayFr as Fragment
         FT.SLEEP -> sleepFr as Fragment
         FT.SHOPPING -> shoppingFr as Fragment
         FT.NOTES -> noteFr as Fragment
+        FT.NOTE_EDITOR -> noteEditorFr as Fragment
         else -> null
     }
 
@@ -114,6 +116,38 @@ class MainActivity : AppCompatActivity() {
     ): Int {
         theme.resolveAttribute(attrColor, typedValue, resolveRefs)
         return typedValue.data
+    }
+
+    override fun onPause() {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            //get current text from edited note
+            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
+            val noteContent = noteFr.getNoteContent()
+            val noteTitle = noteFr.getNoteTitle()
+            //and save it as shared preference
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString("oldNote", noteContent).apply()
+
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString("oldTitle", noteTitle).apply()
+        }
+        super.onPause()
+    }
+
+    override fun onResume() {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            val noteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("oldNote", "")
+            val noteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("oldTitle", "")
+
+            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
+            if (noteContent != null) {
+                noteFr.setNoteContent(noteContent)
+            }
+            if (noteTitle != null) {
+                noteFr.setNoteTitle(noteTitle)
+            }
+        }
+        super.onResume()
     }
 
     @SuppressLint("InflateParams")
@@ -131,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         loadDefaultSettings()
 
         //set correct language depending on setting
-        val languageCode = when(SettingsManager.getSetting(SettingId.LANGUAGE)){
+        val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
             0.0 -> "en"
             //1.0 = de
             else -> "de"
@@ -140,11 +174,11 @@ class MainActivity : AppCompatActivity() {
 
         //check if settings say to use system theme, if yes, set theme setting to system theme
         if (SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean) {
-                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES) {
-                    true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
-                    else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
-                }
+            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES) {
+                true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
+                else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
             }
+        }
 
         //set correct theme depending on setting
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
@@ -229,14 +263,14 @@ class MainActivity : AppCompatActivity() {
 
         //When activity is entered via special intent, change to respective fragment
         when (intent.extras?.get("NotificationEntry").toString()) {
-            "birthdays"     -> changeToFragment(FT.BIRTHDAYS)
-            "SReminder"     -> changeToFragment(FT.HOME)
-            "settings"      -> changeToFragment(FT.SETTINGS)
-            "appearance"    -> changeToFragment(FT.SETTINGS_APPEARANCE)
+            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder" -> changeToFragment(FT.HOME)
+            "settings" -> changeToFragment(FT.SETTINGS)
+            "appearance" -> changeToFragment(FT.SETTINGS_APPEARANCE)
             else -> {
-                if(previousFragmentStack.peek() == FT.EMPTY){
+                if (previousFragmentStack.peek() == FT.EMPTY) {
                     changeToFragment(FT.HOME)
-                }else{
+                } else {
                     changeToFragment(previousFragmentStack.pop())
                 }
             }
@@ -307,7 +341,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.NOTES -> {
-                    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("editingNote", false).apply()
+                    PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean("editingNote", false).apply()
                     NoteEditorFr.noteColor = NoteColors.GREEN
                     changeToFragment(FT.NOTE_EDITOR)
                 }
@@ -317,7 +352,8 @@ class MainActivity : AppCompatActivity() {
                     shoppingFr!!.openAddItemDialog()
                 }
 
-                else -> {/* no-op */}
+                else -> {/* no-op */
+                }
             }
         }
 
@@ -376,7 +412,8 @@ class MainActivity : AppCompatActivity() {
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            noteEditorFr = supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
+            noteEditorFr =
+                supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges(fragmentTag)
                 return null
@@ -522,7 +559,8 @@ class MainActivity : AppCompatActivity() {
 
         //handles going back from editor
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            noteEditorFr = supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
+            noteEditorFr =
+                supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges()
                 return
