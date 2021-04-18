@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.pocket_plan.j7_003.App
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import kotlinx.android.synthetic.main.fragment_settings_about.*
 import kotlinx.android.synthetic.main.fragment_settings_about.view.*
 
 class SettingsAboutFr : Fragment() {
@@ -23,6 +24,13 @@ class SettingsAboutFr : Fragment() {
         myView.clGithubLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/estep248/Pocket-Plan"))
             startActivity(intent)
+        }
+
+        myView.tvStudioMail.setOnClickListener {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/mail"
+            //shareIntent.flags = Intent.CATEGORY_APP_EMAIL
+            activity?.startActivity(Intent.createChooser(shareIntent, "Send Mail"))
         }
 
         //display current version name
