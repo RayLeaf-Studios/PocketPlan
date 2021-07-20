@@ -10,8 +10,8 @@ android {
         applicationId "com.pocket_plan.j7_003"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 19
-        versionName "1.1.9"
+        versionCode 20
+        versionName "1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
