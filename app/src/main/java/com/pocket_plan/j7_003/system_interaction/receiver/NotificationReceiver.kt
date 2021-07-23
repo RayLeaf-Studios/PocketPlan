@@ -11,6 +11,7 @@ import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
@@ -25,6 +26,7 @@ class NotificationReceiver : BroadcastReceiver() {
             logger.log("NR", "Initializing NR")
             this.context = context
             AndroidThreeTen.init(this.context)
+            StorageHandler.path = context.filesDir.absolutePath
             this.localDate = LocalDate.now()
             logger.log("NR", "Initialized NR")
 
