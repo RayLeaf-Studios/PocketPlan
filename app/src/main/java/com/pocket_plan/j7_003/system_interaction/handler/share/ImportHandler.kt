@@ -169,7 +169,7 @@ class ImportHandler(private val parentActivity: Activity) {
     private fun testFiles(): Boolean {
         return try {
             ShoppingList().check()
-            BirthdayList(parentActivity).check()
+            BirthdayList().check()
             val noteList = NoteList()
             noteList.check()
 

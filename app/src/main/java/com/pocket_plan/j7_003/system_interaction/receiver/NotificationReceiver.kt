@@ -10,6 +10,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.notifications.Notificat
 import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import org.threeten.bp.LocalDate
 import kotlin.collections.ArrayList
 
@@ -19,18 +20,17 @@ class NotificationReceiver : BroadcastReceiver() {
     private lateinit var localDate: LocalDate
 
     override fun onReceive(context: Context, intent: Intent) {
-        try {
-            this.context = context
-            AndroidThreeTen.init(this.context)
-            this.localDate = LocalDate.now()
+        this.context = context
+        AndroidThreeTen.init(this.context)
+        StorageHandler.path = context.filesDir.absolutePath
+        this.localDate = LocalDate.now()
 
-            when (intent.extras?.get("Notification")) {
-                "Birthday" -> birthdayNotifications()
-                "SReminder" -> checkSleepNotification(intent)
-            }
+        when (intent.extras?.get("Notification")) {
+            "Birthday" -> birthdayNotifications()
+            "SReminder" -> checkSleepNotification(intent)
+        }
 
-            AlarmHandler.setBirthdayAlarms(context = context)
-        } catch (_: Exception) { }
+        AlarmHandler.setBirthdayAlarms(context = context)
     }
 
     private fun checkSleepNotification(intent: Intent) {
@@ -50,7 +50,7 @@ class NotificationReceiver : BroadcastReceiver() {
     }
 
     private fun birthdayNotifications() {
-        val birthdayList = BirthdayList(context)
+        val birthdayList = BirthdayList()
 
         if (birthdayList.isEmpty()) {
             return

@@ -67,7 +67,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvTasks"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvTasks"
-                app:layout_constraintVertical_bias="0.555" />
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -112,7 +112,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvBirthday"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvBirthday"
-                app:layout_constraintVertical_bias="0.555" />
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

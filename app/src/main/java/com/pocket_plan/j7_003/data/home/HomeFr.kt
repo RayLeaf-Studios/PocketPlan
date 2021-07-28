@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
@@ -31,14 +32,13 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainActivity, sleepFr: SleepFr) : Fragment() {
+class HomeFr : Fragment() {
+    private lateinit var myActivity: MainActivity
 
-    private val myActivity = mainActivity
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
-    private val myBirthdayFr = birthdayFr
-    private val myShoppingFr = shoppingFr
-    private val mySleepFr = sleepFr
+    private var cr = 0f
+    private lateinit var myBirthdayFr: BirthdayFr
+    private lateinit var myShoppingFr: ShoppingFr
+    private lateinit var mySleepFr: SleepFr
 
     lateinit var myView: View
     private lateinit var timer: CountDownTimer
@@ -47,6 +47,12 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        myActivity = (activity as MainActivity)
+
+        cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
+        myBirthdayFr = myActivity.getFragment(FT.BIRTHDAYS) as BirthdayFr
+        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as ShoppingFr
+        mySleepFr = myActivity.getFragment(FT.SLEEP) as SleepFr
         mySleepFr.sleepReminderInstance = SleepReminder(myActivity)
 
         //initializing layout
@@ -79,7 +85,8 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.clAddNote.setOnClickListener {
-            MainActivity.editNoteHolder = null
+            PreferenceManager.getDefaultSharedPreferences(myActivity).edit()
+                .putBoolean("editingNote", false).apply()
             NoteEditorFr.noteColor = NoteColors.GREEN
             myActivity.changeToFragment(FT.NOTE_EDITOR)
         }
@@ -119,16 +126,16 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
         val sideMargin = (density * 3).toInt()
         val bottomMargin = (density * 10).toInt()
 
-        if(status==2){
+        if (status == 2) {
             //no sleep, bigger distance
             params.setMargins(sideMargin, (density * 15).toInt(), sideMargin, bottomMargin)
-        } else{
+        } else {
             //sleep present, smaller distance
             params.setMargins(sideMargin, bottomMargin, sideMargin, bottomMargin)
         }
 
 
-        if (round) {
+        if (SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean) {
             myView.panelTasks.radius = cr
         }
 
@@ -199,39 +206,66 @@ class HomeFr(birthdayFr: BirthdayFr, shoppingFr: ShoppingFr, mainActivity: MainA
 
     private fun updateBirthdayPanel() {
 
-        if (round) {
+        //round corners of birthday panel if settings say so
+        if (SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean) {
             myView.panelBirthdays.radius = cr
         }
 
+        //get list of birthdays today
         val birthdaysToday = myBirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
-        val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
-        if (birthdaysToDisplay == 0) {
-            myView.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)
-            myView.tvBirthday.setTextColor(
-                myActivity.colorForAttr(R.attr.colorHint)
-            )
-            myView.icBirthdaysHome.setColorFilter(
-                myActivity.colorForAttr(R.attr.colorHint)
-            )
-            return
-        } else {
 
+        //get amount of birthdays to display (max = 3)
+        val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
+
+        if (birthdaysToDisplay != 0) {
+            //if there are any birthdays today set color to be black / white and set text to these birthdays
             myView.tvBirthday.setTextColor(
                 myActivity.colorForAttr(R.attr.colorOnBackGround)
             )
             myView.icBirthdaysHome.setColorFilter(
                 myActivity.colorForAttr(R.attr.colorBirthdayNotify)
             )
+            var birthdayText = "\n"
+            for (i in 0 until birthdaysToDisplay) {
+                birthdayText += birthdaysToday[i].name + "\n"
+            }
+            val excess = birthdaysToday.size - birthdaysToDisplay
+            if (excess > 0) {
+                birthdayText += "+ $excess\n"
+            }
+            myView.tvBirthday.text = birthdayText
+            return
         }
-        var birthdayText = "\n"
-        for (i in 0 until birthdaysToDisplay) {
-            birthdayText += birthdaysToday[i].name + "\n"
+        //no birthday today, set colors to gray
+        myView.tvBirthday.setTextColor(
+            myActivity.colorForAttr(R.attr.colorHint)
+        )
+        myView.icBirthdaysHome.setColorFilter(
+            myActivity.colorForAttr(R.attr.colorHint)
+        )
+
+        //check for ANY birthday in the next 30 days
+        val nextBirthday = myBirthdayFr.birthdayListInstance.getNextRelevantBirthday()
+        if (nextBirthday != null && SettingsManager.getSetting(SettingId.PREVIEW_BIRTHDAY) as Boolean) {
+            //if any birthday was found, display it
+            val daysUntilString = when (val daysUntil = nextBirthday!!.daysUntil()) {
+                //"tomorrow"
+                1 -> myActivity.resources.getString(R.string.birthdayTomorrow)
+                //"in x days"
+                else ->
+                    myActivity.resources.getString(R.string.birthdayIn) + " " + daysUntil
+                        .toString() + " " + myActivity.resources.getQuantityString(
+                        R.plurals.dayIn,
+                        daysUntil
+                    )
+            }
+            val birthdayText = nextBirthday.name + " " + daysUntilString
+            myView.tvBirthday.text = birthdayText
+            return
         }
-        val excess = birthdaysToday.size - birthdaysToDisplay
-        if (excess > 0) {
-            birthdayText += "+ $excess\n"
-        }
-        myView.tvBirthday.text = birthdayText
+
+        //no birthday today nor any birthday in the next 30 days => display "No birthdays"
+        myView.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)
 
     }
 

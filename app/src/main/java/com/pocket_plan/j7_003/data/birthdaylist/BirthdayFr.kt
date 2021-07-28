@@ -35,9 +35,12 @@ import kotlin.math.abs
  * A simple [Fragment] subclass.
  */
 
-class BirthdayFr(mainActivity: MainActivity) : Fragment() {
+class BirthdayFr : Fragment() {
+    //instance of birthday list, containing all the displayed birthdays
+    lateinit var myActivity: MainActivity
+    var birthdayListInstance = BirthdayList()
+
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val myActivity = mainActivity
 
     //initialize recycler view
     lateinit var myRecycler: RecyclerView
@@ -56,8 +59,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
     //boolean to signal if a search is currently being performed
     var searching: Boolean = false
 
-    //instance of birthday list, containing all the displayed birthdays
-    var birthdayListInstance: BirthdayList = BirthdayList(myActivity)
 
     //reference to searchView in toolbar
     lateinit var searchView: SearchView
@@ -65,7 +66,6 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
-        myAdapter = BirthdayAdapter(this, myActivity)
         super.onCreate(savedInstanceState)
     }
 
@@ -209,12 +209,14 @@ class BirthdayFr(mainActivity: MainActivity) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        myActivity = activity as MainActivity
+        myAdapter = BirthdayAdapter(this, myActivity)
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
         myRecycler = myView.recycler_view_birthday
 
         adjustedList = arrayListOf()
 
-        birthdayListInstance = BirthdayList(myActivity)
+        birthdayListInstance = BirthdayList()
         myAdapter = BirthdayAdapter(this, myActivity)
 
 

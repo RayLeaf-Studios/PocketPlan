@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
+import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.receiver.NotificationReceiver
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
@@ -25,6 +26,7 @@ class AlarmHandler {
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT
                     )
+
                 val alarmManager =
                     context.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
@@ -61,12 +63,12 @@ class AlarmHandler {
                         AlarmManager.RTC_WAKEUP,
                         epochTimeToReminder,
                         pendingIntent
-                    );
+                    )
                 } else {
                     alarmManager.set(AlarmManager.RTC_WAKEUP, epochTimeToReminder, pendingIntent);
                 }
 
-            } catch (_: Exception) {
+            } catch (e: Exception) {
             }
         }
 

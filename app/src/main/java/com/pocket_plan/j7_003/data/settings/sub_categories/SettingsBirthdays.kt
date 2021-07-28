@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_settings_birthdays.view.*
 class SettingsBirthdays : Fragment() {
     private lateinit var swShowMonth: SwitchCompat
     private lateinit var swSouth: SwitchCompat
+    private lateinit var swPreview: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +35,7 @@ class SettingsBirthdays : Fragment() {
         //initialize references to view
         swShowMonth = myView.swShowMonth
         swSouth = myView.swSouthColors
+        swPreview = myView.swPreview
     }
 
     private fun initializeAdapters(){}
@@ -45,6 +47,9 @@ class SettingsBirthdays : Fragment() {
 
         swSouth.isChecked =
             SettingsManager.getSetting(SettingId.BIRTHDAY_COLORS_SOUTH) as Boolean
+
+        swPreview.isChecked =
+            SettingsManager.getSetting(SettingId.PREVIEW_BIRTHDAY) as Boolean
     }
 
     private fun initializeListeners() {
@@ -55,6 +60,10 @@ class SettingsBirthdays : Fragment() {
 
         swSouth.setOnClickListener {
             SettingsManager.addSetting(SettingId.BIRTHDAY_COLORS_SOUTH, swSouth.isChecked)
+        }
+
+        swPreview.setOnClickListener {
+            SettingsManager.addSetting(SettingId.PREVIEW_BIRTHDAY, swPreview.isChecked)
         }
     }
 }

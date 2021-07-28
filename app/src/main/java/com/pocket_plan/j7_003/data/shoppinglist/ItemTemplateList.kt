@@ -1,12 +1,11 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
-import android.content.Context
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.App
 import java.util.*
-import kotlin.collections.ArrayList
 
-class ItemTemplateList(val context: Context) : ArrayList<ItemTemplate>() {
+class ItemTemplateList() : ArrayList<ItemTemplate>() {
     init {
         loadFromAssets()
     }
@@ -31,9 +30,9 @@ class ItemTemplateList(val context: Context) : ArrayList<ItemTemplate>() {
         val jsonString =
             when (Locale.getDefault().displayLanguage) {
                 Locale.GERMAN.displayLanguage -> {
-                    context.assets.open("item_list_de.json").bufferedReader().readText()
+                    App.instance.assets.open("item_list_de.json").bufferedReader().readText()
                 }
-                else -> context.assets.open("item_list_en.json").bufferedReader().readText()
+                else -> App.instance.assets.open("item_list_en.json").bufferedReader().readText()
             }
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()

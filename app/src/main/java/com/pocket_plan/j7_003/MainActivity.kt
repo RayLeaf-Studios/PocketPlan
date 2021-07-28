@@ -20,7 +20,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -75,10 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         var addItemDialog: AlertDialog? = null
 
-        var justRestarted = false
-
         val previousFragmentStack: Stack<FT> = Stack()
-        var editNoteHolder: Note? = null
         lateinit var bottomNavigation: BottomNavigationView
     }
 
@@ -99,6 +98,16 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
     }
 
+
+    fun getFragment(tag: FT): Fragment? = when (tag) {
+        FT.BIRTHDAYS -> birthdayFr as Fragment
+        FT.SLEEP -> sleepFr as Fragment
+        FT.SHOPPING -> shoppingFr as Fragment
+        FT.NOTES -> noteFr as Fragment
+        FT.NOTE_EDITOR -> noteEditorFr as Fragment
+        else -> null
+    }
+
     fun colorForAttr(
         attrColor: Int,
         typedValue: TypedValue = TypedValue(),
@@ -106,6 +115,38 @@ class MainActivity : AppCompatActivity() {
     ): Int {
         theme.resolveAttribute(attrColor, typedValue, resolveRefs)
         return typedValue.data
+    }
+
+    override fun onPause() {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            //get current text from edited note
+            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
+            val noteContent = noteFr.getNoteContent()
+            val noteTitle = noteFr.getNoteTitle()
+            //and save it as shared preference
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString("oldNote", noteContent).apply()
+
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString("oldTitle", noteTitle).apply()
+        }
+        super.onPause()
+    }
+
+    override fun onResume() {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            val noteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("oldNote", "")
+            val noteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("oldTitle", "")
+
+            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
+            if (noteContent != null) {
+                noteFr.setNoteContent(noteContent)
+            }
+            if (noteTitle != null) {
+                noteFr.setNoteTitle(noteTitle)
+            }
+        }
+        super.onResume()
     }
 
     @SuppressLint("InflateParams")
@@ -123,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         loadDefaultSettings()
 
         //set correct language depending on setting
-        val languageCode = when(SettingsManager.getSetting(SettingId.LANGUAGE)){
+        val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
             0.0 -> "en"
             //1.0 = de
             else -> "de"
@@ -132,11 +173,11 @@ class MainActivity : AppCompatActivity() {
 
         //check if settings say to use system theme, if yes, set theme setting to system theme
         if (SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean) {
-                when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES) {
-                    true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
-                    else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
-                }
+            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES) {
+                true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
+                else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
             }
+        }
 
         //set correct theme depending on setting
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
@@ -167,10 +208,10 @@ class MainActivity : AppCompatActivity() {
 
 
         //Initialize fragment classes necessary for home
-        sleepFr = SleepFr(this)
-        birthdayFr = BirthdayFr(this)
-        shoppingFr = ShoppingFr(this)
-        homeFr = HomeFr(birthdayFr!!, shoppingFr!!, this, sleepFr!!)
+        sleepFr = SleepFr()
+        birthdayFr = BirthdayFr()
+        shoppingFr = ShoppingFr()
+        homeFr = HomeFr()
 
 
         //Initialize header and icon in side drawer
@@ -221,19 +262,21 @@ class MainActivity : AppCompatActivity() {
 
         //When activity is entered via special intent, change to respective fragment
         when (intent.extras?.get("NotificationEntry").toString()) {
-            "birthdays"     -> changeToFragment(FT.BIRTHDAYS)
-            "SReminder"     -> changeToFragment(FT.HOME)
-            "settings"      -> changeToFragment(FT.SETTINGS)
-            "appearance"    -> changeToFragment(FT.SETTINGS_APPEARANCE)
+            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder" -> changeToFragment(FT.HOME)
+            "settings" -> changeToFragment(FT.SETTINGS)
+            "appearance" -> changeToFragment(FT.SETTINGS_APPEARANCE)
             else -> {
-                justRestarted = true
-                bottomNavigation.menu.getItem(2).isChecked = true
-                changeToFragment(FT.HOME)
+                if (previousFragmentStack.peek() == FT.EMPTY) {
+                    changeToFragment(FT.HOME)
+                } else {
+                    changeToFragment(previousFragmentStack.pop())
+                }
             }
         }
 
         //Initialize remaining fragments
-        noteFr = NoteFr(this)
+        noteFr = NoteFr()
         NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
 
         //initialize navigation drawer listener
@@ -265,7 +308,7 @@ class MainActivity : AppCompatActivity() {
 
 
         //preload add item dialog to reduce loading time
-        shoppingFr!!.preloadAddItemDialog(layoutInflater)
+        shoppingFr!!.preloadAddItemDialog(this, layoutInflater)
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
@@ -297,7 +340,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.NOTES -> {
-                    editNoteHolder = null
+                    PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean("editingNote", false).apply()
                     NoteEditorFr.noteColor = NoteColors.GREEN
                     changeToFragment(FT.NOTE_EDITOR)
                 }
@@ -362,14 +406,16 @@ class MainActivity : AppCompatActivity() {
      * item in bottom navigation
      */
 
-    fun changeToFragment(fragmentTag: FT) {
+    fun changeToFragment(fragmentTag: FT): Fragment? {
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            noteEditorFr =
+                supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges(fragmentTag)
-                return
+                return null
             } else {
                 previousFragmentStack.pop()
             }
@@ -441,26 +487,26 @@ class MainActivity : AppCompatActivity() {
         //create fragment object
         val fragment = when (fragmentTag) {
             FT.HOME -> homeFr
-            FT.TASKS -> TodoFr(this)
+            FT.TASKS -> TodoFr()
             FT.SHOPPING -> shoppingFr
             FT.NOTES -> {
                 NoteFr.searching = false
                 noteFr
             }
             FT.NOTE_EDITOR -> {
-                noteEditorFr = NoteEditorFr(this, noteFr!!)
+                noteEditorFr = NoteEditorFr()
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
                 birthdayFr!!.searching = false
                 birthdayFr
             }
-            FT.SETTINGS_ABOUT -> SettingsAboutFr(this)
-            FT.SETTINGS_NOTES -> SettingsNotesFr(this)
-            FT.SETTINGS_SHOPPING -> SettingsShoppingFr(this)
-            FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr(this)
-            FT.SETTINGS -> SettingsMainFr(this)
-            FT.CUSTOM_ITEMS -> CustomItemFr(shoppingFr!!, this)
+            FT.SETTINGS_ABOUT -> SettingsAboutFr()
+            FT.SETTINGS_NOTES -> SettingsNotesFr()
+            FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
+            FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr()
+            FT.SETTINGS -> SettingsMainFr()
+            FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> sleepFr
             FT.SETTINGS_HOWTO -> SettingsHowTo()
             FT.SETTINGS_BIRTHDAYS -> SettingsBirthdays()
@@ -471,10 +517,11 @@ class MainActivity : AppCompatActivity() {
         if (fragment != null) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
+                .replace(R.id.frame_layout, fragment, fragmentTag.name)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
         }
+        return fragment
     }
 
     /**
@@ -511,6 +558,8 @@ class MainActivity : AppCompatActivity() {
 
         //handles going back from editor
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            noteEditorFr =
+                supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges()
                 return
@@ -558,6 +607,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.BIRTHDAY_SHOW_MONTH, true)
         setDefault(SettingId.BIRTHDAY_COLORS_SOUTH, false)
         setDefault(SettingId.SUGGEST_SIMILAR_ITEMS, true)
+        setDefault(SettingId.PREVIEW_BIRTHDAY, true)
     }
 
     private fun setDefault(setting: SettingId, value: Any) {

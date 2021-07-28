@@ -90,6 +90,43 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:paddingVertical="15dp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvPreview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_next_upcoming_birthday_in_home_panel"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swPreview"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/swPreview"
+                    app:layout_constraintTop_toTopOf="@id/tvPreview"
+                    app:layout_constraintBottom_toBottomOf="@id/tvPreview"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

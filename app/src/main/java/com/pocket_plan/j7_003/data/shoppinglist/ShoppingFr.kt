@@ -33,9 +33,9 @@ import kotlin.collections.ArrayList
 import kotlin.math.abs
 import kotlin.math.min
 
-class ShoppingFr(mainActivity: MainActivity) : Fragment() {
+class ShoppingFr : Fragment() {
     private lateinit var myMenu: Menu
-    private var myActivity = mainActivity
+    private lateinit var myActivity: MainActivity
     lateinit var autoCompleteTv: AutoCompleteTextView
 
     companion object {
@@ -118,6 +118,7 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        myActivity = activity as MainActivity
         deletedItem = null
         shoppingListInstance = ShoppingList()
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
@@ -351,10 +352,11 @@ class ShoppingFr(mainActivity: MainActivity) : Fragment() {
      * Prepare layout and adapters for addItemDialog to decrease loading time
      */
     @SuppressLint("InflateParams")
-    fun preloadAddItemDialog(mylayoutInflater: LayoutInflater) {
+    fun preloadAddItemDialog(passedActivity: MainActivity, mylayoutInflater: LayoutInflater) {
+        myActivity = passedActivity
 
         //initialize shopping list data
-        myActivity.itemTemplateList = ItemTemplateList(myActivity)
+        myActivity.itemTemplateList = ItemTemplateList()
         MainActivity.userItemTemplateList = UserItemTemplateList()
         shoppingListInstance = ShoppingList()
 

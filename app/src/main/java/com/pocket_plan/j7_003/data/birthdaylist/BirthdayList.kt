@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.data.birthdaylist
 import android.content.Context
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.App
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
@@ -14,7 +15,7 @@ import java.lang.NullPointerException
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList(val context: Context) : ArrayList<Birthday>(), Checkable {
+class BirthdayList() : ArrayList<Birthday>(), Checkable {
 
     init {
         StorageHandler.createJsonFile(StorageId.BIRTHDAYS)
@@ -106,7 +107,7 @@ class BirthdayList(val context: Context) : ArrayList<Birthday>(), Checkable {
             else if (m.month == today.monthValue && m.day >= today.dayOfMonth) afterMonth = true
         }
 
-        val monthName = context.resources.getStringArray(R.array.months)[today.monthValue - 1]
+        val monthName = App.instance.resources.getStringArray(R.array.months)[today.monthValue - 1]
 
         if (beforeMonth) {
             this.add(
@@ -128,7 +129,7 @@ class BirthdayList(val context: Context) : ArrayList<Birthday>(), Checkable {
 
         months.forEach { m ->
             val month = LocalDate.of(2020, m, 1).month
-            val name = context.resources.getStringArray(R.array.months)[month.value - 1]
+            val name = App.instance.resources.getStringArray(R.array.months)[month.value - 1]
 
             this.add(
                 Birthday(
@@ -182,6 +183,14 @@ class BirthdayList(val context: Context) : ArrayList<Birthday>(), Checkable {
         }
     }
 
+    fun getNextRelevantBirthday(): Birthday? {
+        this.forEach { n ->
+            if (n.daysToRemind >= 0  && n.daysUntil() <= 30) {
+                return n
+            }
+        }
+        return null
+    }
     /**
      * Collects all birthdays that are happening on the current day and returns
      * them as an list.

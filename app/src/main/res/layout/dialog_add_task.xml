@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:hint="@string/tasksAddHint"
-        android:inputType="textPersonName"
+        android:inputType="textCapSentences"
         android:isScrollContainer="false"
         android:text=""
         android:textColor="?attr/colorOnBackGround"
