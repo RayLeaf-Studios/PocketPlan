@@ -9,7 +9,6 @@ import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
 import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
-import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import org.threeten.bp.LocalDate
@@ -21,37 +20,17 @@ class NotificationReceiver : BroadcastReceiver() {
     private lateinit var localDate: LocalDate
 
     override fun onReceive(context: Context, intent: Intent) {
-        val logger = Logger(context)
-        try {
-            logger.log("NR", "Initializing NR")
-            this.context = context
-            AndroidThreeTen.init(this.context)
-            StorageHandler.path = context.filesDir.absolutePath
-            this.localDate = LocalDate.now()
-            logger.log("NR", "Initialized NR")
+        this.context = context
+        AndroidThreeTen.init(this.context)
+        StorageHandler.path = context.filesDir.absolutePath
+        this.localDate = LocalDate.now()
 
-            logger.log("NR", "Handling notifications")
-            when (intent.extras?.get("Notification")) {
-                "Birthday" -> birthdayNotifications()
-                "SReminder" -> checkSleepNotification(intent)
-            }
-            logger.log("NR", "Handled notifications")
-
-            logger.log("NR", "Resetting alarm")
-            AlarmHandler.setBirthdayAlarms(context = context)
-            logger.log("NR", "Reset alarm")
-        } catch (e: Exception) {
-            logger.log("NR", "--------------------------------------------------")
-            logger.log("NR", "--------------------------------------------------")
-            if (e.message is String)
-                logger.log("NR", e.message!!)
-            else
-                logger.log("NR", "No message from the exception")
-            logger.log("NR", "")
-            logger.log("NR", e.stackTraceToString())
-            logger.log("NR", "--------------------------------------------------")
-            logger.log("NR", "--------------------------------------------------")
+        when (intent.extras?.get("Notification")) {
+            "Birthday" -> birthdayNotifications()
+            "SReminder" -> checkSleepNotification(intent)
         }
+
+        AlarmHandler.setBirthdayAlarms(context = context)
     }
 
     private fun checkSleepNotification(intent: Intent) {
