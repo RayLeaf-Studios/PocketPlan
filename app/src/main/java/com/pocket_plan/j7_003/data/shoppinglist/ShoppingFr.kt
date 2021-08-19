@@ -52,7 +52,6 @@ class ShoppingFr : Fragment() {
         var editPos: Int = 0
         var editing = false
 
-
         var offsetTop: Int = 0
         var firstPos: Int = 0
         var expandOne: Boolean = false
@@ -95,13 +94,14 @@ class ShoppingFr : Fragment() {
                 shoppingListInstance.add(deletedItem!!)
                 deletedItem = null
                 myAdapter.notifyDataSetChanged()
-
             }
+
             R.id.item_shopping_collapse_all -> {
                 //collapse all categories
                 shoppingListInstance.collapseAllTags()
                 myAdapter.notifyItemRangeChanged(0, shoppingListInstance.size)
             }
+
             R.id.item_shopping_expand_all -> {
                 //expand all categories
                 shoppingListInstance.expandAllTags()
@@ -121,6 +121,8 @@ class ShoppingFr : Fragment() {
         myActivity = activity as MainActivity
         deletedItem = null
         shoppingListInstance = ShoppingList()
+
+        //load settings
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
         collapseCheckedSublists =
             SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
@@ -207,7 +209,7 @@ class ShoppingFr : Fragment() {
                     if (oldAllChecked != newAllChecked) {
                         //auto expand / collapse when checkedState changed
 
-                        //if setting says to collapse all sublists, the new checked state is all checked,
+                        //if setting says to collapse all sub lists, the new checked state is all checked,
                         //and its currently expanded, collapse it
                         if (collapseCheckedSublists && newAllChecked && shoppingListInstance.isTagExpanded(
                                 tag
@@ -391,11 +393,7 @@ class ShoppingFr : Fragment() {
         MainActivity.addItemDialog = myBuilder?.create()
         MainActivity.addItemDialog?.setCancelable(true)
 
-
-        //initialize autocompleteTextView and spinner for item unit
-        val spItemUnit = myActivity.addItemDialogView!!.spItemUnit
-
-        //initialize spinner and its adapter for categories
+        //initialize spinner for categories + adapter
         val spCategory = myActivity.addItemDialogView!!.spCategory
         val categoryAdapter = ArrayAdapter(
             myActivity,
@@ -405,14 +403,14 @@ class ShoppingFr : Fragment() {
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = categoryAdapter
 
-        //initialize spinner and its adapter for units
+        //initialize spinner for units + its adapter and listener
+        val spItemUnit = myActivity.addItemDialogView!!.spItemUnit
         val unitAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             myActivity.resources.getStringArray(R.array.units)
         )
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spItemUnit.adapter = unitAdapter
-
 
         spItemUnit.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -437,7 +435,7 @@ class ShoppingFr : Fragment() {
         //initialize autocompleteTextView
         autoCompleteTv = myActivity.addItemDialogView!!.actvItem
 
-        //initialize custom arrayAdapter
+        //initialize custom arrayAdapter for autocompletion
         val itemNameClone = MainActivity.itemNameList.toMutableList()
         val customAdapter = AutoCompleteAdapter(
             context = myActivity,
@@ -449,7 +447,7 @@ class ShoppingFr : Fragment() {
         //request focus in item name text field
         autoCompleteTv.requestFocus()
 
-        //initialize textwatcher to trigger updating of category and unit
+        //initialize text watcher to trigger updating of category and unit
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -498,7 +496,6 @@ class ShoppingFr : Fragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         }
-
         autoCompleteTv.addTextChangedListener(textWatcher)
 
         //initialize edit text for item amount string
@@ -511,10 +508,12 @@ class ShoppingFr : Fragment() {
             }
         }
 
+        //initialize onclick listener for "cancel" button, which closes the add item dialog
         myActivity.addItemDialogView!!.btnCancelItem.setOnClickListener {
             MainActivity.addItemDialog?.dismiss()
         }
 
+        //initialize key listener to add item via enter-press by triggering a click on the add button
         autoCompleteTv.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 myActivity.addItemDialogView!!.btnAddItemToList.performClick()
@@ -522,11 +521,11 @@ class ShoppingFr : Fragment() {
             } else false
         }
 
+        //initialize checkMark sprite, which plays an animation when an item is added
         val checkMark = myActivity.addItemDialogView!!.ivCheckItemAdded
         checkMark.visibility = View.GONE
 
-
-        //Button to Confirm adding Item to list
+        //listener for button to confirm adding item to list
         myActivity.addItemDialogView!!.btnAddItemToList.setOnClickListener {
 
             MainActivity.unitChanged = false
@@ -558,6 +557,7 @@ class ShoppingFr : Fragment() {
             var template =
                 MainActivity.userItemTemplateList.getTemplateByName(nameInput)
 
+            //TODO CLEAN UP LOGIC HERE
             if (template == null) {
                 //no user item with this name => check for regular template
                 template = myActivity.itemTemplateList.getTemplateByName(nameInput)
@@ -818,6 +818,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
             false -> View.GONE
         }
 
+        //Flip expansion arrow to show expansion state of category
         holder.itemView.ivExpand.rotation = when (expanded) {
             true -> 180f
             else -> 0f
