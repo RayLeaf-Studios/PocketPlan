@@ -1,19 +1,15 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
-import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 
-class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable {
-    init {
-        StorageHandler.createJsonFile(StorageId.SHOPPING)
-        fetchList()
+class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable {
+    constructor(): this(null)
+
+    fun setWrapper(newWrapper: ShoppingListWrapper){
+        this.wrapper = newWrapper
     }
-
     /**
      * Adds a given ShoppingElement to this list, according to its given tag.
      * If no element of the given tag existed before, the list generate a new sublist,
@@ -30,7 +26,6 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkab
                 sortSublist(e.second)
                 sortCategoriesByChecked(e.first)
 
-                save()
                 return
             }
         }
@@ -56,8 +51,6 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkab
 
                 sortSublist(e.second)
                 sortCategoriesByChecked(e.first)
-
-                save()
             }
         }
     }
@@ -321,21 +314,7 @@ class ShoppingList : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkab
     }
 
     fun save() {
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.SHOPPING], this
-        )
-    }
-
-    private fun fetchList() {
-        val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
-
-        this.addAll(
-            GsonBuilder().create()
-                .fromJson(
-                    jsonString,
-                    object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
-                )
-        )
+        wrapper?.save()
     }
 
     override fun check() {
