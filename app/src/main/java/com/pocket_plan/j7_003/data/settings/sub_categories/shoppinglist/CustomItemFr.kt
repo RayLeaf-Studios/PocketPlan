@@ -15,13 +15,14 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.AutoCompleteAdapter
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
+import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
 class CustomItemFr : Fragment() {
-    private lateinit var myShoppingFr: ShoppingFr
+    private lateinit var myShoppingFr: MultiShoppingFr
 
     private lateinit var myActivity: MainActivity
     private lateinit var myMenu: Menu
@@ -40,7 +41,7 @@ class CustomItemFr : Fragment() {
     ): View? {
 
         myActivity = activity as MainActivity
-        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as ShoppingFr
+        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as MultiShoppingFr
 
         val myView = inflater.inflate(R.layout.fragment_custom_items, container, false)
         myRecycler = myView.recycler_view_customItems
@@ -56,13 +57,10 @@ class CustomItemFr : Fragment() {
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
 
-
         val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr, myActivity))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
         val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr, myActivity))
         swipeHelperRight.attachToRecyclerView(myRecycler)
-
-
 
         return myView
     }
@@ -128,7 +126,7 @@ class CustomItemFr : Fragment() {
     //Deletes all checked tasks and animates the deletion
 
 }
-class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val myActivity: MainActivity): ItemTouchHelper
+class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val myActivity: MainActivity): ItemTouchHelper
 .SimpleCallback(0, direction){
 
     private val myShoppingFr = shoppingFr

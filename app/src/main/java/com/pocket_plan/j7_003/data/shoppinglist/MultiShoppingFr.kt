@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -37,6 +38,7 @@ class MultiShoppingFr : Fragment() {
 
     private lateinit var addItemDialog: AlertDialog
     var addItemDialogView: View? = null
+    lateinit var autoCompleteTv: AutoCompleteTextView
 
     var deletedItem: ShoppingItem? = null
 
@@ -44,7 +46,7 @@ class MultiShoppingFr : Fragment() {
     var editTag: String = ""
     var editPos: Int = 0
 
-    private val shoppingListWrapper = ShoppingListWrapper()
+    lateinit var shoppingListWrapper: ShoppingListWrapper
     lateinit var shoppingFragments: ArrayList<ShoppingFr>
     private var currentpos = 0
     private lateinit var activeShoppingFr: ShoppingFr
@@ -360,7 +362,7 @@ class MultiShoppingFr : Fragment() {
 
 
         //initialize autocompleteTextView
-        val autoCompleteTv = addItemDialogView!!.actvItem
+        autoCompleteTv = addItemDialogView!!.actvItem
 
         //initialize custom arrayAdapter for autocompletion
         val itemNameClone = MainActivity.itemNameList.toMutableList()

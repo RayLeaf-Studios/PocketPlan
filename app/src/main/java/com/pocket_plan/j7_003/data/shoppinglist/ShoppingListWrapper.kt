@@ -8,14 +8,12 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 /**
  * A simple wrapper for shopping lists to easily manage multiple instances of them.
  */
-class ShoppingListWrapper: ArrayList<Pair<String, ShoppingList>>() {
+class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, ShoppingList>>() {
     init {
         StorageHandler.createJsonFile(StorageId.SHOPPING_LISTS)
         fetchList()
         if (this.size == 0)
-            //todo make this multilingual, ShoppinglistWrapper needs mainActivity
-//            this.add(myActivity.getString(R.string.titleShopping), ShoppingList(this))
-            this.add("Einkauf", ShoppingList(this))
+            this.add(defaultListName, ShoppingList(this))
     }
 
     /**

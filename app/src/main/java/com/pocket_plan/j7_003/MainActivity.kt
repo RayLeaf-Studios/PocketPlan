@@ -57,8 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private var birthdayFr: BirthdayFr? = null
     private var homeFr: HomeFr? = null
-    private var shoppingFr: ShoppingFr? = null
-    var multiShoppingFr: MultiShoppingFr? = null
+    lateinit var multiShoppingFr: MultiShoppingFr
     private var noteEditorFr: NoteEditorFr? = null
     private var noteFr: NoteFr? = null
     private var sleepFr: SleepFr? = null
@@ -101,7 +100,7 @@ class MainActivity : AppCompatActivity() {
     fun getFragment(tag: FT): Fragment? = when (tag) {
         FT.BIRTHDAYS -> birthdayFr as Fragment
         FT.SLEEP -> sleepFr as Fragment
-        FT.SHOPPING -> shoppingFr as Fragment
+        FT.SHOPPING -> multiShoppingFr
         FT.NOTES -> noteFr as Fragment
         FT.NOTE_EDITOR -> noteEditorFr as Fragment
         else -> null
@@ -314,7 +313,8 @@ class MainActivity : AppCompatActivity() {
 
         //preload add item dialog to reduce loading time
         multiShoppingFr = MultiShoppingFr()
-        multiShoppingFr!!.preloadAddItemDialog(this, layoutInflater)
+        multiShoppingFr.shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
+        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
