@@ -54,7 +54,7 @@
     <string name="birthdayAgeUnknown">Kein Jahr gespeichert</string>
     <string name="birthdayReminder">"\nErinnerung %1$d %2$s vorher"</string>
 
-    <string name="shopping_option_clear_list">Liste löschen</string>
+    <string name="shopping_option_clear_list">Liste leeren</string>
     <string name="shopping_option_uncheck_all">Haken entfernen</string>
     <string name="sleepWakeUpTime">Aufstehzeit</string>
     <string name="sleepDuration">Schlafdauer</string>
@@ -91,7 +91,7 @@
     <string name="options_task_delete_checked">Abgehaktes löschen</string>
     <string name="options_shopping_expand_all">Alles aufklappen</string>
     <string name="options_shopping_collapse_all">Alles einklappen</string>
-    <string name="shopping_dialog_clear_title">Einkaufsliste löschen?</string>
+    <string name="shopping_dialog_clear_title">Einkaufsliste leeren?</string>
     <string name="birthdayOldBornIn">" alt, geboren "</string>
     <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
 
@@ -118,7 +118,7 @@
     <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu löschen.\n\nTippe eine Aufgabe an, um sie zu bearbeiten.\n\nHalte eine Aufgabe gedrückt, um sie umzusortieren.</string>
     <string name="howtoNotes">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.</string>
     <string name="howtoBirthdays">Tippe auf einen Geburtstag, um zusätzliche Informationen anzuzeigen.\n\nHalte einen Geburtstag gedrückt, um ihn zu bearbeiten.\n\nWische einen Geburtstag zur Seite, um ihn zu löschen.\n\nWenn ein Geburtstag in 30 oder weniger Tagen ansteht, werden die verbleibenden Tage in der Liste angezeigt.\n\nWenn eine Erinnerung für x Tage vorher gesetzt ist und der Geburtstag in x oder weniger Tagen ansteht, wird er in der Liste farblich markiert.</string>
-    <string name="howtoShopping">Wische einen Gegenstand zur Seite, um ihn zu löschen\n\nHalte eine Kategorie gedrückt, um sie umzusortieren.\n\nTippe auf den Kreis oben links, um alle Artikel einer Kategorie abzuhaken.</string>
+    <string name="howtoShopping">Wische einen Artikel zur Seite, um ihn zu löschen\n\nHalte eine Kategorie gedrückt, um sie umzusortieren.\n\nTippe auf den Kreis oben links, um alle Artikel einer Kategorie abzuhaken.\n\nÜber das Menü oben rechts kannst du eine neue Liste hinzufügen. Durch wischen nach links oder rechts kannst du zwischen Listen wechseln.\n\nTippe auf den Namen einer Liste, um sie umzubenennen. </string>
     <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
     <string name="howtoHome">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
 
@@ -146,6 +146,11 @@
     <string name="suggest_similar_items_for_unknown_names">Verbesserte Artikelsuche</string>
     <string name="e_g_suggest_apple_when_aplle_is_entered">Z.b. schlage \"Apfel\" vor, wenn \"Aplfe\" eingegeben wurde</string>
     <string name="show_next_upcoming_birthday_in_home_panel">Zeige nächsten zukünftigen Geburtstag im Home Panel</string>
+    <string name="shopping_option_add_list">Liste hinzufügen</string>
+    <string name="shopping_menu_delete_list">Liste löschen</string>
+    <string name="shopping_dialog_rename_title">Liste umbenennen</string>
+    <string name="shoppingToastZeroListWarning">Es muss mindestens eine Liste geben.</string>
+    <string name="shopping_dialog_delete_title">Liste löschen?</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

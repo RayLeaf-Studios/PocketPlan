@@ -58,24 +58,23 @@ class MainActivity : AppCompatActivity() {
     private var birthdayFr: BirthdayFr? = null
     private var homeFr: HomeFr? = null
     private var shoppingFr: ShoppingFr? = null
+    var multiShoppingFr: MultiShoppingFr? = null
     private var noteEditorFr: NoteEditorFr? = null
     private var noteFr: NoteFr? = null
     private var sleepFr: SleepFr? = null
 
-    var addItemDialogView: View? = null
     var shoppingTitle: View? = null
     lateinit var toolBar: Toolbar
+
     lateinit var itemTemplateList: ItemTemplateList
+    lateinit var userItemTemplateList: UserItemTemplateList
 
     lateinit var myBtnAdd: FloatingActionButton
 
     companion object {
         //contents for shopping list
-        lateinit var userItemTemplateList: UserItemTemplateList
         lateinit var itemNameList: ArrayList<String>
         var unitChanged: Boolean = false
-
-        var addItemDialog: AlertDialog? = null
 
         val previousFragmentStack: Stack<FT> = Stack()
         lateinit var bottomNavigation: BottomNavigationView
@@ -149,6 +148,10 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
     }
 
+    fun changeTitle(newTitle: String){
+        myNewToolbar.title = newTitle
+    }
+
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -207,10 +210,12 @@ class MainActivity : AppCompatActivity() {
         TodoFr.myAdapter = TodoTaskAdapter(this)
 
 
+
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
         birthdayFr = BirthdayFr()
-        shoppingFr = ShoppingFr()
+        //todo choose shopping list for add item in home here
+//        shoppingFr = ShoppingFr.newInstance(0)
         homeFr = HomeFr()
 
 
@@ -308,7 +313,8 @@ class MainActivity : AppCompatActivity() {
 
 
         //preload add item dialog to reduce loading time
-        shoppingFr!!.preloadAddItemDialog(this, layoutInflater)
+        multiShoppingFr = MultiShoppingFr()
+        multiShoppingFr!!.preloadAddItemDialog(this, layoutInflater)
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
@@ -347,8 +353,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.SHOPPING -> {
-                    ShoppingFr.editing = false
-                    shoppingFr!!.openAddItemDialog()
+                    multiShoppingFr!!.editing = false
+                    multiShoppingFr!!.openAddItemDialog()
                 }
 
                 else -> {/* no-op */
@@ -361,6 +367,12 @@ class MainActivity : AppCompatActivity() {
             val view = bottomNavigation.findViewById<View>(bottomNavigation.menu.getItem(i).itemId)
             view.setOnLongClickListener {
                 true
+            }
+        }
+
+        myNewToolbar.setOnClickListener {
+            if(previousFragmentStack.peek() == FT.SHOPPING){
+                multiShoppingFr!!.dialogRenameCurrentList()
             }
         }
 
@@ -488,7 +500,9 @@ class MainActivity : AppCompatActivity() {
         val fragment = when (fragmentTag) {
             FT.HOME -> homeFr
             FT.TASKS -> TodoFr()
-            FT.SHOPPING -> shoppingFr
+            FT.SHOPPING -> {
+                multiShoppingFr
+            }
             FT.NOTES -> {
                 NoteFr.searching = false
                 noteFr

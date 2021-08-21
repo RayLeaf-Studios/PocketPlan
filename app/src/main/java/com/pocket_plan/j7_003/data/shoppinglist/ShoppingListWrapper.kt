@@ -12,14 +12,11 @@ class ShoppingListWrapper: ArrayList<Pair<String, ShoppingList>>() {
     init {
         StorageHandler.createJsonFile(StorageId.SHOPPING_LISTS)
         fetchList()
+        if (this.size == 0)
+            //todo make this multilingual, ShoppinglistWrapper needs mainActivity
+//            this.add(myActivity.getString(R.string.titleShopping), ShoppingList(this))
+            this.add("Einkauf", ShoppingList(this))
     }
-
-    /**
-     * Returns the shopping list at the given index.
-     * @param index The index of the list
-     * @return Returns the requested shopping list
-     */
-    fun getListByIndex(index: Int): ShoppingList = this[index % this.size].second
 
     /**
      * Returns the shopping list with the given name.
@@ -39,7 +36,7 @@ class ShoppingListWrapper: ArrayList<Pair<String, ShoppingList>>() {
      * @param name The name the new will be identified with
      * @return A boolean depending on the success of the addition of the new list
      */
-    fun add(name: String): Boolean = this.add(name, ShoppingList())
+    fun add(name: String): Boolean = this.add(name, ShoppingList(this))
 
     /**
      * Adds a new pair of given name and shopping list to the wrapper.
@@ -63,6 +60,9 @@ class ShoppingListWrapper: ArrayList<Pair<String, ShoppingList>>() {
      * @return A boolean depending on the success of the removal
      */
     fun remove(name: String): Boolean {
+        if (this.size == 1)
+            return false
+
         var toDelete: Pair<String, ShoppingList>? = null
         this.forEach {
             if (it.first == name)
@@ -73,6 +73,25 @@ class ShoppingListWrapper: ArrayList<Pair<String, ShoppingList>>() {
         save()
 
         return success
+    }
+
+    fun rename(oldName: String, newName: String): Boolean {
+        var index = -1
+        var list = ShoppingList()
+
+        this.forEach {
+            if (it.first == oldName) {
+                index = indexOf(it)
+                list = it.second
+                return@forEach
+            }
+        }
+        if (index == -1)
+            return false
+
+        this[index] = this[index].copy(newName, list)
+        save()
+        return true
     }
 
     /**
@@ -90,17 +109,17 @@ class ShoppingListWrapper: ArrayList<Pair<String, ShoppingList>>() {
 
     private fun fetchList() {
         val jsonString = StorageHandler.files[StorageId.SHOPPING_LISTS]?.readText()
-
-        this.addAll(
-            GsonBuilder().create()
-                .fromJson(
-                    jsonString,
-                    object : TypeToken<ArrayList<Pair<String, ShoppingList>>>() {}.type
-                )
-        )
+        val list: ArrayList<Pair<String, ShoppingList>> = GsonBuilder().create().fromJson(
+                jsonString,
+                object : TypeToken<ArrayList<Pair<String, ShoppingList>>>() {}.type
+            )
+        list.forEach{
+            it.second.setWrapper(this)
+        }
+        this.addAll(list)
     }
 
-    private fun save() {
+    fun save() {
         StorageHandler.saveAsJsonToFile(
             StorageHandler.files[StorageId.SHOPPING_LISTS],
             this

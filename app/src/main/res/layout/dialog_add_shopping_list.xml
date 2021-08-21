@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="10dp"
+    android:paddingBottom="10dp">
+
+    <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etAddShoppingList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:inputType="textCapSentences"
+            android:isScrollContainer="false"
+            android:textColor="?attr/colorOnBackGround"
+            android:textColorHint="?attr/colorHint"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+    <Button
+        android:id="@+id/btnCancelShoppingList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/round_corner1"
+        android:elevation="@dimen/btnElevation"
+        android:text="@string/noteDeleteDialogCancel"
+        android:textColor="#FFF"
+        android:textSize="@dimen/font_size_big"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddShoppingList"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etAddShoppingList"
+        />
+
+    <Button
+        android:id="@+id/btnAddShoppingList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/round_corner_accent"
+        android:elevation="@dimen/btnElevation"
+        android:text="@string/noteDiscardDialogSave"
+        android:textColor="#FFF"
+        android:textSize="@dimen/font_size_big"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnCancelShoppingList"
+        app:layout_constraintTop_toBottomOf="@+id/etAddShoppingList"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

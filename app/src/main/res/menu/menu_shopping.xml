@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/item_shopping_add_list"
+        android:title="@string/shopping_option_add_list"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_shopping_delete_list"
+        android:title="@string/shopping_menu_delete_list"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/item_shopping_clear_list"
         android:title="@string/shopping_option_clear_list"
         app:showAsAction="never" />
@@ -24,5 +34,4 @@
         android:id="@+id/item_shopping_expand_all"
         android:title="@string/options_shopping_expand_all"
         app:showAsAction="never" />
-
 </menu>

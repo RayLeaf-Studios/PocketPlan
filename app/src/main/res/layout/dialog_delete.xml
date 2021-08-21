@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_red"
         android:elevation="@dimen/btnElevation"
-        android:text="@string/noteDeleteDialogDelete"
+        android:text="OK"
         android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="parent"
