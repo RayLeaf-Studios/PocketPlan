@@ -126,7 +126,7 @@
     <string name="close">close</string>
 
     <string name="aboutSourcecode">Sourcecode</string>
-    <string name="shopping_dialog_clear_title">Clear shopping list?</string>
+    <string name="shopping_dialog_clear_title">Clear list?</string>
     <string name="shopping_item_added">Item added!</string>
     <string name="birthdayOldBornIn">" old, born in "</string>
     <string name="settings_shopping_close_sub">(In shopping fragment)</string>

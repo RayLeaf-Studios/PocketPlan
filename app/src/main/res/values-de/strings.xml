@@ -91,7 +91,7 @@
     <string name="options_task_delete_checked">Abgehaktes löschen</string>
     <string name="options_shopping_expand_all">Alles aufklappen</string>
     <string name="options_shopping_collapse_all">Alles einklappen</string>
-    <string name="shopping_dialog_clear_title">Einkaufsliste leeren?</string>
+    <string name="shopping_dialog_clear_title">Liste leeren?</string>
     <string name="birthdayOldBornIn">" alt, geboren "</string>
     <string name="settings_shopping_close_sub">(In der Einkaufsliste)</string>
 
