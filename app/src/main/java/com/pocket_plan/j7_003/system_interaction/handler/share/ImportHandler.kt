@@ -7,6 +7,7 @@ import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingList
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingListWrapper
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoList
@@ -125,7 +126,7 @@ class ImportHandler(private val parentActivity: Activity) {
 
         // unzip all all entries from selected file into the /new/ directory
         StorageId.values().forEach {
-            if (it.s != StorageId.ZIP.s) {  // check so only module files are used/transferred
+            if (it.s != StorageId.ZIP.s && it.s != StorageId.SHOPPING.s) {  // check so only module files are used/transferred
                 // the cache file is created with the corresponding name of the modules file name
                 cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
 
@@ -168,7 +169,7 @@ class ImportHandler(private val parentActivity: Activity) {
 
     private fun testFiles(): Boolean {
         return try {
-            ShoppingList().check()
+            ShoppingListWrapper().check()
             BirthdayList().check()
             val noteList = NoteList()
             noteList.check()

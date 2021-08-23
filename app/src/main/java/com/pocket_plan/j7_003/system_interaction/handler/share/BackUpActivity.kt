@@ -123,10 +123,6 @@ class BackUpActivity : AppCompatActivity() {
                     // removing now not needed files
                     zipFile.delete()
                     file.delete()
-
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("NotificationEntry", "settings")
-                    startActivity(intent)
                 }
 
                 else -> {
@@ -146,14 +142,18 @@ class BackUpActivity : AppCompatActivity() {
                     if (targetId == StorageId.SLEEP) {
                         SleepReminder(this).updateReminder()
                     }
-
-                    return
                 }
             }
+
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("NotificationEntry", "settings")
+            startActivity(intent)
+
         } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
             return
         }
+
     }
 }

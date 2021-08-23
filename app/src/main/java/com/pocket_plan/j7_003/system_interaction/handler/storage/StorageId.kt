@@ -1,7 +1,7 @@
 package com.pocket_plan.j7_003.system_interaction.handler.storage
 
 enum class StorageId(val s: String, val i: Int) {
-    SHOPPING("ShoppingList.json", 0),
+    SHOPPING("ShoppingList.json", 8),
     NOTES("NoteList.json", 1),
     BIRTHDAYS("BirthdayList.json", 2),
     TASKS("TodoList.json", 3),
@@ -9,7 +9,7 @@ enum class StorageId(val s: String, val i: Int) {
     USER_TEMPLATE_LIST("UserShoppingItems.json", 5),
     SLEEP("SleepReminder.json", 6),
     ZIP("backup.zip", 7),
-    SHOPPING_LISTS("ShoppingLists.json", 8)
+    SHOPPING_LISTS("ShoppingLists.json", 0)
     ;
 
     companion object {
