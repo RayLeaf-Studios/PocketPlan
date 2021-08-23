@@ -213,8 +213,6 @@ class MainActivity : AppCompatActivity() {
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
         birthdayFr = BirthdayFr()
-        //todo choose shopping list for add item in home here
-//        shoppingFr = ShoppingFr.newInstance(0)
         homeFr = HomeFr()
 
 
@@ -353,8 +351,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.SHOPPING -> {
-                    multiShoppingFr!!.editing = false
-                    multiShoppingFr!!.openAddItemDialog()
+                    multiShoppingFr.editing = false
+                    multiShoppingFr.openAddItemDialog()
                 }
 
                 else -> {/* no-op */
@@ -370,9 +368,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //click on toolbar should trigger rename dialog when in shopping fragment
         myNewToolbar.setOnClickListener {
             if(previousFragmentStack.peek() == FT.SHOPPING){
-                multiShoppingFr!!.dialogRenameCurrentList()
+                multiShoppingFr.dialogRenameCurrentList()
             }
         }
 
@@ -542,6 +541,7 @@ class MainActivity : AppCompatActivity() {
      * OVERRIDE FUNCTIONS
      */
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBackPressed() {
         //close drawer when its open
         if (drawer_layout.isDrawerOpen(nav_drawer)) {
