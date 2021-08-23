@@ -2,15 +2,19 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 
 /**
  * A simple wrapper for shopping lists to easily manage multiple instances of them.
  */
-class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, ShoppingList>>() {
+class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, ShoppingList>>(), Checkable {
+    private val defaultName = defaultListName
+
     init {
         StorageHandler.createJsonFile(StorageId.SHOPPING_LISTS)
+        accountCompatibility()
         fetchList()
         if (this.size == 0)
             this.add(defaultListName, ShoppingList(this))
@@ -105,6 +109,13 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
         return false
     }
 
+    fun save() {
+        StorageHandler.saveAsJsonToFile(
+            StorageHandler.files[StorageId.SHOPPING_LISTS],
+            this
+        )
+    }
+
     private fun fetchList() {
         val jsonString = StorageHandler.files[StorageId.SHOPPING_LISTS]?.readText()
         val list: ArrayList<Pair<String, ShoppingList>> = GsonBuilder().create().fromJson(
@@ -117,10 +128,36 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
         this.addAll(list)
     }
 
-    fun save() {
-        StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.SHOPPING_LISTS],
-            this
+    private fun accountCompatibility() {
+        StorageHandler.createJsonFile(StorageId.SHOPPING)
+        val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
+
+        if (jsonString == "[]") {
+            StorageHandler.files[StorageId.SHOPPING]?.delete()
+            StorageHandler.files.remove(StorageId.SHOPPING)
+            return
+        }
+
+        val list: ArrayList<Pair<String, ArrayList<ShoppingItem>>> = GsonBuilder().create().fromJson(
+            jsonString,
+            object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
         )
+
+        val shoppingList: ShoppingList = ShoppingList(this)
+        list.forEach {
+            shoppingList.add(it)
+        }
+
+        this.add(defaultName, shoppingList)
+        StorageHandler.files[StorageId.SHOPPING]?.delete()
+        StorageHandler.files.remove(StorageId.SHOPPING)
+    }
+
+    override fun check() {
+        this.forEach {
+            if (it.first == null || it.second == null) {
+                throw java.lang.NullPointerException()
+            }
+        }
     }
 }
