@@ -126,7 +126,7 @@
     <string name="close">close</string>
 
     <string name="aboutSourcecode">Sourcecode</string>
-    <string name="shopping_dialog_clear_title">Clear shopping list?</string>
+    <string name="shopping_dialog_clear_title">Clear list?</string>
     <string name="shopping_item_added">Item added!</string>
     <string name="birthdayOldBornIn">" old, born in "</string>
     <string name="settings_shopping_close_sub">(In shopping fragment)</string>
@@ -143,7 +143,7 @@
     <string name="howtoTodo">Swipe a task left or right to delete it.\n\nTap a task to edit it.\n\nLongpress and drag a task to re-order it.</string>
     <string name="howtoNotes">Tap a note to edit it.\n\nNewly added, edited or viewed notes are moved to the top.</string>
     <string name="howtoBirthdays">Tap a birthday to show additional information.\n\nLongpress a birthday to edit it.\n\nSwipe a birthday left or right to delete it.\n\nIf a birthday is upcoming in 30 days or less, the remaining days will be displayed in the list.\n\nIf a reminder is set for x days prior and the birthday is upcoming in x or less days, it is color-highlighted in the list.</string>
-    <string name="howtoShopping">Swipe an item left or right to delete it.\n\nLongpress and drag a category to re-order it.\n\nTap the circle at the top of a category to check all contained items.</string>
+    <string name="howtoShopping">Swipe an item left or right to delete it.\n\nLongpress and drag a category to re-order it.\n\nTap the circle at the top of a category to check all contained items.\n\nYou can add a shopping list via the menu at the top, and switch between lists by swiping left or right.\n\nTapping the name of a list allows you to rename it.</string>
     <string name="howtoSleep">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>
     <string name="howtoHome">If the sleepreminder is enabled, an indicator at the top will tell you how much time you got, until you should go to sleep.\n\nThe task panel below will display tasks of priority one.\n\nBelow that, the birthday panel will display current birthdays.</string>
     <string name="settingsHelp">HowTo</string>
@@ -301,5 +301,10 @@
     <string name="suggest_similar_items_for_unknown_names">Improved item search</string>
     <string name="e_g_suggest_apple_when_aplle_is_entered">E.g. suggest \"Apple\" when \"Appel\" is entered</string>
     <string name="show_next_upcoming_birthday_in_home_panel">Show next upcoming birthday in home panel</string>
+    <string name="shopping_option_add_list">Add list</string>
+    <string name="shopping_menu_delete_list">Delete List</string>
+    <string name="shopping_dialog_rename_title">Rename List</string>
+    <string name="shoppingToastZeroListWarning">There must be at least one list.</string>
+    <string name="shopping_dialog_delete_title">Delete list?</string>
 
 </resources>

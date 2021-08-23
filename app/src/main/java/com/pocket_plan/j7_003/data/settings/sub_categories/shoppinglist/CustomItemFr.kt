@@ -15,13 +15,14 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.AutoCompleteAdapter
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
+import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
 
 class CustomItemFr : Fragment() {
-    private lateinit var myShoppingFr: ShoppingFr
+    private lateinit var myShoppingFr: MultiShoppingFr
 
     private lateinit var myActivity: MainActivity
     private lateinit var myMenu: Menu
@@ -40,7 +41,7 @@ class CustomItemFr : Fragment() {
     ): View? {
 
         myActivity = activity as MainActivity
-        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as ShoppingFr
+        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as MultiShoppingFr
 
         val myView = inflater.inflate(R.layout.fragment_custom_items, container, false)
         myRecycler = myView.recycler_view_customItems
@@ -56,13 +57,10 @@ class CustomItemFr : Fragment() {
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
 
-
         val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr, myActivity))
         swipeHelperLeft.attachToRecyclerView(myRecycler)
         val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr, myActivity))
         swipeHelperRight.attachToRecyclerView(myRecycler)
-
-
 
         return myView
     }
@@ -74,7 +72,7 @@ class CustomItemFr : Fragment() {
 
                    //remove user items from itemNameList and update act adapter so they
                    //don't show up in the add item dialog anymore
-                   MainActivity.userItemTemplateList.forEach{ item ->
+                   myActivity.userItemTemplateList.forEach{ item ->
                        MainActivity.itemNameList.remove(item.n)
                    }
                    val newActAdapter = AutoCompleteAdapter(
@@ -82,10 +80,11 @@ class CustomItemFr : Fragment() {
                        resource = android.R.layout.simple_spinner_dropdown_item,
                        items = MainActivity.itemNameList.toMutableList()
                    )
+                   //TODO FIX CUSTOMITEMFR
                    myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 
-                   MainActivity.userItemTemplateList.clear()
-                   MainActivity.userItemTemplateList.save()
+                   myActivity.userItemTemplateList.clear()
+                   myActivity.userItemTemplateList.save()
                    myAdapter.notifyDataSetChanged()
                    updateClearCustomListIcon()
                }
@@ -93,7 +92,7 @@ class CustomItemFr : Fragment() {
                myActivity.dialogConfirmDelete(titleId, action)
            }
             R.id.item_custom_undo -> {
-                MainActivity.userItemTemplateList.add(deletedItem!!)
+                myActivity.userItemTemplateList.add(deletedItem!!)
                 deletedItem = null
                 myAdapter.notifyDataSetChanged()
                 updateUndoCustomIcon()
@@ -109,7 +108,7 @@ class CustomItemFr : Fragment() {
     }
 
     fun updateClearCustomListIcon(){
-       myMenu.findItem(R.id.item_custom_clear).isVisible = MainActivity.userItemTemplateList.size > 0
+       myMenu.findItem(R.id.item_custom_clear).isVisible = myActivity.userItemTemplateList.size > 0
     }
 
     fun updateUndoCustomIcon(){
@@ -127,7 +126,7 @@ class CustomItemFr : Fragment() {
     //Deletes all checked tasks and animates the deletion
 
 }
-class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainActivity: MainActivity): ItemTouchHelper
+class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val myActivity: MainActivity): ItemTouchHelper
 .SimpleCallback(0, direction){
 
     private val myShoppingFr = shoppingFr
@@ -143,13 +142,13 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainAc
         val itemName = item.n
 
         //remove item from item name list, if it doesn't exist as a regular item
-        if(mainActivity.itemTemplateList.getTemplateByName(itemName)==null){
+        if(myActivity.itemTemplateList.getTemplateByName(itemName)==null){
             MainActivity.itemNameList.remove(itemName)
         }
 
         //set new adapter for autocomplete text in add item dialog
         val newActAdapter = AutoCompleteAdapter(
-            mainActivity,
+            myActivity,
             android.R.layout.simple_spinner_dropdown_item,
             items = MainActivity.itemNameList.toMutableList()
         )
@@ -159,10 +158,10 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainAc
         CustomItemFr.deletedItem = item
 
         //delete item from userItemTemplateList
-        MainActivity.userItemTemplateList.remove(item)
+        myActivity.userItemTemplateList.remove(item)
 
         //Save changes in userItemTemplateList
-        MainActivity.userItemTemplateList.save()
+        myActivity.userItemTemplateList.save()
 
         //animate remove in recycler view adapter
         CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
@@ -173,13 +172,13 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: ShoppingFr, val mainAc
     }
 }
 
-class CustomItemAdapter(val mainActivity: MainActivity) :
+class CustomItemAdapter(val myActivity: MainActivity) :
     RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>(){
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = mainActivity.resources.getDimension(R.dimen.cornerRadius)
+    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
-    override fun getItemCount() = MainActivity.userItemTemplateList.size
+    override fun getItemCount() = myActivity.userItemTemplateList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomItemViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -196,7 +195,7 @@ class CustomItemAdapter(val mainActivity: MainActivity) :
             holder.itemView.cvCustom.radius = cr
         }
 
-        val currentItem = MainActivity.userItemTemplateList[holder.adapterPosition]
+        val currentItem = myActivity.userItemTemplateList[holder.adapterPosition]
         holder.myItem = currentItem
 
         //changes design of task based on priority and being checked
@@ -205,8 +204,8 @@ class CustomItemAdapter(val mainActivity: MainActivity) :
             itemText = itemText.substring(0,11)+".."
         }
         holder.itemView.tvName.text = itemText + " : "+currentItem.s
-        val id = mainActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
-        holder.itemView.tvCategory.text = mainActivity.resources.getStringArray(R.array.categoryNames)[id]
+        val id = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
+        holder.itemView.tvCategory.text = myActivity.resources.getStringArray(R.array.categoryNames)[id]
     }
 
     class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){

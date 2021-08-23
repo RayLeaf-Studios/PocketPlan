@@ -37,7 +37,6 @@ class HomeFr : Fragment() {
 
     private var cr = 0f
     private lateinit var myBirthdayFr: BirthdayFr
-    private lateinit var myShoppingFr: ShoppingFr
     private lateinit var mySleepFr: SleepFr
 
     lateinit var myView: View
@@ -51,7 +50,6 @@ class HomeFr : Fragment() {
 
         cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
         myBirthdayFr = myActivity.getFragment(FT.BIRTHDAYS) as BirthdayFr
-        myShoppingFr = myActivity.getFragment(FT.SHOPPING) as ShoppingFr
         mySleepFr = myActivity.getFragment(FT.SLEEP) as SleepFr
         mySleepFr.sleepReminderInstance = SleepReminder(myActivity)
 
@@ -92,8 +90,8 @@ class HomeFr : Fragment() {
         }
         myView.clAddTask.setOnClickListener { createTaskFromHome() }
         myView.clAddItem.setOnClickListener {
-            ShoppingFr.editing = false
-            myShoppingFr.openAddItemDialog()
+            myActivity.multiShoppingFr!!.editing = false
+            myActivity.multiShoppingFr!!.openAddItemDialog()
         }
 
         return myView
