@@ -14,8 +14,10 @@ import org.threeten.bp.ZoneId
 
 class AlarmHandler {
     companion object {
-        fun setBirthdayAlarms(hour: Int = 12, minute: Int = 0, context: Context) {
+        fun setBirthdayAlarms(time: String = "12:00", context: Context) {
             try {
+                val hour = time.split(":")[0].toInt()
+                val minute = time.split(":")[1].toInt()
                 val intent = Intent(context, NotificationReceiver::class.java)
                 intent.putExtra("Notification", "Birthday")
 

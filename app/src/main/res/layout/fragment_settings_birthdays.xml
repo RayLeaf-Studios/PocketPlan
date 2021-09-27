@@ -129,17 +129,46 @@
 
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cvBirthdayTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingBottom="20dp"
                 android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvBirthdayTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_birthday_notification_time"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvBirthdayNotifTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13:20"
+                    android:textColor="?attr/colorHint"
+                    app:layout_constraintStart_toStartOf="@id/tvBirthdayTime"
+                    app:layout_constraintTop_toBottomOf="@id/tvBirthdayTime" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingHorizontal="20dp" />
+
 
         </LinearLayout>
 
