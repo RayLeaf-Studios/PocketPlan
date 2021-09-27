@@ -306,5 +306,6 @@
     <string name="shopping_dialog_rename_title">Rename List</string>
     <string name="shoppingToastZeroListWarning">There must be at least one list.</string>
     <string name="shopping_dialog_delete_title">Delete list?</string>
+    <string name="change_birthday_notification_time">Change birthday notification time</string>
 
 </resources>

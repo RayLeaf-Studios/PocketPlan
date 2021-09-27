@@ -622,6 +622,7 @@ class MainActivity : AppCompatActivity() {
         setDefault(SettingId.BIRTHDAY_COLORS_SOUTH, false)
         setDefault(SettingId.SUGGEST_SIMILAR_ITEMS, true)
         setDefault(SettingId.PREVIEW_BIRTHDAY, true)
+        setDefault(SettingId.BIRTHDAY_NOTIFICATION_TIME, "12:00")
     }
 
     private fun setDefault(setting: SettingId, value: Any) {
