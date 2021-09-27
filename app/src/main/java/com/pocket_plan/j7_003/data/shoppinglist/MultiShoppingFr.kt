@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -515,14 +516,15 @@ class MultiShoppingFr : Fragment() {
                         addItemDialog?.dismiss()
                     }
 
-                    //add new item to list
-                    activeShoppingFr.shoppingListInstance.add(item)
 
                     //trigger adapter and menu refresh if currently in shoppingFr
                     if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
+                        //add new item to list
+                        activeShoppingFr.shoppingListInstance.add(item)
                         activeShoppingFr.myAdapter.notifyDataSetChanged()
                         updateShoppingMenu()
                     } else {
+                        shoppingListWrapper[0].second.add(item)
                         //display "Item added" Toast, when adding from home
                         Toast.makeText(
                             myActivity,
@@ -600,11 +602,14 @@ class MultiShoppingFr : Fragment() {
                 addItemDialog?.dismiss()
             }
             //add new item to list
-            activeShoppingFr.shoppingListInstance.add(item)
             if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
+                //handling addding in shopping
+                activeShoppingFr.shoppingListInstance.add(item)
                 activeShoppingFr.myAdapter.notifyDataSetChanged()
                 updateShoppingMenu()
             } else {
+                //handling adding in home
+                shoppingListWrapper[0].second.add(item)
                 Toast.makeText(
                     myActivity,
                     myActivity.getString(R.string.shopping_item_added),
