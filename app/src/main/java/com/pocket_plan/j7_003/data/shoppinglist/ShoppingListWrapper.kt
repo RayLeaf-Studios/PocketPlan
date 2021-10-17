@@ -62,9 +62,6 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
      * @return A boolean depending on the success of the removal
      */
     fun remove(name: String): Boolean {
-        if (this.size == 1)
-            return false
-
         var toDelete: Pair<String, ShoppingList>? = null
         this.forEach {
             if (it.first == name)

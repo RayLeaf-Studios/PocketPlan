@@ -149,7 +149,6 @@
     <string name="shopping_option_add_list">Liste hinzufügen</string>
     <string name="shopping_menu_delete_list">Liste löschen</string>
     <string name="shopping_dialog_rename_title">Liste umbenennen</string>
-    <string name="shoppingToastZeroListWarning">Es muss mindestens eine Liste geben.</string>
     <string name="shopping_dialog_delete_title">Liste löschen?</string>
     <string name="change_birthday_notification_time">Zeit für Benachrichtigungen ändern</string>
 

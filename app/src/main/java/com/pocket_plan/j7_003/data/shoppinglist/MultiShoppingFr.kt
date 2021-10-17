@@ -218,14 +218,9 @@ class MultiShoppingFr : Fragment() {
             R.id.item_shopping_delete_list -> {
                 val titleId = R.string.shopping_dialog_delete_title
                 val action: () -> Unit = {
-                    if (shoppingListWrapper.remove(myActivity.myNewToolbar.title.toString())) {
-                        //removing was successful, remove fragment from fragment list, update adapter
-                        shoppingFragments.remove(activeShoppingFr)
-                        shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
-                    } else {
-                        val toastText = getString(R.string.shoppingToastZeroListWarning)
-                        Toast.makeText(myActivity, toastText, Toast.LENGTH_LONG).show()
-                    }
+                    shoppingListWrapper.remove(myActivity.myNewToolbar.title.toString())
+                    shoppingFragments.remove(activeShoppingFr)
+                    shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
                 }
                 myActivity.dialogConfirmDelete(titleId, action)
             }
@@ -731,8 +726,12 @@ class MultiShoppingFr : Fragment() {
         updateUncheckShoppingListIcon()
         updateExpandAllIcon()
         updateCollapseAllIcon()
+        updateDeleteListIcon()
     }
 
+    private fun updateDeleteListIcon() {
+        myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible = shoppingListWrapper.size > 1
+    }
     private fun updateUndoItemIcon() {
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
     }
