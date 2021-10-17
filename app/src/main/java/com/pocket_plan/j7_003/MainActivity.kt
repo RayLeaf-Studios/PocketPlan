@@ -195,7 +195,8 @@ class MainActivity : AppCompatActivity() {
         //IMPORTANT: ORDER IS CRITICAL HERE
         //Initialize Time api and AlarmHandler
         AndroidThreeTen.init(this)
-        AlarmHandler.setBirthdayAlarms(context = this)
+        val time = SettingsManager.getSetting(SettingId.BIRTHDAY_NOTIFICATION_TIME) as String
+        AlarmHandler.setBirthdayAlarms(time, context = this)
 
         //Initialize toolbar
         setSupportActionBar(myNewToolbar)
