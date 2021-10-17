@@ -80,6 +80,8 @@
     <attr name="colorKühlregalMilchL" format="color"/>
     <attr name="colorKühlregalFleisch" format="color"/>
     <attr name="colorKühlregalFleischL" format="color"/>
+    <attr name="colorVegan" format="color"/>
+    <attr name="colorVeganL" format="color"/>
     <attr name="colorTiefkühl" format="color"/>
     <attr name="colorTiefkühlL" format="color"/>
     <attr name="colorKonservenFertiges" format="color"/>

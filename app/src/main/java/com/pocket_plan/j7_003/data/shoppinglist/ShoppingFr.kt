@@ -27,11 +27,8 @@ import kotlin.math.min
 
 class ShoppingFr : Fragment() {
     private lateinit var myActivity: MainActivity
-    lateinit var autoCompleteTv: AutoCompleteTextView
     lateinit var myMultiShoppingFr: MultiShoppingFr
     lateinit var shoppingListInstance: ShoppingList
-
-
 
     lateinit var myAdapter: ShoppingListAdapter
 
@@ -436,6 +433,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
                 "Bw" -> Pair(R.attr.colorBackwaren, R.attr.colorBackwarenL)
                 "Km" -> Pair(R.attr.colorKühlregalMilch, R.attr.colorKühlregalMilchL)
                 "Kf" -> Pair(R.attr.colorKühlregalFleisch, R.attr.colorKühlregalFleischL)
+                "Ve" -> Pair(R.attr.colorVegan, R.attr.colorVeganL)
                 "Tk" -> Pair(R.attr.colorTiefkühl, R.attr.colorTiefkühlL)
                 "Ko" -> Pair(R.attr.colorKonservenFertiges, R.attr.colorKonservenFertigesL)
                 "Fr" -> Pair(R.attr.colorFrühstück, R.attr.colorFrühstückL)

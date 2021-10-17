@@ -81,6 +81,8 @@
         <item name="colorKühlregalMilchL">#9F9F9F</item>
         <item name="colorKühlregalFleisch">#750808</item>
         <item name="colorKühlregalFleischL">#981A1A</item>
+        <item name="colorVegan">#7a9e0d</item>
+        <item name="colorVeganL">#94BA21</item>
         <item name="colorTiefkühl">#E94877C6</item>
         <item name="colorTiefkühlL">#5BA1E1</item>
         <item name="colorKonservenFertiges">#CD272727</item>
@@ -185,6 +187,8 @@
         <item name="colorKühlregalMilchL">#CFCFCF</item>
         <item name="colorKühlregalFleisch">#9A2020</item>
         <item name="colorKühlregalFleischL">#C84F4F</item>
+        <item name="colorVegan">#98C511</item>
+        <item name="colorVeganL">#A6CF26</item>
         <item name="colorTiefkühl">#E979A3EA</item>
         <item name="colorTiefkühlL">#8EC2F1</item>
         <item name="colorKonservenFertiges">#CD333333</item>
