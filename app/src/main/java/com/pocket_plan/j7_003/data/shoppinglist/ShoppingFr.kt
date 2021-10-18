@@ -183,7 +183,7 @@ class ShoppingFr : Fragment() {
                         }
 
                         //flip checked state of this category
-                        shoppingListInstance.equalize(tag)
+                        shoppingListInstance.equalizeCheckedStates(tag)
                         myAdapter.notifyItemChanged(position)
                         shoppingListInstance.save()
                     }
@@ -227,7 +227,7 @@ class ShoppingFr : Fragment() {
      * Helper function to prevent scrolling due to notifyMove
      */
     fun prepareForMove() {
-        firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
+        firstPos = layoutManager.findFirstVisibleItemPosition()
         offsetTop = 0
         if (firstPos >= 0) {
             val firstView = layoutManager.findViewByPosition(firstPos)
@@ -368,7 +368,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         holder.tvNumberOfItems.setOnClickListener {
             //get new checked state of all items (result)
-            val newAllChecked = shoppingListInstance.equalize(tag)
+            val newAllChecked = shoppingListInstance.equalizeCheckedStates(tag)
             if (collapseCheckedSublists) {
                 if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
                     shoppingListInstance.flipExpansionState(tag)

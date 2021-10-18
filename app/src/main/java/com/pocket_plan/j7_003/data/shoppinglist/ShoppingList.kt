@@ -62,16 +62,19 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
         save()
     }
 
-    fun equalize(tag: String): Boolean {
-        val equalizer: Boolean = !areAllChecked(tag)
+    /**
+     *
+     */
+    fun equalizeCheckedStates(tag: String): Boolean {
+        val newCheckedState: Boolean = !areAllChecked(tag)
         this[getTagIndex(tag)].second.forEachIndexed { index, shoppingItem ->
             if (index != 0) {
-                shoppingItem.checked = equalizer
+                shoppingItem.checked = newCheckedState
             }
         }
 
         save()
-        return equalizer
+        return newCheckedState
     }
 
     fun collapseAllTags() {
