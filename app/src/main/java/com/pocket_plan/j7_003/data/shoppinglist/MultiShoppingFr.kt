@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -304,8 +303,8 @@ class MultiShoppingFr : Fragment() {
             mylayoutInflater.inflate(R.layout.dialog_add_item, null)
 
         //Initialize dialogBuilder and set its title
-        val myBuilder = myActivity.let { it1 ->
-            AlertDialog.Builder(it1).setView(addItemDialogView)
+        val myBuilder = myActivity.let {
+            AlertDialog.Builder(it).setView(addItemDialogView)
         }
 
         val customTitle = mylayoutInflater.inflate(R.layout.title_dialog, null)
@@ -435,7 +434,7 @@ class MultiShoppingFr : Fragment() {
 
         //initialize onclick listener for "cancel" button, which closes the add item dialog
         addItemDialogView!!.btnCancelItem.setOnClickListener {
-            addItemDialog?.dismiss()
+            addItemDialog.dismiss()
         }
 
         //initialize key listener to add item via enter-press by triggering a click on the add button
@@ -674,9 +673,10 @@ class MultiShoppingFr : Fragment() {
         addItemDialogView!!.actvItem.setSelection(item.name!!.length)
 
         //select correct unit
-        val unitIndex = myActivity.resources.getStringArray(
-            R.array.units
-        ).indexOf(item.suggestedUnit)
+        val unitIndex = myActivity.resources
+            .getStringArray(R.array.units)
+            .indexOf(item.suggestedUnit)
+
         addItemDialogView!!.spItemUnit.tag = unitIndex
         addItemDialogView!!.spItemUnit.setSelection(unitIndex)
 
@@ -686,11 +686,11 @@ class MultiShoppingFr : Fragment() {
         addItemDialogView!!.etItemAmount.setText(item.amount.toString())
 
         //open keyboard
-        addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        addItemDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         addItemDialogView!!.actvItem.dismissDropDown()
 
         //show dialog
-        addItemDialog?.show()
+        addItemDialog.show()
 
         editing = true
     }
