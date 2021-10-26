@@ -17,6 +17,7 @@ import com.pocket_plan.j7_003.R.*
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
@@ -278,7 +279,7 @@ class TodoFr : Fragment() {
     }
 
     fun prepareForMove() {
-        firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
+        firstPos = layoutManager.findFirstVisibleItemPosition()
         offsetTop = 0
         if (firstPos >= 0) {
             val firstView = layoutManager.findViewByPosition(firstPos)
@@ -373,6 +374,7 @@ class TodoTaskAdapter(activity: MainActivity) :
     private val myActivity = activity
     private val listInstance = TodoFr.todoListInstance
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
     private val cr = myActivity.resources.getDimension(dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
@@ -390,9 +392,10 @@ class TodoTaskAdapter(activity: MainActivity) :
 
         val currentTask = listInstance.getTask(holder.adapterPosition)
 
-        //changes design of task based on priority and being checked
+        //Set text of task to be visible
         holder.itemView.tvName.text = currentTask.title
 
+        //Set Long click listener to initiate re-sorting
         holder.itemView.tvName.setOnLongClickListener {
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, anim.shake_small)
@@ -400,7 +403,8 @@ class TodoTaskAdapter(activity: MainActivity) :
             true
         }
 
-        if (listInstance.getTask(holder.adapterPosition).isChecked) {
+        if (currentTask.isChecked) {
+            //Display the task as checked: check checkbox, strike through text, use gray colors for text and background
             holder.itemView.cbTask.isChecked = true
             holder.itemView.tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.itemView.tvName.setTextColor(
@@ -408,29 +412,41 @@ class TodoTaskAdapter(activity: MainActivity) :
             )
             holder.itemView.crvTask.setCardBackgroundColor(myActivity.colorForAttr(attr.colorCheckedTask))
         } else {
+            //Display the task as unchecked: Uncheck checkbox, remove strike-through of text, initialize correct colors
             holder.itemView.cbTask.isChecked = false
             holder.itemView.tvName.paintFlags = 0
-            holder.itemView.tvName.setTextColor(
-                myActivity.colorForAttr(attr.colorOnBackGroundTask)
-            )
-            val backgroundColor = when (listInstance.getTask(holder.adapterPosition).priority) {
-                1 -> attr.colorPriority1
-                2 -> attr.colorPriority2
-                else -> attr.colorPriority3
+
+            val taskTextColor = if (dark) {
+                //colored task text when in dark theme
+                when (listInstance.getTask(holder.adapterPosition).priority) {
+                    1 -> attr.colorPriority1
+                    2 -> attr.colorPriority2
+                    else -> attr.colorPriority3
+                }
+            } else {
+                //white text when in light theme
+                attr.colorBackground
             }
-            holder.itemView.crvTask.setCardBackgroundColor(
-                myActivity.colorForAttr(
-                    backgroundColor
-                )
-            )
-        }
-        if (round) {
-            holder.itemView.crvTask.radius = cr
-        } else {
-            holder.itemView.crvTask.radius = 0f
+
+            val taskBackgroundColor = if(dark){
+                //dark background in dark theme
+                attr.colorBackgroundElevated
+            }else{
+                //colored background in light theme
+                when (listInstance.getTask(holder.adapterPosition).priority) {
+                    1 -> attr.colorPriority1
+                    2 -> attr.colorPriority2
+                    else -> attr.colorPriority3
+                }
+            }
+
+            holder.itemView.tvName.setTextColor(myActivity.colorForAttr(taskTextColor))
+            holder.itemView.crvTask.setCardBackgroundColor(myActivity.colorForAttr(taskBackgroundColor))
         }
 
-        //User Interactions with Task List Item below
+        //set corner radius to be round if style is set to round
+        holder.itemView.crvTask.radius = if (round) cr else 0f
+
         /**
          * EDITING task
          * Onclick-Listener on List items, opening the edit-task dialog
@@ -517,8 +533,6 @@ class TodoTaskAdapter(activity: MainActivity) :
             TodoFr.myFragment.updateTodoIcons()
 
         }
-
-//        holder.itemView.cbTask.
     }
 
     override fun getItemCount() = TodoFr.todoListInstance.size

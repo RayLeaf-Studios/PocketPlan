@@ -44,15 +44,15 @@
         <item name="colorGoToSleep">#CC212F</item>
         <item name="colorSun">#F4C01F</item>
 
-        <item name="colorPriority1">#8E0303</item>
-        <item name="colorPriority2">#D7C66A07</item>
-        <item name="colorPriority3">#06591D</item>
+        <item name="colorPriority1">#E62929</item>
+        <item name="colorPriority2">#E89E2E</item>
+        <item name="colorPriority3">#39BF33</item>
 
-        <item name="colorNoteRed">#8C1616</item>
-        <item name="colorNoteYellow">#BF8002</item>
-        <item name="colorNoteGreen">#036854</item>
-        <item name="colorNoteBlue">#023D97</item>
-        <item name="colorNotePurple">#4D2B80</item>
+        <item name="colorNoteRed">#C52D2D</item>
+        <item name="colorNoteYellow">#E4A13B</item>
+        <item name="colorNoteGreen">#3DCD37</item>
+        <item name="colorNoteBlue">#2581E3</item>
+        <item name="colorNotePurple">#BA2B7D</item>
 
         <item name="colorMonth1">#024B98</item>
         <item name="colorMonth2">#1584C1</item>
