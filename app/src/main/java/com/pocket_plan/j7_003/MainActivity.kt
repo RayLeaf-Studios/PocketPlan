@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         //contents for shopping list
         lateinit var itemNameList: ArrayList<String>
-        var unitChanged: Boolean = false
 
         val previousFragmentStack: Stack<FT> = Stack()
         lateinit var bottomNavigation: BottomNavigationView

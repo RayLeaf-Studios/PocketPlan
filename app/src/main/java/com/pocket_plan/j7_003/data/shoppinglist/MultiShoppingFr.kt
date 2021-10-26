@@ -36,6 +36,9 @@ class MultiShoppingFr : Fragment() {
     private lateinit var myMenu: Menu
     private lateinit var myActivity: MainActivity
 
+
+    private var unitChanged: Boolean = false
+
     private lateinit var addItemDialog: AlertDialog
     var addItemDialogView: View? = null
     lateinit var autoCompleteTv: AutoCompleteTextView
@@ -145,7 +148,7 @@ class MultiShoppingFr : Fragment() {
         myDialogView.btnAddShoppingList.setOnClickListener {
 
             val newName = myDialogView.etAddShoppingList.text.toString()
-            if(newName.trim()==""){
+            if (newName.trim() == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myDialogView.etAddShoppingList.startAnimation(animationShake)
@@ -344,7 +347,7 @@ class MultiShoppingFr : Fragment() {
                 id: Long
             ) {
                 if (spItemUnit.tag != position && position != 0) {
-                    MainActivity.unitChanged = true
+                    unitChanged = true
                 }
 
             }
@@ -403,14 +406,14 @@ class MultiShoppingFr : Fragment() {
                     //display correct unit
                     val unitPointPos =
                         myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
-                    if (!MainActivity.unitChanged) {
+                    if (!unitChanged) {
                         spItemUnit.tag = unitPointPos
                         spItemUnit.setSelection(unitPointPos)
                     }
                 } else {
                     //else if entered string is unknown select "other" and "x" as defaults
                     spCategory.setSelection(0)
-                    if (!MainActivity.unitChanged) {
+                    if (!unitChanged) {
                         spItemUnit.tag = 0
                         spItemUnit.setSelection(0)
                     }
@@ -451,7 +454,7 @@ class MultiShoppingFr : Fragment() {
 
         //listener for button to confirm adding item to list
         addItemDialogView!!.btnAddItemToList.setOnClickListener {
-            MainActivity.unitChanged = false
+            unitChanged = false
 
             val nameInput = autoCompleteTv.text.toString()
 
@@ -480,7 +483,8 @@ class MultiShoppingFr : Fragment() {
             var template =
                 myActivity.userItemTemplateList.getTemplateByName(nameInput)
 
-            //TODO clean up logic here
+            val unitString = spItemUnit.selectedItem.toString()
+
             if (template == null) {
                 //no user item with this name => check for regular template
                 template = myActivity.itemTemplateList.getTemplateByName(nameInput)
@@ -488,104 +492,32 @@ class MultiShoppingFr : Fragment() {
                     //item unknown, or item known under different category or with different unit, use selected category and unit,
                     // add item new ItemTemplate to userItemTemplate list, using entered values
                     myActivity.userItemTemplateList.add(
-                        ItemTemplate(
-                            nameInput, categoryCode,
-                            spItemUnit.selectedItem.toString()
-                        )
+                        ItemTemplate(nameInput, categoryCode, unitString)
                     )
-
-                    //create new Shopping item using entered values
-                    val item = ShoppingItem(
-                        nameInput, categoryCode,
-                        spItemUnit.selectedItem.toString(),
-                        etItemAmount.text.toString(),
-                        spItemUnit.selectedItem.toString(),
-                        false
-                    )
-
-                    //if currently editing, remove the item that was tapped to edit
-                    if (editing) {
-                        activeShoppingFr.shoppingListInstance.removeItem(editTag, editPos)
-                        editing = false
-                        addItemDialog?.dismiss()
-                    }
-
-
-                    //trigger adapter and menu refresh if currently in shoppingFr
-                    if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
-                        //add new item to list
-                        activeShoppingFr.shoppingListInstance.add(item)
-                        activeShoppingFr.myAdapter.notifyDataSetChanged()
-                        updateShoppingMenu()
-                    } else {
-                        shoppingListWrapper[0].second.add(item)
-                        //display "Item added" Toast, when adding from home
-                        Toast.makeText(
-                            myActivity,
-                            myActivity.getString(R.string.shopping_item_added),
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-
-                    //if itemNameList does not contain this item name, add it to the list and create
-                    //and set a new adapter for autocompleteTv
-                    if (!MainActivity.itemNameList.contains(nameInput)) {
-                        MainActivity.itemNameList.add(nameInput)
-                        val itemClone2 = MainActivity.itemNameList.toMutableList()
-                        val newCustomAdapter = AutoCompleteAdapter(
-                            context = myActivity,
-                            resource = android.R.layout.simple_spinner_dropdown_item,
-                            items = itemClone2
-                        )
-                        autoCompleteTv.setAdapter(newCustomAdapter)
-
-                    }
-
-                    //restore dialog to normal after adding
-                    autoCompleteTv.setText("")
-                    etItemAmount.setText("1")
-                    spItemUnit.tag = 0
-                    spItemUnit.setSelection(0)
-                    autoCompleteTv.requestFocus()
-
-                    //close dialog if setting says so, or dialog was opened from home fragment
-                    if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
-                            SettingId.CLOSE_ITEM_DIALOG
-                        ) as Boolean
-                    ) {
-                        addItemDialog?.dismiss()
-                    }
-                    return@setOnClickListener
                 }
-            }
-
-            if (categoryCode != template!!.c || spItemUnit.selectedItem.toString() != template!!.s) {
-                //known as user item but with different tag or different suggested unit
-                myActivity.userItemTemplateList.removeItem(autoCompleteTv.text.toString())
-
+            } else if (categoryCode != template!!.c || unitString != template!!.s) {
+                // USER ITEM KNOWN BY NAME, BUT UNIT / CATEGORY DIFFER
                 //check if there is a regularItem with this name
                 val regularTemplate =
-                    myActivity.itemTemplateList.getTemplateByName(autoCompleteTv.text.toString())
+                    myActivity.itemTemplateList.getTemplateByName(nameInput)
 
                 //only add a new user item if there is no regular item with this name, this category and this unit
-                if (!(regularTemplate != null && regularTemplate.c == categoryCode && regularTemplate.s == spItemUnit.selectedItem.toString())) {
-                    myActivity.userItemTemplateList.add(
-                        ItemTemplate(
-                            autoCompleteTv.text.toString(), categoryCode,
-                            spItemUnit.selectedItem.toString()
-                        )
-                    )
+                if (!(regularTemplate != null && regularTemplate.c == categoryCode && regularTemplate.s == unitString)) {
+                    template!!.c = categoryCode
+                    template!!.s = unitString
+                    myActivity.userItemTemplateList.save()
+                } else { //known as user item but with different tag or different suggested unit
+                    myActivity.userItemTemplateList.removeItem(nameInput)
                 }
             }
 
             //add already known item to list
             val item = ShoppingItem(
-                template!!.n,
+                nameInput,
                 categoryCode,
-                template!!.s,
+                unitString,
                 etItemAmount!!.text.toString(),
-                spItemUnit.selectedItem.toString(),
+                unitString,
                 false
             )
 
@@ -593,11 +525,11 @@ class MultiShoppingFr : Fragment() {
                 //remove item that was tapped to edit, if editing
                 activeShoppingFr.shoppingListInstance.removeItem(editTag, editPos)
                 editing = false
-                addItemDialog?.dismiss()
+                addItemDialog.dismiss()
             }
             //add new item to list
             if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
-                //handling addding in shopping
+                //handling adding in shopping
                 activeShoppingFr.shoppingListInstance.add(item)
                 activeShoppingFr.myAdapter.notifyDataSetChanged()
                 updateShoppingMenu()
@@ -615,8 +547,13 @@ class MultiShoppingFr : Fragment() {
             spItemUnit.tag = 0
             spItemUnit.setSelection(0)
             autoCompleteTv.requestFocus()
-            if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
-                addItemDialog?.dismiss()
+
+            //close dialog if setting says so, or dialog was opened from home fragment
+            if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
+                    SettingId.CLOSE_ITEM_DIALOG
+                ) as Boolean
+            ) {
+                addItemDialog.dismiss()
             }
         }
 
@@ -650,8 +587,8 @@ class MultiShoppingFr : Fragment() {
         addItemDialogView!!.etItemAmount.setText("1")
 
         //open keyboard
-        addItemDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        addItemDialog?.show()
+        addItemDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        addItemDialog.show()
     }
 
     fun openEditItemDialog(item: ShoppingItem) {
@@ -680,7 +617,7 @@ class MultiShoppingFr : Fragment() {
         addItemDialogView!!.spItemUnit.tag = unitIndex
         addItemDialogView!!.spItemUnit.setSelection(unitIndex)
 
-        MainActivity.unitChanged = false
+        unitChanged = false
 
         //show correct item amount
         addItemDialogView!!.etItemAmount.setText(item.amount.toString())
@@ -732,6 +669,7 @@ class MultiShoppingFr : Fragment() {
     private fun updateDeleteListIcon() {
         myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible = shoppingListWrapper.size > 1
     }
+
     private fun updateUndoItemIcon() {
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
     }
