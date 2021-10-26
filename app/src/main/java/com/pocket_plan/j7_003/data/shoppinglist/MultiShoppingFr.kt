@@ -521,9 +521,13 @@ class MultiShoppingFr : Fragment() {
                 false
             )
 
+            //remove item that was tapped to edit, if editing
+            // Check if category was change
             if (editing) {
-                //remove item that was tapped to edit, if editing
-                activeShoppingFr.shoppingListInstance.removeItem(editTag, editPos)
+                val deleteSublist = if (template != null) (editTag != categoryCode)
+                else activeShoppingFr.shoppingListInstance.getSublistLength(editTag) < 2
+
+                activeShoppingFr.shoppingListInstance.removeItem(editTag, editPos, deleteSublist)
                 editing = false
                 addItemDialog.dismiss()
             }

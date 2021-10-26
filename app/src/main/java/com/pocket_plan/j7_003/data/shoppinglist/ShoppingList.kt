@@ -258,10 +258,11 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
      * item is returned or null.
      * @param tag The tag of the sublist.
      * @param sublistPosition The position of the item inside the sublist.
+     * @param removeSublist Defaults to true and dictates whether an empty sublist is deleted.
      * @return  The removed item is returned if the removal succeeded, null otherwise.
      *          also a boolean is returned, stating if the containing sublist was deleted or not.
      */
-    fun removeItem(tag: String, sublistPosition: Int): Pair<ShoppingItem?, Boolean> {
+    fun removeItem(tag: String, sublistPosition: Int, removeSublist: Boolean = true): Pair<ShoppingItem?, Boolean> {
         var removedItem: ShoppingItem? = null
         var sublistGotDeleted = false
 
@@ -271,7 +272,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
 
                 if (this[i].first == tag) {
                     removedItem = this[i].second.removeAt(sublistPosition + 1)
-                    if (this[i].second.size == 1) {   // removing the sublist if it is empty
+                    if (this[i].second.size == 1 && removeSublist) {   // removing the sublist if it is empty
                         super.remove(this[i])
                         sublistGotDeleted = true
                     }
