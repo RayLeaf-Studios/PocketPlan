@@ -153,9 +153,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (previousFragmentStack.isEmpty()) {
-            previousFragmentStack.push(FT.EMPTY)
-        }
+        previousFragmentStack.clear()
+        previousFragmentStack.push(FT.EMPTY)
 
         StorageHandler.path = this.filesDir.absolutePath
 
@@ -262,6 +261,10 @@ class MainActivity : AppCompatActivity() {
         //initialize bottom navigation
         bottomNavigation = findViewById(R.id.btm_nav)
 
+        //preload add item dialog to reduce loading time
+        multiShoppingFr = MultiShoppingFr()
+        multiShoppingFr.shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
+
         //When activity is entered via special intent, change to respective fragment
         when (intent.extras?.get("NotificationEntry").toString()) {
             "birthdays" -> changeToFragment(FT.BIRTHDAYS)
@@ -276,6 +279,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
 
         //Initialize remaining fragments
         noteFr = NoteFr()
@@ -309,10 +314,6 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        //preload add item dialog to reduce loading time
-        multiShoppingFr = MultiShoppingFr()
-        multiShoppingFr.shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
-        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
@@ -374,8 +375,6 @@ class MainActivity : AppCompatActivity() {
                 multiShoppingFr.dialogRenameCurrentList()
             }
         }
-
-
     }
 
     /**
@@ -540,6 +539,10 @@ class MainActivity : AppCompatActivity() {
     /**
      * OVERRIDE FUNCTIONS
      */
+    override fun onDestroy() {
+        super.onDestroy()
+        this.finish()
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBackPressed() {
