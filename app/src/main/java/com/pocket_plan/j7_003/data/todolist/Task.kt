@@ -2,8 +2,7 @@ package com.pocket_plan.j7_003.data.todolist
 
 import com.google.gson.annotations.SerializedName
 
-
-data class Task(
+class Task(
     @SerializedName(value = "t")
     var title: String,
 

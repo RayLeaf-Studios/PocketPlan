@@ -73,9 +73,8 @@ class TodoFr : Fragment() {
 
             R.id.item_tasks_undo -> {
 //                undo deletion of last task
-
-                todoListInstance.addFullTask(deletedTask!!)
-                myAdapter.notifyDataSetChanged()
+                val newPos = todoListInstance.addFullTask(deletedTask!!)
+                myAdapter.notifyItemInserted(newPos)
 
                 deletedTask = null
             }
