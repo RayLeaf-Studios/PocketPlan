@@ -29,6 +29,7 @@ class ShoppingFr : Fragment() {
     private lateinit var myActivity: MainActivity
     lateinit var myMultiShoppingFr: MultiShoppingFr
     lateinit var shoppingListInstance: ShoppingList
+    lateinit var shoppingListName: String
 
     lateinit var myAdapter: ShoppingListAdapter
 

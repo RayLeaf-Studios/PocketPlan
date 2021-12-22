@@ -368,13 +368,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-
-        //click on toolbar should trigger rename dialog when in shopping fragment
-        myNewToolbar.setOnClickListener {
-            if(previousFragmentStack.peek() == FT.SHOPPING){
-                multiShoppingFr.dialogRenameCurrentList()
-            }
-        }
     }
 
     /**

@@ -1,37 +1,38 @@
-package com.pocket_plan.j7_003.data.shoppinglist
+    package com.pocket_plan.j7_003.data.shoppinglist
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.*
-import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.pocket_plan.j7_003.MainActivity
-import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.fragmenttags.FT
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.dialog_add_item.view.*
-import kotlinx.android.synthetic.main.dialog_add_shopping_list.*
-import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
-import kotlinx.android.synthetic.main.dialog_add_task.view.*
-import kotlinx.android.synthetic.main.fragment_multi_shopping.*
-import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
-import kotlinx.android.synthetic.main.title_dialog.view.*
-import kotlinx.android.synthetic.main.toolbar.*
+    import android.annotation.SuppressLint
+    import android.content.Context
+    import android.os.Bundle
+    import android.text.Editable
+    import android.text.TextWatcher
+    import android.view.*
+    import android.view.animation.AnimationUtils
+    import android.view.inputmethod.InputMethodManager
+    import android.widget.AdapterView
+    import android.widget.ArrayAdapter
+    import android.widget.AutoCompleteTextView
+    import android.widget.Toast
+    import androidx.appcompat.app.AlertDialog
+    import androidx.fragment.app.Fragment
+    import androidx.fragment.app.FragmentActivity
+    import androidx.viewpager2.adapter.FragmentStateAdapter
+    import androidx.viewpager2.widget.ViewPager2
+    import com.google.android.material.tabs.TabLayout
+    import com.pocket_plan.j7_003.MainActivity
+    import com.pocket_plan.j7_003.R
+    import com.pocket_plan.j7_003.data.fragmenttags.FT
+    import com.pocket_plan.j7_003.data.settings.SettingId
+    import com.pocket_plan.j7_003.data.settings.SettingsManager
+    import kotlinx.android.synthetic.main.dialog_add_item.view.*
+    import kotlinx.android.synthetic.main.dialog_add_shopping_list.*
+    import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
+    import kotlinx.android.synthetic.main.dialog_add_task.view.*
+    import kotlinx.android.synthetic.main.fragment_multi_shopping.*
+    import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
+    import kotlinx.android.synthetic.main.title_dialog.view.*
+    import kotlinx.android.synthetic.main.toolbar.*
 
-class MultiShoppingFr : Fragment() {
+    class MultiShoppingFr : Fragment() {
 
     private lateinit var myMenu: Menu
     private lateinit var myActivity: MainActivity
@@ -55,6 +56,7 @@ class MultiShoppingFr : Fragment() {
     private lateinit var activeShoppingFr: ShoppingFr
 
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -87,28 +89,58 @@ class MultiShoppingFr : Fragment() {
         //todo maybe choose which fragment should be displayed first
         val startPage = 0
         shoppingPager.setCurrentItem(startPage, false)
-        myActivity.changeTitle(shoppingListWrapper[startPage].first)
 
         //create and register onPageChangeCallback on shoppingPager
         val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 currentpos = position
                 activeShoppingFr = shoppingFragments[position]
-                myActivity.changeTitle(shoppingListWrapper[position].first)
                 deletedItem = null
                 updateShoppingMenu()
+                tabLayout.selectTab(tabLayout.getTabAt(position))
             }
         }
         shoppingPager.registerOnPageChangeCallback(pageChangeCallback)
 
+        tabLayout = myView.tab_layout
+        val onTabSelectedListener = object : TabLayout.OnTabSelectedListener{
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    shoppingPager.currentItem = tab.position
+                    currentpos = tab.position
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+        }
+        tabLayout.addOnTabSelectedListener(onTabSelectedListener)
+        updateTabs()
         return myView
     }
 
+    private fun updateTabs(){
+        if(shoppingListWrapper.size == 1){
+            tabLayout.visibility = View.GONE
+        }else{
+            tabLayout.visibility = View.VISIBLE
+        }
+        tabLayout.removeAllTabs()
+        shoppingListWrapper.forEach {
+            tabLayout.addTab(tabLayout.newTab().setText(it.first))
+        }
+    }
     //initialize all necessary fragments
     private fun initializeShoppingFragments() {
         shoppingListWrapper.forEach {
             val newFr = ShoppingFr.newInstance()
             newFr.shoppingListInstance = it.second
+            newFr.shoppingListName = it.first
             newFr.myMultiShoppingFr = this
             shoppingFragments.add(newFr)
         }
@@ -123,7 +155,7 @@ class MultiShoppingFr : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    fun dialogRenameCurrentList() {
+    private fun dialogRenameCurrentList() {
         //inflate the dialog with custom view
         val myDialogView =
             LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_shopping_list, null)
@@ -148,15 +180,16 @@ class MultiShoppingFr : Fragment() {
         myDialogView.btnAddShoppingList.setOnClickListener {
 
             val newName = myDialogView.etAddShoppingList.text.toString()
-            if (newName.trim() == "") {
+            val taken = shoppingListWrapper.contains(newName)
+            if (newName.trim() == "" || taken) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myDialogView.etAddShoppingList.startAnimation(animationShake)
                 return@setOnClickListener
             }
-
             shoppingListWrapper.rename(oldName, newName)
-            myActivity.myNewToolbar.title = newName
+            activeShoppingFr.shoppingListName = newName
+            tabLayout.getTabAt(currentpos)?.text = newName
             myAlertDialog?.dismiss()
         }
 
@@ -185,20 +218,23 @@ class MultiShoppingFr : Fragment() {
 
         myDialogView.btnAddShoppingList.setOnClickListener {
             val newName = myDialogView.etAddShoppingList.text.toString()
-
-            if (newName.trim() == "") {
+            val addResult = shoppingListWrapper.add(newName)
+            if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myDialogView!!.etAddShoppingList.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            shoppingListWrapper.add(newName)
 
             val newFr = ShoppingFr.newInstance()
-            newFr.shoppingListInstance = shoppingListWrapper.getListByName(newName)!!
+            newFr.shoppingListName = newName
             newFr.myMultiShoppingFr = this
+            newFr.shoppingListInstance = shoppingListWrapper.getListByName(newName)!!
 
             shoppingFragments.add(newFr)
+
+            tabLayout.addTab(tabLayout.newTab().setText(newName))
+            tabLayout.visibility = View.VISIBLE
 
             shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
             shoppingPager.currentItem = shoppingListWrapper.size - 1
@@ -220,15 +256,24 @@ class MultiShoppingFr : Fragment() {
             R.id.item_shopping_delete_list -> {
                 val titleId = R.string.shopping_dialog_delete_title
                 val action: () -> Unit = {
-                    shoppingListWrapper.remove(myActivity.myNewToolbar.title.toString())
+                    shoppingListWrapper.remove(activeShoppingFr.shoppingListName)
                     shoppingFragments.remove(activeShoppingFr)
                     shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
+                    //This automatically selects the tab left of the deleted tab
+                    tabLayout.removeTabAt(currentpos)
+                    if(shoppingListWrapper.size==1){
+                        tabLayout.visibility = View.GONE
+                    }
                 }
                 myActivity.dialogConfirmDelete(titleId, action)
             }
 
             R.id.item_shopping_add_list -> {
                 dialogAddShoppingList()
+            }
+
+            R.id.item_shopping_rename_list -> {
+                dialogRenameCurrentList()
             }
 
             R.id.item_shopping_clear_list -> {
