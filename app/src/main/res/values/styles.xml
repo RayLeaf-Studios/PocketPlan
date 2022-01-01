@@ -48,6 +48,14 @@
         <item name="colorPriority2">#E89E2E</item>
         <item name="colorPriority3">#39BF33</item>
 
+        <item name="colorPriority1border">#E62929</item>
+        <item name="colorPriority2border">#E89E2E</item>
+        <item name="colorPriority3border">#39BF33</item>
+
+        <item name="colorPriorityButtonBackground1">?attr/colorBackgroundElevated</item>
+        <item name="colorPriorityButtonBackground2">?attr/colorBackgroundElevated</item>
+        <item name="colorPriorityButtonBackground3">?attr/colorBackgroundElevated</item>
+
         <item name="colorNoteRed">#C52D2D</item>
         <item name="colorNoteYellow">#E4A13B</item>
         <item name="colorNoteGreen">#3DCD37</item>
@@ -153,6 +161,14 @@
         <item name="colorPriority1">#EC7380</item>
         <item name="colorPriority2">#FABB5D</item>
         <item name="colorPriority3">#85CF8A</item>
+
+        <item name="colorPriority1border">?attr/colorPriority1</item>
+        <item name="colorPriority2border">?attr/colorPriority2</item>
+        <item name="colorPriority3border">?attr/colorPriority3</item>
+
+        <item name="colorPriorityButtonBackground1">?attr/colorPriority1</item>
+        <item name="colorPriorityButtonBackground2">?attr/colorPriority2</item>
+        <item name="colorPriorityButtonBackground3">?attr/colorPriority3</item>
 
         <item name="colorNoteRed">#F06273</item>
         <item name="colorNoteYellow">#FFB649</item>

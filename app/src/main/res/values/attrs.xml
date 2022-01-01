@@ -31,6 +31,14 @@
     <attr name="colorPriority2" format="color"/>
     <attr name="colorPriority3" format="color"/>
 
+    <attr name="colorPriority1border" format="color"/>
+    <attr name="colorPriority2border" format="color"/>
+    <attr name="colorPriority3border" format="color"/>
+
+    <attr name="colorPriorityButtonBackground1" format="color"/>
+    <attr name="colorPriorityButtonBackground2" format="color"/>
+    <attr name="colorPriorityButtonBackground3" format="color"/>
+
     <attr name="colorNoteRed" format="color"/>
     <attr name="colorNoteYellow" format="color"/>
     <attr name="colorNoteGreen" format="color"/>

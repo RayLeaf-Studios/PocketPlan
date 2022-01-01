@@ -4,11 +4,12 @@
         <shape>
             <gradient
                 android:angle="180"
-                android:startColor="?attr/colorPriority2"
-                android:endColor="?attr/colorPriority2"
+                android:startColor="?attr/colorPriorityButtonBackground2"
+                android:endColor="?attr/colorPriorityButtonBackground2"
                 android:type="linear"
                 />
             <corners android:radius="5dp"/>
+            <stroke android:width="2dip" android:color="?attr/colorPriority2border"/>
         </shape>
 
     </item>
