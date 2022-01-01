@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import android.provider.Settings
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager

@@ -114,42 +114,6 @@ class MainActivity : AppCompatActivity() {
         return typedValue.data
     }
 
-    override fun onPause() {
-        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            //get current text from edited note
-            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
-            val noteContent = noteFr.getNoteContent()
-            val noteTitle = noteFr.getNoteTitle()
-            //and save it as shared preference
-            PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString("oldNote", noteContent).apply()
-
-            PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString("oldTitle", noteTitle).apply()
-        }
-        super.onPause()
-    }
-
-    override fun onResume() {
-        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            val noteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("oldNote", "")
-            val noteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("oldTitle", "")
-
-            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
-            if (noteContent != null) {
-                noteFr.setNoteContent(noteContent)
-            }
-            if (noteTitle != null) {
-                noteFr.setNoteTitle(noteTitle)
-            }
-        }
-        super.onResume()
-    }
-
-    fun changeTitle(newTitle: String){
-        myNewToolbar.title = newTitle
-    }
-
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -533,6 +497,23 @@ class MainActivity : AppCompatActivity() {
      * OVERRIDE FUNCTIONS
      */
     override fun onDestroy() {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            val noteEditorFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
+            val noteContent = noteEditorFr.getNoteContent()
+            val noteTitle = noteEditorFr.getNoteTitle()
+
+            if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("editingNote", false)){
+                //Save new note, if a note was edited, app was closed, and neither confirm nor delete was chosen
+                    //User now has 2 notes, one unedited, and one including his last edit
+                val oldNoteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteContent", "")
+                val oldNoteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteTitle", "")
+                if(oldNoteContent != noteContent || oldNoteTitle != noteTitle){
+                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+                }
+            }else{
+                noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+            }
+        }
         super.onDestroy()
         this.finish()
     }
