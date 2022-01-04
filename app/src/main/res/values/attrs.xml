@@ -39,6 +39,16 @@
     <attr name="colorPriorityButtonBackground2" format="color"/>
     <attr name="colorPriorityButtonBackground3" format="color"/>
 
+    <attr name="colorPriorityButtonText1" format="color"/>
+    <attr name="colorPriorityButtonText2" format="color"/>
+    <attr name="colorPriorityButtonText3" format="color"/>
+
+    <attr name="colorRoundAccentBorder" format="color"/>
+    <attr name="colorRoundAccentBackground" format="color"/>
+
+    <attr name="colorRoundRedBorder" format="color"/>
+    <attr name="colorRoundRedBackground" format="color"/>
+
     <attr name="colorNoteRed" format="color"/>
     <attr name="colorNoteYellow" format="color"/>
     <attr name="colorNoteGreen" format="color"/>

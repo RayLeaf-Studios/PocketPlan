@@ -56,6 +56,16 @@
         <item name="colorPriorityButtonBackground2">?attr/colorBackgroundElevated</item>
         <item name="colorPriorityButtonBackground3">?attr/colorBackgroundElevated</item>
 
+        <item name="colorPriorityButtonText1">?attr/colorPriority1</item>
+        <item name="colorPriorityButtonText2">?attr/colorPriority2</item>
+        <item name="colorPriorityButtonText3">?attr/colorPriority3</item>
+
+        <item name="colorRoundAccentBackground">?attr/colorBackgroundElevated</item>
+        <item name="colorRoundAccentBorder">?attr/colorAccent</item>
+
+        <item name="colorRoundRedBackground">?attr/colorBackgroundElevated</item>
+        <item name="colorRoundRedBorder">?attr/colorButtonCancel</item>
+
         <item name="colorNoteRed">#C52D2D</item>
         <item name="colorNoteYellow">#E4A13B</item>
         <item name="colorNoteGreen">#3DCD37</item>
@@ -169,6 +179,16 @@
         <item name="colorPriorityButtonBackground1">?attr/colorPriority1</item>
         <item name="colorPriorityButtonBackground2">?attr/colorPriority2</item>
         <item name="colorPriorityButtonBackground3">?attr/colorPriority3</item>
+
+        <item name="colorPriorityButtonText1">?attr/colorBackground</item>
+        <item name="colorPriorityButtonText2">?attr/colorBackground</item>
+        <item name="colorPriorityButtonText3">?attr/colorBackground</item>
+
+        <item name="colorRoundAccentBackground">?attr/colorAccent</item>
+        <item name="colorRoundAccentBorder">?attr/colorAccent</item>
+
+        <item name="colorRoundRedBackground">?attr/colorButtonCancel</item>
+        <item name="colorRoundRedBorder">?attr/colorButtonCancel</item>
 
         <item name="colorNoteRed">#F06273</item>
         <item name="colorNoteYellow">#FFB649</item>
