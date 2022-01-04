@@ -12,7 +12,6 @@
             android:id="@+id/etAddShoppingList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:maxLength="11"
             android:inputType="textCapSentences"
             android:isScrollContainer="false"

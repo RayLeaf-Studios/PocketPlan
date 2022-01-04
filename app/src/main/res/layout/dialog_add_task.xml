@@ -13,7 +13,6 @@
         android:id="@+id/etxTitleAddTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints=""
         android:hint="@string/tasksAddHint"
         android:inputType="textCapSentences"
         android:isScrollContainer="false"
