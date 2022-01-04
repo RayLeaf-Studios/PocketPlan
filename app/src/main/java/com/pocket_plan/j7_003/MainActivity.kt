@@ -503,15 +503,19 @@ class MainActivity : AppCompatActivity() {
             val noteTitle = noteEditorFr.getNoteTitle()
 
             if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("editingNote", false)){
-                //Save new note, if a note was edited, app was closed, and neither confirm nor delete was chosen
-                    //User now has 2 notes, one unedited, and one including his last edit
+                //EDITED NOTE
+                //Note was edited, App was closed => Save additional note including the edit
                 val oldNoteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteContent", "")
                 val oldNoteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteTitle", "")
                 if(oldNoteContent != noteContent || oldNoteTitle != noteTitle){
                     noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
                 }
             }else{
-                noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+                //NEW NOTE
+                //App was closed during the creation of a new note => save it if its not empty
+                if(noteContent.trim()!=""||noteTitle.trim()!=""){
+                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+                }
             }
         }
         super.onDestroy()
