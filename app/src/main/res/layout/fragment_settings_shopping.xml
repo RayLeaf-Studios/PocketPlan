@@ -203,6 +203,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -212,25 +213,28 @@
                     android:text="@string/suggest_similar_items_for_unknown_names"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swSuggestSimilar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tvSuggestSimilarItems"
-                    android:text="@string/e_g_suggest_apple_when_aplle_is_entered"
+                    android:maxLines="2"
+                    android:text="Z.b. schlage 'Apfel' vor wenn 'Applfe' eingegeben wurde"
                     android:textColor="?attr/colorHint"
-                    app:layout_constraintStart_toStartOf="@id/tvSuggestSimilarItems"/>
+                    app:layout_constraintEnd_toEndOf="@+id/tvSuggestSimilarItems"
+                    app:layout_constraintStart_toStartOf="@id/tvSuggestSimilarItems"
+                    app:layout_constraintTop_toBottomOf="@id/tvSuggestSimilarItems" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swSuggestSimilar"
-                    app:layout_constraintTop_toTopOf="@id/tvSuggestSimilarItems"
-                    app:layout_constraintBottom_toBottomOf="@id/tvSuggestSimilarItems"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvSuggestSimilarItems"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 

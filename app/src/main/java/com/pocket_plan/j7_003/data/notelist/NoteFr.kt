@@ -263,6 +263,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
     private val myNoteFr = noteFr
+    val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -329,7 +330,14 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             else -> 0f
         }
 
-        holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(currentNote.color.colorCode))
+        if (!dark){
+            holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(currentNote.color.colorCode))
+            return
+        }
+
+        holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorBackgroundElevated))
+        holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
+        holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
     }
 
     override fun getItemCount(): Int {

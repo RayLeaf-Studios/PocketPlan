@@ -27,11 +27,9 @@ import kotlin.math.min
 
 class ShoppingFr : Fragment() {
     private lateinit var myActivity: MainActivity
-    lateinit var autoCompleteTv: AutoCompleteTextView
     lateinit var myMultiShoppingFr: MultiShoppingFr
     lateinit var shoppingListInstance: ShoppingList
-
-
+    lateinit var shoppingListName: String
 
     lateinit var myAdapter: ShoppingListAdapter
 
@@ -186,7 +184,7 @@ class ShoppingFr : Fragment() {
                         }
 
                         //flip checked state of this category
-                        shoppingListInstance.equalize(tag)
+                        shoppingListInstance.equalizeCheckedStates(tag)
                         myAdapter.notifyItemChanged(position)
                         shoppingListInstance.save()
                     }
@@ -230,7 +228,7 @@ class ShoppingFr : Fragment() {
      * Helper function to prevent scrolling due to notifyMove
      */
     fun prepareForMove() {
-        firstPos = layoutManager.findFirstCompletelyVisibleItemPosition()
+        firstPos = layoutManager.findFirstVisibleItemPosition()
         offsetTop = 0
         if (firstPos >= 0) {
             val firstView = layoutManager.findViewByPosition(firstPos)
@@ -371,7 +369,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         holder.tvNumberOfItems.setOnClickListener {
             //get new checked state of all items (result)
-            val newAllChecked = shoppingListInstance.equalize(tag)
+            val newAllChecked = shoppingListInstance.equalizeCheckedStates(tag)
             if (collapseCheckedSublists) {
                 if (newAllChecked && shoppingListInstance.isTagExpanded(tag)) {
                     shoppingListInstance.flipExpansionState(tag)
@@ -436,6 +434,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
                 "Bw" -> Pair(R.attr.colorBackwaren, R.attr.colorBackwarenL)
                 "Km" -> Pair(R.attr.colorKühlregalMilch, R.attr.colorKühlregalMilchL)
                 "Kf" -> Pair(R.attr.colorKühlregalFleisch, R.attr.colorKühlregalFleischL)
+                "Ve" -> Pair(R.attr.colorVegan, R.attr.colorVeganL)
                 "Tk" -> Pair(R.attr.colorTiefkühl, R.attr.colorTiefkühlL)
                 "Ko" -> Pair(R.attr.colorKonservenFertiges, R.attr.colorKonservenFertigesL)
                 "Fr" -> Pair(R.attr.colorFrühstück, R.attr.colorFrühstückL)

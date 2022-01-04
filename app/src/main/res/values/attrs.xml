@@ -31,6 +31,24 @@
     <attr name="colorPriority2" format="color"/>
     <attr name="colorPriority3" format="color"/>
 
+    <attr name="colorPriority1border" format="color"/>
+    <attr name="colorPriority2border" format="color"/>
+    <attr name="colorPriority3border" format="color"/>
+
+    <attr name="colorPriorityButtonBackground1" format="color"/>
+    <attr name="colorPriorityButtonBackground2" format="color"/>
+    <attr name="colorPriorityButtonBackground3" format="color"/>
+
+    <attr name="colorPriorityButtonText1" format="color"/>
+    <attr name="colorPriorityButtonText2" format="color"/>
+    <attr name="colorPriorityButtonText3" format="color"/>
+
+    <attr name="colorRoundAccentBorder" format="color"/>
+    <attr name="colorRoundAccentBackground" format="color"/>
+
+    <attr name="colorRoundRedBorder" format="color"/>
+    <attr name="colorRoundRedBackground" format="color"/>
+
     <attr name="colorNoteRed" format="color"/>
     <attr name="colorNoteYellow" format="color"/>
     <attr name="colorNoteGreen" format="color"/>
@@ -80,6 +98,8 @@
     <attr name="colorKühlregalMilchL" format="color"/>
     <attr name="colorKühlregalFleisch" format="color"/>
     <attr name="colorKühlregalFleischL" format="color"/>
+    <attr name="colorVegan" format="color"/>
+    <attr name="colorVeganL" format="color"/>
     <attr name="colorTiefkühl" format="color"/>
     <attr name="colorTiefkühlL" format="color"/>
     <attr name="colorKonservenFertiges" format="color"/>

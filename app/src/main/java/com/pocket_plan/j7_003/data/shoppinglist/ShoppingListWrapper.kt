@@ -5,6 +5,8 @@ import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple wrapper for shopping lists to easily manage multiple instances of them.
@@ -62,9 +64,6 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
      * @return A boolean depending on the success of the removal
      */
     fun remove(name: String): Boolean {
-        if (this.size == 1)
-            return false
-
         var toDelete: Pair<String, ShoppingList>? = null
         this.forEach {
             if (it.first == name)
@@ -103,7 +102,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
      */
     fun contains(name: String): Boolean {
         this.forEach {
-            if (it.first == name)
+        if (it.first.equals(name.trim(), ignoreCase = true))
                 return true
         }
         return false
@@ -143,7 +142,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
             object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
         )
 
-        val shoppingList: ShoppingList = ShoppingList(this)
+        val shoppingList = ShoppingList(this)
         list.forEach {
             shoppingList.add(it)
         }

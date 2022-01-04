@@ -92,7 +92,7 @@ class AlarmHandler {
                 context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             if (isSet) {
-                alarmManager.setExact(
+                alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
                     reminderTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
                     pendingIntent

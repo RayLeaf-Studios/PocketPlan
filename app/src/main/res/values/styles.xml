@@ -44,15 +44,33 @@
         <item name="colorGoToSleep">#CC212F</item>
         <item name="colorSun">#F4C01F</item>
 
-        <item name="colorPriority1">#8E0303</item>
-        <item name="colorPriority2">#D7C66A07</item>
-        <item name="colorPriority3">#06591D</item>
+        <item name="colorPriority1">#E62929</item>
+        <item name="colorPriority2">#E89E2E</item>
+        <item name="colorPriority3">#39BF33</item>
 
-        <item name="colorNoteRed">#8C1616</item>
-        <item name="colorNoteYellow">#BF8002</item>
-        <item name="colorNoteGreen">#036854</item>
-        <item name="colorNoteBlue">#023D97</item>
-        <item name="colorNotePurple">#4D2B80</item>
+        <item name="colorPriority1border">#E62929</item>
+        <item name="colorPriority2border">#E89E2E</item>
+        <item name="colorPriority3border">#39BF33</item>
+
+        <item name="colorPriorityButtonBackground1">?attr/colorBackgroundElevated</item>
+        <item name="colorPriorityButtonBackground2">?attr/colorBackgroundElevated</item>
+        <item name="colorPriorityButtonBackground3">?attr/colorBackgroundElevated</item>
+
+        <item name="colorPriorityButtonText1">?attr/colorPriority1</item>
+        <item name="colorPriorityButtonText2">?attr/colorPriority2</item>
+        <item name="colorPriorityButtonText3">?attr/colorPriority3</item>
+
+        <item name="colorRoundAccentBackground">?attr/colorBackgroundElevated</item>
+        <item name="colorRoundAccentBorder">?attr/colorAccent</item>
+
+        <item name="colorRoundRedBackground">?attr/colorBackgroundElevated</item>
+        <item name="colorRoundRedBorder">?attr/colorButtonCancel</item>
+
+        <item name="colorNoteRed">#C52D2D</item>
+        <item name="colorNoteYellow">#E4A13B</item>
+        <item name="colorNoteGreen">#3DCD37</item>
+        <item name="colorNoteBlue">#2581E3</item>
+        <item name="colorNotePurple">#BA2B7D</item>
 
         <item name="colorMonth1">#024B98</item>
         <item name="colorMonth2">#1584C1</item>
@@ -81,6 +99,8 @@
         <item name="colorKühlregalMilchL">#9F9F9F</item>
         <item name="colorKühlregalFleisch">#750808</item>
         <item name="colorKühlregalFleischL">#981A1A</item>
+        <item name="colorVegan">#7a9e0d</item>
+        <item name="colorVeganL">#94BA21</item>
         <item name="colorTiefkühl">#E94877C6</item>
         <item name="colorTiefkühlL">#5BA1E1</item>
         <item name="colorKonservenFertiges">#CD272727</item>
@@ -93,8 +113,8 @@
         <item name="colorHaushaltL">#216150</item>
         <item name="colorSnacks">#731473</item>
         <item name="colorSnacksL">#912591</item>
-        <item name="colorBackzutaten">#BA512D08</item>
-        <item name="colorBackzutatenL">#47270C</item>
+        <item name="colorBackzutaten">#BA570F08</item>
+        <item name="colorBackzutatenL">#502B0D</item>
         <item name="colorDrogerieKosmetik">#CB269780</item>
         <item name="colorDrogerieKosmetikL">#3AAE97</item>
         <item name="colorAlkoholTabak">#BE3225A8</item>
@@ -152,6 +172,24 @@
         <item name="colorPriority2">#FABB5D</item>
         <item name="colorPriority3">#85CF8A</item>
 
+        <item name="colorPriority1border">?attr/colorPriority1</item>
+        <item name="colorPriority2border">?attr/colorPriority2</item>
+        <item name="colorPriority3border">?attr/colorPriority3</item>
+
+        <item name="colorPriorityButtonBackground1">?attr/colorPriority1</item>
+        <item name="colorPriorityButtonBackground2">?attr/colorPriority2</item>
+        <item name="colorPriorityButtonBackground3">?attr/colorPriority3</item>
+
+        <item name="colorPriorityButtonText1">?attr/colorBackground</item>
+        <item name="colorPriorityButtonText2">?attr/colorBackground</item>
+        <item name="colorPriorityButtonText3">?attr/colorBackground</item>
+
+        <item name="colorRoundAccentBackground">?attr/colorAccent</item>
+        <item name="colorRoundAccentBorder">?attr/colorAccent</item>
+
+        <item name="colorRoundRedBackground">?attr/colorButtonCancel</item>
+        <item name="colorRoundRedBorder">?attr/colorButtonCancel</item>
+
         <item name="colorNoteRed">#F06273</item>
         <item name="colorNoteYellow">#FFB649</item>
         <item name="colorNoteGreen">#77BD7A</item>
@@ -185,6 +223,8 @@
         <item name="colorKühlregalMilchL">#CFCFCF</item>
         <item name="colorKühlregalFleisch">#9A2020</item>
         <item name="colorKühlregalFleischL">#C84F4F</item>
+        <item name="colorVegan">#98C511</item>
+        <item name="colorVeganL">#A6CF26</item>
         <item name="colorTiefkühl">#E979A3EA</item>
         <item name="colorTiefkühlL">#8EC2F1</item>
         <item name="colorKonservenFertiges">#CD333333</item>

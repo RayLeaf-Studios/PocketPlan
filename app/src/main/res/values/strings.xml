@@ -141,9 +141,9 @@
     <string name="backupImportJson">Import</string>
     <string name="birthdaysNoReminder">\nNo reminder set</string>
     <string name="howtoTodo">Swipe a task left or right to delete it.\n\nTap a task to edit it.\n\nLongpress and drag a task to re-order it.</string>
-    <string name="howtoNotes">Tap a note to edit it.\n\nNewly added, edited or viewed notes are moved to the top.</string>
+    <string name="howtoNotes">Tap a note to edit it.\n\nNewly added, edited or viewed notes are moved to the top.\n\nIf the app is closed while editing a note without saving it, an additional edited version is saved, so you can choose between keeping or discarding your edit.\n\nIf the app is closed while creating a new note without saving it, it is saved automatically.</string>
     <string name="howtoBirthdays">Tap a birthday to show additional information.\n\nLongpress a birthday to edit it.\n\nSwipe a birthday left or right to delete it.\n\nIf a birthday is upcoming in 30 days or less, the remaining days will be displayed in the list.\n\nIf a reminder is set for x days prior and the birthday is upcoming in x or less days, it is color-highlighted in the list.</string>
-    <string name="howtoShopping">Swipe an item left or right to delete it.\n\nLongpress and drag a category to re-order it.\n\nTap the circle at the top of a category to check all contained items.\n\nYou can add a shopping list via the menu at the top, and switch between lists by swiping left or right.\n\nTapping the name of a list allows you to rename it.</string>
+    <string name="howtoShopping">Swipe an item left or right to delete it.\n\nLongpress and drag a category to re-order it.\n\nTap the circle at the top of a category to check all contained items.\n\nYou can add additional shopping lists via the menu at the top.</string>
     <string name="howtoSleep">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>
     <string name="howtoHome">If the sleepreminder is enabled, an indicator at the top will tell you how much time you got, until you should go to sleep.\n\nThe task panel below will display tasks of priority one.\n\nBelow that, the birthday panel will display current birthdays.</string>
     <string name="settingsHelp">HowTo</string>
@@ -224,6 +224,7 @@
         <item>Bw</item>
         <item>Km</item>
         <item>Kf</item>
+        <item>Ve</item>
         <item>Tk</item>
         <item>Ko</item>
         <item>Fr</item>
@@ -243,6 +244,7 @@
         <item>Bread &amp; Pastries</item>
         <item>Dairy</item>
         <item>Meat</item>
+        <item>Vegan</item>
         <item>Frozen</item>
         <item>Canned &amp; ready-made</item>
         <item>Breakfast &amp; Co.</item>
@@ -304,8 +306,8 @@
     <string name="shopping_option_add_list">Add list</string>
     <string name="shopping_menu_delete_list">Delete List</string>
     <string name="shopping_dialog_rename_title">Rename List</string>
-    <string name="shoppingToastZeroListWarning">There must be at least one list.</string>
     <string name="shopping_dialog_delete_title">Delete list?</string>
     <string name="change_birthday_notification_time">Change birthday notification time</string>
+    <string name="shopping_menu_rename_list">Rename list</string>
 
 </resources>

@@ -116,9 +116,9 @@
     <string name="birthdaysReminderActivated">\nErinnerung aktiviert</string>
 
     <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu löschen.\n\nTippe eine Aufgabe an, um sie zu bearbeiten.\n\nHalte eine Aufgabe gedrückt, um sie umzusortieren.</string>
-    <string name="howtoNotes">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.</string>
+    <string name="howtoNotes">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.\n\nWird die App während der Bearbeitung einer Notiz geschlossen, wird eine zusätzliche bearbeitete Version der Notiz gespeichert, so kannst du später Entscheiden, ob du deine Änderungen behalten oder verwerfen willst.\n\nWird die App während der Erstellung einer neuen Notiz geschlossen, wird diese automatisch gespeichert.</string>
     <string name="howtoBirthdays">Tippe auf einen Geburtstag, um zusätzliche Informationen anzuzeigen.\n\nHalte einen Geburtstag gedrückt, um ihn zu bearbeiten.\n\nWische einen Geburtstag zur Seite, um ihn zu löschen.\n\nWenn ein Geburtstag in 30 oder weniger Tagen ansteht, werden die verbleibenden Tage in der Liste angezeigt.\n\nWenn eine Erinnerung für x Tage vorher gesetzt ist und der Geburtstag in x oder weniger Tagen ansteht, wird er in der Liste farblich markiert.</string>
-    <string name="howtoShopping">Wische einen Artikel zur Seite, um ihn zu löschen\n\nHalte eine Kategorie gedrückt, um sie umzusortieren.\n\nTippe auf den Kreis oben links, um alle Artikel einer Kategorie abzuhaken.\n\nÜber das Menü oben rechts kannst du eine neue Liste hinzufügen. Durch wischen nach links oder rechts kannst du zwischen Listen wechseln.\n\nTippe auf den Namen einer Liste, um sie umzubenennen. </string>
+    <string name="howtoShopping">Wische einen Artikel zur Seite, um ihn zu löschen\n\nHalte eine Kategorie gedrückt, um sie umzusortieren.\n\nTippe auf den Kreis oben links, um alle Artikel einer Kategorie abzuhaken.\n\nÜber das Menü oben rechts kannst du weitere Listen hinzufügen.</string>
     <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
     <string name="howtoHome">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
 
@@ -149,9 +149,9 @@
     <string name="shopping_option_add_list">Liste hinzufügen</string>
     <string name="shopping_menu_delete_list">Liste löschen</string>
     <string name="shopping_dialog_rename_title">Liste umbenennen</string>
-    <string name="shoppingToastZeroListWarning">Es muss mindestens eine Liste geben.</string>
     <string name="shopping_dialog_delete_title">Liste löschen?</string>
     <string name="change_birthday_notification_time">Zeit für Benachrichtigungen ändern</string>
+    <string name="shopping_menu_rename_list">Liste umbenennen</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
@@ -212,6 +212,7 @@
         <item>Bw</item>
         <item>Km</item>
         <item>Kf</item>
+        <item>Ve</item>
         <item>Tk</item>
         <item>Ko</item>
         <item>Fr</item>
@@ -231,6 +232,7 @@
         <item>Backwaren</item>
         <item>Kühlregal Milch</item>
         <item>Kühlregal Fleisch</item>
+        <item>Vegan</item>
         <item>Tiefkühl</item>
         <item>Konserven &amp; Fertiges</item>
         <item>Frühstück &amp; Co.</item>

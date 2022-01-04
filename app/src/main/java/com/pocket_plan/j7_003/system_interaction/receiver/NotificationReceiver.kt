@@ -9,6 +9,8 @@ import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
 import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import org.threeten.bp.LocalDate
@@ -30,7 +32,9 @@ class NotificationReceiver : BroadcastReceiver() {
             "SReminder" -> checkSleepNotification(intent)
         }
 
-        AlarmHandler.setBirthdayAlarms(context = context)
+        SettingsManager.init()
+        val time = SettingsManager.getSetting(SettingId.BIRTHDAY_NOTIFICATION_TIME) as String
+        AlarmHandler.setBirthdayAlarms(time, context = context)
     }
 
     private fun checkSleepNotification(intent: Intent) {

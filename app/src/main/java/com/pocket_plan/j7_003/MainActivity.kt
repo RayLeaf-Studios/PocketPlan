@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         //contents for shopping list
         lateinit var itemNameList: ArrayList<String>
-        var unitChanged: Boolean = false
 
         val previousFragmentStack: Stack<FT> = Stack()
         lateinit var bottomNavigation: BottomNavigationView
@@ -115,48 +114,11 @@ class MainActivity : AppCompatActivity() {
         return typedValue.data
     }
 
-    override fun onPause() {
-        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            //get current text from edited note
-            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
-            val noteContent = noteFr.getNoteContent()
-            val noteTitle = noteFr.getNoteTitle()
-            //and save it as shared preference
-            PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString("oldNote", noteContent).apply()
-
-            PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString("oldTitle", noteTitle).apply()
-        }
-        super.onPause()
-    }
-
-    override fun onResume() {
-        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            val noteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("oldNote", "")
-            val noteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("oldTitle", "")
-
-            val noteFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
-            if (noteContent != null) {
-                noteFr.setNoteContent(noteContent)
-            }
-            if (noteTitle != null) {
-                noteFr.setNoteTitle(noteTitle)
-            }
-        }
-        super.onResume()
-    }
-
-    fun changeTitle(newTitle: String){
-        myNewToolbar.title = newTitle
-    }
-
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (previousFragmentStack.isEmpty()) {
-            previousFragmentStack.push(FT.EMPTY)
-        }
+        previousFragmentStack.clear()
+        previousFragmentStack.push(FT.EMPTY)
 
         StorageHandler.path = this.filesDir.absolutePath
 
@@ -195,7 +157,8 @@ class MainActivity : AppCompatActivity() {
         //IMPORTANT: ORDER IS CRITICAL HERE
         //Initialize Time api and AlarmHandler
         AndroidThreeTen.init(this)
-        AlarmHandler.setBirthdayAlarms(context = this)
+        val time = SettingsManager.getSetting(SettingId.BIRTHDAY_NOTIFICATION_TIME) as String
+        AlarmHandler.setBirthdayAlarms(time, context = this)
 
         //Initialize toolbar
         setSupportActionBar(myNewToolbar)
@@ -262,6 +225,10 @@ class MainActivity : AppCompatActivity() {
         //initialize bottom navigation
         bottomNavigation = findViewById(R.id.btm_nav)
 
+        //preload add item dialog to reduce loading time
+        multiShoppingFr = MultiShoppingFr()
+        multiShoppingFr.shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
+
         //When activity is entered via special intent, change to respective fragment
         when (intent.extras?.get("NotificationEntry").toString()) {
             "birthdays" -> changeToFragment(FT.BIRTHDAYS)
@@ -276,6 +243,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
 
         //Initialize remaining fragments
         noteFr = NoteFr()
@@ -309,10 +278,6 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        //preload add item dialog to reduce loading time
-        multiShoppingFr = MultiShoppingFr()
-        multiShoppingFr.shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
-        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
@@ -367,15 +332,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-
-        //click on toolbar should trigger rename dialog when in shopping fragment
-        myNewToolbar.setOnClickListener {
-            if(previousFragmentStack.peek() == FT.SHOPPING){
-                multiShoppingFr.dialogRenameCurrentList()
-            }
-        }
-
-
     }
 
     /**
@@ -540,6 +496,31 @@ class MainActivity : AppCompatActivity() {
     /**
      * OVERRIDE FUNCTIONS
      */
+    override fun onDestroy() {
+        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
+            val noteEditorFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
+            val noteContent = noteEditorFr.getNoteContent()
+            val noteTitle = noteEditorFr.getNoteTitle()
+
+            if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("editingNote", false)){
+                //EDITED NOTE
+                //Note was edited, App was closed => Save additional note including the edit
+                val oldNoteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteContent", "")
+                val oldNoteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteTitle", "")
+                if(oldNoteContent != noteContent || oldNoteTitle != noteTitle){
+                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+                }
+            }else{
+                //NEW NOTE
+                //App was closed during the creation of a new note => save it if its not empty
+                if(noteContent.trim()!=""||noteTitle.trim()!=""){
+                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+                }
+            }
+        }
+        super.onDestroy()
+        this.finish()
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBackPressed() {

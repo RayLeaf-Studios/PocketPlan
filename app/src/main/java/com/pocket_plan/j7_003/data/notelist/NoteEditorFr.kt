@@ -74,6 +74,8 @@ class NoteEditorFr : Fragment() {
         if (editNoteHolder != null) {
             myEtTitle.setText(editNoteHolder!!.title)
             myEtContent.setText(editNoteHolder!!.content)
+            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("editNoteContent", editNoteHolder!!.content).apply()
+            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("editNoteTitle", editNoteHolder!!.title).apply()
             myEtTitle.clearFocus()
         } else {
             myEtContent.requestFocus()
