@@ -152,6 +152,8 @@
     <string name="shopping_dialog_delete_title">Liste löschen?</string>
     <string name="change_birthday_notification_time">Zeit für Benachrichtigungen ändern</string>
     <string name="shopping_menu_rename_list">Liste umbenennen</string>
+    <string name="remove_checked_items">Abgehaktes löschen</string>
+    <string name="shopping_dialog_remove_checked">Abgehakte Artikel löschen?</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

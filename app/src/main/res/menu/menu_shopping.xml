@@ -22,6 +22,10 @@
         android:title="@string/shopping_option_uncheck_all"
         app:showAsAction="never" />
     <item
+        android:id="@+id/item_shopping_remove_checked"
+        android:title="@string/remove_checked_items"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/item_shopping_undo"
         android:icon="@drawable/ic_action_undo"
         android:title=""

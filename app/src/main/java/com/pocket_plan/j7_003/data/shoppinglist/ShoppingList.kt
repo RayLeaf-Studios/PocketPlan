@@ -179,6 +179,17 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
         save()
     }
 
+        /**
+         * Removes all checked items from shopping list
+         */
+        fun removeCheckedItems() {
+            this.forEach { e ->
+                e.second.removeAll { item -> item.checked && e.second.indexOf(item) != 0 }
+            }
+            this.removeAll{e -> e.second.size == 1}
+            save()
+        }
+
     /**
      * Tries to fetch the length of the sublist with given tag if the sublist exists.
      * @param tag The tag the sublist is supposed to have.

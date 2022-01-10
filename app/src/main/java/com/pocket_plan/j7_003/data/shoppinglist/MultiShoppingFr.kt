@@ -282,6 +282,10 @@
                 dialogShoppingClear()
             }
 
+            R.id.item_shopping_remove_checked -> {
+                dialogRemoveCheckedItems()
+            }
+
             R.id.item_shopping_uncheck_all -> {
                 //uncheck all shopping items
                 activeShoppingFr.shoppingListInstance.uncheckAll()
@@ -694,6 +698,17 @@
         myActivity.dialogConfirmDelete(titleId, action)
     }
 
+    @SuppressLint("InflateParams")
+    private fun dialogRemoveCheckedItems() {
+        val titleId = R.string.shopping_dialog_remove_checked
+        val action: () -> Unit = {
+            activeShoppingFr.shoppingListInstance.removeCheckedItems()
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+            updateShoppingMenu()
+        }
+        myActivity.dialogConfirmDelete(titleId, action)
+    }
+
     fun updateExpandAllIcon() {
         myMenu.findItem(R.id.item_shopping_expand_all)?.isVisible =
             activeShoppingFr.shoppingListInstance.somethingsCollapsed() && !(SettingsManager.getSetting(
@@ -713,10 +728,16 @@
         updateExpandAllIcon()
         updateCollapseAllIcon()
         updateDeleteListIcon()
+        updateRemoveChecked()
     }
 
     private fun updateDeleteListIcon() {
         myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible = shoppingListWrapper.size > 1
+    }
+
+    private fun updateRemoveChecked() {
+        myMenu.findItem(R.id.item_shopping_remove_checked)?.isVisible =
+            activeShoppingFr.shoppingListInstance.somethingIsChecked()
     }
 
     private fun updateUndoItemIcon() {
