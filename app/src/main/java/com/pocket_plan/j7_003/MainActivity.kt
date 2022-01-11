@@ -124,9 +124,6 @@ class MainActivity : AppCompatActivity() {
 
         SettingsManager.init()
 
-        //load default values for settings in case none have been set yet
-        loadDefaultSettings()
-
         //set correct language depending on setting
         val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
             0.0 -> "en"
@@ -573,43 +570,6 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    @SuppressLint("InflateParams")
-
-    fun loadDefaultSettings() {
-        setDefault(SettingId.NOTE_COLUMNS, "2")
-        setDefault(SettingId.NOTE_LINES, 10.0)
-        setDefault(SettingId.FONT_SIZE, "18")
-        setDefault(SettingId.CLOSE_ITEM_DIALOG, false)
-        setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
-        setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, true)
-        setDefault(SettingId.MOVE_CHECKED_DOWN, true)
-        setDefault(SettingId.SHAPES_ROUND, true)
-        setDefault(SettingId.SHAKE_TASK_HOME, true)
-        setDefault(SettingId.THEME_DARK, false)
-        setDefault(SettingId.NOTES_SWIPE_DELETE, true)
-        setDefault(SettingId.USE_SYSTEM_THEME, true)
-        val languageNumber = when (Locale.getDefault().displayLanguage) {
-            Locale.GERMAN.displayLanguage -> {
-                //german
-                1.0
-            }
-            //english
-            else -> 0.0
-        }
-        setDefault(SettingId.LANGUAGE, languageNumber)
-        setDefault(SettingId.BIRTHDAY_SHOW_MONTH, true)
-        setDefault(SettingId.BIRTHDAY_COLORS_SOUTH, false)
-        setDefault(SettingId.SUGGEST_SIMILAR_ITEMS, true)
-        setDefault(SettingId.PREVIEW_BIRTHDAY, true)
-        setDefault(SettingId.BIRTHDAY_NOTIFICATION_TIME, "12:00")
-    }
-
-    private fun setDefault(setting: SettingId, value: Any) {
-        if (SettingsManager.getSetting(setting) == null) {
-            SettingsManager.addSetting(setting, value)
-        }
     }
 
     /**

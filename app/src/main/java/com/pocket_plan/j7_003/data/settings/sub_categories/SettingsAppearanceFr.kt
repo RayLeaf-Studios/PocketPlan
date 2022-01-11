@@ -243,8 +243,7 @@ class SettingsAppearanceFr : Fragment() {
 
         clResetToDefault.setOnClickListener {
             val action: () -> Unit = {
-                SettingsManager.settings.clear()
-                myActivity.loadDefaultSettings()
+                SettingsManager.restoreDefault()
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("NotificationEntry", "appearance")
                 startActivity(intent)
