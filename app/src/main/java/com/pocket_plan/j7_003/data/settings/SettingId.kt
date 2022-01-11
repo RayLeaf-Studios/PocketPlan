@@ -12,6 +12,7 @@ enum class SettingId(val default: Any) {
     CLOSE_ITEM_DIALOG(false),
     MOVE_CHECKED_DOWN(true),
     THEME_DARK(false),
+    DARK_BORDER_STYLE(2.0),
     SHAPES_ROUND(true),
     SHAKE_TASK_HOME(true),
     NOTES_SWIPE_DELETE(false),

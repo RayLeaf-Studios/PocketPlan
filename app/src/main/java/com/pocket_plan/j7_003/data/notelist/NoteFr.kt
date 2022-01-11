@@ -329,13 +329,30 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             true -> cr
             else -> 0f
         }
+        holder.itemView.cvNoteBg.radius = holder.cvNoteCard.radius
 
         if (!dark){
-            holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(currentNote.color.colorCode))
+            holder.itemView.cvNoteCard.setCardBackgroundColor(
+                myActivity.colorForAttr(currentNote.color.colorCode))
+            holder.itemView.cvNoteBg.setCardBackgroundColor(
+                myActivity.colorForAttr(currentNote.color.colorCode))
             return
         }
 
+        val cbor = when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
+            2.0 -> currentNote.color.colorCode
+            1.0 -> R.attr.colorBackgroundElevated
+            3.0 -> {
+                holder.itemView.cvNoteCard.setCardBackgroundColor(
+                    myActivity.colorForAttr(currentNote.color.colorCode))
+                return
+            }
+            else -> currentNote.color.colorCode
+        }
+
+        holder.itemView.cvNoteBg.setCardBackgroundColor(myActivity.colorForAttr(cbor))
         holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorBackgroundElevated))
+
         holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
         holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
     }

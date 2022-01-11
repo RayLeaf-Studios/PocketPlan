@@ -410,6 +410,7 @@ class TodoTaskAdapter(activity: MainActivity) :
                 myActivity.colorForAttr(attr.colorHint)
             )
             holder.itemView.crvTask.setCardBackgroundColor(myActivity.colorForAttr(attr.colorCheckedTask))
+            holder.itemView.crvBg.setCardBackgroundColor(myActivity.colorForAttr(attr.colorCheckedTask))
         } else {
             //Display the task as unchecked: Uncheck checkbox, remove strike-through of text, initialize correct colors
             holder.itemView.cbTask.isChecked = false
@@ -417,20 +418,28 @@ class TodoTaskAdapter(activity: MainActivity) :
 
             val taskTextColor = if (dark) {
                 //colored task text when in dark theme
-                when (listInstance.getTask(holder.adapterPosition).priority) {
-                    1 -> attr.colorPriority1
-                    2 -> attr.colorPriority2
-                    else -> attr.colorPriority3
-                }
+                if (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) == 3.0)
+                    attr.colorOnBackGround
+                else when (listInstance.getTask(holder.adapterPosition).priority) {
+                        1 -> attr.colorPriority1
+                        2 -> attr.colorPriority2
+                        else -> attr.colorPriority3
+                    }
             } else {
                 //white text when in light theme
                 attr.colorBackground
             }
 
-            val taskBackgroundColor = if(dark){
+            val taskBackgroundColor = if (dark) {
                 //dark background in dark theme
-                attr.colorBackgroundElevated
-            }else{
+                if (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) != 3.0)
+                    attr.colorBackgroundElevated
+                else when (listInstance.getTask(holder.adapterPosition).priority) {
+                        1 -> attr.colorPriority1
+                        2 -> attr.colorPriority2
+                        else -> attr.colorPriority3
+                    }
+            } else {
                 //colored background in light theme
                 when (listInstance.getTask(holder.adapterPosition).priority) {
                     1 -> attr.colorPriority1
@@ -439,12 +448,24 @@ class TodoTaskAdapter(activity: MainActivity) :
                 }
             }
 
+            val taskBorderColor = if (dark) {
+                when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
+                    1.0 -> attr.colorBackgroundElevated
+                    2.0 -> taskTextColor
+                    else -> taskBackgroundColor
+                }
+            } else {
+                taskBackgroundColor
+            }
+
             holder.itemView.tvName.setTextColor(myActivity.colorForAttr(taskTextColor))
             holder.itemView.crvTask.setCardBackgroundColor(myActivity.colorForAttr(taskBackgroundColor))
+            holder.itemView.crvBg.setCardBackgroundColor(myActivity.colorForAttr(taskBorderColor))
         }
 
         //set corner radius to be round if style is set to round
         holder.itemView.crvTask.radius = if (round) cr else 0f
+        holder.itemView.crvBg.radius = if (round) cr else 0f
 
         /**
          * EDITING task

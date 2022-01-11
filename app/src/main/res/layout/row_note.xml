@@ -3,9 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cvNoteCard"
+    android:id="@+id/cvNoteBg"
     app:cardElevation="@dimen/elevation"
     android:layout_margin="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cvNoteCard"
+        app:cardElevation="0dp"
+        android:layout_margin="1dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -27,15 +34,16 @@
                 android:id="@+id/tvNoteContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNoteTitle"
+                android:background="@android:color/transparent"
                 android:fontFamily="sans-serif"
                 android:padding="10dp"
                 android:textColor="?attr/colorOnBackGroundTask"
-                android:background="@android:color/transparent"
-                android:textSize="@dimen/font_size_small"
-                android:layout_below="@+id/tvNoteTitle"/>
+                android:textSize="@dimen/font_size_small" />
 
 
 
         </RelativeLayout>
 
+    </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>
