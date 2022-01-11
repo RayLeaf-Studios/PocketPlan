@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.data.settings.sub_categories
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.provider.SettingsSlicesContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,9 +50,19 @@ class SettingsAppearanceFr : Fragment() {
         initializeAdapters()
         initializeDisplayValues()
         initializeListeners()
+        updateComponentVisibility(myView)
 
         return myView
     }
+
+    private fun updateComponentVisibility(myView: View) {
+        val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+        myView.crBorderTheme.visibility = when(dark){
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
+    }
+
 
     private fun initializeComponents(myView: View) {
 

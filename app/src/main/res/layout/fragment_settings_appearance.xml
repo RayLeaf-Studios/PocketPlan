@@ -161,6 +161,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -170,6 +173,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:id="@+id/crBorderTheme"
                 android:layout_height="wrap_content"
                 android:paddingVertical="10dp"
                 android:paddingHorizontal="20dp"
@@ -179,7 +183,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Dark border theme:"
+                    android:text="@string/setting_border_title"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
@@ -189,7 +193,7 @@
                     android:layout_width="0dp"
                     android:id="@+id/textView4"
                     android:layout_height="wrap_content"
-                    android:text="(Applied to task and note elements)"
+                    android:text="@string/setting_border_hint"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
@@ -206,20 +210,20 @@
 
                     <RadioButton
                         android:id="@+id/rbBorderLess"
-                        android:text="Borderless"
+                        android:text="@string/settings_border_borderless"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/rbColoredBorder"
-                        android:text="Colored Border"
+                        android:text="@string/setting_border_colored_border"
                         android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/rbFullColor"
-                        android:text="Full color"
+                        android:text="@string/setting_border_filled"
                         android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -242,7 +246,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="Sample Text"
+                        android:text="@string/sample_text"
                         android:layout_margin="1dp"
                         android:textColor="?attr/colorPriority3"
                         android:textSize="@dimen/font_size_medium">
@@ -310,6 +314,8 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             <View
                 android:layout_width="match_parent"

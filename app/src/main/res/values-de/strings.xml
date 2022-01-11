@@ -154,6 +154,13 @@
     <string name="shopping_menu_rename_list">Liste umbenennen</string>
     <string name="remove_checked_items">Abgehaktes löschen</string>
     <string name="shopping_dialog_remove_checked">Abgehakte Artikel löschen?</string>
+    <string name="settings_border_borderless">Randlos</string>
+    <string name="setting_border_colored_border">Farbiger Rand</string>
+    <string name="setting_border_filled">Gefüllt</string>
+    <string name="sample_text">Beispiel Text</string>
+    <string name="setting_border_hint">(Wird auf Aufgaben und Notizen angewandt)</string>
+    <string name="setting_border_title">Randdarstellung im dunklen Modus:</string>
+
 
     <!-- Arrays -->
     <string-array name="noteLines">

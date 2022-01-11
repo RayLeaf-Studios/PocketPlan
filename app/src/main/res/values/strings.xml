@@ -311,5 +311,11 @@
     <string name="shopping_menu_rename_list">Rename list</string>
     <string name="remove_checked_items">Remove checked items</string>
     <string name="shopping_dialog_remove_checked">Remove checked items?</string>
+    <string name="settings_border_borderless">Borderless</string>
+    <string name="setting_border_colored_border">Colored Border</string>
+    <string name="setting_border_filled">Filled</string>
+    <string name="sample_text">Sample Text</string>
+    <string name="setting_border_hint">(Applied to task and note elements)</string>
+    <string name="setting_border_title">Dark border theme:</string>
 
 </resources>
