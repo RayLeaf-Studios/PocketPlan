@@ -160,6 +160,157 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Dark border theme:"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:id="@+id/textView4"
+                    android:layout_height="wrap_content"
+                    android:text="(Applied to task and note elements)"
+                    android:textColor="?attr/colorHint"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3"
+                    />
+
+                <RadioGroup
+                    android:id="@+id/rgDarkBorderStyle"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+                    <RadioButton
+                        android:id="@+id/rbBorderLess"
+                        android:text="Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton
+                        android:id="@+id/rbColoredBorder"
+                        android:text="Colored Border"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton
+                        android:id="@+id/rbFullColor"
+                        android:text="Full color"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </RadioGroup>
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="?attr/colorBackgroundElevated"
+                    app:cardCornerRadius="@dimen/cornerRadius"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/rgDarkBorderStyle">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Sample Text"
+                        android:layout_margin="1dp"
+                        android:textColor="?attr/colorPriority3"
+                        android:textSize="@dimen/font_size_medium">
+
+                    </TextView>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="?attr/colorPriority3"
+                    app:cardCornerRadius="@dimen/cornerRadius"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        app:cardBackgroundColor="?attr/colorBackgroundElevated"
+                        app:cardCornerRadius="@dimen/cornerRadius">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Sample Text"
+                            android:textColor="?attr/colorPriority3"
+                            android:textSize="@dimen/font_size_medium">
+
+                        </TextView>
+
+
+                    </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="?attr/colorPriority3"
+                    app:cardCornerRadius="@dimen/cornerRadius"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        android:padding="5dp"
+                        android:text="Sample Text"
+                        android:textColor="?attr/colorOnBackGround"
+                        android:textSize="@dimen/font_size_medium">
+
+                    </TextView>
+
+
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -204,6 +355,7 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -243,6 +395,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </LinearLayout>
 

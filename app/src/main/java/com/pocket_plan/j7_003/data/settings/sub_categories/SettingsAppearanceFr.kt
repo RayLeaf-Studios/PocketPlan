@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +30,8 @@ class SettingsAppearanceFr : Fragment() {
 
     private lateinit var swShakeTaskInHome: SwitchCompat
     private lateinit var swSystemTheme: SwitchCompat
+
+    private lateinit var rgDarkBorderStyle: RadioGroup
 
     private lateinit var clResetToDefault: ConstraintLayout
 
@@ -64,6 +67,9 @@ class SettingsAppearanceFr : Fragment() {
 
         //ConstraintLayouts
         clResetToDefault = myView.clResetToDefault
+
+        //RadioGroups
+        rgDarkBorderStyle = myView.rgDarkBorderStyle
     }
 
     private fun initializeAdapters() {
@@ -122,6 +128,14 @@ class SettingsAppearanceFr : Fragment() {
         )
         swShakeTaskInHome.isChecked = SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean
         swSystemTheme.isChecked = SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean
+
+        //initialize correct radio button to be checked to show correct dark border style
+        val idToCheck = when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
+            1.0 -> R.id.rbBorderLess
+                2.0 -> R.id.rbColoredBorder
+            else -> R.id.rbFullColor
+        }
+        rgDarkBorderStyle.check(idToCheck)
     }
 
     private fun initializeListeners() {
@@ -241,6 +255,7 @@ class SettingsAppearanceFr : Fragment() {
 
         }
 
+        //onclick listener to reset to default values
         clResetToDefault.setOnClickListener {
             val action: () -> Unit = {
                 SettingsManager.restoreDefault()
@@ -251,6 +266,15 @@ class SettingsAppearanceFr : Fragment() {
             }
             myActivity.dialogConfirmDelete(R.string.titleRestoreSettings, action)
         }
-
+        
+        //listener for radio group to change dark border theme
+        rgDarkBorderStyle.setOnCheckedChangeListener { _, id ->
+            val newStyle = when(id){
+                R.id.rbBorderLess -> 1.0
+                R.id.rbColoredBorder -> 2.0
+                else -> 3.0
+            }
+            SettingsManager.addSetting(SettingId.DARK_BORDER_STYLE, newStyle)
+        }
     }
 }
