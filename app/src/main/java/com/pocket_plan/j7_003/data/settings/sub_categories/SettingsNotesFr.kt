@@ -24,6 +24,7 @@ class SettingsNotesFr : Fragment() {
     lateinit var spNoteColumns: Spinner
     lateinit var spEditorFontSize: Spinner
     private lateinit var swAllowSwipe: SwitchCompat
+    private lateinit var swRandomizeNoteColors: SwitchCompat
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +48,7 @@ class SettingsNotesFr : Fragment() {
         spNoteColumns = myView.spNoteColumns
         spEditorFontSize = myView.spEditorFontsize
         swAllowSwipe = myView.swAllowSwipe
+        swRandomizeNoteColors = myView.swRandomizeColors
 
     }
 
@@ -105,6 +107,7 @@ class SettingsNotesFr : Fragment() {
 
         swAllowSwipe.isChecked = SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean
 
+        swRandomizeNoteColors.isChecked = SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean
     }
 
     private fun initializeListeners() {
@@ -169,6 +172,10 @@ class SettingsNotesFr : Fragment() {
         //listener for switch to allow / disallow swipe to delete for notes
         swAllowSwipe.setOnClickListener {
             SettingsManager.addSetting(SettingId.NOTES_SWIPE_DELETE, swAllowSwipe.isChecked)
+        }
+
+        swRandomizeNoteColors.setOnClickListener{
+            SettingsManager.addSetting(SettingId.RANDOMIZE_NOTE_COLORS, swRandomizeNoteColors.isChecked)
         }
     }
 }

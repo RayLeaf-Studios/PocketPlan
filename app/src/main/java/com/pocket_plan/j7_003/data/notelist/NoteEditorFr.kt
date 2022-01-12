@@ -103,7 +103,7 @@ class NoteEditorFr : Fragment() {
         when (item.itemId) {
             R.id.item_editor_delete -> openDeleteNoteDialog()
 
-            R.id.item_editor_color -> openColorChooser()
+            R.id.item_editor_color -> dialogColorChooser()
 
             R.id.item_editor_save -> {
                 val noteContent = etNoteContent.text.toString()
@@ -140,12 +140,23 @@ class NoteEditorFr : Fragment() {
                 )
             )
         } else {
-            //init random note color
-            val randColorIndex = Random.nextInt(0,5)
-            noteColor = NoteColors.values()[randColorIndex]
-            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
-                myActivity.colorForAttr(colorList[randColorIndex])
-            )
+                if(SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean){
+                    //init random note color if setting says so
+                    val randColorIndex = Random.nextInt(0,5)
+                    noteColor = NoteColors.values()[randColorIndex]
+                    myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
+                        myActivity.colorForAttr(colorList[randColorIndex])
+                    )
+                } else {
+                    //init last used note color
+                    val lastUsedColorIndex = (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
+                    noteColor = NoteColors.values()[lastUsedColorIndex]
+                    myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
+                        myActivity.colorForAttr(colorList[lastUsedColorIndex])
+                    )
+
+                }
+
         }
 
         myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
@@ -266,7 +277,7 @@ class NoteEditorFr : Fragment() {
     }
 
     @SuppressLint("InflateParams")
-    private fun openColorChooser() {
+    private fun dialogColorChooser() {
         //inflate the dialog with custom view
         val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
 
@@ -295,6 +306,8 @@ class NoteEditorFr : Fragment() {
                     myActivity.colorForAttr(colorList[i])
                 )
                 myAlertDialog.dismiss()
+                //save last used note color
+                SettingsManager.addSetting(SettingId.LAST_USED_NOTE_COLOR, i.toDouble())
             }
         }
     }

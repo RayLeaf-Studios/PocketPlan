@@ -161,6 +161,7 @@
     <string name="setting_border_hint">(Wird auf Aufgaben und Notizen angewandt)</string>
     <string name="setting_border_title">Randdarstellung im dunklen Modus:</string>
     <string name="hint_export_backup">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
+    <string name="setting_randomize_note_colors">Zufällige Farbe für neue Notizen</string>
 
 
     <!-- Arrays -->
