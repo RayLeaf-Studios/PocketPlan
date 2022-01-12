@@ -248,7 +248,7 @@
                         android:padding="5dp"
                         android:text="@string/sample_text"
                         android:layout_margin="1dp"
-                        android:textColor="?attr/colorPriority3"
+                        android:textColor="?attr/colorGoToSleep"
                         android:textSize="@dimen/font_size_medium">
 
                     </TextView>
@@ -262,7 +262,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    app:cardBackgroundColor="?attr/colorPriority3"
+                    app:cardBackgroundColor="?attr/colorGoToSleep"
                     app:cardCornerRadius="@dimen/cornerRadius"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView">
@@ -280,7 +280,7 @@
                             android:layout_height="wrap_content"
                             android:padding="5dp"
                             android:text="Sample Text"
-                            android:textColor="?attr/colorPriority3"
+                            android:textColor="?attr/colorGoToSleep"
                             android:textSize="@dimen/font_size_medium">
 
                         </TextView>
@@ -292,7 +292,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="?attr/colorPriority3"
+                    app:cardBackgroundColor="?attr/colorGoToSleep"
                     app:cardCornerRadius="@dimen/cornerRadius"
                     android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
