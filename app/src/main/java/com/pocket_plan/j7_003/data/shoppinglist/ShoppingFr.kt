@@ -792,7 +792,7 @@ class AutoCompleteAdapter(
             val result = FilterResults()
 
             //don't perform search if a search is currently being performed, or input length is < 2
-            if (imWorking || input.length < 2) {
+            if (imWorking || input.length < 2 || inputCharSequence == null) {
                 return result
             }
 
