@@ -100,8 +100,8 @@
     <string name="custom_item_delete_title">Liste leeren?</string>
     <string name="todo_dialog_clear_title">To-Do Liste löschen?</string>
     <string name="todo_dialog_clear_checked_title">Abgehaktes löschen?</string>
-    <string name="settings_export">Backup als zip exportieren</string>
-    <string name="settings_import">Backup aus zip importieren</string>
+    <string name="settings_export">Volles Backup als zip exportieren</string>
+    <string name="settings_import">Volles Backup aus zip importieren</string>
     <string name="settings_title_appearance">Allgemeines</string>
     <string name="settings_shopping_move_down">Abgehakte Kategorien nach unten bewegen</string>
     <string name="setting_title_shapes">Formen</string>
@@ -160,6 +160,7 @@
     <string name="sample_text">Beispiel Text</string>
     <string name="setting_border_hint">(Wird auf Aufgaben und Notizen angewandt)</string>
     <string name="setting_border_title">Randdarstellung im dunklen Modus:</string>
+    <string name="hint_export_backup">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
 
 
     <!-- Arrays -->

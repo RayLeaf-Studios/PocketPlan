@@ -84,8 +84,8 @@
     <string name="settingsCusItems">Manage custom items</string>
     <string name="settingsOnlyExpandOne">Only expand one category</string>
     <string name="settingsCollapseChecked">Collapse checked categories</string>
-    <string name="settings_export">Export backup as zip file</string>
-    <string name="settings_import">Import backup from zip file</string>
+    <string name="settings_export">Export full backup as zip file</string>
+    <string name="settings_import">Import full backup from zip file</string>
     <string name="settings_title_appearance">General</string>
     <string name="settings_shopping_move_down">Move checked categories down</string>
     <string name="setting_title_shapes">Shapes</string>
@@ -317,5 +317,6 @@
     <string name="sample_text">Sample Text</string>
     <string name="setting_border_hint">(Applied to task and note elements)</string>
     <string name="setting_border_title">Dark border theme:</string>
+    <string name="hint_export_backup">The section below allows you to import / export just part of your data, for a FULL backup use the options above.</string>
 
 </resources>
