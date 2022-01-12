@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.fragment_note_editor.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
+import kotlin.random.Random
 
 
 class NoteEditorFr : Fragment() {
@@ -34,6 +35,11 @@ class NoteEditorFr : Fragment() {
     private var editNoteHolder: Note? = null
 
     private lateinit var myMenu: Menu
+
+    private val colorList = arrayOf(
+        R.attr.colorNoteRed, R.attr.colorNoteYellow,
+        R.attr.colorNoteGreen, R.attr.colorNoteBlue, R.attr.colorNotePurple
+    )
 
     companion object {
         var noteColor: NoteColors = NoteColors.GREEN
@@ -134,8 +140,12 @@ class NoteEditorFr : Fragment() {
                 )
             )
         } else {
-            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(myActivity.colorForAttr(noteColor.colorCode))
-
+            //init random note color
+            val randColorIndex = Random.nextInt(0,5)
+            noteColor = NoteColors.values()[randColorIndex]
+            myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
+                myActivity.colorForAttr(colorList[randColorIndex])
+            )
         }
 
         myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
@@ -157,18 +167,8 @@ class NoteEditorFr : Fragment() {
         return etNoteContent.text.toString()
     }
 
-    fun setNoteContent(previousContent: String){
-        etNoteContent.clearFocus()
-        etNoteContent.setText(previousContent)
-    }
-
     fun getNoteTitle(): String{
         return etNoteTitle.text.toString()
-    }
-
-    fun setNoteTitle(previousTitle: String){
-        etNoteTitle.clearFocus()
-        etNoteTitle.setText(previousTitle)
     }
 
     fun relevantNoteChanges(): Boolean {
@@ -281,10 +281,6 @@ class NoteEditorFr : Fragment() {
         myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog.show()
 
-        val colorList = arrayOf(
-            R.attr.colorNoteRed, R.attr.colorNoteYellow,
-            R.attr.colorNoteGreen, R.attr.colorNoteBlue, R.attr.colorNotePurple
-        )
         val buttonList = arrayOf(
             myDialogView.btnRed, myDialogView.btnYellow,
             myDialogView.btnGreen, myDialogView.btnBlue, myDialogView.btnPurple
