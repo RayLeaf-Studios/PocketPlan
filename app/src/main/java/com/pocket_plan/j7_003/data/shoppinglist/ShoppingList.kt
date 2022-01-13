@@ -21,6 +21,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
         this.forEach { e ->         // searching for preexistence of the elements tag
             if (e.first == element.tag) {   // add element to tags sublist and save to file
                 e.second.add(element)
+                e.second[0].checked = true
 
                 //Added this to sort after adding element
                 sortSublist(e.second)
