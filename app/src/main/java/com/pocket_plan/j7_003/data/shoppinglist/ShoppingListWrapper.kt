@@ -20,6 +20,16 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
         fetchList()
         if (this.size == 0)
             this.add(defaultListName, ShoppingList(this))
+
+        // TODO - this is the compatibility layer for saving
+        //  category order remove after a few releases
+        this.forEach { (_, list) ->
+            list.forEach {
+                if (it.second[0].amount == null)
+                    it.second[0].amount = list.indexOf(it).toString()
+            }
+        }
+        save()
     }
 
     /**
@@ -127,7 +137,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
         this.addAll(list)
     }
 
-    private fun accountCompatibility() {
+    private fun accountCompatibility() {    // TODO - remove when enough users updated
         StorageHandler.createJsonFile(StorageId.SHOPPING)
         val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
 

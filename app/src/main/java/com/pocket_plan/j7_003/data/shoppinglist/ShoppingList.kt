@@ -43,7 +43,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
             sublistExpanded = false
         }
 
-        super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, sublistExpanded))))
+        super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, sublistExpanded, this.size.toString()))))
 
         this.forEach { e ->         // searching the newly added sublist and adding the element
             if (e.first == element.tag) {   // add element to tags sublist and save to file
@@ -302,7 +302,8 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
     }
 
     /**
-     * Sorts the given list. Sublists where all items checked are sorted below.
+     * Sorts the given list. Sublists where all items checked are sorted below every not fully
+     * checked list is sorted according to its position at time of creation.
      * If sorting the list succeeds a pair is returned containing the prior and new
      * position of the sorted tag.
      * @param tag The tag which should get sorted.
@@ -310,7 +311,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
      */
     fun sortCategoriesByChecked(tag: String): Pair<Int, Int>? {
         val oldPosition = getTagIndex(tag)
-        this.sortBy { areAllChecked(it.first) }
+        this.sortWith(compareBy( { areAllChecked(it.first) }, { it.second[0].amount!!.toInt() }))
         save()
         val returnPair = Pair(oldPosition, getTagIndex(tag))
 

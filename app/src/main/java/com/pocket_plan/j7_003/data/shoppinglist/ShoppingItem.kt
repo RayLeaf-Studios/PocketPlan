@@ -21,5 +21,5 @@ data class ShoppingItem(
     @SerializedName(value = "c")
     var checked: Boolean)
 {
-    constructor(tag: String, checked: Boolean): this(null, tag, null, null, null, checked)
+    constructor(tag: String, checked: Boolean, position: String?): this(null, tag, null, position, null, checked)
 }
