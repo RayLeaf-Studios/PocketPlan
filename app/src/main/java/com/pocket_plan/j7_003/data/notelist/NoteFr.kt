@@ -343,6 +343,8 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             2.0 -> currentNote.color.colorCode
             1.0 -> R.attr.colorBackgroundElevated
             3.0 -> {
+                holder.itemView.cvNoteBg.setCardBackgroundColor(
+                    myActivity.colorForAttr(currentNote.color.colorCode))
                 holder.itemView.cvNoteCard.setCardBackgroundColor(
                     myActivity.colorForAttr(currentNote.color.colorCode))
                 return
