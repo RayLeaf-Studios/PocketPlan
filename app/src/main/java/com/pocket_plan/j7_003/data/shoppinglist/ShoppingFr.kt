@@ -134,6 +134,7 @@ class ShoppingFr : Fragment() {
                     shoppingListInstance.removeAt(previousPosition)
                     //re-add it at the current adapter position
                     shoppingListInstance.add(currentPosition, movedCategory)
+                    shoppingListInstance.updateOrder()
                     shoppingListInstance.save()
 
                     //get tag of this category
