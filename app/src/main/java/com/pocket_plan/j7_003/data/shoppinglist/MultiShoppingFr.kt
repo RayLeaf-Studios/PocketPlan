@@ -791,6 +791,7 @@ class AutoCompleteAdapter(
     internal var itemNames: MutableList<String> = mutableListOf()
     internal var suggestions: MutableList<String> = mutableListOf()
     var imWorking: Boolean = false
+    val maxSuggestions = 5
 
     init {
         itemNames = items.toMutableList()
@@ -820,11 +821,10 @@ class AutoCompleteAdapter(
             suggestions.clear()
 
 
-            //checks for every item if it starts with input (case insensitive search)
+            //checks for every item if it starts with input (case insensitive search) (stop if maxSuggestions reached)
             itemNames.forEach {
-                if (it.toLowerCase(Locale.getDefault())
-                        .startsWith(input)
-                ) {
+                if(suggestions.size >= maxSuggestions) return@forEach
+                if (it.toLowerCase(Locale.getDefault()).startsWith(input)) {
                     suggestions.add(it)
                 }
             }
@@ -834,14 +834,11 @@ class AutoCompleteAdapter(
 
             //If less than 5 items that start with "input" have been found, add
             //items that contain "input" to the end of the list
-            if (suggestions.size < 5) {
-                itemNames.forEach {
-                    if (it.toLowerCase(Locale.getDefault())
-                            .contains(input)
-                    ) {
-                        if (!suggestions.contains(it)) {
-                            suggestions.add(it)
-                        }
+            itemNames.forEach {
+                if(suggestions.size >= maxSuggestions) return@forEach
+                if (it.toLowerCase(Locale.getDefault()).contains(input)) {
+                    if (!suggestions.contains(it)) {
+                        suggestions.add(it)
                     }
                 }
             }
@@ -866,27 +863,32 @@ class AutoCompleteAdapter(
                 //index to iterate over string
                 var i = 0
                 //score that indicates how much this item matches the input
-                var lettersLeft = itemName.toLowerCase(Locale.ROOT)
                 var likelihoodScore = 0
+                //Copy of the itemName in which found letters will be replaced with empty ones
+                var lettersLeft = itemName.toLowerCase(Locale.ROOT)
 
+                //Add 2 points to score, if item starts with the same char as the input
                 if(itemName.toLowerCase(Locale.ROOT)[0] == input[0]){
                    likelihoodScore += 2
                 }
 
+                //Add 2 points to score, if item ends with the same char as the input
                 if(itemName.toLowerCase(Locale.ROOT).last() == input.last()){
                     likelihoodScore += 2
                 }
 
+                //Iterate over the overlapping part of the words
                 while (i < min(itemName.length, input.length)) {
                     if (itemName[i].equals(input[i], ignoreCase = true)) {
                         //increase score by 2 if this char occurs at this index
                         likelihoodScore += 2
-                    }
-                    else if (lettersLeft.toLowerCase(Locale.ROOT).contains(input[i].toLowerCase())) {
+                    } else if (lettersLeft.toLowerCase(Locale.ROOT).contains(input[i].toLowerCase())) {
                         //increase score by 1 if this char occurs anywhere in the string
                         likelihoodScore++
+                        //Remove letter from word copy so it can't be counted twice
                         lettersLeft = lettersLeft.replaceFirst(input[i].toLowerCase().toString(), "")
                     }else{
+                        //decrease score by 1 if Letter does not occur in item name
                         likelihoodScore -= 1
                     }
                     i++
@@ -897,23 +899,17 @@ class AutoCompleteAdapter(
                 withValues[itemName] = likelihoodScore
             }
 
-            //save the "withValues" map as reverse sorted list (by likelihood score), so that the
-            //most likely items are at the beginning of the list
-            val withValuesSortedAsList =
-                withValues.toList().sortedBy { (_, value) -> value }.filter { (name, value) -> value > name.length / 1.2 }.reversed()
+            //Filter map for all items that pass the likelihood threshold of their length / 1.2.
+            //Decrease this value to make the algorithm more stricter
+            //Sort it descending by value (highest values first) and add the first <maxSuggestions> items to the suggestions
+            withValues.toList().filter { (name, value) -> value > name.length / 1.2 }.sortedByDescending { (_, value) -> value }.forEach {
+                if(suggestions.size >= maxSuggestions) return@forEach
+                suggestions.add(it.first)
+            }
 
-
-            //set suggestions to a list containing only the item names
-            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
-
-            //set amount to display to minimum of 5 and current size of suggestions
-            val amountToDisplay = min(suggestions.size, 5)
-
-            //take the top "amountToDisplay" (0..5) results and return them as result
-            result.values = suggestions.subList(0, amountToDisplay)
-            result.count = amountToDisplay
+            result.values = suggestions
+            result.count = suggestions.size
             return result
-
         }
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults) {
