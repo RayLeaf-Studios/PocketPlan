@@ -9,7 +9,6 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
-import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -144,11 +143,7 @@ class BackUpActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("NotificationEntry", "settings")
-            startActivity(intent)
-
+            this.finish()
         } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
@@ -156,4 +151,17 @@ class BackUpActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onBackPressed() {
+        this.finish()
+        super.onBackPressed()
+    }
+
+    override fun finish() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("NotificationEntry", "settings")
+        startActivity(intent)
+        super.finish()
+    }
+
 }
