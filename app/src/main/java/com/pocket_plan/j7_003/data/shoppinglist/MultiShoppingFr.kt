@@ -1,38 +1,39 @@
-    package com.pocket_plan.j7_003.data.shoppinglist
+package com.pocket_plan.j7_003.data.shoppinglist
 
-    import android.annotation.SuppressLint
-    import android.content.Context
-    import android.os.Bundle
-    import android.text.Editable
-    import android.text.TextWatcher
-    import android.view.*
-    import android.view.animation.AnimationUtils
-    import android.view.inputmethod.InputMethodManager
-    import android.widget.AdapterView
-    import android.widget.ArrayAdapter
-    import android.widget.AutoCompleteTextView
-    import android.widget.Toast
-    import androidx.appcompat.app.AlertDialog
-    import androidx.fragment.app.Fragment
-    import androidx.fragment.app.FragmentActivity
-    import androidx.viewpager2.adapter.FragmentStateAdapter
-    import androidx.viewpager2.widget.ViewPager2
-    import com.google.android.material.tabs.TabLayout
-    import com.pocket_plan.j7_003.MainActivity
-    import com.pocket_plan.j7_003.R
-    import com.pocket_plan.j7_003.data.fragmenttags.FT
-    import com.pocket_plan.j7_003.data.settings.SettingId
-    import com.pocket_plan.j7_003.data.settings.SettingsManager
-    import kotlinx.android.synthetic.main.dialog_add_item.view.*
-    import kotlinx.android.synthetic.main.dialog_add_shopping_list.*
-    import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
-    import kotlinx.android.synthetic.main.dialog_add_task.view.*
-    import kotlinx.android.synthetic.main.fragment_multi_shopping.*
-    import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
-    import kotlinx.android.synthetic.main.title_dialog.view.*
-    import kotlinx.android.synthetic.main.toolbar.*
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
+import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.dialog_add_item.view.*
+import kotlinx.android.synthetic.main.dialog_add_shopping_list.*
+import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
+import kotlinx.android.synthetic.main.dialog_add_task.view.*
+import kotlinx.android.synthetic.main.fragment_multi_shopping.*
+import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
+import kotlinx.android.synthetic.main.toolbar.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.abs
+import kotlin.math.min
 
-    class MultiShoppingFr : Fragment() {
+class MultiShoppingFr : Fragment() {
 
     private lateinit var myMenu: Menu
     private lateinit var myActivity: MainActivity
@@ -103,7 +104,7 @@
         shoppingPager.registerOnPageChangeCallback(pageChangeCallback)
 
         tabLayout = myView.tab_layout
-        val onTabSelectedListener = object : TabLayout.OnTabSelectedListener{
+        val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
@@ -124,10 +125,10 @@
         return myView
     }
 
-    private fun updateTabs(){
-        if(shoppingListWrapper.size == 1){
+    private fun updateTabs() {
+        if (shoppingListWrapper.size == 1) {
             tabLayout.visibility = View.GONE
-        }else{
+        } else {
             tabLayout.visibility = View.VISIBLE
         }
         tabLayout.removeAllTabs()
@@ -261,7 +262,7 @@
                     shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
                     //This automatically selects the tab left of the deleted tab
                     tabLayout.removeTabAt(currentpos)
-                    if(shoppingListWrapper.size==1){
+                    if (shoppingListWrapper.size == 1) {
                         tabLayout.visibility = View.GONE
                     }
                 }
@@ -380,6 +381,7 @@
         spCategory.adapter = categoryAdapter
 
         var lastSelectedCategoryIndex = 0;
+
         spCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -387,7 +389,9 @@
                 position: Int,
                 id: Long
             ) {
-                lastSelectedCategoryIndex = position
+                if(position!=spCategory.tag){
+                    lastSelectedCategoryIndex = position
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -459,29 +463,23 @@
                     template = myActivity.itemTemplateList.getTemplateByName(input)
                 }
 
-                //if template now is not null, select correct unit and category
-                if (template != null) {
-                    //display correct category
-                    spCategory.setSelection(
-                        myActivity.resources.getStringArray(R.array.categoryCodes)
-                            .indexOf(template.c)
-                    )
+                //Select correct unit and category, default (unknown input) unit x and last used category
+                var unitToSet = 0
+                var categoryToSet = lastSelectedCategoryIndex
 
-                    //display correct unit
-                    val unitPointPos =
-                        myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
-                    if (!unitChanged) {
-                        spItemUnit.tag = unitPointPos
-                        spItemUnit.setSelection(unitPointPos)
-                    }
-                } else {
-                    //else if entered string is unknown select last used category and "x" as defaults
-                    spCategory.setSelection(lastSelectedCategoryIndex)
-                    if (!unitChanged) {
-                        spItemUnit.tag = 0
-                        spItemUnit.setSelection(0)
-                    }
+                //Unit and category from template if there is any
+                if(template!=null){
+                    unitToSet = myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
+                    categoryToSet = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(template.c)
                 }
+
+                //Apply selections
+                spCategory.tag = categoryToSet
+                spCategory.setSelection(categoryToSet)
+
+                spItemUnit.tag = unitToSet
+                spItemUnit.setSelection(unitToSet)
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -779,5 +777,165 @@
             return this@MultiShoppingFr.shoppingFragments[position]
         }
 
+    }
+}
+
+class AutoCompleteAdapter(
+    context: Context,
+    resource: Int,
+    textViewResourceId: Int = 0,
+    items: List<String> = listOf()
+) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
+
+
+    internal var itemNames: MutableList<String> = mutableListOf()
+    internal var suggestions: MutableList<String> = mutableListOf()
+    var imWorking: Boolean = false
+
+    init {
+        itemNames = items.toMutableList()
+        suggestions = ArrayList()
+    }
+
+    /**
+     * Custom Filter implementation for custom suggestions we provide.
+     */
+    private var filter: Filter = object : Filter() {
+
+        override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
+            //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
+            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault())
+
+            val result = FilterResults()
+
+            //don't perform search if a search is currently being performed, or input length is < 2
+            if (imWorking || input.length < 2 || inputCharSequence == null) {
+                return result
+            }
+
+            //indicate that a search is being performed
+            imWorking = true
+
+            //clear suggestions from previous search
+            suggestions.clear()
+
+
+            //checks for every item if it starts with input (case insensitive search)
+            itemNames.forEach {
+                if (it.toLowerCase(Locale.getDefault())
+                        .startsWith(input)
+                ) {
+                    suggestions.add(it)
+                }
+            }
+
+            //sort all results starting with the input by length to suggest the shortest ones first
+            suggestions.sortBy { it.length }
+
+            //If less than 5 items that start with "input" have been found, add
+            //items that contain "input" to the end of the list
+            if (suggestions.size < 5) {
+                itemNames.forEach {
+                    if (it.toLowerCase(Locale.getDefault())
+                            .contains(input)
+                    ) {
+                        if (!suggestions.contains(it)) {
+                            suggestions.add(it)
+                        }
+                    }
+                }
+            }
+
+            //if anything was found that starts with, or contains the "input", or if the setting says
+            //to only show perfect matches and don't suggest similar items, return the current suggestions
+            if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
+                result.values = suggestions
+                result.count = suggestions.size
+                return result
+            }
+
+            //create a new mutable list containing all item names
+            val possibles: MutableList<String> = mutableListOf()
+            possibles.addAll(itemNames)
+
+            //create map that saves itemNames with their "likelihood score"
+            val withValues: MutableMap<String, Int> = mutableMapOf()
+
+            //calculates likelihood score for every item
+            possibles.forEach { itemName ->
+                //index to iterate over string
+                var i = 0
+                //score that indicates how much this item matches the input
+                var lettersLeft = itemName.toLowerCase(Locale.ROOT)
+                var likelihoodScore = 0
+
+                if(itemName.toLowerCase(Locale.ROOT)[0] == input[0]){
+                   likelihoodScore += 2
+                }
+
+                if(itemName.toLowerCase(Locale.ROOT).last() == input.last()){
+                    likelihoodScore += 2
+                }
+
+                while (i < min(itemName.length, input.length)) {
+                    if (itemName[i].equals(input[i], ignoreCase = true)) {
+                        //increase score by 2 if this char occurs at this index
+                        likelihoodScore += 2
+                    }
+                    else if (lettersLeft.toLowerCase(Locale.ROOT).contains(input[i].toLowerCase())) {
+                        //increase score by 1 if this char occurs anywhere in the string
+                        likelihoodScore++
+                        lettersLeft = lettersLeft.replaceFirst(input[i].toLowerCase().toString(), "")
+                    }else{
+                        likelihoodScore -= 1
+                    }
+                    i++
+                }
+                //subtract length difference from likelihood score
+                likelihoodScore -= abs(itemName.length - input.length)
+                //store score for this item name in the withValues map
+                withValues[itemName] = likelihoodScore
+            }
+
+            //save the "withValues" map as reverse sorted list (by likelihood score), so that the
+            //most likely items are at the beginning of the list
+            val withValuesSortedAsList =
+                withValues.toList().sortedBy { (_, value) -> value }.filter { (name, value) -> value > name.length / 1.2 }.reversed()
+
+
+            //set suggestions to a list containing only the item names
+            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
+
+            //set amount to display to minimum of 5 and current size of suggestions
+            val amountToDisplay = min(suggestions.size, 5)
+
+            //take the top "amountToDisplay" (0..5) results and return them as result
+            result.values = suggestions.subList(0, amountToDisplay)
+            result.count = amountToDisplay
+            return result
+
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+
+            if (results.values == null) {
+                //return nothing was found
+                return
+            }
+
+            val filterList = Collections.synchronizedList(results.values as List<*>)
+
+            if (results.count > 0) {
+                clear()
+                addAll(filterList)
+                notifyDataSetChanged()
+            }
+            imWorking = false
+        }
+    }
+
+
+    override fun getFilter(): Filter {
+        return filter
     }
 }

@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
-import android.content.Context
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -19,10 +18,6 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.abs
-import kotlin.math.min
 
 
 class ShoppingFr : Fragment() {
@@ -764,147 +759,3 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
     }
 }
 
-class AutoCompleteAdapter(
-    context: Context,
-    resource: Int,
-    textViewResourceId: Int = 0,
-    items: List<String> = listOf()
-) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
-
-
-    internal var itemNames: MutableList<String> = mutableListOf()
-    internal var suggestions: MutableList<String> = mutableListOf()
-    var imWorking: Boolean = false
-
-    init {
-        itemNames = items.toMutableList()
-        suggestions = ArrayList()
-    }
-
-    /**
-     * Custom Filter implementation for custom suggestions we provide.
-     */
-    private var filter: Filter = object : Filter() {
-
-        override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
-            //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
-            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault())
-
-            val result = FilterResults()
-
-            //don't perform search if a search is currently being performed, or input length is < 2
-            if (imWorking || input.length < 2 || inputCharSequence == null) {
-                return result
-            }
-
-            //indicate that a search is being performed
-            imWorking = true
-
-            //clear suggestions from previous search
-            suggestions.clear()
-
-
-            //checks for every item if it starts with input (case insensitive search)
-            itemNames.forEach {
-                if (it.toLowerCase(Locale.getDefault())
-                        .startsWith(input)
-                ) {
-                    suggestions.add(it)
-                }
-            }
-
-            //sort all results starting with the input by length to suggest the shortest ones first
-            suggestions.sortBy { it.length }
-
-            //If less than 5 items that start with "input" have been found, add
-            //items that contain "input" to the end of the list
-            if (suggestions.size < 5) {
-                itemNames.forEach {
-                    if (it.toLowerCase(Locale.getDefault())
-                            .contains(input)
-                    ) {
-                        if (!suggestions.contains(it)) {
-                            suggestions.add(it)
-                        }
-                    }
-                }
-            }
-
-            //if anything was found that starts with, or contains the "input", or if the setting says
-            //to only show perfect matches and don't suggest similar items, return the current suggestions
-            if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
-                result.values = suggestions
-                result.count = suggestions.size
-                return result
-            }
-
-            //create a new mutable list containing all item names
-            val possibles: MutableList<String> = mutableListOf()
-            possibles.addAll(itemNames)
-
-            //create map that saves itemNames with their "likelihood score"
-            val withValues: MutableMap<String, Int> = mutableMapOf()
-
-            //calculates likelihood score for every item
-            possibles.forEach { itemName ->
-                //index to iterate over string
-                var i = 0
-                //score that indicates how much this item matches the input
-                var likelihoodScore = 0
-                while (i < min(itemName.length, input.length)) {
-                    if (itemName[i].equals(input[i], ignoreCase = true)) {
-                        //increase score by 2 if this char occurs at this index
-                        likelihoodScore += 2
-                    } else if (itemName.toLowerCase(Locale.ROOT).contains(input[i].toLowerCase())) {
-                        //increase score by 1 if this char occurs anywhere in the string
-                        likelihoodScore++
-                    }
-                    i++
-                }
-                //subtract length difference from likelihood score
-                likelihoodScore -= abs(itemName.length - input.length)
-                //store score for this item name in the withValues map
-                withValues[itemName] = likelihoodScore
-            }
-
-            //save the "withValues" map as reverse sorted list (by likelihood score), so that the
-            //most likely items are at the beginning of the list
-            val withValuesSortedAsList =
-                withValues.toList().sortedBy { (_, value) -> value }.reversed()
-
-            //set suggestions to a list containing only the item names
-            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
-
-            //set amount to display to minimum of 5 and current size of suggestions
-            val amountToDisplay = min(suggestions.size, 5)
-
-            //take the top "amountToDisplay" (0..5) results and return them as result
-            result.values = suggestions.subList(0, amountToDisplay)
-            result.count = amountToDisplay
-            return result
-
-        }
-
-        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-
-            if (results.values == null) {
-                //return nothing was found
-                return
-            }
-
-            val filterList = Collections.synchronizedList(results.values as List<*>)
-
-            if (results.count > 0) {
-                clear()
-                addAll(filterList)
-                notifyDataSetChanged()
-            }
-            imWorking = false
-        }
-    }
-
-
-    override fun getFilter(): Filter {
-        return filter
-    }
-}
