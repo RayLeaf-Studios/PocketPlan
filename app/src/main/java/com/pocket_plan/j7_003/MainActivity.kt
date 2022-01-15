@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
     private var noteEditorFr: NoteEditorFr? = null
     private var noteFr: NoteFr? = null
     private var sleepFr: SleepFr? = null
+    var todoFr: TodoFr? = null
 
     var shoppingTitle: View? = null
     lateinit var toolBar: Toolbar
@@ -102,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         FT.SHOPPING -> multiShoppingFr
         FT.NOTES -> noteFr as Fragment
         FT.NOTE_EDITOR -> noteEditorFr as Fragment
+        FT.HOME -> homeFr as HomeFr
         else -> null
     }
 
@@ -165,6 +167,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
 
         //Initialize adapters and necessary list instances
+        todoFr = TodoFr()
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter(this)
 
@@ -242,6 +245,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
+        todoFr!!.preloadAddTaskDialog(this, layoutInflater)
 
         //Initialize remaining fragments
         noteFr = NoteFr()
@@ -451,7 +455,7 @@ class MainActivity : AppCompatActivity() {
         //create fragment object
         val fragment = when (fragmentTag) {
             FT.HOME -> homeFr
-            FT.TASKS -> TodoFr()
+            FT.TASKS -> todoFr
             FT.SHOPPING -> {
                 multiShoppingFr
             }

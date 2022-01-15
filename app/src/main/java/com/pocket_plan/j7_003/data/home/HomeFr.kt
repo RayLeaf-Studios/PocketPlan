@@ -6,11 +6,7 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
@@ -21,11 +17,9 @@ import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoFr
-import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 
@@ -88,7 +82,7 @@ class HomeFr : Fragment() {
             NoteEditorFr.noteColor = NoteColors.GREEN
             myActivity.changeToFragment(FT.NOTE_EDITOR)
         }
-        myView.clAddTask.setOnClickListener { createTaskFromHome() }
+        myView.clAddTask.setOnClickListener { myActivity.todoFr!!.dialogAddTask() }
         myView.clAddItem.setOnClickListener {
             myActivity.multiShoppingFr!!.editing = false
             myActivity.multiShoppingFr!!.openAddItemDialog()
@@ -117,7 +111,7 @@ class HomeFr : Fragment() {
      */
 
     @SuppressLint("ResourceType")
-    private fun updateTaskPanel(shake: Boolean) {
+    fun updateTaskPanel(shake: Boolean) {
         val density = myActivity.resources.displayMetrics.density
         val (_, status) = mySleepFr.sleepReminderInstance.getRemainingWakeDurationString()
         val params = myView.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
@@ -305,55 +299,6 @@ class HomeFr : Fragment() {
                 myView.tvRemainingWakeTime.visibility = View.GONE
             }
         }
-    }
-
-    /**
-     * Prompts the user with a dialog that allows adding a task without leaving the home panel.
-     */
-    @SuppressLint("InflateParams")
-    private fun createTaskFromHome() {
-        //inflate the dialog with custom view
-        val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_task, null)
-
-        //AlertDialogBuilder
-        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        myBuilder?.setCustomTitle(layoutInflater.inflate(R.layout.title_dialog, null))
-
-        //show dialog
-        val myAlertDialog = myBuilder?.create()
-        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        myAlertDialog?.show()
-
-        //adds listeners to confirmButtons in addTaskDialog
-        val taskConfirmButtons = arrayListOf<Button>(
-            myDialogView.btnConfirm1,
-            myDialogView.btnConfirm2,
-            myDialogView.btnConfirm3
-        )
-
-        taskConfirmButtons.forEachIndexed { index, button ->
-            button.setOnClickListener {
-                val title = myDialogView.etxTitleAddTask.text.toString()
-                if (title.trim().isEmpty()) {
-                    val animationShake =
-                        AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                    myDialogView.etxTitleAddTask.startAnimation(animationShake)
-                    return@setOnClickListener
-                } else {
-                    TodoFr.todoListInstance.addTask(title, index + 1, false)
-                    updateTaskPanel(false)
-                }
-                if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
-                    Toast.makeText(
-                        myActivity,
-                        resources.getString(R.string.home_notification_add_task),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                myAlertDialog?.dismiss()
-            }
-        }
-        myDialogView.etxTitleAddTask.requestFocus()
     }
 }
 
