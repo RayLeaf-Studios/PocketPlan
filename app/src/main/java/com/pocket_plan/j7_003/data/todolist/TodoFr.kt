@@ -341,7 +341,7 @@ class TodoFr : Fragment() {
         taskConfirmButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
                 val title = myDialogView.etxTitleAddTask.text.toString()
-                if (title.isEmpty()) {
+                if (title.trim().isEmpty()) {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, anim.shake)
                     myDialogView.etxTitleAddTask.startAnimation(animationShake)
@@ -512,7 +512,7 @@ class TodoTaskAdapter(activity: MainActivity) :
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener Button@{
-                    if (myDialogView.etxTitleAddTask.text.toString() == "") {
+                    if (myDialogView.etxTitleAddTask.text.toString().trim() == "") {
                         val animationShake =
                             AnimationUtils.loadAnimation(myActivity, anim.shake)
                         myDialogView.etxTitleAddTask.startAnimation(animationShake)

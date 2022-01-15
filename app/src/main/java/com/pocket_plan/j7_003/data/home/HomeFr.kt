@@ -334,7 +334,7 @@ class HomeFr : Fragment() {
         taskConfirmButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
                 val title = myDialogView.etxTitleAddTask.text.toString()
-                if (title.isEmpty()) {
+                if (title.trim().isEmpty()) {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                     myDialogView.etxTitleAddTask.startAnimation(animationShake)

@@ -109,7 +109,7 @@ class NoteEditorFr : Fragment() {
                 val noteContent = etNoteContent.text.toString()
                 val noteTitle = etNoteTitle.text.toString()
 
-                if (noteContent == "" && noteTitle == "") {
+                if (noteContent == "" && noteTitle.trim() == "") {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
                     etNoteContent.startAnimation(animationShake)
@@ -194,8 +194,8 @@ class NoteEditorFr : Fragment() {
         }
 
         //check if anything was written when adding new note, return otherwise
-        if (editNoteHolder == null && etNoteTitle.text.toString() == "" &&
-            etNoteContent.text.toString() == ""
+        if (editNoteHolder == null && etNoteTitle.text.toString().trim() == "" &&
+            etNoteContent.text.toString().trim() == ""
         ) {
             //no relevant note changes if its a new empty note
             return false

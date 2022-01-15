@@ -567,7 +567,7 @@ class BirthdayFr : Fragment() {
             val name = etName.text.toString()
 
             //tell user to enter a name if none is entered
-            if (name == "") {
+            if (name.trim() == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 etName.startAnimation(animationShake)
@@ -826,7 +826,7 @@ class BirthdayFr : Fragment() {
             val name = etName.text.toString()
 
             //tell user to enter a name if none is entered
-            if (name == "") {
+            if (name.trim() == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 etName.startAnimation(animationShake)
