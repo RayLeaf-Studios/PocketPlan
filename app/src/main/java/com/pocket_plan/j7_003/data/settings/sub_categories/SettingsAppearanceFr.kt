@@ -12,12 +12,14 @@ import android.widget.ArrayAdapter
 import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.appcompat.widget.SwitchCompat
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.fragment_settings_appearance.*
 import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 
 /**
@@ -35,6 +37,10 @@ class SettingsAppearanceFr : Fragment() {
     private lateinit var rgDarkBorderStyle: RadioGroup
 
     private lateinit var clResetToDefault: ConstraintLayout
+
+    private lateinit var cardView: CardView
+    private lateinit var cardView2: CardView
+    private lateinit var cardView3: CardView
 
     private var initialDisplay: Boolean = true
 
@@ -81,6 +87,11 @@ class SettingsAppearanceFr : Fragment() {
 
         //RadioGroups
         rgDarkBorderStyle = myView.rgDarkBorderStyle
+
+        //Card views corresponding to designs for radio group
+        cardView = myView.cardView
+        cardView2 = myView.cardView2
+        cardView3 = myView.cardView3
     }
 
     private fun initializeAdapters() {
@@ -287,5 +298,9 @@ class SettingsAppearanceFr : Fragment() {
             }
             SettingsManager.addSetting(SettingId.DARK_BORDER_STYLE, newStyle)
         }
+
+        cardView.setOnClickListener { rbBorderLess.isChecked = true }
+        cardView2.setOnClickListener { rbColoredBorder.isChecked = true }
+        cardView3.setOnClickListener { rbFullColor.isChecked = true }
     }
 }
