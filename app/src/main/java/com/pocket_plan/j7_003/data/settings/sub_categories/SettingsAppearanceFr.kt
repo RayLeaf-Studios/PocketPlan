@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.data.settings.sub_categories
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.provider.SettingsSlicesContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
