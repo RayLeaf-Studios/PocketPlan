@@ -379,6 +379,21 @@
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = categoryAdapter
 
+        var lastSelectedCategoryIndex = 0;
+        spCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                lastSelectedCategoryIndex = position
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+
         //initialize spinner for units + its adapter and listener
         val spItemUnit = addItemDialogView!!.spItemUnit
         val unitAdapter = ArrayAdapter(
@@ -460,8 +475,8 @@
                         spItemUnit.setSelection(unitPointPos)
                     }
                 } else {
-                    //else if entered string is unknown select "other" and "x" as defaults
-                    spCategory.setSelection(0)
+                    //else if entered string is unknown select last used category and "x" as defaults
+                    spCategory.setSelection(lastSelectedCategoryIndex)
                     if (!unitChanged) {
                         spItemUnit.tag = 0
                         spItemUnit.setSelection(0)
