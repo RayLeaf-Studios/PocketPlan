@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.notelist
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
@@ -12,6 +13,14 @@ class NoteList : LinkedList<Note>(), Checkable {
     init {
         StorageHandler.createJsonFile(StorageId.NOTES)
         fetchFromFile()
+
+        // TODO - compatibility layer for old nodes to conform to new note hierarchy
+        //  they are placed in the top/start directory
+        this.forEach {
+            if (it.dir == null)
+                it.dir = "/"
+        }
+        save()
     }
 
     /**
@@ -21,7 +30,19 @@ class NoteList : LinkedList<Note>(), Checkable {
      * @param color Color of the note.
      */
     fun addNote(title: String, content: String, color: NoteColors) {
-        this.push(Note(title, content, color))
+        this.push(Note(title, content, color, "/"))
+        save()
+    }
+
+    /**
+     * Creates a note with the given parameters and saves it to file.
+     * @param title Displayed title of the note.
+     * @param content Contents of the note.
+     * @param color Color of the note.
+     * @param dir Directory the note is placed in.
+     */
+    fun addNote(title: String, content: String, color: NoteColors, dir: String) {
+        this.push(Note(title, content, color, dir))
         save()
     }
 

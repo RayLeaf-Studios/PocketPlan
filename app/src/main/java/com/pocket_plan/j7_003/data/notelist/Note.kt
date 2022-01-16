@@ -10,4 +10,7 @@ data class Note(
     var content: String,
 
     @SerializedName(value = "cl")
-    var color: NoteColors)
+    var color: NoteColors,
+
+    @SerializedName(value = "d")
+    var dir: String)
