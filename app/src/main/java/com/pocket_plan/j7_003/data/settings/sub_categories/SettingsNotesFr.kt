@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.fragment_settings_notes.*
 import kotlinx.android.synthetic.main.fragment_settings_notes.view.*
 
 /**
@@ -25,6 +28,14 @@ class SettingsNotesFr : Fragment() {
     lateinit var spEditorFontSize: Spinner
     private lateinit var swAllowSwipe: SwitchCompat
     private lateinit var swRandomizeNoteColors: SwitchCompat
+
+    private lateinit var clNoteLines: ConstraintLayout
+    private lateinit var clNoteColumns: ConstraintLayout
+    private lateinit var clFontSize: ConstraintLayout
+
+    private lateinit var tvCurrentNoteLines: TextView
+    private lateinit var tvCurrentNoteColumns: TextView
+    private lateinit var tvCurrentFontSize: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +61,13 @@ class SettingsNotesFr : Fragment() {
         swAllowSwipe = myView.swAllowSwipe
         swRandomizeNoteColors = myView.swRandomizeColors
 
+        clNoteColumns = myView.clNoteColumns
+        clNoteLines = myView.clNoteLines
+        clFontSize = myView.clFontSize
+
+        tvCurrentNoteLines = myView.tvCurrentNoteLines
+        tvCurrentNoteColumns = myView.tvCurrentNoteColumns
+        tvCurrentFontSize = myView.tvCurrentNoteEditorFontSize
     }
 
     private fun initializeAdapters() {
@@ -98,6 +116,7 @@ class SettingsNotesFr : Fragment() {
                 else -> 0
             }
         )
+        tvCurrentNoteLines.text = resources.getStringArray(R.array.noteLines)[spNoteLines.selectedItemPosition]
 
         val columnOptions = resources.getStringArray(R.array.noteColumns)
         spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS)))
@@ -129,6 +148,7 @@ class SettingsNotesFr : Fragment() {
                     else -> 20.0
                 }
                 SettingsManager.addSetting(SettingId.NOTE_LINES, setTo)
+                tvCurrentNoteLines.text = resources.getStringArray(R.array.noteLines)[position]
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -145,6 +165,7 @@ class SettingsNotesFr : Fragment() {
             ) {
                 val value = spNoteColumns.selectedItem as String
                 SettingsManager.addSetting(SettingId.NOTE_COLUMNS, value)
+                tvCurrentNoteColumns.text = value
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -162,6 +183,7 @@ class SettingsNotesFr : Fragment() {
             ) {
                 val value = spEditorFontSize.selectedItem as String
                 SettingsManager.addSetting(SettingId.FONT_SIZE, value)
+                tvCurrentFontSize.text = value
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -176,6 +198,18 @@ class SettingsNotesFr : Fragment() {
 
         swRandomizeNoteColors.setOnClickListener{
             SettingsManager.addSetting(SettingId.RANDOMIZE_NOTE_COLORS, swRandomizeNoteColors.isChecked)
+        }
+
+        clNoteLines.setOnClickListener {
+            spNoteLines.performClick()
+        }
+
+        clNoteColumns.setOnClickListener {
+            spNoteColumns.performClick()
+        }
+
+        clFontSize.setOnClickListener {
+            spEditorFontSize.performClick()
         }
     }
 }

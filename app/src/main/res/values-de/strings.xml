@@ -162,6 +162,7 @@
     <string name="setting_border_title">Randdarstellung im dunklen Modus:</string>
     <string name="hint_export_backup">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
     <string name="setting_randomize_note_colors">Zufällige Farbe für neue Notizen</string>
+    <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">Zeigt dir Artikel an, die sich die Einkaufsliste gemerkt hat und erlaubt dir diese zu löschen.</string>
 
 
     <!-- Arrays -->
@@ -176,13 +177,13 @@
     </string-array>
 
     <string-array name="shapes">
-        <item>normal</item>
-        <item>abgerundet</item>
+        <item>Normal</item>
+        <item>Abgerundet</item>
     </string-array>
 
     <string-array name="themes">
-        <item>dunkel</item>
-        <item>hell</item>
+        <item>Dunkel</item>
+        <item>Hell</item>
     </string-array>
 
     <string-array name="languages">

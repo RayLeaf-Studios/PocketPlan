@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 tools:ignore="RtlSymmetry">
 
@@ -52,19 +52,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clSettingNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 tools:ignore="RtlSymmetry">
 
@@ -93,12 +87,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 
@@ -135,19 +123,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clSettingBirthdays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 
@@ -176,19 +158,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clSettingBackup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 
@@ -217,12 +193,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -230,7 +200,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 

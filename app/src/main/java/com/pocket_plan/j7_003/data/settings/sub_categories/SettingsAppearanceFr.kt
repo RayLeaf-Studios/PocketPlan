@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.RadioGroup
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -35,13 +32,23 @@ class SettingsAppearanceFr : Fragment() {
 
     private lateinit var rgDarkBorderStyle: RadioGroup
 
+    private lateinit var clTheme: ConstraintLayout
+    private lateinit var clShapes: ConstraintLayout
+    private lateinit var clLanguage: ConstraintLayout
+
     private lateinit var clResetToDefault: ConstraintLayout
+
+    private lateinit var tvCurrentTheme: TextView
+    private lateinit var tvCurrentShape: TextView
+    private lateinit var tvCurrentLanguage: TextView
 
     private lateinit var cardView: CardView
     private lateinit var cardView2: CardView
     private lateinit var cardView3: CardView
 
-    private var initialDisplay: Boolean = true
+    private var initialDisplayTheme: Boolean = true
+    private var initialDisplayShapes: Boolean = true
+    private var initialDisplayLanguage: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +98,14 @@ class SettingsAppearanceFr : Fragment() {
         cardView = myView.cardView
         cardView2 = myView.cardView2
         cardView3 = myView.cardView3
+
+        clTheme = myView.clTheme
+        clShapes = myView.clShapes
+        clLanguage = myView.clLanguage
+
+        tvCurrentTheme = myView.tvCurrentTheme
+        tvCurrentShape = myView.tvCurrentShape
+        tvCurrentLanguage = myView.tvCurrentLanguage
     }
 
     private fun initializeAdapters() {
@@ -122,6 +137,7 @@ class SettingsAppearanceFr : Fragment() {
         spLanguages.adapter = spAdapterLanguages
     }
 
+
     private fun initializeDisplayValues() {
         val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME_DARK)){
             //show "dark" setting
@@ -130,23 +146,28 @@ class SettingsAppearanceFr : Fragment() {
             else -> 1
         }
         spTheme.setSelection(spThemePosition)
+        tvCurrentTheme.text = resources.getStringArray(R.array.themes)[spThemePosition]
 
-        val shapePosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND)){
+
+        val spShapePosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean){
             //show "round" setting
             true -> 1
             //show "normal" setting
             else -> 0
         }
-        spShapes.setSelection(shapePosition)
+        spShapes.setSelection(spShapePosition)
+        tvCurrentShape.text = resources.getStringArray(R.array.shapes)[spShapePosition]
 
-        spLanguages.setSelection(
-            when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
-                //0 = english
-                0.0 -> 0
-                //1 = german
-                else -> 1
-            }
-        )
+        val spLanguagePosition = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
+            //0 = english
+            0.0 -> 0
+            //1 = german
+            else -> 1
+        }
+        spLanguages.setSelection(spLanguagePosition)
+        tvCurrentLanguage.text = resources.getStringArray(R.array.languages)[spLanguagePosition]
+
+
         swShakeTaskInHome.isChecked = SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean
         swSystemTheme.isChecked = SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean
 
@@ -167,6 +188,10 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                if(initialDisplayLanguage){
+                    initialDisplayLanguage = false
+                    return
+                }
                 val setTo = when(spLanguages.selectedItemPosition){
                     0 -> 0.0
                     else -> 1.0
@@ -193,13 +218,14 @@ class SettingsAppearanceFr : Fragment() {
                 id: Long
             ) {
 
-                if(initialDisplay){
-                    initialDisplay = false
+                val selectedDarkTheme = spTheme.selectedItemPosition==0
+
+                if(initialDisplayTheme){
+                    initialDisplayTheme = false
                     return
                 }
 
                 //check if selected theme is dark theme (dark is position 0, light is 1)
-                val selectedDarkTheme = spTheme.selectedItemPosition==0
 
                 //check if use system theme is set and if current change does not conform to system theme
                 //if yes, disable "use system theme"
@@ -235,7 +261,14 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
+
+                if(initialDisplayShapes){
+                    initialDisplayShapes = false
+                    return
+                }
+
                 SettingsManager.addSetting(SettingId.SHAPES_ROUND, spShapes.selectedItemPosition==1)
+                tvCurrentShape.text = resources.getStringArray(R.array.shapes)[position]
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -301,5 +334,18 @@ class SettingsAppearanceFr : Fragment() {
         cardView.setOnClickListener { rbBorderLess.isChecked = true }
         cardView2.setOnClickListener { rbColoredBorder.isChecked = true }
         cardView3.setOnClickListener { rbFullColor.isChecked = true }
+
+        clTheme.setOnClickListener {
+            spTheme.performClick()
+        }
+
+        clShapes.setOnClickListener {
+            spShapes.performClick()
+        }
+
+        clLanguage.setOnClickListener {
+            spLanguages.performClick()
+        }
+
     }
 }

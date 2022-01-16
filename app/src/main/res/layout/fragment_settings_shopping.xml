@@ -21,19 +21,31 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clManageCustomItems"
                 android:layout_width="match_parent"
+                android:background="?attr/selectableItemBackground"
                 android:paddingVertical="15dp"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="20dp">
 
                 <TextView
+                    android:id="@+id/tvCustomItems"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsCusItems"
                     android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_or_delete_items_that_you_entered_which_the_shopping_list_remembered"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tvCustomItems"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -56,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settingsOnlyExpandOne"
                     android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_small"
+                    android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swExpandOneCategory"
                     app:layout_constraintStart_toStartOf="parent"
@@ -73,13 +85,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:paddingVertical="15dp"
@@ -92,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settingsCollapseChecked"
                     android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_small"
+                    android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swCollapseCheckedSublists"
                     app:layout_constraintStart_toStartOf="parent"
@@ -110,13 +115,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:paddingVertical="15dp"
@@ -129,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settings_shopping_move_down"
                     android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_small"
+                    android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swMoveCheckedToBottom"
                     app:layout_constraintStart_toStartOf="parent"
@@ -147,17 +145,11 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
+                android:paddingVertical="5dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -166,8 +158,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settingsCloseItemDialog"
                     android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="@dimen/font_size_medium"
                     app:layout_constraintEnd_toStartOf="@+id/swCloseAddItemDialog"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -193,17 +184,10 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="20dp"
+                android:paddingVertical="5dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -212,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/suggest_similar_items_for_unknown_names"
                     android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_small"
+                    android:textSize="@dimen/font_size_medium"
                     app:layout_constraintEnd_toStartOf="@+id/swSuggestSimilar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

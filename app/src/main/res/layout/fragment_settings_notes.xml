@@ -16,13 +16,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
             android:orientation="vertical">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="0dp"
+                android:id="@+id/clNoteLines"
+                android:paddingVertical="5dp"
+                android:background="?attr/selectableItemBackground"
                 android:paddingHorizontal="20dp">
 
                 <TextView
@@ -31,36 +34,46 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settingsNumOfLines"
                     android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCurrentNoteLines"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Uninit"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/spNoteLines"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tvNoteLines"
+                    />
 
                 <Spinner
                     android:id="@+id/spNoteLines"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    app:layout_constraintTop_toTopOf="@id/tvNoteLines"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNoteLines"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 </Spinner>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="0dp"
+                android:background="?attr/selectableItemBackground"
+                android:id="@+id/clNoteColumns"
+                android:paddingVertical="5dp"
                 android:paddingHorizontal="20dp"
                 >
 
@@ -70,36 +83,45 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settingsNumOfCols"
                     android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCurrentNoteColumns"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Uninit"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/spNoteColumns"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tvNoteColumns"
+                    />
 
                 <Spinner
                     android:id="@+id/spNoteColumns"
                     android:layout_width="wrap_content"
-                    android:gravity="end"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/tvNoteColumns"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNoteColumns"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    android:gravity="end"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 </Spinner>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="0dp"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="5dp"
+                android:id="@+id/clFontSize"
                 android:paddingHorizontal="20dp"
                 >
 
@@ -109,19 +131,32 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settingsFontSize"
                     android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCurrentNoteEditorFontSize"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Uninit"
+                    android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/tvNoteEditorFontSize"
+                    />
 
                 <Spinner
                     android:id="@+id/spEditorFontsize"
                     android:layout_width="wrap_content"
-                    android:gravity="end"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/tvNoteEditorFontSize"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNoteEditorFontSize"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    android:gravity="end"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 </Spinner>
 
@@ -137,7 +172,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="7dp"
+                android:paddingVertical="15dp"
                 android:paddingHorizontal="20dp"
                 >
 
@@ -148,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/notesSwipeToDElete"
                     android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_small"
+                    android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -165,17 +200,11 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="7dp"
+                android:paddingVertical="15dp"
                 android:paddingHorizontal="20dp"
                 >
 
@@ -186,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/setting_randomize_note_colors"
                     android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_small"
+                    android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
