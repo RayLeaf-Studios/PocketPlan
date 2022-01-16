@@ -122,10 +122,10 @@ class CustomItemFr : Fragment() {
         updateClearCustomListIcon()
         updateUndoCustomIcon()
     }
-
     //Deletes all checked tasks and animates the deletion
 
 }
+
 class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val myActivity: MainActivity): ItemTouchHelper
 .SimpleCallback(0, direction){
 
@@ -164,7 +164,7 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val m
         myActivity.userItemTemplateList.save()
 
         //animate remove in recycler view adapter
-        CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+        CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.bindingAdapterPosition)
 
         //update options menu
         CustomItemFr.myFragment.updateUndoCustomIcon()
@@ -195,7 +195,7 @@ class CustomItemAdapter(val myActivity: MainActivity) :
             holder.itemView.cvCustom.radius = cr
         }
 
-        val currentItem = myActivity.userItemTemplateList[holder.adapterPosition]
+        val currentItem = myActivity.userItemTemplateList[holder.bindingAdapterPosition]
         holder.myItem = currentItem
 
         //changes design of task based on priority and being checked

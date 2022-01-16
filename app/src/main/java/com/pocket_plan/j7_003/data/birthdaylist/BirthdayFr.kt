@@ -926,7 +926,7 @@ class SwipeToDeleteBirthday(
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val parsed = viewHolder as BirthdayAdapter.BirthdayViewHolder
-        return if (viewHolder.adapterPosition == myFragment.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
+        return if (viewHolder.bindingAdapterPosition == myFragment.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
             0
         } else {
             super.getSwipeDirs(recyclerView, viewHolder)
@@ -960,8 +960,8 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         val parsed = viewHolder as BirthdayViewHolder
         //get deleted birthday via index
         BirthdayFr.deletedBirthday = when (myFragment.searching) {
-            true -> BirthdayFr.adjustedList[viewHolder.adapterPosition]
-            else -> listInstance.getBirthday(viewHolder.adapterPosition)
+            true -> BirthdayFr.adjustedList[viewHolder.bindingAdapterPosition]
+            else -> listInstance.getBirthday(viewHolder.bindingAdapterPosition)
         }
 
         //delete birthday and get info of deleted range and position back
@@ -1049,7 +1049,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             params.setMargins(marginSide, (density * 1).toInt(), marginSide, (density * 1).toInt())
             if (round) {
                 //if its the last birthday in list, or the following birthday is a monthDivider (daysToRemind < 0) bottom corners become round
-                if ((holder.adapterPosition == myFragment.birthdayListInstance.size - 1) || (myFragment.birthdayListInstance[holder.adapterPosition + 1].daysToRemind < 0)) {
+                if ((holder.bindingAdapterPosition == myFragment.birthdayListInstance.size - 1) || (myFragment.birthdayListInstance[holder.bindingAdapterPosition + 1].daysToRemind < 0)) {
                     myGradientDrawable.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cr, cr, cr, cr)
                 }
             }
@@ -1185,7 +1185,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         val switchExpandState: () -> Unit = {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
         }
 
         //onClickListener on name and Date to switch expansion state
@@ -1203,7 +1203,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //onClickListener on bell icon to enable / disable reminder
         holder.itemView.icon_bell.setOnClickListener {
             holder.birthday.notify = !holder.birthday.notify
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
         }
 
 

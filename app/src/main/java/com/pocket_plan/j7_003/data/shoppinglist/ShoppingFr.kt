@@ -109,7 +109,7 @@ class ShoppingFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
-                    val currentPosition = viewHolder.adapterPosition
+                    val currentPosition = viewHolder.bindingAdapterPosition
                     //mark that moving has ended (to allow a new previousPosition when move is detected)
                     moving = false
 
@@ -135,7 +135,7 @@ class ShoppingFr : Fragment() {
                     //get tag of this category
                     val tag = (viewHolder as ShoppingListAdapter.CategoryViewHolder).tag
                     //get position
-                    val position = viewHolder.adapterPosition
+                    val position = viewHolder.bindingAdapterPosition
                     //get boolean if all items are checked
                     val oldAllChecked = shoppingListInstance.areAllChecked(tag)
 
@@ -195,15 +195,15 @@ class ShoppingFr : Fragment() {
 
                     if (!moving) {
                         //if not moving, save new previous position
-                        previousPosition = viewHolder.adapterPosition
+                        previousPosition = viewHolder.bindingAdapterPosition
 
                         //and prevent new previous positions from being set until this move is over
                         moving = true
                     }
 
                     //get start and target position of item that gets dragged
-                    val fromPos = viewHolder.adapterPosition
-                    val toPos = target.adapterPosition
+                    val fromPos = viewHolder.bindingAdapterPosition
+                    val toPos = target.bindingAdapterPosition
 
                     // animate move of category from `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
@@ -349,7 +349,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
                     }
                 }
             }
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
             myFragment.myMultiShoppingFr.updateExpandAllIcon()
             myFragment.myMultiShoppingFr.updateCollapseAllIcon()
         }
@@ -387,7 +387,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
                 }
             }
 
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
 
             if (moveCheckedSublistsDown) {
                 val sublistMoveInfo = myFragment.shoppingListInstance.sortCategoriesByChecked(tag)
@@ -631,7 +631,7 @@ class SublistAdapter(
             //flip checkedState of item and save new position (flipItemCheckedState sorts list and returns new position)
             val newPosition = myFragment.shoppingListInstance.flipItemCheckedState(
                 tag,
-                holder.adapterPosition
+                holder.bindingAdapterPosition
             )
 
             //get number of uncheckedItems in current sublist
@@ -652,14 +652,14 @@ class SublistAdapter(
                 )
             ) {
                 myFragment.shoppingListInstance.flipExpansionState(holder.tag)
-            myFragment.myAdapter.notifyItemChanged(parentHolder.adapterPosition)
+            myFragment.myAdapter.notifyItemChanged(parentHolder.bindingAdapterPosition)
             }
 
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
 
 
             if (newPosition > -1) {
-                notifyItemMoved(holder.adapterPosition, newPosition)
+                notifyItemMoved(holder.bindingAdapterPosition, newPosition)
             }
 
             //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
@@ -718,7 +718,7 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         //position of item in sublist
-        val position = viewHolder.adapterPosition
+        val position = viewHolder.bindingAdapterPosition
 
         //ViewHolder as ItemViewHolder
         val parsed = viewHolder as SublistAdapter.ItemViewHolder

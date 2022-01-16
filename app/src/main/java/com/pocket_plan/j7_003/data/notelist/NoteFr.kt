@@ -243,7 +243,7 @@ class NoteFr : Fragment() {
                     if (searching) {
                         search(lastQuery)
                     } else {
-                        myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                        myAdapter.notifyItemRemoved(viewHolder.bindingAdapterPosition)
                     }
 
                     updateNoteSearchIcon()
@@ -308,7 +308,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         }
 
         //when title is empty, hide it else show it and set the proper text
-        if (currentNote.title == "") {
+        if (currentNote.title.trim() == "") {
             holder.tvNoteTitle.visibility = View.GONE
         } else {
             holder.tvNoteTitle.visibility = View.VISIBLE
