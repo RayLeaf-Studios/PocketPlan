@@ -343,10 +343,17 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             2.0 -> currentNote.color.colorCode
             1.0 -> R.attr.colorBackgroundElevated
             3.0 -> {
+                val darkerNoteColor = when(currentNote.color){
+                    NoteColors.RED -> R.attr.colorNoteRedDarker
+                    NoteColors.GREEN -> R.attr.colorNoteGreenDarker
+                    NoteColors.BLUE -> R.attr.colorNoteBlueDarker
+                    NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
+                    NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
+                }
                 holder.itemView.cvNoteBg.setCardBackgroundColor(
-                    myActivity.colorForAttr(currentNote.color.colorCode))
+                    myActivity.colorForAttr(darkerNoteColor))
                 holder.itemView.cvNoteCard.setCardBackgroundColor(
-                    myActivity.colorForAttr(currentNote.color.colorCode))
+                    myActivity.colorForAttr(darkerNoteColor))
                 return
             }
             else -> currentNote.color.colorCode

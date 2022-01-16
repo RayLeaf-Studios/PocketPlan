@@ -48,6 +48,10 @@
         <item name="colorPriority2">#E89E2E</item>
         <item name="colorPriority3">#39BF33</item>
 
+        <item name="colorPriority1darker">#99B92222</item>
+        <item name="colorPriority2darker">#BCC5861A</item>
+        <item name="colorPriority3darker">#C31D6521</item>
+
         <item name="colorPriority1border">#E62929</item>
         <item name="colorPriority2border">#E89E2E</item>
         <item name="colorPriority3border">#39BF33</item>
@@ -71,6 +75,12 @@
         <item name="colorNoteGreen">#3DCD37</item>
         <item name="colorNoteBlue">#2581E3</item>
         <item name="colorNotePurple">#BA2B7D</item>
+
+        <item name="colorNoteRedDarker">#B71C1C</item>
+        <item name="colorNoteYellowDarker">#F57F17</item>
+        <item name="colorNoteGreenDarker">#1B5E20</item>
+        <item name="colorNoteBlueDarker">#1A237E</item>
+        <item name="colorNotePurpleDarker">#4A148C</item>
 
         <item name="colorMonth1">#024B98</item>
         <item name="colorMonth2">#1584C1</item>

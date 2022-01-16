@@ -78,7 +78,7 @@ class TodoFr : Fragment() {
             }
 
             R.id.item_tasks_undo -> {
-//                undo deletion of last task
+                //undo deletion of last task
                 val newPos = todoListInstance.addFullTask(deletedTask!!)
                 myAdapter.notifyItemInserted(newPos)
 
@@ -118,12 +118,8 @@ class TodoFr : Fragment() {
 
         deletedTask = null
 
-        /**
-         * Adding Task via floating action button
-         * Onclick-Listener opening the add-task dialog
-         */
-
         todoListInstance = TodoList()
+
         /**
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
@@ -454,9 +450,9 @@ class TodoTaskAdapter(activity: MainActivity) :
                 if (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) != 3.0)
                     attr.colorBackgroundElevated
                 else when (listInstance.getTask(holder.bindingAdapterPosition).priority) {
-                        1 -> attr.colorPriority1
-                        2 -> attr.colorPriority2
-                        else -> attr.colorPriority3
+                        1 -> attr.colorPriority1darker
+                        2 -> attr.colorPriority2darker
+                        else -> attr.colorPriority3darker
                     }
             } else {
                 //colored background in light theme

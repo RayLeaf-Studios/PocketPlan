@@ -31,6 +31,10 @@
     <attr name="colorPriority2" format="color"/>
     <attr name="colorPriority3" format="color"/>
 
+    <attr name="colorPriority1darker" format="color"/>
+    <attr name="colorPriority2darker" format="color"/>
+    <attr name="colorPriority3darker" format="color"/>
+
     <attr name="colorPriority1border" format="color"/>
     <attr name="colorPriority2border" format="color"/>
     <attr name="colorPriority3border" format="color"/>
@@ -55,12 +59,18 @@
     <attr name="colorNoteBlue" format="color"/>
     <attr name="colorNotePurple" format="color"/>
 
+    <attr name="colorNoteRedDarker" format="color"/>
+    <attr name="colorNoteYellowDarker" format="color"/>
+    <attr name="colorNoteGreenDarker" format="color"/>
+    <attr name="colorNoteBlueDarker" format="color"/>
+    <attr name="colorNotePurpleDarker" format="color"/>
+
     <attr name="colorBackgroundListElement" format="color"/>
     <attr name="colorGoToSleep" format="color"/>
 
     <attr name="colorSun" format="color"/>
 
-<attr name="colorBirthdayNotify" format="color"/>
+    <attr name="colorBirthdayNotify" format="color"/>
     <attr name="colorHomePanel" format="color"/>
 
     <attr name="colorCategory" format="color"/>
