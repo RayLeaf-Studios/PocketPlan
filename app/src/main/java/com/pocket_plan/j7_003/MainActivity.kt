@@ -234,7 +234,11 @@ class MainActivity : AppCompatActivity() {
             "birthdays" -> changeToFragment(FT.BIRTHDAYS)
             "SReminder" -> changeToFragment(FT.HOME)
             "settings" -> changeToFragment(FT.SETTINGS)
-            "appearance" -> changeToFragment(FT.SETTINGS_APPEARANCE)
+            "appearance" -> {
+                previousFragmentStack.push(FT.HOME)
+                previousFragmentStack.push(FT.SETTINGS)
+                changeToFragment(FT.SETTINGS_APPEARANCE)
+            }
             else -> {
                 if (previousFragmentStack.peek() == FT.EMPTY) {
                     changeToFragment(FT.HOME)
