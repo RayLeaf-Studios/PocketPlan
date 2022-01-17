@@ -163,6 +163,7 @@
     <string name="hint_export_backup">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
     <string name="setting_randomize_note_colors">Zufällige Farbe für neue Notizen</string>
     <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">Zeigt dir Artikel an, die sich die Einkaufsliste gemerkt hat und erlaubt dir diese zu löschen.</string>
+    <string name="add_folder">Ordner hinzufügen</string>
 
 
     <!-- Arrays -->

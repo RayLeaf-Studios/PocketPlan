@@ -566,6 +566,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        if(previousFragmentStack.peek() == FT.NOTES){
+            val result = noteFr!!.noteListDirs.goBack()
+            if(result){
+                NoteFr.myAdapter.notifyDataSetChanged()
+                return
+            }
+        }
+
         previousFragmentStack.pop()
         if (previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())

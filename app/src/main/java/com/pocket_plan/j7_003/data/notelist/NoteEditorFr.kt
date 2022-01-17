@@ -257,7 +257,8 @@ class NoteEditorFr : Fragment() {
         myActivity.hideKeyboard()
         val noteContent = etNoteContent.text.toString()
         val noteTitle = etNoteTitle.text.toString()
-        myNoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
+//        myNoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
+        myNoteFr.noteListDirs.addNote(Note(noteTitle, noteContent, noteColor))
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
             Toast.makeText(myActivity, R.string.notificationNoteAdded, Toast.LENGTH_SHORT).show()

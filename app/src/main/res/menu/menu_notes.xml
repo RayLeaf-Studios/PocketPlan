@@ -7,6 +7,10 @@
         android:icon="@drawable/ic_action_undo"
         app:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/item_notes_add_folder"
+        android:title="@string/add_folder"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/item_notes_search"
         android:icon="@drawable/ic_action_search"

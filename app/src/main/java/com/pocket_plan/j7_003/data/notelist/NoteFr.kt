@@ -4,9 +4,11 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -20,8 +22,12 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr.Companion.noteColor
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
+import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
+import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
 
 /**
@@ -34,6 +40,7 @@ class NoteFr : Fragment() {
     lateinit var myRecycler: RecyclerView
     lateinit var searchView: SearchView
     var noteListInstance: NoteList = NoteList()
+    var noteListDirs: NoteDirList = NoteDirList()
     lateinit var myActivity: MainActivity
 
     companion object {
@@ -190,9 +197,52 @@ class NoteFr : Fragment() {
                 updateNoteUndoIcon()
                 updateNoteSearchIcon()
             }
+
+            R.id.item_notes_add_folder -> {
+                dialogAddNoteFolder()
+            }
+
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun dialogAddNoteFolder() {
+        //inflate the dialog with custom view
+        val myDialogView =
+            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_shopping_list, null)
+
+        //AlertDialogBuilder
+        val myBuilder =
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
+        customTitle.tvDialogTitle.text = myActivity.getString(R.string.add_folder)
+        myBuilder?.setCustomTitle(customTitle)
+
+        //show dialog
+        val myAlertDialog = myBuilder?.create()
+        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        myAlertDialog?.show()
+
+        myDialogView.btnAddShoppingList.setOnClickListener {
+            val newName = myDialogView.etAddShoppingList.text.toString()
+            //Todo add check if name is allowed
+            noteListDirs.addNoteDir(NoteDir(newName, ArrayList<NoteObj>()))
+            val addResult = true
+            if (newName.trim() == "" || !addResult) {
+                val animationShake =
+                    AnimationUtils.loadAnimation(myActivity, R.anim.shake)
+                myDialogView!!.etAddShoppingList.startAnimation(animationShake)
+                return@setOnClickListener
+            }
+            myAdapter.notifyDataSetChanged()
+            myAlertDialog?.dismiss()
+        }
+
+        val cancelBtn = myDialogView.btnCancelShoppingList
+        cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
+
+        myDialogView.etAddShoppingList.requestFocus()
     }
 
 
@@ -233,7 +283,7 @@ class NoteFr : Fragment() {
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                     val parsed = viewHolder as NoteAdapter.NoteViewHolder
-                    deletedNote = parsed.note
+//                    deletedNote = parsed.note
 
                     //delete note from noteList and save
                     noteListInstance.remove(parsed.note)
@@ -274,7 +324,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
 
-        val currentNote = when (NoteFr.searching) {
+        var currentNote = when (NoteFr.searching) {
             /**
              * NoteFr is currently in search mode, current note gets grabbed from
              * NoteFr. adjusted list
@@ -283,93 +333,105 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             /**
              * NoteFr is currently in normal mode, current note gets grabbed from noteList
              */
-            false -> myNoteFr.noteListInstance.getNote(position)
+            false -> myNoteFr.noteListDirs.getNode(position)
         }
 
         holder.note = currentNote
 
-        //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
-        holder.itemView.setOnClickListener {
-            noteColor = currentNote.color
+        if(currentNote is Note){
+            //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
+            holder.itemView.setOnClickListener {
+                noteColor = (currentNote as Note).color
 
-            //move current note to top
-            val noteToMove = holder.note
-            val noteIndex = myNoteFr.noteListInstance.indexOf(currentNote)
+                //move current note to top
+//                val noteToMove = holder.note
+//                val noteIndex = myNoteFr.noteListInstance.indexOf(currentNote)
+//
+//                myNoteFr.noteListInstance.removeAt(noteIndex)
+//                myNoteFr.noteListInstance.add(0, noteToMove)
+//                myNoteFr.noteListInstance.save()
 
-            myNoteFr.noteListInstance.removeAt(noteIndex)
-            myNoteFr.noteListInstance.add(0, noteToMove)
-            myNoteFr.noteListInstance.save()
+                PreferenceManager.getDefaultSharedPreferences(myActivity)
+                    .edit().putBoolean("editingNote", true).apply()
 
-            PreferenceManager.getDefaultSharedPreferences(myActivity)
-                .edit().putBoolean("editingNote", true).apply()
+                myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
+                myActivity.hideKeyboard()
+            }
 
-            myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
-            myActivity.hideKeyboard()
-        }
+            //when title is empty, hide it else show it and set the proper text
+            if (currentNote.title.trim() == "") {
+                holder.tvNoteTitle.visibility = View.GONE
+            } else {
+                holder.tvNoteTitle.visibility = View.VISIBLE
+                holder.tvNoteTitle.text = currentNote.title
+            }
 
-        //when title is empty, hide it else show it and set the proper text
-        if (currentNote.title.trim() == "") {
-            holder.tvNoteTitle.visibility = View.GONE
-        } else {
-            holder.tvNoteTitle.visibility = View.VISIBLE
-            holder.tvNoteTitle.text = currentNote.title
-        }
+            holder.tvNoteContent.text = currentNote.content
 
-        holder.tvNoteContent.text = currentNote.content
+            //decide how many lines per note are shown, depending on teh setting noteLines
+            if (NoteFr.noteLines == -1) {
+                holder.tvNoteContent.maxLines = Int.MAX_VALUE
+            } else {
+                holder.tvNoteContent.maxLines = NoteFr.noteLines
+                holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
+            }
 
-        //decide how many lines per note are shown, depending on teh setting noteLines
-        if (NoteFr.noteLines == -1) {
-            holder.tvNoteContent.maxLines = Int.MAX_VALUE
-        } else {
-            holder.tvNoteContent.maxLines = NoteFr.noteLines
-            holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
-        }
+            holder.cvNoteCard.radius = when (round) {
+                true -> cr
+                else -> 0f
+            }
+            holder.itemView.cvNoteBg.radius = holder.cvNoteCard.radius
 
-        holder.cvNoteCard.radius = when (round) {
-            true -> cr
-            else -> 0f
-        }
-        holder.itemView.cvNoteBg.radius = holder.cvNoteCard.radius
-
-        if (!dark){
-            holder.itemView.cvNoteCard.setCardBackgroundColor(
-                myActivity.colorForAttr(currentNote.color.colorCode))
-            holder.itemView.cvNoteBg.setCardBackgroundColor(
-                myActivity.colorForAttr(currentNote.color.colorCode))
-            return
-        }
-
-        val cbor = when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
-            2.0 -> currentNote.color.colorCode
-            1.0 -> R.attr.colorBackgroundElevated
-            3.0 -> {
-                val darkerNoteColor = when(currentNote.color){
-                    NoteColors.RED -> R.attr.colorNoteRedDarker
-                    NoteColors.GREEN -> R.attr.colorNoteGreenDarker
-                    NoteColors.BLUE -> R.attr.colorNoteBlueDarker
-                    NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
-                    NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
-                }
-                holder.itemView.cvNoteBg.setCardBackgroundColor(
-                    myActivity.colorForAttr(darkerNoteColor))
+            if (!dark){
                 holder.itemView.cvNoteCard.setCardBackgroundColor(
-                    myActivity.colorForAttr(darkerNoteColor))
+                    myActivity.colorForAttr(currentNote.color.colorCode))
+                holder.itemView.cvNoteBg.setCardBackgroundColor(
+                    myActivity.colorForAttr(currentNote.color.colorCode))
                 return
             }
-            else -> currentNote.color.colorCode
+
+            val cbor = when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
+                2.0 -> currentNote.color.colorCode
+                1.0 -> R.attr.colorBackgroundElevated
+                3.0 -> {
+                    val darkerNoteColor = when(currentNote.color){
+                        NoteColors.RED -> R.attr.colorNoteRedDarker
+                        NoteColors.GREEN -> R.attr.colorNoteGreenDarker
+                        NoteColors.BLUE -> R.attr.colorNoteBlueDarker
+                        NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
+                        NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
+                    }
+                    holder.itemView.cvNoteBg.setCardBackgroundColor(
+                        myActivity.colorForAttr(darkerNoteColor))
+                    holder.itemView.cvNoteCard.setCardBackgroundColor(
+                        myActivity.colorForAttr(darkerNoteColor))
+                    return
+                }
+                else -> currentNote.color.colorCode
+            }
+
+            holder.itemView.cvNoteBg.setCardBackgroundColor(myActivity.colorForAttr(cbor))
+            holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorBackgroundElevated))
+
+            holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
+            holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
+
+        }else{
+            currentNote = currentNote as NoteDir
+            holder.tvNoteContent.text = "FOLDER" + currentNote.name
+            holder.itemView.setOnClickListener {
+                myNoteFr.noteListDirs.folderOpened(currentNote)
+                notifyDataSetChanged()
+            }
         }
 
-        holder.itemView.cvNoteBg.setCardBackgroundColor(myActivity.colorForAttr(cbor))
-        holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorBackgroundElevated))
 
-        holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
-        holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
     }
 
     override fun getItemCount(): Int {
         return when (NoteFr.searching) {
             true -> NoteFr.searchResults.size
-            false -> myNoteFr.noteListInstance.size
+            false -> myNoteFr.noteListDirs.getNoteObjCount()
         }
     }
 
@@ -379,7 +441,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         val tvNoteTitle: TextView = itemView.tvNoteTitle
         val tvNoteContent: TextView = itemView.tvNoteContent
         var cvNoteCard: CardView = itemView.cvNoteCard
-        lateinit var note: Note
+        lateinit var note: NoteObj
     }
 
 }
