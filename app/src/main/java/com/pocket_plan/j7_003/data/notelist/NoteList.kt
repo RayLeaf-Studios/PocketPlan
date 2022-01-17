@@ -21,19 +21,7 @@ class NoteList : LinkedList<Note>(), Checkable {
      * @param color Color of the note.
      */
     fun addNote(title: String, content: String, color: NoteColors) {
-        this.push(Note(title, content, color, "/"))
-        save()
-    }
-
-    /**
-     * Creates a note with the given parameters and saves it to file.
-     * @param title Displayed title of the note.
-     * @param content Contents of the note.
-     * @param color Color of the note.
-     * @param dir Directory the note is placed in.
-     */
-    fun addNote(title: String, content: String, color: NoteColors, dir: String) {
-        this.push(Note(title, content, color, dir))
+        this.push(Note(title, content, color))
         save()
     }
 
