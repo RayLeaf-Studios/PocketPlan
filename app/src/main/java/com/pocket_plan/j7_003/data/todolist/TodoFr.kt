@@ -279,6 +279,11 @@ class TodoFr : Fragment() {
             todoListInstance.somethingIsChecked()
     }
 
+    private fun updateDeleteTaskIcon() {
+        val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
+        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = checkedTasks > 0
+    }
+
     fun prepareForMove() {
         firstPos = layoutManager.findFirstVisibleItemPosition()
         offsetTop = 0
@@ -296,11 +301,6 @@ class TodoFr : Fragment() {
             firstPos,
             offsetTop
         )
-    }
-
-    private fun updateDeleteTaskIcon() {
-        val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
-        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = checkedTasks > 0
     }
 
     //Deletes all checked tasks and animates the deletion
