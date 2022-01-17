@@ -11,6 +11,18 @@
         android:title="@string/add_folder"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/item_notes_delete_folder"
+        android:title="Delete Folder"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_notes_edit_folder"
+        android:title="Edit Folder"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_notes_move_folder"
+        android:title="Move Folder"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/item_notes_search"
         android:icon="@drawable/ic_action_search"

@@ -498,6 +498,10 @@ class MainActivity : AppCompatActivity() {
         return fragment
     }
 
+    fun setToolbarTitle(msg: String){
+        myNewToolbar.title = msg
+    }
+
     /**
      * OVERRIDE FUNCTIONS
      */
@@ -569,6 +573,11 @@ class MainActivity : AppCompatActivity() {
         if(previousFragmentStack.peek() == FT.NOTES){
             val result = noteFr!!.noteListDirs.goBack()
             if(result){
+                val newTitle = when(noteFr!!.noteListDirs.folderStack.peek().name){
+                    "root" -> resources.getString(R.string.menuTitleNotes)
+                    else -> noteFr!!.noteListDirs.getCurrentPathName()
+                }
+                setToolbarTitle(newTitle)
                 NoteFr.myAdapter.notifyDataSetChanged()
                 return
             }

@@ -4,7 +4,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class NoteDirList {
-    val rootDir: NoteDir = NoteDir("/", arrayListOf(Note("test title", "test content", NoteColors.BLUE)))
+    val rootDir: NoteDir = NoteDir("root", ArrayList(), NoteColors.BLUE)
     var currentList: ArrayList<NoteObj>
     var folderStack: Stack<NoteDir> = Stack()
 
@@ -20,6 +20,19 @@ class NoteDirList {
         folderStack.add(dir)
     }
 
+    //todo
+    fun deleteCurrentFolder(){
+
+    }
+
+    //todo
+    fun renameCurrentFolder(newName: String): Boolean{
+       return true
+    }
+
+
+
+
     fun goBack(): Boolean{
         if(folderStack.size <= 1){
             return false
@@ -33,13 +46,30 @@ class NoteDirList {
         currentList.add(note)
     }
 
-    fun addNoteDir(noteDir: NoteDir) {
+    fun addNoteDir(noteDir: NoteDir):Boolean {
+        if(noteDir.name == "root"){
+            return false
+        }
         currentList.add(noteDir)
+        return true
     }
 
     fun getNoteObjCount(): Int{
        return currentList.size
     }
+
+    fun getCurrentPathName(): String{
+        var path = ""
+        //todo, ide marks this as error, but code compiles?! (and works!)
+        folderStack.stream().skip(1).forEach {
+            path += it.name + " / "
+        }
+        if(path.length > 26){
+            path = ".."+path.takeLast(26)
+        }
+        return path
+    }
+
 
 
 }

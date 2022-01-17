@@ -14,21 +14,36 @@
         app:cardElevation="0dp"
         android:layout_margin="1dp">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/icon_folder"
+                android:layout_width="wrap_content"
+                app:tint="?attr/colorOnBackGround"
+                android:src="@drawable/ic_action_folder"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="7dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="wrap_content"/>
+
+
             <TextView
                 android:id="@+id/tvNoteTitle"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:paddingTop="10dp"
-                android:textStyle="bold"
+                android:paddingEnd="10dp"
                 android:textColor="?attr/colorOnBackGroundTask"
-                android:textSize="@dimen/font_size_small" />
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/icon_folder"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvNoteContent"
@@ -39,11 +54,14 @@
                 android:fontFamily="sans-serif"
                 android:padding="10dp"
                 android:textColor="?attr/colorOnBackGroundTask"
+                app:layout_constraintTop_toBottomOf="@id/tvNoteTitle"
+                app:layout_constraintStart_toStartOf="parent"
                 android:textSize="@dimen/font_size_small" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </RelativeLayout>
+
 
     </androidx.cardview.widget.CardView>
 </androidx.cardview.widget.CardView>

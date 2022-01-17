@@ -10,4 +10,4 @@ data class Note(
     var content: String,
 
     @SerializedName(value = "cl")
-    var color: NoteColors): NoteObj()
+    override var color: NoteColors): NoteObj()
