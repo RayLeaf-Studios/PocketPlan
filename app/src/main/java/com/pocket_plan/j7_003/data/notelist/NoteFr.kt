@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.data.notelist
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -32,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
+import kotlin.properties.Delegates
 
 /**
  * A simple [Fragment] subclass.
@@ -40,9 +40,8 @@ import java.util.*
 class NoteFr : Fragment() {
 
     private lateinit var myMenu: Menu
-    lateinit var myRecycler: RecyclerView
+    private lateinit var myRecycler: RecyclerView
     lateinit var searchView: SearchView
-    var noteListInstance: NoteList = NoteList()
     var noteListDirs: NoteDirList = NoteDirList()
     lateinit var myActivity: MainActivity
 
@@ -73,9 +72,6 @@ class NoteFr : Fragment() {
         //reference to recycler view
         myRecycler = myView.recycler_view_note
 
-        //load new note list from file
-        noteListInstance = NoteList()
-
         //create and set new adapter for recyclerview
         myAdapter = NoteAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
@@ -100,9 +96,9 @@ class NoteFr : Fragment() {
         val textListener = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
-                val imm = myActivity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm = myActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 //Find the currently focused view, so we can grab the correct window token from it.
-                var view: View? = myActivity?.currentFocus
+                var view: View? = myActivity.currentFocus
                 //If no view currently has focus, create a new one, just so we can grab a window token from it
                 if (view == null) {
                     view = View(myActivity)
@@ -149,7 +145,7 @@ class NoteFr : Fragment() {
     }
 
     private fun updateNoteSearchIcon() {
-        myMenu.findItem(R.id.item_notes_search).isVisible = noteListDirs.rootDir.notes.size > 0
+        myMenu.findItem(R.id.item_notes_search).isVisible = noteListDirs.rootDir.noteList.size > 0
     }
 
     private fun updateNoteUndoIcon() {
@@ -169,8 +165,8 @@ class NoteFr : Fragment() {
             searchResults.clear()
 
             //search all notes for occurrences of query text, add them to search results
-            noteListInstance.forEach { note ->
-                if (note.content.toLowerCase(Locale.ROOT)
+            noteListDirs.currentList.forEach { note ->
+                if (note.content!!.toLowerCase(Locale.ROOT)
                         .contains(query.toLowerCase(Locale.ROOT)) ||
                     note.title.toLowerCase(Locale.ROOT)
                         .contains(query.toLowerCase(Locale.ROOT))
@@ -189,7 +185,9 @@ class NoteFr : Fragment() {
             }
 
             R.id.item_notes_undo -> {
-                noteListInstance.addFullNote(deletedNote!!)
+                if (deletedNote!!.content != null) noteListDirs.addFullNote(deletedNote!!)
+                else noteListDirs.addNoteDir(deletedNote!!)
+
                 if (searching) {
                     search(lastQuery)
                 } else {
@@ -216,7 +214,6 @@ class NoteFr : Fragment() {
     }
 
     private fun dialogAddNoteFolder() {
-
         //inflate the dialog with custom view
         val myDialogView =
             LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_note_folder, null)
@@ -254,18 +251,16 @@ class NoteFr : Fragment() {
             myDialogView.btnPurpleBg,
         )
 
-
-
-        btnList.forEachIndexed{index, button ->
+        btnList.forEachIndexed { index, button ->
             button.setOnClickListener {
                 //reset all backgrounds to their respective color
                 backgroundList.forEachIndexed { index, constraintLayout ->
-                    constraintLayout.setBackgroundColor(myActivity.colorForAttr(NoteColors.values().get(index).colorCode))
+                    constraintLayout.setBackgroundColor(myActivity.colorForAttr(NoteColors.values()[index].colorCode))
                 }
                 //set white border around clicked button
-                backgroundList.get(index).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+                backgroundList[index].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
-                folderColor = NoteColors.values().get(index)
+                folderColor = NoteColors.values()[index]
             }
         }
 
@@ -273,7 +268,7 @@ class NoteFr : Fragment() {
 
             val newName = myDialogView.etAddNoteFolder.text.toString()
             //Todo add check if name is allowed
-            val addResult = noteListDirs.addNoteDir(NoteDir(newName, ArrayList<NoteObj>(), folderColor))
+            val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
@@ -328,11 +323,11 @@ class NoteFr : Fragment() {
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
                     val parsed = viewHolder as NoteAdapter.NoteViewHolder
-//                    deletedNote = parsed.note
+                    deletedNote = parsed.noteObj
 
                     //delete note from noteList and save
-                    noteListInstance.remove(parsed.noteObj)
-                    noteListInstance.save()
+                    noteListDirs.remove(parsed.noteObj)
+                    noteListDirs.save()
 
                     //refresh search if searching currently
                     if (searching) {
@@ -351,14 +346,14 @@ class NoteFr : Fragment() {
 
 }
 
-
 class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val myActivity = mainActivity
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
     private val myNoteFr = noteFr
-    val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    var notePosition by Delegates.notNull<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -369,7 +364,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
 
-        var currentNote = when (NoteFr.searching) {
+        val currentNote = when (NoteFr.searching) {
             /**
              * NoteFr is currently in search mode, current note gets grabbed from
              * NoteFr. adjusted list
@@ -378,7 +373,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             /**
              * NoteFr is currently in normal mode, current note gets grabbed from noteList
              */
-            false -> myNoteFr.noteListDirs.getNode(position)
+            false -> myNoteFr.noteListDirs.getNote(position)
         }
 
         //attach note object to holder
@@ -391,11 +386,11 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         }
         holder.itemView.cvNoteBg.radius = holder.cvNoteCard.radius
 
-        val cardColor = when(dark){
+        val cardColor = when (dark) {
             //DARK THEME BACKGROUND COLORS
-            true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+            true -> when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
                 //Darker colored background (filled with color but uses darker color)
-                3.0 -> when(currentNote.color){
+                3.0 -> when (currentNote.color) {
                     NoteColors.RED -> R.attr.colorNoteRedDarker
                     NoteColors.GREEN -> R.attr.colorNoteGreenDarker
                     NoteColors.BLUE -> R.attr.colorNoteBlueDarker
@@ -411,15 +406,15 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             else -> currentNote.color.colorCode
         }
 
-        val borderColor = when(dark){
+        val borderColor = when (dark) {
             //DARK THEME BACKGROUND COLORS
-            true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+            true -> when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
                 //No border at all
                 1.0 -> R.attr.colorBackgroundElevated
                 //Colored border
                 2.0 -> currentNote.color.colorCode
                 //3.0 Darker colored background (filled with color but uses darker color)
-                else -> when(currentNote.color){
+                else -> when (currentNote.color) {
                     NoteColors.RED -> R.attr.colorNoteRedDarker
                     NoteColors.GREEN -> R.attr.colorNoteGreenDarker
                     NoteColors.BLUE -> R.attr.colorNoteBlueDarker
@@ -431,9 +426,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             else -> currentNote.color.colorCode
         }
 
-        val textColor = when(dark){
+        val textColor = when (dark) {
             //DARK THEME BACKGROUND COLORS
-            true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+            true -> when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
                 //Filled color => white text
                 3.0 -> R.attr.colorOnBackGround
 
@@ -451,19 +446,19 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(textColor))
         holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(textColor))
 
-        if(currentNote is Note){
+        if (currentNote.content != null) {
             //CONTENT AND LISTENERS FOR NOTE
             //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
             holder.itemView.setOnClickListener {
-                noteColor = (currentNote as Note).color
+                noteColor = currentNote.color
 
+                notePosition = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
                 //move current note to top
-                val noteToMove = holder.noteObj
-                val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
-
-                myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
-                myNoteFr.noteListDirs.currentList.add(0, noteToMove)
-//                myNoteFr.noteListDirs.save()
+//                val noteToMove = holder.noteObj
+//                val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
+//
+//                myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
+//                myNoteFr.noteListDirs.currentList.add(0, noteToMove)
 
                 PreferenceManager.getDefaultSharedPreferences(myActivity)
                     .edit().putBoolean("editingNote", true).apply()
@@ -491,17 +486,14 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             }
 
             holder.itemView.icon_folder.visibility = View.GONE
-
-
-        }else{
+        } else {
             //CONTENT AND LISTENERS FOR FOLDER
-            currentNote = currentNote as NoteDir
-            holder.tvNoteTitle.text = currentNote.name
+            holder.tvNoteTitle.text = currentNote.title
             holder.tvNoteContent.text = ""
             holder.tvNoteTitle.visibility = View.VISIBLE
             holder.itemView.icon_folder.visibility = View.VISIBLE
-            val iconColor = when(dark){
-                true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+            val iconColor = when (dark) {
+                true -> when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
                     //White icon for filled colors
                     3.0 -> R.attr.colorOnBackGround
 
@@ -515,7 +507,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
 
             holder.itemView.setOnClickListener {
-                myNoteFr.noteListDirs.folderOpened(currentNote)
+                myNoteFr.noteListDirs.openFolder(currentNote)
                 notifyDataSetChanged()
                 myActivity.setToolbarTitle(myNoteFr.noteListDirs.getCurrentPathName())
             }
@@ -537,7 +529,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         val tvNoteTitle: TextView = itemView.tvNoteTitle
         val tvNoteContent: TextView = itemView.tvNoteContent
         var cvNoteCard: CardView = itemView.cvNoteCard
-        lateinit var noteObj: NoteObj
+        lateinit var noteObj: Note
     }
 
 }

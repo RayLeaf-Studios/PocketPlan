@@ -72,10 +72,9 @@ class NoteEditorFr : Fragment() {
             PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
         }
         editNoteHolder = when(PreferenceManager.getDefaultSharedPreferences(myActivity).getBoolean("editingNote", false)){
-            true -> myNoteFr.noteListDirs.getNode(0) as Note
+            true -> myNoteFr.noteListDirs.getNote(NoteFr.myAdapter.notePosition)
             else -> null
         }
-
 
         if (editNoteHolder != null) {
             myEtTitle.setText(editNoteHolder!!.title)
@@ -273,7 +272,7 @@ class NoteEditorFr : Fragment() {
         editNoteHolder!!.content = noteContent
         editNoteHolder!!.color = noteColor
         editNoteHolder = null
-        myNoteFr.noteListInstance.save()
+        myNoteFr.noteListDirs.save()
     }
 
     @SuppressLint("InflateParams")
@@ -316,9 +315,9 @@ class NoteEditorFr : Fragment() {
     private fun openDeleteNoteDialog() {
         val titleId = R.string.noteDeleteDialogText
         val action: () -> Unit = {
-            myNoteFr.noteListInstance.remove(editNoteHolder)
+            myNoteFr.noteListDirs.remove(editNoteHolder!!)
             editNoteHolder = null
-            myNoteFr.noteListInstance.save()
+            myNoteFr.noteListDirs.save()
             myActivity.hideKeyboard()
             MainActivity.previousFragmentStack.push(FT.EMPTY)
             myActivity.changeToFragment(FT.NOTES)

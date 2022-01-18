@@ -7,7 +7,16 @@ data class Note(
     var title: String,
 
     @SerializedName(value = "ct")
-    var content: String,
+    var content: String?,
 
     @SerializedName(value = "cl")
-    override var color: NoteColors): NoteObj()
+    var color: NoteColors,
+
+    @SerializedName(value = "nl")
+    var noteList: NoteList
+    ) {
+    constructor(name: String, color: NoteColors, noteList: NoteList)
+            : this(name, null, color, noteList)
+    constructor(name: String, content: String, color: NoteColors)
+            : this(name, content, color, NoteList())
+}

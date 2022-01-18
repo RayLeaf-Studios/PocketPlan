@@ -517,13 +517,13 @@ class MainActivity : AppCompatActivity() {
                 val oldNoteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteContent", "")
                 val oldNoteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteTitle", "")
                 if(oldNoteContent != noteContent || oldNoteTitle != noteTitle){
-                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+                    noteFr?.noteListDirs?.addNote(noteTitle, noteContent, NoteColors.RED)
                 }
             }else{
                 //NEW NOTE
                 //App was closed during the creation of a new note => save it if its not empty
                 if(noteContent.trim()!=""||noteTitle.trim()!=""){
-                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
+                    noteFr?.noteListDirs?.addNote(noteTitle, noteContent, NoteColors.RED)
                 }
             }
         }
@@ -573,7 +573,7 @@ class MainActivity : AppCompatActivity() {
         if(previousFragmentStack.peek() == FT.NOTES){
             val result = noteFr!!.noteListDirs.goBack()
             if(result){
-                val newTitle = when(noteFr!!.noteListDirs.folderStack.peek().name){
+                val newTitle = when(noteFr!!.noteListDirs.folderStack.peek().title){
                     "root" -> resources.getString(R.string.menuTitleNotes)
                     else -> noteFr!!.noteListDirs.getCurrentPathName()
                 }
