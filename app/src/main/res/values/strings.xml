@@ -301,7 +301,6 @@
     <string name="settings_birthdays_month_addition">e.g. display \"14.03\" instead of \"14\"</string>
     <string name="setting_appearance_shake_addition">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
     <string name="suggest_similar_items_for_unknown_names">Improved item search</string>
-    <string name="e_g_suggest_apple_when_aplle_is_entered">E.g. suggest \"Apple\" when \"Appel\" is entered</string>
     <string name="show_next_upcoming_birthday_in_home_panel">Show next upcoming birthday in home panel</string>
     <string name="shopping_option_add_list">Add list</string>
     <string name="shopping_menu_delete_list">Delete List</string>
