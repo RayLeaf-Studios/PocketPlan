@@ -3,13 +3,16 @@ package com.pocket_plan.j7_003.data.notelist
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -22,6 +25,7 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr.Companion.noteColor
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
 import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
@@ -145,7 +149,7 @@ class NoteFr : Fragment() {
     }
 
     private fun updateNoteSearchIcon() {
-        myMenu.findItem(R.id.item_notes_search).isVisible = noteListInstance.size > 0
+        myMenu.findItem(R.id.item_notes_search).isVisible = noteListDirs.rootDir.notes.size > 0
     }
 
     private fun updateNoteUndoIcon() {
@@ -214,7 +218,7 @@ class NoteFr : Fragment() {
     private fun dialogAddNoteFolder() {
         //inflate the dialog with custom view
         val myDialogView =
-            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_shopping_list, null)
+            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_note_folder, null)
 
         //AlertDialogBuilder
         val myBuilder =
@@ -228,25 +232,48 @@ class NoteFr : Fragment() {
         myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
-        myDialogView.btnAddShoppingList.setOnClickListener {
-            val newName = myDialogView.etAddShoppingList.text.toString()
+        myDialogView.btnAddNoteFolder.setOnClickListener {
+            val btnList = arrayListOf<Button>(
+                myDialogView.btnRed,
+                myDialogView.btnYellow,
+                myDialogView.btnGreen,
+                myDialogView.btnBlue,
+                myDialogView.btnPurple,
+            )
+
+            val backgroundList = arrayListOf<ConstraintLayout>(
+                myDialogView.btnRedBg,
+                myDialogView.btnYellowBg,
+                myDialogView.btnGreenBg,
+                myDialogView.btnBlueBg,
+                myDialogView.btnPurpleBg,
+            )
+
+            btnList.forEachIndexed{index, button ->
+                button.setOnClickListener {
+                    Log.e("click d", "etected")
+                    backgroundList.get(index).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+                }
+            }
+
+            val newName = myDialogView.etAddNoteFolder.text.toString()
             //Todo add check if name is allowed
             //todo let user choose color
             val addResult = noteListDirs.addNoteDir(NoteDir(newName, ArrayList<NoteObj>(), NoteColors.YELLOW))
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                myDialogView!!.etAddShoppingList.startAnimation(animationShake)
+                myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
             myAdapter.notifyDataSetChanged()
             myAlertDialog?.dismiss()
         }
 
-        val cancelBtn = myDialogView.btnCancelShoppingList
+        val cancelBtn = myDialogView.btnCancelNoteFolder
         cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
 
-        myDialogView.etAddShoppingList.requestFocus()
+        myDialogView.etAddNoteFolder.requestFocus()
     }
 
 
@@ -350,42 +377,65 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         }
         holder.itemView.cvNoteBg.radius = holder.cvNoteCard.radius
 
-
-        if (!dark){
-            //LIGHT BACKGROUND
-            holder.itemView.cvNoteCard.setCardBackgroundColor(
-                myActivity.colorForAttr(currentNote.color.colorCode))
-            holder.itemView.cvNoteBg.setCardBackgroundColor(
-                myActivity.colorForAttr(currentNote.color.colorCode))
-            return
-        } else {
-            //DARK BACKGROUND
-            val cbor = when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
-                2.0 -> currentNote.color.colorCode
-                1.0 -> R.attr.colorBackgroundElevated
-                3.0 -> {
-                    val darkerNoteColor = when(currentNote.color){
-                        NoteColors.RED -> R.attr.colorNoteRedDarker
-                        NoteColors.GREEN -> R.attr.colorNoteGreenDarker
-                        NoteColors.BLUE -> R.attr.colorNoteBlueDarker
-                        NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
-                        NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
-                    }
-                    holder.itemView.cvNoteBg.setCardBackgroundColor(
-                        myActivity.colorForAttr(darkerNoteColor))
-                    holder.itemView.cvNoteCard.setCardBackgroundColor(
-                        myActivity.colorForAttr(darkerNoteColor))
-                    return
+        val cardColor = when(dark){
+            //DARK THEME BACKGROUND COLORS
+            true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+                //Darker colored background (filled with color but uses darker color)
+                3.0 -> when(currentNote.color){
+                    NoteColors.RED -> R.attr.colorNoteRedDarker
+                    NoteColors.GREEN -> R.attr.colorNoteGreenDarker
+                    NoteColors.BLUE -> R.attr.colorNoteBlueDarker
+                    NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
+                    NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
                 }
-                else -> currentNote.color.colorCode
+
+                //Dark background for 1 and 2
+                else -> R.attr.colorBackgroundElevated
+
             }
-
-            holder.itemView.cvNoteBg.setCardBackgroundColor(myActivity.colorForAttr(cbor))
-            holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorBackgroundElevated))
-
-            holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
-            holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(currentNote.color.colorCode))
+            //LIGHT BACKGROUND, just use note color
+            else -> currentNote.color.colorCode
         }
+
+        val borderColor = when(dark){
+            //DARK THEME BACKGROUND COLORS
+            true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+                //No border at all
+                1.0 -> R.attr.colorBackgroundElevated
+                //Colored border
+                2.0 -> currentNote.color.colorCode
+                //3.0 Darker colored background (filled with color but uses darker color)
+                else -> when(currentNote.color){
+                    NoteColors.RED -> R.attr.colorNoteRedDarker
+                    NoteColors.GREEN -> R.attr.colorNoteGreenDarker
+                    NoteColors.BLUE -> R.attr.colorNoteBlueDarker
+                    NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
+                    NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
+                }
+            }
+            //LIGHT BACKGROUND, just use note color as border
+            else -> currentNote.color.colorCode
+        }
+
+        val textColor = when(dark){
+            //DARK THEME BACKGROUND COLORS
+            true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+                //Filled color => white text
+                3.0 -> R.attr.colorOnBackGround
+
+                //Black background => colored text
+                else -> currentNote.color.colorCode
+
+            }
+            //LIGHT BACKGROUND, white text
+            else -> R.attr.colorBackground
+        }
+
+        holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(cardColor))
+        holder.itemView.cvNoteBg.setCardBackgroundColor(myActivity.colorForAttr(borderColor))
+
+        holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(textColor))
+        holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(textColor))
 
         if(currentNote is Note){
             //CONTENT AND LISTENERS FOR NOTE
@@ -394,12 +444,12 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 noteColor = (currentNote as Note).color
 
                 //move current note to top
-//                val noteToMove = holder.note
-//                val noteIndex = myNoteFr.noteListInstance.indexOf(currentNote)
-//
-//                myNoteFr.noteListInstance.removeAt(noteIndex)
-//                myNoteFr.noteListInstance.add(0, noteToMove)
-//                myNoteFr.noteListInstance.save()
+                val noteToMove = holder.noteObj
+                val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
+
+                myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
+                myNoteFr.noteListDirs.currentList.add(0, noteToMove)
+//                myNoteFr.noteListDirs.save()
 
                 PreferenceManager.getDefaultSharedPreferences(myActivity)
                     .edit().putBoolean("editingNote", true).apply()
@@ -436,7 +486,20 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.tvNoteContent.text = ""
             holder.tvNoteTitle.visibility = View.VISIBLE
             holder.itemView.icon_folder.visibility = View.VISIBLE
-            holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(currentNote.color.colorCode))
+            val iconColor = when(dark){
+                true -> when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)){
+                    //White icon for filled colors
+                    3.0 -> R.attr.colorOnBackGround
+
+                    //colored
+                    else -> currentNote.color.colorCode
+                }
+
+                //white icon for light theme
+                else -> R.attr.colorBackground
+            }
+            holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
+
             holder.itemView.setOnClickListener {
                 myNoteFr.noteListDirs.folderOpened(currentNote)
                 notifyDataSetChanged()

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="10dp"
+    android:paddingBottom="10dp">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etAddNoteFolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textCapSentences"
+        android:isScrollContainer="false"
+        android:maxLength="11"
+        android:textColor="?attr/colorOnBackGround"
+        android:textColorHint="?attr/colorHint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnRedBg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="3dp"
+        android:background="?attr/colorNoteRed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etAddNoteFolder">
+
+        <Button
+            android:id="@+id/btnRed"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="?attr/colorNoteRed"
+            android:elevation="@dimen/btnElevation"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnYellowBg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="?attr/colorNoteYellow"
+        app:layout_constraintEnd_toStartOf="@+id/btnGreenBg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnRedBg"
+        app:layout_constraintTop_toTopOf="@+id/btnRedBg">
+
+        <Button
+            android:id="@+id/btnYellow"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="?attr/colorNoteYellow"
+            android:elevation="@dimen/btnElevation"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnGreenBg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="?attr/colorNoteGreen"
+        app:layout_constraintEnd_toStartOf="@+id/btnBlueBg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnYellowBg"
+        app:layout_constraintTop_toTopOf="@+id/btnYellowBg">
+
+        <Button
+            android:id="@+id/btnGreen"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="?attr/colorNoteGreen"
+            android:elevation="@dimen/btnElevation"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnBlueBg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="?attr/colorNoteBlue"
+        app:layout_constraintEnd_toStartOf="@+id/btnPurpleBg"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnGreenBg"
+        app:layout_constraintTop_toTopOf="@+id/btnGreenBg">
+
+        <Button
+            android:id="@+id/btnBlue"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="?attr/colorNoteBlue"
+            android:elevation="@dimen/btnElevation"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnPurpleBg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="3dp"
+        android:background="?attr/colorNotePurple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnBlueBg">
+
+        <Button
+            android:id="@+id/btnPurple"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="?attr/colorNotePurple"
+            android:elevation="@dimen/btnElevation"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <Button
+        android:id="@+id/btnCancelNoteFolder"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginStart="2dp"
+        android:background="@drawable/round_corner1"
+        android:layout_marginEnd="10dp"
+        android:elevation="@dimen/btnElevation"
+        android:text="@string/noteDeleteDialogCancel"
+        android:textColor="#FFF"
+        android:textSize="@dimen/font_size_medium"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddNoteFolder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRedBg" />
+
+
+    <Button
+        android:id="@+id/btnAddNoteFolder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/round_corner_accent"
+        android:elevation="@dimen/btnElevation"
+        android:text="@string/noteDiscardDialogSave"
+        android:textColor="#FFF"
+        android:textSize="@dimen/font_size_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnCancelNoteFolder"
+        app:layout_constraintTop_toTopOf="@+id/btnCancelNoteFolder" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

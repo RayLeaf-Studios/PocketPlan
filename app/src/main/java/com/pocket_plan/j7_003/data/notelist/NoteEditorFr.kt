@@ -68,11 +68,11 @@ class NoteEditorFr : Fragment() {
          * called from an editing context
          */
 
-        if(myNoteFr.noteListInstance.isEmpty()){
+        if(myNoteFr.noteListDirs.currentList.isEmpty()){
             PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
         }
         editNoteHolder = when(PreferenceManager.getDefaultSharedPreferences(myActivity).getBoolean("editingNote", false)){
-            true -> myNoteFr.noteListInstance.getNote(0)
+            true -> myNoteFr.noteListDirs.getNode(0) as Note
             else -> null
         }
 
@@ -257,7 +257,6 @@ class NoteEditorFr : Fragment() {
         myActivity.hideKeyboard()
         val noteContent = etNoteContent.text.toString()
         val noteTitle = etNoteTitle.text.toString()
-//        myNoteFr.noteListInstance.addNote(noteTitle, noteContent, noteColor)
         myNoteFr.noteListDirs.addNote(Note(noteTitle, noteContent, noteColor))
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
