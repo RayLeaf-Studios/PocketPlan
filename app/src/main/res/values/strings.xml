@@ -321,5 +321,6 @@
     <string name="setting_randomize_note_colors">Random note color for new notes</string>
     <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">View or delete items that you entered, which the shopping list remembered</string>
     <string name="add_folder">Add folder</string>
+    <string name="hint_item_search">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
 
 </resources>

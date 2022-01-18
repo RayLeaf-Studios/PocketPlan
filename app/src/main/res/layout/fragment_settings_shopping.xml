@@ -206,7 +206,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:text="Z.b. schlage 'Apfel' vor wenn 'Applfe' eingegeben wurde"
+                    android:text="@string/hint_item_search"
                     android:textColor="?attr/colorHint"
                     app:layout_constraintEnd_toEndOf="@+id/tvSuggestSimilarItems"
                     app:layout_constraintStart_toStartOf="@id/tvSuggestSimilarItems"
