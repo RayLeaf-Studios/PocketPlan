@@ -216,6 +216,7 @@ class NoteFr : Fragment() {
     }
 
     private fun dialogAddNoteFolder() {
+
         //inflate the dialog with custom view
         val myDialogView =
             LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_note_folder, null)
@@ -232,34 +233,47 @@ class NoteFr : Fragment() {
         myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
-        myDialogView.btnAddNoteFolder.setOnClickListener {
-            val btnList = arrayListOf<Button>(
-                myDialogView.btnRed,
-                myDialogView.btnYellow,
-                myDialogView.btnGreen,
-                myDialogView.btnBlue,
-                myDialogView.btnPurple,
-            )
+        //todo initialize random here
+        var folderColor = NoteColors.YELLOW
+        myDialogView.btnYellowBg.setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
-            val backgroundList = arrayListOf<ConstraintLayout>(
-                myDialogView.btnRedBg,
-                myDialogView.btnYellowBg,
-                myDialogView.btnGreenBg,
-                myDialogView.btnBlueBg,
-                myDialogView.btnPurpleBg,
-            )
 
-            btnList.forEachIndexed{index, button ->
-                button.setOnClickListener {
-                    Log.e("click d", "etected")
-                    backgroundList.get(index).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        val btnList = arrayListOf<Button>(
+            myDialogView.btnRed,
+            myDialogView.btnYellow,
+            myDialogView.btnGreen,
+            myDialogView.btnBlue,
+            myDialogView.btnPurple,
+        )
+
+        val backgroundList = arrayListOf<ConstraintLayout>(
+            myDialogView.btnRedBg,
+            myDialogView.btnYellowBg,
+            myDialogView.btnGreenBg,
+            myDialogView.btnBlueBg,
+            myDialogView.btnPurpleBg,
+        )
+
+
+
+        btnList.forEachIndexed{index, button ->
+            button.setOnClickListener {
+                //reset all backgrounds to their respective color
+                backgroundList.forEachIndexed { index, constraintLayout ->
+                    constraintLayout.setBackgroundColor(myActivity.colorForAttr(NoteColors.values().get(index).colorCode))
                 }
+                //set white border around clicked button
+                backgroundList.get(index).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+
+                folderColor = NoteColors.values().get(index)
             }
+        }
+
+        myDialogView.btnAddNoteFolder.setOnClickListener {
 
             val newName = myDialogView.etAddNoteFolder.text.toString()
             //Todo add check if name is allowed
-            //todo let user choose color
-            val addResult = noteListDirs.addNoteDir(NoteDir(newName, ArrayList<NoteObj>(), NoteColors.YELLOW))
+            val addResult = noteListDirs.addNoteDir(NoteDir(newName, ArrayList<NoteObj>(), folderColor))
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
