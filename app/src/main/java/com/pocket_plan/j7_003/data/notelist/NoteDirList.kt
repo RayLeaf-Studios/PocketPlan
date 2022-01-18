@@ -62,7 +62,7 @@ class NoteDirList {
         var path = ""
         //todo, ide marks this as error, but code compiles?! (and works!)
         folderStack.stream().skip(1).forEach {
-            path += it.name + " / "
+            path += it.name + "   ›   "
         }
         if(path.length > 26){
             path = ".."+path.takeLast(26)
