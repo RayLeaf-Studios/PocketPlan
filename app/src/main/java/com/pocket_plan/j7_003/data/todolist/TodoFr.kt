@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
+import kotlin.collections.ArrayDeque
 
 /**
  * A simple [Fragment] subclass.
@@ -43,7 +44,7 @@ class TodoFr : Fragment() {
         lateinit var myRecycler: RecyclerView
 
         lateinit var todoListInstance: TodoList
-        var deletedTask: Task? = null
+        var deletedTasks = ArrayDeque<Task?>()
 
         var offsetTop: Int = 0
         var firstPos: Int = 0
@@ -79,10 +80,11 @@ class TodoFr : Fragment() {
 
             R.id.item_tasks_undo -> {
                 //undo deletion of last task
-                val newPos = todoListInstance.addFullTask(deletedTask!!)
-                myAdapter.notifyItemInserted(newPos)
 
-                deletedTask = null
+                val newPos = todoListInstance.addFullTask(deletedTasks.last()!!)
+                myAdapter.notifyItemInserted(newPos)
+                deletedTasks.removeLast()
+
             }
 
             R.id.item_tasks_clear -> {
@@ -115,8 +117,6 @@ class TodoFr : Fragment() {
         val myView = inflater.inflate(layout.fragment_todo, container, false)
         myRecycler = myView.recycler_view_todo
         myFragment = this
-
-        deletedTask = null
 
         todoListInstance = TodoList()
 
@@ -235,7 +235,7 @@ class TodoFr : Fragment() {
                     val deletedAtIndex = viewHolder.bindingAdapterPosition
 
                     //save task at that index
-                    deletedTask = todoListInstance.getTask(deletedAtIndex)
+                    deletedTasks.add(todoListInstance.getTask(deletedAtIndex))
 
                     //delete this task form todoListInstance
                     todoListInstance.deleteTask(deletedAtIndex)
@@ -262,7 +262,7 @@ class TodoFr : Fragment() {
     }
 
     fun updateUndoTaskIcon() {
-        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTask != null
+        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTasks.isNotEmpty()
     }
 
     private fun updateClearTaskListIcon() {
@@ -305,7 +305,7 @@ class TodoFr : Fragment() {
 
     //Deletes all checked tasks and animates the deletion
     private fun manageCheckedTaskDeletion() {
-        deletedTask = null
+        deletedTasks.clear()
         val oldSize = todoListInstance.size
         val newSize = todoListInstance.deleteCheckedTasks()
         myAdapter.notifyItemRangeRemoved(newSize, oldSize)
