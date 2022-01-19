@@ -472,7 +472,6 @@ class MainActivity : AppCompatActivity() {
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
-                birthdayFr!!.searching = false
                 birthdayFr
             }
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
@@ -545,6 +544,7 @@ class MainActivity : AppCompatActivity() {
             toolBar.title = getString(R.string.menuTitleBirthdays)
             birthdayFr!!.searchView.onActionViewCollapsed()
             birthdayFr!!.searching = false
+            birthdayFr!!.updateBirthdayMenu()
             birthdayFr!!.updateUndoBirthdayIcon()
             birthdayFr!!.myAdapter.notifyDataSetChanged()
             return

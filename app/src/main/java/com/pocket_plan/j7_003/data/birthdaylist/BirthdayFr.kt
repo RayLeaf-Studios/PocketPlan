@@ -71,13 +71,13 @@ class BirthdayFr : Fragment() {
 
     companion object {
         //Holder for deleted birthday to make undo possible
-        var deletedBirthday: Birthday? = null
+        var deletedBirthdays = ArrayDeque<Birthday?>()
 
         //Holder for birthday currently being edited
         var editBirthdayHolder: Birthday? = null
 
         //List containing birthdays that correspond to current search pattern
-        lateinit var adjustedList: ArrayList<Birthday>
+        lateinit var searchList: ArrayList<Birthday>
 
         //Last used searchPattern
         lateinit var lastQuery: String
@@ -86,12 +86,14 @@ class BirthdayFr : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         //initialize deletedBirthday with null to signal that nothing can be undone
-        deletedBirthday = null
+
 
         //inflate menu and save reference to it
         inflater.inflate(R.menu.menu_birthdays, menu)
         myMenu = menu
 
+        searching = false
+        updateBirthdayMenu()
         //set correct color to undo icon
         myMenu.findItem(R.id.item_birthdays_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
@@ -128,6 +130,7 @@ class BirthdayFr : Fragment() {
             searchView.onActionViewCollapsed()
             //signal that no search is being performed
             searching = false
+            updateBirthdayMenu()
             //reload menu icons
             updateUndoBirthdayIcon()
             //reload list elements by notifying data set change to adapter
@@ -143,8 +146,11 @@ class BirthdayFr : Fragment() {
             //sets searching to true, which results in the recyclerViewAdapter reading its elements from
             //adjusted list instead of birthdayList
             searching = true
+            myMenu.findItem(R.id.item_birthdays_undo)?.isVisible = false
+            updateMenuBirthdayIcon(false)
+
             //clear adjusted list
-            adjustedList.clear()
+            searchList.clear()
             //reload adapter dataSet
             myAdapter.notifyDataSetChanged()
         }
@@ -180,12 +186,11 @@ class BirthdayFr : Fragment() {
             R.id.item_birthdays_undo -> {
                 //undo the last deletion
                 //re-add previously deleted birthday and get its new position
-                val addInfo = birthdayListInstance.addFullBirthday(
-                    deletedBirthday!!
-                )
+
+                val addInfo = birthdayListInstance.addFullBirthday(deletedBirthdays.last()!!)
 
                 //set deletedBirthday to null no signal that no undo is possible
-                deletedBirthday = null
+                deletedBirthdays.removeLast()
 
                 //update menu content due to new possibilities
                 updateUndoBirthdayIcon()
@@ -214,7 +219,7 @@ class BirthdayFr : Fragment() {
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
         myRecycler = myView.recycler_view_birthday
 
-        adjustedList = arrayListOf()
+        searchList = arrayListOf()
 
         birthdayListInstance = BirthdayList()
         myAdapter = BirthdayAdapter(this, myActivity)
@@ -260,12 +265,19 @@ class BirthdayFr : Fragment() {
     }
 
     fun updateUndoBirthdayIcon() {
-        if (deletedBirthday != null && !searching) {
+        if (deletedBirthdays.isNotEmpty() && !searching) {
             myMenu.findItem(R.id.item_birthdays_undo)?.setIcon(R.drawable.ic_action_undo)
             myMenu.findItem(R.id.item_birthdays_undo)?.isVisible = true
         } else {
             myMenu.findItem(R.id.item_birthdays_undo)?.isVisible = false
         }
+    }
+
+    private fun updateMenuBirthdayIcon(state : Boolean) {
+        val size = myMenu.size()
+        for (i in 0 until size)
+            myMenu.getItem(i).isVisible = state
+        myMenu.findItem(R.id.item_birthdays_search)?.isVisible = true
     }
 
     @SuppressLint("InflateParams")
@@ -883,10 +895,10 @@ class BirthdayFr : Fragment() {
 
     fun search(query: String) {
         if (query == "") {
-            adjustedList.clear()
+            searchList.clear()
         } else {
             lastQuery = query
-            adjustedList.clear()
+            searchList.clear()
             birthdayListInstance.forEach {
                 val nameString = it.name.toLowerCase(Locale.ROOT)
                 val dateFull = it.day.toString() + "." + it.month.toString()
@@ -904,7 +916,7 @@ class BirthdayFr : Fragment() {
                         dateRightPad.contains(queryLower) ||
                         dateFullPad.contains(queryLower)
                     ) {
-                        adjustedList.add(it)
+                        searchList.add(it)
                     }
                 }
             }
@@ -959,10 +971,10 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
         //get deleted birthday via index
-        BirthdayFr.deletedBirthday = when (myFragment.searching) {
-            true -> BirthdayFr.adjustedList[viewHolder.bindingAdapterPosition]
+        BirthdayFr.deletedBirthdays.add(when (myFragment.searching){
+            true -> BirthdayFr.searchList[viewHolder.bindingAdapterPosition]
             else -> listInstance.getBirthday(viewHolder.bindingAdapterPosition)
-        }
+        })
 
         //delete birthday and get info of deleted range and position back
         val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
@@ -997,7 +1009,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
         val currentBirthday = when (myFragment.searching) {
-            true -> BirthdayFr.adjustedList[position]
+            true -> BirthdayFr.searchList[position]
             false -> listInstance.getBirthday(position)
         }
 
@@ -1336,7 +1348,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     override fun getItemCount(): Int {
         return when (myFragment.searching) {
             //if a search is currently being performed, the number of items is derived from the adjustedList
-            true -> BirthdayFr.adjustedList.size
+            true -> BirthdayFr.searchList.size
 
             //otherwise the number of items will be derived from the regular list instance
             false -> listInstance.size
