@@ -472,7 +472,6 @@ class MainActivity : AppCompatActivity() {
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
-                birthdayFr!!.searching = false
                 birthdayFr
             }
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
@@ -545,6 +544,7 @@ class MainActivity : AppCompatActivity() {
             toolBar.title = getString(R.string.menuTitleBirthdays)
             birthdayFr!!.searchView.onActionViewCollapsed()
             birthdayFr!!.searching = false
+            birthdayFr!!.updateBirthdayMenu()
             birthdayFr!!.updateUndoBirthdayIcon()
             birthdayFr!!.myAdapter.notifyDataSetChanged()
             return
@@ -605,13 +605,17 @@ class MainActivity : AppCompatActivity() {
      */
 
     @SuppressLint("InflateParams")
-    fun dialogConfirmDelete(titleId: Int, action: () -> Unit) {
+    fun dialogConfirm(titleId: Int, action: () -> Unit) {
+        dialogConfirm(getString(titleId), action)
+    }
+
+    fun dialogConfirm(title: String, action: () -> Unit) {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
 
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(titleId)
+        customTitle.tvDialogTitle.text = title
         myBuilder.setCustomTitle(customTitle)
         val myAlertDialog = myBuilder.create()
 

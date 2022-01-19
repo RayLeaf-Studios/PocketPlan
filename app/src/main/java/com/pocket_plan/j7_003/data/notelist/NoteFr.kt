@@ -45,6 +45,11 @@ class NoteFr : Fragment() {
     var noteListDirs: NoteDirList = NoteDirList()
     lateinit var myActivity: MainActivity
 
+    val darkBorderStyle = SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) as Double
+    val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+
+    var editFolderHolder: Note? = null
+
     companion object {
         lateinit var myAdapter: NoteAdapter
         var noteLines = 0
@@ -80,6 +85,8 @@ class NoteFr : Fragment() {
 
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
+
+        myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
 
         return myView
     }
@@ -184,6 +191,11 @@ class NoteFr : Fragment() {
                 /* no-op, listeners for this view are implemented in onCreateOptionsMenu */
             }
 
+            R.id.item_notes_edit_folder ->{
+                editFolderHolder = noteListDirs.folderStack.peek()
+                editNoteFolder()
+            }
+
             R.id.item_notes_undo -> {
                 if (deletedNote!!.content != null) noteListDirs.addFullNote(deletedNote!!)
                 else noteListDirs.addNoteDir(deletedNote!!)
@@ -204,13 +216,123 @@ class NoteFr : Fragment() {
             }
 
             R.id.item_notes_delete_folder -> {
-                //Add dialog here
-                noteListDirs.deleteCurrentFolder()
+                //Todo - Add dialog here
+
+                val action : () -> Unit = {
+                    val deletedDir = noteListDirs.deleteCurrentFolder()
+                    if (deletedDir != null)
+                        deletedNote = deletedDir
+
+                    myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
+                    myAdapter.notifyDataSetChanged()
+                }
+                val folderName = noteListDirs.folderStack.peek().title
+                val dialogTitle = myActivity.getString(R.string.dialog_title_delete_folder, folderName)
+                myActivity.dialogConfirm(dialogTitle, action)
+
             }
 
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun editNoteFolder(){
+        if(editFolderHolder==null){
+            return
+        }
+
+        //inflate the dialog with custom view
+        val myDialogView =
+            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_note_folder, null)
+
+        //AlertDialogBuilder
+        val myBuilder =
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
+        customTitle.tvDialogTitle.text = "Edit note folder"
+        myBuilder?.setCustomTitle(customTitle)
+
+        //show dialog
+        val myAlertDialog = myBuilder?.create()
+        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        myAlertDialog?.show()
+
+        var folderColor = editFolderHolder!!.color
+        myDialogView.etAddNoteFolder.setText(editFolderHolder!!.title)
+
+        val btnList = arrayListOf<Button>(
+            myDialogView.btnRed,
+            myDialogView.btnYellow,
+            myDialogView.btnGreen,
+            myDialogView.btnBlue,
+            myDialogView.btnPurple,
+        )
+
+        val backgroundList = arrayListOf<ConstraintLayout>(
+            myDialogView.btnRedBg,
+            myDialogView.btnYellowBg,
+            myDialogView.btnGreenBg,
+            myDialogView.btnBlueBg,
+            myDialogView.btnPurpleBg,
+        )
+
+        //Initialize dark background colors if necessary
+        if(dark && darkBorderStyle == 3.0){
+            backgroundList.forEachIndexed { index, constraintLayout ->
+                constraintLayout.setBackgroundColor(myActivity.colorForAttr(getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)))
+            }
+        }
+
+        //White background for color of folder that is edited
+        backgroundList.get(NoteColors.values().indexOf(editFolderHolder!!.color)).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+
+
+        btnList.forEachIndexed { index, button ->
+            //Initialize ONCLICK LISTENERS for SELECTING COLOR
+            button.setOnClickListener {
+                //reset all backgrounds to their respective color
+                backgroundList.forEachIndexed { index, constraintLayout ->
+                    var borderColor = NoteColors.values()[index].colorAttributeValue
+                    if(dark && darkBorderStyle == 3.0){
+                        borderColor = getCorrespondingDarkNoteColor(borderColor)
+                    }
+                    constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
+                }
+                //set white border around clicked button
+                backgroundList[index].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+
+                folderColor = NoteColors.values()[index]
+            }
+
+            //INitialize dark button colors if necessary
+            var buttonColor = NoteColors.values()[index].colorAttributeValue
+            if(dark && darkBorderStyle == 3.0){
+                buttonColor = getCorrespondingDarkNoteColor(buttonColor)
+            }
+            button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
+        }
+
+        myDialogView.btnAddNoteFolder.setOnClickListener {
+            val newName = myDialogView.etAddNoteFolder.text.toString()
+            //Todo add check if name is allowed
+            val addResult = noteListDirs.editFolder(newName, folderColor)
+            if (newName.trim() == "" || !addResult) {
+                val animationShake =
+                    AnimationUtils.loadAnimation(myActivity, R.anim.shake)
+                myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
+                return@setOnClickListener
+            }
+            myAdapter.notifyDataSetChanged()
+            myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
+            myAlertDialog?.dismiss()
+        }
+
+        val cancelBtn = myDialogView.btnCancelNoteFolder
+        cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
+
+        myDialogView.etAddNoteFolder.requestFocus()
+
     }
 
     private fun dialogAddNoteFolder() {
@@ -251,17 +373,33 @@ class NoteFr : Fragment() {
             myDialogView.btnPurpleBg,
         )
 
+        if(dark && darkBorderStyle == 3.0){
+            backgroundList.forEachIndexed { index, constraintLayout ->
+               constraintLayout.setBackgroundColor(myActivity.colorForAttr(getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)))
+            }
+        }
+
         btnList.forEachIndexed { index, button ->
             button.setOnClickListener {
                 //reset all backgrounds to their respective color
                 backgroundList.forEachIndexed { index, constraintLayout ->
-                    constraintLayout.setBackgroundColor(myActivity.colorForAttr(NoteColors.values()[index].colorCode))
+                    var borderColor = NoteColors.values()[index].colorAttributeValue
+                    if(dark && darkBorderStyle == 3.0){
+                        borderColor = getCorrespondingDarkNoteColor(borderColor)
+                    }
+                    constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
                 }
                 //set white border around clicked button
                 backgroundList[index].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
                 folderColor = NoteColors.values()[index]
             }
+
+            var buttonColor = NoteColors.values()[index].colorAttributeValue
+            if(dark && darkBorderStyle == 3.0){
+                buttonColor = getCorrespondingDarkNoteColor(buttonColor)
+            }
+            button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
         }
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
@@ -327,7 +465,6 @@ class NoteFr : Fragment() {
 
                     //delete note from noteList and save
                     noteListDirs.remove(parsed.noteObj)
-                    noteListDirs.save()
 
                     //refresh search if searching currently
                     if (searching) {
@@ -342,6 +479,16 @@ class NoteFr : Fragment() {
             })
 
         itemTouchHelper.attachToRecyclerView(myRecycler)
+    }
+
+    fun getCorrespondingDarkNoteColor(lightColor: Int) : Int {
+        return when(lightColor){
+            NoteColors.RED.colorAttributeValue -> R.attr.colorNoteRedDarker
+            NoteColors.GREEN.colorAttributeValue -> R.attr.colorNoteGreenDarker
+            NoteColors.BLUE.colorAttributeValue -> R.attr.colorNoteBlueDarker
+            NoteColors.YELLOW.colorAttributeValue -> R.attr.colorNoteYellowDarker
+            else  -> R.attr.colorNotePurpleDarker
+        }
     }
 
 }
@@ -403,7 +550,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             }
             //LIGHT BACKGROUND, just use note color
-            else -> currentNote.color.colorCode
+            else -> currentNote.color.colorAttributeValue
         }
 
         val borderColor = when (dark) {
@@ -412,7 +559,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 //No border at all
                 1.0 -> R.attr.colorBackgroundElevated
                 //Colored border
-                2.0 -> currentNote.color.colorCode
+                2.0 -> currentNote.color.colorAttributeValue
                 //3.0 Darker colored background (filled with color but uses darker color)
                 else -> when (currentNote.color) {
                     NoteColors.RED -> R.attr.colorNoteRedDarker
@@ -423,7 +570,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 }
             }
             //LIGHT BACKGROUND, just use note color as border
-            else -> currentNote.color.colorCode
+            else -> currentNote.color.colorAttributeValue
         }
 
         val textColor = when (dark) {
@@ -433,7 +580,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 3.0 -> R.attr.colorOnBackGround
 
                 //Black background => colored text
-                else -> currentNote.color.colorCode
+                else -> currentNote.color.colorAttributeValue
 
             }
             //LIGHT BACKGROUND, white text
@@ -498,7 +645,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                     3.0 -> R.attr.colorOnBackGround
 
                     //colored
-                    else -> currentNote.color.colorCode
+                    else -> currentNote.color.colorAttributeValue
                 }
 
                 //white icon for light theme
@@ -519,7 +666,10 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     override fun getItemCount(): Int {
         return when (NoteFr.searching) {
             true -> NoteFr.searchResults.size
-            false -> myNoteFr.noteListDirs.getNoteObjCount()
+            false -> {
+                val result = myNoteFr.noteListDirs.getNoteObjCount()
+                return result
+            }
         }
     }
 

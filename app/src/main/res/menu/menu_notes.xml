@@ -12,7 +12,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/item_notes_delete_folder"
-        android:title="Delete Folder"
+        android:title="@string/item_notes_delete_folder"
         app:showAsAction="never"/>
 
     <item android:id="@+id/item_notes_edit_folder"

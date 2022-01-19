@@ -164,6 +164,8 @@
     <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">Zeigt dir Artikel an, die sich die Einkaufsliste gemerkt hat und erlaubt dir diese zu löschen.</string>
     <string name="add_folder">Ordner hinzufügen</string>
     <string name="hint_item_search">Z.b. schlage \'Apfel\' vor wenn \'Applfe\' eingegeben wurde</string>
+    <string name="item_notes_delete_folder">Ornder löschen</string>
+    <string name="dialog_title_delete_folder">Ordner \"%1$s\" und Inhalt löschen?</string>
 
 
     <!-- Arrays -->

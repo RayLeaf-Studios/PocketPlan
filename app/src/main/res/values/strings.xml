@@ -321,5 +321,7 @@
     <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">View or delete items that you entered, which the shopping list remembered</string>
     <string name="add_folder">Add folder</string>
     <string name="hint_item_search">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
+    <string name="item_notes_delete_folder">Delete Folder</string>
+    <string name="dialog_title_delete_folder">Delete folder \"%1$s\" and its content?</string>
 
 </resources>

@@ -88,12 +88,15 @@ class NoteDirList {
      * Deletes the currently opened folder, except for the root folder which can't
      * be deleted. Also saves the notes to file.
      */
-    fun deleteCurrentFolder(){
-        if (folderStack.size == 1) return
+    fun deleteCurrentFolder(): Note? {
+        if (folderStack.size == 1) return null
 
-        folderStack.pop()
+        val deletedDir = folderStack.pop()
         currentList = folderStack.peek().noteList
+        currentList.remove(deletedDir)
         save()
+
+        return deletedDir
     }
 
     /**
@@ -102,9 +105,10 @@ class NoteDirList {
      * @param newName The new name the directory will get.
      * @return True on success, false otherwise.
      */
-    fun renameCurrentFolder(newName: String): Boolean{
+    fun editFolder(newName: String, newColor: NoteColors): Boolean{
         if (folderStack.size == 1) return false
         folderStack.peek().title = newName
+        folderStack.peek().color = newColor
         save()
         return true
     }
