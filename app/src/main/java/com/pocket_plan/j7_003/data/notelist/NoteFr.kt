@@ -81,6 +81,8 @@ class NoteFr : Fragment() {
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
 
+        myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
+
         return myView
     }
 
@@ -204,8 +206,20 @@ class NoteFr : Fragment() {
             }
 
             R.id.item_notes_delete_folder -> {
-                //Add dialog here
-                noteListDirs.deleteCurrentFolder()
+                //Todo - Add dialog here
+
+                val action : () -> Unit = {
+                    val deletedDir = noteListDirs.deleteCurrentFolder()
+                    if (deletedDir != null)
+                        deletedNote = deletedDir
+
+                    myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
+                    myAdapter.notifyDataSetChanged()
+                }
+                val folderName = noteListDirs.folderStack.peek().title
+                val dialogTitle = myActivity.getString(R.string.dialog_title_delete_folder, folderName)
+                myActivity.dialogConfirm(dialogTitle, action)
+
             }
 
         }
@@ -327,7 +341,6 @@ class NoteFr : Fragment() {
 
                     //delete note from noteList and save
                     noteListDirs.remove(parsed.noteObj)
-                    noteListDirs.save()
 
                     //refresh search if searching currently
                     if (searching) {
@@ -519,7 +532,10 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     override fun getItemCount(): Int {
         return when (NoteFr.searching) {
             true -> NoteFr.searchResults.size
-            false -> myNoteFr.noteListDirs.getNoteObjCount()
+            false -> {
+                val result = myNoteFr.noteListDirs.getNoteObjCount()
+                return result
+            }
         }
     }
 

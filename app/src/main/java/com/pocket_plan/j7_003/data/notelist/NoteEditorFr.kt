@@ -322,6 +322,6 @@ class NoteEditorFr : Fragment() {
             MainActivity.previousFragmentStack.push(FT.EMPTY)
             myActivity.changeToFragment(FT.NOTES)
         }
-        myActivity.dialogConfirmDelete(titleId, action)
+        myActivity.dialogConfirm(titleId, action)
     }
 }

@@ -605,13 +605,17 @@ class MainActivity : AppCompatActivity() {
      */
 
     @SuppressLint("InflateParams")
-    fun dialogConfirmDelete(titleId: Int, action: () -> Unit) {
+    fun dialogConfirm(titleId: Int, action: () -> Unit) {
+        dialogConfirm(getString(titleId), action)
+    }
+
+    fun dialogConfirm(title: String, action: () -> Unit) {
         val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
 
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(titleId)
+        customTitle.tvDialogTitle.text = title
         myBuilder.setCustomTitle(customTitle)
         val myAlertDialog = myBuilder.create()
 

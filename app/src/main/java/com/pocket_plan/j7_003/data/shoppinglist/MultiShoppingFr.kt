@@ -266,7 +266,7 @@ class MultiShoppingFr : Fragment() {
                         tabLayout.visibility = View.GONE
                     }
                 }
-                myActivity.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirm(titleId, action)
             }
 
             R.id.item_shopping_add_list -> {
@@ -708,7 +708,7 @@ class MultiShoppingFr : Fragment() {
             deletedItem = null
             updateShoppingMenu()
         }
-        myActivity.dialogConfirmDelete(titleId, action)
+        myActivity.dialogConfirm(titleId, action)
     }
 
     @SuppressLint("InflateParams")
@@ -719,7 +719,7 @@ class MultiShoppingFr : Fragment() {
             activeShoppingFr.myAdapter.notifyDataSetChanged()
             updateShoppingMenu()
         }
-        myActivity.dialogConfirmDelete(titleId, action)
+        myActivity.dialogConfirm(titleId, action)
     }
 
     fun updateExpandAllIcon() {

@@ -75,7 +75,7 @@ class TodoFr : Fragment() {
                     myFragment.manageCheckedTaskDeletion()
                     myFragment.updateTodoIcons()
                 }
-                myActivity.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirm(titleId, action)
             }
 
             R.id.item_tasks_undo -> {
@@ -95,7 +95,7 @@ class TodoFr : Fragment() {
                     myAdapter.notifyDataSetChanged()
                     todoListInstance.save()
                 }
-                myActivity.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirm(titleId, action)
             }
 
             R.id.item_tasks_uncheck_all -> {
