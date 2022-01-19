@@ -33,9 +33,6 @@ class ShoppingFr : Fragment() {
         var suggestSimilar: Boolean =
             SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
 
-        //TODO remember deleted item even when changing lists
-        var deletedItem: ShoppingItem? = null
-
         lateinit var layoutManager: LinearLayoutManager
 
         var offsetTop: Int = 0
@@ -62,7 +59,6 @@ class ShoppingFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         myActivity = activity as MainActivity
-        deletedItem = null
 
         //load settings
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
@@ -751,7 +747,7 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
         }
 
         //cache deleted item to allow undo
-        myFragment.myMultiShoppingFr.deletedItem = removeInfo.first
+        myFragment.myMultiShoppingFr.activeDeletedItems.add(removeInfo.first)
 
         //update options menu
         myFragment.myMultiShoppingFr.updateShoppingMenu()
