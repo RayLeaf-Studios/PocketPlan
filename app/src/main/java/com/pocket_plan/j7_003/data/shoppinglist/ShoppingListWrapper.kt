@@ -50,7 +50,10 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
      * @param name The name the new will be identified with
      * @return A boolean depending on the success of the addition of the new list
      */
-    fun add(name: String): Boolean = this.add(name, ShoppingList(this))
+    fun add(name: String): Boolean {
+        return if (name.trim() == "") false
+        else this.add(name, ShoppingList(this))
+    }
 
     /**
      * Adds a new pair of given name and shopping list to the wrapper.
