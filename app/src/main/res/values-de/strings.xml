@@ -169,6 +169,8 @@
     <string name="contained_in_folder">Enthalten in Ordner:</string>
     <string name="edit_folder">Ordner bearbeiten</string>
     <string name="note_dialog_edit_folder">Ordner bearbeiten</string>
+    <string name="hint_reset_settings">Deine Daten wie Notizen usw. werden dabei nicht gelöscht.</string>
+    <string name="ok">OK</string>
 
 
     <!-- Arrays -->

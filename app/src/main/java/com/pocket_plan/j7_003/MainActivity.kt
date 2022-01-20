@@ -44,7 +44,7 @@ import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
-import kotlinx.android.synthetic.main.dialog_delete.view.*
+import kotlinx.android.synthetic.main.dialog_confirm.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
@@ -619,12 +619,12 @@ class MainActivity : AppCompatActivity() {
      */
 
     @SuppressLint("InflateParams")
-    fun dialogConfirm(titleId: Int, action: () -> Unit) {
-        dialogConfirm(getString(titleId), action)
+    fun dialogConfirm(titleId: Int, action: () -> Unit, hint: String = "") {
+        dialogConfirm(getString(titleId), action, hint)
     }
 
-    fun dialogConfirm(title: String, action: () -> Unit) {
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
+    fun dialogConfirm(title: String, action: () -> Unit, hint: String = "") {
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_confirm, null)
 
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
@@ -633,17 +633,29 @@ class MainActivity : AppCompatActivity() {
         myBuilder.setCustomTitle(customTitle)
         val myAlertDialog = myBuilder.create()
 
-        val btnCancelDelete = myDialogView.btnCancelDelete
-        val btnDelete = myDialogView.btnDelete
+        //show or hide hint
+        val tvConfirmHint = myDialogView.tvConfirmHint
+        tvConfirmHint.visibility = when(hint==""){
+            true -> View.GONE
+            else -> View.VISIBLE
+        }
 
-        //onclick to delete
-        btnDelete.setOnClickListener {
+        //set correct text for hint
+        if(hint!=""){
+            tvConfirmHint.text = hint
+        }
+
+        val btnCancel = myDialogView.btnCancel
+        val btnConfirm = myDialogView.btnConfirm
+
+        //onclick to confirm
+        btnConfirm.setOnClickListener {
             action()
             myAlertDialog.dismiss()
         }
 
         //hide dialog when "Cancel" is pressed
-        btnCancelDelete.setOnClickListener {
+        btnCancel.setOnClickListener {
             myAlertDialog.dismiss()
         }
 

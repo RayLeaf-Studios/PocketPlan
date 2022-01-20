@@ -136,7 +136,7 @@
     <string name="customOptionClearItems">Clear custom items</string>
     <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
     <string name="settingsAppearanceResetToDefault">Reset all settings to default</string>
-    <string name="titleRestoreSettings">Reset all settings?</string>
+    <string name="titleRestoreSettings">Reset all settings to default?</string>
     <string name="backupExportJson">Export</string>
     <string name="backupImportJson">Import</string>
     <string name="birthdaysNoReminder">\nNo reminder set</string>
@@ -326,5 +326,7 @@
     <string name="contained_in_folder">Contained in Folder:</string>
     <string name="edit_folder">Edit Folder</string>
     <string name="note_dialog_edit_folder">Edit folder</string>
+    <string name="hint_reset_settings">This won\'t delete any of your data like notes etc.</string>
+    <string name="ok">OK</string>
 
 </resources>

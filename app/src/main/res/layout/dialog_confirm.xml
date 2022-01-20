@@ -8,12 +8,22 @@
     android:paddingHorizontal="20dp"
     android:paddingVertical="20dp"
     >
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/font_size_small"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/tvConfirmHint"
+        android:paddingBottom="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="?attr/colorHint"
+        android:text=""
+        android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/btnCancelDelete"
+        android:id="@+id/btnCancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/btnDelete"
+        app:layout_constraintStart_toEndOf="@id/btnConfirm"
         android:layout_marginStart="10dp"
         android:background="@drawable/round_corner_accent"
         android:elevation="@dimen/btnElevation"
@@ -25,16 +35,16 @@
         />
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner_red"
         android:elevation="@dimen/btnElevation"
-        android:text="OK"
+        android:text="@string/ok"
         android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnCancelDelete"
+        app:layout_constraintTop_toBottomOf="@id/tvConfirmHint"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
         app:layout_constraintStart_toStartOf="parent"
         />
 
