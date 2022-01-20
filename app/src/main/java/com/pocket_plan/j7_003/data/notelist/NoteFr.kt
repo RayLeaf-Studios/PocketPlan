@@ -668,6 +668,15 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
             }
 
+            if(NoteFr.noteLines == 0){
+                holder.tvNoteContent.maxLines = 1
+                val displayedContent = when(currentNote.content == ""){
+                    true -> ""
+                    false -> "..."
+                }
+                holder.tvNoteContent.text = displayedContent
+            }
+
             holder.itemView.icon_folder.visibility = View.GONE
         } else {
             //CONTENT AND LISTENERS FOR FOLDER
