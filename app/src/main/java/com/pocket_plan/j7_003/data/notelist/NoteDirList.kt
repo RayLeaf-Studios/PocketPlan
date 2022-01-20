@@ -8,6 +8,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.lang.Exception
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NoteDirList {
     private val rootDirName = "/"
@@ -67,6 +68,38 @@ class NoteDirList {
     fun addNote(index: Int, note: Note) {
         currentList.add(index, note)
         save()
+    }
+
+    fun getDirPaths(): ArrayList<String> {
+        val paths = arrayListOf<String>()
+        getDirPathsWithRef().forEach { paths.add(it.first) }
+        return paths
+    }
+
+    fun getDirPathsWithRef(): ArrayList<Pair<String, Note>> {
+        val pathsAndDirs = ArrayList<Pair<String, Note>>()
+        containingDirs(rootDir).forEach {
+            if (rootDir.noteList.contains(it))
+                pathsAndDirs.add(Pair("$rootDirName   ›   ${it.title}", it))
+            else
+                pathsAndDirs.add(Pair("...   ›   ${it.title}", it))
+        }
+        return pathsAndDirs
+    }
+
+    private fun containingDirs(dir: Note): ArrayList<Note> {
+        val dirs = arrayListOf<Note>()
+        dir.noteList.forEach {
+            if (it.content == null)
+                dirs.add(it)
+        }
+
+        if (dirs.size > 0)
+            dirs.forEach {
+                dirs.addAll(containingDirs(it))
+            }
+
+        return dirs
     }
 
     /**
