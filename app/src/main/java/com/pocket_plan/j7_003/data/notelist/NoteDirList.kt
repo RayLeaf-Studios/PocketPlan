@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.notelist
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.App
@@ -67,6 +68,35 @@ class NoteDirList {
 
     fun addNote(index: Int, note: Note) {
         currentList.add(index, note)
+        save()
+    }
+
+    /**
+     * From superordinatepaths
+     */
+    fun getParentFolderIndex(dir: Note): Int {
+        val parentDir = getDirPathsWithRef().find {it.second.noteList.contains(dir)}
+        val containingDirs = containingDirs(dir)
+        containingDirs.add(dir)
+        val supPairs = getDirPathsWithRef().filter {
+            !containingDirs.contains(it.second)
+        }
+        supPairs.forEachIndexed { index, pair ->
+            if (pair.second.equals(parentDir)) return index
+        }
+        return 0
+    }
+
+    fun getParentDirectory(dir: Note): Note {
+        return getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
+    }
+
+    fun moveDir(noteToMove: Note, toIndex: Int) {
+        getParentDirectory(noteToMove).noteList.remove(noteToMove)
+        val containingDirs = containingDirs(noteToMove)
+        containingDirs.add(noteToMove)
+        getDirPathsWithRef().filter {
+            !containingDirs.contains(it.second)}[toIndex].second.noteList.add(noteToMove)
         save()
     }
 
