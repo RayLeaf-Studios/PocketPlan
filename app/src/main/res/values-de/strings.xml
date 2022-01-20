@@ -115,10 +115,10 @@
     <string name="birthdaysNoReminder">\nKeine Erinnerung aktiviert</string>
     <string name="birthdaysReminderActivated">\nErinnerung aktiviert</string>
 
-    <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu löschen.\n\nTippe eine Aufgabe an, um sie zu bearbeiten.\n\nHalte eine Aufgabe gedrückt, um sie umzusortieren.</string>
-    <string name="howtoNotes">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.\n\nWird die App während der Bearbeitung einer Notiz geschlossen, wird eine zusätzliche bearbeitete Version der Notiz gespeichert, so kannst du später Entscheiden, ob du deine Änderungen behalten oder verwerfen willst.\n\nWird die App während der Erstellung einer neuen Notiz geschlossen, wird diese automatisch gespeichert.</string>
-    <string name="howtoBirthdays">Tippe auf einen Geburtstag, um zusätzliche Informationen anzuzeigen.\n\nHalte einen Geburtstag gedrückt, um ihn zu bearbeiten.\n\nWische einen Geburtstag zur Seite, um ihn zu löschen.\n\nWenn ein Geburtstag in 30 oder weniger Tagen ansteht, werden die verbleibenden Tage in der Liste angezeigt.\n\nWenn eine Erinnerung für x Tage vorher gesetzt ist und der Geburtstag in x oder weniger Tagen ansteht, wird er in der Liste farblich markiert.</string>
-    <string name="howtoShopping">Wische einen Artikel zur Seite, um ihn zu löschen\n\nHalte eine Kategorie gedrückt, um sie umzusortieren.\n\nTippe auf den Kreis oben links, um alle Artikel einer Kategorie abzuhaken.\n\nÜber das Menü oben rechts kannst du weitere Listen hinzufügen.</string>
+    <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu <b><font color="#d91111">löschen</font></b>.\n\nTippe eine Aufgabe an, um sie zu <b><font color="#d91111">bearbeiten</font></b>.\n\nHalte eine Aufgabe gedrückt, um sie <b><font color="#d91111">umzusortieren</font></b>.</string>
+    <string name="howtoNotes">Tippe auf eine Notiz, um sie zu <b><font color="#d91111">bearbeiten</font></b>.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.\n\nWird die App während der Bearbeitung einer Notiz geschlossen, wird eine zusätzliche bearbeitete Version der Notiz gespeichert, so kannst du später Entscheiden, ob du deine Änderungen behalten oder verwerfen willst.\n\nWird die App während der Erstellung einer neuen Notiz geschlossen, wird diese automatisch gespeichert.</string>
+    <string name="howtoBirthdays">Tippe auf einen Geburtstag, um <b><font color="#d91111">zusätzliche Informationen</font></b> anzuzeigen.\n\nHalte einen Geburtstag gedrückt, um ihn zu <b><font color="#d91111">bearbeiten</font></b>.\n\nWische einen Geburtstag zur Seite, um ihn zu <b><font color="#d91111">löschen</font></b>.\n\nWenn ein Geburtstag in 30 oder weniger Tagen ansteht, werden die verbleibenden Tage in der Liste angezeigt.\n\nWenn eine Erinnerung für x Tage vorher gesetzt ist und der Geburtstag in x oder weniger Tagen ansteht, wird er in der Liste farblich markiert.</string>
+    <string name="howtoShopping">Wische einen Artikel zur Seite, um ihn zu <b><font color="#d91111">löschen</font></b>.\n\nHalte eine Kategorie gedrückt, um sie <b><font color="#d91111">umzusortieren</font></b>.\n\nTippe auf den Kreis oben links, um <b><font color="#d91111">alle Artikel einer Kategorie abzuhaken</font></b>.\n\nÜber das Menü oben rechts kannst du <b><font color="#d91111">weitere Listen hinzufügen</font></b>.</string>
     <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
     <string name="howtoHome">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
 
@@ -173,6 +173,11 @@
     <string name="ok">OK</string>
     <string name="active_days">Aktive Tage</string>
     <string name="hint_sleep_reminder">Wenn ein Tag ausgewählt ist, wirst du am Abend vor diesem Tag benachrichtigt, um rechtzeitig schlafen zu gehen.</string>
+    <string name="text_introduce_howto">Sieh dir die Anleitung an, um alle Funktionalitäten im Detail erklärt zu sehen.</string>
+    <string name="hint_introduce_howto">Du wirst diesen Dialog nicht nochmal sehen, kannst aber auch immer über das Menü auf die Anleitung zugreifen.</string>
+    <string name="btn_not_now">Nicht jetzt</string>
+    <string name="btn_open_howto">Anleitung öffnen</string>
+    <string name="hint">Info</string>
 
 
     <!-- Arrays -->
