@@ -11,7 +11,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class NoteDirList {
-    private val rootDirName = "/"
+    private val rootDirName = App.instance.resources.getString(R.string.menuTitleNotes)
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
     var currentList: NoteList = rootDir.noteList
     var folderStack: Stack<Note> = Stack()
@@ -94,10 +94,13 @@ class NoteDirList {
                 dirs.add(it)
         }
 
-        if (dirs.size > 0)
+        val childDirs = arrayListOf<Note>()
+        if (dirs.size > 0) {
             dirs.forEach {
-                dirs.addAll(containingDirs(it))
+                childDirs.addAll(containingDirs(it))
             }
+            dirs.addAll(childDirs)
+        }
 
         return dirs
     }
