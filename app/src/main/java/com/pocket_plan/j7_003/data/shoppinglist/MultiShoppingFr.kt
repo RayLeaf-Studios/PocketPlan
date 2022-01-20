@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
+import kotlin.collections.ArrayDeque
 import kotlin.collections.ArrayList
 import kotlin.math.abs
 import kotlin.math.min
@@ -45,11 +46,12 @@ class MultiShoppingFr : Fragment() {
     var addItemDialogView: View? = null
     lateinit var autoCompleteTv: AutoCompleteTextView
 
-    var deletedItem: ShoppingItem? = null
-
     var editing: Boolean = false
     var editTag: String = ""
     var editPos: Int = 0
+
+    var deletedItems = ArrayList<ArrayDeque<ShoppingItem?>>()
+    var activeDeletedItems = ArrayDeque<ShoppingItem?>()
 
     lateinit var shoppingListWrapper: ShoppingListWrapper
     lateinit var shoppingFragments: ArrayList<ShoppingFr>
@@ -94,9 +96,10 @@ class MultiShoppingFr : Fragment() {
         //create and register onPageChangeCallback on shoppingPager
         val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                deletedItems[currentpos] = activeDeletedItems
                 currentpos = position
                 activeShoppingFr = shoppingFragments[position]
-                deletedItem = null
+                activeDeletedItems = deletedItems[position]
                 updateShoppingMenu()
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
@@ -138,12 +141,16 @@ class MultiShoppingFr : Fragment() {
     }
     //initialize all necessary fragments
     private fun initializeShoppingFragments() {
+        val isEmpty = deletedItems.isEmpty()
         shoppingListWrapper.forEach {
             val newFr = ShoppingFr.newInstance()
             newFr.shoppingListInstance = it.second
             newFr.shoppingListName = it.first
             newFr.myMultiShoppingFr = this
             shoppingFragments.add(newFr)
+
+            if(isEmpty)
+                deletedItems.add(ArrayDeque<ShoppingItem?>())
         }
         activeShoppingFr = shoppingFragments[0]
     }
@@ -231,6 +238,7 @@ class MultiShoppingFr : Fragment() {
             newFr.shoppingListName = newName
             newFr.myMultiShoppingFr = this
             newFr.shoppingListInstance = shoppingListWrapper.getListByName(newName)!!
+            deletedItems.add(ArrayDeque<ShoppingItem?>())
 
             shoppingFragments.add(newFr)
 
@@ -295,8 +303,8 @@ class MultiShoppingFr : Fragment() {
 
             R.id.item_shopping_undo -> {
                 //undo the last deletion of a shopping item
-                activeShoppingFr.shoppingListInstance.add(deletedItem!!)
-                deletedItem = null
+                activeShoppingFr.shoppingListInstance.add(activeDeletedItems.last()!!)
+                activeDeletedItems.removeLast()
                 activeShoppingFr.myAdapter.notifyDataSetChanged()
             }
 
@@ -704,8 +712,8 @@ class MultiShoppingFr : Fragment() {
         val action: () -> Unit = {
             activeShoppingFr.shoppingListInstance.clear()
             activeShoppingFr.shoppingListInstance.save()
+            activeDeletedItems.clear()
             activeShoppingFr.myAdapter.notifyDataSetChanged()
-            deletedItem = null
             updateShoppingMenu()
         }
         myActivity.dialogConfirm(titleId, action)
@@ -754,7 +762,7 @@ class MultiShoppingFr : Fragment() {
     }
 
     private fun updateUndoItemIcon() {
-        myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
+        myMenu.findItem(R.id.item_shopping_undo)?.isVisible = activeDeletedItems.isNotEmpty()
     }
 
 
