@@ -152,7 +152,7 @@
     <string name="birthdayIn">in</string>
     <string name="notesSwipeToDElete">Swipe to delete</string>
     <string name="notificationNoteAdded">Note was added!</string>
-    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.</string>
+    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.\n\nIf you have a GitHub account, you are welcome to create an issue in our repository.</string>
     <string name="contact_us">Feedback</string>
     <string name="rayleaf_studios">RayLeaf Studios</string>
     <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
@@ -328,5 +328,7 @@
     <string name="note_dialog_edit_folder">Edit folder</string>
     <string name="hint_reset_settings">This won\'t delete any of your data like notes etc.</string>
     <string name="ok">OK</string>
+    <string name="active_days">Active days</string>
+    <string name="hint_sleep_reminder">If a day is checked, you will be notified to go to sleep on time the night before that day.</string>
 
 </resources>

@@ -12,7 +12,7 @@
      <androidx.constraintlayout.widget.ConstraintLayout
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
-         android:visibility="gone"
+         android:visibility="visible"
          android:id="@+id/panelNotCustom"
          app:layout_constraintTop_toBottomOf="@id/switchPanel"
         >
@@ -24,7 +24,8 @@
              android:background="?attr/selectableItemBackground"
              android:clickable="true"
              android:focusable="true"
-             android:padding="10dp"
+             android:paddingHorizontal="23dp"
+             android:paddingVertical="10dp"
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintTop_toTopOf="parent">
 
@@ -50,20 +51,15 @@
 
          </androidx.constraintlayout.widget.ConstraintLayout>
 
-         <View
-             android:id="@+id/dividerBelowWakeTime"
-             android:layout_width="match_parent"
-             android:layout_height="1dp"
-             android:background="?android:attr/listDivider"
-             app:layout_constraintBottom_toBottomOf="@+id/panelWakeTime"
-             tools:layout_editor_absoluteX="5dp" />
 
          <androidx.constraintlayout.widget.ConstraintLayout
              android:id="@+id/panelSleepDuration"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:padding="10dp"
-             app:layout_constraintTop_toBottomOf="@+id/dividerBelowWakeTime"
+             android:paddingHorizontal="23dp"
+             android:paddingTop="10dp"
+             android:paddingBottom="15dp"
+             app:layout_constraintTop_toBottomOf="@+id/panelWakeTime"
              tools:layout_editor_absoluteX="5dp"
              android:focusable="true"
              android:clickable="true"
@@ -100,11 +96,35 @@
          <androidx.constraintlayout.widget.ConstraintLayout
              android:id="@+id/panelCheckboxes"
              android:layout_width="match_parent"
-             android:paddingTop="20dp"
              android:layout_height="wrap_content"
+             android:paddingTop="15dp"
+             android:paddingBottom="10dp"
              app:layout_constraintEnd_toEndOf="parent"
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintTop_toBottomOf="@+id/panelSleepDuration">
+
+             <TextView
+                 android:id="@+id/textView6"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="@string/active_days"
+                 android:textColor="?attr/colorOnBackGround"
+                 android:textSize="@dimen/font_size_medium"
+                 app:layout_constraintStart_toStartOf="@+id/cbMonday"
+                 app:layout_constraintTop_toTopOf="parent" />
+
+             <TextView
+                 android:id="@+id/tvHintDays"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="@string/hint_sleep_reminder"
+                 android:textColor="?attr/colorHint"
+                 android:textSize="@dimen/font_size_small"
+                 android:layout_marginEnd="20dp"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="@id/textView6"
+                 app:layout_constraintTop_toBottomOf="@id/textView6" />
+
              <CheckBox
                  android:id="@+id/cbMonday"
                  android:layout_width="wrap_content"
@@ -163,11 +183,13 @@
                  android:id="@+id/cbSunday"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
+                 android:layout_marginTop="30dp"
                  app:layout_constraintBottom_toBottomOf="@+id/panelCheckboxes"
                  app:layout_constraintEnd_toEndOf="parent"
                  app:layout_constraintHorizontal_bias="0.5"
                  app:layout_constraintStart_toEndOf="@+id/cbSaturday"
-                 app:layout_constraintTop_toTopOf="parent" />
+                 app:layout_constraintTop_toBottomOf="@+id/tvHintDays" />
+
              <TextView
                  android:id="@+id/tvMonday"
                  android:layout_width="wrap_content"
@@ -245,12 +267,6 @@
                  app:layout_constraintStart_toStartOf="@+id/cbTuesday" />
          </androidx.constraintlayout.widget.ConstraintLayout>
 
-         <View
-             android:layout_width="match_parent"
-             android:layout_height="1dp"
-             android:background="?android:attr/listDivider"
-             app:layout_constraintTop_toBottomOf="@+id/panelCheckboxes"
-             tools:layout_editor_absoluteX="4dp" />
 
 
      </androidx.constraintlayout.widget.ConstraintLayout>
@@ -261,6 +277,7 @@
         android:layout_height="0dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="140dp"
+        android:visibility="gone"
         android:foregroundGravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switchPanel">
@@ -287,7 +304,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorBackground"
-            android:padding="10dp"
+            android:paddingHorizontal="23dp"
+            android:paddingVertical="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -314,21 +332,14 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:id="@+id/dividerBelowEnableSwitch"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-            tools:layout_editor_absoluteX="5dp" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorBackground"
-            android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/dividerBelowEnableSwitch"
+            android:paddingHorizontal="23dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
             tools:layout_editor_absoluteX="4dp">
 
             <TextView
@@ -355,22 +366,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <View
-        android:id="@+id/dividerBelowSwitchCustom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/switchPanel"
-        tools:layout_editor_absoluteX="5dp" />
-
-    <View
-        android:id="@+id/shadowBelowCustom"
-        android:layout_width="match_parent"
-        android:layout_height="7dp"
-        app:layout_constraintTop_toBottomOf="@id/switchPanel"
-        android:background="@drawable/shadow_down"/>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

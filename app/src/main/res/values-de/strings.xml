@@ -128,7 +128,7 @@
     <string name="birthdayIn">in</string>
     <string name="notesSwipeToDElete">Wischen um zu löschen</string>
     <string name="notificationNoteAdded">Notiz hinzugefügt!</string>
-    <string name="settingsAboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter der oben genannten E-Mail Adresse.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.</string>
+    <string name="settingsAboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter der oben genannten E-Mail Adresse.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.\n\nFalls du einen GitHub Account hast, kannst du natürlich auch ein Issue in unserem Repository erstellen.</string>
     <string name="contact_us">Feedback</string>
     <string name="rayleaf_studios">RayLeaf Studios</string>
     <string name="rayleaf_studios_gmail_com">rayleaf.studios@gmail.com</string>
@@ -171,6 +171,8 @@
     <string name="note_dialog_edit_folder">Ordner bearbeiten</string>
     <string name="hint_reset_settings">Deine Daten wie Notizen usw. werden dabei nicht gelöscht.</string>
     <string name="ok">OK</string>
+    <string name="active_days">Aktive Tage</string>
+    <string name="hint_sleep_reminder">Wenn ein Tag ausgewählt ist, wirst du am Abend vor diesem Tag benachrichtigt, um rechtzeitig schlafen zu gehen.</string>
 
 
     <!-- Arrays -->
