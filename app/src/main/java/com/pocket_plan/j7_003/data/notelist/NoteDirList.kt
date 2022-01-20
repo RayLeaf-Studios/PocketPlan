@@ -77,7 +77,7 @@ class NoteDirList {
     }
 
     fun getDirPathsWithRef(): ArrayList<Pair<String, Note>> {
-        val pathsAndDirs = ArrayList<Pair<String, Note>>()
+        val pathsAndDirs = arrayListOf(Pair(rootDirName, rootDir))
         containingDirs(rootDir).forEach {
             if (rootDir.noteList.contains(it))
                 pathsAndDirs.add(Pair("$rootDirName   ›   ${it.title}", it))
