@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var userItemTemplateList: UserItemTemplateList
 
     lateinit var myBtnAdd: FloatingActionButton
+    lateinit var  mainNoteListDir: NoteDirList
 
     companion object {
         //contents for shopping list
@@ -182,6 +183,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize header and icon in side drawer
         val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
 
+        //todo remove this
         // deletion of log file
         Logger(this).deleteFile()
 
@@ -253,6 +255,8 @@ class MainActivity : AppCompatActivity() {
 
         //Initialize remaining fragments
         noteFr = NoteFr()
+        mainNoteListDir = NoteDirList()
+        noteFr!!.noteListDirs = mainNoteListDir
         NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
 
         //initialize navigation drawer listener
@@ -378,7 +382,7 @@ class MainActivity : AppCompatActivity() {
      * item in bottom navigation
      */
 
-    fun changeToFragment(fragmentTag: FT): Fragment? {
+    fun changeToFragment(fragmentTag: FT, exitingFragment: Boolean = false): Fragment? {
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
@@ -416,7 +420,8 @@ class MainActivity : AppCompatActivity() {
             FT.TASKS -> resources.getText(R.string.menuTitleTasks)
             FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
             FT.SHOPPING, FT.SETTINGS_SHOPPING -> resources.getText(R.string.menuTitleShopping)
-            FT.NOTES, FT.SETTINGS_NOTES -> resources.getText(R.string.menuTitleNotes)
+            FT.SETTINGS_NOTES -> resources.getText(R.string.menuTitleNotes)
+            FT.NOTES -> mainNoteListDir.getCurrentPathName()
             FT.SETTINGS -> resources.getText(R.string.menuTitleSettings)
             FT.NOTE_EDITOR -> resources.getText(R.string.menuTitleNotesEditor)
             FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
@@ -465,6 +470,8 @@ class MainActivity : AppCompatActivity() {
             }
             FT.NOTES -> {
                 NoteFr.searching = false
+                noteFr = NoteFr()
+                noteFr!!.noteListDirs = mainNoteListDir
                 noteFr
             }
             FT.NOTE_EDITOR -> {
@@ -486,12 +493,17 @@ class MainActivity : AppCompatActivity() {
             else -> homeFr
         }
 
+        val fragmentTransition = when(exitingFragment){
+            true -> FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+            else -> FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+        }
+
         //animate fragment change
         if (fragment != null) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, fragment, fragmentTag.name)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(fragmentTransition)
                 .commit()
         }
         return fragment
@@ -570,15 +582,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //When in note fragment, back press should go upwards in folder structure
         if(previousFragmentStack.peek() == FT.NOTES){
             val result = noteFr!!.noteListDirs.goBack()
             if(result){
-                val newTitle = when(noteFr!!.noteListDirs.folderStack.peek().title){
-                    "root" -> resources.getString(R.string.menuTitleNotes)
-                    else -> noteFr!!.noteListDirs.getCurrentPathName()
-                }
-                setToolbarTitle(newTitle)
-                NoteFr.myAdapter.notifyDataSetChanged()
+//                val newTitle = when(noteFr!!.noteListDirs.folderStack.peek().title){
+//                    "root" -> resources.getString(R.string.menuTitleNotes)
+//                    else -> noteFr!!.noteListDirs.getCurrentPathName()
+//                }
+//                setToolbarTitle(newTitle)
+//                NoteFr.myAdapter.notifyDataSetChanged()
+                    changeToFragment(FT.NOTES, exitingFragment = true)
                 return
             }
         }

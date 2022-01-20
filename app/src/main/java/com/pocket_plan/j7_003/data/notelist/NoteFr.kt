@@ -44,7 +44,7 @@ class NoteFr : Fragment() {
     private lateinit var myMenu: Menu
     private lateinit var myRecycler: RecyclerView
     lateinit var searchView: SearchView
-    var noteListDirs: NoteDirList = NoteDirList()
+    lateinit var noteListDirs: NoteDirList
     lateinit var myActivity: MainActivity
 
     val darkBorderStyle = SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) as Double
@@ -87,8 +87,6 @@ class NoteFr : Fragment() {
 
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
-
-        myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
 
         return myView
     }
@@ -231,6 +229,7 @@ class NoteFr : Fragment() {
                     if (deletedDir != null)
                         deletedNote = deletedDir
 
+                    //todo fix animation / reload here
                     myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
                     myAdapter.notifyDataSetChanged()
                 }
@@ -692,8 +691,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             holder.itemView.setOnClickListener {
                 myNoteFr.noteListDirs.openFolder(currentNote)
-                notifyDataSetChanged()
-                myActivity.setToolbarTitle(myNoteFr.noteListDirs.getCurrentPathName())
+//                notifyDataSetChanged()
+//                myActivity.setToolbarTitle(myNoteFr.noteListDirs.getCurrentPathName())
+                myActivity.changeToFragment(FT.NOTES)
             }
         }
 

@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.notelist
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.App
