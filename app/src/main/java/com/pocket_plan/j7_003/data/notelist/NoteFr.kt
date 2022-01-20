@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
 import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
+import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
@@ -129,6 +131,7 @@ class NoteFr : Fragment() {
             myActivity.toolBar.title = getString(R.string.menuTitleNotes)
             myActivity.myBtnAdd.visibility = View.VISIBLE
             searchView.onActionViewCollapsed()
+            myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
             searching = false
             myAdapter.notifyDataSetChanged()
             true
@@ -192,8 +195,13 @@ class NoteFr : Fragment() {
             }
 
             R.id.item_notes_edit_folder ->{
+                if(noteListDirs.folderStack.size == 1){
+                    //todo hide option if in root folder
+                    myActivity.toast("Can't edit root folder")
+                    return true
+                }
                 editFolderHolder = noteListDirs.folderStack.peek()
-                editNoteFolder()
+                dialogEditNoteFolder()
             }
 
             R.id.item_notes_undo -> {
@@ -237,7 +245,7 @@ class NoteFr : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun editNoteFolder(){
+    fun dialogEditNoteFolder(){
         if(editFolderHolder==null){
             return
         }
@@ -250,7 +258,7 @@ class NoteFr : Fragment() {
         val myBuilder =
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = "Edit note folder"
+        customTitle.tvDialogTitle.text = getString(R.string.note_dialog_edit_folder)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog
@@ -276,6 +284,20 @@ class NoteFr : Fragment() {
             myDialogView.btnBlueBg,
             myDialogView.btnPurpleBg,
         )
+
+        val spFolderPaths = myDialogView.spFolderPaths
+        val paths = noteListDirs.getSuperordinatePaths(editFolderHolder!!)
+        noteListDirs.getDirPaths().toArray()
+        val spFolderAdapter = ArrayAdapter(
+            myActivity, android.R.layout.simple_list_item_1,
+            paths
+        )
+
+        val currentParentFolderIndex = noteListDirs.getParentFolderIndex(editFolderHolder!!)
+
+        spFolderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spFolderPaths.adapter = spFolderAdapter
+        spFolderPaths.setSelection(currentParentFolderIndex)
 
         //Initialize dark background colors if necessary
         if(dark && darkBorderStyle == 3.0){
@@ -317,6 +339,7 @@ class NoteFr : Fragment() {
             val newName = myDialogView.etAddNoteFolder.text.toString()
             //Todo add check if name is allowed
             val addResult = noteListDirs.editFolder(newName, folderColor)
+            noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
@@ -355,6 +378,18 @@ class NoteFr : Fragment() {
         //todo initialize random here
         var folderColor = NoteColors.YELLOW
         myDialogView.btnYellowBg.setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+
+        val spFolderPaths = myDialogView.spFolderPaths
+        val paths = noteListDirs.getDirPaths()
+        noteListDirs.getDirPaths().toArray()
+        val spFolderAdapter = ArrayAdapter(
+            myActivity, android.R.layout.simple_list_item_1,
+            paths
+        )
+        spFolderPaths.setSelection(0)
+
+        spFolderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spFolderPaths.adapter = spFolderAdapter
 
 
         val btnList = arrayListOf<Button>(
@@ -404,9 +439,11 @@ class NoteFr : Fragment() {
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
 
+            val selectedFolderIndex = spFolderPaths.selectedItemPosition
+
             val newName = myDialogView.etAddNoteFolder.text.toString()
             //Todo add check if name is allowed
-            val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
+            val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()), selectedFolderIndex)
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)

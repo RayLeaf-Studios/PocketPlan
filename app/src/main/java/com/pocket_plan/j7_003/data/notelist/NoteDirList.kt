@@ -75,14 +75,14 @@ class NoteDirList {
      * From superordinatepaths
      */
     fun getParentFolderIndex(dir: Note): Int {
-        val parentDir = getDirPathsWithRef().find {it.second.noteList.contains(dir)}
+        val parentDir = getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
         val containingDirs = containingDirs(dir)
         containingDirs.add(dir)
         val supPairs = getDirPathsWithRef().filter {
             !containingDirs.contains(it.second)
         }
         supPairs.forEachIndexed { index, pair ->
-            if (pair.second.equals(parentDir)) return index
+            if (pair.second == parentDir) return index
         }
         return 0
     }
@@ -91,6 +91,8 @@ class NoteDirList {
         return getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
     }
 
+    //Todo, adjust stack, put user to goal?
+    //todo, dont move if its already where it should be
     fun moveDir(noteToMove: Note, toIndex: Int) {
         getParentDirectory(noteToMove).noteList.remove(noteToMove)
         val containingDirs = containingDirs(noteToMove)

@@ -16,11 +16,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/item_notes_edit_folder"
-        android:title="Edit Folder"
-        app:showAsAction="never"/>
-
-    <item android:id="@+id/item_notes_move_folder"
-        android:title="Move Folder"
+        android:title="@string/edit_folder"
         app:showAsAction="never"/>
 
     <item

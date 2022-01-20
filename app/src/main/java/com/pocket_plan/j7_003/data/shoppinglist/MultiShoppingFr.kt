@@ -150,7 +150,7 @@ class MultiShoppingFr : Fragment() {
             shoppingFragments.add(newFr)
 
             if(isEmpty)
-                deletedItems.add(ArrayDeque<ShoppingItem?>())
+                deletedItems.add(ArrayDeque())
         }
         activeShoppingFr = shoppingFragments[0]
     }
@@ -388,7 +388,7 @@ class MultiShoppingFr : Fragment() {
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = categoryAdapter
 
-        var lastSelectedCategoryIndex = 0;
+        var lastSelectedCategoryIndex = 0
 
         spCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

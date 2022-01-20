@@ -323,5 +323,8 @@
     <string name="hint_item_search">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
     <string name="item_notes_delete_folder">Delete Folder</string>
     <string name="dialog_title_delete_folder">Delete folder \"%1$s\" and its content?</string>
+    <string name="contained_in_folder">Contained in Folder:</string>
+    <string name="edit_folder">Edit Folder</string>
+    <string name="note_dialog_edit_folder">Edit folder</string>
 
 </resources>
