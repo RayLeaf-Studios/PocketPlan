@@ -72,8 +72,10 @@ class NoteDirList {
 
     fun getSuperordinatePaths(dir: Note): ArrayList<String> {
         val paths = arrayListOf<String>()
+        val containingDirs = containingDirs(dir)
+        containingDirs.add(dir)
         getDirPathsWithRef().filter {
-            !containingDirs(dir).contains(it.second)
+            !containingDirs.contains(it.second)
         }.forEach { paths.add(it.first) }
         return paths
     }
@@ -85,7 +87,7 @@ class NoteDirList {
     }
 
     private fun getDirPathsWithRef(): ArrayList<Pair<String, Note>> {
-        val pathsAndDirs = arrayListOf<Pair<String, Note>>()
+        val pathsAndDirs = arrayListOf(Pair(rootDirName, rootDir))
         containingDirs(rootDir).forEach {
             if (rootDir.noteList.contains(it))
                 pathsAndDirs.add(Pair("$rootDirName   ›   ${it.title}", it))
@@ -96,7 +98,7 @@ class NoteDirList {
     }
 
     private fun containingDirs(dir: Note): ArrayList<Note> {
-        val dirs = arrayListOf(dir)
+        val dirs = arrayListOf<Note>()
         dir.noteList.forEach {
             if (it.content == null)
                 dirs.add(it)
