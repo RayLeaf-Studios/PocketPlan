@@ -229,9 +229,7 @@ class NoteFr : Fragment() {
                     if (deletedDir != null)
                         deletedNote = deletedDir
 
-                    //todo fix animation / reload here
-                    myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
-                    myAdapter.notifyDataSetChanged()
+                    myActivity.changeToFragment(FT.NOTES)
                 }
                 val folderName = noteListDirs.folderStack.peek().title
                 val dialogTitle = myActivity.getString(R.string.dialog_title_delete_folder, folderName)
@@ -244,7 +242,7 @@ class NoteFr : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun dialogEditNoteFolder(){
+    private fun dialogEditNoteFolder(){
         if(editFolderHolder==null){
             return
         }
@@ -257,7 +255,7 @@ class NoteFr : Fragment() {
         val myBuilder =
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.note_dialog_edit_folder)
+        customTitle.tvDialogTitle.text = getString(R.string.edit_folder)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog
@@ -379,17 +377,11 @@ class NoteFr : Fragment() {
         myDialogView.btnYellowBg.setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         val spFolderPaths = myDialogView.spFolderPaths
-        val paths = noteListDirs.getDirPaths()
         noteListDirs.getDirPaths().toArray()
-        val spFolderAdapter = ArrayAdapter(
-            myActivity, android.R.layout.simple_list_item_1,
-            paths
-        )
-        spFolderPaths.setSelection(0)
 
-        spFolderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spFolderPaths.adapter = spFolderAdapter
-
+        spFolderPaths.layoutParams.height = 0
+        spFolderPaths.isClickable = false
+        myDialogView.textView5.visibility = View.GONE
 
         val btnList = arrayListOf<Button>(
             myDialogView.btnRed,
@@ -438,11 +430,9 @@ class NoteFr : Fragment() {
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
 
-            val selectedFolderIndex = spFolderPaths.selectedItemPosition
-
             val newName = myDialogView.etAddNoteFolder.text.toString()
             //Todo add check if name is allowed
-            val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()), selectedFolderIndex)
+            val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)

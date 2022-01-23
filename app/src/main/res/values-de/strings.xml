@@ -116,7 +116,7 @@
     <string name="birthdaysReminderActivated">\nErinnerung aktiviert</string>
 
     <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu <b><font color="#d91111">löschen</font></b>.\n\nTippe eine Aufgabe an, um sie zu <b><font color="#d91111">bearbeiten</font></b>.\n\nHalte eine Aufgabe gedrückt, um sie <b><font color="#d91111">umzusortieren</font></b>.</string>
-    <string name="howtoNotes">Tippe auf eine Notiz, um sie zu <b><font color="#d91111">bearbeiten</font></b>.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.\n\nWird die App während der Bearbeitung einer Notiz geschlossen, wird eine zusätzliche bearbeitete Version der Notiz gespeichert, so kannst du später Entscheiden, ob du deine Änderungen behalten oder verwerfen willst.\n\nWird die App während der Erstellung einer neuen Notiz geschlossen, wird diese automatisch gespeichert.</string>
+    <string name="howtoNotes">Tippe auf eine Notiz, um sie zu <b><font color="#d91111">bearbeiten</font></b>.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.\n\nWird die App während der Bearbeitung einer Notiz geschlossen, wird eine zusätzliche bearbeitete Version der Notiz gespeichert, so kannst du später Entscheiden, ob du deine Änderungen behalten oder verwerfen willst.\n\nWird die App während der Erstellung einer neuen Notiz geschlossen, wird diese automatisch gespeichert.\n\nÜber das Menü oben rechts ist es möglich einen <b><font color="#d91111">Ordner zu erstellen</font></b> oder den aktuell geöffneten <b><font color="#d91111">Ordner zu bearbeiten</font></b>.</string>
     <string name="howtoBirthdays">Tippe auf einen Geburtstag, um <b><font color="#d91111">zusätzliche Informationen</font></b> anzuzeigen.\n\nHalte einen Geburtstag gedrückt, um ihn zu <b><font color="#d91111">bearbeiten</font></b>.\n\nWische einen Geburtstag zur Seite, um ihn zu <b><font color="#d91111">löschen</font></b>.\n\nWenn ein Geburtstag in 30 oder weniger Tagen ansteht, werden die verbleibenden Tage in der Liste angezeigt.\n\nWenn eine Erinnerung für x Tage vorher gesetzt ist und der Geburtstag in x oder weniger Tagen ansteht, wird er in der Liste farblich markiert.</string>
     <string name="howtoShopping">Wische einen Artikel zur Seite, um ihn zu <b><font color="#d91111">löschen</font></b>.\n\nHalte eine Kategorie gedrückt, um sie <b><font color="#d91111">umzusortieren</font></b>.\n\nTippe auf den Kreis oben links, um <b><font color="#d91111">alle Artikel einer Kategorie abzuhaken</font></b>.\n\nÜber das Menü oben rechts kannst du <b><font color="#d91111">weitere Listen hinzufügen</font></b>.</string>
     <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
@@ -162,13 +162,12 @@
     <string name="hint_export_backup">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
     <string name="setting_randomize_note_colors">Zufällige Farbe für neue Notizen</string>
     <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">Zeigt dir Artikel an, die sich die Einkaufsliste gemerkt hat und erlaubt dir diese zu löschen.</string>
-    <string name="add_folder">Ordner hinzufügen</string>
+    <string name="add_folder">Neuer Ordner</string>
     <string name="hint_item_search">Z.b. schlage \'Apfel\' vor wenn \'Applfe\' eingegeben wurde</string>
-    <string name="item_notes_delete_folder">Ornder löschen</string>
+    <string name="item_notes_delete_folder">Ordner löschen</string>
     <string name="dialog_title_delete_folder">Ordner \"%1$s\" und Inhalt löschen?</string>
     <string name="contained_in_folder">Enthalten in Ordner:</string>
     <string name="edit_folder">Ordner bearbeiten</string>
-    <string name="note_dialog_edit_folder">Ordner bearbeiten</string>
     <string name="hint_reset_settings">Deine Daten wie Notizen usw. werden dabei nicht gelöscht.</string>
     <string name="ok">OK</string>
     <string name="active_days">Aktive Tage</string>

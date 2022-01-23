@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:inputType="textCapSentences"
         android:isScrollContainer="false"
-        android:maxLength="11"
+        android:maxLength="13"
         android:textColor="?attr/colorOnBackGround"
         android:textColorHint="?attr/colorHint"
         app:layout_constraintStart_toStartOf="parent"

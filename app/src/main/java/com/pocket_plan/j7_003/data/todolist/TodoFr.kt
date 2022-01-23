@@ -365,7 +365,7 @@ class TodoFr : Fragment() {
                 if(MainActivity.previousFragmentStack.peek() == FT.HOME){
                     val homefr = myActivity.getFragment(FT.HOME) as HomeFr
                     homefr.updateTaskPanel(false)
-                    myActivity.toast(myActivity.getString(R.string.home_notification_add_task))
+                    myActivity.toast(myActivity.getString(string.home_notification_add_task))
                     return@setOnClickListener
                 }
 
@@ -401,7 +401,6 @@ class TodoTaskAdapter(activity: MainActivity) :
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
 
         val currentTask = listInstance.getTask(holder.bindingAdapterPosition)
