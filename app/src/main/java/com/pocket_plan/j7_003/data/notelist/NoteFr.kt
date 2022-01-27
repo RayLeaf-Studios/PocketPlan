@@ -131,6 +131,7 @@ class NoteFr : Fragment() {
             searchView.onActionViewCollapsed()
             myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
             searching = false
+            setMenuAccessibility(true)
             myAdapter.notifyDataSetChanged()
             true
         }
@@ -141,6 +142,7 @@ class NoteFr : Fragment() {
             myActivity.myBtnAdd.visibility = View.GONE
             myActivity.toolBar.title = ""
             searching = true
+            setMenuAccessibility(false)
             searchResults.clear()
             myAdapter.notifyDataSetChanged()
         }
@@ -149,6 +151,7 @@ class NoteFr : Fragment() {
         updateNoteUndoIcon()
         myRecycler.scrollToPosition(0)
         super.onCreateOptionsMenu(menu, inflater)
+        setMenuAccessibility(true)
 
     }
 
@@ -515,6 +518,13 @@ class NoteFr : Fragment() {
             NoteColors.YELLOW.colorAttributeValue -> R.attr.colorNoteYellowDarker
             else  -> R.attr.colorNotePurpleDarker
         }
+    }
+
+    fun setMenuAccessibility(state: Boolean) {
+        val rootFolder = noteListDirs.folderStack.size > 1 && state
+        myMenu.findItem(R.id.item_notes_add_folder).isVisible = state
+        myMenu.findItem(R.id.item_notes_delete_folder).isVisible = rootFolder
+        myMenu.findItem(R.id.item_notes_edit_folder).isVisible = rootFolder
     }
 
 }

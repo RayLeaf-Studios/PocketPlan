@@ -180,6 +180,8 @@ class NoteEditorFr : Fragment() {
         myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         myMenu.findItem(R.id.item_editor_save)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
+        updateMenuAccessibility()
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -347,5 +349,9 @@ class NoteEditorFr : Fragment() {
             myActivity.changeToFragment(FT.NOTES)
         }
         myActivity.dialogConfirm(titleId, action)
+    }
+
+    fun updateMenuAccessibility(){
+        myMenu.findItem(R.id.item_editor_delete).isVisible = editNoteHolder != null
     }
 }
