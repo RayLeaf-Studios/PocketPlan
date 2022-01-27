@@ -331,9 +331,7 @@
     <string name="ok">OK</string>
     <string name="active_days">Active days</string>
     <string name="hint_sleep_reminder">If a day is checked, you will be notified to go to sleep on time the night before that day.</string>
-    <string name="text_introduce_howto">Check out the HowTo page to learn about every feature in detail.</string>
-    <string name="hint_introduce_howto">You won\'t see this dialog again, but you can always access the HowTo page via the menu.</string>
-    <string name="btn_not_now">Now now</string>
+    <string name="text_introduce_howto">Check out the HowTo section to learn about every feature of PocketPlan in detail.</string>
     <string name="btn_open_howto">Show HowTo</string>
     <string name="hint">Info</string>
 

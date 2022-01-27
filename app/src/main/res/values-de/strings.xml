@@ -172,10 +172,8 @@
     <string name="ok">OK</string>
     <string name="active_days">Aktive Tage</string>
     <string name="hint_sleep_reminder">Wenn ein Tag ausgewählt ist, wirst du am Abend vor diesem Tag benachrichtigt, um rechtzeitig schlafen zu gehen.</string>
-    <string name="text_introduce_howto">Sieh dir die Anleitung an, um alle Funktionalitäten im Detail erklärt zu sehen.</string>
-    <string name="hint_introduce_howto">Du wirst diesen Dialog nicht nochmal sehen, kannst aber auch immer über das Menü auf die Anleitung zugreifen.</string>
-    <string name="btn_not_now">Nicht jetzt</string>
-    <string name="btn_open_howto">Anleitung öffnen</string>
+    <string name="text_introduce_howto">Sieh dir die Anleitung an, um alle Funktionalitäten von PocketPlan im Detail erklärt zu bekommen.</string>
+    <string name="btn_open_howto">Öffnen</string>
     <string name="hint">Info</string>
 
 
