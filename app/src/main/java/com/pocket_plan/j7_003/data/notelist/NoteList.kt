@@ -25,7 +25,7 @@ class NoteList : LinkedList<Note>(), Checkable {
 
     override fun check() {
         this.forEach {
-            if(it.color == null || it.title == null || it.content== null){
+            if(it.color == null || it.title == null) {
                 throw NullPointerException()
             }
         }

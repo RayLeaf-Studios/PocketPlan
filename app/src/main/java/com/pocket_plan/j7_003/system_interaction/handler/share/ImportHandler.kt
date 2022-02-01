@@ -4,9 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
-import com.pocket_plan.j7_003.data.notelist.NoteList
+import com.pocket_plan.j7_003.data.notelist.NoteDirList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.ShoppingList
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingListWrapper
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
@@ -24,6 +23,7 @@ import java.util.zip.ZipFile
  * Needs an activity to be initialized, so tests and directory paths
  * can be done/set correctly.
  */
+//Todo, translate all strings in here
 class ImportHandler(private val parentActivity: Activity) {
     private val newFiles: EnumMap<StorageId, File> = EnumMap(StorageId::class.java)
 
@@ -126,6 +126,7 @@ class ImportHandler(private val parentActivity: Activity) {
 
         // unzip all all entries from selected file into the /new/ directory
         StorageId.values().forEach {
+            //Ignore old (unused) shopping file
             if (it.s != StorageId.ZIP.s && it.s != StorageId.SHOPPING.s) {  // check so only module files are used/transferred
                 // the cache file is created with the corresponding name of the modules file name
                 cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
@@ -171,13 +172,13 @@ class ImportHandler(private val parentActivity: Activity) {
         return try {
             ShoppingListWrapper().check()
             BirthdayList().check()
-            val noteList = NoteList()
-            noteList.check()
+            NoteDirList().check()
 
             TodoList().check()
 
             SettingsManager.init()
             SettingsManager.check()
+
 
             SleepReminder(parentActivity).check()
             UserItemTemplateList().check()

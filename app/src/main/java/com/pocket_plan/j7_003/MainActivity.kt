@@ -71,10 +71,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var userItemTemplateList: UserItemTemplateList
 
     lateinit var myBtnAdd: FloatingActionButton
-    lateinit var  mainNoteListDir: NoteDirList
 
     companion object {
         //contents for shopping list
+        lateinit var  mainNoteListDir: NoteDirList
         lateinit var itemNameList: ArrayList<String>
 
         val previousFragmentStack: Stack<FT> = Stack()
@@ -241,6 +241,10 @@ class MainActivity : AppCompatActivity() {
                 previousFragmentStack.push(FT.HOME)
                 previousFragmentStack.push(FT.SETTINGS)
                 changeToFragment(FT.SETTINGS_APPEARANCE)
+            }
+            "backup" -> {
+                previousFragmentStack.push(FT.HOME)
+                changeToFragment(FT.SETTINGS)
             }
             else -> {
                 if (previousFragmentStack.peek() == FT.EMPTY) {

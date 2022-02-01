@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.notelist.NoteDirList
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
@@ -143,25 +144,24 @@ class BackUpActivity : AppCompatActivity() {
                     }
                 }
             }
+            startMainActivity()
             this.finish()
         } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
             return
         }
+    }
 
+    private fun startMainActivity(){
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("NotificationEntry", "backup")
+        startActivity(intent)
     }
 
     override fun onBackPressed() {
+        startMainActivity()
         this.finish()
         super.onBackPressed()
     }
-
-    override fun finish() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("NotificationEntry", "settings")
-        startActivity(intent)
-        super.finish()
-    }
-
 }

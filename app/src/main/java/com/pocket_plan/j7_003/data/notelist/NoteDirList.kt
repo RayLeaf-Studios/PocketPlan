@@ -4,13 +4,14 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.App
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NoteDirList {
+class NoteDirList: Checkable {
     private val rootDirName = App.instance.resources.getString(R.string.menuTitleNotes)
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
     var currentList: NoteList = rootDir.noteList
@@ -282,5 +283,11 @@ class NoteDirList {
         val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
 
         rootDir = GsonBuilder().create().fromJson(jsonString, object : TypeToken<Note>() {}.type)
+    }
+
+    override fun check() {
+        getDirPathsWithRef().forEach {
+            it.second.noteList.check()
+        }
     }
 }
