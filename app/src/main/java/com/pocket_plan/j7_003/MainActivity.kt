@@ -578,6 +578,7 @@ class MainActivity : AppCompatActivity() {
             noteFr!!.searchView.onActionViewCollapsed()
             NoteFr.searching = false
             NoteFr.myAdapter.notifyDataSetChanged()
+            noteFr!!.setMenuAccessibility(true)
             return
         }
 
