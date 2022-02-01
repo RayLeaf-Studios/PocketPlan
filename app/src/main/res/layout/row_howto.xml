@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="5dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="6dp"
+    android:background="@drawable/round_corner_gray_pure"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvHowToSubTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:textSize="@dimen/font_size_medium"
+        app:layout_constraintBottom_toTopOf="@+id/tvHowToExplanation"
+        app:layout_constraintEnd_toStartOf="@+id/ivExpand"
+        android:textColor="?attr/colorOnBackGround"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivExpand"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_action_expand"
+        app:layout_constraintBottom_toBottomOf="@+id/tvHowToSubTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="?attr/colorOnBackGround"
+        app:layout_constraintTop_toTopOf="@+id/tvHowToSubTitle"/>
+
+    <TextView
+        android:id="@+id/tvHowToExplanation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_size_small"
+        android:visibility="visible"
+        android:textColor="?attr/colorOnBackGround"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivExpand"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
