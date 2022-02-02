@@ -356,5 +356,8 @@
     <string name="btn_open_howto">Show HowTo</string>
     <string name="hint">Info</string>
     <string name="backup_warning">Warning! Importing a backup will REPLACE your current data with the imported data!</string>
+    <string name="import_failed">Import failed!</string>
+    <string name="import_successful">Import successful!</string>
+    <string name="choose_file">Choose file</string>
 
 </resources>

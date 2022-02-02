@@ -300,5 +300,8 @@
     <string name="howtoSleepExplanation">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
     <string name="howtoHomeExplanation">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
     <string name="backup_warning">Achtung! Das importieren eines Backups ERSETZT die aktuellen Daten mit den importierten!</string>
+    <string name="import_failed">Import fehlgeschlagen!</string>
+    <string name="import_successful">Import erfolgreich!</string>
+    <string name="choose_file">Datei wählen</string>
 
 </resources>

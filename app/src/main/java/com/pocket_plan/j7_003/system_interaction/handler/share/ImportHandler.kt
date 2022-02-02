@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
+import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteDirList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -163,7 +164,7 @@ class ImportHandler(private val parentActivity: Activity) {
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
         parentActivity.startActivityForResult(
-            Intent.createChooser(chooseFileIntent, "Choose file"),
+            Intent.createChooser(chooseFileIntent, parentActivity.getString(R.string.choose_file)),
             id.i
         )
     }
@@ -183,11 +184,11 @@ class ImportHandler(private val parentActivity: Activity) {
             SleepReminder(parentActivity).check()
             UserItemTemplateList().check()
 
-            Toast.makeText(parentActivity, "Import successful!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.import_successful), Toast.LENGTH_SHORT).show()
 
             true
         } catch (e: Exception) {
-            Toast.makeText(parentActivity, "Import failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.import_failed), Toast.LENGTH_SHORT).show()
             false
         }
     }
