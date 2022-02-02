@@ -3,10 +3,10 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.notelist.NoteDirList
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
@@ -149,6 +149,7 @@ class BackUpActivity : AppCompatActivity() {
         } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
+            Toast.makeText(baseContext, "Import failed!", Toast.LENGTH_SHORT).show()
             return
         }
     }

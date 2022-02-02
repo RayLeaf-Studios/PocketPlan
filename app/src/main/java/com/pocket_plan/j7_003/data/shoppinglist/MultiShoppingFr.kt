@@ -581,7 +581,7 @@ class MultiShoppingFr : Fragment() {
                 }
             }
 
-            //add already known item to list
+            //create known item from template
             val item = ShoppingItem(
                 nameInput,
                 categoryCode,

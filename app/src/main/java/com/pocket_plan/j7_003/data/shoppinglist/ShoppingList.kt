@@ -24,6 +24,13 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
                 e.second.add(element)
                 e.second[0].checked = true
 
+                if (SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean) {
+                    this.forEach {
+                        if (it != e)
+                            it.second[0].checked = false
+                    }
+                }
+
                 //Added this to sort after adding element
                 sortSublist(e.second)
                 sortCategoriesByChecked(e.first)
