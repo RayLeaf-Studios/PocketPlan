@@ -731,6 +731,11 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
                 .notifyItemRemoved(tagPosition)
         } else {
             //sublist changed length =>
+
+            if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(parsed.tag)) {
+                myFragment.shoppingListInstance.flipExpansionState(parsed.tag)
+            }
+
             myFragment.myAdapter.notifyItemChanged(tagPosition)
 
             //check if sublist moved
