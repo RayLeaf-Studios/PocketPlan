@@ -115,12 +115,6 @@
     <string name="birthdaysNoReminder">\nKeine Erinnerung aktiviert</string>
     <string name="birthdaysReminderActivated">\nErinnerung aktiviert</string>
 
-    <string name="howtoTodo">Wische eine Aufgabe zur Seite, um sie zu <b><font color="#d91111">löschen</font></b>.\n\nTippe eine Aufgabe an, um sie zu <b><font color="#d91111">bearbeiten</font></b>.\n\nHalte eine Aufgabe gedrückt, um sie <b><font color="#d91111">umzusortieren</font></b>.</string>
-    <string name="howtoNotes">Tippe auf eine Notiz, um sie zu <b><font color="#d91111">bearbeiten</font></b>.\n\nNeu hinzugefügte, bearbeitete oder angesehene Notizen, werden nach oben bewegt.\n\nWird die App während der Bearbeitung einer Notiz geschlossen, wird eine zusätzliche bearbeitete Version der Notiz gespeichert, so kannst du später Entscheiden, ob du deine Änderungen behalten oder verwerfen willst.\n\nWird die App während der Erstellung einer neuen Notiz geschlossen, wird diese automatisch gespeichert.\n\nÜber das Menü oben rechts ist es möglich einen <b><font color="#d91111">Ordner zu erstellen</font></b> oder den aktuell geöffneten <b><font color="#d91111">Ordner zu bearbeiten</font></b>.</string>
-    <string name="howtoBirthdays">Tippe auf einen Geburtstag, um <b><font color="#d91111">zusätzliche Informationen</font></b> anzuzeigen.\n\nHalte einen Geburtstag gedrückt, um ihn zu <b><font color="#d91111">bearbeiten</font></b>.\n\nWische einen Geburtstag zur Seite, um ihn zu <b><font color="#d91111">löschen</font></b>.\n\nWenn ein Geburtstag in 30 oder weniger Tagen ansteht, werden die verbleibenden Tage in der Liste angezeigt.\n\nWenn eine Erinnerung für x Tage vorher gesetzt ist und der Geburtstag in x oder weniger Tagen ansteht, wird er in der Liste farblich markiert.</string>
-    <string name="howtoShopping">Wische einen Artikel zur Seite, um ihn zu <b><font color="#d91111">löschen</font></b>.\n\nHalte eine Kategorie gedrückt, um sie <b><font color="#d91111">umzusortieren</font></b>.\n\nTippe auf den Kreis oben links, um <b><font color="#d91111">alle Artikel einer Kategorie abzuhaken</font></b>.\n\nÜber das Menü oben rechts kannst du <b><font color="#d91111">weitere Listen hinzufügen</font></b>.</string>
-    <string name="howtoSleep">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
-    <string name="howtoHome">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
 
     <string name="settingsHelp">Anleitung</string>
     <string name="birthdayToday">heute</string>
@@ -283,5 +277,27 @@
         <item quantity="one">Tag</item>
         <item quantity="other">Tagen</item>
     </plurals>
+    <string name="howtoSubEdit">Bearbeiten</string>
+    <string name="howtoSubDelete">Löschen</string>
+    <string name="howtoSubExplanation">Erklärung</string>
+    <string name="howtoSubRearrange">Umsortieren</string>
+    <string name="howtoSubFolders">Ordner</string>
+    <string name="howtoTodoDelete">Wische eine Aufgabe zur Seite, um sie zu löschen.</string>
+    <string name="howtoTodoEdit">Tippe eine Aufgabe an, um sie zu bearbeiten.</string>
+    <string name="howtoTodoReorder">Halte eine Aufgabe gedrückt um sie umzusortieren.</string>
+    <string name="howtoNoteEdit">Tippe auf eine Notiz, um sie zu bearbeiten.</string>
+    <string name="howtoNoteFolder">Über das Menü oben rechts, ist es möglich, einen neuen Ordner zu erstellen, oder den aktuellen zu bearbeiten.</string>
+    <string name="howtoNoteExplanation">Neu hinzugefügte, bearbeitete oder angesehene Notizen werden automatisch oben einsortiert.\n\nWird die App geschlossen, während du eine Notiz bearbeitest, so wird eine zusätzliche bearbeitete Version gespeichert. So kannst du später entscheiden ob du die ursprüngliche oder die bearbeitete Version behalten willst.\n\nWird die App geschlossen, während du eine neue Notiz schreibst, so wird diese automatisch gespeichert.</string>
+    <string name="howtoBirthdaysExplanation">Tippe auf einen Geburtstag, um zusätzliche Informationen anzeigen zu lassen.</string>
+    <string name="howtoBirthdaysEdit">Halte einen Geburtstag gedrückt, um ihn zu bearbeiten.</string>
+    <string name="howtoBirthdaysDelete">Wische einen Geburtstag zur Seite, um ihn zu löschen.</string>
+    <string name="howtoShoppingDelete">Wische einen Artikel zur Seite, um ihn zu löschen.</string>
+    <string name="howtoShoppingReorder">Halte eine Kategorie gedrückt, um sie umzusortieren.</string>
+    <string name="howtoSubCheckCategory">Kategorie abhaken</string>
+    <string name="howtoShoppingCheckCategories">Tippe in einer Kategorie auf den Kreis oben links, um alle enthaltenen Artikel abzuhaken.</string>
+    <string name="howtoSubLists">Listen</string>
+    <string name="howtoShoppingLists">Über das Menü oben rechts kannst du weitere Listen hinzufügen, diese bearbeiten oder löschen.</string>
+    <string name="howtoSleepExplanation">Stelle deine gewünschte Aufwachzeit und deine benötigte Schlafdauer ein und du wirst eine Benachrichtigung bekommen, wenn du schlafen gehen solltest.</string>
+    <string name="howtoHomeExplanation">Wenn die Schlaferinnerung aktiviert ist, wird dir ganz oben angezeigt, wie viel Zeit du noch hast, bis du schlafen solltest.\n\nDirekt darunter zeigt der To-Do-Bereich dir Aufgaben mit Priorität 1 an.\n\nDarunter siehst du heutige Geburtstage.</string>
 
 </resources>
