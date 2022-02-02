@@ -355,5 +355,6 @@
     <string name="text_introduce_howto">Check out the HowTo section to learn about every feature of PocketPlan in detail.</string>
     <string name="btn_open_howto">Show HowTo</string>
     <string name="hint">Info</string>
+    <string name="backup_warning">Warning! Importing a backup will REPLACE your current data with the imported data!</string>
 
 </resources>
