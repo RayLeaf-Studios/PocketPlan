@@ -26,10 +26,7 @@ import com.pocket_plan.j7_003.data.notelist.NoteEditorFr.Companion.noteColor
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
-import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
-import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
-import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
@@ -88,6 +85,36 @@ class NoteFr : Fragment() {
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
 
+        val itemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+                0
+            ) {
+                private var lastNote: Note? = null
+//                private var lastPos: Int = -1
+
+                override fun clearView(recyclerView: RecyclerView,
+                                       viewHolder: RecyclerView.ViewHolder) {
+                    val position = viewHolder.bindingAdapterPosition
+                    if (position == -1 || lastNote == null)
+                        return
+
+//                    noteListDirs.currentList.move(lastNote!!, position)
+                }
+
+                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                                    target: RecyclerView.ViewHolder): Boolean {
+                    myAdapter.notifyItemMoved(target.bindingAdapterPosition, viewHolder.bindingAdapterPosition)
+                    lastNote = (viewHolder as NoteAdapter.NoteViewHolder).noteObj
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    /* no-op, swiping categories is not supported */
+                }
+            }
+        )
+        itemTouchHelper.attachToRecyclerView(myRecycler)
         return myView
     }
 
@@ -176,15 +203,7 @@ class NoteFr : Fragment() {
             searchResults.clear()
 
             //search all notes for occurrences of query text, add them to search results
-            noteListDirs.currentList.forEach { note ->
-                if (note.content!!.toLowerCase(Locale.ROOT)
-                        .contains(query.toLowerCase(Locale.ROOT)) ||
-                    note.title.toLowerCase(Locale.ROOT)
-                        .contains(query.toLowerCase(Locale.ROOT))
-                ) {
-                    searchResults.add(note)
-                }
-            }
+            searchResults.addAll(noteListDirs.search(query))
         }
         myAdapter.notifyDataSetChanged()
     }

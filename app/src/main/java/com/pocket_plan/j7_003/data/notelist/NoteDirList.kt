@@ -290,4 +290,19 @@ class NoteDirList: Checkable {
             it.second.noteList.check()
         }
     }
+
+    fun search(query: String): Collection<Note> {
+        val dirs = getDirPathsWithRef()
+        val results = ArrayList<Note>()
+
+        dirs.forEach {
+            it.second.noteList.forEach { note ->
+                if (note.title.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))
+                    || note.content != null && note.content!!.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT)))
+                        results.add(note)
+            }
+        }
+
+        return results
+    }
 }
