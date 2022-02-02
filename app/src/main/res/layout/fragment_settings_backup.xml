@@ -26,6 +26,19 @@
                 android:layout_height="7dp"
                 android:background="@drawable/shadow_down"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="?attr/colorGoToSleep"
+                android:text="@string/backup_warning"
+                android:padding="10dp"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:id="@+id/clExport"

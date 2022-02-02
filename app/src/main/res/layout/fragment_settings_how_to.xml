@@ -9,6 +9,8 @@
         android:id="@+id/recycler_view_howto"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:clipToPadding="false"
+        android:paddingVertical="8dp"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_height="match_parent"/>
 

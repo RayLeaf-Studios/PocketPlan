@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.data.settings.sub_categories
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,11 +24,35 @@ class SettingsHowTo : Fragment() {
     lateinit var myAdapter: HowToAdapter
     lateinit var myActivity: MainActivity
 
-
     val howToList = arrayListOf(
         HowToCategory(R.string.menuTitleTasks, R.drawable.ic_action_todo, arrayListOf(
-            HowToElement(R.string.edit_folder, R.string.howtoNotes),
+            HowToElement(R.string.howtoSubEdit, R.string.howtoTodoEdit),
+            HowToElement(R.string.howtoSubDelete, R.string.howtoTodoDelete),
+            HowToElement(R.string.howtoSubRearrange, R.string.howtoTodoReorder),
         )),
+        HowToCategory(R.string.menuTitleNotes, R.drawable.ic_action_notes, arrayListOf(
+            HowToElement(R.string.howtoSubEdit, R.string.howtoNoteEdit),
+            HowToElement(R.string.howtoSubFolders, R.string.howtoNoteFolder),
+            HowToElement(R.string.howtoSubExplanation, R.string.howtoNoteExplanation),
+        )),
+        HowToCategory(R.string.menuTitleBirthdays, R.drawable.ic_action_birthday, arrayListOf(
+            HowToElement(R.string.howtoSubEdit, R.string.howtoBirthdaysEdit),
+            HowToElement(R.string.howtoSubDelete, R.string.howtoBirthdaysDelete),
+            HowToElement(R.string.howtoSubExplanation, R.string.howtoBirthdaysExplanation),
+        )),
+
+        HowToCategory(R.string.menuTitleShopping, R.drawable.ic_action_shopping_cart, arrayListOf(
+            HowToElement(R.string.howtoSubDelete, R.string.howtoShoppingDelete),
+            HowToElement(R.string.howtoSubRearrange, R.string.howtoShoppingReorder),
+            HowToElement(R.string.howtoSubCheckCategory, R.string.howtoShoppingCheckCategories),
+            HowToElement(R.string.howtoSubLists, R.string.howtoShoppingLists),
+        )),
+        HowToCategory(R.string.menuTitleHome, R.drawable.ic_action_home, arrayListOf(
+            HowToElement(R.string.howtoSubExplanation, R.string.howtoHomeExplanation)
+        )),
+        HowToCategory(R.string.menuTitleSleep, R.drawable.ic_action_sleepreminder, arrayListOf(
+            HowToElement(R.string.howtoSubExplanation, R.string.howtoSleepExplanation)
+        ))
     )
 
     override fun onCreateView(
@@ -51,7 +74,6 @@ class SettingsHowTo : Fragment() {
     }
 }
 
-
 /**
  * CATEGORY ADAPTER
  */
@@ -63,7 +85,6 @@ class HowToAdapter(private val myFragment: SettingsHowTo, val myActivity: MainAc
             .inflate(R.layout.row_howto_cat, parent, false)
         return HowToViewHolder(itemView)
     }
-
 
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: HowToViewHolder, position: Int) {
@@ -82,7 +103,6 @@ class HowToAdapter(private val myFragment: SettingsHowTo, val myActivity: MainAc
 
     class HowToViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
-
 /**
  * SUB ADAPTER
  */
@@ -94,7 +114,6 @@ class SubHowToAdapter(private val myFragment: SettingsHowTo, val category: HowTo
             .inflate(R.layout.row_howto, parent, false)
         return SubHowToViewHolder(itemView)
     }
-
 
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: SubHowToViewHolder, position: Int) {
@@ -131,7 +150,5 @@ class SubHowToAdapter(private val myFragment: SettingsHowTo, val category: HowTo
 
     class SubHowToViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
-
 //Override for boolean inc function, to flip it using ++
 operator fun Boolean.inc() = !this
-
