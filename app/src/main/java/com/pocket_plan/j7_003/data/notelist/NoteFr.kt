@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
 import kotlin.properties.Delegates
+import kotlin.random.Random
 
 /**
  * A simple [Fragment] subclass.
@@ -394,17 +395,6 @@ class NoteFr : Fragment() {
         myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
-        //todo initialize random here
-        var folderColor = NoteColors.YELLOW
-        myDialogView.btnYellowBg.setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
-
-        val spFolderPaths = myDialogView.spFolderPaths
-        noteListDirs.getDirPaths().toArray()
-
-        spFolderPaths.layoutParams.height = 0
-        spFolderPaths.isClickable = false
-        myDialogView.textView5.visibility = View.GONE
-
         val btnList = arrayListOf<Button>(
             myDialogView.btnRed,
             myDialogView.btnYellow,
@@ -421,11 +411,33 @@ class NoteFr : Fragment() {
             myDialogView.btnPurpleBg,
         )
 
+        //Show the proper darker note colors if the "fill" theme is selected
         if(dark && darkBorderStyle == 3.0){
             backgroundList.forEachIndexed { index, constraintLayout ->
-               constraintLayout.setBackgroundColor(myActivity.colorForAttr(getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)))
+                constraintLayout.setBackgroundColor(myActivity.colorForAttr(getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)))
             }
         }
+
+        var folderColor = when(SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean){
+            true -> {
+                val randColorIndex = Random.nextInt(0,5)
+                NoteColors.values()[randColorIndex]
+            }
+            else ->{
+                val lastUsedColorIndex = (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
+                NoteColors.values()[lastUsedColorIndex]
+            }
+        }
+        backgroundList[NoteColors.values().indexOf(folderColor)].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+
+        val spFolderPaths = myDialogView.spFolderPaths
+        noteListDirs.getDirPaths().toArray()
+
+        spFolderPaths.layoutParams.height = 0
+        spFolderPaths.isClickable = false
+        myDialogView.textView5.visibility = View.GONE
+
+
 
         btnList.forEachIndexed { index, button ->
             button.setOnClickListener {
@@ -461,6 +473,7 @@ class NoteFr : Fragment() {
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
+            SettingsManager.addSetting(SettingId.LAST_USED_NOTE_COLOR, NoteColors.values().indexOf(folderColor).toDouble())
             myAdapter.notifyDataSetChanged()
             myAlertDialog?.dismiss()
         }
