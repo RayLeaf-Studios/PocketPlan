@@ -303,5 +303,7 @@
     <string name="import_failed">Import fehlgeschlagen!</string>
     <string name="import_successful">Import erfolgreich!</string>
     <string name="choose_file">Datei wählen</string>
+    <string name="pick_destination_folder">Wähle Zielordner</string>
+    <string name="move">Notiz verschieben</string>
 
 </resources>

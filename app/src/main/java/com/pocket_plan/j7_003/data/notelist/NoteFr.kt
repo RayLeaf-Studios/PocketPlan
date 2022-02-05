@@ -307,7 +307,6 @@ class NoteFr : Fragment() {
 
         val spFolderPaths = myDialogView.spFolderPaths
         val paths = noteListDirs.getSuperordinatePaths(editFolderHolder!!)
-        noteListDirs.getDirPaths().toArray()
         val spFolderAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             paths

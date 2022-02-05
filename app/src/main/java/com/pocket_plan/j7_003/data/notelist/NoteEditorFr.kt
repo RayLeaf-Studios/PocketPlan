@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
@@ -17,7 +20,13 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.*
+import kotlinx.android.synthetic.main.dialog_choose_color.view.btnBlue
+import kotlinx.android.synthetic.main.dialog_choose_color.view.btnGreen
+import kotlinx.android.synthetic.main.dialog_choose_color.view.btnPurple
+import kotlinx.android.synthetic.main.dialog_choose_color.view.btnRed
+import kotlinx.android.synthetic.main.dialog_choose_color.view.btnYellow
 import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
 import kotlinx.android.synthetic.main.fragment_note_editor.*
 import kotlinx.android.synthetic.main.fragment_note_editor.view.*
@@ -104,6 +113,8 @@ class NoteEditorFr : Fragment() {
 
             R.id.item_editor_color -> dialogColorChooser()
 
+            R.id.item_editor_move -> dialogMoveNote()
+
             R.id.item_editor_save -> {
                 val noteContent = etNoteContent.text.toString()
                 val noteTitle = etNoteTitle.text.toString()
@@ -179,6 +190,7 @@ class NoteEditorFr : Fragment() {
 
         myMenu.findItem(R.id.item_editor_delete)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         myMenu.findItem(R.id.item_editor_save)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.findItem(R.id.item_editor_move)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         updateMenuAccessibility()
 
@@ -296,6 +308,51 @@ class NoteEditorFr : Fragment() {
         myNoteFr.noteListDirs.save()
     }
 
+    private fun dialogMoveNote(){
+        //inflate the dialog with custom view
+        val myDialogView =
+            LayoutInflater.from(myActivity).inflate(R.layout.dialog_move_note, null)
+
+        //AlertDialogBuilder
+        val myBuilder =
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+        val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
+        customTitle.tvDialogTitle.text = myActivity.getString(R.string.move)
+//        customTitle.tvDialogTitle.text = getString(R.string.edit_folder)
+        myBuilder?.setCustomTitle(customTitle)
+
+        //show dialog
+        val myAlertDialog = myBuilder?.create()
+        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        myAlertDialog?.show()
+
+
+        val spFolderPaths = myDialogView.spFolderPaths
+        val paths = myNoteFr.noteListDirs.getSuperordinatePaths(editNoteHolder!!)
+        val spFolderAdapter = ArrayAdapter(
+            myActivity, android.R.layout.simple_list_item_1,
+            paths
+        )
+
+        val currentParentFolderIndex = myNoteFr.noteListDirs.getParentFolderIndex(editNoteHolder!!)
+
+        spFolderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spFolderPaths.adapter = spFolderAdapter
+        spFolderPaths.setSelection(currentParentFolderIndex)
+
+
+        myDialogView.btnAddNoteFolder.setOnClickListener {
+            myNoteFr.noteListDirs.moveDir(editNoteHolder!!, spFolderPaths.selectedItemPosition)
+            NoteFr.myAdapter.notifyDataSetChanged()
+            myAlertDialog?.dismiss()
+        }
+
+        val cancelBtn = myDialogView.btnCancelNoteFolder
+        cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
+
+
+    }
+
     @SuppressLint("InflateParams")
     private fun dialogColorChooser() {
         //inflate the dialog with custom view
@@ -351,7 +408,8 @@ class NoteEditorFr : Fragment() {
         myActivity.dialogConfirm(titleId, action)
     }
 
-    fun updateMenuAccessibility(){
+    private fun updateMenuAccessibility(){
         myMenu.findItem(R.id.item_editor_delete).isVisible = editNoteHolder != null
+        myMenu.findItem(R.id.item_editor_move).isVisible = editNoteHolder != null
     }
 }

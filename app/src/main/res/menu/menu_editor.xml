@@ -11,6 +11,11 @@
         android:icon="@drawable/ic_action_color_picker"
         app:showAsAction="always"
         />
+    <item android:id="@+id/item_editor_move"
+        android:title=""
+        android:icon="@drawable/ic_action_folder"
+        app:showAsAction="always"
+        />
     <item android:id="@+id/item_editor_save"
         android:title=""
         android:icon="@drawable/ic_check_mark"

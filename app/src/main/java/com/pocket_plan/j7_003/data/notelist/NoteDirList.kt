@@ -117,6 +117,7 @@ class NoteDirList: Checkable {
     }
 
     private fun getDirPathsWithRef(): ArrayList<Pair<String, Note>> {
+        //todo, dont show real rootDirName here
         val pathsAndDirs = arrayListOf(Pair(rootDirName, rootDir))
         containingDirs(rootDir).forEach {
             if (rootDir.noteList.contains(it))

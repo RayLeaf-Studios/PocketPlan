@@ -359,5 +359,7 @@
     <string name="import_failed">Import failed!</string>
     <string name="import_successful">Import successful!</string>
     <string name="choose_file">Choose file</string>
+    <string name="pick_destination_folder">Pick destination folder</string>
+    <string name="move">Move note</string>
 
 </resources>
