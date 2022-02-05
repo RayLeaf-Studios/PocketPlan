@@ -357,15 +357,14 @@ class NoteFr : Fragment() {
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
             val newName = myDialogView.etAddNoteFolder.text.toString()
-            //Todo add check if name is allowed
             val addResult = noteListDirs.editFolder(newName, folderColor)
-            noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)
-            if (newName.trim() == "" || !addResult) {
+            if (!addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
+            noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)
             myAdapter.notifyDataSetChanged()
             myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
             myAlertDialog?.dismiss()
@@ -465,9 +464,8 @@ class NoteFr : Fragment() {
         myDialogView.btnAddNoteFolder.setOnClickListener {
 
             val newName = myDialogView.etAddNoteFolder.text.toString()
-            //Todo add check if name is allowed
             val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
-            if (newName.trim() == "" || !addResult) {
+            if (!addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)

@@ -184,7 +184,7 @@ class NoteDirList: Checkable {
      * @return True on success, false otherwise.
      */
     fun editFolder(newName: String, newColor: NoteColors): Boolean{
-        if (folderStack.size == 1) return false
+        if (folderStack.size == 1 || newName.trim() == "" || newName == rootDirName) return false
         folderStack.peek().title = newName
         folderStack.peek().color = newColor
         save()
@@ -219,7 +219,7 @@ class NoteDirList: Checkable {
      * @return True if the directory was added, false otherwise.
      */
     fun addNoteDir(noteDir: Note): Boolean {
-        if (noteDir.title == rootDirName){
+        if (noteDir.title == rootDirName || noteDir.title.trim() == ""){
             return false
         }
         currentList.add(noteDir)
