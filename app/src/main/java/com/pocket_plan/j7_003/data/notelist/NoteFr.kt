@@ -157,7 +157,7 @@ class NoteFr : Fragment() {
             myActivity.toolBar.title = getString(R.string.menuTitleNotes)
             myActivity.myBtnAdd.visibility = View.VISIBLE
             searchView.onActionViewCollapsed()
-            myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
+            myActivity.setToolbarTitle(myActivity.getCurrentPathName())
             searching = false
             setMenuAccessibility(true)
             myAdapter.notifyDataSetChanged()
@@ -366,7 +366,7 @@ class NoteFr : Fragment() {
             }
             noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)
             myAdapter.notifyDataSetChanged()
-            myActivity.setToolbarTitle(noteListDirs.getCurrentPathName())
+            myActivity.setToolbarTitle(myActivity.getCurrentPathName())
             myAlertDialog?.dismiss()
         }
 
@@ -556,7 +556,6 @@ class NoteFr : Fragment() {
         myMenu.findItem(R.id.item_notes_delete_folder).isVisible = rootFolder
         myMenu.findItem(R.id.item_notes_edit_folder).isVisible = rootFolder
     }
-
 }
 
 class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :

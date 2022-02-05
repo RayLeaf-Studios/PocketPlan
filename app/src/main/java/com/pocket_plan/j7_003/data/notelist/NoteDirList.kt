@@ -2,8 +2,6 @@ package com.pocket_plan.j7_003.data.notelist
 
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.pocket_plan.j7_003.App
-import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
@@ -12,7 +10,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class NoteDirList: Checkable {
-    private val rootDirName = App.instance.resources.getString(R.string.menuTitleNotes)
+    private val rootDirName = "groot"
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
     var currentList: NoteList = rootDir.noteList
     var folderStack: Stack<Note> = Stack()
@@ -87,7 +85,7 @@ class NoteDirList: Checkable {
         return 0
     }
 
-    fun getParentDirectory(dir: Note): Note {
+    private fun getParentDirectory(dir: Note): Note {
         return getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
     }
 
@@ -248,27 +246,6 @@ class NoteDirList: Checkable {
      */
     fun getNoteObjCount(): Int{
        return currentList.size
-    }
-
-    /**
-     * Creates a string representing the current work directory.
-     * The Format is as follows: root   ›   dirName   ›   ...
-     * If the path is longer than 26 characters only the cwd name is shown.
-     * @return A string representing the current work directory
-     */
-    fun getCurrentPathName(): String{
-        var path = ""
-        folderStack.forEachIndexed { index, noteDir ->
-            path += when (index) {
-                0 -> App.instance.resources.getString(R.string.menuTitleNotes)
-                else -> "   ›   " + noteDir.title
-            }
-        }
-
-        if(path.length > 26) {
-            path = "...   ›   " + path.split("   ›   ").last()
-        }
-        return path
     }
 
     /**
