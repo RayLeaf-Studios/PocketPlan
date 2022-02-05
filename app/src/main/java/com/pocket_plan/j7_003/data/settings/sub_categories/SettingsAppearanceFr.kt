@@ -217,15 +217,14 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-
-                val selectedDarkTheme = spTheme.selectedItemPosition==0
-
                 if(initialDisplayTheme){
                     initialDisplayTheme = false
                     return
                 }
 
                 //check if selected theme is dark theme (dark is position 0, light is 1)
+                val selectedDarkTheme = spTheme.selectedItemPosition==0
+
 
                 //check if use system theme is set and if current change does not conform to system theme
                 //if yes, disable "use system theme"

@@ -23,9 +23,15 @@ import kotlinx.android.synthetic.main.fragment_settings_notes.view.*
  */
 class SettingsNotesFr : Fragment() {
     lateinit var myActivity: MainActivity
+
     lateinit var spNoteLines: Spinner
     lateinit var spNoteColumns: Spinner
     lateinit var spEditorFontSize: Spinner
+
+    private var initialDisplayNoteLines: Boolean = true
+    private var initialDisplayNoteColumns: Boolean = true
+    private var initialDisplayFontSize: Boolean = true
+
     private lateinit var swAllowSwipe: SwitchCompat
     private lateinit var swRandomizeNoteColors: SwitchCompat
 
@@ -102,8 +108,7 @@ class SettingsNotesFr : Fragment() {
     }
 
     private fun initializeDisplayValues() {
-        spNoteLines.setSelection(
-            when (SettingsManager.getSetting(SettingId.NOTE_LINES)) {
+        val noteLinesStringIndex = when (SettingsManager.getSetting(SettingId.NOTE_LINES)) {
                 //0 = show no lines
                 0.0 -> 1
                 //n = show n lines
@@ -114,18 +119,21 @@ class SettingsNotesFr : Fragment() {
                 20.0 -> 6
                 //else case is -1 => show all lines
                 else -> 0
-            }
-        )
-        tvCurrentNoteLines.text = resources.getStringArray(R.array.noteLines)[spNoteLines.selectedItemPosition]
+        }
+        spNoteLines.setSelection(noteLinesStringIndex)
+        tvCurrentNoteLines.text = resources.getStringArray(R.array.noteLines)[noteLinesStringIndex]
 
         val columnOptions = resources.getStringArray(R.array.noteColumns)
-        spNoteColumns.setSelection(columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS)))
+        val columnOptionsStringIndex = columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS))
+        spNoteColumns.setSelection(columnOptionsStringIndex)
+        tvCurrentNoteColumns.text = columnOptions[columnOptionsStringIndex]
 
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
-        spEditorFontSize.setSelection(fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE)))
+        val fontSizeOptionsStringIndex = fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE))
+        spEditorFontSize.setSelection(fontSizeOptionsStringIndex)
+        tvCurrentFontSize.text = fontSizeOptions[fontSizeOptionsStringIndex]
 
         swAllowSwipe.isChecked = SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean
-
         swRandomizeNoteColors.isChecked = SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean
     }
 
@@ -138,6 +146,10 @@ class SettingsNotesFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                if(initialDisplayNoteLines){
+                    initialDisplayNoteLines = false
+                    return
+                }
                 val setTo = when(spNoteLines.selectedItemPosition){
                     0 -> -1.0
                     1 -> 0.0
@@ -163,6 +175,10 @@ class SettingsNotesFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                if(initialDisplayNoteColumns){
+                    initialDisplayNoteColumns = false
+                    return
+                }
                 val value = spNoteColumns.selectedItem as String
                 SettingsManager.addSetting(SettingId.NOTE_COLUMNS, value)
                 tvCurrentNoteColumns.text = value
@@ -181,6 +197,10 @@ class SettingsNotesFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                if(initialDisplayFontSize){
+                    initialDisplayFontSize = false
+                    return
+                }
                 val value = spEditorFontSize.selectedItem as String
                 SettingsManager.addSetting(SettingId.FONT_SIZE, value)
                 tvCurrentFontSize.text = value
