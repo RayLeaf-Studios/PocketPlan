@@ -318,7 +318,6 @@ class NoteEditorFr : Fragment() {
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
         customTitle.tvDialogTitle.text = myActivity.getString(R.string.move)
-//        customTitle.tvDialogTitle.text = getString(R.string.edit_folder)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog
@@ -328,7 +327,7 @@ class NoteEditorFr : Fragment() {
 
 
         val spFolderPaths = myDialogView.spFolderPaths
-        val paths = myNoteFr.noteListDirs.getSuperordinatePaths(editNoteHolder!!)
+        val paths = myNoteFr.noteListDirs.getSuperordinatePaths(editNoteHolder!!, getString(R.string.menuTitleNotes))
         val spFolderAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             paths
@@ -344,6 +343,7 @@ class NoteEditorFr : Fragment() {
         myDialogView.btnAddNoteFolder.setOnClickListener {
             myNoteFr.noteListDirs.moveDir(editNoteHolder!!, spFolderPaths.selectedItemPosition)
             NoteFr.myAdapter.notifyDataSetChanged()
+            myNoteFr.myActivity.toast(getString(R.string.noteMoved))
             myAlertDialog?.dismiss()
         }
 

@@ -5,9 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
-import java.lang.Exception
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NoteDirList: Checkable {
     private val rootDirName = "groot"
@@ -91,6 +89,7 @@ class NoteDirList: Checkable {
 
     //Todo, adjust stack, put user to goal?
     //todo, dont move if its already where it should be
+    //todo, return false if move not possible(desitnation == current parent directory), true otherwise
     fun moveDir(noteToMove: Note, toIndex: Int) {
         getParentDirectory(noteToMove).noteList.remove(noteToMove)
         val containingDirs = containingDirs(noteToMove)
@@ -100,11 +99,11 @@ class NoteDirList: Checkable {
         save()
     }
 
-    fun getSuperordinatePaths(dir: Note): ArrayList<String> {
+    fun getSuperordinatePaths(dir: Note, passedRootName: String): ArrayList<String> {
         val paths = arrayListOf<String>()
         val containingDirs = containingDirs(dir)
         containingDirs.add(dir)
-        getDirPathsWithRef().filter {
+        getDirPathsWithRef(passedRootName).filter {
             !containingDirs.contains(it.second)
         }.forEach { paths.add(it.first) }
         return paths
@@ -116,18 +115,40 @@ class NoteDirList: Checkable {
         return paths
     }
 
-    private fun getDirPathsWithRef(): ArrayList<Pair<String, Note>> {
+    private fun getDirPathsWithRef(passedRootName: String = rootDirName): ArrayList<Pair<String, Note>> {
         //todo, dont show real rootDirName here
-        val pathsAndDirs = arrayListOf(Pair(rootDirName, rootDir))
+        val pathsAndDirs = arrayListOf(Pair(passedRootName, rootDir))
         containingDirs(rootDir).forEach {
             if (rootDir.noteList.contains(it))
-                pathsAndDirs.add(Pair("$rootDirName   ›   ${it.title}", it))
+                pathsAndDirs.add(Pair("$passedRootName   ›   ${it.title}", it))
             else
                 pathsAndDirs.add(Pair("...   ›   ${it.title}", it))
         }
         return pathsAndDirs
     }
 
+    /**
+     * Creates a string representing the current work directory.
+     * The Format is as follows: root   ›   dirName   ›   ...
+     * If the path is longer than 26 characters only the cwd name is shown.
+     * @return A string representing the current work directory
+     */
+    fun getCurrentPathName(rootDirName: String): String {
+        var path = ""
+        folderStack.forEachIndexed { index, noteDir ->
+            path += when (index) {
+                0 -> rootDirName
+                else -> "   ›   " + noteDir.title
+            }
+        }
+
+        if(path.length > 26) {
+            path = "...   ›   " + path.split("   ›   ").last()
+        }
+        return path
+    }
+
+    //todo add doc
     private fun containingDirs(dir: Note): ArrayList<Note> {
         val dirs = arrayListOf<Note>()
         dir.noteList.forEach {

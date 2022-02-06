@@ -430,7 +430,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
             FT.SHOPPING, FT.SETTINGS_SHOPPING -> resources.getText(R.string.menuTitleShopping)
             FT.SETTINGS_NOTES -> resources.getText(R.string.menuTitleNotes)
-            FT.NOTES -> getCurrentPathName()
+            FT.NOTES -> mainNoteListDir.getCurrentPathName(getString(R.string.menuTitleNotes))
             FT.SETTINGS -> resources.getText(R.string.menuTitleSettings)
             FT.NOTE_EDITOR -> resources.getText(R.string.menuTitleNotesEditor)
             FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
@@ -522,26 +522,6 @@ class MainActivity : AppCompatActivity() {
         myNewToolbar.title = msg
     }
 
-    /**
-     * Creates a string representing the current work directory.
-     * The Format is as follows: root   ›   dirName   ›   ...
-     * If the path is longer than 26 characters only the cwd name is shown.
-     * @return A string representing the current work directory
-     */
-    fun getCurrentPathName(): String {
-        var path = ""
-        mainNoteListDir.folderStack.forEachIndexed { index, noteDir ->
-            path += when (index) {
-                0 -> getString(R.string.menuTitleNotes)
-                else -> "   ›   " + noteDir.title
-            }
-        }
-
-        if(path.length > 26) {
-            path = "...   ›   " + path.split("   ›   ").last()
-        }
-        return path
-    }
 
     /**
      * OVERRIDE FUNCTIONS

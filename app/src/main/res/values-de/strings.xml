@@ -305,5 +305,6 @@
     <string name="choose_file">Datei wählen</string>
     <string name="pick_destination_folder">Wähle Zielordner</string>
     <string name="move">Notiz verschieben</string>
+    <string name="noteMoved">Notiz wurde verschoben</string>
 
 </resources>

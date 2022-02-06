@@ -85,37 +85,6 @@ class NoteFr : Fragment() {
 
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
-
-        val itemTouchHelper = ItemTouchHelper(
-            object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
-                0
-            ) {
-                private var lastNote: Note? = null
-//                private var lastPos: Int = -1
-
-                override fun clearView(recyclerView: RecyclerView,
-                                       viewHolder: RecyclerView.ViewHolder) {
-                    val position = viewHolder.bindingAdapterPosition
-                    if (position == -1 || lastNote == null)
-                        return
-
-//                    noteListDirs.currentList.move(lastNote!!, position)
-                }
-
-                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                    target: RecyclerView.ViewHolder): Boolean {
-                    myAdapter.notifyItemMoved(target.bindingAdapterPosition, viewHolder.bindingAdapterPosition)
-                    lastNote = (viewHolder as NoteAdapter.NoteViewHolder).noteObj
-                    return true
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    /* no-op, swiping categories is not supported */
-                }
-            }
-        )
-        itemTouchHelper.attachToRecyclerView(myRecycler)
         return myView
     }
 
@@ -157,7 +126,7 @@ class NoteFr : Fragment() {
             myActivity.toolBar.title = getString(R.string.menuTitleNotes)
             myActivity.myBtnAdd.visibility = View.VISIBLE
             searchView.onActionViewCollapsed()
-            myActivity.setToolbarTitle(myActivity.getCurrentPathName())
+            myActivity.setToolbarTitle(noteListDirs.getCurrentPathName(getString(R.string.menuTitleNotes)))
             searching = false
             setMenuAccessibility(true)
             myAdapter.notifyDataSetChanged()
@@ -306,7 +275,7 @@ class NoteFr : Fragment() {
         )
 
         val spFolderPaths = myDialogView.spFolderPaths
-        val paths = noteListDirs.getSuperordinatePaths(editFolderHolder!!)
+        val paths = noteListDirs.getSuperordinatePaths(editFolderHolder!!, getString(R.string.menuTitleNotes))
         val spFolderAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             paths
@@ -365,7 +334,8 @@ class NoteFr : Fragment() {
             }
             noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)
             myAdapter.notifyDataSetChanged()
-            myActivity.setToolbarTitle(myActivity.getCurrentPathName())
+            //reload title, current folder has been edited
+            myActivity.setToolbarTitle(noteListDirs.getCurrentPathName(getString(R.string.menuTitleNotes)))
             myAlertDialog?.dismiss()
         }
 
@@ -385,6 +355,7 @@ class NoteFr : Fragment() {
         val myBuilder =
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
+        //Set "Add folder" title
         customTitle.tvDialogTitle.text = myActivity.getString(R.string.add_folder)
         myBuilder?.setCustomTitle(customTitle)
 
@@ -393,6 +364,7 @@ class NoteFr : Fragment() {
         myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
+        //Get references to color buttons and their backgrounds (used for border)
         val btnList = arrayListOf<Button>(
             myDialogView.btnRed,
             myDialogView.btnYellow,
@@ -416,6 +388,7 @@ class NoteFr : Fragment() {
             }
         }
 
+        //Get initial folder color, depending on setting
         var folderColor = when(SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean){
             true -> {
                 val randColorIndex = Random.nextInt(0,5)
@@ -426,17 +399,16 @@ class NoteFr : Fragment() {
                 NoteColors.values()[lastUsedColorIndex]
             }
         }
+        //Show initial folder color by changing the color of the background square of the selected button to colorOnBackground
         backgroundList[NoteColors.values().indexOf(folderColor)].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
+        //hide elements unnecessary for adding
         val spFolderPaths = myDialogView.spFolderPaths
-        noteListDirs.getDirPaths().toArray()
-
         spFolderPaths.layoutParams.height = 0
         spFolderPaths.isClickable = false
         myDialogView.textView5.visibility = View.GONE
 
-
-
+        //Onclick listeners for the color buttons, to visually reflect the users selection
         btnList.forEachIndexed { index, button ->
             button.setOnClickListener {
                 //reset all backgrounds to their respective color
@@ -461,7 +433,6 @@ class NoteFr : Fragment() {
         }
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
-
             val newName = myDialogView.etAddNoteFolder.text.toString()
             val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
             if (!addResult) {
@@ -470,6 +441,7 @@ class NoteFr : Fragment() {
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
+            //Save last used note color
             SettingsManager.addSetting(SettingId.LAST_USED_NOTE_COLOR, NoteColors.values().indexOf(folderColor).toDouble())
             myAdapter.notifyDataSetChanged()
             myAlertDialog?.dismiss()
