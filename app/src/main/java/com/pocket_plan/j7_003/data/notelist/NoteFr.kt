@@ -532,10 +532,15 @@ class NoteFr : Fragment() {
 class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val myActivity = mainActivity
+
+    private val showContained = SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
-    private val myNoteFr = noteFr
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+
+    private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
+
+    private val myNoteFr = noteFr
+
     var notePosition by Delegates.notNull<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
@@ -632,6 +637,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         if (currentNote.content != null) {
             //CONTENT AND LISTENERS FOR NOTE
             //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
+            holder.itemView.tvContainedNoteElements.visibility = View.GONE
             holder.itemView.setOnClickListener {
                 noteColor = currentNote.color
 
@@ -684,6 +690,15 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.tvNoteContent.text = ""
             holder.tvNoteTitle.visibility = View.VISIBLE
             holder.itemView.icon_folder.visibility = View.VISIBLE
+
+            holder.itemView.tvContainedNoteElements.visibility =  when(showContained){
+                true -> {
+                    holder.itemView.tvContainedNoteElements.text = holder.noteObj.noteList.size.toString()
+                    View.VISIBLE
+                }
+                else -> View.GONE
+            }
+
             val iconColor = when (dark) {
                 true -> when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
                     //White icon for filled colors
@@ -697,11 +712,10 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 else -> R.attr.colorBackground
             }
             holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
+            holder.itemView.tvContainedNoteElements.setTextColor(myActivity.colorForAttr(iconColor))
 
             holder.itemView.setOnClickListener {
                 myNoteFr.noteListDirs.openFolder(currentNote)
-//                notifyDataSetChanged()
-//                myActivity.setToolbarTitle(myNoteFr.noteListDirs.getCurrentPathName())
                 myActivity.changeToFragment(FT.NOTES)
             }
         }

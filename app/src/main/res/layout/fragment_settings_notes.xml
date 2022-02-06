@@ -210,13 +210,14 @@
 
                 <TextView
                     android:id="@+id/tvRandomize"
-                    android:layout_width="wrap_content"
-                    android:layout_marginVertical="5dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
                     android:text="@string/setting_randomize_note_colors"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swRandomizeColors"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -227,6 +228,38 @@
                     android:id="@+id/swRandomizeColors"
                     app:layout_constraintTop_toTopOf="@id/tvRandomize"
                     app:layout_constraintBottom_toBottomOf="@id/tvRandomize"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvShowContained"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/setting_show_contained"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swShowContained"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swShowContained"
+                    app:layout_constraintTop_toTopOf="@id/tvShowContained"
+                    app:layout_constraintBottom_toBottomOf="@id/tvShowContained"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
 

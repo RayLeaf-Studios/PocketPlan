@@ -306,5 +306,6 @@
     <string name="pick_destination_folder">Wähle Zielordner</string>
     <string name="move">Notiz verschieben</string>
     <string name="noteMoved">Notiz wurde verschoben</string>
+    <string name="setting_show_contained">Zeige Anzahl der in einem Ordner enthaltenen Elemente</string>
 
 </resources>

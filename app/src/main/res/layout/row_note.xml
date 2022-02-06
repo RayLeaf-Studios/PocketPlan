@@ -58,6 +58,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="@dimen/font_size_small" />
 
+            <TextView
+                android:id="@+id/tvContainedNoteElements"
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/icon_folder"
+                app:layout_constraintEnd_toEndOf="@id/icon_folder"
+                android:textSize="@dimen/font_size_small"
+                app:layout_constraintStart_toStartOf="@id/icon_folder"
+                android:layout_height="wrap_content"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

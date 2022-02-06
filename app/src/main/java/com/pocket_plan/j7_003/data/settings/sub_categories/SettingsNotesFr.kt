@@ -15,6 +15,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.fragment_settings_birthdays.view.*
 import kotlinx.android.synthetic.main.fragment_settings_notes.*
 import kotlinx.android.synthetic.main.fragment_settings_notes.view.*
 
@@ -34,6 +35,7 @@ class SettingsNotesFr : Fragment() {
 
     private lateinit var swAllowSwipe: SwitchCompat
     private lateinit var swRandomizeNoteColors: SwitchCompat
+    private lateinit var swShowContained: SwitchCompat
 
     private lateinit var clNoteLines: ConstraintLayout
     private lateinit var clNoteColumns: ConstraintLayout
@@ -64,8 +66,10 @@ class SettingsNotesFr : Fragment() {
         spNoteLines = myView.spNoteLines
         spNoteColumns = myView.spNoteColumns
         spEditorFontSize = myView.spEditorFontsize
+
         swAllowSwipe = myView.swAllowSwipe
         swRandomizeNoteColors = myView.swRandomizeColors
+        swShowContained = myView.swShowContained
 
         clNoteColumns = myView.clNoteColumns
         clNoteLines = myView.clNoteLines
@@ -135,6 +139,7 @@ class SettingsNotesFr : Fragment() {
 
         swAllowSwipe.isChecked = SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean
         swRandomizeNoteColors.isChecked = SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean
+        swShowContained.isChecked = SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
     }
 
     private fun initializeListeners() {
@@ -218,6 +223,10 @@ class SettingsNotesFr : Fragment() {
 
         swRandomizeNoteColors.setOnClickListener{
             SettingsManager.addSetting(SettingId.RANDOMIZE_NOTE_COLORS, swRandomizeNoteColors.isChecked)
+        }
+
+        swShowContained.setOnClickListener{
+            SettingsManager.addSetting(SettingId.NOTES_SHOW_CONTAINED, swShowContained.isChecked)
         }
 
         clNoteLines.setOnClickListener {

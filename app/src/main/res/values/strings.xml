@@ -362,5 +362,6 @@
     <string name="pick_destination_folder">Pick destination folder</string>
     <string name="move">Move note</string>
     <string name="noteMoved">Note moved!</string>
+    <string name="setting_show_contained">Show number of contained elements for folders</string>
 
 </resources>

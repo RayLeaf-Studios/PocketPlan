@@ -27,5 +27,6 @@ enum class SettingId(val default: Any) {
     PREVIEW_BIRTHDAY(true),
     BIRTHDAY_NOTIFICATION_TIME("12:00"),
     RANDOMIZE_NOTE_COLORS(true),
-    LAST_USED_NOTE_COLOR(0.0)
+    LAST_USED_NOTE_COLOR(0.0),
+    NOTES_SHOW_CONTAINED(true)
 }
