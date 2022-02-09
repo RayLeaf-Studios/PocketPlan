@@ -73,6 +73,10 @@ class SettingsAppearanceFr : Fragment() {
             true -> View.VISIBLE
             else -> View.GONE
         }
+        myView.dividerAboveCrBorder.visibility = when(dark){
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
     }
 
 

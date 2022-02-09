@@ -72,7 +72,6 @@
                     android:id="@+id/tvCurrentTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Dunkel"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -119,7 +118,6 @@
                     android:id="@+id/tvCurrentShape"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Dunkel"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -166,7 +164,6 @@
                     android:id="@+id/tvCurrentLanguage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Uninitialized"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -201,6 +198,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:id="@+id/dividerAboveCrBorder"
                 android:background="?android:attr/listDivider"
                 tools:layout_editor_absoluteX="1dp"
                 tools:layout_editor_absoluteY="56dp" />
@@ -314,7 +312,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="Sample Text"
+                            android:text="@string/sample_text"
                             android:textColor="?attr/colorGoToSleep"
                             android:textSize="@dimen/font_size_medium">
 
@@ -339,7 +337,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="1dp"
                         android:padding="5dp"
-                        android:text="Sample Text"
+                        android:text="@string/sample_text"
                         android:textColor="?attr/colorOnBackGround"
                         android:textSize="@dimen/font_size_medium">
 
