@@ -59,6 +59,10 @@ class BirthdayFr : Fragment() {
     //boolean to signal if a search is currently being performed
     var searching: Boolean = false
 
+    //List containing birthdays that correspond to current search pattern
+    lateinit var searchList: ArrayList<Birthday>
+
+
 
     //reference to searchView in toolbar
     lateinit var searchView: SearchView
@@ -75,9 +79,6 @@ class BirthdayFr : Fragment() {
 
         //Holder for birthday currently being edited
         var editBirthdayHolder: Birthday? = null
-
-        //List containing birthdays that correspond to current search pattern
-        lateinit var searchList: ArrayList<Birthday>
 
         //Last used searchPattern
         lateinit var lastQuery: String
@@ -215,14 +216,13 @@ class BirthdayFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         myActivity = activity as MainActivity
-        myAdapter = BirthdayAdapter(this, myActivity)
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
         myRecycler = myView.recycler_view_birthday
 
         searchList = arrayListOf()
 
         birthdayListInstance = BirthdayList()
-        myAdapter = BirthdayAdapter(this, myActivity)
+        myAdapter = BirthdayAdapter(this, myActivity, searchList)
 
 
         //collapse all birthdays when reentering fragment
@@ -956,7 +956,7 @@ class SwipeToDeleteBirthday(
 }
 
 
-class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
+class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity, var searchList: ArrayList<Birthday>) :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val myFragment = birthdayFr
     private val myActivity = mainActivity
@@ -972,7 +972,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         val parsed = viewHolder as BirthdayViewHolder
         //get deleted birthday via index
         BirthdayFr.deletedBirthdays.add(when (myFragment.searching){
-            true -> BirthdayFr.searchList[viewHolder.bindingAdapterPosition]
+            true -> searchList[viewHolder.bindingAdapterPosition]
             else -> listInstance.getBirthday(viewHolder.bindingAdapterPosition)
         })
 
@@ -1009,7 +1009,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
         val currentBirthday = when (myFragment.searching) {
-            true -> BirthdayFr.searchList[position]
+            true -> searchList[position]
             false -> listInstance.getBirthday(position)
         }
 
@@ -1348,7 +1348,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     override fun getItemCount(): Int {
         return when (myFragment.searching) {
             //if a search is currently being performed, the number of items is derived from the adjustedList
-            true -> BirthdayFr.searchList.size
+            true -> searchList.size
 
             //otherwise the number of items will be derived from the regular list instance
             false -> listInstance.size
