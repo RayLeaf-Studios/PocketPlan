@@ -42,7 +42,6 @@
                     android:id="@+id/tvCurrentNoteLines"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Uninit"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +90,6 @@
                     android:id="@+id/tvCurrentNoteColumns"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Uninit"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -139,7 +137,6 @@
                     android:id="@+id/tvCurrentNoteEditorFontSize"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Uninit"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -260,6 +257,39 @@
                     android:id="@+id/swShowContained"
                     app:layout_constraintTop_toTopOf="@id/tvShowContained"
                     app:layout_constraintBottom_toBottomOf="@id/tvShowContained"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvMoveUpCurrentNote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/move_recently_opened_notes_or_folders_to_the_top_of_the_list"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swMoveUpCurrentNote"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swMoveUpCurrentNote"
+                    app:layout_constraintTop_toTopOf="@id/tvMoveUpCurrentNote"
+                    app:layout_constraintBottom_toBottomOf="@id/tvMoveUpCurrentNote"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
 

@@ -36,6 +36,7 @@ class SettingsNotesFr : Fragment() {
     private lateinit var swAllowSwipe: SwitchCompat
     private lateinit var swRandomizeNoteColors: SwitchCompat
     private lateinit var swShowContained: SwitchCompat
+    private lateinit var swMoveUpCurrentNote: SwitchCompat
 
     private lateinit var clNoteLines: ConstraintLayout
     private lateinit var clNoteColumns: ConstraintLayout
@@ -70,6 +71,7 @@ class SettingsNotesFr : Fragment() {
         swAllowSwipe = myView.swAllowSwipe
         swRandomizeNoteColors = myView.swRandomizeColors
         swShowContained = myView.swShowContained
+        swMoveUpCurrentNote = myView.swMoveUpCurrentNote
 
         clNoteColumns = myView.clNoteColumns
         clNoteLines = myView.clNoteLines
@@ -140,6 +142,7 @@ class SettingsNotesFr : Fragment() {
         swAllowSwipe.isChecked = SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean
         swRandomizeNoteColors.isChecked = SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean
         swShowContained.isChecked = SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
+        swMoveUpCurrentNote.isChecked = SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
     }
 
     private fun initializeListeners() {
@@ -227,6 +230,10 @@ class SettingsNotesFr : Fragment() {
 
         swShowContained.setOnClickListener{
             SettingsManager.addSetting(SettingId.NOTES_SHOW_CONTAINED, swShowContained.isChecked)
+        }
+
+        swMoveUpCurrentNote.setOnClickListener{
+            SettingsManager.addSetting(SettingId.NOTES_MOVE_UP_CURRENT, swMoveUpCurrentNote.isChecked)
         }
 
         clNoteLines.setOnClickListener {

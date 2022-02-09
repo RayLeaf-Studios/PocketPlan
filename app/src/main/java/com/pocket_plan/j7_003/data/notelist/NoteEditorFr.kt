@@ -341,9 +341,13 @@ class NoteEditorFr : Fragment() {
 
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
-            myNoteFr.noteListDirs.moveDir(editNoteHolder!!, spFolderPaths.selectedItemPosition)
+            val moveResult = myNoteFr.noteListDirs.moveDir(editNoteHolder!!, spFolderPaths.selectedItemPosition)
             NoteFr.myAdapter.notifyDataSetChanged()
-            myNoteFr.myActivity.toast(getString(R.string.noteMoved))
+            val moveMessage = when(moveResult){
+                true -> getString(R.string.noteMoved)
+                else -> getString(R.string.noteMoveFailed)
+            }
+            myNoteFr.myActivity.toast(moveMessage)
             myAlertDialog?.dismiss()
         }
 

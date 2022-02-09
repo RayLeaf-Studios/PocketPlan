@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
-import java.util.*
 import kotlin.properties.Delegates
 import kotlin.random.Random
 
@@ -332,7 +331,11 @@ class NoteFr : Fragment() {
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)
+            val moveMessage = when(noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)){
+                true -> getString(R.string.folderMoved)
+                else -> getString(R.string.noteMoveFailed)
+            }
+            myActivity.toast(moveMessage)
             myAdapter.notifyDataSetChanged()
             //reload title, current folder has been edited
             myActivity.setToolbarTitle(noteListDirs.getCurrentPathName(getString(R.string.menuTitleNotes)))
@@ -534,6 +537,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     private val myActivity = mainActivity
 
     private val showContained = SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
+    private val moveViewedToTop = SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
@@ -613,6 +617,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             //LIGHT BACKGROUND, just use note color as border
             else -> currentNote.color.colorAttributeValue
         }
+        holder.itemView.tvContainedNoteElements.setTextColor(myActivity.colorForAttr(cardColor))
 
         val textColor = when (dark) {
             //DARK THEME BACKGROUND COLORS
@@ -641,13 +646,16 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.itemView.setOnClickListener {
                 noteColor = currentNote.color
 
+                //move current note to top if setting says so
+                if(moveViewedToTop){
+                    val noteToMove = holder.noteObj
+                    val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
+
+                    myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
+                    myNoteFr.noteListDirs.currentList.add(0, noteToMove)
+                }
+
                 notePosition = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
-                //move current note to top
-//                val noteToMove = holder.noteObj
-//                val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
-//
-//                myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
-//                myNoteFr.noteListDirs.currentList.add(0, noteToMove)
 
                 PreferenceManager.getDefaultSharedPreferences(myActivity)
                     .edit().putBoolean("editingNote", true).apply()
@@ -691,7 +699,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.tvNoteTitle.visibility = View.VISIBLE
             holder.itemView.icon_folder.visibility = View.VISIBLE
 
-            holder.itemView.tvContainedNoteElements.visibility =  when(showContained){
+            holder.itemView.tvContainedNoteElements.visibility = when(showContained){
                 true -> {
                     holder.itemView.tvContainedNoteElements.text = holder.noteObj.noteList.size.toString()
                     View.VISIBLE
@@ -712,7 +720,6 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 else -> R.attr.colorBackground
             }
             holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
-            holder.itemView.tvContainedNoteElements.setTextColor(myActivity.colorForAttr(iconColor))
 
             holder.itemView.setOnClickListener {
                 myNoteFr.noteListDirs.openFolder(currentNote)

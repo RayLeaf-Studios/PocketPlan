@@ -3,6 +3,8 @@ package com.pocket_plan.j7_003.data.notelist
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.util.*
@@ -90,13 +92,19 @@ class NoteDirList: Checkable {
     //Todo, adjust stack, put user to goal?
     //todo, dont move if its already where it should be
     //todo, return false if move not possible(desitnation == current parent directory), true otherwise
-    fun moveDir(noteToMove: Note, toIndex: Int) {
-        getParentDirectory(noteToMove).noteList.remove(noteToMove)
+    fun moveDir(noteToMove: Note, toIndex: Int) : Boolean {
         val containingDirs = containingDirs(noteToMove)
         containingDirs.add(noteToMove)
+        if (getDirPathsWithRef().filter {
+                !containingDirs.contains(it.second)}[toIndex].second == getParentDirectory(noteToMove))
+                    return false
+
+        getParentDirectory(noteToMove).noteList.remove(noteToMove)
+
         getDirPathsWithRef().filter {
             !containingDirs.contains(it.second)}[toIndex].second.noteList.add(noteToMove)
         save()
+        return true
     }
 
     fun getSuperordinatePaths(dir: Note, passedRootName: String): ArrayList<String> {
@@ -229,7 +237,11 @@ class NoteDirList: Checkable {
      * @see NoteList.addNote
      */
     fun addNote(note: Note) {
-        currentList.add(note)
+        if(SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean){
+            currentList.add(0, note)
+        }else{
+            currentList.add(note)
+        }
         save()
     }
 
@@ -242,7 +254,11 @@ class NoteDirList: Checkable {
         if (noteDir.title == rootDirName || noteDir.title.trim() == ""){
             return false
         }
-        currentList.add(noteDir)
+        if(SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean){
+            currentList.add(0, noteDir)
+        }else{
+            currentList.add(noteDir)
+        }
         save()
         return true
     }

@@ -363,5 +363,8 @@
     <string name="move">Move note</string>
     <string name="noteMoved">Note moved!</string>
     <string name="setting_show_contained">Show number of contained elements for folders</string>
+    <string name="move_recently_opened_notes_or_folders_to_the_top_of_the_list">Move recently opened notes or folders to the top of the list</string>
+    <string name="noteMoveFailed">Can\'t move to current directory</string>
+    <string name="folderMoved">Folder moved!</string>
 
 </resources>
