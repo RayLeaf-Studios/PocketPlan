@@ -7,6 +7,7 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,7 @@ class ShoppingFr : Fragment() {
     lateinit var myMultiShoppingFr: MultiShoppingFr
     lateinit var shoppingListInstance: ShoppingList
     lateinit var shoppingListName: String
+    var query: String? = null
 
     lateinit var myAdapter: ShoppingListAdapter
 
@@ -54,11 +56,45 @@ class ShoppingFr : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    fun getCategoryVisibility(category: Pair<String, ArrayList<ShoppingItem>>):Boolean {
+
+        val categoryName = myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
+            R.array.categoryCodes
+        ).indexOf(category.first)]
+        if(categoryName.toLowerCase().contains(query!!.toLowerCase())){
+            return true
+        }
+        category.second.forEachIndexed(){ index, item->
+            if(index == 0){
+                return@forEachIndexed
+            }
+            if(item.name!!.toLowerCase().contains(query!!.toLowerCase())) {
+                return true
+            }
+
+        }
+        return false
+    }
+
+    fun getItemVisibility(item: ShoppingItem):Boolean {
+        val categoryName = myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
+                R.array.categoryCodes
+            ).indexOf(item.tag)]
+        if(categoryName.toLowerCase().contains(query!!.toLowerCase())){
+            return true
+        }
+        if(item.name!!.toLowerCase().contains(query!!.toLowerCase())) {
+            return true
+        }
+        return false
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         myActivity = activity as MainActivity
+        query = null
 
         //load settings
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
@@ -237,6 +273,11 @@ class ShoppingFr : Fragment() {
     fun reactToMove() {
         layoutManager.scrollToPositionWithOffset(firstPos, offsetTop)
     }
+
+    fun search(query: String) {
+        this.query = query
+        myAdapter.notifyDataSetChanged()
+    }
 }
 
 /**
@@ -252,6 +293,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
+    private val density = myActivity.resources.displayMetrics.density
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -277,7 +319,19 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         //set tag for view holder
         holder.tag = tag
 
-        //get Number of unchecked items
+        val categoryIndex = shoppingListInstance.getTagIndex(tag)
+        val category = shoppingListInstance[categoryIndex]
+        if (myFragment.query != null && !myFragment.getCategoryVisibility(category)){
+            holder.itemView.layoutParams.height = 0
+            val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            params.setMargins(0,0,0, 0)
+            return
+        }
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+        val margin = (density * 10).toInt()
+        params.setMargins(margin,margin,margin, margin)
+
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
         val expanded = shoppingListInstance.isTagExpanded(tag)
@@ -526,7 +580,7 @@ class SublistAdapter(
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
     private val myActivity = mainActivity
     private val myFragment = shoppingFr
-
+    private val density = myActivity.resources.displayMetrics.density
     //boolean stating if design is round or not
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
@@ -556,6 +610,16 @@ class SublistAdapter(
         //get shopping item
         val item = myFragment.shoppingListInstance.getItem(tag, position)!!
 
+        if (myFragment.query != null && !myFragment.getItemVisibility(item)){
+            holder.itemView.layoutParams.height = 0
+            val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            params.setMargins(0,0,0, 0)
+            return
+        }
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+        val margin = (density * 4).toInt()
+        params.setMargins(margin ,margin ,margin , margin)
         //manage onClickListener to edit item
         holder.itemView.setOnClickListener {
             myFragment.myMultiShoppingFr.editTag = tag

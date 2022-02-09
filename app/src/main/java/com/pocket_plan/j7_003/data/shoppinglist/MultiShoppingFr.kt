@@ -21,16 +21,13 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
-import kotlinx.android.synthetic.main.dialog_add_shopping_list.*
 import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
-import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
+import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
-import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
 import kotlin.collections.ArrayDeque
-import kotlin.collections.ArrayList
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -60,6 +57,14 @@ class MultiShoppingFr : Fragment() {
 
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
     private lateinit var tabLayout: TabLayout
+
+    //boolean to signal if a search is currently being performed
+    var searching: Boolean = false
+
+    //reference to searchView in toolbar
+    lateinit var searchView: SearchView
+    var searchList = ArrayList<Pair<String, ArrayList<ShoppingItem>>>()
+    lateinit var lastQuery: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -99,6 +104,7 @@ class MultiShoppingFr : Fragment() {
                 deletedItems[currentpos] = activeDeletedItems
                 currentpos = position
                 activeShoppingFr = shoppingFragments[position]
+                activeShoppingFr.query = null
                 activeDeletedItems = deletedItems[position]
                 updateShoppingMenu()
                 tabLayout.selectTab(tabLayout.getTabAt(position))
@@ -160,6 +166,65 @@ class MultiShoppingFr : Fragment() {
         myMenu = menu
         myMenu.findItem(R.id.item_shopping_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         updateShoppingMenu()
+
+        //set reference to searchView from menu
+        searchView = menu.findItem(R.id.item_shopping_search).actionView as SearchView
+
+        //create textListener, to listen to keyboard input when a birthday search is performed
+        val textListener = object : SearchView.OnQueryTextListener {
+
+            //hide keyboard when search is submitted
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                myActivity.hideKeyboard()
+                return true
+            }
+
+            //start a new search whenever input text has changed
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText == null)
+                    return true
+                if (searching) {
+                    activeShoppingFr.search(newText.toString())
+                }
+                return true
+            }
+        }
+
+        //apply textListener to SearchView
+        searchView.setOnQueryTextListener(textListener)
+
+
+        searchView.setOnCloseListener {
+            myActivity.btnAdd.visibility = View.VISIBLE
+            //reset title
+            myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
+            //collapse searchView
+            searchView.onActionViewCollapsed()
+            //signal that no search is being performed
+            searching = false
+            updateShoppingMenu()
+            //reload menu icons
+            //reload list elements by notifying data set change to adapter
+            activeShoppingFr.query = null
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+            true
+        }
+
+        searchView.setOnSearchClickListener {
+            myActivity.myBtnAdd.visibility = View.GONE
+            //removes title from toolbar
+            myActivity.toolBar.title = ""
+            //sets searching to true, which results in the recyclerViewAdapter reading its elements from
+            //adjusted list instead of birthdayList
+            searching = true
+            myMenu.findItem(R.id.item_shopping_undo)?.isVisible = false
+            updateShoppingMenu()
+
+            //clear adjusted list
+            searchList.clear()
+            //reload adapter dataSet
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
