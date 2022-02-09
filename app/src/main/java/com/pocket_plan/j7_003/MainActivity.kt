@@ -597,12 +597,6 @@ class MainActivity : AppCompatActivity() {
         if(previousFragmentStack.peek() == FT.NOTES){
             val result = noteFr!!.noteListDirs.goBack()
             if(result){
-//                val newTitle = when(noteFr!!.noteListDirs.folderStack.peek().title){
-//                    "root" -> resources.getString(R.string.menuTitleNotes)
-//                    else -> noteFr!!.noteListDirs.getCurrentPathName()
-//                }
-//                setToolbarTitle(newTitle)
-//                NoteFr.myAdapter.notifyDataSetChanged()
                     changeToFragment(FT.NOTES, exitingFragment = true)
                 return
             }
@@ -623,8 +617,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Opens a dialog, asking the user to confirm a deletion by swiping a seekBar and then
-     * pressing a button. The action to be executed when the button is pressed can be passed as a lambda.
+     * Opens a dialog, asking the user to confirm a deletion by pressing a button.
+     * The action to be executed when the button is pressed can be passed as a lambda.
      * @param titleId Resource id pointing to the String that will be displayed as dialog title
      * @param action Lambda that will be executed when btnDelete is pressed
      */

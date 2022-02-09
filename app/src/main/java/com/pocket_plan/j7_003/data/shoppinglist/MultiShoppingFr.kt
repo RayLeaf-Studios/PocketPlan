@@ -105,7 +105,9 @@ class MultiShoppingFr : Fragment() {
                 currentpos = position
                 activeShoppingFr = shoppingFragments[position]
                 activeShoppingFr.query = null
+                activeShoppingFr.myAdapter.notifyDataSetChanged()
                 activeDeletedItems = deletedItems[position]
+                myActivity.btnAdd.visibility = View.VISIBLE
                 updateShoppingMenu()
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
@@ -153,6 +155,7 @@ class MultiShoppingFr : Fragment() {
             newFr.shoppingListInstance = it.second
             newFr.shoppingListName = it.first
             newFr.myMultiShoppingFr = this
+            newFr.myAdapter = ShoppingListAdapter(myActivity, newFr)
             shoppingFragments.add(newFr)
 
             if(isEmpty)

@@ -3,11 +3,12 @@ package com.pocket_plan.j7_003.data.shoppinglist
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +52,6 @@ class ShoppingFr : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        myAdapter = ShoppingListAdapter(activity as MainActivity, this)
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
