@@ -400,18 +400,7 @@ class MultiShoppingFr : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-
-    /**
-     * Prepare layout and adapters for addItemDialog to decrease loading time
-     */
-    @SuppressLint("InflateParams")
-    fun preloadAddItemDialog(passedActivity: MainActivity, mylayoutInflater: LayoutInflater) {
-        myActivity = passedActivity
-
-        //initialize shopping list data
-        myActivity.itemTemplateList = ItemTemplateList()
-        myActivity.userItemTemplateList = UserItemTemplateList()
-
+    fun refreshItemNamesAndAutoCompleteAdapter(){
         //initialize itemNameList
         MainActivity.itemNameList = ArrayList()
 
@@ -426,6 +415,29 @@ class MultiShoppingFr : Fragment() {
                 MainActivity.itemNameList.add(it.n)
             }
         }
+
+        //initialize custom arrayAdapter for autocompletion
+        val itemNameClone = MainActivity.itemNameList.toMutableList()
+        val customAdapter = AutoCompleteAdapter(
+            context = myActivity,
+            resource = android.R.layout.simple_spinner_dropdown_item,
+            items = itemNameClone
+        )
+        autoCompleteTv.setAdapter(customAdapter)
+    }
+
+
+    /**
+     * Prepare layout and adapters for addItemDialog to decrease loading time
+     */
+    @SuppressLint("InflateParams")
+    fun preloadAddItemDialog(passedActivity: MainActivity, mylayoutInflater: LayoutInflater) {
+        myActivity = passedActivity
+
+        //initialize shopping list data
+        myActivity.itemTemplateList = ItemTemplateList()
+        myActivity.userItemTemplateList = UserItemTemplateList()
+
 
         //inflate view for this dialog
         addItemDialogView =
@@ -505,15 +517,8 @@ class MultiShoppingFr : Fragment() {
 
         //initialize autocompleteTextView
         autoCompleteTv = addItemDialogView!!.actvItem
+        refreshItemNamesAndAutoCompleteAdapter()
 
-        //initialize custom arrayAdapter for autocompletion
-        val itemNameClone = MainActivity.itemNameList.toMutableList()
-        val customAdapter = AutoCompleteAdapter(
-            context = myActivity,
-            resource = android.R.layout.simple_spinner_dropdown_item,
-            items = itemNameClone
-        )
-        autoCompleteTv.setAdapter(customAdapter)
 
         //request focus in item name text field
         autoCompleteTv.requestFocus()
@@ -528,7 +533,8 @@ class MultiShoppingFr : Fragment() {
                 var input = autoCompleteTv.text.toString()
 
                 //remove leading and trailing white spaces of user input, to recognize items even when accidental whitespaces are added
-                input = input.trim()
+                //Additionally, ignore optional details when recommending a category
+                input = input.trim().split("(")[0].trim()
 
                 //check for existing user template
                 var template =
@@ -629,9 +635,14 @@ class MultiShoppingFr : Fragment() {
                 if (template == null || categoryCode != template!!.c || spItemUnit.selectedItemPosition != 0) {
                     //item unknown, or item known under different category or with different unit, use selected category and unit,
                     // add item new ItemTemplate to userItemTemplate list, using entered values
-                    myActivity.userItemTemplateList.add(
-                        ItemTemplate(nameInput, categoryCode, unitString)
-                    )
+                    if(!nameInput.contains("(")){
+                        //Only add a new user item, if it was not an optional item
+                        myActivity.userItemTemplateList.add(
+                            ItemTemplate(nameInput, categoryCode, unitString)
+                        )
+                        myActivity.userItemTemplateList.save()
+                        refreshItemNamesAndAutoCompleteAdapter()
+                    }
                 }
             } else if (categoryCode != template!!.c || unitString != template!!.s) {
                 // USER ITEM KNOWN BY NAME, BUT UNIT / CATEGORY DIFFER
@@ -724,6 +735,7 @@ class MultiShoppingFr : Fragment() {
 
         addItemDialogView!!.spItemUnit.tag = 0
         addItemDialogView!!.spItemUnit.setSelection(0)
+        addItemDialogView!!.spCategory.setSelection(0)
 
         //set default amount text to 1
         addItemDialogView!!.etItemAmount.setText("1")
@@ -881,7 +893,7 @@ class AutoCompleteAdapter(
 
         override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
             //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
-            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault())
+            var input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault()).split("(")[0].trim()
 
             val result = FilterResults()
 

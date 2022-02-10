@@ -12,7 +12,6 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.AutoCompleteAdapter
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
 import kotlinx.android.synthetic.main.fragment_custom_items.view.*
@@ -67,22 +66,11 @@ class CustomItemFr : Fragment() {
         when(item.itemId){
            R.id.item_custom_clear -> {
                val action : () -> Unit = {
-
                    //remove user items from itemNameList and update act adapter so they
                    //don't show up in the add item dialog anymore
-                   myActivity.userItemTemplateList.forEach{ item ->
-                       MainActivity.itemNameList.remove(item.n)
-                   }
-                   val newActAdapter = AutoCompleteAdapter(
-                       context = myActivity,
-                       resource = android.R.layout.simple_spinner_dropdown_item,
-                       items = MainActivity.itemNameList.toMutableList()
-                   )
-                   //TODO FIX CUSTOMITEMFR
-                   myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
-
                    myActivity.userItemTemplateList.clear()
                    myActivity.userItemTemplateList.save()
+                   myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
                    myAdapter.notifyDataSetChanged()
                    updateClearCustomListIcon()
                }
@@ -90,7 +78,14 @@ class CustomItemFr : Fragment() {
                myActivity.dialogConfirm(titleId, action)
            }
             R.id.item_custom_undo -> {
+                //Return if deletedItem = null, this should never happen
+                if(deletedItem == null) return true
+                //Re-Add item to userItemTemplateList
                 myActivity.userItemTemplateList.add(deletedItem!!)
+                myActivity.userItemTemplateList.save()
+                //Re-Add itemName to itemNameList
+                myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
+
                 deletedItem = null
                 myAdapter.notifyDataSetChanged()
                 updateUndoCustomIcon()
@@ -139,27 +134,14 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val m
         val item = parsedViewHolder.myItem
         val itemName = item.n
 
-        //remove item from item name list, if it doesn't exist as a regular item
-        if(myActivity.itemTemplateList.getTemplateByName(itemName)==null){
-            MainActivity.itemNameList.remove(itemName)
-        }
-
-        //set new adapter for autocomplete text in add item dialog
-        val newActAdapter = AutoCompleteAdapter(
-            myActivity,
-            android.R.layout.simple_spinner_dropdown_item,
-            items = MainActivity.itemNameList.toMutableList()
-        )
-        myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
-
         //save deleted item for undo purposes
         CustomItemFr.deletedItem = item
 
         //delete item from userItemTemplateList
         myActivity.userItemTemplateList.remove(item)
-
-        //Save changes in userItemTemplateList
         myActivity.userItemTemplateList.save()
+
+        myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
 
         //animate remove in recycler view adapter
         CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.bindingAdapterPosition)
