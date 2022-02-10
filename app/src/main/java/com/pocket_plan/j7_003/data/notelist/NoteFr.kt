@@ -47,8 +47,6 @@ class NoteFr : Fragment() {
     val darkBorderStyle = SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) as Double
     val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
-    var editFolderHolder: Note? = null
-
     companion object {
         lateinit var myAdapter: NoteAdapter
         var noteLines = 0
@@ -67,16 +65,15 @@ class NoteFr : Fragment() {
     ): View? {
 
         myActivity = (activity as MainActivity)
+
         //inflating layout for NoteFragment
         val myView = inflater.inflate(R.layout.fragment_note, container, false)
 
         //reset deletedNote to signal no undo is possible
         deletedNote = null
 
-        //reference to recycler view
-        myRecycler = myView.recycler_view_note
-
         //create and set new adapter for recyclerview
+        myRecycler = myView.recycler_view_note
         myAdapter = NoteAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
 
@@ -189,7 +186,6 @@ class NoteFr : Fragment() {
                     myActivity.toast("Can't edit root folder")
                     return true
                 }
-                editFolderHolder = noteListDirs.folderStack.peek()
                 dialogEditNoteFolder()
             }
 
@@ -213,8 +209,6 @@ class NoteFr : Fragment() {
             }
 
             R.id.item_notes_delete_folder -> {
-                //Todo - Add dialog here
-
                 val action : () -> Unit = {
                     val deletedDir = noteListDirs.deleteCurrentFolder()
                     if (deletedDir != null)
@@ -225,18 +219,13 @@ class NoteFr : Fragment() {
                 val folderName = noteListDirs.folderStack.peek().title
                 val dialogTitle = myActivity.getString(R.string.dialog_title_delete_folder, folderName)
                 myActivity.dialogConfirm(dialogTitle, action)
-
             }
-
         }
-
         return super.onOptionsItemSelected(item)
     }
 
     private fun dialogEditNoteFolder(){
-        if(editFolderHolder==null){
-            return
-        }
+        val editFolder = noteListDirs.folderStack.peek() ?: return
 
         //inflate the dialog with custom view
         val myDialogView =
@@ -254,8 +243,8 @@ class NoteFr : Fragment() {
         myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
-        var folderColor = editFolderHolder!!.color
-        myDialogView.etAddNoteFolder.setText(editFolderHolder!!.title)
+        var folderColor = editFolder.color
+        myDialogView.etAddNoteFolder.setText(editFolder.title)
 
         val btnList = arrayListOf<Button>(
             myDialogView.btnRed,
@@ -274,13 +263,13 @@ class NoteFr : Fragment() {
         )
 
         val spFolderPaths = myDialogView.spFolderPaths
-        val paths = noteListDirs.getSuperordinatePaths(editFolderHolder!!, getString(R.string.menuTitleNotes))
+        val paths = noteListDirs.getSuperordinatePaths(editFolder, getString(R.string.menuTitleNotes))
         val spFolderAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             paths
         )
 
-        val currentParentFolderIndex = noteListDirs.getParentFolderIndex(editFolderHolder!!)
+        val currentParentFolderIndex = noteListDirs.getParentFolderIndex(editFolder)
 
         spFolderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spFolderPaths.adapter = spFolderAdapter
@@ -294,7 +283,7 @@ class NoteFr : Fragment() {
         }
 
         //White background for color of folder that is edited
-        backgroundList.get(NoteColors.values().indexOf(editFolderHolder!!.color)).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        backgroundList.get(NoteColors.values().indexOf(editFolder.color)).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
 
         btnList.forEachIndexed { index, button ->
@@ -331,7 +320,7 @@ class NoteFr : Fragment() {
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            val moveMessage = when(noteListDirs.moveDir(editFolderHolder!!, spFolderPaths.selectedItemPosition)){
+            val moveMessage = when(noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)){
                 true -> getString(R.string.folderMoved)
                 else -> getString(R.string.noteMoveFailed)
             }

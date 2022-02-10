@@ -121,11 +121,12 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        //Initialize fragment stack that enables onBackPress behavior
         previousFragmentStack.clear()
         previousFragmentStack.push(FT.EMPTY)
 
+        //Initialize StorageHandler and SettingsManager
         StorageHandler.path = this.filesDir.absolutePath
-
         SettingsManager.init()
 
         //set correct language depending on setting
@@ -168,12 +169,15 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
 
+        //Initialize header and icon in side drawer, show current version name
+        val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
+        val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName
+        header.tvVersion.text = versionString
+
         //Initialize adapters and necessary list instances
         todoFr = TodoFr()
         TodoFr.todoListInstance = TodoList()
         TodoFr.myAdapter = TodoTaskAdapter(this)
-
-
 
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
@@ -181,16 +185,9 @@ class MainActivity : AppCompatActivity() {
         homeFr = HomeFr()
 
 
-        //Initialize header and icon in side drawer
-        val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
-
         //todo remove this
         // deletion of log file
         Logger(this).deleteFile()
-
-        //display current versionName
-        val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName
-        header.tvVersion.text = versionString
 
         //spinning app Icon
         val myLogo = header.ivLogo
@@ -262,7 +259,6 @@ class MainActivity : AppCompatActivity() {
         noteFr = NoteFr()
         mainNoteListDir = NoteDirList()
         noteFr!!.noteListDirs = mainNoteListDir
-        NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
 
         //initialize navigation drawer listener
         nav_drawer.setNavigationItemSelectedListener { item ->
