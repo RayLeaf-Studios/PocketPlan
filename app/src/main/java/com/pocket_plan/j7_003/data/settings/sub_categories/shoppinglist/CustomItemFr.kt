@@ -178,14 +178,17 @@ class CustomItemAdapter(val myActivity: MainActivity) :
         val currentItem = myActivity.userItemTemplateList[holder.bindingAdapterPosition]
         holder.myItem = currentItem
 
-        //changes design of task based on priority and being checked
-        var itemText = currentItem.n
-        if(currentItem.n.length > 12){
-            itemText = itemText.substring(0,11)+".."
-        }
-        holder.itemView.tvName.text = itemText + " : "+currentItem.s
+        //show name
+        holder.itemView.tvName.text = currentItem.n
+
+        //show category
         val id = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
-        holder.itemView.tvCategory.text = myActivity.resources.getStringArray(R.array.categoryNames)[id]
+        val catText = myActivity.resources.getStringArray(R.array.categoryNames)[id]
+        holder.itemView.tvCategory.text = myActivity.getString(R.string.category) + ":  " + catText
+
+        //show unit
+        holder.itemView.tvUnit.text = myActivity.getString(R.string.unit) + ": " + currentItem.s
+
     }
 
     class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){
