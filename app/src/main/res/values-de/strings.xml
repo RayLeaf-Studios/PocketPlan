@@ -120,7 +120,7 @@
     <string name="birthdayToday">heute</string>
     <string name="birthdayTomorrow">morgen</string>
     <string name="birthdayIn">in</string>
-    <string name="notesSwipeToDElete">Wischen um zu löschen</string>
+    <string name="notesSwipeToDElete">Swipen um zu löschen</string>
     <string name="notificationNoteAdded">Notiz hinzugefügt!</string>
     <string name="settingsAboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter der oben genannten E-Mail Adresse.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.\n\nFalls du einen GitHub Account hast, kannst du natürlich auch ein Issue in unserem Repository erstellen.</string>
     <string name="contact_us">Feedback</string>
@@ -282,7 +282,7 @@
     <string name="howtoSubExplanation">Erklärung</string>
     <string name="howtoSubRearrange">Umsortieren</string>
     <string name="howtoSubFolders">Ordner</string>
-    <string name="howtoTodoDelete">Wische eine Aufgabe zur Seite, um sie zu löschen.</string>
+    <string name="howtoTodoDelete">Swipe eine Aufgabe zur Seite, um sie zu löschen.</string>
     <string name="howtoTodoEdit">Tippe eine Aufgabe an, um sie zu bearbeiten.</string>
     <string name="howtoTodoReorder">Halte eine Aufgabe gedrückt um sie umzusortieren.</string>
     <string name="howtoNoteEdit">Tippe auf eine Notiz, um sie zu bearbeiten.</string>
@@ -290,8 +290,8 @@
     <string name="howtoNoteExplanation">Neu hinzugefügte, bearbeitete oder angesehene Notizen werden automatisch oben einsortiert.\n\nWird die App geschlossen, während du eine Notiz bearbeitest, so wird eine zusätzliche bearbeitete Version gespeichert. So kannst du später entscheiden ob du die ursprüngliche oder die bearbeitete Version behalten willst.\n\nWird die App geschlossen, während du eine neue Notiz schreibst, so wird diese automatisch gespeichert.</string>
     <string name="howtoBirthdaysExplanation">Tippe auf einen Geburtstag, um zusätzliche Informationen anzeigen zu lassen.</string>
     <string name="howtoBirthdaysEdit">Halte einen Geburtstag gedrückt, um ihn zu bearbeiten.</string>
-    <string name="howtoBirthdaysDelete">Wische einen Geburtstag zur Seite, um ihn zu löschen.</string>
-    <string name="howtoShoppingDelete">Wische einen Artikel zur Seite, um ihn zu löschen.</string>
+    <string name="howtoBirthdaysDelete">Swipe einen Geburtstag zur Seite, um ihn zu löschen.</string>
+    <string name="howtoShoppingDelete">Swipe einen Artikel zur Seite, um ihn zu löschen.</string>
     <string name="howtoShoppingReorder">Halte eine Kategorie gedrückt, um sie umzusortieren.</string>
     <string name="howtoSubCheckCategory">Kategorie abhaken</string>
     <string name="howtoShoppingCheckCategories">Tippe in einer Kategorie auf den Kreis oben links, um alle enthaltenen Artikel abzuhaken.</string>

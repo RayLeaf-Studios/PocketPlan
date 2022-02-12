@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -221,7 +222,7 @@ class MultiShoppingFr : Fragment() {
             //adjusted list instead of birthdayList
             searching = true
             myMenu.findItem(R.id.item_shopping_undo)?.isVisible = false
-            updateShoppingMenu()
+            updateShoppingMenuForSearch()
 
             //clear adjusted list
             searchList.clear()
@@ -822,6 +823,16 @@ class MultiShoppingFr : Fragment() {
             activeShoppingFr.shoppingListInstance.somethingIsExpanded()
     }
 
+    //Hides all menu icons besides the search element
+    private fun updateShoppingMenuForSearch(){
+        myMenu.forEach {
+            if(it.itemId == R.id.item_shopping_search){
+                return@forEach
+            }
+            it.isVisible = false
+        }
+    }
+
     fun updateShoppingMenu() {
         updateUndoItemIcon()
         updateDeleteShoppingListIcon()
@@ -844,7 +855,6 @@ class MultiShoppingFr : Fragment() {
     private fun updateUndoItemIcon() {
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = activeDeletedItems.isNotEmpty()
     }
-
 
     private fun updateDeleteShoppingListIcon() {
         myMenu.findItem(R.id.item_shopping_clear_list)?.isVisible =
@@ -893,7 +903,7 @@ class AutoCompleteAdapter(
 
         override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
             //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
-            var input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault()).split("(")[0].trim()
+            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault()).split("(")[0].trim()
 
             val result = FilterResults()
 
@@ -1023,7 +1033,6 @@ class AutoCompleteAdapter(
             imWorking = false
         }
     }
-
 
     override fun getFilter(): Filter {
         return filter

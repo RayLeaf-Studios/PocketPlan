@@ -128,6 +128,7 @@ class ShoppingFr : Fragment() {
         myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
 
+
         //ItemTouchHelper to support drag and drop reordering
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
@@ -136,6 +137,16 @@ class ShoppingFr : Fragment() {
             ) {
                 var previousPosition: Int = -1
                 var moving = false
+
+                override fun getDragDirs(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    return when(myMultiShoppingFr.searching){
+                        true -> 0
+                        else -> ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START
+                    }
+                }
 
                 override fun clearView(
                     recyclerView: RecyclerView,
@@ -304,10 +315,13 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         //long click listener playing shake animation to indicate moving is possible
         holder.itemView.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching){
+                return@setOnLongClickListener true
+            }
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
-            true
+            return@setOnLongClickListener true
         }
 
         //Get reference to currently used shopping list instance
@@ -369,6 +383,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         holder.subRecyclerView.setHasFixedSize(true)
 
         holder.subRecyclerView.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
@@ -406,6 +421,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         //long click listener on clTapExpand to ensure shake animation for long click on whole category holder
         holder.itemView.clTapExpand.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
@@ -600,6 +616,7 @@ class SublistAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         //longClickListener on item to ensure shake animation for category
         holder.itemView.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
@@ -739,6 +756,7 @@ class SublistAdapter(
         }
 
         holder.itemView.clItemTapfield.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
