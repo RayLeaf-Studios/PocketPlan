@@ -26,7 +26,12 @@ class NoteDirList: Checkable {
             val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
             GsonBuilder().create()
                 .fromJson<LinkedList<Note>>(jsonString, object : TypeToken<LinkedList<Note>>() {}.type)
-                .forEach { currentList.add(it) }
+                .forEach {
+                    if (it.noteList == null) {
+                        it.noteList = NoteList()
+                    }
+                    currentList.add(it)
+                }
             save()
         } catch (_: Exception) {/* no-op */}
 
@@ -89,37 +94,61 @@ class NoteDirList: Checkable {
         return getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
     }
 
-    //Todo, adjust stack, put user to goal?
-    //todo, dont move if its already where it should be
-    //todo, return false if move not possible(desitnation == current parent directory), true otherwise
+    //todo adjust for notes
     fun moveDir(noteToMove: Note, toIndex: Int) : Boolean {
+        //Get containing directories
         val containingDirs = containingDirs(noteToMove)
         containingDirs.add(noteToMove)
-        if (getDirPathsWithRef().filter {
-                !containingDirs.contains(it.second)}[toIndex].second == getParentDirectory(noteToMove))
-                    return false
+        //Get all dirs, that are not contained in the current dir
+        val validWithParent = getDirPathsWithRef().filter {!containingDirs.contains(it.second)}
 
+        //get new parent directory
+        val newParent = validWithParent[toIndex].second
+
+        //Return false if trying to move to parent index
+        if (newParent == getParentDirectory(noteToMove))
+            return false
+
+        //remove from current parent directory
         getParentDirectory(noteToMove).noteList.remove(noteToMove)
 
-        getDirPathsWithRef().filter {
-            !containingDirs.contains(it.second)}[toIndex].second.noteList.add(noteToMove)
+        //Add to new parent directory
+        newParent.noteList.add(noteToMove)
+
+        //Adjust folder stack
+        folderStack.clear()
+        var currentDir = noteToMove
+
+        while (getParentDirectory(currentDir) != rootDir) {
+            if (currentDir.content==null) folderStack.push(currentDir)
+            currentDir = getParentDirectory(currentDir)
+        }
+        //Add last parent directory and root directory to stack
+        //This is necessary, since the loop above stops once the parent directory is the root directory
+        //todo improve loop
+        folderStack.push(currentDir)
+        folderStack.push(rootDir)
+        folderStack.reverse()
+
         save()
         return true
     }
 
     fun getSuperordinatePaths(dir: Note, passedRootName: String): ArrayList<String> {
         val paths = arrayListOf<String>()
-        val containingDirs = containingDirs(dir)
-        containingDirs.add(dir)
-        getDirPathsWithRef(passedRootName).filter {
-            !containingDirs.contains(it.second)
-        }.forEach { paths.add(it.first) }
+        if (dir.content == null) {
+            val containingDirs = containingDirs(dir)
+            containingDirs.add(dir)
+            getDirPathsWithRef(passedRootName).filter {
+                !containingDirs.contains(it.second)
+            }.forEach { paths.add(it.first) }
+        } else paths.addAll(getDirPaths(passedRootName))
         return paths
     }
 
-    fun getDirPaths(): ArrayList<String> {
+    private fun getDirPaths(passedRootName: String): ArrayList<String> {
         val paths = arrayListOf<String>()
-        getDirPathsWithRef().forEach { paths.add(it.first) }
+        getDirPathsWithRef(passedRootName).forEach { paths.add(it.first) }
         return paths
     }
 
@@ -191,6 +220,20 @@ class NoteDirList: Checkable {
     }
 
     /**
+     * Steps one directory back, if possible. Returns a true if
+     * moving was possible.
+     * @return True if the move worked, false otherwise.
+     */
+    fun goBack(): Boolean{
+        if(folderStack.size <= 1){
+            return false
+        }
+        folderStack.pop()
+        currentList = folderStack.peek().noteList
+        return true
+    }
+
+    /**
      * Deletes the currently opened folder, except for the root folder which can't
      * be deleted. Also saves the notes to file.
      */
@@ -219,19 +262,6 @@ class NoteDirList: Checkable {
         return true
     }
 
-    /**
-     * Steps one directory back, if possible. Returns a true if
-     * moving was possible.
-     * @return True if the move worked, false otherwise.
-     */
-    fun goBack(): Boolean{
-        if(folderStack.size <= 1){
-            return false
-        }
-        folderStack.pop()
-        currentList = folderStack.peek().noteList
-        return true
-    }
 
     /**
      * @see NoteList.addNote

@@ -180,8 +180,8 @@ class NoteFr : Fragment() {
                 /* no-op, listeners for this view are implemented in onCreateOptionsMenu */
             }
 
-            R.id.item_notes_edit_folder ->{
-                if(noteListDirs.folderStack.size == 1){
+            R.id.item_notes_edit_folder -> {
+                if (noteListDirs.folderStack.size == 1) {
                     //todo hide option if in root folder
                     myActivity.toast("Can't edit root folder")
                     return true
@@ -209,7 +209,7 @@ class NoteFr : Fragment() {
             }
 
             R.id.item_notes_delete_folder -> {
-                val action : () -> Unit = {
+                val action: () -> Unit = {
                     val deletedDir = noteListDirs.deleteCurrentFolder()
                     if (deletedDir != null)
                         deletedNote = deletedDir
@@ -217,14 +217,15 @@ class NoteFr : Fragment() {
                     myActivity.changeToFragment(FT.NOTES)
                 }
                 val folderName = noteListDirs.folderStack.peek().title
-                val dialogTitle = myActivity.getString(R.string.dialog_title_delete_folder, folderName)
+                val dialogTitle =
+                    myActivity.getString(R.string.dialog_title_delete_folder, folderName)
                 myActivity.dialogConfirm(dialogTitle, action)
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun dialogEditNoteFolder(){
+    private fun dialogEditNoteFolder() {
         val editFolder = noteListDirs.folderStack.peek() ?: return
 
         //inflate the dialog with custom view
@@ -263,7 +264,8 @@ class NoteFr : Fragment() {
         )
 
         val spFolderPaths = myDialogView.spFolderPaths
-        val paths = noteListDirs.getSuperordinatePaths(editFolder, getString(R.string.menuTitleNotes))
+        val paths =
+            noteListDirs.getSuperordinatePaths(editFolder, getString(R.string.menuTitleNotes))
         val spFolderAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             paths
@@ -276,14 +278,19 @@ class NoteFr : Fragment() {
         spFolderPaths.setSelection(currentParentFolderIndex)
 
         //Initialize dark background colors if necessary
-        if(dark && darkBorderStyle == 3.0){
+        if (dark && darkBorderStyle == 3.0) {
             backgroundList.forEachIndexed { index, constraintLayout ->
-                constraintLayout.setBackgroundColor(myActivity.colorForAttr(getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)))
+                constraintLayout.setBackgroundColor(
+                    myActivity.colorForAttr(
+                        getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)
+                    )
+                )
             }
         }
 
         //White background for color of folder that is edited
-        backgroundList.get(NoteColors.values().indexOf(editFolder.color)).setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        backgroundList.get(NoteColors.values().indexOf(editFolder.color))
+            .setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
 
         btnList.forEachIndexed { index, button ->
@@ -292,7 +299,7 @@ class NoteFr : Fragment() {
                 //reset all backgrounds to their respective color
                 backgroundList.forEachIndexed { index, constraintLayout ->
                     var borderColor = NoteColors.values()[index].colorAttributeValue
-                    if(dark && darkBorderStyle == 3.0){
+                    if (dark && darkBorderStyle == 3.0) {
                         borderColor = getCorrespondingDarkNoteColor(borderColor)
                     }
                     constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
@@ -305,7 +312,7 @@ class NoteFr : Fragment() {
 
             //INitialize dark button colors if necessary
             var buttonColor = NoteColors.values()[index].colorAttributeValue
-            if(dark && darkBorderStyle == 3.0){
+            if (dark && darkBorderStyle == 3.0) {
                 buttonColor = getCorrespondingDarkNoteColor(buttonColor)
             }
             button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
@@ -320,10 +327,11 @@ class NoteFr : Fragment() {
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            val moveMessage = when(noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)){
-                true -> getString(R.string.folderMoved)
-                else -> getString(R.string.noteMoveFailed)
-            }
+            val moveMessage =
+                when (noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)) {
+                    true -> getString(R.string.folderMoved)
+                    else -> getString(R.string.noteMoveFailed)
+                }
             myActivity.toast(moveMessage)
             myAdapter.notifyDataSetChanged()
             //reload title, current folder has been edited
@@ -374,25 +382,32 @@ class NoteFr : Fragment() {
         )
 
         //Show the proper darker note colors if the "fill" theme is selected
-        if(dark && darkBorderStyle == 3.0){
+        if (dark && darkBorderStyle == 3.0) {
             backgroundList.forEachIndexed { index, constraintLayout ->
-                constraintLayout.setBackgroundColor(myActivity.colorForAttr(getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)))
+                constraintLayout.setBackgroundColor(
+                    myActivity.colorForAttr(
+                        getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)
+                    )
+                )
             }
         }
 
         //Get initial folder color, depending on setting
-        var folderColor = when(SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean){
-            true -> {
-                val randColorIndex = Random.nextInt(0,5)
-                NoteColors.values()[randColorIndex]
+        var folderColor =
+            when (SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean) {
+                true -> {
+                    val randColorIndex = Random.nextInt(0, 5)
+                    NoteColors.values()[randColorIndex]
+                }
+                else -> {
+                    val lastUsedColorIndex =
+                        (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
+                    NoteColors.values()[lastUsedColorIndex]
+                }
             }
-            else ->{
-                val lastUsedColorIndex = (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
-                NoteColors.values()[lastUsedColorIndex]
-            }
-        }
         //Show initial folder color by changing the color of the background square of the selected button to colorOnBackground
-        backgroundList[NoteColors.values().indexOf(folderColor)].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        backgroundList[NoteColors.values()
+            .indexOf(folderColor)].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         //hide elements unnecessary for adding
         val spFolderPaths = myDialogView.spFolderPaths
@@ -406,7 +421,7 @@ class NoteFr : Fragment() {
                 //reset all backgrounds to their respective color
                 backgroundList.forEachIndexed { index, constraintLayout ->
                     var borderColor = NoteColors.values()[index].colorAttributeValue
-                    if(dark && darkBorderStyle == 3.0){
+                    if (dark && darkBorderStyle == 3.0) {
                         borderColor = getCorrespondingDarkNoteColor(borderColor)
                     }
                     constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
@@ -418,7 +433,7 @@ class NoteFr : Fragment() {
             }
 
             var buttonColor = NoteColors.values()[index].colorAttributeValue
-            if(dark && darkBorderStyle == 3.0){
+            if (dark && darkBorderStyle == 3.0) {
                 buttonColor = getCorrespondingDarkNoteColor(buttonColor)
             }
             button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
@@ -434,7 +449,10 @@ class NoteFr : Fragment() {
                 return@setOnClickListener
             }
             //Save last used note color
-            SettingsManager.addSetting(SettingId.LAST_USED_NOTE_COLOR, NoteColors.values().indexOf(folderColor).toDouble())
+            SettingsManager.addSetting(
+                SettingId.LAST_USED_NOTE_COLOR,
+                NoteColors.values().indexOf(folderColor).toDouble()
+            )
             myAdapter.notifyDataSetChanged()
             myAlertDialog?.dismiss()
         }
@@ -503,13 +521,13 @@ class NoteFr : Fragment() {
         itemTouchHelper.attachToRecyclerView(myRecycler)
     }
 
-    fun getCorrespondingDarkNoteColor(lightColor: Int) : Int {
-        return when(lightColor){
+    fun getCorrespondingDarkNoteColor(lightColor: Int): Int {
+        return when (lightColor) {
             NoteColors.RED.colorAttributeValue -> R.attr.colorNoteRedDarker
             NoteColors.GREEN.colorAttributeValue -> R.attr.colorNoteGreenDarker
             NoteColors.BLUE.colorAttributeValue -> R.attr.colorNoteBlueDarker
             NoteColors.YELLOW.colorAttributeValue -> R.attr.colorNoteYellowDarker
-            else  -> R.attr.colorNotePurpleDarker
+            else -> R.attr.colorNotePurpleDarker
         }
     }
 
@@ -525,8 +543,10 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val myActivity = mainActivity
 
-    private val showContained = SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
-    private val moveViewedToTop = SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
+    private val showContained =
+        SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
+    private val moveViewedToTop =
+        SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
@@ -636,7 +656,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 noteColor = currentNote.color
 
                 //move current note to top if setting says so
-                if(moveViewedToTop){
+                if (moveViewedToTop) {
                     val noteToMove = holder.noteObj
                     val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
 
@@ -671,9 +691,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
             }
 
-            if(NoteFr.noteLines == 0){
+            if (NoteFr.noteLines == 0) {
                 holder.tvNoteContent.maxLines = 1
-                val displayedContent = when(currentNote.content == ""){
+                val displayedContent = when (currentNote.content == "") {
                     true -> ""
                     false -> "..."
                 }
@@ -688,9 +708,10 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.tvNoteTitle.visibility = View.VISIBLE
             holder.itemView.icon_folder.visibility = View.VISIBLE
 
-            holder.itemView.tvContainedNoteElements.visibility = when(showContained){
+            holder.itemView.tvContainedNoteElements.visibility = when (showContained) {
                 true -> {
-                    holder.itemView.tvContainedNoteElements.text = holder.noteObj.noteList.size.toString()
+                    holder.itemView.tvContainedNoteElements.text =
+                        holder.noteObj.noteList.size.toString()
                     View.VISIBLE
                 }
                 else -> View.GONE
