@@ -775,8 +775,18 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
 
             holder.itemView.setOnClickListener {
+                //move current note to top if setting says so
+                if (moveViewedToTop) {
+                    val noteToMove = holder.noteObj
+                    val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
+
+                    myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
+                    myNoteFr.noteListDirs.currentList.add(0, noteToMove)
+                }
+
                 myNoteFr.noteListDirs.openFolder(currentNote)
                 myActivity.changeToFragment(FT.NOTES)
+
             }
         }
 

@@ -162,7 +162,7 @@ class SettingsNotesFr : Fragment() {
         if (archiveContent != null) {
             tvArchive.text = when(archiveContent.trim()==""){
                 true -> {
-                    "No recently deleted notes"
+                    getString(R.string.no_archived_notes)
                 }
                 else -> {
                     archiveContent
