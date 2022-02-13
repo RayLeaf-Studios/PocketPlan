@@ -8,11 +8,9 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
@@ -21,7 +19,6 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
-import kotlinx.android.synthetic.main.dialog_choose_color.view.*
 import kotlinx.android.synthetic.main.dialog_choose_color.view.btnBlue
 import kotlinx.android.synthetic.main.dialog_choose_color.view.btnGreen
 import kotlinx.android.synthetic.main.dialog_choose_color.view.btnPurple
@@ -42,6 +39,8 @@ class NoteEditorFr : Fragment() {
     private lateinit var myEtContent: EditText
     private var dialogOpened = false
     private var editNoteHolder: Note? = null
+
+    private val archiveDeletedNotes = SettingsManager.getSetting(SettingId.NOTES_ARCHIVE) as Boolean
 
     private lateinit var myMenu: Menu
 
@@ -403,6 +402,7 @@ class NoteEditorFr : Fragment() {
         val titleId = R.string.noteDeleteDialogText
         val action: () -> Unit = {
             myNoteFr.noteListDirs.remove(editNoteHolder!!)
+            if(archiveDeletedNotes) myNoteFr.archive(editNoteHolder!!)
             editNoteHolder = null
             myNoteFr.noteListDirs.save()
             myActivity.hideKeyboard()

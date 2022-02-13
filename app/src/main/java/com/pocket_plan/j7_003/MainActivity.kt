@@ -184,11 +184,6 @@ class MainActivity : AppCompatActivity() {
         birthdayFr = BirthdayFr()
         homeFr = HomeFr()
 
-
-        //todo remove this
-        // deletion of log file
-        Logger(this).deleteFile()
-
         //spinning app Icon
         val myLogo = header.ivLogo
         var allowSpin = true

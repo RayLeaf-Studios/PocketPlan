@@ -153,7 +153,6 @@ class NoteDirList: Checkable {
     }
 
     private fun getDirPathsWithRef(passedRootName: String = rootDirName): ArrayList<Pair<String, Note>> {
-        //todo, dont show real rootDirName here
         val pathsAndDirs = arrayListOf(Pair(passedRootName, rootDir))
         containingDirs(rootDir).forEach {
             if (rootDir.noteList.contains(it))
@@ -289,21 +288,6 @@ class NoteDirList: Checkable {
         }else{
             currentList.add(noteDir)
         }
-        save()
-        return true
-    }
-
-    /**
-     * Todo - update doc
-     * Tries to add a directory in the current one, while forbidding to set the rootDirName.
-     * @param noteDir The directory to be created.
-     * @return True if the directory was added, false otherwise.
-     */
-    fun addNoteDir(noteDir: Note, index: Int): Boolean {
-        if (noteDir.title == rootDirName){
-            return false
-        }
-        getDirPathsWithRef()[index].second.noteList.add(noteDir)
         save()
         return true
     }

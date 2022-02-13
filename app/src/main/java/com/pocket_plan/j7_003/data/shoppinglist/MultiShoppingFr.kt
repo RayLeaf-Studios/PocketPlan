@@ -95,7 +95,6 @@ class MultiShoppingFr : Fragment() {
         shoppingPager.adapter = pagerAdapter
         shoppingPager.isSaveEnabled = false
 
-        //todo maybe choose which fragment should be displayed first
         val startPage = 0
         shoppingPager.setCurrentItem(startPage, false)
 

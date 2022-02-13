@@ -24,7 +24,6 @@ import java.util.zip.ZipFile
  * Needs an activity to be initialized, so tests and directory paths
  * can be done/set correctly.
  */
-//Todo, translate all strings in here
 class ImportHandler(private val parentActivity: Activity) {
     private val newFiles: EnumMap<StorageId, File> = EnumMap(StorageId::class.java)
 

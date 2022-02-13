@@ -1,21 +1,20 @@
 package com.pocket_plan.j7_003.data.settings.sub_categories
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.fragment_settings_birthdays.view.*
 import kotlinx.android.synthetic.main.fragment_settings_notes.*
 import kotlinx.android.synthetic.main.fragment_settings_notes.view.*
 
@@ -37,14 +36,21 @@ class SettingsNotesFr : Fragment() {
     private lateinit var swRandomizeNoteColors: SwitchCompat
     private lateinit var swShowContained: SwitchCompat
     private lateinit var swMoveUpCurrentNote: SwitchCompat
+    private lateinit var swArchive: SwitchCompat
 
     private lateinit var clNoteLines: ConstraintLayout
     private lateinit var clNoteColumns: ConstraintLayout
     private lateinit var clFontSize: ConstraintLayout
+    private lateinit var clShowArchive: ConstraintLayout
+    private lateinit var clClearArchive: ConstraintLayout
 
     private lateinit var tvCurrentNoteLines: TextView
     private lateinit var tvCurrentNoteColumns: TextView
     private lateinit var tvCurrentFontSize: TextView
+    private lateinit var tvArchive: TextView
+
+    private lateinit var ivArchiveExpand: ImageView
+    private lateinit var svArchive: NestedScrollView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,6 +78,7 @@ class SettingsNotesFr : Fragment() {
         swRandomizeNoteColors = myView.swRandomizeColors
         swShowContained = myView.swShowContained
         swMoveUpCurrentNote = myView.swMoveUpCurrentNote
+        swArchive = myView.swArchive
 
         clNoteColumns = myView.clNoteColumns
         clNoteLines = myView.clNoteLines
@@ -80,6 +87,12 @@ class SettingsNotesFr : Fragment() {
         tvCurrentNoteLines = myView.tvCurrentNoteLines
         tvCurrentNoteColumns = myView.tvCurrentNoteColumns
         tvCurrentFontSize = myView.tvCurrentNoteEditorFontSize
+        tvArchive = myView.tvArchive
+
+        ivArchiveExpand = myView.ivArchiveExpand
+        svArchive = myView.svArchive
+        clShowArchive = myView.clShowArchive
+        clClearArchive = myView.clClearArchive
     }
 
     private fun initializeAdapters() {
@@ -143,6 +156,20 @@ class SettingsNotesFr : Fragment() {
         swRandomizeNoteColors.isChecked = SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean
         swShowContained.isChecked = SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
         swMoveUpCurrentNote.isChecked = SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
+        swArchive.isChecked = SettingsManager.getSetting(SettingId.NOTES_ARCHIVE) as Boolean
+
+        val archiveContent = PreferenceManager.getDefaultSharedPreferences(myActivity).getString("noteArchive", "")
+        if (archiveContent != null) {
+            tvArchive.text = when(archiveContent.trim()==""){
+                true -> {
+                    "No recently deleted notes"
+                }
+                else -> {
+                    archiveContent
+                }
+            }
+        }
+        svArchive.visibility = View.GONE
     }
 
     private fun initializeListeners() {
@@ -236,6 +263,10 @@ class SettingsNotesFr : Fragment() {
             SettingsManager.addSetting(SettingId.NOTES_MOVE_UP_CURRENT, swMoveUpCurrentNote.isChecked)
         }
 
+        swArchive.setOnClickListener{
+            SettingsManager.addSetting(SettingId.NOTES_ARCHIVE, swArchive.isChecked)
+        }
+
         clNoteLines.setOnClickListener {
             spNoteLines.performClick()
         }
@@ -246,6 +277,33 @@ class SettingsNotesFr : Fragment() {
 
         clFontSize.setOnClickListener {
             spEditorFontSize.performClick()
+        }
+
+        clShowArchive.setOnClickListener {
+            if(svArchive.visibility == View.VISIBLE){
+                svArchive.visibility = View.GONE
+                ivArchiveExpand.rotation = 0f
+            }else{
+                svArchive.visibility = View.VISIBLE
+                ivArchiveExpand.rotation = 180f
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    svNotesSettings.scrollToDescendant(svArchive)
+                }else{
+                //Todo proper scroll behavior for version < Q
+                    svArchive.fullScroll(ScrollView.FOCUS_DOWN)
+                }
+            }
+
+        }
+
+        clClearArchive.setOnClickListener {
+            val action: () -> Unit = {
+                PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("noteArchive", "").apply()
+                tvArchive.text = getString(R.string.no_archived_notes)
+                ivArchiveExpand.rotation = 0f
+                svArchive.visibility = View.GONE
+            }
+            myActivity.dialogConfirm(getString(R.string.dialog_clear_archive), action)
         }
     }
 }

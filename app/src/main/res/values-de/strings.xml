@@ -285,7 +285,7 @@
     <string name="howtoTodoDelete">Swipe eine Aufgabe zur Seite, um sie zu löschen.</string>
     <string name="howtoTodoEdit">Tippe eine Aufgabe an, um sie zu bearbeiten.</string>
     <string name="howtoTodoReorder">Halte eine Aufgabe gedrückt um sie umzusortieren.</string>
-    <string name="howtoNoteEdit">Tippe auf eine Notiz, um sie zu bearbeiten.</string>
+    <string name="howtoNoteEdit">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nWenn eine  Notiz geöffnet ist, kannst du sie über das Ordnersymbol in einen anderen Ordner verschieben.</string>
     <string name="howtoNoteFolder">Über das Menü oben rechts, ist es möglich, einen neuen Ordner zu erstellen, oder den aktuellen zu bearbeiten.</string>
     <string name="howtoNoteExplanation">Neu hinzugefügte, bearbeitete oder angesehene Notizen werden automatisch oben einsortiert.\n\nWird die App geschlossen, während du eine Notiz bearbeitest, so wird eine zusätzliche bearbeitete Version gespeichert. So kannst du später entscheiden ob du die ursprüngliche oder die bearbeitete Version behalten willst.\n\nWird die App geschlossen, während du eine neue Notiz schreibst, so wird diese automatisch gespeichert.</string>
     <string name="howtoBirthdaysExplanation">Tippe auf einen Geburtstag, um zusätzliche Informationen anzeigen zu lassen.</string>
@@ -313,5 +313,11 @@
     <string name="category">Kategorie</string>
     <string name="unit">Einheit</string>
     <string name="shows_warmer_colors_from_october_to_march">Zeigt warme Farben in den Monaten Oktober bis März</string>
+    <string name="no_archived_notes">Keine kürzlich gelöschten Notizen archiviert</string>
+    <string name="setting_title_archive_notes">Archivieren von gelöschten Notizen</string>
+    <string name="setting_archive_notes_hint">Bis zu 5kB deiner zuletzt gelöschten Notizen werden archiviert und sind in der Ansicht unten abrufbar</string>
+    <string name="show_recently_deleted_notes">Zeige kürzlich gelöschte Notizen</string>
+    <string name="dialog_clear_archive">Alle archivierten Notizen löschen?</string>
+    <string name="clear_archive_notes">Archivierte Notizen löschen</string>
 
 </resources>

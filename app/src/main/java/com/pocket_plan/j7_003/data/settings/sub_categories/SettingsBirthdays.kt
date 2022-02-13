@@ -91,7 +91,6 @@ class SettingsBirthdays : Fragment() {
                     AlarmHandler.setBirthdayAlarms(newTime, activity as MainActivity)
                     tvBirthdayNotif.text = newTime
                 }
-            //TODO GET OLD SETTING
             val oldTime = SettingsManager.getSetting(SettingId.BIRTHDAY_NOTIFICATION_TIME) as String
 
             val oldHour = oldTime.split(":")[0].toInt()

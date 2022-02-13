@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
 import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 import kotlin.random.Random
 
@@ -46,6 +48,7 @@ class NoteFr : Fragment() {
 
     val darkBorderStyle = SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) as Double
     val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    val archiveDeletedNotes = SettingsManager.getSetting(SettingId.NOTES_ARCHIVE) as Boolean
 
     companion object {
         lateinit var myAdapter: NoteAdapter
@@ -191,8 +194,6 @@ class NoteFr : Fragment() {
 
             R.id.item_notes_edit_folder -> {
                 if (noteListDirs.folderStack.size == 1) {
-                    //todo hide option if in root folder
-                    myActivity.toast("Can't edit root folder")
                     return true
                 }
                 dialogEditNoteFolder()
@@ -522,6 +523,8 @@ class NoteFr : Fragment() {
                         myAdapter.notifyItemRemoved(viewHolder.bindingAdapterPosition)
                     }
 
+                    if(archiveDeletedNotes) archive(parsed.noteObj)
+
                     updateNoteSearchIcon()
                     updateNoteUndoIcon()
                 }
@@ -529,6 +532,43 @@ class NoteFr : Fragment() {
 
         itemTouchHelper.attachToRecyclerView(myRecycler)
     }
+
+    fun archive(note: Note){
+        var currentArchiveContent = PreferenceManager.getDefaultSharedPreferences(myActivity).getString("noteArchive", "")
+        val noteText = getContainedNoteTexts(note)
+        //Append to archive, and shorten archive if its too big now
+        currentArchiveContent = (noteText + currentArchiveContent).take(10000)
+        //Save archive
+        PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("noteArchive", currentArchiveContent).apply()
+
+    }
+
+    private fun getContainedNoteTexts(note: Note): String{
+        var result = ""
+        if(note.content == null){
+            note.noteList.forEach {
+                result += getContainedNoteTexts(it)
+            }
+        }else{
+            val c = Calendar.getInstance()
+
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+            val hour = c.get(Calendar.HOUR_OF_DAY)
+            val minute = c.get(Calendar.MINUTE)
+
+            //Add deletion time and title to new entry
+            var newEntry = "$day.$month.$year $hour:$minute\n"
+            if(note.title.trim()!="") newEntry += note.title.toUpperCase() + "\n"
+            //Add content
+            if(note.content != null) newEntry += note.content + "\n\n"
+            result += newEntry
+        }
+        return result
+    }
+
 
     fun getCorrespondingDarkNoteColor(lightColor: Int): Int {
         return when (lightColor) {

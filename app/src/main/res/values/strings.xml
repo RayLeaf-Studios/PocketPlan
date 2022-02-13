@@ -150,10 +150,10 @@
     <string name="howtoTodoEdit">Tap a task to edit it.</string>
     <string name="howtoTodoReorder">Longpress and drag a task to move it within the list.</string>
 
-    <string name="howtoNoteEdit">Tap a note to edit it.</string>
+    <string name="howtoNoteEdit">Tap a note to edit it.\n\nIn the Note editor, tap the folder icon at the top, to move the note to a different folder.\n\nTo edit or move a folder, open it and tap \"edit folder\" in the menu at the top right.</string>
     <string name="howtoSubFolders">Folder</string>
     <string name="howtoNoteFolder">Using the menu options at the top right, its possible to add a new folder or edit the folder that is currently opened.</string>
-    <string name="howtoNoteExplanation">Newly added, edited or viewed notes are moved to the top.\n\nIf the app is closed while editing a note without saving it, an additional edited version is saved, so you can choose between keeping or discarding your edit.\n\nIf the app is closed while creating a new note without saving it, it is saved automatically.</string>
+    <string name="howtoNoteExplanation">Newly added, edited or viewed notes are moved to the top by default.\n\nIf the app is closed while editing a note without saving it, an additional edited version is saved, so you can choose between keeping or discarding your edit.\n\nIf the app is closed while creating a new note without saving it, it is saved automatically.\n\nDeleted notes are archived by default, you can access them in the settings.</string>
 
     <string name="howtoBirthdaysExplanation">Tap a birthday to show additional information.\n\nIf a birthday is upcoming in 30 days or less, the remaining days will be displayed in the list.\n\nIf a reminder is set for x days prior and the birthday is upcoming in x or less days, it is color-highlighted in the list.</string>
     <string name="howtoBirthdaysEdit">Longpress a birthday to edit it.</string>
@@ -369,5 +369,11 @@
     <string name="category">Category</string>
     <string name="unit">Unit</string>
     <string name="shows_warmer_colors_from_october_to_march">Shows warmer colors from october to march</string>
+    <string name="no_archived_notes">No recently deleted notes archived</string>
+    <string name="setting_title_archive_notes">Archive deleted notes</string>
+    <string name="setting_archive_notes_hint">Up to 5kB of your deleted notes will be accesible in the view below</string>
+    <string name="show_recently_deleted_notes">Show recently deleted notes</string>
+    <string name="dialog_clear_archive">Delete all archived notes?</string>
+    <string name="clear_archive_notes">Clear note archive</string>
 
 </resources>
