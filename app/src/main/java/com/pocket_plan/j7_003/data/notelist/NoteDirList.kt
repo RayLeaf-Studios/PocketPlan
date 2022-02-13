@@ -126,10 +126,10 @@ class NoteDirList: Checkable {
         //Add last parent directory and root directory to stack
         //This is necessary, since the loop above stops once the parent directory is the root directory
         //todo improve loop
-        folderStack.push(currentDir)
+        if (currentDir.content == null) folderStack.push(currentDir)
         folderStack.push(rootDir)
         folderStack.reverse()
-
+        currentList = folderStack.peek().noteList
         save()
         return true
     }
@@ -187,6 +187,7 @@ class NoteDirList: Checkable {
     //todo add doc
     private fun containingDirs(dir: Note): ArrayList<Note> {
         val dirs = arrayListOf<Note>()
+        if (dir.content != null) return dirs
         dir.noteList.forEach {
             if (it.content == null)
                 dirs.add(it)
