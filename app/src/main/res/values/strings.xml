@@ -340,8 +340,8 @@
     <string name="setting_border_hint">(Applied to task and note elements)</string>
     <string name="setting_border_title">Dark border theme:</string>
     <string name="hint_export_backup">The section below allows you to import / export just part of your data, for a FULL backup use the options above.</string>
-    <string name="setting_randomize_note_colors">Random note color for new notes</string>
-    <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">View or delete items that you entered, which the shopping list remembered</string>
+    <string name="setting_randomize_note_colors">Random color for new notes and folders</string>
+    <string name="hint_custom_items">View or delete items that you entered, which the shopping list remembered</string>
     <string name="add_folder">Add folder</string>
     <string name="hint_item_search">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
     <string name="item_notes_delete_folder">Delete Folder</string>
@@ -368,5 +368,6 @@
     <string name="folderMoved">Folder moved!</string>
     <string name="category">Category</string>
     <string name="unit">Unit</string>
+    <string name="shows_warmer_colors_from_october_to_march">Shows warmer colors from october to march</string>
 
 </resources>

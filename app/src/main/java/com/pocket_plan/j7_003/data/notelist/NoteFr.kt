@@ -125,6 +125,7 @@ class NoteFr : Fragment() {
             myActivity.setToolbarTitle(noteListDirs.getCurrentPathName(getString(R.string.menuTitleNotes)))
             searching = false
             setMenuAccessibility(true)
+            updateNoteUndoIcon()
             myAdapter.notifyDataSetChanged()
             true
         }
@@ -136,6 +137,7 @@ class NoteFr : Fragment() {
             myActivity.toolBar.title = ""
             searching = true
             setMenuAccessibility(false)
+            updateNoteUndoIcon()
             searchResults.clear()
             myAdapter.notifyDataSetChanged()
         }
@@ -153,7 +155,14 @@ class NoteFr : Fragment() {
     }
 
     private fun updateNoteUndoIcon() {
-        myMenu.findItem(R.id.item_notes_undo).isVisible = deletedNote != null
+        myMenu.findItem(R.id.item_notes_undo).isVisible = deletedNote != null && !searching
+    }
+
+    fun setMenuAccessibility(state: Boolean) {
+        val notInRootFolder = noteListDirs.folderStack.size > 1 && state
+        myMenu.findItem(R.id.item_notes_add_folder).isVisible = state
+        myMenu.findItem(R.id.item_notes_delete_folder).isVisible = notInRootFolder
+        myMenu.findItem(R.id.item_notes_edit_folder).isVisible = notInRootFolder
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -531,12 +540,6 @@ class NoteFr : Fragment() {
         }
     }
 
-    fun setMenuAccessibility(state: Boolean) {
-        val rootFolder = noteListDirs.folderStack.size > 1 && state
-        myMenu.findItem(R.id.item_notes_add_folder).isVisible = state
-        myMenu.findItem(R.id.item_notes_delete_folder).isVisible = rootFolder
-        myMenu.findItem(R.id.item_notes_edit_folder).isVisible = rootFolder
-    }
 }
 
 class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :

@@ -74,6 +74,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shows_warmer_colors_from_october_to_march"
+                    android:textColor="?attr/colorHint"
+                    app:layout_constraintStart_toStartOf="@id/tvNorth"
+                    app:layout_constraintTop_toBottomOf="@id/tvNorth" />
+
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swSouthColors"
                     app:layout_constraintTop_toTopOf="@id/tvNorth"

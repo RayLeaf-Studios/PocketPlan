@@ -154,8 +154,8 @@
     <string name="setting_border_hint">(Wird auf Aufgaben und Notizen angewandt)</string>
     <string name="setting_border_title">Randdarstellung im dunklen Modus:</string>
     <string name="hint_export_backup">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
-    <string name="setting_randomize_note_colors">Zufällige Farbe für neue Notizen</string>
-    <string name="view_or_delete_items_that_you_entered_which_the_shopping_list_remembered">Zeigt dir Artikel, die sich die Einkaufsliste gemerkt hat und erlaubt dir diese zu löschen.</string>
+    <string name="setting_randomize_note_colors">Zufällige Farbe für neue Notizen und Ordner</string>
+    <string name="hint_custom_items">Zeigt dir Artikel, die sich die Einkaufsliste gemerkt hat und erlaubt dir diese zu löschen.</string>
     <string name="add_folder">Neuer Ordner</string>
     <string name="hint_item_search">Z.b. schlage \'Apfel\' vor wenn \'Applfe\' eingegeben wurde</string>
     <string name="item_notes_delete_folder">Ordner löschen</string>
@@ -312,5 +312,6 @@
     <string name="folderMoved">Ordner verschoben!</string>
     <string name="category">Kategorie</string>
     <string name="unit">Einheit</string>
+    <string name="shows_warmer_colors_from_october_to_march">Zeigt warme Farben in den Monaten Oktober bis März</string>
 
 </resources>
