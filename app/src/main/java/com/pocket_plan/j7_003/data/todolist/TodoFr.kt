@@ -20,11 +20,9 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
-import java.util.*
 import kotlin.collections.ArrayDeque
 
 /**
@@ -37,9 +35,9 @@ class TodoFr : Fragment() {
 
     private lateinit var addTaskDialog: AlertDialog
     private lateinit var addTaskDialogView: View
+    lateinit var myFragment: TodoFr
 
     companion object {
-        lateinit var myFragment: TodoFr
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
 
@@ -124,7 +122,7 @@ class TodoFr : Fragment() {
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        myAdapter = TodoTaskAdapter(myActivity)
+        myAdapter = TodoTaskAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
 
         layoutManager = LinearLayoutManager(activity)
@@ -330,23 +328,23 @@ class TodoFr : Fragment() {
 
         //show dialog
         addTaskDialog = myBuilder?.create()!!
-        addTaskDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        addTaskDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         //adds listeners to confirmButtons in addTaskDialog
         val taskConfirmButtons = arrayListOf<Button>(
-            addTaskDialogView!!.btnConfirm1,
-            addTaskDialogView!!.btnConfirm2,
-            addTaskDialogView!!.btnConfirm3
+            addTaskDialogView.btnConfirm1,
+            addTaskDialogView.btnConfirm2,
+            addTaskDialogView.btnConfirm3
         )
 
         taskConfirmButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
-                val title = addTaskDialogView!!.etxTitleAddTask.text.toString()
-                addTaskDialog!!.etxTitleAddTask.setText("")
+                val title = addTaskDialogView.etxTitleAddTask.text.toString()
+                addTaskDialog.etxTitleAddTask.setText("")
                 if (title.trim().isEmpty()) {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, anim.shake)
-                    addTaskDialogView!!.etxTitleAddTask.startAnimation(animationShake)
+                    addTaskDialogView.etxTitleAddTask.startAnimation(animationShake)
                     @Suppress("LABEL_NAME_CLASH")
                     return@setOnClickListener
                 }
@@ -360,11 +358,11 @@ class TodoFr : Fragment() {
                         )
                     )
 
-                addTaskDialog?.dismiss()
+                addTaskDialog.dismiss()
 
                 if(MainActivity.previousFragmentStack.peek() == FT.HOME){
-                    val homefr = myActivity.getFragment(FT.HOME) as HomeFr
-                    homefr.updateTaskPanel(false)
+                    val homeFr = myActivity.getFragment(FT.HOME) as HomeFr
+                    homeFr.updateTaskPanel(false)
                     myActivity.toast(myActivity.getString(string.home_notification_add_task))
                     return@setOnClickListener
                 }
@@ -378,12 +376,12 @@ class TodoFr : Fragment() {
 
     @SuppressLint("InflateParams")
     fun dialogAddTask() {
-        addTaskDialog?.show()
-        addTaskDialogView!!.etxTitleAddTask.requestFocus()
+        addTaskDialog.show()
+        addTaskDialogView.etxTitleAddTask.requestFocus()
     }
 }
 
-class TodoTaskAdapter(activity: MainActivity) :
+class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val myActivity = activity
     private val listInstance = TodoFr.todoListInstance
@@ -538,9 +536,9 @@ class TodoTaskAdapter(activity: MainActivity) :
                         listInstance.getTask(holder.bindingAdapterPosition).isChecked
                     )
                     this.notifyItemChanged(holder.bindingAdapterPosition)
-                    TodoFr.myFragment.prepareForMove()
+                    myFragment.prepareForMove()
                     this.notifyItemMoved(holder.bindingAdapterPosition, newPos)
-                    TodoFr.myFragment.reactToMove()
+                    myFragment.reactToMove()
                     myAlertDialog.dismiss()
 
                 }
@@ -556,15 +554,15 @@ class TodoTaskAdapter(activity: MainActivity) :
                 holder.bindingAdapterPosition, task.priority,
                 task.title, checkedStatus
             )
-            TodoFr.myFragment.updateUndoTaskIcon()
+            myFragment.updateUndoTaskIcon()
 
             notifyItemChanged(holder.bindingAdapterPosition)
             if (holder.bindingAdapterPosition != newPos) {
-                TodoFr.myFragment.prepareForMove()
+                myFragment.prepareForMove()
                 notifyItemMoved(holder.bindingAdapterPosition, newPos)
-                TodoFr.myFragment.reactToMove()
+                myFragment.reactToMove()
             }
-            TodoFr.myFragment.updateTodoIcons()
+            myFragment.updateTodoIcons()
 
         }
     }

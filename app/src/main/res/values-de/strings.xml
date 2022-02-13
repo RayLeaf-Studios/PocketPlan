@@ -16,7 +16,6 @@
 
     <!-- Notes -->
     <string name="noteDeleteDialogCancel">Abbrechen</string>
-    <string name="noteDeleteDialogDelete">Löschen</string>
     <string name="noteDeleteDialogText">Notiz löschen?</string>
     <string name="noteDiscardDialogDiscard">Verwerfen</string>
     <string name="noteDiscardDialogSave">Speichern</string>

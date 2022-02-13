@@ -29,7 +29,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeDark"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -41,7 +42,8 @@
             android:parentActivityName=".MainActivity"/>
 
 
-        <receiver android:name="com.pocket_plan.j7_003.system_interaction.receiver.RebootReceiver">
+        <receiver android:name="com.pocket_plan.j7_003.system_interaction.receiver.RebootReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />

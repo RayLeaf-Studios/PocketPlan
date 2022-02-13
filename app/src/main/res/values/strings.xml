@@ -19,7 +19,6 @@
 
     <!-- Notes -->
     <string name="noteDeleteDialogCancel">Cancel</string>
-    <string name="noteDeleteDialogDelete">Delete</string>
     <string name="noteDeleteDialogText">Delete this note?</string>
     <string name="noteDiscardDialogDiscard">Discard</string>
     <string name="noteDiscardDialogSave">Save</string>

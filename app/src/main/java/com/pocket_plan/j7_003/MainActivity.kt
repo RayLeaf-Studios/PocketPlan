@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize adapters and necessary list instances
         todoFr = TodoFr()
         TodoFr.todoListInstance = TodoList()
-        TodoFr.myAdapter = TodoTaskAdapter(this)
+        TodoFr.myAdapter = TodoTaskAdapter(this, todoFr!!)
 
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
@@ -310,7 +310,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.TASKS -> {
-                    TodoFr.myFragment.dialogAddTask()
+                    todoFr!!.myFragment.dialogAddTask()
                 }
 
                 FT.NOTES -> {

@@ -7,5 +7,4 @@
     <dimen name="cornerRadius">7dp</dimen>
     <dimen name="elevation">5dp</dimen>
     <dimen name="btnElevation">3dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
 </resources>
