@@ -132,7 +132,7 @@ class ShoppingFr : Fragment() {
         //ItemTouchHelper to support drag and drop reordering
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                 0
             ) {
                 var previousPosition: Int = -1
@@ -144,7 +144,7 @@ class ShoppingFr : Fragment() {
                 ): Int {
                     return when(myMultiShoppingFr.searching){
                         true -> 0
-                        else -> ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START
+                        else -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
                     }
                 }
 
