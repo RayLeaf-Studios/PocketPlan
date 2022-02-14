@@ -60,6 +60,7 @@ class NoteFr : Fragment() {
 
         lateinit var searchResults: ArrayList<Note>
         lateinit var lastQuery: String
+        var editNoteHolder: Note? = null
     }
 
     override fun onCreateView(
@@ -700,17 +701,22 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
                 //move current note to top if setting says so
                 if (moveViewedToTop) {
-                    val noteToMove = holder.noteObj
-                    val noteIndex = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
+                    val containingList = when (NoteFr.searching){
+                        true -> myNoteFr.noteListDirs.getParentDirectory(currentNote).noteList
+                        else -> myNoteFr.noteListDirs.currentList()
+                    }
+                    val noteIndex = containingList.indexOf(currentNote)
 
-                    myNoteFr.noteListDirs.currentList().removeAt(noteIndex)
-                    myNoteFr.noteListDirs.currentList().add(0, noteToMove)
+                   containingList.removeAt(noteIndex)
+                   containingList.add(0, currentNote)
                 }
 
-                notePosition = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
+                NoteFr.editNoteHolder = currentNote
 
-                PreferenceManager.getDefaultSharedPreferences(myActivity)
-                    .edit().putBoolean("editingNote", true).apply()
+//                notePosition = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
+
+//                PreferenceManager.getDefaultSharedPreferences(myActivity)
+//                    .edit().putBoolean("editingNote", true).apply()
 
                 myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
                 myActivity.hideKeyboard()

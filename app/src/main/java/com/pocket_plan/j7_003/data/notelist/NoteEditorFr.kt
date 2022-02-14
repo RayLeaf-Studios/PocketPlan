@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.PreferenceIDs
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
@@ -76,21 +77,25 @@ class NoteEditorFr : Fragment() {
          * called from an editing context
          */
 
-        if(myNoteFr.noteListDirs.currentList().isEmpty()){
-            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
-        }
-        editNoteHolder = when(PreferenceManager.getDefaultSharedPreferences(myActivity).getBoolean("editingNote", false)){
-            true -> myNoteFr.noteListDirs.getNote(NoteFr.myAdapter.notePosition)
-            else -> null
-        }
+//        if(myNoteFr.noteListDirs.currentList().isEmpty()){
+//            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
+//        }
+//        editNoteHolder = when(PreferenceManager.getDefaultSharedPreferences(myActivity).getBoolean("editingNote", false)){
+//            true -> myNoteFr.noteListDirs.getNote(NoteFr.myAdapter.notePosition)
+//            else -> null
+//        }
+        editNoteHolder = NoteFr.editNoteHolder
 
         if (editNoteHolder != null) {
             myEtTitle.setText(editNoteHolder!!.title)
             myEtContent.setText(editNoteHolder!!.content)
-            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("editNoteContent", editNoteHolder!!.content).apply()
-            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("editNoteTitle", editNoteHolder!!.title).apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, editNoteHolder!!.content!!.trim()).apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, editNoteHolder!!.title.trim()).apply()
             myEtTitle.clearFocus()
         } else {
+            //Empty editNoteContent to signal we are adding a new note
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
             myEtContent.requestFocus()
             imm.toggleSoftInput(
                 InputMethodManager.HIDE_IMPLICIT_ONLY,
@@ -197,7 +202,6 @@ class NoteEditorFr : Fragment() {
     }
 
     private fun manageNoteConfirm() {
-
         if (editNoteHolder == null) {
             manageAddNote()
         } else {

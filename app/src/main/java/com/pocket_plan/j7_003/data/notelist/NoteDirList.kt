@@ -90,7 +90,7 @@ class NoteDirList: Checkable {
         return 0
     }
 
-    private fun getParentDirectory(dir: Note): Note {
+    fun getParentDirectory(dir: Note): Note {
         return getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
     }
 

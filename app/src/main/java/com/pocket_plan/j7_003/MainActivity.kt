@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
@@ -29,19 +30,24 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
-import com.pocket_plan.j7_003.data.notelist.*
+import com.pocket_plan.j7_003.data.notelist.NoteColors
+import com.pocket_plan.j7_003.data.notelist.NoteDirList
+import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
+import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.sub_categories.*
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.*
+import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplateList
+import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingListWrapper
+import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
-import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
@@ -254,6 +260,7 @@ class MainActivity : AppCompatActivity() {
         noteFr = NoteFr()
         mainNoteListDir = NoteDirList()
         noteFr!!.noteListDirs = mainNoteListDir
+        manageNoteRestore()
 
         //initialize navigation drawer listener
         nav_drawer.setNavigationItemSelectedListener { item ->
@@ -281,8 +288,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
@@ -314,8 +319,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.NOTES -> {
-                    PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putBoolean("editingNote", false).apply()
+                    NoteFr.editNoteHolder = null
                     NoteEditorFr.noteColor = NoteColors.GREEN
                     changeToFragment(FT.NOTE_EDITOR)
                 }
@@ -341,6 +345,48 @@ class MainActivity : AppCompatActivity() {
             dialogIntroduceHowTo()
         }
 
+    }
+
+    private fun manageNoteRestore(){
+
+        val editNoteContentOnDestroy  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "")
+        val editNoteTitleOnDestroy  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "")
+
+        if(editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == ""){
+            //App was closed when editor window was empty, do nothing
+            //todo check if this reset is necessary
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
+            return
+        }
+
+        //Get saved editNoteContent (this gets written when editor is opened (content of note to edit)
+        val editNoteContent  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "")
+        val editNoteTitle  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
+
+        resetNotePreferenceStorage()
+
+        if(editNoteContent == "" && editNoteTitle == ""){
+            //App was closed after editor was opened for a new note, and app was closed with non-empty editor (see if above)
+            //add new note with content of editor saved onDestroy
+            noteFr!!.noteListDirs.rootDir.noteList.addNote(editNoteTitleOnDestroy!!, editNoteContentOnDestroy!!, NoteColors.RED)
+            noteFr!!.noteListDirs.save()
+            return
+        }
+
+        if(editNoteContent != editNoteContentOnDestroy || editNoteTitle != editNoteTitleOnDestroy){
+            //App was closed, after editor got initialized with text, and this text was modified before the app close, but not saved
+            noteFr!!.noteListDirs.rootDir.noteList.addNote(editNoteTitleOnDestroy!!, editNoteContentOnDestroy!!, NoteColors.RED)
+            noteFr!!.noteListDirs.save()
+            return
+        }
+    }
+
+    private fun resetNotePreferenceStorage(){
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "").apply()
     }
 
     /**
@@ -518,27 +564,6 @@ class MainActivity : AppCompatActivity() {
      * OVERRIDE FUNCTIONS
      */
     override fun onDestroy() {
-        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            val noteEditorFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
-            val noteContent = noteEditorFr.getNoteContent()
-            val noteTitle = noteEditorFr.getNoteTitle()
-
-            if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("editingNote", false)){
-                //EDITED NOTE
-                //Note was edited, App was closed => Save additional note including the edit
-                val oldNoteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteContent", "")
-                val oldNoteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteTitle", "")
-                if(oldNoteContent != noteContent || oldNoteTitle != noteTitle){
-                    noteFr?.noteListDirs?.addNote(noteTitle, noteContent, NoteColors.RED)
-                }
-            }else{
-                //NEW NOTE
-                //App was closed during the creation of a new note => save it if its not empty
-                if(noteContent.trim()!=""||noteTitle.trim()!=""){
-                    noteFr?.noteListDirs?.addNote(noteTitle, noteContent, NoteColors.RED)
-                }
-            }
-        }
         super.onDestroy()
         this.finish()
     }
@@ -607,6 +632,13 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onStop() {
+        if(previousFragmentStack.peek() == FT.NOTE_EDITOR){
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, noteEditorFr!!.getNoteContent()).apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, noteEditorFr!!.getNoteTitle()).apply()
+        }
+        super.onStop()
+    }
     /**
      * Opens a dialog, asking the user to confirm a deletion by pressing a button.
      * The action to be executed when the button is pressed can be passed as a lambda.
