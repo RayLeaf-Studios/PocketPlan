@@ -12,7 +12,7 @@ import java.util.*
 class NoteDirList: Checkable {
     private val rootDirName = "groot"
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
-    var currentList: NoteList = rootDir.noteList
+    var currentList : () -> NoteList = {folderStack.peek().noteList}
     var folderStack: Stack<Note> = Stack()
 
     init {
@@ -20,7 +20,7 @@ class NoteDirList: Checkable {
         try {   // Todo - part of the compatibility layer; remove try, catch soon
             fetchFromFile()
         } catch (_: Exception) {/* no-op */}
-        currentList = rootDir.noteList
+//        currentList = rootDir.noteList
 
         try {   // Todo - main part of the comp. layer; also remove soon
             val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
@@ -30,7 +30,7 @@ class NoteDirList: Checkable {
                     if (it.noteList == null) {
                         it.noteList = NoteList()
                     }
-                    currentList.add(it)
+                    currentList().add(it)
                 }
             save()
         } catch (_: Exception) {/* no-op */}
@@ -46,12 +46,12 @@ class NoteDirList: Checkable {
      * @see NoteList.addNote
      */
     fun addNote(title: String, content: String, color: NoteColors) {
-        currentList.addNote(title, content, color)
+        currentList().addNote(title, content, color)
         save()
     }
 
     fun remove(note: Note) {
-        currentList.remove(note)
+        currentList().remove(note)
         save()
     }
 
@@ -60,17 +60,17 @@ class NoteDirList: Checkable {
      * @see NoteList.addFullNote
      */
     fun addFullNote(note: Note) {
-        currentList.addFullNote(note)
+        currentList().addFullNote(note)
         save()
     }
 
     fun removeNoteAt(index: Int) {
-        currentList.removeAt(index)
+        currentList().removeAt(index)
         save()
     }
 
     fun addNote(index: Int, note: Note) {
-        currentList.add(index, note)
+        currentList().add(index, note)
         save()
     }
 
@@ -129,7 +129,6 @@ class NoteDirList: Checkable {
         if (currentDir.content == null) folderStack.push(currentDir)
         folderStack.push(rootDir)
         folderStack.reverse()
-        currentList = folderStack.peek().noteList
         save()
         return true
     }
@@ -208,14 +207,13 @@ class NoteDirList: Checkable {
      * Returns the note at the given position of this folder. Also includes folder notes.
      * @param index The position of the requested note.
      */
-    fun getNote(index: Int): Note = currentList[index]
+    fun getNote(index: Int): Note = currentList()[index]
 
     /**
      * Navigates into the given folder and updates the currentlist.
      * @param dir The directory to open.
      */
     fun openFolder(dir: Note) {
-        currentList = dir.noteList
         folderStack.add(dir)
     }
 
@@ -229,7 +227,6 @@ class NoteDirList: Checkable {
             return false
         }
         folderStack.pop()
-        currentList = folderStack.peek().noteList
         return true
     }
 
@@ -241,8 +238,7 @@ class NoteDirList: Checkable {
         if (folderStack.size == 1) return null
 
         val deletedDir = folderStack.pop()
-        currentList = folderStack.peek().noteList
-        currentList.remove(deletedDir)
+        currentList().remove(deletedDir)
         save()
 
         return deletedDir
@@ -268,9 +264,9 @@ class NoteDirList: Checkable {
      */
     fun addNote(note: Note) {
         if(SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean){
-            currentList.add(0, note)
+            currentList().add(0, note)
         }else{
-            currentList.add(note)
+            currentList().add(note)
         }
         save()
     }
@@ -285,9 +281,9 @@ class NoteDirList: Checkable {
             return false
         }
         if(SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean){
-            currentList.add(0, noteDir)
+            currentList().add(0, noteDir)
         }else{
-            currentList.add(noteDir)
+            currentList().add(noteDir)
         }
         save()
         return true
@@ -298,7 +294,7 @@ class NoteDirList: Checkable {
      * @return The aforementioned count notes and folders.
      */
     fun getNoteObjCount(): Int{
-       return currentList.size
+       return currentList().size
     }
 
     /**

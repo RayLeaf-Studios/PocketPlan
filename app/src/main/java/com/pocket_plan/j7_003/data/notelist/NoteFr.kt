@@ -701,13 +701,13 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 //move current note to top if setting says so
                 if (moveViewedToTop) {
                     val noteToMove = holder.noteObj
-                    val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
+                    val noteIndex = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
 
-                    myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
-                    myNoteFr.noteListDirs.currentList.add(0, noteToMove)
+                    myNoteFr.noteListDirs.currentList().removeAt(noteIndex)
+                    myNoteFr.noteListDirs.currentList().add(0, noteToMove)
                 }
 
-                notePosition = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
+                notePosition = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
 
                 PreferenceManager.getDefaultSharedPreferences(myActivity)
                     .edit().putBoolean("editingNote", true).apply()
@@ -778,10 +778,10 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 //move current note to top if setting says so
                 if (moveViewedToTop) {
                     val noteToMove = holder.noteObj
-                    val noteIndex = myNoteFr.noteListDirs.currentList.indexOf(currentNote)
+                    val noteIndex = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
 
-                    myNoteFr.noteListDirs.currentList.removeAt(noteIndex)
-                    myNoteFr.noteListDirs.currentList.add(0, noteToMove)
+                    myNoteFr.noteListDirs.currentList().removeAt(noteIndex)
+                    myNoteFr.noteListDirs.currentList().add(0, noteToMove)
                 }
 
                 myNoteFr.noteListDirs.openFolder(currentNote)

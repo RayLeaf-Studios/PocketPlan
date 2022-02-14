@@ -76,7 +76,7 @@ class NoteEditorFr : Fragment() {
          * called from an editing context
          */
 
-        if(myNoteFr.noteListDirs.currentList.isEmpty()){
+        if(myNoteFr.noteListDirs.currentList().isEmpty()){
             PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
         }
         editNoteHolder = when(PreferenceManager.getDefaultSharedPreferences(myActivity).getBoolean("editingNote", false)){
