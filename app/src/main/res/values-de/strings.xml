@@ -303,7 +303,7 @@
     <string name="import_successful">Import erfolgreich!</string>
     <string name="choose_file">Datei wählen</string>
     <string name="pick_destination_folder">Wähle Zielordner</string>
-    <string name="move">Notiz verschieben</string>
+    <string name="move">Verschieben</string>
     <string name="noteMoved">Notiz wurde verschoben</string>
     <string name="setting_show_contained">Zeige Anzahl der in einem Ordner enthaltenen Elemente</string>
     <string name="move_recently_opened_notes_or_folders_to_the_top_of_the_list">Bewege zuletzt geöffnete oder hinzugefügte Notizen und Ordner an den Anfang der Liste</string>

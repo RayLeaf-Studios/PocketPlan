@@ -4,13 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="?attr/colorBackground"
-    android:paddingTop="5dp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
 
         <AutoCompleteTextView
             android:id="@+id/actvItem"
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
 
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/corner_input"
             android:gravity="center"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
@@ -81,7 +81,7 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="3dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="3dp"
             android:background="@drawable/round_corner_red"
             android:elevation="@dimen/btnElevation"
@@ -98,7 +98,6 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="3dp"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="3dp"
             android:background="@drawable/round_corner_accent"
             android:elevation="@dimen/btnElevation"
@@ -106,7 +105,7 @@
             android:textColor="?attr/colorOnBackGroundTask"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spCategory">
+            app:layout_constraintTop_toTopOf="@+id/btnCancelItem">
 
         </Button>
 

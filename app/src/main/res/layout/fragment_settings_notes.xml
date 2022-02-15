@@ -417,7 +417,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:visibility="visible"
                 android:scrollbars="vertical"
-                android:padding="5dp"
+                android:padding="10dp"
                 android:layout_margin="10dp"
                 >
 
@@ -428,7 +428,6 @@
                     android:textColor="?attr/colorOnBackGround"
                     android:textIsSelectable="true"
                     android:layout_height="match_parent"/>
-
 
             </androidx.core.widget.NestedScrollView>
 
