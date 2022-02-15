@@ -46,12 +46,13 @@ class SettingsHowTo : Fragment() {
             HowToElement(R.string.howtoSubRearrange, R.string.howtoShoppingReorder),
             HowToElement(R.string.howtoSubCheckCategory, R.string.howtoShoppingCheckCategories),
             HowToElement(R.string.howtoSubLists, R.string.howtoShoppingLists),
-        )),
-        HowToCategory(R.string.menuTitleHome, R.drawable.ic_action_home, arrayListOf(
-            HowToElement(R.string.howtoSubExplanation, R.string.howtoHomeExplanation)
+            HowToElement(R.string.howtoSubExplanation, R.string.howtoShoppingExplanation),
         )),
         HowToCategory(R.string.menuTitleSleep, R.drawable.ic_action_sleepreminder, arrayListOf(
             HowToElement(R.string.howtoSubExplanation, R.string.howtoSleepExplanation)
+        )),
+                HowToCategory(R.string.menuTitleHome, R.drawable.ic_action_home, arrayListOf(
+            HowToElement(R.string.howtoSubExplanation, R.string.howtoHomeExplanation)
         ))
     )
 
@@ -97,6 +98,10 @@ class HowToAdapter(private val myFragment: SettingsHowTo, val myActivity: MainAc
 
         holder.itemView.tvCategoryHowTo.text = myActivity.getString(category.nameId)
         holder.itemView.ivHowToCategory.setImageResource(category.iconId)
+        holder.itemView.cvCategory.setCardBackgroundColor(when(position%2 == 0){
+            true -> myActivity.colorForAttr(R.attr.colorDrogerieKosmetikL)
+            else -> myActivity.colorForAttr(R.attr.colorAccent)
+        })
     }
 
     override fun getItemCount() = myFragment.howToList.size

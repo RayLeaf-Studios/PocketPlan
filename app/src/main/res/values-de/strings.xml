@@ -286,13 +286,14 @@
     <string name="howtoTodoReorder">Halte eine Aufgabe gedrückt um sie umzusortieren.</string>
     <string name="howtoNoteEdit">Tippe auf eine Notiz, um sie zu bearbeiten.\n\nWenn eine  Notiz geöffnet ist, kannst du sie über das Ordnersymbol in einen anderen Ordner verschieben.</string>
     <string name="howtoNoteFolder">Über das Menü oben rechts, ist es möglich, einen neuen Ordner zu erstellen, oder den aktuellen zu bearbeiten.</string>
-    <string name="howtoNoteExplanation">Neu hinzugefügte, bearbeitete oder angesehene Notizen werden automatisch oben einsortiert.\n\nWird die App geschlossen, während du eine Notiz bearbeitest, so wird eine zusätzliche bearbeitete Version gespeichert. So kannst du später entscheiden ob du die ursprüngliche oder die bearbeitete Version behalten willst.\n\nWird die App geschlossen, während du eine neue Notiz schreibst, so wird diese automatisch gespeichert.</string>
+    <string name="howtoNoteExplanation">Neu hinzugefügte, bearbeitete oder angesehene Notizen werden automatisch oben in der Liste einsortiert.\n\nWird die App geschlossen, während du eine Notiz bearbeitest, so wird eine zusätzliche bearbeitete Version gespeichert. So kannst du später entscheiden ob du die ursprüngliche oder die bearbeitete Version behalten willst.\n\nWird die App geschlossen, während du eine neue Notiz schreibst, so wird diese automatisch gespeichert.\n\nGelöschte Notizen werden standardmäßig archiviert und können in den Einstellungen im Abschnitt \"Notizen\" eingesehen werden.</string>
     <string name="howtoBirthdaysExplanation">Tippe auf einen Geburtstag, um zusätzliche Informationen anzeigen zu lassen.</string>
     <string name="howtoBirthdaysEdit">Halte einen Geburtstag gedrückt, um ihn zu bearbeiten.</string>
     <string name="howtoBirthdaysDelete">Swipe einen Geburtstag zur Seite, um ihn zu löschen.</string>
     <string name="howtoShoppingDelete">Swipe einen Artikel zur Seite, um ihn zu löschen.</string>
     <string name="howtoShoppingReorder">Halte eine Kategorie gedrückt, um sie umzusortieren.</string>
     <string name="howtoSubCheckCategory">Kategorie abhaken</string>
+    <string name="howtoShoppingExplanation">Bei der Eingabe eines Artikelnamens, können in Klammern optionale Details hinzugefügt werden. Beispielsweise wird die Eingabe \"Brot (Vollkorn)\" automatisch in die Kategorie Backwaren einsortiert, obwohl die App nur den \"Brot\" Teil des Namens erkennt.</string>
     <string name="howtoShoppingCheckCategories">Tippe in einer Kategorie auf den Kreis oben links, um alle enthaltenen Artikel abzuhaken.</string>
     <string name="howtoSubLists">Listen</string>
     <string name="howtoShoppingLists">Über das Menü oben rechts kannst du weitere Listen hinzufügen, diese bearbeiten oder löschen.</string>
