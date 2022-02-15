@@ -76,6 +76,7 @@
     <string name="howtoTodoDelete">Swipe eine Aufgabe zur Seite, um sie zu löschen.</string>
     <string name="howtoTodoEdit">Tippe eine Aufgabe an, um sie zu bearbeiten.</string>
     <string name="howtoTodoReorder">Halte eine Aufgabe gedrückt um sie umzusortieren.</string>
+    <string name="howtoBackupExplanation">Deine in PocketPlan gespeicherten Daten werden nur lokal auf deinem Gerät gespeichert. Um diese Daten nicht zu verlieren, sollte dein Handy kaputt gehen, oder um deine Daten auf ein anderes Gerät zu übertragen, kannst du ein Backup exportieren.\n\nGehe in die Einstellungen -> Backup und wähle \"Volles Backup als .zip exportieren\" Speichere diese Datei dann, beispielsweise indem du sie dir selbst per Mail schickst.\n\nUm ein Backup zu importieren, gehe in die Einstellungen -> Backup und wähle \"Volles Backup aus .zip importieren\", wähle dann die Backup Datei aus, die du importieren willst.</string>
 
 <!--    menu-->
     <string name="menuTitleAbout">Über die App</string>
@@ -131,12 +132,12 @@
 
     <string name="settingsBackupChooseFile">Datei wählen</string>
     <string name="settingsBackupExport">exportieren</string>
-    <string name="settingsBackupExportTitle">Volles Backup als zip exportieren</string>
+    <string name="settingsBackupExportTitle">Volles Backup als .zip exportieren</string>
     <string name="settingsBackupHint">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
     <string name="settingsBackupImportFailed">Import fehlgeschlagen!</string>
     <string name="settingsBackupImportJson">importieren</string>
     <string name="settingsBackupImportSuccessful">Import erfolgreich!</string>
-    <string name="settingsBackupImportTitle">Volles Backup aus zip importieren</string>
+    <string name="settingsBackupImportTitle">Volles Backup aus .zip importieren</string>
     <string name="settingsBackupTitle">Backup</string>
     <string name="settingsBackupWarning">Achtung! Das importieren eines Backups ERSETZT die aktuellen Daten mit den importierten!</string>
 
@@ -275,26 +276,6 @@
         <item>Einstellungen</item>
         <item>Benutzer Artikel</item>
         <item>Schlaf Zeiten</item>
-    </string-array>
-
-    <string-array name="categoryCodes">
-        <item>So</item>
-        <item>Ob</item>
-        <item>Gt</item>
-        <item>Nu</item>
-        <item>Bw</item>
-        <item>Km</item>
-        <item>Kf</item>
-        <item>Ve</item>
-        <item>Tk</item>
-        <item>Ko</item>
-        <item>Fr</item>
-        <item>Gw</item>
-        <item>Ha</item>
-        <item>Sn</item>
-        <item>Bz</item>
-        <item>Dr</item>
-        <item>Al</item>
     </string-array>
 
     <string-array name="categoryNames">

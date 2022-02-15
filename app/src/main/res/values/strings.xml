@@ -65,7 +65,7 @@
     <string name="howtoNoteFolder">Using the menu options at the top right, its possible to add a new folder or edit / move the folder that is currently opened.</string>
     <string name="howtoShoppingCheckCategories">Tap the circle at the top of a category to check all contained items.</string>
     <string name="howtoShoppingDelete">Swipe an item left or right to delete it.</string>
-    <string name="howtoShoppingExplanation">When adding an item to the list, you can enter optional details in parantheses. For example, if you enter \"Bread (whole wheat)\", the item will still be sorted into the category \"Bread and pastries\" despite the app only recognising the \"Bread\" part of the name.</string>
+    <string name="howtoShoppingExplanation">When adding an item to the list, you can enter optional details in parentheses. For example, if you enter \"Bread (whole wheat)\", the item will still be sorted into the category \"Bread and pastries\" despite the app only recognising the \"Bread\" part of the name.</string>
     <string name="howtoShoppingLists">You can add additional shopping lists and edit or delete them via the menu at the top right.</string>
     <string name="howtoShoppingReorder">Longpress and drag a category to re-order it.</string>
     <string name="howtoSleepExplanation">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>
@@ -79,6 +79,7 @@
     <string name="howtoTodoDelete">Swipe a task left or right to delete it.</string>
     <string name="howtoTodoEdit">Tap a task to edit it.</string>
     <string name="howtoTodoReorder">Longpress and drag a task to move it within the list.</string>
+    <string name="howtoBackupExplanation">All your PocketPlan data is stored locally on your device. To keep your data, in case you loose your device, or to migrate it to a different device, you can export a backup.\n\nGo to settings -> Backup and select \"Export full backup as .zip\", then save this zip file, for example by sending it to yourself via E-Mail.\n\nTo import this backup on a new device, go to settings -> Backup and select \"Import backup from .zip\". Then select the previously saved backup.</string>
 
 <!--    menu-->
     <string name="menuTitleAbout">About</string>
@@ -134,12 +135,12 @@
 
     <string name="settingsBackupChooseFile">Choose file</string>
     <string name="settingsBackupExport">Export</string>
-    <string name="settingsBackupExportTitle">Export full backup as zip file</string>
+    <string name="settingsBackupExportTitle">Export full backup as .zip file</string>
     <string name="settingsBackupHint">The section below allows you to import / export just part of your data, for a FULL backup use the options above.</string>
     <string name="settingsBackupImportFailed">Import failed!</string>
     <string name="settingsBackupImportJson">Import</string>
     <string name="settingsBackupImportSuccessful">Import successful!</string>
-    <string name="settingsBackupImportTitle">Import full backup from zip file</string>
+    <string name="settingsBackupImportTitle">Import full backup from .zip file</string>
     <string name="settingsBackupTitle">Backup</string>
     <string name="settingsBackupWarning">Warning! Importing a backup will REPLACE your current data with the imported data!</string>
 
@@ -284,7 +285,7 @@
         <item>December</item>
     </string-array>
 
-    <string-array name="categoryCodes">
+    <string-array name="categoryCodes" translatable="false">
         <item>So</item>
         <item>Ob</item>
         <item>Gt</item>

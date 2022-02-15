@@ -25,6 +25,9 @@ class SettingsHowTo : Fragment() {
     lateinit var myActivity: MainActivity
 
     val howToList = arrayListOf(
+        HowToCategory(R.string.settingsBackupTitle, R.drawable.ic_action_backup, arrayListOf(
+            HowToElement(R.string.howtoSubExplanation, R.string.howtoBackupExplanation),
+        )),
         HowToCategory(R.string.menuTitleTasks, R.drawable.ic_action_todo, arrayListOf(
             HowToElement(R.string.howtoSubEdit, R.string.howtoTodoEdit),
             HowToElement(R.string.howtoSubDelete, R.string.howtoTodoDelete),
