@@ -163,7 +163,7 @@ class ImportHandler(private val parentActivity: Activity) {
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
         parentActivity.startActivityForResult(
-            Intent.createChooser(chooseFileIntent, parentActivity.getString(R.string.choose_file)),
+            Intent.createChooser(chooseFileIntent, parentActivity.getString(R.string.settingsBackupChooseFile)),
             id.i
         )
     }
@@ -183,11 +183,11 @@ class ImportHandler(private val parentActivity: Activity) {
             SleepReminder(parentActivity).check()
             UserItemTemplateList().check()
 
-            Toast.makeText(parentActivity, parentActivity.getString(R.string.import_successful), Toast.LENGTH_SHORT).show()
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportSuccessful), Toast.LENGTH_SHORT).show()
 
             true
         } catch (e: Exception) {
-            Toast.makeText(parentActivity, parentActivity.getString(R.string.import_failed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
             false
         }
     }

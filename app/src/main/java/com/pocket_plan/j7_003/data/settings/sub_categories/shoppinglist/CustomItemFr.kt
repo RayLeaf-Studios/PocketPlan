@@ -74,7 +74,7 @@ class CustomItemFr : Fragment() {
                    myAdapter.notifyDataSetChanged()
                    updateClearCustomListIcon()
                }
-               val titleId = R.string.custom_item_delete_title
+               val titleId = R.string.settingsCustomClearDialog
                myActivity.dialogConfirm(titleId, action)
            }
             R.id.item_custom_undo -> {
@@ -132,7 +132,6 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val m
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val parsedViewHolder = viewHolder as CustomItemAdapter.CustomItemViewHolder
         val item = parsedViewHolder.myItem
-        val itemName = item.n
 
         //save deleted item for undo purposes
         CustomItemFr.deletedItem = item
@@ -184,10 +183,10 @@ class CustomItemAdapter(val myActivity: MainActivity) :
         //show category
         val id = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
         val catText = myActivity.resources.getStringArray(R.array.categoryNames)[id]
-        holder.itemView.tvCategory.text = myActivity.getString(R.string.category) + ":  " + catText
+        holder.itemView.tvCategory.text = myActivity.getString(R.string.settingsCustomCategory) + ":  " + catText
 
         //show unit
-        holder.itemView.tvUnit.text = myActivity.getString(R.string.unit) + ": " + currentItem.s
+        holder.itemView.tvUnit.text = myActivity.getString(R.string.settingsCustomUnit) + ": " + currentItem.s
 
     }
 

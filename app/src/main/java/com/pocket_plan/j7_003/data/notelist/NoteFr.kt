@@ -229,7 +229,7 @@ class NoteFr : Fragment() {
                 }
                 val folderName = noteListDirs.folderStack.peek().title
                 val dialogTitle =
-                    myActivity.getString(R.string.dialog_title_delete_folder, folderName)
+                    myActivity.getString(R.string.notesDialogDeleteFolder, folderName)
                 myActivity.dialogConfirm(dialogTitle, action)
             }
         }
@@ -247,7 +247,7 @@ class NoteFr : Fragment() {
         val myBuilder =
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.edit_folder)
+        customTitle.tvDialogTitle.text = getString(R.string.notesEditFolder)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog
@@ -340,8 +340,8 @@ class NoteFr : Fragment() {
             }
             val moveMessage =
                 when (noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)) {
-                    true -> getString(R.string.folderMoved)
-                    else -> getString(R.string.noteMoveFailed)
+                    true -> getString(R.string.notesToastFolderMoved)
+                    else -> getString(R.string.notesCantMove)
                 }
             myActivity.toast(moveMessage)
             myAdapter.notifyDataSetChanged()
@@ -367,7 +367,7 @@ class NoteFr : Fragment() {
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
         //Set "Add folder" title
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.add_folder)
+        customTitle.tvDialogTitle.text = myActivity.getString(R.string.notesOptionAddFolder)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog

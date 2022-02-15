@@ -68,7 +68,7 @@ class TodoFr : Fragment() {
 
             R.id.item_tasks_delete_checked -> {
                 //delete checked tasks and update the undoTask icon
-                val titleId = string.todo_dialog_clear_checked_title
+                val titleId = string.tasksDialogClearChecked
                 val action: () -> Unit = {
                     myFragment.manageCheckedTaskDeletion()
                     myFragment.updateTodoIcons()
@@ -87,7 +87,7 @@ class TodoFr : Fragment() {
 
             R.id.item_tasks_clear -> {
                 //delete ALL tasks in list
-                val titleId = string.todo_dialog_clear_title
+                val titleId = string.tasksDialogClearList
                 val action: () -> Unit = {
                     todoListInstance.clear()
                     myAdapter.notifyDataSetChanged()
@@ -363,7 +363,7 @@ class TodoFr : Fragment() {
                 if(MainActivity.previousFragmentStack.peek() == FT.HOME){
                     val homeFr = myActivity.getFragment(FT.HOME) as HomeFr
                     homeFr.updateTaskPanel(false)
-                    myActivity.toast(myActivity.getString(string.home_notification_add_task))
+                    myActivity.toast(myActivity.getString(string.homeNotificationTaskAdded))
                     return@setOnClickListener
                 }
 

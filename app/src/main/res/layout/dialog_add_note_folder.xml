@@ -139,7 +139,7 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contained_in_folder"
+        android:text="@string/notesContainedInFolder"
         android:layout_marginTop="10dp"
         android:textSize="@dimen/font_size_small"
         android:textColor="?attr/colorOnBackGround"

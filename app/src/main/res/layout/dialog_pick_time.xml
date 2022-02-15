@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="@string/dialog_pick_time_minute"
+        android:text="@string/sleepDialogMinute"
         android:textColor="?attr/colorOnBackGround"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="@+id/npHour"

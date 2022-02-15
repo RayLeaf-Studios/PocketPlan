@@ -149,7 +149,7 @@ class BackUpActivity : AppCompatActivity() {
         } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
-            Toast.makeText(baseContext, getString(R.string.import_failed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(baseContext, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
             return
         }
     }

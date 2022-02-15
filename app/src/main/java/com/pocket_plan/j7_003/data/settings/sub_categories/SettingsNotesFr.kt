@@ -162,7 +162,7 @@ class SettingsNotesFr : Fragment() {
         if (archiveContent != null) {
             tvArchive.text = when(archiveContent.trim()==""){
                 true -> {
-                    getString(R.string.no_archived_notes)
+                    getString(R.string.settingsNotesNoArchived)
                 }
                 else -> {
                     archiveContent
@@ -299,11 +299,11 @@ class SettingsNotesFr : Fragment() {
         clClearArchive.setOnClickListener {
             val action: () -> Unit = {
                 PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("noteArchive", "").apply()
-                tvArchive.text = getString(R.string.no_archived_notes)
+                tvArchive.text = getString(R.string.settingsNotesNoArchived)
                 ivArchiveExpand.rotation = 0f
                 svArchive.visibility = View.GONE
             }
-            myActivity.dialogConfirm(getString(R.string.dialog_clear_archive), action)
+            myActivity.dialogConfirm(getString(R.string.settingsNotesDialogDeleteArchived), action)
         }
     }
 }

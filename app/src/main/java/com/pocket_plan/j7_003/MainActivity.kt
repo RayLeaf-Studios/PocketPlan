@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //initialize drawer toggle button
-        mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
+        mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.generalOpen, R.string.generalClose)
         drawer_layout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
 
@@ -473,9 +473,9 @@ class MainActivity : AppCompatActivity() {
             FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             FT.CUSTOM_ITEMS -> resources.getText(R.string.menuTitleCustomItem)
             FT.SLEEP -> resources.getText(R.string.menuTitleSleep)
-            FT.SETTINGS_BACKUP -> resources.getText(R.string.backup)
-            FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settings_title_appearance)
-            FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHelp)
+            FT.SETTINGS_BACKUP -> resources.getText(R.string.settingsBackupTitle)
+            FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settingsAppearanceTitle)
+            FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHowToTitle)
             FT.SETTINGS_BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             else -> ""
         }
@@ -699,7 +699,7 @@ class MainActivity : AppCompatActivity() {
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.hint)
+        customTitle.tvDialogTitle.text = getString(R.string.generalInfo)
         myBuilder.setCustomTitle(customTitle)
         val myAlertDialog = myBuilder.create()
 

@@ -241,7 +241,7 @@ class MultiShoppingFr : Fragment() {
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
 
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.shopping_dialog_rename_title)
+        customTitle.tvDialogTitle.text = getString(R.string.shoppingDialogRenameList)
         myBuilder.setCustomTitle(customTitle)
 
         //show dialog
@@ -284,7 +284,7 @@ class MultiShoppingFr : Fragment() {
         val myBuilder =
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.shopping_option_add_list)
+        customTitle.tvDialogTitle.text = myActivity.getString(R.string.shoppingOptionAddList)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog
@@ -331,7 +331,7 @@ class MultiShoppingFr : Fragment() {
 
         when (item.itemId) {
             R.id.item_shopping_delete_list -> {
-                val titleId = R.string.shopping_dialog_delete_title
+                val titleId = R.string.shoppingDialogDeleteTitle
                 val action: () -> Unit = {
                     shoppingListWrapper.remove(activeShoppingFr.shoppingListName)
                     shoppingFragments.remove(activeShoppingFr)
@@ -691,7 +691,7 @@ class MultiShoppingFr : Fragment() {
                 shoppingListWrapper[0].second.add(item)
                 Toast.makeText(
                     myActivity,
-                    myActivity.getString(R.string.shopping_item_added),
+                    myActivity.getString(R.string.shoppingNotificationItemAdded),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -788,7 +788,7 @@ class MultiShoppingFr : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun dialogShoppingClear() {
-        val titleId = R.string.shopping_dialog_clear_title
+        val titleId = R.string.shoppingDialogClearList
         val action: () -> Unit = {
             activeShoppingFr.shoppingListInstance.clear()
             activeShoppingFr.shoppingListInstance.save()
@@ -801,7 +801,7 @@ class MultiShoppingFr : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun dialogRemoveCheckedItems() {
-        val titleId = R.string.shopping_dialog_remove_checked
+        val titleId = R.string.shoppingDialogRemoveChecked
         val action: () -> Unit = {
             activeShoppingFr.shoppingListInstance.removeCheckedItems()
             activeShoppingFr.myAdapter.notifyDataSetChanged()

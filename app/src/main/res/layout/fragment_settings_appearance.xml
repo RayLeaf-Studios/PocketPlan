@@ -27,7 +27,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/use_system_theme_android_10"
+                    android:text="@string/settingsAppearanceSystemTheme"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +61,7 @@
                     android:id="@+id/tvTheme"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_title_theme"
+                    android:text="@string/settingsAppearanceTheme"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintEnd_toStartOf="@+id/spTheme"
@@ -108,7 +108,7 @@
                     android:id="@+id/tvShapes"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_title_shapes"
+                    android:text="@string/settingsAppearanceShapes"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +154,7 @@
                     android:id="@+id/tvLanguage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_title_languages"
+                    android:text="@string/settingsAppearanceLanguage"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintStart_toStartOf="parent"
@@ -216,7 +216,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_border_title"
+                    android:text="@string/settingsAppearanceBorderTitle"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintStart_toStartOf="parent"
@@ -226,7 +226,7 @@
                     android:layout_width="0dp"
                     android:id="@+id/textView4"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_border_hint"
+                    android:text="@string/settingsAppearanceBorderHint"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
@@ -243,20 +243,20 @@
 
                     <RadioButton
                         android:id="@+id/rbBorderLess"
-                        android:text="@string/settings_border_borderless"
+                        android:text="@string/settingsAppearanceBorderless"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/rbColoredBorder"
-                        android:text="@string/setting_border_colored_border"
+                        android:text="@string/settingsAppearanceColoredBorder"
                         android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <RadioButton
                         android:id="@+id/rbFullColor"
-                        android:text="@string/setting_border_filled"
+                        android:text="@string/settingsAppearanceFilled"
                         android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -279,7 +279,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="5dp"
-                        android:text="@string/sample_text"
+                        android:text="@string/settingsAppearanceSampleText"
                         android:layout_margin="1dp"
                         android:textColor="?attr/colorGoToSleep"
                         android:textSize="@dimen/font_size_medium">
@@ -312,7 +312,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="@string/sample_text"
+                            android:text="@string/settingsAppearanceSampleText"
                             android:textColor="?attr/colorGoToSleep"
                             android:textSize="@dimen/font_size_medium">
 
@@ -337,7 +337,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="1dp"
                         android:padding="5dp"
-                        android:text="@string/sample_text"
+                        android:text="@string/settingsAppearanceSampleText"
                         android:textColor="?attr/colorOnBackGround"
                         android:textSize="@dimen/font_size_medium">
 
@@ -379,7 +379,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/setting_appearance_shake_addition"
+                    android:text="@string/settingsAppearanceShakeHomeExplanation"
                     android:textColor="?attr/colorHint"
                     app:layout_constraintEnd_toStartOf="@+id/swShakeTaskInHome"
                     app:layout_constraintStart_toStartOf="@+id/tvShake"

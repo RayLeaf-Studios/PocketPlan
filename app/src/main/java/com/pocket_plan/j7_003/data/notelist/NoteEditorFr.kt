@@ -12,7 +12,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.PreferenceIDs
 import com.pocket_plan.j7_003.R
@@ -295,7 +294,7 @@ class NoteEditorFr : Fragment() {
         myNoteFr.noteListDirs.addNote(Note(noteTitle, noteContent, noteColor))
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
-            Toast.makeText(myActivity, R.string.notificationNoteAdded, Toast.LENGTH_SHORT).show()
+            Toast.makeText(myActivity, R.string.notesNotificationNoteAdded, Toast.LENGTH_SHORT).show()
         }
         MainActivity.previousFragmentStack.push(cache)
     }
@@ -320,7 +319,7 @@ class NoteEditorFr : Fragment() {
         val myBuilder =
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.move)
+        customTitle.tvDialogTitle.text = myActivity.getString(R.string.notesConfirmMove)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog
@@ -347,8 +346,8 @@ class NoteEditorFr : Fragment() {
             val moveResult = myNoteFr.noteListDirs.moveDir(editNoteHolder!!, spFolderPaths.selectedItemPosition)
             NoteFr.myAdapter.notifyDataSetChanged()
             val moveMessage = when(moveResult){
-                true -> getString(R.string.noteMoved)
-                else -> getString(R.string.noteMoveFailed)
+                true -> getString(R.string.notesToastNoteMoved)
+                else -> getString(R.string.notesCantMove)
             }
             myNoteFr.myActivity.toast(moveMessage)
             myAlertDialog?.dismiss()

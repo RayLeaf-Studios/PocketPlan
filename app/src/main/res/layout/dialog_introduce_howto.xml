@@ -15,7 +15,7 @@
         android:id="@+id/tvIntroduceText"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="?attr/colorOnBackGround"
-        android:text="@string/text_introduce_howto"
+        android:text="@string/generalHowToDialogHint"
         android:layout_height="wrap_content"/>
 
 
@@ -45,7 +45,7 @@
         android:elevation="@dimen/btnElevation"
         android:paddingHorizontal="10dp"
         android:layout_marginHorizontal="10dp"
-        android:text="@string/btn_open_howto"
+        android:text="@string/generalShowHowTo"
         android:textColor="?attr/colorOnBackGroundTask"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="parent"
