@@ -76,7 +76,7 @@
     <string name="howtoTodoDelete">Swipe eine Aufgabe zur Seite, um sie zu löschen.</string>
     <string name="howtoTodoEdit">Tippe eine Aufgabe an, um sie zu bearbeiten.</string>
     <string name="howtoTodoReorder">Halte eine Aufgabe gedrückt um sie umzusortieren.</string>
-    <string name="howtoBackupExplanation">Deine in PocketPlan gespeicherten Daten werden nur lokal auf deinem Gerät gespeichert. Um diese Daten nicht zu verlieren, sollte dein Handy kaputt gehen, oder um deine Daten auf ein anderes Gerät zu übertragen, kannst du ein Backup exportieren.\n\nGehe in die Einstellungen -> Backup und wähle \"Volles Backup als .zip exportieren\" Speichere diese Datei dann, beispielsweise indem du sie dir selbst per Mail schickst.\n\nUm ein Backup zu importieren, gehe in die Einstellungen -> Backup und wähle \"Volles Backup aus .zip importieren\", wähle dann die Backup Datei aus, die du importieren willst.</string>
+    <string name="howtoBackupExplanation">Deine in PocketPlan gespeicherten Daten werden nur lokal auf deinem Gerät gespeichert. Um diese Daten zu sichern, oder um deine Daten auf ein anderes Gerät zu übertragen, kannst du ein Backup exportieren.\n\nGehe in die Einstellungen -> Backup und wähle \"Volles Backup als .zip exportieren\". Speichere diese Datei dann, beispielsweise indem du sie dir selbst per Mail sendest.\n\nUm ein Backup zu importieren, gehe in die Einstellungen -> Backup und wähle \"Volles Backup aus .zip importieren\", wähle dann die Backup Datei aus, die du importieren willst.</string>
 
 <!--    menu-->
     <string name="menuTitleAbout">Über die App</string>
