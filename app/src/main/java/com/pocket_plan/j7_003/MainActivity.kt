@@ -51,7 +51,6 @@ import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
-import kotlinx.android.synthetic.main.dialog_introduce_howto.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
@@ -291,7 +290,7 @@ class MainActivity : AppCompatActivity() {
 
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
-        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        bottomNavigation.setOnItemSelectedListener { item ->
             if (!navList.contains(previousFragmentStack.peek()) || bottomNavigation.selectedItemId != item.itemId) {
                 when (item.itemId) {
                     R.id.bottom1 -> changeToFragment(FT.NOTES)
@@ -341,10 +340,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-        if(!PreferenceManager.getDefaultSharedPreferences(this).getBoolean("introShown", false)){
-            dialogIntroduceHowTo()
-        }
-
     }
 
     private fun manageNoteRestore(){
@@ -690,35 +685,5 @@ class MainActivity : AppCompatActivity() {
         //show dialog
         myAlertDialog.show()
     }
-
-    fun dialogIntroduceHowTo() {
-
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("introShown", true).apply()
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_introduce_howto, null)
-
-        //AlertDialogBuilder
-        val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
-        val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.generalInfo)
-        myBuilder.setCustomTitle(customTitle)
-        val myAlertDialog = myBuilder.create()
-
-        val btnNotNow = myDialogView.btnNotNow
-        //onclick to confirm
-        btnNotNow.setOnClickListener {
-            myAlertDialog.dismiss()
-        }
-
-        val btnShowMe = myDialogView.btnShowMe
-        btnShowMe.setOnClickListener {
-            myAlertDialog.dismiss()
-            changeToFragment(FT.SETTINGS_HOWTO)
-        }
-
-
-        //show dialog
-        myAlertDialog.show()
-    }
-
 }
 

@@ -43,8 +43,6 @@
 <!--    general-->
     <string name="generalAppName" translatable="false">PocketPlan</string>
     <string name="generalClose">close</string>
-    <string name="generalHowToDialogHint">Check out the HowTo section to learn about every feature of PocketPlan in detail.</string>
-    <string name="generalInfo">Info</string>
     <string name="generalOk">OK</string>
     <string name="generalOpen">open</string>
     <string name="generalShowHowTo">Show HowTo</string>

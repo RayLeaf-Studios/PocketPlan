@@ -41,8 +41,6 @@
 
 <!--    general-->
     <string name="generalClose">schließen</string>
-    <string name="generalHowToDialogHint">Sieh dir die Anleitung an, um alle Funktionalitäten von PocketPlan im Detail erklärt zu bekommen.</string>
-    <string name="generalInfo">Info</string>
     <string name="generalOk">OK</string>
     <string name="generalOpen">öffnen</string>
     <string name="generalShowHowTo">Öffnen</string>
