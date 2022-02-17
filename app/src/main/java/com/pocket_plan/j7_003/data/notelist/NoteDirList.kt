@@ -20,7 +20,7 @@ class NoteDirList: Checkable {
         try {   // Todo - part of the compatibility layer; remove try, catch soon
             fetchFromFile()
         } catch (_: Exception) {/* no-op */}
-//        currentList = rootDir.noteList
+        folderStack.push(rootDir)
 
         try {   // Todo - main part of the comp. layer; also remove soon
             val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
@@ -35,7 +35,6 @@ class NoteDirList: Checkable {
             save()
         } catch (_: Exception) {/* no-op */}
 
-        folderStack.push(rootDir)
     }
 
     /**
