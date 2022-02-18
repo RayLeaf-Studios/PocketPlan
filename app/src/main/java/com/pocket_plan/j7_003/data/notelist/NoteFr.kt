@@ -331,7 +331,7 @@ class NoteFr : Fragment() {
         }
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
-            val newName = myDialogView.etAddNoteFolder.text.toString()
+            val newName = myDialogView.etAddNoteFolder.text.toString().trim()
             val addResult = noteListDirs.editFolder(newName, folderColor)
             if (!addResult) {
                 val animationShake =
@@ -452,7 +452,7 @@ class NoteFr : Fragment() {
         }
 
         myDialogView.btnAddNoteFolder.setOnClickListener {
-            val newName = myDialogView.etAddNoteFolder.text.toString()
+            val newName = myDialogView.etAddNoteFolder.text.toString().trim()
             val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
             if (!addResult) {
                 val animationShake =

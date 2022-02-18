@@ -119,8 +119,8 @@ class NoteEditorFr : Fragment() {
             R.id.item_editor_move -> dialogMoveNote()
 
             R.id.item_editor_save -> {
-                val noteContent = etNoteContent.text.toString()
-                val noteTitle = etNoteTitle.text.toString()
+                val noteContent = getNoteContent()
+                val noteTitle = getNoteTitle()
 
                 if (noteContent == "" && noteTitle.trim() == "") {
                     val animationShake =
@@ -209,18 +209,18 @@ class NoteEditorFr : Fragment() {
     }
 
     fun getNoteContent(): String{
-        return etNoteContent.text.toString()
+        return etNoteContent.text.toString().trim()
     }
 
     fun getNoteTitle(): String{
-        return etNoteTitle.text.toString()
+        return etNoteTitle.text.toString().trim()
     }
 
     fun relevantNoteChanges(): Boolean {
 
         //check if note was edited, return otherwise
-        if (editNoteHolder != null && editNoteHolder!!.title == etNoteTitle.text.toString() &&
-            editNoteHolder!!.content == etNoteContent.text.toString() &&
+        if (editNoteHolder != null && editNoteHolder!!.title == getNoteTitle() &&
+            editNoteHolder!!.content == getNoteContent() &&
             editNoteHolder!!.color == noteColor
         ) {
             //no relevant note changes if the title, content and color did not get changed
@@ -228,8 +228,8 @@ class NoteEditorFr : Fragment() {
         }
 
         //check if anything was written when adding new note, return otherwise
-        if (editNoteHolder == null && etNoteTitle.text.toString().trim() == "" &&
-            etNoteContent.text.toString().trim() == ""
+        if (editNoteHolder == null && getNoteTitle() == "" &&
+            getNoteContent() == ""
         ) {
             //no relevant note changes if its a new empty note
             return false
@@ -289,8 +289,8 @@ class NoteEditorFr : Fragment() {
 
     private fun manageAddNote() {
         myActivity.hideKeyboard()
-        val noteContent = etNoteContent.text.toString()
-        val noteTitle = etNoteTitle.text.toString()
+        val noteContent = getNoteContent()
+        val noteTitle = getNoteTitle()
         myNoteFr.noteListDirs.addNote(Note(noteTitle, noteContent, noteColor))
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
@@ -301,8 +301,8 @@ class NoteEditorFr : Fragment() {
 
     private fun manageEditNote() {
         myActivity.hideKeyboard()
-        val noteContent = etNoteContent.text.toString()
-        val noteTitle = etNoteTitle.text.toString()
+        val noteContent = getNoteContent()
+        val noteTitle = getNoteTitle()
         editNoteHolder!!.title = noteTitle
         editNoteHolder!!.content = noteContent
         editNoteHolder!!.color = noteColor
