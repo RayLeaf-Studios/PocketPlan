@@ -222,9 +222,10 @@ class NoteFr : Fragment() {
             R.id.item_notes_delete_folder -> {
                 val action: () -> Unit = {
                     val deletedDir = noteListDirs.deleteCurrentFolder()
-                    if (deletedDir != null)
+                    if (deletedDir != null){
                         deletedNote = deletedDir
-
+                        archive(deletedDir)
+                    }
                     myActivity.changeToFragment(FT.NOTES)
                 }
                 val folderName = noteListDirs.folderStack.peek().title
@@ -562,7 +563,7 @@ class NoteFr : Fragment() {
 
             //Add deletion time and title to new entry
             var newEntry = "$day.$month.$year $hour:$minute\n"
-            if(note.title.trim()!="") newEntry += note.title.toUpperCase() + "\n"
+            if(note.title.trim()!="") newEntry += note.title.toUpperCase(Locale.ROOT) + "\n"
             //Add content
             if(note.content != null) newEntry += note.content + "\n\n"
             result += newEntry
