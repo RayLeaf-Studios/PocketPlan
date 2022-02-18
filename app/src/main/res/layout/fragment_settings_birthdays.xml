@@ -69,12 +69,12 @@
                     android:text="@string/settingsBirthdaysSouthColors"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swSouthColors"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/textView7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsBirthdaysSouthHint"
@@ -85,11 +85,11 @@
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swSouthColors"
-                    app:layout_constraintTop_toTopOf="@id/tvNorth"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNorth"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvNorth" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

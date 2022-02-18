@@ -251,14 +251,14 @@
         <item>20</item>
     </string-array>
 
-    <string-array name="noteColumns">
-        <item>1</item>
+    <string-array name="noteColumns" translatable="false">
+        <item>1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</item>
         <item>2</item>
         <item>3</item>
     </string-array>
 
-    <string-array name="fontSizes">
-        <item>10</item>
+    <string-array name="fontSizes" translatable="false">
+        <item>10&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</item>
         <item>12</item>
         <item>14</item>
         <item>16</item>
