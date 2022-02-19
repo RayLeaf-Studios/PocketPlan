@@ -236,10 +236,12 @@ class MainActivity : AppCompatActivity() {
                 previousFragmentStack.push(FT.SETTINGS)
                 changeToFragment(FT.SETTINGS_APPEARANCE)
             }
+
             "backup" -> {
                 previousFragmentStack.push(FT.HOME)
                 changeToFragment(FT.SETTINGS)
             }
+
             else -> {
                 if (previousFragmentStack.peek() == FT.EMPTY) {
                     changeToFragment(FT.HOME)
