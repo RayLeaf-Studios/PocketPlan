@@ -9,11 +9,10 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_size_big"
         android:textColor="?attr/colorOnBackGround"
-        android:background="?attr/colorBackgroundElevated"
-        android:gravity="center"
-        android:padding="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:background="?attr/colorBackground"
+        android:gravity="left"
+        android:paddingStart="13dp"
+        android:paddingTop="10dp"
         android:text="@string/tasksAddTitle" />
 
 </LinearLayout>

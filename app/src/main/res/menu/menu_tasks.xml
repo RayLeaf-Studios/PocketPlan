@@ -8,15 +8,15 @@
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/item_tasks_delete_checked"
-        android:title="@string/options_task_delete_checked"
+        android:title="@string/tasksOptionClearChecked"
         app:showAsAction="never"/>
 
     <item android:id="@+id/item_tasks_clear"
-        android:title="@string/options_task_clear_list"
+        android:title="@string/tasksOptionClearList"
         app:showAsAction="never"/>
 
     <item android:id="@+id/item_tasks_uncheck_all"
-        android:title="@string/options_tasks_uncheck_all"
+        android:title="@string/tasksOptionUncheckAll"
         app:showAsAction="never"/>
 
 <!--    <item android:id="@+id/item_shopping_undo"-->

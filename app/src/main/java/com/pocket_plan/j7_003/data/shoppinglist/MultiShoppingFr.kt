@@ -1,38 +1,38 @@
-    package com.pocket_plan.j7_003.data.shoppinglist
+package com.pocket_plan.j7_003.data.shoppinglist
 
-    import android.annotation.SuppressLint
-    import android.content.Context
-    import android.os.Bundle
-    import android.text.Editable
-    import android.text.TextWatcher
-    import android.view.*
-    import android.view.animation.AnimationUtils
-    import android.view.inputmethod.InputMethodManager
-    import android.widget.AdapterView
-    import android.widget.ArrayAdapter
-    import android.widget.AutoCompleteTextView
-    import android.widget.Toast
-    import androidx.appcompat.app.AlertDialog
-    import androidx.fragment.app.Fragment
-    import androidx.fragment.app.FragmentActivity
-    import androidx.viewpager2.adapter.FragmentStateAdapter
-    import androidx.viewpager2.widget.ViewPager2
-    import com.google.android.material.tabs.TabLayout
-    import com.pocket_plan.j7_003.MainActivity
-    import com.pocket_plan.j7_003.R
-    import com.pocket_plan.j7_003.data.fragmenttags.FT
-    import com.pocket_plan.j7_003.data.settings.SettingId
-    import com.pocket_plan.j7_003.data.settings.SettingsManager
-    import kotlinx.android.synthetic.main.dialog_add_item.view.*
-    import kotlinx.android.synthetic.main.dialog_add_shopping_list.*
-    import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
-    import kotlinx.android.synthetic.main.dialog_add_task.view.*
-    import kotlinx.android.synthetic.main.fragment_multi_shopping.*
-    import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
-    import kotlinx.android.synthetic.main.title_dialog.view.*
-    import kotlinx.android.synthetic.main.toolbar.*
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
+import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.forEach
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.pocket_plan.j7_003.MainActivity
+import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.dialog_add_item.view.*
+import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
+import kotlinx.android.synthetic.main.fragment_multi_shopping.*
+import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
+import kotlinx.android.synthetic.main.main_panel.*
+import kotlinx.android.synthetic.main.title_dialog.view.*
+import java.util.*
+import kotlin.collections.ArrayDeque
+import kotlin.math.abs
+import kotlin.math.min
 
-    class MultiShoppingFr : Fragment() {
+class MultiShoppingFr : Fragment() {
 
     private lateinit var myMenu: Menu
     private lateinit var myActivity: MainActivity
@@ -44,11 +44,12 @@
     var addItemDialogView: View? = null
     lateinit var autoCompleteTv: AutoCompleteTextView
 
-    var deletedItem: ShoppingItem? = null
-
     var editing: Boolean = false
     var editTag: String = ""
     var editPos: Int = 0
+
+    var deletedItems = ArrayList<ArrayDeque<ShoppingItem?>>()
+    var activeDeletedItems = ArrayDeque<ShoppingItem?>()
 
     lateinit var shoppingListWrapper: ShoppingListWrapper
     lateinit var shoppingFragments: ArrayList<ShoppingFr>
@@ -57,6 +58,14 @@
 
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
     private lateinit var tabLayout: TabLayout
+
+    //boolean to signal if a search is currently being performed
+    var searching: Boolean = false
+
+    //reference to searchView in toolbar
+    lateinit var searchView: SearchView
+    var searchList = ArrayList<Pair<String, ArrayList<ShoppingItem>>>()
+    lateinit var lastQuery: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -86,16 +95,19 @@
         shoppingPager.adapter = pagerAdapter
         shoppingPager.isSaveEnabled = false
 
-        //todo maybe choose which fragment should be displayed first
         val startPage = 0
         shoppingPager.setCurrentItem(startPage, false)
 
         //create and register onPageChangeCallback on shoppingPager
         val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                deletedItems[currentpos] = activeDeletedItems
                 currentpos = position
                 activeShoppingFr = shoppingFragments[position]
-                deletedItem = null
+                activeShoppingFr.query = null
+                activeShoppingFr.myAdapter.notifyDataSetChanged()
+                activeDeletedItems = deletedItems[position]
+                myActivity.btnAdd.visibility = View.VISIBLE
                 updateShoppingMenu()
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
@@ -103,7 +115,7 @@
         shoppingPager.registerOnPageChangeCallback(pageChangeCallback)
 
         tabLayout = myView.tab_layout
-        val onTabSelectedListener = object : TabLayout.OnTabSelectedListener{
+        val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
@@ -124,10 +136,10 @@
         return myView
     }
 
-    private fun updateTabs(){
-        if(shoppingListWrapper.size == 1){
+    private fun updateTabs() {
+        if (shoppingListWrapper.size == 1) {
             tabLayout.visibility = View.GONE
-        }else{
+        } else {
             tabLayout.visibility = View.VISIBLE
         }
         tabLayout.removeAllTabs()
@@ -137,12 +149,17 @@
     }
     //initialize all necessary fragments
     private fun initializeShoppingFragments() {
+        val isEmpty = deletedItems.isEmpty()
         shoppingListWrapper.forEach {
             val newFr = ShoppingFr.newInstance()
             newFr.shoppingListInstance = it.second
             newFr.shoppingListName = it.first
             newFr.myMultiShoppingFr = this
+            newFr.myAdapter = ShoppingListAdapter(myActivity, newFr)
             shoppingFragments.add(newFr)
+
+            if(isEmpty)
+                deletedItems.add(ArrayDeque())
         }
         activeShoppingFr = shoppingFragments[0]
     }
@@ -152,6 +169,65 @@
         myMenu = menu
         myMenu.findItem(R.id.item_shopping_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         updateShoppingMenu()
+
+        //set reference to searchView from menu
+        searchView = menu.findItem(R.id.item_shopping_search).actionView as SearchView
+
+        //create textListener, to listen to keyboard input when a birthday search is performed
+        val textListener = object : SearchView.OnQueryTextListener {
+
+            //hide keyboard when search is submitted
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                myActivity.hideKeyboard()
+                return true
+            }
+
+            //start a new search whenever input text has changed
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText == null)
+                    return true
+                if (searching) {
+                    activeShoppingFr.search(newText.toString())
+                }
+                return true
+            }
+        }
+
+        //apply textListener to SearchView
+        searchView.setOnQueryTextListener(textListener)
+
+
+        searchView.setOnCloseListener {
+            myActivity.btnAdd.visibility = View.VISIBLE
+            //reset title
+            myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
+            //collapse searchView
+            searchView.onActionViewCollapsed()
+            //signal that no search is being performed
+            searching = false
+            updateShoppingMenu()
+            //reload menu icons
+            //reload list elements by notifying data set change to adapter
+            activeShoppingFr.query = null
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+            true
+        }
+
+        searchView.setOnSearchClickListener {
+            myActivity.myBtnAdd.visibility = View.GONE
+            //removes title from toolbar
+            myActivity.toolBar.title = ""
+            //sets searching to true, which results in the recyclerViewAdapter reading its elements from
+            //adjusted list instead of birthdayList
+            searching = true
+            myMenu.findItem(R.id.item_shopping_undo)?.isVisible = false
+            updateShoppingMenuForSearch()
+
+            //clear adjusted list
+            searchList.clear()
+            //reload adapter dataSet
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -165,7 +241,7 @@
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
 
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.shopping_dialog_rename_title)
+        customTitle.tvDialogTitle.text = getString(R.string.shoppingDialogRenameList)
         myBuilder.setCustomTitle(customTitle)
 
         //show dialog
@@ -208,7 +284,7 @@
         val myBuilder =
             myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.shopping_option_add_list)
+        customTitle.tvDialogTitle.text = myActivity.getString(R.string.shoppingOptionAddList)
         myBuilder?.setCustomTitle(customTitle)
 
         //show dialog
@@ -230,6 +306,7 @@
             newFr.shoppingListName = newName
             newFr.myMultiShoppingFr = this
             newFr.shoppingListInstance = shoppingListWrapper.getListByName(newName)!!
+            deletedItems.add(ArrayDeque<ShoppingItem?>())
 
             shoppingFragments.add(newFr)
 
@@ -254,18 +331,18 @@
 
         when (item.itemId) {
             R.id.item_shopping_delete_list -> {
-                val titleId = R.string.shopping_dialog_delete_title
+                val titleId = R.string.shoppingDialogDeleteTitle
                 val action: () -> Unit = {
                     shoppingListWrapper.remove(activeShoppingFr.shoppingListName)
                     shoppingFragments.remove(activeShoppingFr)
                     shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
                     //This automatically selects the tab left of the deleted tab
                     tabLayout.removeTabAt(currentpos)
-                    if(shoppingListWrapper.size==1){
+                    if (shoppingListWrapper.size == 1) {
                         tabLayout.visibility = View.GONE
                     }
                 }
-                myActivity.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirm(titleId, action)
             }
 
             R.id.item_shopping_add_list -> {
@@ -282,6 +359,10 @@
                 dialogShoppingClear()
             }
 
+            R.id.item_shopping_remove_checked -> {
+                dialogRemoveCheckedItems()
+            }
+
             R.id.item_shopping_uncheck_all -> {
                 //uncheck all shopping items
                 activeShoppingFr.shoppingListInstance.uncheckAll()
@@ -290,8 +371,8 @@
 
             R.id.item_shopping_undo -> {
                 //undo the last deletion of a shopping item
-                activeShoppingFr.shoppingListInstance.add(deletedItem!!)
-                deletedItem = null
+                activeShoppingFr.shoppingListInstance.add(activeDeletedItems.last()!!)
+                activeDeletedItems.removeLast()
                 activeShoppingFr.myAdapter.notifyDataSetChanged()
             }
 
@@ -319,18 +400,7 @@
         return super.onOptionsItemSelected(item)
     }
 
-
-    /**
-     * Prepare layout and adapters for addItemDialog to decrease loading time
-     */
-    @SuppressLint("InflateParams")
-    fun preloadAddItemDialog(passedActivity: MainActivity, mylayoutInflater: LayoutInflater) {
-        myActivity = passedActivity
-
-        //initialize shopping list data
-        myActivity.itemTemplateList = ItemTemplateList()
-        myActivity.userItemTemplateList = UserItemTemplateList()
-
+    fun refreshItemNamesAndAutoCompleteAdapter(){
         //initialize itemNameList
         MainActivity.itemNameList = ArrayList()
 
@@ -345,6 +415,29 @@
                 MainActivity.itemNameList.add(it.n)
             }
         }
+
+        //initialize custom arrayAdapter for autocompletion
+        val itemNameClone = MainActivity.itemNameList.toMutableList()
+        val customAdapter = AutoCompleteAdapter(
+            context = myActivity,
+            resource = android.R.layout.simple_spinner_dropdown_item,
+            items = itemNameClone
+        )
+        autoCompleteTv.setAdapter(customAdapter)
+    }
+
+
+    /**
+     * Prepare layout and adapters for addItemDialog to decrease loading time
+     */
+    @SuppressLint("InflateParams")
+    fun preloadAddItemDialog(passedActivity: MainActivity, mylayoutInflater: LayoutInflater) {
+        myActivity = passedActivity
+
+        //initialize shopping list data
+        myActivity.itemTemplateList = ItemTemplateList()
+        myActivity.userItemTemplateList = UserItemTemplateList()
+
 
         //inflate view for this dialog
         addItemDialogView =
@@ -374,6 +467,24 @@
         )
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spCategory.adapter = categoryAdapter
+
+        var lastSelectedCategoryIndex = 0
+
+        spCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if(position!=spCategory.tag){
+                    lastSelectedCategoryIndex = position
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
 
         //initialize spinner for units + its adapter and listener
         val spItemUnit = addItemDialogView!!.spItemUnit
@@ -406,15 +517,8 @@
 
         //initialize autocompleteTextView
         autoCompleteTv = addItemDialogView!!.actvItem
+        refreshItemNamesAndAutoCompleteAdapter()
 
-        //initialize custom arrayAdapter for autocompletion
-        val itemNameClone = MainActivity.itemNameList.toMutableList()
-        val customAdapter = AutoCompleteAdapter(
-            context = myActivity,
-            resource = android.R.layout.simple_spinner_dropdown_item,
-            items = itemNameClone
-        )
-        autoCompleteTv.setAdapter(customAdapter)
 
         //request focus in item name text field
         autoCompleteTv.requestFocus()
@@ -429,7 +533,8 @@
                 var input = autoCompleteTv.text.toString()
 
                 //remove leading and trailing white spaces of user input, to recognize items even when accidental whitespaces are added
-                input = input.trim()
+                //Additionally, ignore optional details when recommending a category
+                input = input.trim().split("(")[0].trim()
 
                 //check for existing user template
                 var template =
@@ -440,29 +545,23 @@
                     template = myActivity.itemTemplateList.getTemplateByName(input)
                 }
 
-                //if template now is not null, select correct unit and category
-                if (template != null) {
-                    //display correct category
-                    spCategory.setSelection(
-                        myActivity.resources.getStringArray(R.array.categoryCodes)
-                            .indexOf(template.c)
-                    )
+                //Select correct unit and category, default (unknown input) unit x and last used category
+                var unitToSet = 0
+                var categoryToSet = lastSelectedCategoryIndex
 
-                    //display correct unit
-                    val unitPointPos =
-                        myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
-                    if (!unitChanged) {
-                        spItemUnit.tag = unitPointPos
-                        spItemUnit.setSelection(unitPointPos)
-                    }
-                } else {
-                    //else if entered string is unknown select "other" and "x" as defaults
-                    spCategory.setSelection(0)
-                    if (!unitChanged) {
-                        spItemUnit.tag = 0
-                        spItemUnit.setSelection(0)
-                    }
+                //Unit and category from template if there is any
+                if(template!=null){
+                    unitToSet = myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
+                    categoryToSet = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(template.c)
                 }
+
+                //Apply selections
+                spCategory.tag = categoryToSet
+                spCategory.setSelection(categoryToSet)
+
+                spItemUnit.tag = unitToSet
+                spItemUnit.setSelection(unitToSet)
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -504,7 +603,7 @@
             val nameInput = autoCompleteTv.text.toString()
 
             //No item string entered => play shake animation
-            if (nameInput == "") {
+            if (nameInput.trim() == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 addItemDialogView!!.actvItem.startAnimation(animationShake)
@@ -536,9 +635,14 @@
                 if (template == null || categoryCode != template!!.c || spItemUnit.selectedItemPosition != 0) {
                     //item unknown, or item known under different category or with different unit, use selected category and unit,
                     // add item new ItemTemplate to userItemTemplate list, using entered values
-                    myActivity.userItemTemplateList.add(
-                        ItemTemplate(nameInput, categoryCode, unitString)
-                    )
+                    if(!nameInput.contains("(")){
+                        //Only add a new user item, if it was not an optional item
+                        myActivity.userItemTemplateList.add(
+                            ItemTemplate(nameInput, categoryCode, unitString)
+                        )
+                        myActivity.userItemTemplateList.save()
+                        refreshItemNamesAndAutoCompleteAdapter()
+                    }
                 }
             } else if (categoryCode != template!!.c || unitString != template!!.s) {
                 // USER ITEM KNOWN BY NAME, BUT UNIT / CATEGORY DIFFER
@@ -556,7 +660,7 @@
                 }
             }
 
-            //add already known item to list
+            //create known item from template
             val item = ShoppingItem(
                 nameInput,
                 categoryCode,
@@ -587,7 +691,7 @@
                 shoppingListWrapper[0].second.add(item)
                 Toast.makeText(
                     myActivity,
-                    myActivity.getString(R.string.shopping_item_added),
+                    myActivity.getString(R.string.shoppingNotificationItemAdded),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -631,6 +735,7 @@
 
         addItemDialogView!!.spItemUnit.tag = 0
         addItemDialogView!!.spItemUnit.setSelection(0)
+        addItemDialogView!!.spCategory.setSelection(0)
 
         //set default amount text to 1
         addItemDialogView!!.etItemAmount.setText("1")
@@ -683,15 +788,26 @@
 
     @SuppressLint("InflateParams")
     private fun dialogShoppingClear() {
-        val titleId = R.string.shopping_dialog_clear_title
+        val titleId = R.string.shoppingDialogClearList
         val action: () -> Unit = {
             activeShoppingFr.shoppingListInstance.clear()
             activeShoppingFr.shoppingListInstance.save()
+            activeDeletedItems.clear()
             activeShoppingFr.myAdapter.notifyDataSetChanged()
-            deletedItem = null
             updateShoppingMenu()
         }
-        myActivity.dialogConfirmDelete(titleId, action)
+        myActivity.dialogConfirm(titleId, action)
+    }
+
+    @SuppressLint("InflateParams")
+    private fun dialogRemoveCheckedItems() {
+        val titleId = R.string.shoppingDialogRemoveChecked
+        val action: () -> Unit = {
+            activeShoppingFr.shoppingListInstance.removeCheckedItems()
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+            updateShoppingMenu()
+        }
+        myActivity.dialogConfirm(titleId, action)
     }
 
     fun updateExpandAllIcon() {
@@ -706,6 +822,16 @@
             activeShoppingFr.shoppingListInstance.somethingIsExpanded()
     }
 
+    //Hides all menu icons besides the search element
+    private fun updateShoppingMenuForSearch(){
+        myMenu.forEach {
+            if(it.itemId == R.id.item_shopping_search){
+                return@forEach
+            }
+            it.isVisible = false
+        }
+    }
+
     fun updateShoppingMenu() {
         updateUndoItemIcon()
         updateDeleteShoppingListIcon()
@@ -713,16 +839,21 @@
         updateExpandAllIcon()
         updateCollapseAllIcon()
         updateDeleteListIcon()
+        updateRemoveChecked()
     }
 
     private fun updateDeleteListIcon() {
         myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible = shoppingListWrapper.size > 1
     }
 
-    private fun updateUndoItemIcon() {
-        myMenu.findItem(R.id.item_shopping_undo)?.isVisible = deletedItem != null
+    private fun updateRemoveChecked() {
+        myMenu.findItem(R.id.item_shopping_remove_checked)?.isVisible =
+            activeShoppingFr.shoppingListInstance.somethingIsChecked()
     }
 
+    private fun updateUndoItemIcon() {
+        myMenu.findItem(R.id.item_shopping_undo)?.isVisible = activeDeletedItems.isNotEmpty()
+    }
 
     private fun updateDeleteShoppingListIcon() {
         myMenu.findItem(R.id.item_shopping_clear_list)?.isVisible =
@@ -743,5 +874,166 @@
             return this@MultiShoppingFr.shoppingFragments[position]
         }
 
+    }
+}
+
+class AutoCompleteAdapter(
+    context: Context,
+    resource: Int,
+    textViewResourceId: Int = 0,
+    items: List<String> = listOf()
+) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
+
+
+    internal var itemNames: MutableList<String> = mutableListOf()
+    internal var suggestions: MutableList<String> = mutableListOf()
+    var imWorking: Boolean = false
+    val maxSuggestions = 5
+
+    init {
+        itemNames = items.toMutableList()
+        suggestions = ArrayList()
+    }
+
+    /**
+     * Custom Filter implementation for custom suggestions we provide.
+     */
+    private var filter: Filter = object : Filter() {
+
+        override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
+            //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
+            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault()).split("(")[0].trim()
+
+            val result = FilterResults()
+
+            //don't perform search if a search is currently being performed, or input length is < 2
+            if (imWorking || input.length < 2 || inputCharSequence == null) {
+                return result
+            }
+
+            //indicate that a search is being performed
+            imWorking = true
+
+            //clear suggestions from previous search
+            suggestions.clear()
+
+
+            //checks for every item if it starts with input (case insensitive search) (stop if maxSuggestions reached)
+            itemNames.forEach {
+                if(suggestions.size >= maxSuggestions) return@forEach
+                if (it.toLowerCase(Locale.getDefault()).startsWith(input)) {
+                    suggestions.add(it)
+                }
+            }
+
+            //sort all results starting with the input by length to suggest the shortest ones first
+            suggestions.sortBy { it.length }
+
+            //If less than 5 items that start with "input" have been found, add
+            //items that contain "input" to the end of the list
+            itemNames.forEach {
+                if(suggestions.size >= maxSuggestions) return@forEach
+                if (it.toLowerCase(Locale.getDefault()).contains(input)) {
+                    if (!suggestions.contains(it)) {
+                        suggestions.add(it)
+                    }
+                }
+            }
+
+            //if anything was found that starts with, or contains the "input", or if the setting says
+            //to only show perfect matches and don't suggest similar items, return the current suggestions
+            if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
+                result.values = suggestions
+                result.count = suggestions.size
+                return result
+            }
+
+            //create a new mutable list containing all item names
+            val possibles: MutableList<String> = mutableListOf()
+            possibles.addAll(itemNames)
+
+            //create map that saves itemNames with their "likelihood score"
+            val withValues: MutableMap<String, Int> = mutableMapOf()
+
+            //calculates likelihood score for every item
+            possibles.forEach { itemName ->
+                //index to iterate over string
+                var i = 0
+                //score that indicates how much this item matches the input
+                var likelihoodScore = 0
+                //Copy of the itemName in which found letters will be replaced with empty ones
+                var lettersLeft = itemName.toLowerCase(Locale.ROOT)
+
+                val lowerItem = lettersLeft
+                //Add 2 points to score, if item starts with the same char as the input
+                if(lowerItem[0] == input[0]){
+                   likelihoodScore += 2
+                }
+
+                //Add 2 points to score, if item ends with the same char as the input
+                if(lowerItem.last() == input.last()){
+                    likelihoodScore += 2
+                }
+
+                //Iterate over the overlapping part of the words
+                while (i < min(itemName.length, input.length)) {
+                    when {
+                        lowerItem[i] == input[i] -> {
+                            //increase score by 2 if this char occurs at this index
+                            likelihoodScore += 2
+                        }
+                        lettersLeft.contains(input[i]) -> {
+                            //increase score by 1 if this char occurs anywhere in the string
+                            likelihoodScore++
+                            //Remove letter from word copy so it can't be counted twice
+                            lettersLeft = lettersLeft.replaceFirst(input[i], '\u0000')
+                        }
+                        else -> {
+                            //decrease score by 1 if Letter does not occur in item name
+                            likelihoodScore -= 1
+                        }
+                    }
+                    i++
+                }
+                //subtract length difference from likelihood score
+                likelihoodScore -= abs(itemName.length - input.length)
+                //store score for this item name in the withValues map
+                withValues[itemName] = likelihoodScore
+            }
+
+            //Filter map for all items that pass the likelihood threshold of their length / 1.2.
+            //Decrease this value to make the algorithm more stricter
+            //Sort it descending by value (highest values first) and add the first <maxSuggestions> items to the suggestions
+            withValues.toList().filter { (name, value) -> value > name.length / 1.2 }
+                .sortedByDescending { (_, value) -> value }.forEach {
+                if(suggestions.size >= maxSuggestions) return@forEach
+                suggestions.add(it.first)
+            }
+
+            result.values = suggestions
+            result.count = suggestions.size
+            return result
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
+
+            if (results.values == null) {
+                //return nothing was found
+                return
+            }
+
+            val filterList = Collections.synchronizedList(results.values as List<*>)
+
+            if (results.count > 0) {
+                clear()
+                addAll(filterList)
+                notifyDataSetChanged()
+            }
+            imWorking = false
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return filter
     }
 }

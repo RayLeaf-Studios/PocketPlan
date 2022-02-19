@@ -3,13 +3,13 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
-import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import kotlinx.android.synthetic.main.fragment_settings_backup.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -144,16 +144,25 @@ class BackUpActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("NotificationEntry", "settings")
-            startActivity(intent)
-
+            startMainActivity()
+            this.finish()
         } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
+            Toast.makeText(baseContext, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
             return
         }
+    }
 
+    private fun startMainActivity(){
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("NotificationEntry", "backup")
+        startActivity(intent)
+    }
+
+    override fun onBackPressed() {
+        startMainActivity()
+        this.finish()
+        super.onBackPressed()
     }
 }

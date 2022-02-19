@@ -31,7 +31,7 @@
         android:textColor="?attr/colorOnBackGround"
         android:id="@+id/tvAppTitle"
         android:paddingTop="8dp"
-        android:text="@string/pocket_plan" />
+        android:text="@string/aboutAppName" />
 
     <TextView
         android:layout_width="match_parent"

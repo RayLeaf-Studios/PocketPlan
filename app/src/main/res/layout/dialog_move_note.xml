@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="13dp"
+    android:paddingBottom="13dp">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/notesPickDestinationFolder"
+        android:textColor="?attr/colorOnBackGround"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="@dimen/font_size_small"
+        />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spFolderPaths"
+
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+
+        android:layout_marginTop="10dp"
+        android:background="@drawable/corner_input"
+        android:gravity="center"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+
+    <Button
+        android:id="@+id/btnCancelNoteFolder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/round_corner1"
+        android:elevation="@dimen/btnElevation"
+        android:text="@string/noteDeleteDialogCancel"
+        android:textColor="#FFF"
+        android:textSize="@dimen/font_size_medium"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddNoteFolder"
+        app:layout_constraintStart_toStartOf="@+id/spFolderPaths"
+        app:layout_constraintTop_toBottomOf="@+id/spFolderPaths" />
+
+
+    <Button
+        android:id="@+id/btnAddNoteFolder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner_accent"
+        android:elevation="@dimen/btnElevation"
+        android:text="@string/notesConfirmMove"
+        android:textColor="#FFF"
+        android:textSize="@dimen/font_size_medium"
+        app:layout_constraintEnd_toEndOf="@+id/spFolderPaths"
+        app:layout_constraintStart_toEndOf="@id/btnCancelNoteFolder"
+        app:layout_constraintTop_toTopOf="@+id/btnCancelNoteFolder" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

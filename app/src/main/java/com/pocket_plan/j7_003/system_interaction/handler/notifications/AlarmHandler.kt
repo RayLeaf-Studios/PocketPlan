@@ -26,7 +26,7 @@ class AlarmHandler {
                         context,
                         100,
                         intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        PendingIntent.FLAG_UPDATE_CURRENT xor PendingIntent.FLAG_IMMUTABLE
                     )
 
                 val alarmManager =
@@ -67,7 +67,7 @@ class AlarmHandler {
                         pendingIntent
                     )
                 } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, epochTimeToReminder, pendingIntent);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, epochTimeToReminder, pendingIntent)
                 }
 
             } catch (e: Exception) {
@@ -85,7 +85,7 @@ class AlarmHandler {
             intent.putExtra("requestCode", requestCode)
 
             val pendingIntent: PendingIntent = PendingIntent.getBroadcast(
-                context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT
+                context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT xor PendingIntent.FLAG_IMMUTABLE
             )
 
             val alarmManager: AlarmManager =

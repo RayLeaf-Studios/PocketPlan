@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +12,8 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.AutoCompleteAdapter
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import kotlinx.android.synthetic.main.fragment_custom_items.view.*
 import kotlinx.android.synthetic.main.row_custom_item.view.*
 import kotlinx.android.synthetic.main.row_task.view.tvName
@@ -69,30 +66,26 @@ class CustomItemFr : Fragment() {
         when(item.itemId){
            R.id.item_custom_clear -> {
                val action : () -> Unit = {
-
                    //remove user items from itemNameList and update act adapter so they
                    //don't show up in the add item dialog anymore
-                   myActivity.userItemTemplateList.forEach{ item ->
-                       MainActivity.itemNameList.remove(item.n)
-                   }
-                   val newActAdapter = AutoCompleteAdapter(
-                       context = myActivity,
-                       resource = android.R.layout.simple_spinner_dropdown_item,
-                       items = MainActivity.itemNameList.toMutableList()
-                   )
-                   //TODO FIX CUSTOMITEMFR
-                   myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
-
                    myActivity.userItemTemplateList.clear()
                    myActivity.userItemTemplateList.save()
+                   myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
                    myAdapter.notifyDataSetChanged()
                    updateClearCustomListIcon()
                }
-               val titleId = R.string.custom_item_delete_title
-               myActivity.dialogConfirmDelete(titleId, action)
+               val titleId = R.string.settingsCustomClearDialog
+               myActivity.dialogConfirm(titleId, action)
            }
             R.id.item_custom_undo -> {
+                //Return if deletedItem = null, this should never happen
+                if(deletedItem == null) return true
+                //Re-Add item to userItemTemplateList
                 myActivity.userItemTemplateList.add(deletedItem!!)
+                myActivity.userItemTemplateList.save()
+                //Re-Add itemName to itemNameList
+                myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
+
                 deletedItem = null
                 myAdapter.notifyDataSetChanged()
                 updateUndoCustomIcon()
@@ -122,10 +115,10 @@ class CustomItemFr : Fragment() {
         updateClearCustomListIcon()
         updateUndoCustomIcon()
     }
-
     //Deletes all checked tasks and animates the deletion
 
 }
+
 class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val myActivity: MainActivity): ItemTouchHelper
 .SimpleCallback(0, direction){
 
@@ -139,32 +132,18 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val m
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val parsedViewHolder = viewHolder as CustomItemAdapter.CustomItemViewHolder
         val item = parsedViewHolder.myItem
-        val itemName = item.n
-
-        //remove item from item name list, if it doesn't exist as a regular item
-        if(myActivity.itemTemplateList.getTemplateByName(itemName)==null){
-            MainActivity.itemNameList.remove(itemName)
-        }
-
-        //set new adapter for autocomplete text in add item dialog
-        val newActAdapter = AutoCompleteAdapter(
-            myActivity,
-            android.R.layout.simple_spinner_dropdown_item,
-            items = MainActivity.itemNameList.toMutableList()
-        )
-        myShoppingFr.autoCompleteTv.setAdapter(newActAdapter)
 
         //save deleted item for undo purposes
         CustomItemFr.deletedItem = item
 
         //delete item from userItemTemplateList
         myActivity.userItemTemplateList.remove(item)
-
-        //Save changes in userItemTemplateList
         myActivity.userItemTemplateList.save()
 
+        myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
+
         //animate remove in recycler view adapter
-        CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+        CustomItemFr.myAdapter.notifyItemRemoved(viewHolder.bindingAdapterPosition)
 
         //update options menu
         CustomItemFr.myFragment.updateUndoCustomIcon()
@@ -195,17 +174,20 @@ class CustomItemAdapter(val myActivity: MainActivity) :
             holder.itemView.cvCustom.radius = cr
         }
 
-        val currentItem = myActivity.userItemTemplateList[holder.adapterPosition]
+        val currentItem = myActivity.userItemTemplateList[holder.bindingAdapterPosition]
         holder.myItem = currentItem
 
-        //changes design of task based on priority and being checked
-        var itemText = currentItem.n
-        if(currentItem.n.length > 12){
-            itemText = itemText.substring(0,11)+".."
-        }
-        holder.itemView.tvName.text = itemText + " : "+currentItem.s
+        //show name
+        holder.itemView.tvName.text = currentItem.n
+
+        //show category
         val id = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
-        holder.itemView.tvCategory.text = myActivity.resources.getStringArray(R.array.categoryNames)[id]
+        val catText = myActivity.resources.getStringArray(R.array.categoryNames)[id]
+        holder.itemView.tvCategory.text = myActivity.getString(R.string.settingsCustomCategory) + ":  " + catText
+
+        //show unit
+        holder.itemView.tvUnit.text = myActivity.getString(R.string.settingsCustomUnit) + ": " + currentItem.s
+
     }
 
     class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){

@@ -7,6 +7,18 @@
         android:icon="@drawable/ic_action_undo"
         app:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/item_notes_add_folder"
+        android:title="@string/notesOptionAddFolder"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_notes_delete_folder"
+        android:title="@string/settingsNotesOptionDeleteFolder"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/item_notes_edit_folder"
+        android:title="@string/notesEditFolder"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/item_notes_search"
         android:icon="@drawable/ic_action_search"

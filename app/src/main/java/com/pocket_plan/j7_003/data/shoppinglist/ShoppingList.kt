@@ -4,10 +4,11 @@ import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 
-class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable {
-    constructor(): this(null)
+class ShoppingList(private var wrapper: ShoppingListWrapper?) :
+    ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable {
+    constructor() : this(null)
 
-    fun setWrapper(newWrapper: ShoppingListWrapper){
+    fun setWrapper(newWrapper: ShoppingListWrapper) {
         this.wrapper = newWrapper
     }
     /**
@@ -21,6 +22,14 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
         this.forEach { e ->         // searching for preexistence of the elements tag
             if (e.first == element.tag) {   // add element to tags sublist and save to file
                 e.second.add(element)
+                e.second[0].checked = true
+
+                if (SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean) {
+                    this.forEach {
+                        if (it != e)
+                            it.second[0].checked = false
+                    }
+                }
 
                 //Added this to sort after adding element
                 sortSublist(e.second)
@@ -43,7 +52,18 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
             sublistExpanded = false
         }
 
-        super.add(Pair(element.tag, arrayListOf(ShoppingItem(element.tag, sublistExpanded))))
+        var numUnchecked = 0
+        this.forEach {
+            if (!areAllChecked(it.first))
+                numUnchecked++
+        }
+
+        super.add(
+            Pair(
+                element.tag,
+                arrayListOf(ShoppingItem(element.tag, sublistExpanded, numUnchecked.toString()))
+            )
+        )
 
         this.forEach { e ->         // searching the newly added sublist and adding the element
             if (e.first == element.tag) {   // add element to tags sublist and save to file
@@ -180,6 +200,19 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
     }
 
     /**
+     * Removes all checked items from shopping list
+     */
+    fun removeCheckedItems() {
+        this.forEach { e ->
+            e.second.removeAll { item ->
+                item.checked && e.second.indexOf(item) != 0
+            }
+        }
+        this.removeAll { e -> e.second.size == 1 }
+        save()
+    }
+
+    /**
      * Tries to fetch the length of the sublist with given tag if the sublist exists.
      * @param tag The tag the sublist is supposed to have.
      * @return Either the size of the list or zero if it doesn't exist.
@@ -262,7 +295,11 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
      * @return  The removed item is returned if the removal succeeded, null otherwise.
      *          also a boolean is returned, stating if the containing sublist was deleted or not.
      */
-    fun removeItem(tag: String, sublistPosition: Int, removeSublist: Boolean = true): Pair<ShoppingItem?, Boolean> {
+    fun removeItem(
+        tag: String,
+        sublistPosition: Int,
+        removeSublist: Boolean = true
+    ): Pair<ShoppingItem?, Boolean> {
         var removedItem: ShoppingItem? = null
         var sublistGotDeleted = false
 
@@ -288,8 +325,19 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
         }
     }
 
+    fun updateOrder() {
+        var pos = 0;
+        this.forEach lit@{
+            if (areAllChecked(it.first)) return@lit
+
+            it.second[0].amount = pos.toString()
+            pos++
+        }
+    }
+
     /**
-     * Sorts the given list. Sublists where all items checked are sorted below.
+     * Sorts the given list. Sublists where all items checked are sorted below every not fully
+     * checked list is sorted according to its position at time of creation.
      * If sorting the list succeeds a pair is returned containing the prior and new
      * position of the sorted tag.
      * @param tag The tag which should get sorted.
@@ -297,7 +345,16 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
      */
     fun sortCategoriesByChecked(tag: String): Pair<Int, Int>? {
         val oldPosition = getTagIndex(tag)
+//        this.sortWith(compareBy( { areAllChecked(it.first) }, { it.second[0].amount!!.toInt() }))
         this.sortBy { areAllChecked(it.first) }
+
+        var numUnchecked = 0
+        this.forEach {
+            if (!areAllChecked(it.first))
+                numUnchecked++
+        }
+        this.subList(0, numUnchecked).sortBy { it.second[0].amount!!.toInt() }
+
         save()
         val returnPair = Pair(oldPosition, getTagIndex(tag))
 
@@ -319,6 +376,18 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) : ArrayList<Pair<S
 
     fun save() {
         wrapper?.save()
+    }
+
+    override fun toString(): String {
+        var result = "--------------------\n"
+        this.forEach { cat ->
+            result += cat.first + "(" + cat.second[0].amount + ") " + ": {"
+            cat.second.forEach {
+                result += it.name + " is " + it.checked.toString() + ", "
+            }
+            result += "\b\b}\n"
+        }
+        return result
     }
 
     override fun check() {

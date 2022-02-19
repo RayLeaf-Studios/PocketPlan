@@ -1,12 +1,13 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
-import android.content.Context
 import android.graphics.Paint
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.*
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,10 +20,6 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.fragment_shopping.view.*
 import kotlinx.android.synthetic.main.row_category.view.*
 import kotlinx.android.synthetic.main.row_item.view.*
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.abs
-import kotlin.math.min
 
 
 class ShoppingFr : Fragment() {
@@ -30,6 +27,7 @@ class ShoppingFr : Fragment() {
     lateinit var myMultiShoppingFr: MultiShoppingFr
     lateinit var shoppingListInstance: ShoppingList
     lateinit var shoppingListName: String
+    var query: String? = null
 
     lateinit var myAdapter: ShoppingListAdapter
 
@@ -37,9 +35,6 @@ class ShoppingFr : Fragment() {
 
         var suggestSimilar: Boolean =
             SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
-
-        //TODO remember deleted item even when changing lists
-        var deletedItem: ShoppingItem? = null
 
         lateinit var layoutManager: LinearLayoutManager
 
@@ -57,9 +52,41 @@ class ShoppingFr : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        myAdapter = ShoppingListAdapter(activity as MainActivity, this)
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+    }
+
+    fun getCategoryVisibility(category: Pair<String, ArrayList<ShoppingItem>>):Boolean {
+
+        val categoryName = myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
+            R.array.categoryCodes
+        ).indexOf(category.first)]
+        if(categoryName.toLowerCase().contains(query!!.toLowerCase())){
+            return true
+        }
+        category.second.forEachIndexed(){ index, item->
+            if(index == 0){
+                return@forEachIndexed
+            }
+            if(item.name!!.toLowerCase().contains(query!!.toLowerCase())) {
+                return true
+            }
+
+        }
+        return false
+    }
+
+    fun getItemVisibility(item: ShoppingItem):Boolean {
+        val categoryName = myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
+                R.array.categoryCodes
+            ).indexOf(item.tag)]
+        if(categoryName.toLowerCase().contains(query!!.toLowerCase())){
+            return true
+        }
+        if(item.name!!.toLowerCase().contains(query!!.toLowerCase())) {
+            return true
+        }
+        return false
     }
 
     override fun onCreateView(
@@ -67,7 +94,7 @@ class ShoppingFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         myActivity = activity as MainActivity
-        deletedItem = null
+        query = null
 
         //load settings
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
@@ -101,20 +128,31 @@ class ShoppingFr : Fragment() {
         myRecycler.layoutManager = layoutManager
         myRecycler.setHasFixedSize(true)
 
+
         //ItemTouchHelper to support drag and drop reordering
         val itemTouchHelper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.END or ItemTouchHelper.START,
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
                 0
             ) {
                 var previousPosition: Int = -1
                 var moving = false
 
+                override fun getDragDirs(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ): Int {
+                    return when(myMultiShoppingFr.searching){
+                        true -> 0
+                        else -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                    }
+                }
+
                 override fun clearView(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ) {
-                    val currentPosition = viewHolder.adapterPosition
+                    val currentPosition = viewHolder.bindingAdapterPosition
                     //mark that moving has ended (to allow a new previousPosition when move is detected)
                     moving = false
 
@@ -134,12 +172,13 @@ class ShoppingFr : Fragment() {
                     shoppingListInstance.removeAt(previousPosition)
                     //re-add it at the current adapter position
                     shoppingListInstance.add(currentPosition, movedCategory)
+                    shoppingListInstance.updateOrder()
                     shoppingListInstance.save()
 
                     //get tag of this category
                     val tag = (viewHolder as ShoppingListAdapter.CategoryViewHolder).tag
                     //get position
-                    val position = viewHolder.adapterPosition
+                    val position = viewHolder.bindingAdapterPosition
                     //get boolean if all items are checked
                     val oldAllChecked = shoppingListInstance.areAllChecked(tag)
 
@@ -199,15 +238,15 @@ class ShoppingFr : Fragment() {
 
                     if (!moving) {
                         //if not moving, save new previous position
-                        previousPosition = viewHolder.adapterPosition
+                        previousPosition = viewHolder.bindingAdapterPosition
 
                         //and prevent new previous positions from being set until this move is over
                         moving = true
                     }
 
                     //get start and target position of item that gets dragged
-                    val fromPos = viewHolder.adapterPosition
-                    val toPos = target.adapterPosition
+                    val fromPos = viewHolder.bindingAdapterPosition
+                    val toPos = target.bindingAdapterPosition
 
                     // animate move of category from `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
@@ -245,6 +284,11 @@ class ShoppingFr : Fragment() {
     fun reactToMove() {
         layoutManager.scrollToPositionWithOffset(firstPos, offsetTop)
     }
+
+    fun search(query: String) {
+        this.query = query
+        myAdapter.notifyDataSetChanged()
+    }
 }
 
 /**
@@ -260,6 +304,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
+    private val density = myActivity.resources.displayMetrics.density
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -270,10 +315,13 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         //long click listener playing shake animation to indicate moving is possible
         holder.itemView.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching){
+                return@setOnLongClickListener true
+            }
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
-            true
+            return@setOnLongClickListener true
         }
 
         //Get reference to currently used shopping list instance
@@ -285,7 +333,19 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         //set tag for view holder
         holder.tag = tag
 
-        //get Number of unchecked items
+        val categoryIndex = shoppingListInstance.getTagIndex(tag)
+        val category = shoppingListInstance[categoryIndex]
+        if (myFragment.query != null && !myFragment.getCategoryVisibility(category)){
+            holder.itemView.layoutParams.height = 0
+            val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            params.setMargins(0,0,0, 0)
+            return
+        }
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+        val margin = (density * 10).toInt()
+        params.setMargins(margin,margin,margin, margin)
+
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
         val expanded = shoppingListInstance.isTagExpanded(tag)
@@ -323,6 +383,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         holder.subRecyclerView.setHasFixedSize(true)
 
         holder.subRecyclerView.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
@@ -353,13 +414,14 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
                     }
                 }
             }
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
             myFragment.myMultiShoppingFr.updateExpandAllIcon()
             myFragment.myMultiShoppingFr.updateCollapseAllIcon()
         }
 
         //long click listener on clTapExpand to ensure shake animation for long click on whole category holder
         holder.itemView.clTapExpand.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
@@ -391,7 +453,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
                 }
             }
 
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
 
             if (moveCheckedSublistsDown) {
                 val sublistMoveInfo = myFragment.shoppingListInstance.sortCategoriesByChecked(tag)
@@ -534,7 +596,7 @@ class SublistAdapter(
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
     private val myActivity = mainActivity
     private val myFragment = shoppingFr
-
+    private val density = myActivity.resources.displayMetrics.density
     //boolean stating if design is round or not
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
@@ -554,6 +616,7 @@ class SublistAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         //longClickListener on item to ensure shake animation for category
         holder.itemView.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
@@ -564,6 +627,16 @@ class SublistAdapter(
         //get shopping item
         val item = myFragment.shoppingListInstance.getItem(tag, position)!!
 
+        if (myFragment.query != null && !myFragment.getItemVisibility(item)){
+            holder.itemView.layoutParams.height = 0
+            val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            params.setMargins(0,0,0, 0)
+            return
+        }
+        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+        val margin = (density * 4).toInt()
+        params.setMargins(margin ,margin ,margin , margin)
         //manage onClickListener to edit item
         holder.itemView.setOnClickListener {
             myFragment.myMultiShoppingFr.editTag = tag
@@ -635,7 +708,7 @@ class SublistAdapter(
             //flip checkedState of item and save new position (flipItemCheckedState sorts list and returns new position)
             val newPosition = myFragment.shoppingListInstance.flipItemCheckedState(
                 tag,
-                holder.adapterPosition
+                holder.bindingAdapterPosition
             )
 
             //get number of uncheckedItems in current sublist
@@ -656,14 +729,14 @@ class SublistAdapter(
                 )
             ) {
                 myFragment.shoppingListInstance.flipExpansionState(holder.tag)
-            myFragment.myAdapter.notifyItemChanged(parentHolder.adapterPosition)
+            myFragment.myAdapter.notifyItemChanged(parentHolder.bindingAdapterPosition)
             }
 
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
 
 
             if (newPosition > -1) {
-                notifyItemMoved(holder.adapterPosition, newPosition)
+                notifyItemMoved(holder.bindingAdapterPosition, newPosition)
             }
 
             //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
@@ -683,6 +756,7 @@ class SublistAdapter(
         }
 
         holder.itemView.clItemTapfield.setOnLongClickListener {
+            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
@@ -722,7 +796,7 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         //position of item in sublist
-        val position = viewHolder.adapterPosition
+        val position = viewHolder.bindingAdapterPosition
 
         //ViewHolder as ItemViewHolder
         val parsed = viewHolder as SublistAdapter.ItemViewHolder
@@ -739,6 +813,11 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
                 .notifyItemRemoved(tagPosition)
         } else {
             //sublist changed length =>
+
+            if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(parsed.tag)) {
+                myFragment.shoppingListInstance.flipExpansionState(parsed.tag)
+            }
+
             myFragment.myAdapter.notifyItemChanged(tagPosition)
 
             //check if sublist moved
@@ -755,7 +834,7 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
         }
 
         //cache deleted item to allow undo
-        myFragment.myMultiShoppingFr.deletedItem = removeInfo.first
+        myFragment.myMultiShoppingFr.activeDeletedItems.add(removeInfo.first)
 
         //update options menu
         myFragment.myMultiShoppingFr.updateShoppingMenu()
@@ -763,147 +842,3 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
     }
 }
 
-class AutoCompleteAdapter(
-    context: Context,
-    resource: Int,
-    textViewResourceId: Int = 0,
-    items: List<String> = listOf()
-) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
-
-
-    internal var itemNames: MutableList<String> = mutableListOf()
-    internal var suggestions: MutableList<String> = mutableListOf()
-    var imWorking: Boolean = false
-
-    init {
-        itemNames = items.toMutableList()
-        suggestions = ArrayList()
-    }
-
-    /**
-     * Custom Filter implementation for custom suggestions we provide.
-     */
-    private var filter: Filter = object : Filter() {
-
-        override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
-            //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
-            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault())
-
-            val result = FilterResults()
-
-            //don't perform search if a search is currently being performed, or input length is < 2
-            if (imWorking || input.length < 2) {
-                return result
-            }
-
-            //indicate that a search is being performed
-            imWorking = true
-
-            //clear suggestions from previous search
-            suggestions.clear()
-
-
-            //checks for every item if it starts with input (case insensitive search)
-            itemNames.forEach {
-                if (it.toLowerCase(Locale.getDefault())
-                        .startsWith(input)
-                ) {
-                    suggestions.add(it)
-                }
-            }
-
-            //sort all results starting with the input by length to suggest the shortest ones first
-            suggestions.sortBy { it.length }
-
-            //If less than 5 items that start with "input" have been found, add
-            //items that contain "input" to the end of the list
-            if (suggestions.size < 5) {
-                itemNames.forEach {
-                    if (it.toLowerCase(Locale.getDefault())
-                            .contains(input)
-                    ) {
-                        if (!suggestions.contains(it)) {
-                            suggestions.add(it)
-                        }
-                    }
-                }
-            }
-
-            //if anything was found that starts with, or contains the "input", or if the setting says
-            //to only show perfect matches and don't suggest similar items, return the current suggestions
-            if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
-                result.values = suggestions
-                result.count = suggestions.size
-                return result
-            }
-
-            //create a new mutable list containing all item names
-            val possibles: MutableList<String> = mutableListOf()
-            possibles.addAll(itemNames)
-
-            //create map that saves itemNames with their "likelihood score"
-            val withValues: MutableMap<String, Int> = mutableMapOf()
-
-            //calculates likelihood score for every item
-            possibles.forEach { itemName ->
-                //index to iterate over string
-                var i = 0
-                //score that indicates how much this item matches the input
-                var likelihoodScore = 0
-                while (i < min(itemName.length, input.length)) {
-                    if (itemName[i].equals(input[i], ignoreCase = true)) {
-                        //increase score by 2 if this char occurs at this index
-                        likelihoodScore += 2
-                    } else if (itemName.toLowerCase(Locale.ROOT).contains(input[i].toLowerCase())) {
-                        //increase score by 1 if this char occurs anywhere in the string
-                        likelihoodScore++
-                    }
-                    i++
-                }
-                //subtract length difference from likelihood score
-                likelihoodScore -= abs(itemName.length - input.length)
-                //store score for this item name in the withValues map
-                withValues[itemName] = likelihoodScore
-            }
-
-            //save the "withValues" map as reverse sorted list (by likelihood score), so that the
-            //most likely items are at the beginning of the list
-            val withValuesSortedAsList =
-                withValues.toList().sortedBy { (_, value) -> value }.reversed()
-
-            //set suggestions to a list containing only the item names
-            suggestions = withValuesSortedAsList.toMap().keys.toMutableList()
-
-            //set amount to display to minimum of 5 and current size of suggestions
-            val amountToDisplay = min(suggestions.size, 5)
-
-            //take the top "amountToDisplay" (0..5) results and return them as result
-            result.values = suggestions.subList(0, amountToDisplay)
-            result.count = amountToDisplay
-            return result
-
-        }
-
-        override fun publishResults(constraint: CharSequence?, results: FilterResults) {
-
-            if (results.values == null) {
-                //return nothing was found
-                return
-            }
-
-            val filterList = Collections.synchronizedList(results.values as List<*>)
-
-            if (results.count > 0) {
-                clear()
-                addAll(filterList)
-                notifyDataSetChanged()
-            }
-            imWorking = false
-        }
-    }
-
-
-    override fun getFilter(): Filter {
-        return filter
-    }
-}

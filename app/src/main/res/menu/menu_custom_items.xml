@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/item_custom_clear"
-        android:title="@string/customOptionClearItems"
+        android:title="@string/settingsCustomClear"
         app:showAsAction="never" />
 
 </menu>

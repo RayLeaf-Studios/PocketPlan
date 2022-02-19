@@ -45,7 +45,7 @@ class BirthdayFr : Fragment() {
     //initialize recycler view
     lateinit var myRecycler: RecyclerView
 
-    private val darkMode:Boolean = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    private val darkMode: Boolean = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
     //Current date to properly initialize date picker
     private var date: LocalDate = LocalDate.now()
@@ -59,10 +59,11 @@ class BirthdayFr : Fragment() {
     //boolean to signal if a search is currently being performed
     var searching: Boolean = false
 
+    //List containing birthdays that correspond to current search pattern
+    lateinit var searchList: ArrayList<Birthday>
 
     //reference to searchView in toolbar
     lateinit var searchView: SearchView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -71,27 +72,23 @@ class BirthdayFr : Fragment() {
 
     companion object {
         //Holder for deleted birthday to make undo possible
-        var deletedBirthday: Birthday? = null
+        var deletedBirthdays = ArrayDeque<Birthday?>()
 
         //Holder for birthday currently being edited
         var editBirthdayHolder: Birthday? = null
-
-        //List containing birthdays that correspond to current search pattern
-        lateinit var adjustedList: ArrayList<Birthday>
 
         //Last used searchPattern
         lateinit var lastQuery: String
     }
 
-
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //initialize deletedBirthday with null to signal that nothing can be undone
-        deletedBirthday = null
-
         //inflate menu and save reference to it
         inflater.inflate(R.menu.menu_birthdays, menu)
         myMenu = menu
 
+        searching = false
+        updateBirthdayMenu()
         //set correct color to undo icon
         myMenu.findItem(R.id.item_birthdays_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
@@ -128,6 +125,7 @@ class BirthdayFr : Fragment() {
             searchView.onActionViewCollapsed()
             //signal that no search is being performed
             searching = false
+            updateBirthdayMenu()
             //reload menu icons
             updateUndoBirthdayIcon()
             //reload list elements by notifying data set change to adapter
@@ -143,8 +141,11 @@ class BirthdayFr : Fragment() {
             //sets searching to true, which results in the recyclerViewAdapter reading its elements from
             //adjusted list instead of birthdayList
             searching = true
+            myMenu.findItem(R.id.item_birthdays_undo)?.isVisible = false
+            hideMenuExceptSearch()
+
             //clear adjusted list
-            adjustedList.clear()
+            searchList.clear()
             //reload adapter dataSet
             myAdapter.notifyDataSetChanged()
         }
@@ -159,6 +160,7 @@ class BirthdayFr : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //disable all reminders and refresh adapter
@@ -180,12 +182,11 @@ class BirthdayFr : Fragment() {
             R.id.item_birthdays_undo -> {
                 //undo the last deletion
                 //re-add previously deleted birthday and get its new position
-                val addInfo = birthdayListInstance.addFullBirthday(
-                    deletedBirthday!!
-                )
+
+                val addInfo = birthdayListInstance.addFullBirthday(deletedBirthdays.last()!!)
 
                 //set deletedBirthday to null no signal that no undo is possible
-                deletedBirthday = null
+                deletedBirthdays.removeLast()
 
                 //update menu content due to new possibilities
                 updateUndoBirthdayIcon()
@@ -210,15 +211,13 @@ class BirthdayFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         myActivity = activity as MainActivity
-        myAdapter = BirthdayAdapter(this, myActivity)
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
         myRecycler = myView.recycler_view_birthday
 
-        adjustedList = arrayListOf()
+        searchList = arrayListOf()
 
         birthdayListInstance = BirthdayList()
-        myAdapter = BirthdayAdapter(this, myActivity)
-
+        myAdapter = BirthdayAdapter(this, myActivity, searchList)
 
         //collapse all birthdays when reentering fragment
         birthdayListInstance.collapseAll()
@@ -245,6 +244,7 @@ class BirthdayFr : Fragment() {
      * Refreshes the birthdayList to ensure correct order of birthdays, in case a user leaves
      * the app without closing it (before 00:00) and then re-enters (after 00:00)
      */
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         birthdayListInstance.sortAndSaveBirthdays()
         myAdapter.notifyDataSetChanged()
@@ -260,7 +260,7 @@ class BirthdayFr : Fragment() {
     }
 
     fun updateUndoBirthdayIcon() {
-        if (deletedBirthday != null && !searching) {
+        if (deletedBirthdays.isNotEmpty() && !searching) {
             myMenu.findItem(R.id.item_birthdays_undo)?.setIcon(R.drawable.ic_action_undo)
             myMenu.findItem(R.id.item_birthdays_undo)?.isVisible = true
         } else {
@@ -268,7 +268,14 @@ class BirthdayFr : Fragment() {
         }
     }
 
-    @SuppressLint("InflateParams")
+    private fun hideMenuExceptSearch() {
+        val size = myMenu.size()
+        for (i in 0 until size)
+            myMenu.getItem(i).isVisible = false
+        myMenu.findItem(R.id.item_birthdays_search)?.isVisible = true
+    }
+
+    @SuppressLint("InflateParams", "NotifyDataSetChanged")
     fun openEditBirthdayDialog() {
         var yearChanged = false
 
@@ -406,7 +413,8 @@ class BirthdayFr : Fragment() {
                 yearChanged = true
 
                 if (abs(
-                        date.withYear(LocalDate.now().year).until(date.withYear(pickedYear)).toTotalMonths()
+                        date.withYear(LocalDate.now().year).until(date.withYear(pickedYear))
+                            .toTotalMonths()
                     ) >= 12 && !cbSaveBirthdayYear.isChecked
                 ) {
                     cbSaveBirthdayYear.isChecked = true
@@ -483,7 +491,6 @@ class BirthdayFr : Fragment() {
                 else -> dayMonthString + "." + date.year.toString()
             }
 
-
             //color tvSaveYear gray or white depending on checkedState
             val colorTvSaveYear = when (cbSaveBirthdayYear.isChecked) {
                 true -> R.attr.colorOnBackGround
@@ -492,7 +499,7 @@ class BirthdayFr : Fragment() {
             tvSaveYear.setTextColor(myActivity.colorForAttr(colorTvSaveYear))
         }
 
-
+        //TextWatcher, adjusting the text colors of "Remind me in x days" in the add / edit birthday dialog
         val textWatcherReminder = object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -567,7 +574,7 @@ class BirthdayFr : Fragment() {
             val name = etName.text.toString()
 
             //tell user to enter a name if none is entered
-            if (name == "") {
+            if (name.trim() == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 etName.startAnimation(animationShake)
@@ -735,7 +742,6 @@ class BirthdayFr : Fragment() {
                 }
             }
 
-
             //color tvSaveYear gray or white depending on checkedState
             val color = when (cbSaveBirthdayYear.isChecked) {
                 true -> R.attr.colorOnBackGround
@@ -775,7 +781,6 @@ class BirthdayFr : Fragment() {
                     R.string.birthdaysDaysPrior
                 )
                 tvDaysPrior.text = result
-
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -784,7 +789,6 @@ class BirthdayFr : Fragment() {
 
         //attach a listener that adjusts the color and text of surrounding text views
         etDaysToRemind.addTextChangedListener(textWatcherReminder)
-
 
         //clear text in etDaysToRemind when it is clicked on
         etDaysToRemind.setOnFocusChangeListener { _, hasFocus ->
@@ -808,13 +812,11 @@ class BirthdayFr : Fragment() {
             }
         }
 
-
         //AlertDialogBuilder
         val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
         val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogAddTitle)
         myBuilder?.setCustomTitle(myTitle)
-
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
@@ -826,7 +828,7 @@ class BirthdayFr : Fragment() {
             val name = etName.text.toString()
 
             //tell user to enter a name if none is entered
-            if (name == "") {
+            if (name.trim() == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 etName.startAnimation(animationShake)
@@ -881,17 +883,25 @@ class BirthdayFr : Fragment() {
         etName.requestFocus()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun search(query: String) {
         if (query == "") {
-            adjustedList.clear()
+            searchList.clear()
         } else {
+            //Save query, so search can be reset after deleting a birthday
             lastQuery = query
-            adjustedList.clear()
+            searchList.clear()
+            //Create multiple possible strings by which a birthday can be found
             birthdayListInstance.forEach {
+                //Find by name
                 val nameString = it.name.toLowerCase(Locale.ROOT)
+                //Find by day, no 0 padding e.g. 1.2.
                 val dateFull = it.day.toString() + "." + it.month.toString()
+                //Find by date, 0 padding the month, e.g. 3.02
                 val dateLeftPad = it.day.toString().padStart(2, '0') + "." + it.month.toString()
+                //Find by date, 0 padding the day, e.g. 03.2
                 val dateRightPad = it.day.toString() + "." + it.month.toString().padStart(2, '0')
+                //Find by date, 0 padding both day and month e.g. 03.02
                 val dateFullPad =
                     it.day.toString().padStart(2, '0') + "." + it.month.toString().padStart(2, '0')
                 val queryLower = query.toLowerCase(Locale.ROOT)
@@ -904,7 +914,7 @@ class BirthdayFr : Fragment() {
                         dateRightPad.contains(queryLower) ||
                         dateFullPad.contains(queryLower)
                     ) {
-                        adjustedList.add(it)
+                        searchList.add(it)
                     }
                 }
             }
@@ -926,7 +936,7 @@ class SwipeToDeleteBirthday(
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val parsed = viewHolder as BirthdayAdapter.BirthdayViewHolder
-        return if (viewHolder.adapterPosition == myFragment.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
+        return if (viewHolder.bindingAdapterPosition == myFragment.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
             0
         } else {
             super.getSwipeDirs(recyclerView, viewHolder)
@@ -944,7 +954,11 @@ class SwipeToDeleteBirthday(
 }
 
 
-class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
+class BirthdayAdapter(
+    birthdayFr: BirthdayFr,
+    mainActivity: MainActivity,
+    var searchList: ArrayList<Birthday>
+) :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val myFragment = birthdayFr
     private val myActivity = mainActivity
@@ -959,18 +973,21 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
         //get deleted birthday via index
-        BirthdayFr.deletedBirthday = when (myFragment.searching) {
-            true -> BirthdayFr.adjustedList[viewHolder.adapterPosition]
-            else -> listInstance.getBirthday(viewHolder.adapterPosition)
-        }
+        BirthdayFr.deletedBirthdays.add(
+            when (myFragment.searching) {
+                true -> searchList[viewHolder.bindingAdapterPosition]
+                else -> listInstance.getBirthday(viewHolder.bindingAdapterPosition)
+            }
+        )
 
         //delete birthday and get info of deleted range and position back
         val deleteInfo = listInstance.deleteBirthdayObject(parsed.birthday)
 
         if (myFragment.searching) {
+            //Reset search after deleting an item
             myFragment.search(BirthdayFr.lastQuery)
         } else {
-            //update option menus
+            //Update option menus
             myFragment.updateUndoBirthdayIcon()
             myFragment.updateBirthdayMenu()
             notifyItemRangeRemoved(deleteInfo.first, deleteInfo.second)
@@ -997,7 +1014,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
         val currentBirthday = when (myFragment.searching) {
-            true -> BirthdayFr.adjustedList[position]
+            true -> searchList[position]
             false -> listInstance.getBirthday(position)
         }
 
@@ -1024,7 +1041,6 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //reset elevation
         holder.cvBirthday.elevation = 10f
 
-
         //make name and date visible
         holder.tvRowBirthdayDate.visibility = View.VISIBLE
         holder.tvRowBirthdayName.visibility = View.VISIBLE
@@ -1049,7 +1065,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             params.setMargins(marginSide, (density * 1).toInt(), marginSide, (density * 1).toInt())
             if (round) {
                 //if its the last birthday in list, or the following birthday is a monthDivider (daysToRemind < 0) bottom corners become round
-                if ((holder.adapterPosition == myFragment.birthdayListInstance.size - 1) || (myFragment.birthdayListInstance[holder.adapterPosition + 1].daysToRemind < 0)) {
+                if ((holder.bindingAdapterPosition == myFragment.birthdayListInstance.size - 1) || (myFragment.birthdayListInstance[holder.bindingAdapterPosition + 1].daysToRemind < 0)) {
                     myGradientDrawable.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, cr, cr, cr, cr)
                 }
             }
@@ -1061,7 +1077,6 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         holder.tvRowBirthdayDivider.visibility = View.GONE
         holder.myDividerLeft.visibility = View.GONE
         holder.myDividerRight.visibility = View.GONE
-
 
         //display info if birthday is expanded
         if (currentBirthday.expanded) {
@@ -1099,7 +1114,6 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         } else {
             holder.itemView.tvBirthdayInfo.visibility = View.GONE
         }
-
 
         //creates initial dateString containing padded dayOfMonth "03" or "12" e.g.
         var dateString =
@@ -1170,7 +1184,7 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
             true
         }
 
-        //onLonClickListeners on name, date and icon to initialize edit
+        //onLongClickListeners on name, date and icon to initialize edit
         holder.itemView.tvRowBirthdayName.setOnLongClickListener {
             initializeEdit()
         }
@@ -1185,10 +1199,10 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         val switchExpandState: () -> Unit = {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
         }
 
-        //onClickListener on name and Date to switch expansion state
+        //onClickListeners on name, date and info to switch expansion state
         holder.itemView.tvRowBirthdayDate.setOnClickListener {
             switchExpandState()
         }
@@ -1203,10 +1217,8 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //onClickListener on bell icon to enable / disable reminder
         holder.itemView.icon_bell.setOnClickListener {
             holder.birthday.notify = !holder.birthday.notify
-            notifyItemChanged(holder.adapterPosition)
+            notifyItemChanged(holder.bindingAdapterPosition)
         }
-
-
     }
 
     private fun initializeYearViewHolder(holder: BirthdayViewHolder) {
@@ -1293,7 +1305,6 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //hide dividers that are specific to year divider
         holder.myDividerRight.visibility = View.GONE
         holder.myDividerLeft.visibility = View.GONE
-
     }
 
     /**
@@ -1323,20 +1334,20 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
         //reset onClickListener to prevent expansion
         holder.itemView.setOnClickListener { }
 
+        //daysToRemind==-200 signals a year divider
         if (currentBirthday.daysToRemind == -200) {
             initializeYearViewHolder(holder)
         } else {
             initializeMonthViewHolder(holder, currentBirthday)
         }
         return
-
     }
 
     //returns number of items that should be displayed in the recyclerView
     override fun getItemCount(): Int {
         return when (myFragment.searching) {
             //if a search is currently being performed, the number of items is derived from the adjustedList
-            true -> BirthdayFr.adjustedList.size
+            true -> searchList.size
 
             //otherwise the number of items will be derived from the regular list instance
             false -> listInstance.size
@@ -1344,11 +1355,6 @@ class BirthdayAdapter(birthdayFr: BirthdayFr, mainActivity: MainActivity) :
     }
 
     class BirthdayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        /**
-         * One instance of this class will contain one "instance" of row_task and meta data
-         * like position, it also holds references to views inside of the layout
-         */
-
         //birthday instance represented by this viewHolder
         lateinit var birthday: Birthday
 

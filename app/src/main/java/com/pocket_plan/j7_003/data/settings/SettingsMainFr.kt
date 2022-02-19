@@ -51,7 +51,8 @@ class SettingsMainFr : Fragment() {
         clSettingNotes.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_NOTES) }
         clSettingBackup.setOnClickListener {
             val intent = Intent(myActivity, BackUpActivity::class.java)
-            myActivity.startActivity(intent)
+            startActivity(intent)
+            myActivity.finish()
         }
         clSettingShopping.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_SHOPPING) }
         clSettingAbout.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_ABOUT) }

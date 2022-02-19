@@ -23,7 +23,7 @@ import kotlin.math.abs
  */
 class SleepReminder(passedContext: Context) : Checkable{
     var myContext = passedContext
-    var daysAreCustom: Boolean = false
+    var daysAreCustom: Boolean = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
     var reminder = HashMap<DayOfWeek, Reminder>(7)
 
     init {
@@ -182,10 +182,6 @@ class SleepReminder(passedContext: Context) : Checkable{
         StorageHandler.createJsonFile(
             StorageId.SLEEP, text = Gson().toJson(reminder)
         )
-
-        if (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) == null) {
-            SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
-        }
     }
 
     private fun save() {

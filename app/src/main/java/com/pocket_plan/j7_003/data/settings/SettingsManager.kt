@@ -1,29 +1,36 @@
 package com.pocket_plan.j7_003.data.settings
 
+import android.util.Log
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
+import java.lang.Exception
 import java.lang.NullPointerException
 
 class SettingsManager{
-    companion object : Checkable{
-        var settings = HashMap<SettingId, Any>()
+    companion object : Checkable {
+        var settings = HashMap<String, Any>()
 
         fun init() {
             createFile()
             load()
         }
 
-        fun getSetting(id: SettingId): Any? {
-            return if(settings.containsKey(id)){
-                settings[id]
-            } else null
+        fun getSetting(setting: SettingId): Any? {
+            return if(settings.containsKey(setting.name)){
+                settings[setting.name]
+            } else setting.default
         }
 
         fun addSetting(id: SettingId, any: Any) {
-            settings[id] = any
+            settings[id.name] = any
+            save()
+        }
+
+        fun restoreDefault() {
+            SettingId.values().forEach { setId -> settings[setId.name] = setId.default }
             save()
         }
 
@@ -35,15 +42,15 @@ class SettingsManager{
 
         private fun load() {
             val jsonString = StorageHandler.files[StorageId.SETTINGS]?.readText()
-            val cacheMap: HashMap<SettingId, Any>
 
-            cacheMap = GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<HashMap<SettingId, Any>>() {}.type)
+            val cacheMap: HashMap<String, Any> = GsonBuilder().create()
+                .fromJson(jsonString, object : TypeToken<HashMap<String, Any>>() {}.type)
 
             cacheMap.forEach { (settingId, value) ->
-                if (SettingId.values().contains(settingId)) {
+                try {
+                    SettingId.valueOf(settingId)
                     settings[settingId] = value
-                }
+                } catch (_: Exception) { /* no-op */ }
             }
         }
 

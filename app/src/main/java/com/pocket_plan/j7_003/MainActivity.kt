@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
@@ -22,7 +23,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -36,19 +36,22 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.sub_categories.*
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.*
+import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplateList
+import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingListWrapper
+import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
-import com.pocket_plan.j7_003.system_interaction.Logger
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
-import kotlinx.android.synthetic.main.dialog_delete.view.*
+import kotlinx.android.synthetic.main.dialog_confirm.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.lang.Exception
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private var noteEditorFr: NoteEditorFr? = null
     private var noteFr: NoteFr? = null
     private var sleepFr: SleepFr? = null
+    var todoFr: TodoFr? = null
 
     var shoppingTitle: View? = null
     lateinit var toolBar: Toolbar
@@ -72,6 +76,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         //contents for shopping list
+        lateinit var  mainNoteListDir: NoteDirList
         lateinit var itemNameList: ArrayList<String>
 
         val previousFragmentStack: Stack<FT> = Stack()
@@ -102,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         FT.SHOPPING -> multiShoppingFr
         FT.NOTES -> noteFr as Fragment
         FT.NOTE_EDITOR -> noteEditorFr as Fragment
+        FT.HOME -> homeFr as HomeFr
         else -> null
     }
 
@@ -117,15 +123,13 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        //Initialize fragment stack that enables onBackPress behavior
         previousFragmentStack.clear()
         previousFragmentStack.push(FT.EMPTY)
 
+        //Initialize StorageHandler and SettingsManager
         StorageHandler.path = this.filesDir.absolutePath
-
         SettingsManager.init()
-
-        //load default values for settings in case none have been set yet
-        loadDefaultSettings()
 
         //set correct language depending on setting
         val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
@@ -167,27 +171,20 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
 
+        //Initialize header and icon in side drawer, show current version name
+        val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
+        val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName
+        header.tvVersion.text = versionString
+
         //Initialize adapters and necessary list instances
+        todoFr = TodoFr()
         TodoFr.todoListInstance = TodoList()
-        TodoFr.myAdapter = TodoTaskAdapter(this)
-
-
+        TodoFr.myAdapter = TodoTaskAdapter(this, todoFr!!)
 
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
         birthdayFr = BirthdayFr()
         homeFr = HomeFr()
-
-
-        //Initialize header and icon in side drawer
-        val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
-
-        // deletion of log file
-        Logger(this).deleteFile()
-
-        //display current versionName
-        val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName
-        header.tvVersion.text = versionString
 
         //spinning app Icon
         val myLogo = header.ivLogo
@@ -218,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //initialize drawer toggle button
-        mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.open, R.string.close)
+        mDrawerToggle = ActionBarDrawerToggle(this, drawer_layout, R.string.generalOpen, R.string.generalClose)
         drawer_layout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
 
@@ -239,6 +236,12 @@ class MainActivity : AppCompatActivity() {
                 previousFragmentStack.push(FT.SETTINGS)
                 changeToFragment(FT.SETTINGS_APPEARANCE)
             }
+
+            "backup" -> {
+                previousFragmentStack.push(FT.HOME)
+                changeToFragment(FT.SETTINGS)
+            }
+
             else -> {
                 if (previousFragmentStack.peek() == FT.EMPTY) {
                     changeToFragment(FT.HOME)
@@ -249,10 +252,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
+        todoFr!!.preloadAddTaskDialog(this, layoutInflater)
 
         //Initialize remaining fragments
         noteFr = NoteFr()
-        NoteFr.myAdapter = NoteAdapter(this, noteFr!!)
+        mainNoteListDir = NoteDirList()
+        noteFr!!.noteListDirs = mainNoteListDir
+
+        try {
+            //1000 things can go wrong here
+            manageNoteRestore()
+        }catch (e: Exception){
+            /* no-op */
+        }
 
         //initialize navigation drawer listener
         nav_drawer.setNavigationItemSelectedListener { item ->
@@ -281,11 +293,9 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-
-
         //initialize bottomNavigation
         val navList = arrayListOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
-        bottomNavigation.setOnNavigationItemSelectedListener { item ->
+        bottomNavigation.setOnItemSelectedListener { item ->
             if (!navList.contains(previousFragmentStack.peek()) || bottomNavigation.selectedItemId != item.itemId) {
                 when (item.itemId) {
                     R.id.bottom1 -> changeToFragment(FT.NOTES)
@@ -309,12 +319,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FT.TASKS -> {
-                    TodoFr.myFragment.dialogAddTask()
+                    todoFr!!.myFragment.dialogAddTask()
                 }
 
                 FT.NOTES -> {
-                    PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putBoolean("editingNote", false).apply()
+                    NoteFr.editNoteHolder = null
                     NoteEditorFr.noteColor = NoteColors.GREEN
                     changeToFragment(FT.NOTE_EDITOR)
                 }
@@ -336,6 +345,66 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
+    }
+
+    private fun manageNoteRestore(){
+
+        val editNoteContentOnDestroy  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "")
+        val editNoteTitleOnDestroy  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "")
+        val editNoteColorOnDestroy  = getPreferences(Context.MODE_PRIVATE).getInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1)
+
+        if(editNoteContentOnDestroy == null || editNoteTitleOnDestroy == null || noteFr == null || editNoteColorOnDestroy == -1) return
+
+        if(editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == ""){
+            //App was closed when editor window was empty, do nothing
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
+            return
+        }
+
+        //Get saved editNoteContent (this gets written when editor is opened (content of note to edit)
+        val editNoteContent  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "")
+        val editNoteTitle  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
+        val editNoteColor  = getPreferences(Context.MODE_PRIVATE).getInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
+
+        if(editNoteContent == null || editNoteTitle == null || editNoteColor == -1) return
+
+        resetNotePreferenceStorage()
+
+        if(editNoteContent == "" && editNoteTitle == ""){
+            //App was closed after editor was opened for a new note, and app was closed with non-empty editor (see if above)
+            //add new note with content of editor saved onDestroy
+            noteFr!!.noteListDirs.rootDir.noteList.addNote(editNoteTitleOnDestroy,
+                editNoteContentOnDestroy, NoteColors.values()[editNoteColorOnDestroy]
+            )
+            noteFr!!.noteListDirs.save()
+            return
+        }
+
+        if(editNoteContent != editNoteContentOnDestroy || editNoteTitle != editNoteTitleOnDestroy || editNoteColor != editNoteColorOnDestroy){
+            //App was closed, after editor got initialized with text, and this text was modified before the app close, but not saved
+            val editedNote = noteFr!!.noteListDirs.getNoteByTitleAndContent(title = editNoteTitle, content = editNoteContent) ?: return
+            NoteFr.editNoteHolder = editedNote
+
+            NoteFr.displayContent = editNoteContentOnDestroy
+            NoteFr.displayTitle = editNoteTitleOnDestroy
+            NoteFr.displayColor = editNoteColorOnDestroy
+
+            previousFragmentStack.push(FT.NOTES)
+            noteFr!!.noteListDirs.adjustStackAbove(editedNote)
+
+            changeToFragment(FT.NOTE_EDITOR)
+            return
+        }
+    }
+
+    private fun resetNotePreferenceStorage(){
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1).apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1).apply()
     }
 
     /**
@@ -377,7 +446,7 @@ class MainActivity : AppCompatActivity() {
      * item in bottom navigation
      */
 
-    fun changeToFragment(fragmentTag: FT): Fragment? {
+    fun changeToFragment(fragmentTag: FT, exitingFragment: Boolean = false): Fragment? {
         //Check if the currently requested fragment change comes from note editor, if yes
         //check if there are relevant changes to the note, if yes, open the "Keep changes?"
         //dialog and return
@@ -415,15 +484,16 @@ class MainActivity : AppCompatActivity() {
             FT.TASKS -> resources.getText(R.string.menuTitleTasks)
             FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
             FT.SHOPPING, FT.SETTINGS_SHOPPING -> resources.getText(R.string.menuTitleShopping)
-            FT.NOTES, FT.SETTINGS_NOTES -> resources.getText(R.string.menuTitleNotes)
+            FT.SETTINGS_NOTES -> resources.getText(R.string.menuTitleNotes)
+            FT.NOTES -> mainNoteListDir.getCurrentPathName(getString(R.string.menuTitleNotes))
             FT.SETTINGS -> resources.getText(R.string.menuTitleSettings)
             FT.NOTE_EDITOR -> resources.getText(R.string.menuTitleNotesEditor)
             FT.BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             FT.CUSTOM_ITEMS -> resources.getText(R.string.menuTitleCustomItem)
             FT.SLEEP -> resources.getText(R.string.menuTitleSleep)
-            FT.SETTINGS_BACKUP -> resources.getText(R.string.backup)
-            FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settings_title_appearance)
-            FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHelp)
+            FT.SETTINGS_BACKUP -> resources.getText(R.string.settingsBackupTitle)
+            FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settingsAppearanceTitle)
+            FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHowToTitle)
             FT.SETTINGS_BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             else -> ""
         }
@@ -458,12 +528,14 @@ class MainActivity : AppCompatActivity() {
         //create fragment object
         val fragment = when (fragmentTag) {
             FT.HOME -> homeFr
-            FT.TASKS -> TodoFr()
+            FT.TASKS -> todoFr
             FT.SHOPPING -> {
                 multiShoppingFr
             }
             FT.NOTES -> {
                 NoteFr.searching = false
+                noteFr = NoteFr()
+                noteFr!!.noteListDirs = mainNoteListDir
                 noteFr
             }
             FT.NOTE_EDITOR -> {
@@ -471,7 +543,6 @@ class MainActivity : AppCompatActivity() {
                 noteEditorFr
             }
             FT.BIRTHDAYS -> {
-                birthdayFr!!.searching = false
                 birthdayFr
             }
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
@@ -486,42 +557,31 @@ class MainActivity : AppCompatActivity() {
             else -> homeFr
         }
 
+        val fragmentTransition = when(exitingFragment){
+            true -> FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
+            else -> FragmentTransaction.TRANSIT_FRAGMENT_OPEN
+        }
+
         //animate fragment change
         if (fragment != null) {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_layout, fragment, fragmentTag.name)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .setTransition(fragmentTransition)
                 .commit()
         }
         return fragment
     }
 
+    fun setToolbarTitle(msg: String){
+        myNewToolbar.title = msg
+    }
+
+
     /**
      * OVERRIDE FUNCTIONS
      */
     override fun onDestroy() {
-        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            val noteEditorFr = getFragment(FT.NOTE_EDITOR) as NoteEditorFr
-            val noteContent = noteEditorFr.getNoteContent()
-            val noteTitle = noteEditorFr.getNoteTitle()
-
-            if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("editingNote", false)){
-                //EDITED NOTE
-                //Note was edited, App was closed => Save additional note including the edit
-                val oldNoteContent = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteContent", "")
-                val oldNoteTitle = PreferenceManager.getDefaultSharedPreferences(this).getString("editNoteTitle", "")
-                if(oldNoteContent != noteContent || oldNoteTitle != noteTitle){
-                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
-                }
-            }else{
-                //NEW NOTE
-                //App was closed during the creation of a new note => save it if its not empty
-                if(noteContent.trim()!=""||noteTitle.trim()!=""){
-                    noteFr?.noteListInstance?.addNote(noteTitle, noteContent, NoteColors.RED)
-                }
-            }
-        }
         super.onDestroy()
         this.finish()
     }
@@ -540,6 +600,7 @@ class MainActivity : AppCompatActivity() {
             toolBar.title = getString(R.string.menuTitleBirthdays)
             birthdayFr!!.searchView.onActionViewCollapsed()
             birthdayFr!!.searching = false
+            birthdayFr!!.updateBirthdayMenu()
             birthdayFr!!.updateUndoBirthdayIcon()
             birthdayFr!!.myAdapter.notifyDataSetChanged()
             return
@@ -552,6 +613,7 @@ class MainActivity : AppCompatActivity() {
             noteFr!!.searchView.onActionViewCollapsed()
             NoteFr.searching = false
             NoteFr.myAdapter.notifyDataSetChanged()
+            noteFr!!.setMenuAccessibility(true)
             return
         }
 
@@ -561,6 +623,15 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.findFragmentByTag(FT.NOTE_EDITOR.name) as NoteEditorFr
             if (noteEditorFr!!.relevantNoteChanges()) {
                 noteEditorFr!!.dialogDiscardNoteChanges()
+                return
+            }
+        }
+
+        //When in note fragment, back press should go upwards in folder structure
+        if(previousFragmentStack.peek() == FT.NOTES){
+            val result = noteFr!!.noteListDirs.goBack()
+            if(result){
+                    changeToFragment(FT.NOTES, exitingFragment = true)
                 return
             }
         }
@@ -579,78 +650,64 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("InflateParams")
-
-    fun loadDefaultSettings() {
-        setDefault(SettingId.NOTE_COLUMNS, "2")
-        setDefault(SettingId.NOTE_LINES, 10.0)
-        setDefault(SettingId.FONT_SIZE, "18")
-        setDefault(SettingId.CLOSE_ITEM_DIALOG, false)
-        setDefault(SettingId.EXPAND_ONE_CATEGORY, false)
-        setDefault(SettingId.COLLAPSE_CHECKED_SUBLISTS, true)
-        setDefault(SettingId.MOVE_CHECKED_DOWN, true)
-        setDefault(SettingId.SHAPES_ROUND, true)
-        setDefault(SettingId.SHAKE_TASK_HOME, true)
-        setDefault(SettingId.THEME_DARK, false)
-        setDefault(SettingId.NOTES_SWIPE_DELETE, true)
-        setDefault(SettingId.USE_SYSTEM_THEME, true)
-        val languageNumber = when (Locale.getDefault().displayLanguage) {
-            Locale.GERMAN.displayLanguage -> {
-                //german
-                1.0
-            }
-            //english
-            else -> 0.0
+    override fun onStop() {
+        if(previousFragmentStack.peek() == FT.NOTE_EDITOR){
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, noteEditorFr!!.getEditorContent()).apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, noteEditorFr!!.getEditorTitle()).apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, noteEditorFr!!.getNoteColor()).apply()
         }
-        setDefault(SettingId.LANGUAGE, languageNumber)
-        setDefault(SettingId.BIRTHDAY_SHOW_MONTH, true)
-        setDefault(SettingId.BIRTHDAY_COLORS_SOUTH, false)
-        setDefault(SettingId.SUGGEST_SIMILAR_ITEMS, true)
-        setDefault(SettingId.PREVIEW_BIRTHDAY, true)
-        setDefault(SettingId.BIRTHDAY_NOTIFICATION_TIME, "12:00")
+        super.onStop()
     }
-
-    private fun setDefault(setting: SettingId, value: Any) {
-        if (SettingsManager.getSetting(setting) == null) {
-            SettingsManager.addSetting(setting, value)
-        }
-    }
-
     /**
-     * Opens a dialog, asking the user to confirm a deletion by swiping a seekBar and then
-     * pressing a button. The action to be executed when the button is pressed can be passed as a lambda.
+     * Opens a dialog, asking the user to confirm a deletion by pressing a button.
+     * The action to be executed when the button is pressed can be passed as a lambda.
      * @param titleId Resource id pointing to the String that will be displayed as dialog title
      * @param action Lambda that will be executed when btnDelete is pressed
      */
 
     @SuppressLint("InflateParams")
-    fun dialogConfirmDelete(titleId: Int, action: () -> Unit) {
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_delete, null)
+    fun dialogConfirm(titleId: Int, action: () -> Unit, hint: String = "") {
+        dialogConfirm(getString(titleId), action, hint)
+    }
+
+    fun dialogConfirm(title: String, action: () -> Unit, hint: String = "") {
+        val myDialogView = layoutInflater.inflate(R.layout.dialog_confirm, null)
 
         //AlertDialogBuilder
         val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
         val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(titleId)
+        customTitle.tvDialogTitle.text = title
         myBuilder.setCustomTitle(customTitle)
         val myAlertDialog = myBuilder.create()
 
-        val btnCancelDelete = myDialogView.btnCancelDelete
-        val btnDelete = myDialogView.btnDelete
+        //show or hide hint
+        val tvConfirmHint = myDialogView.tvConfirmHint
+        tvConfirmHint.visibility = when(hint==""){
+            true -> View.GONE
+            else -> View.VISIBLE
+        }
 
-        //onclick to delete
-        btnDelete.setOnClickListener {
+        //set correct text for hint
+        if(hint!=""){
+            tvConfirmHint.text = hint
+        }
+
+        val btnCancel = myDialogView.btnCancel
+        val btnConfirm = myDialogView.btnConfirm
+
+        //onclick to confirm
+        btnConfirm.setOnClickListener {
             action()
             myAlertDialog.dismiss()
         }
 
         //hide dialog when "Cancel" is pressed
-        btnCancelDelete.setOnClickListener {
+        btnCancel.setOnClickListener {
             myAlertDialog.dismiss()
         }
 
         //show dialog
         myAlertDialog.show()
     }
-
 }
 

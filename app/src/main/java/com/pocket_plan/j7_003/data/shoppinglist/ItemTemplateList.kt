@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.App
 import java.util.*
 
-class ItemTemplateList() : ArrayList<ItemTemplate>() {
+class ItemTemplateList : ArrayList<ItemTemplate>() {
     init {
         loadFromAssets()
     }

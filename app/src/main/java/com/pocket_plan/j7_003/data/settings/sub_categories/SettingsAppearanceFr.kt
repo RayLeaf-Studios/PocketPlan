@@ -6,16 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.fragment_settings_appearance.*
 import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
 
 /**
@@ -30,9 +30,25 @@ class SettingsAppearanceFr : Fragment() {
     private lateinit var swShakeTaskInHome: SwitchCompat
     private lateinit var swSystemTheme: SwitchCompat
 
+    private lateinit var rgDarkBorderStyle: RadioGroup
+
+    private lateinit var clTheme: ConstraintLayout
+    private lateinit var clShapes: ConstraintLayout
+    private lateinit var clLanguage: ConstraintLayout
+
     private lateinit var clResetToDefault: ConstraintLayout
 
-    private var initialDisplay: Boolean = true
+    private lateinit var tvCurrentTheme: TextView
+    private lateinit var tvCurrentShape: TextView
+    private lateinit var tvCurrentLanguage: TextView
+
+    private lateinit var cardView: CardView
+    private lateinit var cardView2: CardView
+    private lateinit var cardView3: CardView
+
+    private var initialDisplayTheme: Boolean = true
+    private var initialDisplayShapes: Boolean = true
+    private var initialDisplayLanguage: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +62,23 @@ class SettingsAppearanceFr : Fragment() {
         initializeAdapters()
         initializeDisplayValues()
         initializeListeners()
+        updateComponentVisibility(myView)
 
         return myView
     }
+
+    private fun updateComponentVisibility(myView: View) {
+        val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+        myView.crBorderTheme.visibility = when(dark){
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
+        myView.dividerAboveCrBorder.visibility = when(dark){
+            true -> View.VISIBLE
+            else -> View.GONE
+        }
+    }
+
 
     private fun initializeComponents(myView: View) {
 
@@ -64,6 +94,22 @@ class SettingsAppearanceFr : Fragment() {
 
         //ConstraintLayouts
         clResetToDefault = myView.clResetToDefault
+
+        //RadioGroups
+        rgDarkBorderStyle = myView.rgDarkBorderStyle
+
+        //Card views corresponding to designs for radio group
+        cardView = myView.cardView
+        cardView2 = myView.cardView2
+        cardView3 = myView.cardView3
+
+        clTheme = myView.clTheme
+        clShapes = myView.clShapes
+        clLanguage = myView.clLanguage
+
+        tvCurrentTheme = myView.tvCurrentTheme
+        tvCurrentShape = myView.tvCurrentShape
+        tvCurrentLanguage = myView.tvCurrentLanguage
     }
 
     private fun initializeAdapters() {
@@ -95,6 +141,7 @@ class SettingsAppearanceFr : Fragment() {
         spLanguages.adapter = spAdapterLanguages
     }
 
+
     private fun initializeDisplayValues() {
         val spThemePosition = when(SettingsManager.getSetting(SettingId.THEME_DARK)){
             //show "dark" setting
@@ -103,25 +150,38 @@ class SettingsAppearanceFr : Fragment() {
             else -> 1
         }
         spTheme.setSelection(spThemePosition)
+        tvCurrentTheme.text = resources.getStringArray(R.array.themes)[spThemePosition]
 
-        val shapePosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND)){
+
+        val spShapePosition = when(SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean){
             //show "round" setting
             true -> 1
             //show "normal" setting
             else -> 0
         }
-        spShapes.setSelection(shapePosition)
+        spShapes.setSelection(spShapePosition)
+        tvCurrentShape.text = resources.getStringArray(R.array.shapes)[spShapePosition]
 
-        spLanguages.setSelection(
-            when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
-                //0 = english
-                0.0 -> 0
-                //1 = german
-                else -> 1
-            }
-        )
+        val spLanguagePosition = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
+            //0 = english
+            0.0 -> 0
+            //1 = german
+            else -> 1
+        }
+        spLanguages.setSelection(spLanguagePosition)
+        tvCurrentLanguage.text = resources.getStringArray(R.array.languages)[spLanguagePosition]
+
+
         swShakeTaskInHome.isChecked = SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean
         swSystemTheme.isChecked = SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean
+
+        //initialize correct radio button to be checked to show correct dark border style
+        val idToCheck = when(SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
+            1.0 -> R.id.rbBorderLess
+                2.0 -> R.id.rbColoredBorder
+            else -> R.id.rbFullColor
+        }
+        rgDarkBorderStyle.check(idToCheck)
     }
 
     private fun initializeListeners() {
@@ -132,6 +192,10 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                if(initialDisplayLanguage){
+                    initialDisplayLanguage = false
+                    return
+                }
                 val setTo = when(spLanguages.selectedItemPosition){
                     0 -> 0.0
                     else -> 1.0
@@ -157,14 +221,14 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-
-                if(initialDisplay){
-                    initialDisplay = false
+                if(initialDisplayTheme){
+                    initialDisplayTheme = false
                     return
                 }
 
                 //check if selected theme is dark theme (dark is position 0, light is 1)
                 val selectedDarkTheme = spTheme.selectedItemPosition==0
+
 
                 //check if use system theme is set and if current change does not conform to system theme
                 //if yes, disable "use system theme"
@@ -200,7 +264,14 @@ class SettingsAppearanceFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
+
+                if(initialDisplayShapes){
+                    initialDisplayShapes = false
+                    return
+                }
+
                 SettingsManager.addSetting(SettingId.SHAPES_ROUND, spShapes.selectedItemPosition==1)
+                tvCurrentShape.text = resources.getStringArray(R.array.shapes)[position]
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -241,16 +312,42 @@ class SettingsAppearanceFr : Fragment() {
 
         }
 
+        //onclick listener to reset to default values
         clResetToDefault.setOnClickListener {
             val action: () -> Unit = {
-                SettingsManager.settings.clear()
-                myActivity.loadDefaultSettings()
+                SettingsManager.restoreDefault()
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("NotificationEntry", "appearance")
                 startActivity(intent)
                 myActivity.finish()
             }
-            myActivity.dialogConfirmDelete(R.string.titleRestoreSettings, action)
+            myActivity.dialogConfirm(R.string.settingsAppearanceResetTitle, action, hint=getString(R.string.settingsAppearanceResetHint))
+        }
+        
+        //listener for radio group to change dark border theme
+        rgDarkBorderStyle.setOnCheckedChangeListener { _, id ->
+            val newStyle = when(id){
+                R.id.rbBorderLess -> 1.0
+                R.id.rbColoredBorder -> 2.0
+                else -> 3.0
+            }
+            SettingsManager.addSetting(SettingId.DARK_BORDER_STYLE, newStyle)
+        }
+
+        cardView.setOnClickListener { rbBorderLess.isChecked = true }
+        cardView2.setOnClickListener { rbColoredBorder.isChecked = true }
+        cardView3.setOnClickListener { rbFullColor.isChecked = true }
+
+        clTheme.setOnClickListener {
+            spTheme.performClick()
+        }
+
+        clShapes.setOnClickListener {
+            spShapes.performClick()
+        }
+
+        clLanguage.setOnClickListener {
+            spLanguages.performClick()
         }
 
     }

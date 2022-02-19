@@ -21,14 +21,14 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="20dp"
+                android:paddingBottom="10dp"
                 android:paddingHorizontal="20dp">
 
                 <TextView
                     android:id="@+id/tvOneCategory"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/show_month_for_every_birthday"
+                    android:text="@string/settingsBirthdaysShowMonth"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,7 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_birthdays_month_addition"
+                    android:text="@string/settingsBirthdaysShowMonthsExplanation"
                     android:textColor="?attr/colorHint"
                     app:layout_constraintStart_toStartOf="@id/tvOneCategory"
                     app:layout_constraintTop_toBottomOf="@id/tvOneCategory" />
@@ -55,11 +55,6 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -71,30 +66,33 @@
                     android:id="@+id/tvNorth"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/month_colors_for_southern_hemisphere"
+                    android:text="@string/settingsBirthdaysSouthColors"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/swSouthColors"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settingsBirthdaysSouthHint"
+                    android:textColor="?attr/colorHint"
+                    app:layout_constraintEnd_toEndOf="@+id/tvNorth"
+                    app:layout_constraintStart_toStartOf="@id/tvNorth"
+                    app:layout_constraintTop_toBottomOf="@id/tvNorth" />
+
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/swSouthColors"
-                    app:layout_constraintTop_toTopOf="@id/tvNorth"
-                    app:layout_constraintBottom_toBottomOf="@id/tvNorth"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvNorth" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -106,7 +104,7 @@
                     android:id="@+id/tvPreview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/show_next_upcoming_birthday_in_home_panel"
+                    android:text="@string/settingsBirthdaysShowUpcoming"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -125,17 +123,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cvBirthdayTime"
                 android:layout_width="match_parent"
@@ -148,7 +135,7 @@
                     android:id="@+id/tvBirthdayTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/change_birthday_notification_time"
+                    android:text="@string/settingsBirthdaysNotificationTime"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -159,7 +146,6 @@
                     android:id="@+id/tvBirthdayNotifTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13:20"
                     android:textColor="?attr/colorHint"
                     app:layout_constraintStart_toStartOf="@id/tvBirthdayTime"
                     app:layout_constraintTop_toBottomOf="@id/tvBirthdayTime" />

@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvEstep"
-                    android:text="@string/rayleaf_studios"
+                    android:text="@string/aboutStudioName"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintStart_toStartOf="parent"
@@ -55,8 +55,9 @@
                 <TextView
                     android:id="@+id/tvStudioMail"
                     android:layout_width="wrap_content"
+                    android:autoLink="email"
                     android:layout_height="wrap_content"
-                    android:text="@string/rayleaf_studios_gmail_com"
+                    android:text="@string/aboutMailAdress"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_very_small"
                     app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +125,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/contact_us"
+                    android:text="@string/aboutFeedback"
                     android:textColor="?attr/colorAccent"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
@@ -162,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?attr/colorAccent"
-                    android:text="@string/version"
+                    android:text="@string/aboutVersion"
                     android:textSize="@dimen/font_size_medium"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +174,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="11dp"
                 android:paddingVertical="10dp"
                 >
 

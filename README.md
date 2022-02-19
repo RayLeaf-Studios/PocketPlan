@@ -21,4 +21,6 @@ A smart birthday list
 
 ![alt tag](https://i.ibb.co/9vR2mB0/bdays.png)
 
+Version 1.3.1 (31)
+
 

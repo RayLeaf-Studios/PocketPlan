@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 tools:ignore="RtlSymmetry">
 
@@ -42,7 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
-                    android:text="@string/settings_title_appearance"
+                    android:text="@string/settingsAppearanceTitle"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -52,19 +52,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clSettingNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 tools:ignore="RtlSymmetry">
 
@@ -93,12 +87,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 
@@ -125,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="@string/settingsShoListTitle"
+                    android:text="@string/settingsShoppingListTitle"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -135,19 +123,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clSettingBirthdays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 
@@ -176,19 +158,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clSettingBackup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 
@@ -207,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="@string/backup"
+                    android:text="@string/settingsBackupTitle"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -217,12 +193,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -230,7 +200,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:paddingVertical="15dp"
+                android:paddingVertical="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="0dp">
 

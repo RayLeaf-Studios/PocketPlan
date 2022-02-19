@@ -3,10 +3,10 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
+import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
-import com.pocket_plan.j7_003.data.notelist.NoteList
+import com.pocket_plan.j7_003.data.notelist.NoteDirList
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.ShoppingList
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingListWrapper
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
@@ -126,6 +126,7 @@ class ImportHandler(private val parentActivity: Activity) {
 
         // unzip all all entries from selected file into the /new/ directory
         StorageId.values().forEach {
+            //Ignore old (unused) shopping file
             if (it.s != StorageId.ZIP.s && it.s != StorageId.SHOPPING.s) {  // check so only module files are used/transferred
                 // the cache file is created with the corresponding name of the modules file name
                 cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
@@ -162,7 +163,7 @@ class ImportHandler(private val parentActivity: Activity) {
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
         parentActivity.startActivityForResult(
-            Intent.createChooser(chooseFileIntent, "Choose file"),
+            Intent.createChooser(chooseFileIntent, parentActivity.getString(R.string.settingsBackupChooseFile)),
             id.i
         )
     }
@@ -171,22 +172,22 @@ class ImportHandler(private val parentActivity: Activity) {
         return try {
             ShoppingListWrapper().check()
             BirthdayList().check()
-            val noteList = NoteList()
-            noteList.check()
+            NoteDirList().check()
 
             TodoList().check()
 
             SettingsManager.init()
             SettingsManager.check()
 
+
             SleepReminder(parentActivity).check()
             UserItemTemplateList().check()
 
-            Toast.makeText(parentActivity, "Import successful!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportSuccessful), Toast.LENGTH_SHORT).show()
 
             true
         } catch (e: Exception) {
-            Toast.makeText(parentActivity, "Import failed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
             false
         }
     }

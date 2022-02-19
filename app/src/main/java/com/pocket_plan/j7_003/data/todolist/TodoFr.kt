@@ -14,14 +14,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.R.*
+import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import kotlinx.android.synthetic.main.dialog_add_task.*
 import kotlinx.android.synthetic.main.dialog_add_task.view.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
-import java.util.*
+import kotlin.collections.ArrayDeque
 
 /**
  * A simple [Fragment] subclass.
@@ -31,13 +33,16 @@ class TodoFr : Fragment() {
     private lateinit var myMenu: Menu
     private lateinit var myActivity: MainActivity
 
+    private lateinit var addTaskDialog: AlertDialog
+    private lateinit var addTaskDialogView: View
+    lateinit var myFragment: TodoFr
+
     companion object {
-        lateinit var myFragment: TodoFr
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
 
         lateinit var todoListInstance: TodoList
-        var deletedTask: Task? = null
+        var deletedTasks = ArrayDeque<Task?>()
 
         var offsetTop: Int = 0
         var firstPos: Int = 0
@@ -63,31 +68,32 @@ class TodoFr : Fragment() {
 
             R.id.item_tasks_delete_checked -> {
                 //delete checked tasks and update the undoTask icon
-                val titleId = string.todo_dialog_clear_checked_title
+                val titleId = string.tasksDialogClearChecked
                 val action: () -> Unit = {
                     myFragment.manageCheckedTaskDeletion()
                     myFragment.updateTodoIcons()
                 }
-                myActivity.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirm(titleId, action)
             }
 
             R.id.item_tasks_undo -> {
-//                undo deletion of last task
-                val newPos = todoListInstance.addFullTask(deletedTask!!)
-                myAdapter.notifyItemInserted(newPos)
+                //undo deletion of last task
 
-                deletedTask = null
+                val newPos = todoListInstance.addFullTask(deletedTasks.last()!!)
+                myAdapter.notifyItemInserted(newPos)
+                deletedTasks.removeLast()
+
             }
 
             R.id.item_tasks_clear -> {
                 //delete ALL tasks in list
-                val titleId = string.todo_dialog_clear_title
+                val titleId = string.tasksDialogClearList
                 val action: () -> Unit = {
                     todoListInstance.clear()
                     myAdapter.notifyDataSetChanged()
                     todoListInstance.save()
                 }
-                myActivity.dialogConfirmDelete(titleId, action)
+                myActivity.dialogConfirm(titleId, action)
             }
 
             R.id.item_tasks_uncheck_all -> {
@@ -110,19 +116,13 @@ class TodoFr : Fragment() {
         myRecycler = myView.recycler_view_todo
         myFragment = this
 
-        deletedTask = null
-
-        /**
-         * Adding Task via floating action button
-         * Onclick-Listener opening the add-task dialog
-         */
-
         todoListInstance = TodoList()
+
         /**
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        myAdapter = TodoTaskAdapter(myActivity)
+        myAdapter = TodoTaskAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
 
         layoutManager = LinearLayoutManager(activity)
@@ -143,7 +143,7 @@ class TodoFr : Fragment() {
                     viewHolder: RecyclerView.ViewHolder
                 ) {
                     //get current position in adapter
-                    val currentPosition = viewHolder.adapterPosition
+                    val currentPosition = viewHolder.bindingAdapterPosition
 
                     //mark that moving has ended (to allow a new previousPosition when move is detected)
                     moving = false
@@ -211,15 +211,15 @@ class TodoFr : Fragment() {
 
                     if (!moving) {
                         //if not moving, save new previous position
-                        previousPosition = viewHolder.adapterPosition
+                        previousPosition = viewHolder.bindingAdapterPosition
 
                         //and prevent new previous positions from being set until this move is over
                         moving = true
                     }
 
                     //get start and end position of this move
-                    val fromPos = viewHolder.adapterPosition
-                    val toPos = target.adapterPosition
+                    val fromPos = viewHolder.bindingAdapterPosition
+                    val toPos = target.bindingAdapterPosition
 
                     // animate move of task from `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
@@ -230,10 +230,10 @@ class TodoFr : Fragment() {
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     //get index where task should be deleted
-                    val deletedAtIndex = viewHolder.adapterPosition
+                    val deletedAtIndex = viewHolder.bindingAdapterPosition
 
                     //save task at that index
-                    deletedTask = todoListInstance.getTask(deletedAtIndex)
+                    deletedTasks.add(todoListInstance.getTask(deletedAtIndex))
 
                     //delete this task form todoListInstance
                     todoListInstance.deleteTask(deletedAtIndex)
@@ -260,7 +260,7 @@ class TodoFr : Fragment() {
     }
 
     fun updateUndoTaskIcon() {
-        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTask != null
+        myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTasks.isNotEmpty()
     }
 
     private fun updateClearTaskListIcon() {
@@ -275,6 +275,11 @@ class TodoFr : Fragment() {
     private fun updateDeleteCheckedTasksIcon() {
         myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible =
             todoListInstance.somethingIsChecked()
+    }
+
+    private fun updateDeleteTaskIcon() {
+        val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
+        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = checkedTasks > 0
     }
 
     fun prepareForMove() {
@@ -296,79 +301,87 @@ class TodoFr : Fragment() {
         )
     }
 
-    private fun updateDeleteTaskIcon() {
-        val checkedTasks = todoListInstance.filter { t -> t.isChecked }.size
-        myMenu.findItem(R.id.item_tasks_delete_checked)?.isVisible = checkedTasks > 0
-    }
-
     //Deletes all checked tasks and animates the deletion
     private fun manageCheckedTaskDeletion() {
-        deletedTask = null
+        deletedTasks.clear()
         val oldSize = todoListInstance.size
         val newSize = todoListInstance.deleteCheckedTasks()
         myAdapter.notifyItemRangeRemoved(newSize, oldSize)
         updateDeleteTaskIcon()
     }
 
-    @SuppressLint("InflateParams")
-    fun dialogAddTask() {
+    fun preloadAddTaskDialog(passedActivity: MainActivity, myLayoutInflater: LayoutInflater){
+        myActivity = passedActivity
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(myActivity).inflate(layout.dialog_add_task, null)
+        addTaskDialogView =
+            myLayoutInflater.inflate(layout.dialog_add_task, null)
 
         //AlertDialogBuilder
         val myBuilder =
-            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(addTaskDialogView) }
         myBuilder?.setCustomTitle(
-            layoutInflater.inflate(
+            myLayoutInflater.inflate(
                 layout.title_dialog,
                 null
             )
         )
 
         //show dialog
-        val myAlertDialog = myBuilder?.create()
-        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        myAlertDialog?.show()
+        addTaskDialog = myBuilder?.create()!!
+        addTaskDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         //adds listeners to confirmButtons in addTaskDialog
         val taskConfirmButtons = arrayListOf<Button>(
-            myDialogView.btnConfirm1,
-            myDialogView.btnConfirm2,
-            myDialogView.btnConfirm3
+            addTaskDialogView.btnConfirm1,
+            addTaskDialogView.btnConfirm2,
+            addTaskDialogView.btnConfirm3
         )
 
         taskConfirmButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
-                val title = myDialogView.etxTitleAddTask.text.toString()
-                if (title.isEmpty()) {
+                val title = addTaskDialogView.etxTitleAddTask.text.toString()
+                addTaskDialog.etxTitleAddTask.setText("")
+                if (title.trim().isEmpty()) {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, anim.shake)
-                    myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                    addTaskDialogView.etxTitleAddTask.startAnimation(animationShake)
                     @Suppress("LABEL_NAME_CLASH")
                     return@setOnClickListener
-                } else {
-                    val newPos =
-                        todoListInstance.addFullTask(
-                            Task(
-                                title,
-                                index + 1,
-                                false
-                            )
-                        )
-                    myRecycler.adapter?.notifyItemInserted(newPos)
-                    myRecycler.scrollToPosition(newPos)
-                    myFragment.updateTodoIcons()
                 }
-                myAlertDialog?.dismiss()
+
+                val newPos =
+                    todoListInstance.addFullTask(
+                        Task(
+                            title,
+                            index + 1,
+                            false
+                        )
+                    )
+
+                addTaskDialog.dismiss()
+
+                if(MainActivity.previousFragmentStack.peek() == FT.HOME){
+                    val homeFr = myActivity.getFragment(FT.HOME) as HomeFr
+                    homeFr.updateTaskPanel(false)
+                    myActivity.toast(myActivity.getString(string.homeNotificationTaskAdded))
+                    return@setOnClickListener
+                }
+
+                myRecycler.adapter?.notifyItemInserted(newPos)
+                myRecycler.scrollToPosition(newPos)
+                myFragment.updateTodoIcons()
             }
         }
+    }
 
-        myDialogView.etxTitleAddTask.requestFocus()
+    @SuppressLint("InflateParams")
+    fun dialogAddTask() {
+        addTaskDialog.show()
+        addTaskDialogView.etxTitleAddTask.requestFocus()
     }
 }
 
-class TodoTaskAdapter(activity: MainActivity) :
+class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val myActivity = activity
     private val listInstance = TodoFr.todoListInstance
@@ -386,10 +399,9 @@ class TodoTaskAdapter(activity: MainActivity) :
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.itemView.visibility = View.VISIBLE
 
-        val currentTask = listInstance.getTask(holder.adapterPosition)
+        val currentTask = listInstance.getTask(holder.bindingAdapterPosition)
 
         //Set text of task to be visible
         holder.itemView.tvName.text = currentTask.title
@@ -410,6 +422,7 @@ class TodoTaskAdapter(activity: MainActivity) :
                 myActivity.colorForAttr(attr.colorHint)
             )
             holder.itemView.crvTask.setCardBackgroundColor(myActivity.colorForAttr(attr.colorCheckedTask))
+            holder.itemView.crvBg.setCardBackgroundColor(myActivity.colorForAttr(attr.colorCheckedTask))
         } else {
             //Display the task as unchecked: Uncheck checkbox, remove strike-through of text, initialize correct colors
             holder.itemView.cbTask.isChecked = false
@@ -417,34 +430,54 @@ class TodoTaskAdapter(activity: MainActivity) :
 
             val taskTextColor = if (dark) {
                 //colored task text when in dark theme
-                when (listInstance.getTask(holder.adapterPosition).priority) {
-                    1 -> attr.colorPriority1
-                    2 -> attr.colorPriority2
-                    else -> attr.colorPriority3
-                }
+                if (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) == 3.0)
+                    attr.colorOnBackGround
+                else when (listInstance.getTask(holder.bindingAdapterPosition).priority) {
+                        1 -> attr.colorPriority1
+                        2 -> attr.colorPriority2
+                        else -> attr.colorPriority3
+                    }
             } else {
                 //white text when in light theme
                 attr.colorBackground
             }
 
-            val taskBackgroundColor = if(dark){
+            val taskBackgroundColor = if (dark) {
                 //dark background in dark theme
-                attr.colorBackgroundElevated
-            }else{
+                if (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) != 3.0)
+                    attr.colorBackgroundElevated
+                else when (listInstance.getTask(holder.bindingAdapterPosition).priority) {
+                        1 -> attr.colorPriority1darker
+                        2 -> attr.colorPriority2darker
+                        else -> attr.colorPriority3darker
+                    }
+            } else {
                 //colored background in light theme
-                when (listInstance.getTask(holder.adapterPosition).priority) {
+                when (listInstance.getTask(holder.bindingAdapterPosition).priority) {
                     1 -> attr.colorPriority1
                     2 -> attr.colorPriority2
                     else -> attr.colorPriority3
                 }
             }
 
+            val taskBorderColor = if (dark) {
+                when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
+                    1.0 -> attr.colorBackgroundElevated
+                    2.0 -> taskTextColor
+                    else -> taskBackgroundColor
+                }
+            } else {
+                taskBackgroundColor
+            }
+
             holder.itemView.tvName.setTextColor(myActivity.colorForAttr(taskTextColor))
             holder.itemView.crvTask.setCardBackgroundColor(myActivity.colorForAttr(taskBackgroundColor))
+            holder.itemView.crvBg.setCardBackgroundColor(myActivity.colorForAttr(taskBorderColor))
         }
 
         //set corner radius to be round if style is set to round
         holder.itemView.crvTask.radius = if (round) cr else 0f
+        holder.itemView.crvBg.radius = if (round) cr else 0f
 
         /**
          * EDITING task
@@ -478,7 +511,7 @@ class TodoTaskAdapter(activity: MainActivity) :
 
             //write current task to textField
             myDialogView.etxTitleAddTask.requestFocus()
-            myDialogView.etxTitleAddTask.setText(listInstance.getTask(holder.adapterPosition).title)
+            myDialogView.etxTitleAddTask.setText(listInstance.getTask(holder.bindingAdapterPosition).title)
             myDialogView.etxTitleAddTask.setSelection(myDialogView.etxTitleAddTask.text.length)
 
             //adds listeners to confirmButtons in addTaskDialog
@@ -491,21 +524,21 @@ class TodoTaskAdapter(activity: MainActivity) :
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener Button@{
-                    if (myDialogView.etxTitleAddTask.text.toString() == "") {
+                    if (myDialogView.etxTitleAddTask.text.toString().trim() == "") {
                         val animationShake =
                             AnimationUtils.loadAnimation(myActivity, anim.shake)
                         myDialogView.etxTitleAddTask.startAnimation(animationShake)
                         return@Button
                     }
                     val newPos = listInstance.editTask(
-                        holder.adapterPosition, index + 1,
+                        holder.bindingAdapterPosition, index + 1,
                         myDialogView.etxTitleAddTask.text.toString(),
-                        listInstance.getTask(holder.adapterPosition).isChecked
+                        listInstance.getTask(holder.bindingAdapterPosition).isChecked
                     )
-                    this.notifyItemChanged(holder.adapterPosition)
-                    TodoFr.myFragment.prepareForMove()
-                    this.notifyItemMoved(holder.adapterPosition, newPos)
-                    TodoFr.myFragment.reactToMove()
+                    this.notifyItemChanged(holder.bindingAdapterPosition)
+                    myFragment.prepareForMove()
+                    this.notifyItemMoved(holder.bindingAdapterPosition, newPos)
+                    myFragment.reactToMove()
                     myAlertDialog.dismiss()
 
                 }
@@ -514,22 +547,22 @@ class TodoTaskAdapter(activity: MainActivity) :
 
         //reacts to the user checking a task
         holder.itemView.tapField.setOnClickListener {
-            val checkedStatus = !listInstance.getTask(holder.adapterPosition).isChecked
+            val checkedStatus = !listInstance.getTask(holder.bindingAdapterPosition).isChecked
             holder.itemView.cbTask.isChecked = checkedStatus
-            val task = listInstance.getTask(holder.adapterPosition)
+            val task = listInstance.getTask(holder.bindingAdapterPosition)
             val newPos = listInstance.editTask(
-                holder.adapterPosition, task.priority,
+                holder.bindingAdapterPosition, task.priority,
                 task.title, checkedStatus
             )
-            TodoFr.myFragment.updateUndoTaskIcon()
+            myFragment.updateUndoTaskIcon()
 
-            notifyItemChanged(holder.adapterPosition)
-            if (holder.adapterPosition != newPos) {
-                TodoFr.myFragment.prepareForMove()
-                notifyItemMoved(holder.adapterPosition, newPos)
-                TodoFr.myFragment.reactToMove()
+            notifyItemChanged(holder.bindingAdapterPosition)
+            if (holder.bindingAdapterPosition != newPos) {
+                myFragment.prepareForMove()
+                notifyItemMoved(holder.bindingAdapterPosition, newPos)
+                myFragment.reactToMove()
             }
-            TodoFr.myFragment.updateTodoIcons()
+            myFragment.updateTodoIcons()
 
         }
     }
