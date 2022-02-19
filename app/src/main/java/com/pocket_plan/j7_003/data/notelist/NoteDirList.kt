@@ -93,7 +93,6 @@ class NoteDirList: Checkable {
         return getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
     }
 
-    //todo adjust for notes
     fun moveDir(noteToMove: Note, toIndex: Int) : Boolean {
         //Get containing directories
         val containingDirs = containingDirs(noteToMove)
@@ -114,9 +113,15 @@ class NoteDirList: Checkable {
         //Add to new parent directory
         newParent.noteList.add(noteToMove)
 
+        adjustStackAbove(noteToMove)
+        save()
+        return true
+    }
+
+    fun adjustStackAbove(note: Note){
         //Adjust folder stack
         folderStack.clear()
-        var currentDir = noteToMove
+        var currentDir = note
 
         while (getParentDirectory(currentDir) != rootDir) {
             if (currentDir.content==null) folderStack.push(currentDir)
@@ -128,9 +133,24 @@ class NoteDirList: Checkable {
         if (currentDir.content == null) folderStack.push(currentDir)
         folderStack.push(rootDir)
         folderStack.reverse()
-        save()
-        return true
     }
+
+    fun getNoteByTitleAndContent(title: String, content: String, directory: Note = rootDir): Note? {
+        for (note in directory.noteList) {
+            if(note.content!=null){
+                //Check note
+               if(note.content == content && note.title == title){
+                   return note
+               }
+            }else{
+                //Check subDirectory val
+                val subResult = getNoteByTitleAndContent(title, content, note)
+                if(subResult != null) return subResult
+            }
+        }
+        return null
+    }
+
 
     fun getSuperordinatePaths(dir: Note, passedRootName: String): ArrayList<String> {
         val paths = arrayListOf<String>()

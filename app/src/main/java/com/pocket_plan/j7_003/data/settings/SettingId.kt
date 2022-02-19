@@ -29,6 +29,6 @@ enum class SettingId(val default: Any) {
     RANDOMIZE_NOTE_COLORS(true),
     LAST_USED_NOTE_COLOR(0.0),
     NOTES_SHOW_CONTAINED(true),
-    NOTES_MOVE_UP_CURRENT(true),
+    NOTES_MOVE_UP_CURRENT(false),
     NOTES_ARCHIVE(true)
 }

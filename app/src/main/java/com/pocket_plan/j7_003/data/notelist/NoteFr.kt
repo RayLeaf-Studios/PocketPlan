@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
-import com.pocket_plan.j7_003.data.notelist.NoteEditorFr.Companion.noteColor
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
@@ -61,6 +60,10 @@ class NoteFr : Fragment() {
         lateinit var searchResults: ArrayList<Note>
         lateinit var lastQuery: String
         var editNoteHolder: Note? = null
+
+        var displayContent: String = ""
+        var displayTitle: String = ""
+        var displayColor: Int = -1
     }
 
     override fun onCreateView(
@@ -563,7 +566,7 @@ class NoteFr : Fragment() {
 
             //Add deletion time and title to new entry
             var newEntry = "$day.$month.$year $hour:$minute\n"
-            if(note.title.trim()!="") newEntry += note.title.toUpperCase(Locale.ROOT) + "\n"
+            if(note.title.trim()!="") newEntry += note.title + "\n"
             //Add content
             if(note.content != null) newEntry += note.content + "\n\n"
             result += newEntry
@@ -698,7 +701,6 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
             holder.itemView.tvContainedNoteElements.visibility = View.GONE
             holder.itemView.setOnClickListener {
-                noteColor = currentNote.color
 
                 //move current note to top if setting says so
                 if (moveViewedToTop) {

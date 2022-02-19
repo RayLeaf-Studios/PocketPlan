@@ -23,17 +23,13 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
-import com.pocket_plan.j7_003.data.notelist.NoteColors
-import com.pocket_plan.j7_003.data.notelist.NoteDirList
-import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
-import com.pocket_plan.j7_003.data.notelist.NoteFr
+import com.pocket_plan.j7_003.data.notelist.*
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -55,6 +51,7 @@ import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.lang.Exception
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -259,7 +256,13 @@ class MainActivity : AppCompatActivity() {
         noteFr = NoteFr()
         mainNoteListDir = NoteDirList()
         noteFr!!.noteListDirs = mainNoteListDir
-        manageNoteRestore()
+
+        try {
+            //1000 things can go wrong here
+            manageNoteRestore()
+        }catch (e: Exception){
+            /* no-op */
+        }
 
         //initialize navigation drawer listener
         nav_drawer.setNavigationItemSelectedListener { item ->
@@ -346,10 +349,12 @@ class MainActivity : AppCompatActivity() {
 
         val editNoteContentOnDestroy  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "")
         val editNoteTitleOnDestroy  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "")
+        val editNoteColorOnDestroy  = getPreferences(Context.MODE_PRIVATE).getInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1)
+
+        if(editNoteContentOnDestroy == null || editNoteTitleOnDestroy == null || noteFr == null || editNoteColorOnDestroy == -1) return
 
         if(editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == ""){
             //App was closed when editor window was empty, do nothing
-            //todo check if this reset is necessary
             getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
             getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
             return
@@ -358,21 +363,35 @@ class MainActivity : AppCompatActivity() {
         //Get saved editNoteContent (this gets written when editor is opened (content of note to edit)
         val editNoteContent  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "")
         val editNoteTitle  = getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
+        val editNoteColor  = getPreferences(Context.MODE_PRIVATE).getInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
+
+        if(editNoteContent == null || editNoteTitle == null || editNoteColor == -1) return
 
         resetNotePreferenceStorage()
 
         if(editNoteContent == "" && editNoteTitle == ""){
             //App was closed after editor was opened for a new note, and app was closed with non-empty editor (see if above)
             //add new note with content of editor saved onDestroy
-            noteFr!!.noteListDirs.rootDir.noteList.addNote(editNoteTitleOnDestroy!!, editNoteContentOnDestroy!!, NoteColors.RED)
+            noteFr!!.noteListDirs.rootDir.noteList.addNote(editNoteTitleOnDestroy,
+                editNoteContentOnDestroy, NoteColors.values()[editNoteColorOnDestroy]
+            )
             noteFr!!.noteListDirs.save()
             return
         }
 
-        if(editNoteContent != editNoteContentOnDestroy || editNoteTitle != editNoteTitleOnDestroy){
+        if(editNoteContent != editNoteContentOnDestroy || editNoteTitle != editNoteTitleOnDestroy || editNoteColor != editNoteColorOnDestroy){
             //App was closed, after editor got initialized with text, and this text was modified before the app close, but not saved
-            noteFr!!.noteListDirs.rootDir.noteList.addNote(editNoteTitleOnDestroy!!, editNoteContentOnDestroy!!, NoteColors.RED)
-            noteFr!!.noteListDirs.save()
+            val editedNote = noteFr!!.noteListDirs.getNoteByTitleAndContent(title = editNoteTitle, content = editNoteContent) ?: return
+            NoteFr.editNoteHolder = editedNote
+
+            NoteFr.displayContent = editNoteContentOnDestroy
+            NoteFr.displayTitle = editNoteTitleOnDestroy
+            NoteFr.displayColor = editNoteColorOnDestroy
+
+            previousFragmentStack.push(FT.NOTES)
+            noteFr!!.noteListDirs.adjustStackAbove(editedNote)
+
+            changeToFragment(FT.NOTE_EDITOR)
             return
         }
     }
@@ -382,6 +401,8 @@ class MainActivity : AppCompatActivity() {
         getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
         getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "").apply()
         getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "").apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1).apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1).apply()
     }
 
     /**
@@ -629,8 +650,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         if(previousFragmentStack.peek() == FT.NOTE_EDITOR){
-            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, noteEditorFr!!.getNoteContent()).apply()
-            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, noteEditorFr!!.getNoteTitle()).apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, noteEditorFr!!.getEditorContent()).apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, noteEditorFr!!.getEditorTitle()).apply()
+            getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, noteEditorFr!!.getNoteColor()).apply()
         }
         super.onStop()
     }
