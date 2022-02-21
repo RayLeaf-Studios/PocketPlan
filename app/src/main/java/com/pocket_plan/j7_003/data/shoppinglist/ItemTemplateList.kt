@@ -38,6 +38,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
             else -> Languages.ENGLISH.code
         }
         val fileName = "item_list_$languageCode.json"
+        //todo add try catch here
         val jsonString = App.instance.assets.open(fileName).bufferedReader().readText()
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()

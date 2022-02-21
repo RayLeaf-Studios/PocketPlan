@@ -278,21 +278,21 @@
 
     <string-array name="categoryNames">
         <item>Autres</item>
-        <item>Fruits &amp; légumes</item>
+        <item>Fruits &amp; Légumes</item>
         <item>Boissons</item>
-        <item>Pâtes &amp; céréales</item>
-        <item>Pain &amp; pâtisseries</item>
+        <item>Pâtes &amp; Céréales</item>
+        <item>Pain &amp; Pâtisseries</item>
         <item>Produits laitiers</item>
         <item>Viande</item>
         <item>Vegan</item>
         <item>Surgelés</item>
-        <item>Conserves &amp; plats cuisinés</item>
-        <item>Petit déjeuner &amp; co.</item>
-        <item>Épices &amp; co.</item>
+        <item>Conserves &amp; Plats cuisinés</item>
+        <item>Petit déjeuner &amp; Co.</item>
+        <item>Épices &amp; Co.</item>
         <item>Ménage</item>
         <item>Collations</item>
         <item>Ingrédients de pâtisserie</item>
-        <item>Droguerie &amp; cosmétique</item>
+        <item>Droguerie &amp; Cosmétique</item>
         <item>Boissons alcoolisées</item>
     </string-array>
 
