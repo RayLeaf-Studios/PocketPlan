@@ -348,7 +348,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
-        val expanded = shoppingListInstance.isTagExpanded(tag)
+        val expanded = shoppingListInstance.isTagExpanded(tag) || myFragment.query != null
 
         //Expand or contract recyclerview depending on its expansion state
         holder.subRecyclerView.visibility = when (expanded) {
