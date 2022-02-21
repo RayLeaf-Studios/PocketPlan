@@ -53,25 +53,14 @@ class AlarmHandler {
                 val epochTimeToReminder =
                     notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-//                alarmManager.setExact(
-//                    AlarmManager.RTC,
-//                    notificationTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
-//                    pendingIntent
-//                )
-
                 // Schedule alarm
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        epochTimeToReminder,
-                        pendingIntent
-                    )
-                } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, epochTimeToReminder, pendingIntent)
-                }
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    epochTimeToReminder,
+                    pendingIntent
+                )
 
-            } catch (e: Exception) {
-            }
+            } catch (e: Exception) {/* no-op */}
         }
 
         fun setNewSleepReminderAlarm(
