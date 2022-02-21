@@ -59,7 +59,7 @@
     <string name="howtoBirthdaysExplanation">Tap a birthday to show additional information.\n\nIf a birthday is upcoming in 30 days or less, the remaining days will be displayed in the list.\n\nIf a reminder is set for x days prior and the birthday is upcoming in x or less days, it is color-highlighted in the list.</string>
     <string name="howtoHomeExplanation">If the sleepreminder is enabled, an indicator at the top will tell you how much time you got, until you should go to sleep.\n\nThe task panel below will display tasks of priority one.\n\nBelow that, the birthday panel will display current birthdays.</string>
     <string name="howtoNoteEdit">Tap a note to edit it.\n\nIn the note editor, tap the folder icon at the top, to move the note to a different folder.</string>
-    <string name="howtoNoteExplanation">Newly added, edited or viewed notes are sorted to the top of the list by default.\n\nIf the app is closed while creating a new note without saving it, it is saved automatically.\n\nDeleted notes are archived by default, you can access them in the settings in the \"notes\" section.</string>
+    <string name="howtoNoteExplanation">If the app is closed while creating a new note without saving it, it is saved automatically.\n\nDeleted notes are archived by default, you can access them in the settings in the \"notes\" section.</string>
     <string name="howtoNoteFolder">Using the menu options at the top right, its possible to add a new folder or edit / move the folder that is currently opened.</string>
     <string name="howtoShoppingCheckCategories">Tap the circle at the top of a category to check all contained items.</string>
     <string name="howtoShoppingDelete">Swipe an item left or right to delete it.</string>

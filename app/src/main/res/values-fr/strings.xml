@@ -50,7 +50,7 @@
     <string name="howtoBirthdaysExplanation">Appuyez sur un anniversaire pour afficher des informations supplémentaires.\n\nSi un anniversaire est à venir dans 30 jours ou moins, les jours restants seront affichés dans la liste.\n\nSi un rappel est défini pour x jours avant et que l\'anniversaire est à venir dans x jours ou moins, il est surligné en couleur dans la liste.</string>
     <string name="howtoHomeExplanation">Si le rappel de sommeil est activé, un indicateur en haut de la liste vous dira combien de temps il vous reste avant d\'aller vous coucher. Le panneau des tâches situé en dessous affiche les tâches de priorité un.</string>
     <string name="howtoNoteEdit">Appuyez sur une note pour la modifier. Dans l\'éditeur de notes, appuyez sur l\'icône de dossier en haut pour déplacer la note vers un autre dossier.</string>
-    <string name="howtoNoteExplanation">Les notes nouvellement ajoutées, modifiées ou consultées sont triées en haut de la liste par défaut. Si l\'application est fermée pendant la création d\'une nouvelle note sans l\'enregistrer, celle-ci est sauvegardée automatiquement. Les notes supprimées sont archivées par défaut, vous pouvez y accéder dans les paramètres de la section "notes".</string>
+    <string name="howtoNoteExplanation">Si l\'application est fermée pendant la création d\'une nouvelle note sans l\'enregistrer, celle-ci est sauvegardée automatiquement. Les notes supprimées sont archivées par défaut, vous pouvez y accéder dans les paramètres de la section "notes".</string>
     <string name="howtoNoteFolder">En utilisant les options du menu en haut à droite, il est possible d\'ajouter un nouveau dossier ou de modifier/déplacer le dossier actuellement ouvert.</string>
     <string name="howtoShoppingCheckCategories">Touchez le cercle en haut d\'une catégorie pour vérifier tous les éléments contenus.</string>
     <string name="howtoShoppingDelete">Faites glisser un élément vers la gauche ou la droite pour le supprimer.</string>
@@ -98,7 +98,7 @@
     <string name="notesSwipeToDelete">Faites glisser pour supprimer</string>
     <string name="notesToastFolderMoved">Dossier déplacé !</string>
     <string name="notesToastNoteMoved">La note a été déplacée !</string>
-    <string name="settingsAboutContactDescription">Pour signaler un bogue ou suggérer une nouvelle fonctionnalité, contactez-nous à l\'adresse électronique indiquée ci-dessus. Si vous nous contactez au sujet d\'un bogue, veuillez inclure votre version d\'Android, votre type d\'appareil et les étapes détaillées de la reproduction du bogue.</string>
+    <string name="settingsAboutContactDescription">Pour signaler un bogue ou suggérer une nouvelle fonctionnalité, contactez-nous à l\'adresse électronique indiquée ci-dessus. Si vous nous contactez au sujet d\'un bogue, veuillez inclure votre version d\'Android, votre type d\'appareil et les étapes détaillées de la reproduction du bogue.\n\nSi tu as un compte GitHub, tu peux aussi créer une issue dans notre repository.</string>
     <string name="settingsAppearanceBorderHint">(Appliqué aux éléments de tâche et de note)</string>
     <string name="settingsAppearanceBorderTitle">Thème de bordure sombre :</string>
     <string name="settingsAppearanceBorderless">Borderless</string>
@@ -156,7 +156,7 @@
     <string name="settingsShoppingCollapseChecked">Réduire les catégories cochées</string>
     <string name="settingsShoppingCustomHint">Afficher ou supprimer les articles que vous avez saisis et dont la liste d\'achats s\'est souvenue</string>
     <string name="settingsShoppingImprovedSearch">Amélioration de la recherche d\'articles</string>
-    <string name="settingsShoppingListTitle">Liste de courses</string>
+    <string name="settingsShoppingListTitle">Achats</string>
     <string name="settingsShoppingMoveDown">Déplacer les catégories cochées vers le bas</string>
     <string name="settingsShoppingOnlyExpandOne">Développer une seule catégorie</string>
     <string name="settingsShoppingSearchHint">Par exemple, recommander \'Apple\' si \'Applfe\' est entré.</string>
