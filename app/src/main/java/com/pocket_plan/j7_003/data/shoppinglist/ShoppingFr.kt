@@ -348,7 +348,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
-        val expanded = shoppingListInstance.isTagExpanded(tag)
+        val expanded = shoppingListInstance.isTagExpanded(tag) || myFragment.query != null
 
         //Expand or contract recyclerview depending on its expansion state
         holder.subRecyclerView.visibility = when (expanded) {
@@ -804,6 +804,9 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
         //position of category in shoppingList
         val tagPosition = myFragment.shoppingListInstance.getTagIndex(parsed.tag)
 
+        //Check if before the swipe, all items were checked (deleting an item from a fully checked category), so we don't collapse it then
+        val previouslyAllChecked = myFragment.shoppingListInstance.areAllChecked(parsed.tag)
+
         //Pair of deleted item and boolean stating if sublist is empty now
         val removeInfo = myFragment.shoppingListInstance.removeItem(parsed.tag, position)
 
@@ -814,7 +817,7 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
         } else {
             //sublist changed length =>
 
-            if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(parsed.tag)) {
+            if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(parsed.tag) && !previouslyAllChecked) {
                 myFragment.shoppingListInstance.flipExpansionState(parsed.tag)
             }
 
