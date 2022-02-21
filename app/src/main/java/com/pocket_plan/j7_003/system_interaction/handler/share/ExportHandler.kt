@@ -1,7 +1,6 @@
 package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.pocket_plan.j7_003.BuildConfig
@@ -9,6 +8,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.io.File
 import java.io.FileOutputStream
+import org.threeten.bp.LocalDate
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
@@ -16,6 +16,7 @@ import java.util.zip.ZipOutputStream
  * A simple class used to handle exporting of the apps save files.
  */
 class ExportHandler(private val parentActivity: AppCompatActivity) {
+    private lateinit var zipFile: File
 
     /**
      * Used to share logs if they exist on the device.
@@ -47,9 +48,8 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
         backUpAsZip()   // creates and adds the backup file object to the StorageHandler
 
         // a uri to the backup file
-        val uri = FileProvider.getUriForFile(
-            parentActivity, "${BuildConfig.APPLICATION_ID}.provider",
-            StorageHandler.files[StorageId.ZIP]!!)
+        val uri = FileProvider.getUriForFile(parentActivity,
+            "${BuildConfig.APPLICATION_ID}.provider", zipFile)
 
         // the intent used to share the zip archived backup
         val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -83,14 +83,13 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
     }
 
     private fun backUpAsZip() {
-        StorageHandler.createFile(StorageId.ZIP, StorageId.ZIP.s)
-        val outputStream = FileOutputStream(StorageHandler.files[StorageId.ZIP])
+        zipFile = File(parentActivity.filesDir.absolutePath,
+            "pocket_plan_${BuildConfig.VERSION_NAME}_backup_${LocalDate.now()}.zip")
+        val outputStream = FileOutputStream(zipFile)
         val zipStream = ZipOutputStream(outputStream)
 
         StorageHandler.files.forEach { (_, file) ->
-            if (file.name != StorageId.ZIP.s) {
-                writeToZipFile(zipStream, file)
-            }
+            writeToZipFile(zipStream, file)
         }
 
         zipStream.close()

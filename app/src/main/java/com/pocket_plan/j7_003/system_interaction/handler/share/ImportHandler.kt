@@ -127,7 +127,7 @@ class ImportHandler(private val parentActivity: Activity) {
         // unzip all all entries from selected file into the /new/ directory
         StorageId.values().forEach {
             //Ignore old (unused) shopping file
-            if (it.s != StorageId.ZIP.s && it.s != StorageId.SHOPPING.s) {  // check so only module files are used/transferred
+            if (it.s != StorageId.SHOPPING.s) {  // check so only module files are used/transferred
                 // the cache file is created with the corresponding name of the modules file name
                 cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
 
@@ -159,12 +159,15 @@ class ImportHandler(private val parentActivity: Activity) {
     }
 
     internal fun browse(fileType: String, id: StorageId) {
+        browse(fileType, id.i)
+    }
+
+    internal fun browse(fileType: String, id: Int) {
         val chooseFileIntent = Intent(Intent.ACTION_GET_CONTENT)
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
         parentActivity.startActivityForResult(
-            Intent.createChooser(chooseFileIntent, parentActivity.getString(R.string.settingsBackupChooseFile)),
-            id.i
+            Intent.createChooser(chooseFileIntent, parentActivity.getString(R.string.settingsBackupChooseFile)), id
         )
     }
 
