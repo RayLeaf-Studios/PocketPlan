@@ -30,6 +30,7 @@ import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.notelist.*
+import com.pocket_plan.j7_003.data.settings.Languages
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -133,9 +134,11 @@ class MainActivity : AppCompatActivity() {
 
         //set correct language depending on setting
         val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
-            0.0 -> "en"
-            //1.0 = de
-            else -> "de"
+            Languages.RUSSIAN.index -> Languages.RUSSIAN.code
+            Languages.SPANISH.index -> Languages.SPANISH.code
+            Languages.FRENCH.index -> Languages.FRENCH.code
+            Languages.GERMAN.index -> Languages.GERMAN.code
+            else -> Languages.ENGLISH.code
         }
         setLocale(this, languageCode)
 

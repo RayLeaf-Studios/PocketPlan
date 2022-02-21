@@ -197,8 +197,11 @@ class SettingsAppearanceFr : Fragment() {
                     return
                 }
                 val setTo = when(spLanguages.selectedItemPosition){
-                    0 -> 0.0
-                    else -> 1.0
+                    1 -> 1.0
+                    2 -> 2.0
+                    3 -> 3.0
+                    4 -> 4.0
+                    else -> 0.0
                 }
                 if(setTo!=SettingsManager.getSetting(SettingId.LANGUAGE)){
                     SettingsManager.addSetting(SettingId.LANGUAGE, setTo)

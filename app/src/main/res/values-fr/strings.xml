@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-<!--    about-->
+    <!--    about-->
     <string name="aboutAppName">PocketPlan</string>
     <string name="aboutDevs">Developed by</string>
     <string name="aboutFeedback">Feedback</string>
@@ -12,7 +12,7 @@
     <string name="aboutVersion">Version</string>
     <string name="aboutViewOnGithub">View on GitHub</string>
 
-<!--    birthdays-->
+    <!--    birthdays-->
     <string name="birthdayAgeUnknown">"No year saved"</string>
     <string name="birthdayChooseDate">Choose date</string>
     <string name="birthdayDialogAdd">Add</string>
@@ -40,7 +40,7 @@
     <string name="birthdaysNotify">notify me</string>
     <string name="birthdaysReminderActivated">\nReminder set</string>
 
-<!--    general-->
+    <!--    general-->
     <string name="generalAppName" translatable="false">PocketPlan</string>
     <string name="generalClose">close</string>
     <string name="generalOk">OK</string>
@@ -48,12 +48,12 @@
     <string name="generalShowHowTo">Show HowTo</string>
     <string name="generalZero" translatable="false">0</string>
 
-<!--    home-->
+    <!--    home-->
     <string name="homeNoBirthdays">\nNo birthdays today\n</string>
     <string name="homeNoTasks">\nNo important tasks\n</string>
     <string name="homeNotificationTaskAdded">Task added!</string>
 
-<!--    howto-->
+    <!--    howto-->
     <string name="howtoBirthdaysDelete">Swipe a birthday left or right to delete it.</string>
     <string name="howtoBirthdaysEdit">Longpress a birthday to edit it.</string>
     <string name="howtoBirthdaysExplanation">Tap a birthday to show additional information.\n\nIf a birthday is upcoming in 30 days or less, the remaining days will be displayed in the list.\n\nIf a reminder is set for x days prior and the birthday is upcoming in x or less days, it is color-highlighted in the list.</string>
@@ -79,12 +79,12 @@
     <string name="howtoTodoReorder">Longpress and drag a task to move it within the list.</string>
     <string name="howtoBackupExplanation">All your PocketPlan data is stored locally on your device. To keep your data, in case you loose your device, or to migrate it to a different device, you can export a backup.\n\nGo to settings -> Backup and select \"Export full backup as .zip\", then save this zip file, for example by sending it to yourself via E-Mail.\n\nTo import this backup on a new device, go to settings -> Backup and select \"Import backup from .zip\". Then select the previously saved backup.</string>
 
-<!--    menu-->
+    <!--    menu-->
     <string name="menuTitleAbout">About</string>
     <string name="menuTitleBirthdays">Birthdays</string>
     <string name="menuTitleColorChoose">Choose a color</string>
     <string name="menuTitleCustomItem">Custom Items</string>
-    <string name="menuTitleHome">Home</string>
+    <string name="menuTitleHome">Home French</string>
     <string name="menuTitleNotes">Notes</string>
     <string name="menuTitleNotesEditor">Editor</string>
     <string name="menuTitleSettings">Settings</string>
@@ -92,7 +92,7 @@
     <string name="menuTitleSleep">Sleep Reminder</string>
     <string name="menuTitleTasks">To-Do</string>
 
-<!--    notes-->
+    <!--    notes-->
     <string name="noteDeleteDialogCancel">Cancel</string>
     <string name="noteDeleteDialogText">Delete this note?</string>
     <string name="noteDiscardDialogDiscard">Discard</string>
@@ -112,7 +112,7 @@
     <string name="notesToastFolderMoved">Folder moved!</string>
     <string name="notesToastNoteMoved">Note moved!</string>
 
-<!--    settings-->
+    <!--    settings-->
     <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.\n\nIf you have a GitHub account, you are welcome to create an issue in our repository.</string>
     <string name="settingsAppearanceBorderHint">(Applied to task and note elements)</string>
     <string name="settingsAppearanceBorderTitle">Dark border theme:</string>
@@ -182,7 +182,7 @@
     <string name="settingsShoppingOnlyExpandOne">Only expand one category</string>
     <string name="settingsShoppingSearchHint">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
 
-<!--    shopping-->
+    <!--    shopping-->
     <string name="shoppingAddItemTitle">Add item</string>
     <string name="shoppingDialogClearList">Clear list?</string>
     <string name="shoppingDialogDeleteTitle">Delete list?</string>
@@ -200,7 +200,7 @@
     <string name="shoppingOptionRenameList">Rename list</string>
     <string name="shoppingOptionUncheckAll">Uncheck all</string>
 
-<!--    sleep-->
+    <!--    sleep-->
     <string name="sleepActiveDays">Active days</string>
     <string name="sleepCustomDays">Enable Custom Days</string>
     <string name="sleepDialogMinute">m</string>
@@ -219,7 +219,7 @@
     <string name="sleepWakeUpTime">Wakeup Time</string>
     <string name="sleepWed">Wed</string>
 
-<!--    tasks-->
+    <!--    tasks-->
     <string name="tasksAddHint">Title</string>
     <string name="tasksAddTitle">Add Task</string>
     <string name="tasksDialogClearChecked">Delete checked tasks?</string>

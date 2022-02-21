@@ -17,10 +17,15 @@ enum class SettingId(val default: Any) {
     SHAKE_TASK_HOME(true),
     NOTES_SWIPE_DELETE(false),
     USE_SYSTEM_THEME(true),
-    LANGUAGE (when (Locale.getDefault().displayLanguage) {
-       Locale.GERMAN.displayLanguage -> 1.0
-       else -> 0.0
-    }),
+    LANGUAGE(
+        when {
+            Locale.getDefault().language.startsWith(Languages.RUSSIAN.code) -> Languages.RUSSIAN.index
+            Locale.getDefault().language.startsWith(Languages.SPANISH.code) -> Languages.SPANISH.index
+            Locale.getDefault().language.startsWith(Languages.FRENCH.code) -> Languages.FRENCH.index
+            Locale.getDefault().language.startsWith(Languages.GERMAN.code) -> Languages.GERMAN.index
+            else -> Languages.ENGLISH.index
+        }
+    ),
     BIRTHDAY_SHOW_MONTH(true),
     BIRTHDAY_COLORS_SOUTH(false),
     SUGGEST_SIMILAR_ITEMS(true),

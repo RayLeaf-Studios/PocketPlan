@@ -3,6 +3,9 @@ package com.pocket_plan.j7_003.data.shoppinglist
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.App
+import com.pocket_plan.j7_003.data.settings.Languages
+import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 import java.util.*
 
 class ItemTemplateList : ArrayList<ItemTemplate>() {
@@ -27,13 +30,15 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
     }
 
     private fun loadFromAssets() {
-        val jsonString =
-            when (Locale.getDefault().displayLanguage) {
-                Locale.GERMAN.displayLanguage -> {
-                    App.instance.assets.open("item_list_de.json").bufferedReader().readText()
-                }
-                else -> App.instance.assets.open("item_list_en.json").bufferedReader().readText()
-            }
+        val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
+            Languages.RUSSIAN.index -> Languages.RUSSIAN.code
+            Languages.SPANISH.index -> Languages.SPANISH.code
+            Languages.FRENCH.index -> Languages.FRENCH.code
+            Languages.GERMAN.index -> Languages.GERMAN.code
+            else -> Languages.ENGLISH.code
+        }
+        val fileName = "item_list_$languageCode.json"
+        val jsonString = App.instance.assets.open(fileName).bufferedReader().readText()
 
         val list: ArrayList<TMPTemplate> = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<ArrayList<TMPTemplate>>() {}.type)
