@@ -163,10 +163,11 @@ class SettingsAppearanceFr : Fragment() {
         tvCurrentShape.text = resources.getStringArray(R.array.shapes)[spShapePosition]
 
         val spLanguagePosition = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
-            //0 = english
-            0.0 -> 0
-            //1 = german
-            else -> 1
+            4.0 -> 4
+            3.0 -> 3
+            2.0 -> 2
+            1.0 -> 1
+            else -> 0
         }
         spLanguages.setSelection(spLanguagePosition)
         tvCurrentLanguage.text = resources.getStringArray(R.array.languages)[spLanguagePosition]

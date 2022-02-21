@@ -13,7 +13,7 @@
     <string name="aboutViewOnGithub">View on GitHub</string>
 
 <!--    birthdays-->
-    <string name="birthdayAgeUnknown">"No year saved"</string>
+    <string name="birthdayAgeUnknown">No year saved</string>
     <string name="birthdayChooseDate">Choose date</string>
     <string name="birthdayDialogAdd">Add</string>
     <string name="birthdayDialogAddTitle">Add Birthday</string>

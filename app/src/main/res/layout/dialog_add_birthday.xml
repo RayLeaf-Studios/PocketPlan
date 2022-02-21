@@ -64,13 +64,15 @@
 
     <TextView
         android:id="@+id/tvSaveYear"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/birthdaySaveYear"
+        android:gravity="end"
         android:textColor="?attr/colorHint"
         android:textSize="@dimen/font_size_medium"
         app:layout_constraintBottom_toBottomOf="@+id/tvBirthdayDate"
         app:layout_constraintEnd_toEndOf="@+id/tvNotifyMe"
+        app:layout_constraintStart_toEndOf="@+id/tvBirthdayDate"
         app:layout_constraintTop_toTopOf="@+id/tvBirthdayDate" />
 
     <CheckBox

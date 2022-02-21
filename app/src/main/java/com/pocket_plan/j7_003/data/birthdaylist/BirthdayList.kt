@@ -15,7 +15,7 @@ import java.lang.NullPointerException
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList() : ArrayList<Birthday>(), Checkable {
+class BirthdayList(val monthNames: Array<String>) : ArrayList<Birthday>(), Checkable {
 
     init {
         StorageHandler.createJsonFile(StorageId.BIRTHDAYS)
@@ -107,7 +107,7 @@ class BirthdayList() : ArrayList<Birthday>(), Checkable {
             else if (m.month == today.monthValue && m.day >= today.dayOfMonth) afterMonth = true
         }
 
-        val monthName = App.instance.resources.getStringArray(R.array.months)[today.monthValue - 1]
+        val monthName = monthNames[today.monthValue - 1]
 
         if (beforeMonth) {
             this.add(
@@ -129,7 +129,7 @@ class BirthdayList() : ArrayList<Birthday>(), Checkable {
 
         months.forEach { m ->
             val month = LocalDate.of(2020, m, 1).month
-            val name = App.instance.resources.getStringArray(R.array.months)[month.value - 1]
+            val name = monthNames[month.value - 1]
 
             this.add(
                 Birthday(

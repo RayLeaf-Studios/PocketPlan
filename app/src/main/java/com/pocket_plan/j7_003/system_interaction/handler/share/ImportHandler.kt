@@ -174,7 +174,7 @@ class ImportHandler(private val parentActivity: Activity) {
     private fun testFiles(): Boolean {
         return try {
             ShoppingListWrapper().check()
-            BirthdayList().check()
+            BirthdayList(parentActivity.resources.getStringArray(R.array.months)).check()
             NoteDirList().check()
 
             TodoList().check()
