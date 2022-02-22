@@ -16,8 +16,8 @@ class NotificationHandler {
     companion object {
         @Suppress("DEPRECATION")
         fun createNotification(
-            channelId: String, name: String, requestCode: Int, contentTitle: String,
-            contentText: String, icon: Int, intentValue: String, myContext: Context) {
+            channelId: String, name: String, requestCode: Int, contentTitle: String, contentText: String,
+            icon: Int, intentValue: String, myContext: Context, timeOutMs: Long = 0) {
 
             val notificationManager =
                 myContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -57,6 +57,8 @@ class NotificationHandler {
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
                     .setShowWhen(true)
+
+                if (timeOutMs > 0) builder.setTimeoutAfter(timeOutMs)
             } else {
                 builder = Notification.Builder(myContext)
                     .setContentTitle(contentTitle)

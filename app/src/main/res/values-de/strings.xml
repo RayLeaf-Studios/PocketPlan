@@ -249,6 +249,9 @@
     <string-array name="languages">
         <item>Englisch</item>
         <item>Deutsch</item>
+        <item>Französisch</item>
+        <item>Spanisch</item>
+        <item>Russisch</item>
     </string-array>
 
     <string-array name="months">

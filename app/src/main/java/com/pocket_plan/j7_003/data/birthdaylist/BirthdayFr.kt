@@ -38,7 +38,7 @@ import kotlin.math.abs
 class BirthdayFr : Fragment() {
     //instance of birthday list, containing all the displayed birthdays
     lateinit var myActivity: MainActivity
-    var birthdayListInstance = BirthdayList()
+    lateinit var birthdayListInstance: BirthdayList
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
@@ -216,7 +216,6 @@ class BirthdayFr : Fragment() {
 
         searchList = arrayListOf()
 
-        birthdayListInstance = BirthdayList()
         myAdapter = BirthdayAdapter(this, myActivity, searchList)
 
         //collapse all birthdays when reentering fragment

@@ -27,9 +27,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
+import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
-import com.pocket_plan.j7_003.data.notelist.*
+import com.pocket_plan.j7_003.data.notelist.NoteColors
+import com.pocket_plan.j7_003.data.notelist.NoteDirList
+import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
+import com.pocket_plan.j7_003.data.notelist.NoteFr
+import com.pocket_plan.j7_003.data.settings.Languages
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
@@ -51,7 +56,6 @@ import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar.*
-import java.lang.Exception
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -133,9 +137,11 @@ class MainActivity : AppCompatActivity() {
 
         //set correct language depending on setting
         val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
-            0.0 -> "en"
-            //1.0 = de
-            else -> "de"
+            Languages.RUSSIAN.index -> Languages.RUSSIAN.code
+            Languages.SPANISH.index -> Languages.SPANISH.code
+            Languages.FRENCH.index -> Languages.FRENCH.code
+            Languages.GERMAN.index -> Languages.GERMAN.code
+            else -> Languages.ENGLISH.code
         }
         setLocale(this, languageCode)
 
@@ -184,6 +190,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
         birthdayFr = BirthdayFr()
+        birthdayFr!!.birthdayListInstance = BirthdayList(resources.getStringArray(R.array.months))
         homeFr = HomeFr()
 
         //spinning app Icon

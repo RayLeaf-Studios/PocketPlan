@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="aboutAppName">PocketPlan</string>
+    <string name="aboutDevs">Разработано</string>
+    <string name="aboutFeedback">Отзывы</string>
+    <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
+    <string name="aboutSourcecode">Исходный код</string>
+    <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
+    <string name="aboutStudioName">RayLeaf Studios</string>
+    <string name="aboutVersion">Версия</string>
+    <string name="aboutViewOnGithub">Посмотреть на GitHub</string>
+    <string name="birthdayAgeUnknown">"Год не сохранен"</string>
+    <string name="birthdayChooseDate">Выберите дату</string>
+    <string name="birthdayDialogAdd">Добавить</string>
+    <string name="birthdayDialogAddTitle">Добавить день рождения</string>
+    <string name="birthdayDialogEdit">Подтвердить Редактировать</string>
+    <string name="birthdayDialogEditTitle">Редактировать</string>
+    <string name="birthdayIn">через </string>
+    <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">Сегодня %1$d дней рождения!</string>
+    <string name="birthdayNotificationMultUpcText">Скоро %1$d дней рождения!</string>
+    <string name="birthdayNotificationSingleText">Это\ день рождения %1$s!</string>
+    <string name="birthdayNotificationSingleUpcText">День рождения %1$s наступит через %2$d дней!</string>
+    <string name="birthdayNotificationTitle">Дни рождения</string>
+    <string name="birthdayNotificationTitleUpc">Ближайшие дни рождения</string>
+    <string name="birthdayOldBornIn">"лет, родился в "</string>
+    <string name="birthdayRemindMe">Напомнить</string>
+    <string name="birthdayReminder">\nНапоминание %1$d %2$s до</string>
+    <string name="birthdaySaveYear">сохранить год</string>
+    <string name="birthdayToday">сегодня</string>
+    <string name="birthdayTomorrow">завтра</string>
+    <string name="birthdaysAddNameHint">Имя</string>
+    <string name="birthdaysDaysPrior">прежде</string>
+    <string name="birthdaysDisableReminders">Отключить все напоминания</string>
+    <string name="birthdaysEnableReminders">Включить все напоминания</string>
+    <string name="birthdaysNoReminder">\nНе установлено напоминание</string>
+    <string name="birthdaysNotify">уведомить меня</string>
+    <string name="birthdaysReminderActivated">\nНапоминание установлено</string>
+    <string name="generalAppName" translatable="false">PocketPlan</string>
+    <string name="generalClose">закрыть</string>
+    <string name="generalOk">OK</string>
+    <string name="generalOpen">открыть</string>
+    <string name="generalShowHowTo">Показать инструкцию</string>
+    <string name="generalZero" translatable="false">0</string>
+    <string name="homeNoBirthdays">\nНикаких дней рождения сегодня\n</string>
+    <string name="homeNoTasks">\nНет важных задач\n</string>
+    <string name="homeNotificationTaskAdded">Задача добавлена!</string>
+    <string name="howtoBirthdaysDelete">Проведите по дню рождения влево или вправо, чтобы удалить его.</string>
+    <string name="howtoBirthdaysEdit">Нажмите на день рождения, чтобы изменить его.</string>
+    <string name="howtoBirthdaysExplanation">Нажмите на день рождения, чтобы отобразить дополнительную информацию.\n\n\nЕсли день рождения наступит через 30 дней или меньше, в списке будут отображаться оставшиеся дни.\n\n\nЕсли напоминание установлено за x дней до дня рождения, а день рождения наступит через x или меньше дней, оно будет выделено цветом в списке.</string>
+    <string name="howtoHomeExplanation">Если включено напоминание о сне, индикатор в верхней части списка покажет, сколько времени осталось до сна.\n\n\nНа панели задач внизу будут отображаться задачи с первым приоритетом.\n\n\nНа панели дней рождения будут отображаться текущие дни рождения.</string>
+    <string name="howtoNoteEdit">Нажмите на заметку, чтобы отредактировать ее.\n\nВ редакторе заметок нажмите на значок папки вверху, чтобы переместить заметку в другую папку.</string>
+    <string name="howtoNoteExplanation">Вновь добавленные, отредактированные или просмотренные заметки по умолчанию сортируются в верхней части списка.\n\nЕсли приложение закрывается при создании новой заметки без сохранения, она сохраняется автоматически.\n\nУдаленные заметки по умолчанию архивируются, доступ к ним можно получить в настройках в разделе \n\"заметки\".</string>
+    <string name="howtoNoteFolder">С помощью меню в правом верхнем углу можно добавить новую папку или изменить/переместить папку, которая открыта в данный момент.</string>
+    <string name="howtoShoppingCheckCategories">Нажмите на круг в верхней части категории, чтобы проверить все содержащиеся в ней элементы.</string>
+    <string name="howtoShoppingDelete">Проведите пальцем по элементу влево или вправо, чтобы удалить его.</string>
+    <string name="howtoShoppingExplanation">При добавлении элемента в список можно ввести дополнительные сведения в круглых скобках. Например, если вы введете \"Хлеб (цельнозерновой)\", товар будет отсортирован в категорию \"Хлеб и выпечка\", несмотря на то, что приложение распознает только часть названия \"Хлеб\".</string>
+    <string name="howtoShoppingLists">Вы можете добавлять дополнительные списки покупок, редактировать или удалять их через меню в правом верхнем углу.</string>
+    <string name="howtoShoppingReorder">Нажимайте и перетаскивайте категорию, чтобы изменить ее порядок.</string>
+    <string name="howtoSleepExplanation">Установите желаемое время пробуждения и необходимое количество часов сна, и sleepreminder уведомит вас о том, когда вы должны лечь спать.</string>
+    <string name="howtoSubCheckCategory">Проверить категорию</string>
+    <string name="howtoSubDelete">Удалить</string>
+    <string name="howtoSubEdit">Редактировать</string>
+    <string name="howtoSubExplanation">Пояснение</string>
+    <string name="howtoSubFolders">Папка</string>
+    <string name="howtoSubLists">Списки</string>
+    <string name="howtoSubRearrange">Упорядочить</string>
+    <string name="howtoTodoDelete">Проведите пальцем по задаче влево или вправо, чтобы удалить ее.</string>
+    <string name="howtoTodoEdit">Нажмите на задачу, чтобы отредактировать ее.</string>
+    <string name="howtoTodoReorder">Нажмите и перетащите задачу, чтобы переместить ее в списке.</string>
+    <string name="howtoBackupExplanation">Все данные PocketPlan хранятся локально на вашем устройстве. Чтобы сохранить данные на случай потери устройства или переноса их на другое устройство, вы можете экспортировать резервную копию.\n\n\nЗайдите в настройки -> Резервное копирование и выберите \"Экспортировать полную резервную копию в формате .zip\", затем сохраните этот zip-файл, например, отправив его себе по E-Mail.\n\n\nЧтобы импортировать эту резервную копию на новое устройство, зайдите в настройки -> Резервное копирование и выберите \"Импортировать резервную копию из .zip\". Затем выберите ранее сохраненную резервную копию.</string>
+    <string name="menuTitleAbout">Про</string>
+    <string name="menuTitleBirthdays">Дни рождения</string>
+    <string name="menuTitleColorChoose">Выберите цвет</string>
+    <string name="menuTitleCustomItem">Пользовательские элементы</string>
+    <string name="menuTitleHome">Дом</string>
+    <string name="menuTitleNotes">Заметки</string>
+    <string name="menuTitleNotesEditor">Редактор</string>
+    <string name="menuTitleSettings">Настройки</string>
+    <string name="menuTitleShopping">Покупки</string>
+    <string name="menuTitleSleep">Напоминание о сне</string>
+    <string name="menuTitleTasks">Дела</string>
+    <string name="noteDeleteDialogCancel">Отменить</string>
+    <string name="noteDeleteDialogText">Удалить эту заметку?</string>
+    <string name="noteDiscardDialogDiscard">Отбросить</string>
+    <string name="noteDiscardDialogSave">Сохранить</string>
+    <string name="noteDiscardDialogTitle">Сохранить изменения?</string>
+    <string name="noteEditorText">Заметка</string>
+    <string name="noteEditorTitle">Название</string>
+    <string name="notesCantMove">Невозможно перейти в текущий каталог</string>
+    <string name="notesConfirmMove">Переместить заметку</string>
+    <string name="notesContainedInFolder">Содержится в папке:</string>
+    <string name="notesDialogDeleteFolder">Удалить папку \"%1$s\" и ее содержимое?</string>
+    <string name="notesEditFolder">Редактировать папку</string>
+    <string name="notesNotificationNoteAdded">Заметка была добавлена!</string>
+    <string name="notesOptionAddFolder">Добавить папку</string>
+    <string name="notesPickDestinationFolder">Выберите папку назначения</string>
+    <string name="notesSwipeToDelete">Проведите пальцем, чтобы удалить</string>
+    <string name="notesToastFolderMoved">Папка перемещена!</string>
+    <string name="notesToastNoteMoved">Заметка перемещена!</string>
+    <string name="settingsAboutContactDescription">Чтобы сообщить об ошибке или предложить новую функцию, свяжитесь с нами по указанному выше адресу электронной почты.\n\nЕсли вы пишете нам об ошибке, пожалуйста, укажите версию Android, тип вашего устройства и подробные шаги по воспроизведению ошибки.\n\nЕсли у вас есть аккаунт на GitHub, вы можете создать проблему в нашем репозитории.</string>
+    <string name="settingsAppearanceBorderHint">(Применяется к элементам задач и заметок)</string>
+    <string name="settingsAppearanceBorderTitle">Тема с темными границами:</string>
+    <string name="settingsAppearanceBorderless">Без границ</string>
+    <string name="settingsAppearanceColoredBorder">Цветная граница</string>
+    <string name="settingsAppearanceFilled">Заполненный</string>
+    <string name="settingsAppearanceLanguage">Язык</string>
+    <string name="settingsAppearanceResetHint">При этом\ не будут удалены все ваши данные, такие как заметки и т.д.</string>
+    <string name="settingsAppearanceResetTitle">Сбросить все настройки по умолчанию?</string>
+    <string name="settingsAppearanceResetToDefault">Сбросить все настройки по умолчанию</string>
+    <string name="settingsAppearanceSampleText">Образец текста</string>
+    <string name="settingsAppearanceShakeHomeExplanation">Если есть 1 или более задач с приоритетом 1, значок задачи будет перемещаться при каждом открытии домашней панели.</string>
+    <string name="settingsAppearanceShakeTask">Встряхнуть напоминание о задаче в домашней панели</string>
+    <string name="settingsAppearanceShapes">Формы</string>
+    <string name="settingsAppearanceSystemTheme">Использовать системную тему (Android 10+)</string>
+    <string name="settingsAppearanceTheme">Тема</string>
+    <string name="settingsAppearanceTitle">Общая</string>
+    <string name="settingsBackupChooseFile">Выберите файл</string>
+    <string name="settingsBackupExport">Экспортировать</string>
+    <string name="settingsBackupExportTitle">Экспорт полной резервной копии в виде файла .zip</string>
+    <string name="settingsBackupHint">Раздел ниже позволяет импортировать / экспортировать только часть данных, для ПОЛНОГО резервного копирования используйте опции выше.</string>
+    <string name="settingsBackupImportFailed">Импорт не удался!</string>
+    <string name="settingsBackupImportJson">Импорт</string>
+    <string name="settingsBackupImportSuccessful">Импорт успешен!</string>
+    <string name="settingsBackupImportTitle">Импорт полной резервной копии из .zip-файла</string>
+    <string name="settingsBackupTitle">Резервное копирование</string>
+    <string name="settingsBackupWarning">Внимание! При импорте резервной копии текущие данные будут заменены на импортированные!</string>
+    <string name="settingsBirthdaysNotificationTime">Изменение времени уведомления о дне рождения</string>
+    <string name="settingsBirthdaysShowMonth">Отображать месяц для каждого дня рождения</string>
+    <string name="settingsBirthdaysShowMonthsExplanation">например, отображать \"14.03\" вместо \"14\".</string>
+    <string name="settingsBirthdaysShowUpcoming">Показывать ближайшие дни рождения на главной панели</string>
+    <string name="settingsBirthdaysSouthColors">Цвета месяца для южного полушария</string>
+    <string name="settingsBirthdaysSouthHint">Показывает более теплые цвета с октября по март</string>
+    <string name="settingsCustomItems">Управление пользовательскими элементами</string>
+    <string name="settingsCustomCategory">Категория</string>
+    <string name="settingsCustomClear">Очистить пользовательские элементы</string>
+    <string name="settingsCustomClearDialog">Удалить пользовательские элементы?</string>
+    <string name="settingsCustomUnit">Единица</string>
+    <string name="settingsHowToTitle">Инструкции</string>
+    <string name="settingsNotesArchiveDeleted">Архив удаленных заметок</string>
+    <string name="settingsNotesArchiveHint">До 5 кБ удаленных заметок будут доступны в следующем виде</string>
+    <string name="settingsNotesClearArchived">Очистить архив заметок</string>
+    <string name="settingsNotesDialogDeleteArchived">Удалить все архивные заметки?</string>
+    <string name="settingsNotesFontSize">Размер шрифта в редакторе</string>
+    <string name="settingsNotesMoveRecentTop">Переместить недавно открытые заметки или папки в начало списка</string>
+    <string name="settingsNotesNoArchived">Не архивировать недавно удаленные заметки</string>
+    <string name="settingsNotesNumOfCols">Количество столбцов заметок</string>
+    <string name="settingsNotesNumOfLines">Количество строк для отображения</string>
+    <string name="settingsNotesOptionDeleteFolder">Удалить папку</string>
+    <string name="settingsNotesRandomizeColors">Произвольный цвет для новых заметок и папок</string>
+    <string name="settingsNotesShowContained">Показать количество содержащихся элементов для папок</string>
+    <string name="settingsNotesShowDeleted">Показать недавно удаленные заметки</string>
+    <string name="settingsNotesTitle">Заметки</string>
+    <string name="settingsShoppingCloseHint">(Во фрагменте покупок)</string>
+    <string name="settingsShoppingCloseItemDialog">Закрыть диалог элемента после добавления</string>
+    <string name="settingsShoppingCollapseChecked">Свернуть отмеченные категории</string>
+    <string name="settingsShoppingCustomHint">Просмотр или удаление введенных вами элементов, которые запомнил список покупок</string>
+    <string name="settingsShoppingImprovedSearch">Улучшенный поиск товаров</string>
+    <string name="settingsShoppingListTitle">Список покупок</string>
+    <string name="settingsShoppingMoveDown">Перемещение отмеченных категорий вниз</string>
+    <string name="settingsShoppingOnlyExpandOne">Развернуть только одну категорию</string>
+    <string name="settingsShoppingSearchHint">Например, рекомендовать \'яблоко\', если введена \'яболко\'.</string>
+    <string name="shoppingAddItemTitle">Добавить товар</string>
+    <string name="shoppingDialogClearList">Очистить список?</string>
+    <string name="shoppingDialogDeleteTitle">Удалить список?</string>
+    <string name="shoppingDialogRemoveChecked">Удалить отмеченные элементы?</string>
+    <string name="shoppingDialogRenameList">Переименовать список</string>
+    <string name="shoppingEditItemTitle">Редактировать элемент</string>
+    <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
+    <string name="shoppingNotificationItemAdded">Элемент добавлен!</string>
+    <string name="shoppingOptionAddList">Добавить список</string>
+    <string name="shoppingOptionClearList">Очистить список</string>
+    <string name="shoppingOptionCollapseAll">Свернуть все</string>
+    <string name="shoppingOptionDeleteChecked">Удалить отмеченные элементы</string>
+    <string name="shoppingOptionDeleteList">Удалить список</string>
+    <string name="shoppingOptionExpandAll">Развернуть все</string>
+    <string name="shoppingOptionRenameList">Переименовать список</string>
+    <string name="shoppingOptionUncheckAll">Снять все галочки</string>
+    <string name="sleepActiveDays">Активные дни</string>
+    <string name="sleepCustomDays">Включить пользовательские дни</string>
+    <string name="sleepDialogMinute">m</string>
+    <string name="sleepDuration">Продолжительность сна</string>
+    <string name="sleepDurationDay">Продолжительность сна</string>
+    <string name="sleepEnable">Включить напоминание</string>
+    <string name="sleepFri">Пт</string>
+    <string name="sleepHint">Если отмечен день, то в ночь перед этим днем вы получите уведомление о необходимости вовремя лечь спать.</string>
+    <string name="sleepMon">По</string>
+    <string name="sleepNotificationText">Пора ложиться спать, спите спокойно!</string>
+    <string name="sleepNotificationTitle">Время сна</string>
+    <string name="sleepSat">Суб</string>
+    <string name="sleepSun">Вс</string>
+    <string name="sleepThu">Чт</string>
+    <string name="sleepTue">Вт</string>
+    <string name="sleepWakeUpTime">Время пробуждения</string>
+    <string name="sleepWed">Ср</string>
+    <string name="tasksAddHint">Заголовок</string>
+    <string name="tasksAddTitle">Добавить задачу</string>
+    <string name="tasksDialogClearChecked">Удалить отмеченные задачи?</string>
+    <string name="tasksDialogClearList">Очистить список дел?</string>
+    <string name="tasksEditTitle">Редактировать задачу</string>
+    <string name="tasksOptionClearChecked">Очистить отмеченные задачи</string>
+    <string name="tasksOptionClearList">Очистить список</string>
+    <string name="tasksOptionUncheckAll">Снять все галочки</string>
+    <string name="tasksPriority1" translatable="false">1</string>
+    <string name="tasksPriority2" translatable="false">2</string>
+    <string name="tasksPriority3" translatable="false">3</string>
+
+    <!-- Arrays -->
+    <string-array name="units">
+        <item>x</item>
+        <item>кг</item>
+        <item>г</item>
+        <item>Л</item>
+        <item>мл</item>
+    </string-array>
+
+    <string-array name="noteLines">
+        <item>все</item>
+        <item>некакие</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+    </string-array>
+
+    <string-array name="noteColumns" translatable="false">
+        <item>1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="fontSizes" translatable="false">
+        <item>10&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>Январь</item>
+        <item>Февраль</item>
+        <item>Март</item>
+        <item>Апрель</item>
+        <item>Май</item>
+        <item>Июнь</item>
+        <item>Июль</item>
+        <item>Август</item>
+        <item>Сентябрь</item>
+        <item>Октябрь</item>
+        <item>Ноябрь</item>
+        <item>Декабрь</item>
+    </string-array>
+
+    <string-array name="categoryNames">
+        <item>Другое</item>
+        <item>Фрукты и овощи</item>
+        <item>Напитки</item>
+        <item>Макаронны и крупы</item>
+        <item>Хлеб и выпечка</item>
+        <item>Молочные продукты</item>
+        <item>Мясо</item>
+        <item>Веган</item>
+        <item>Замороженное</item>
+        <item>Консервы и готовые блюды</item>
+        <item>Завтрак</item>
+        <item>Специи</item>
+        <item>Домашнее хозяйство</item>
+        <item>Закуски</item>
+        <item>Ингредиенты для выпечки</item>
+        <item>Аптека и косметика</item>
+        <item>Алкогольные напитки</item>
+    </string-array>
+
+    <string-array name="shapes">
+        <item>нормальные</item>
+        <item>круглые</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>яркий</item>
+        <item>темный</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Английский</item>
+        <item>Немецкий</item>
+        <item>Французский</item>
+        <item>Испанский</item>
+        <item>Русский</item>
+    </string-array>
+
+    <string-array name="fileOptions">
+        <item>Список покупок</item>
+        <item>Примечания</item>
+        <item>Дни рождения</item>
+        <item>Список дел</item>
+        <item>Настройки</item>
+        <item>Пользовательские элементы</item>
+        <item>Время сна</item>
+    </string-array>
+
+    <!-- Plurals -->
+    <plurals name="year" tools:ignore="MissingQuantity">
+        <item quantity="one" tools:ignore="ImpliedQuantity">год</item>
+        <item quantity="other">лет</item>
+    </plurals>
+
+    <plurals name="dayIn">
+        <item quantity="one" tools:ignore="ImpliedQuantity">день</item>
+        <item quantity="other">дней</item>
+        <item quantity="few">дней</item>
+        <item quantity="many">дней</item>
+    </plurals>
+
+    <plurals name="day" tools:ignore="MissingQuantity">
+        <item quantity="one" tools:ignore="ImpliedQuantity">день</item>
+        <item quantity="other">дней</item>
+    </plurals>
+
+</resources>

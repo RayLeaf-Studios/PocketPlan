@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -72,7 +73,7 @@ class BackUpActivity : AppCompatActivity() {
         }
 
         clImport.setOnClickListener {
-            iHandler.browse("zip", StorageId.ZIP)
+            iHandler.browse("zip", 7)
         }
 
         tvExport.setOnClickListener {
@@ -112,7 +113,7 @@ class BackUpActivity : AppCompatActivity() {
 
         try {
             when (requestCode) {
-                StorageId.ZIP.i -> {// run if the request code corresponds to the storage id of the zip file
+                7 -> {// run if the request code corresponds to the storage id of the zip file
                     // input stream of the picked file/the file to read from
                     // is closed by the import handler
                     val inputStream = contentResolver.openInputStream(data.data!!)!!
@@ -149,6 +150,7 @@ class BackUpActivity : AppCompatActivity() {
         } catch (e: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
+            Log.e("backup", e.stackTraceToString())
             Toast.makeText(baseContext, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
             return
         }

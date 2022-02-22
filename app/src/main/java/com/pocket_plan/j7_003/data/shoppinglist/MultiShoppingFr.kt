@@ -151,11 +151,7 @@ class MultiShoppingFr : Fragment() {
     private fun initializeShoppingFragments() {
         val isEmpty = deletedItems.isEmpty()
         shoppingListWrapper.forEach {
-            val newFr = ShoppingFr.newInstance()
-            newFr.shoppingListInstance = it.second
-            newFr.shoppingListName = it.first
-            newFr.myMultiShoppingFr = this
-            newFr.myAdapter = ShoppingListAdapter(myActivity, newFr)
+            val newFr = createShoppingFrInstance(listName = it.first, shoppingList = it.second)
             shoppingFragments.add(newFr)
 
             if(isEmpty)
@@ -163,6 +159,16 @@ class MultiShoppingFr : Fragment() {
         }
         activeShoppingFr = shoppingFragments[0]
     }
+
+    private fun createShoppingFrInstance(listName: String, shoppingList: ShoppingList): ShoppingFr{
+        val newFr = ShoppingFr.newInstance()
+        newFr.shoppingListInstance = shoppingList
+        newFr.shoppingListName = listName
+        newFr.myMultiShoppingFr = this
+        newFr.myAdapter = ShoppingListAdapter(myActivity, newFr)
+        return newFr
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_shopping, menu)
@@ -200,7 +206,7 @@ class MultiShoppingFr : Fragment() {
         searchView.setOnCloseListener {
             myActivity.btnAdd.visibility = View.VISIBLE
             //reset title
-            myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
+            myActivity.toolBar.title = getString(R.string.menuTitleShopping)
             //collapse searchView
             searchView.onActionViewCollapsed()
             //signal that no search is being performed
@@ -218,9 +224,7 @@ class MultiShoppingFr : Fragment() {
             //removes title from toolbar
             myActivity.toolBar.title = ""
             //sets searching to true, which results in the recyclerViewAdapter reading its elements from
-            //adjusted list instead of birthdayList
             searching = true
-            myMenu.findItem(R.id.item_shopping_undo)?.isVisible = false
             updateShoppingMenuForSearch()
 
             //clear adjusted list
@@ -302,13 +306,10 @@ class MultiShoppingFr : Fragment() {
                 return@setOnClickListener
             }
 
-            val newFr = ShoppingFr.newInstance()
-            newFr.shoppingListName = newName
-            newFr.myMultiShoppingFr = this
-            newFr.shoppingListInstance = shoppingListWrapper.getListByName(newName)!!
-            deletedItems.add(ArrayDeque<ShoppingItem?>())
-
+            val newFr = createShoppingFrInstance(newName, shoppingListWrapper.getListByName(newName)!!)
             shoppingFragments.add(newFr)
+
+            deletedItems.add(ArrayDeque())
 
             tabLayout.addTab(tabLayout.newTab().setText(newName))
             tabLayout.visibility = View.VISIBLE
@@ -833,13 +834,22 @@ class MultiShoppingFr : Fragment() {
     }
 
     fun updateShoppingMenu() {
+        //only show undo if item was previously deleted
         updateUndoItemIcon()
-        updateDeleteShoppingListIcon()
+        //only show clear option if current list is not empty
+        updateClearShoppingListIcon()
+        //only show uncheck all and remove checked, if any items are checked
         updateUncheckShoppingListIcon()
-        updateExpandAllIcon()
-        updateCollapseAllIcon()
-        updateDeleteListIcon()
         updateRemoveChecked()
+        //only show expand all, if any category is collapsed
+        updateExpandAllIcon()
+        //only show collapse all, if any category is expanded
+        updateCollapseAllIcon()
+        //only show delete option if there is more than one list
+        updateDeleteListIcon()
+        //always show option to add / rename lists
+        myMenu.findItem(R.id.item_shopping_add_list)?.isVisible = true
+        myMenu.findItem(R.id.item_shopping_rename_list)?.isVisible = true
     }
 
     private fun updateDeleteListIcon() {
@@ -855,7 +865,7 @@ class MultiShoppingFr : Fragment() {
         myMenu.findItem(R.id.item_shopping_undo)?.isVisible = activeDeletedItems.isNotEmpty()
     }
 
-    private fun updateDeleteShoppingListIcon() {
+    private fun updateClearShoppingListIcon() {
         myMenu.findItem(R.id.item_shopping_clear_list)?.isVisible =
             activeShoppingFr.shoppingListInstance.size > 0
     }

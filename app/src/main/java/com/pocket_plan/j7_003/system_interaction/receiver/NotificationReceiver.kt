@@ -46,15 +46,14 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun sRNotification() {
         NotificationHandler.createNotification(
-            "Sleep Reminder", context.resources.getString(R.string.menuTitleSleep),
-            200, context.resources.getString(R.string.sleepNotificationTitle),
-            context.resources.getString(R.string.sleepNotificationText),
-            R.drawable.ic_action_sleepreminder, "SReminder", context
+            "Sleep Reminder", context.resources.getString(R.string.menuTitleSleep), 200,
+            context.resources.getString(R.string.sleepNotificationTitle), context.resources.getString(R.string.sleepNotificationText), R.drawable.ic_action_sleepreminder,
+            "SReminder", context, 3 * 60 * 60 * 1000
         )
     }
 
     private fun birthdayNotifications() {
-        val birthdayList = BirthdayList()
+        val birthdayList = BirthdayList(context.resources.getStringArray(R.array.months))
 
         if (birthdayList.isEmpty()) {
             return
