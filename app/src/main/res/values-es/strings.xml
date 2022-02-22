@@ -1,233 +1,206 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!--    about-->
     <string name="aboutAppName">PocketPlan</string>
-    <string name="aboutDevs">Developed by</string>
-    <string name="aboutFeedback">Feedback</string>
+    <string name="aboutDevs">Desarrollado por</string>
+    <string name="aboutFeedback">Comentarios</string>
     <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
-    <string name="aboutSourcecode">Sourcecode</string>
+    <string name="aboutSourcecode">Código fuente</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="aboutStudioName">RayLeaf Studios</string>
-    <string name="aboutVersion">Version</string>
-    <string name="aboutViewOnGithub">View on GitHub</string>
-
-    <!--    birthdays-->
-    <string name="birthdayAgeUnknown">"No year saved"</string>
-    <string name="birthdayChooseDate">Choose date</string>
-    <string name="birthdayDialogAdd">Add</string>
-    <string name="birthdayDialogAddTitle">Add Birthday</string>
-    <string name="birthdayDialogEdit">Confirm Edit</string>
-    <string name="birthdayDialogEditTitle">Edit</string>
-    <string name="birthdayIn">in</string>
-    <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">There are %1$d birthdays today!</string>
-    <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
-    <string name="birthdayNotificationSingleText">It\'s %1$s birthday!</string>
-    <string name="birthdayNotificationSingleUpcText">%1$s birthday is coming up in %2$d days!</string>
-    <string name="birthdayNotificationTitle">Birthdays</string>
-    <string name="birthdayNotificationTitleUpc">Upcoming Birthdays</string>
-    <string name="birthdayOldBornIn">" old, born in "</string>
-    <string name="birthdayRemindMe">Remind me</string>
-    <string name="birthdayReminder">\nReminder %1$d %2$s prior</string>
-    <string name="birthdaySaveYear">save year</string>
-    <string name="birthdayToday">today</string>
-    <string name="birthdayTomorrow">tomorrow</string>
-    <string name="birthdaysAddNameHint">Name</string>
-    <string name="birthdaysDaysPrior">" prior."</string>
-    <string name="birthdaysDisableReminders">Disable all reminders</string>
-    <string name="birthdaysEnableReminders">Enable all reminders</string>
-    <string name="birthdaysNoReminder">\nNo reminder set</string>
-    <string name="birthdaysNotify">notify me</string>
-    <string name="birthdaysReminderActivated">\nReminder set</string>
-
-    <!--    general-->
+    <string name="aboutStudioName">Estudios RayLeaf</string>
+    <string name="aboutVersion">Versión</string>
+    <string name="aboutViewOnGithub">Ver en GitHub</string>
+    <string name="birthdayAgeUnknown">"No hay año guardado"</string>
+    <string name="birthdayChooseDate">Elige la fecha</string>
+    <string name="birthdayDialogAdd">Añadir</string>
+    <string name="birthdayDialogAddTitle">Añadir cumpleaños</string>
+    <string name="birthdayDialogEdit">Confirmar Editar</string>
+    <string name="birthdayDialogEditTitle">Editar</string>
+    <string name="birthdayIn">en</string>
+    <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">¡Hoy hay %1$d cumpleaños!</string>
+    <string name="birthdayNotificationMultUpcText">¡Se acercan %1$d cumpleaños!</string>
+    <string name="birthdayNotificationSingleText">¡Es el cumpleaños de %1$s!</string>
+    <string name="birthdayNotificationSingleUpcText">¡El cumpleaños de %1$s se acerca en %2$d días!</string>
+    <string name="birthdayNotificationTitle">Cumpleaños</string>
+    <string name="birthdayNotificationTitleUpc">Próximos cumpleaños</string>
+    <string name="birthdayOldBornIn">" viejo, nacido en "</string>
+    <string name="birthdayRemindMe">Recuérdame</string>
+    <string name="birthdayReminder">\nRecordatorio %1$d %2$s antes</string>
+    <string name="birthdaySaveYear">guardar año</string>
+    <string name="birthdayToday">hoy</string>
+    <string name="birthdayTomorrow">mañana</string>
+    <string name="birthdaysAddNameHint">Nombre</string>
+    <string name="birthdaysDaysPrior">" anterior".</string>
+    <string name="birthdaysDisableReminders">Desactivar todos los recordatorios</string>
+    <string name="birthdaysEnableReminders">Habilitar todos los recordatorios</string>
+    <string name="birthdaysNoReminder">\nNingún recordatorio establecido</string>
+    <string name="birthdaysNotify">notificarme</string>
+    <string name="birthdaysReminderActivated">\nRecordatorio establecido</string>
     <string name="generalAppName" translatable="false">PocketPlan</string>
-    <string name="generalClose">close</string>
+    <string name="generalClose">cerrar</string>
     <string name="generalOk">OK</string>
-    <string name="generalOpen">open</string>
-    <string name="generalShowHowTo">Show HowTo</string>
+    <string name="generalOpen">abrir</string>
+    <string name="generalShowHowTo">Mostrar cómo se hace</string>
     <string name="generalZero" translatable="false">0</string>
-
-    <!--    home-->
-    <string name="homeNoBirthdays">\nNo birthdays today\n</string>
-    <string name="homeNoTasks">\nNo important tasks\n</string>
-    <string name="homeNotificationTaskAdded">Task added!</string>
-
-    <!--    howto-->
-    <string name="howtoBirthdaysDelete">Swipe a birthday left or right to delete it.</string>
-    <string name="howtoBirthdaysEdit">Longpress a birthday to edit it.</string>
-    <string name="howtoBirthdaysExplanation">Tap a birthday to show additional information.\n\nIf a birthday is upcoming in 30 days or less, the remaining days will be displayed in the list.\n\nIf a reminder is set for x days prior and the birthday is upcoming in x or less days, it is color-highlighted in the list.</string>
-    <string name="howtoHomeExplanation">If the sleepreminder is enabled, an indicator at the top will tell you how much time you got, until you should go to sleep.\n\nThe task panel below will display tasks of priority one.\n\nBelow that, the birthday panel will display current birthdays.</string>
-    <string name="howtoNoteEdit">Tap a note to edit it.\n\nIn the note editor, tap the folder icon at the top, to move the note to a different folder.</string>
-    <string name="howtoNoteExplanation">Newly added, edited or viewed notes are sorted to the top of the list by default.\n\nIf the app is closed while creating a new note without saving it, it is saved automatically.\n\nDeleted notes are archived by default, you can access them in the settings in the \"notes\" section.</string>
-    <string name="howtoNoteFolder">Using the menu options at the top right, its possible to add a new folder or edit / move the folder that is currently opened.</string>
-    <string name="howtoShoppingCheckCategories">Tap the circle at the top of a category to check all contained items.</string>
-    <string name="howtoShoppingDelete">Swipe an item left or right to delete it.</string>
-    <string name="howtoShoppingExplanation">When adding an item to the list, you can enter optional details in parentheses. For example, if you enter \"Bread (whole wheat)\", the item will still be sorted into the category \"Bread and pastries\" despite the app only recognising the \"Bread\" part of the name.</string>
-    <string name="howtoShoppingLists">You can add additional shopping lists and edit or delete them via the menu at the top right.</string>
-    <string name="howtoShoppingReorder">Longpress and drag a category to re-order it.</string>
-    <string name="howtoSleepExplanation">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>
-    <string name="howtoSubCheckCategory">Check category</string>
-    <string name="howtoSubDelete">Delete</string>
-    <string name="howtoSubEdit">Edit</string>
-    <string name="howtoSubExplanation">Explanation</string>
-    <string name="howtoSubFolders">Folder</string>
-    <string name="howtoSubLists">Lists</string>
-    <string name="howtoSubRearrange">Rearrange</string>
-    <string name="howtoTodoDelete">Swipe a task left or right to delete it.</string>
-    <string name="howtoTodoEdit">Tap a task to edit it.</string>
-    <string name="howtoTodoReorder">Longpress and drag a task to move it within the list.</string>
-    <string name="howtoBackupExplanation">All your PocketPlan data is stored locally on your device. To keep your data, in case you loose your device, or to migrate it to a different device, you can export a backup.\n\nGo to settings -> Backup and select \"Export full backup as .zip\", then save this zip file, for example by sending it to yourself via E-Mail.\n\nTo import this backup on a new device, go to settings -> Backup and select \"Import backup from .zip\". Then select the previously saved backup.</string>
-
-    <!--    menu-->
-    <string name="menuTitleAbout">About</string>
-    <string name="menuTitleBirthdays">Birthdays</string>
-    <string name="menuTitleColorChoose">Choose a color</string>
-    <string name="menuTitleCustomItem">Custom Items</string>
-    <string name="menuTitleHome">Home Spanish</string>
-    <string name="menuTitleNotes">Notes</string>
+    <string name="homeNoBirthdays">\nNo hay cumpleaños hoy\n</string>
+    <string name="homeNoTasks">\nNo hay tareas importantes\n</string>
+    <string name="homeNotificationTaskAdded">¡Tarea añadida!</string>
+    <string name="howtoBirthdaysDelete">Desliza un cumpleaños a la izquierda o a la derecha para eliminarlo.</string>
+    <string name="howtoBirthdaysEdit">Mantenga pulsado un cumpleaños para editarlo.</string>
+    <string name="howtoBirthdaysExplanation">Toque un cumpleaños para mostrar información adicional.\n\nSi un cumpleaños se acerca en 30 días o menos, los días restantes se mostrarán en la lista.\n\nSi un recordatorio se establece para x días antes y el cumpleaños se acerca en x días o menos, se resalta en color en la lista.</string>
+    <string name="howtoHomeExplanation">Si el recordatorio de sueño está activado, un indicador en la parte superior le dirá cuánto tiempo tiene, hasta que deba ir a dormir.\n\nEl panel de tareas de abajo mostrará las tareas de prioridad uno.\n\nDebajo de eso, el panel de cumpleaños mostrará los cumpleaños actuales.</string>
+    <string name="howtoNoteEdit">Toque una nota para editarla.\n\nEn el editor de notas, toque el icono de la carpeta en la parte superior, para mover la nota a una carpeta diferente.</string>
+    <string name="howtoNoteExplanation">Las notas recién añadidas, editadas o visualizadas se ordenan por defecto en la parte superior de la lista.\n\nSi se cierra la aplicación mientras se crea una nueva nota sin guardarla, ésta se guarda automáticamente.\n\nLas notas borradas se archivan por defecto, puedes acceder a ellas en los ajustes en la sección "notas".</string>
+    <string name="howtoNoteFolder">Usando las opciones del menú en la parte superior derecha, es posible añadir una nueva carpeta o editar / mover la carpeta que está actualmente abierta.</string>
+    <string name="howtoShoppingCheckCategories">Toque el círculo en la parte superior de una categoría para comprobar todos los elementos contenidos.</string>
+    <string name="howtoShoppingDelete">Deslice un elemento hacia la izquierda o la derecha para eliminarlo.</string>
+    <string name="howtoShoppingExplanation">Al añadir un elemento a la lista, puede introducir detalles opcionales entre paréntesis. Por ejemplo, si introduce "Pan (integral)", el artículo se clasificará en la categoría "Pan y bollería" aunque la aplicación sólo reconozca la parte "Pan" del nombre.</string>
+    <string name="howtoShoppingLists">Puede añadir listas de la compra adicionales y editarlas o eliminarlas a través del menú de la parte superior derecha.</string>
+    <string name="howtoShoppingReorder">Pulsa y arrastra una categoría para reordenarla.</string>
+    <string name="howtoSleepExplanation">Establece la hora a la que quieres despertarte y cuántas horas necesitas dormir y el recordatorio de sueño te notificará cuándo debes irte a dormir.</string>
+    <string name="howtoSubCheckCategory">Comprobar categoría</string>
+    <string name="howtoSubDelete">Borrar</string>
+    <string name="howtoSubEdit">Editar</string>
+    <string name="howtoSubExplanation">Explicación</string>
+    <string name="howtoSubFolders">Carpeta</string>
+    <string name="howtoSubLists">Listas</string>
+    <string name="howtoSubRearrange">Reorganizar</string>
+    <string name="howtoTodoDelete">Deslice una tarea hacia la izquierda o la derecha para eliminarla.</string>
+    <string name="howtoTodoEdit">Toque una tarea para editarla.</string>
+    <string name="howtoTodoReorder">Mantenga pulsada y arrastre una tarea para moverla dentro de la lista.</string>
+    <string name="howtoBackupExplanation">Todos sus datos de PocketPlan se almacenan localmente en su dispositivo. Para conservar sus datos, en caso de que pierda su dispositivo, o para migrarlos a un dispositivo diferente, puede exportar una copia de seguridad.\n\nVaya a ajustes -> Copia de seguridad y seleccione \n\n "Exportar copia de seguridad completa como .zip", luego guarde este archivo zip, por ejemplo enviándoselo a usted mismo por correo electrónico.\n\nPara importar esta copia de seguridad en un nuevo dispositivo, vaya a ajustes -> Copia de seguridad y seleccione \"Importar copia de seguridad de .zip\". A continuación, seleccione la copia de seguridad guardada anteriormente.</string>
+    <string name="menuTitleAbout">Acerca de</string>
+    <string name="menuTitleBirthdays">Cumpleaños</string>
+    <string name="menuTitleColorChoose">Elija un color</string>
+    <string name="menuTitleCustomItem">Artículos personalizados</string>
+    <string name="menuTitleHome">Inicio</string>
+    <string name="menuTitleNotes">Notas</string>
     <string name="menuTitleNotesEditor">Editor</string>
-    <string name="menuTitleSettings">Settings</string>
-    <string name="menuTitleShopping">Shopping</string>
-    <string name="menuTitleSleep">Sleep Reminder</string>
+    <string name="menuTitleSettings">Configuración</string>
+    <string name="menuTitleShopping">Compras</string>
+    <string name="menuTitleSleep">Recordatorio de sueño</string>
     <string name="menuTitleTasks">To-Do</string>
-
-    <!--    notes-->
-    <string name="noteDeleteDialogCancel">Cancel</string>
-    <string name="noteDeleteDialogText">Delete this note?</string>
-    <string name="noteDiscardDialogDiscard">Discard</string>
-    <string name="noteDiscardDialogSave">Save</string>
-    <string name="noteDiscardDialogTitle">Save changes?</string>
-    <string name="noteEditorText">Note</string>
-    <string name="noteEditorTitle">Title</string>
-    <string name="notesCantMove">Can\'t move to current directory</string>
-    <string name="notesConfirmMove">Move note</string>
-    <string name="notesContainedInFolder">Contained in Folder:</string>
-    <string name="notesDialogDeleteFolder">Delete folder \"%1$s\" and its content?</string>
-    <string name="notesEditFolder">Edit folder</string>
-    <string name="notesNotificationNoteAdded">Note was added!</string>
-    <string name="notesOptionAddFolder">Add folder</string>
-    <string name="notesPickDestinationFolder">Pick destination folder</string>
-    <string name="notesSwipeToDelete">Swipe to delete</string>
-    <string name="notesToastFolderMoved">Folder moved!</string>
-    <string name="notesToastNoteMoved">Note moved!</string>
-
-    <!--    settings-->
-    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.\n\nIf you have a GitHub account, you are welcome to create an issue in our repository.</string>
-    <string name="settingsAppearanceBorderHint">(Applied to task and note elements)</string>
-    <string name="settingsAppearanceBorderTitle">Dark border theme:</string>
+    <string name="noteDeleteDialogCancel">Cancelar</string>
+    <string name="noteDeleteDialogText">¿Borrar esta nota?</string>
+    <string name="noteDiscardDialogDiscard">Descartar</string>
+    <string name="noteDiscardDialogSave">Guardar</string>
+    <string name="noteDiscardDialogTitle">¿Guardar los cambios?</string>
+    <string name="noteEditorText">Nota</string>
+    <string name="noteEditorTitle">Título</string>
+    <string name="notesCantMove">No se puede mover al directorio actual</string>
+    <string name="notesConfirmMove">Mover la nota</string>
+    <string name="notesContainedInFolder">Contenida en la carpeta:</string>
+    <string name="notesDialogDeleteFolder">¿Borrar la carpeta "%1$s\" y su contenido?</string>
+    <string name="notesEditFolder">Editar carpeta</string>
+    <string name="notesNotificationNoteAdded">Se ha añadido la nota</string>
+    <string name="notesOptionAddFolder">Añadir carpeta</string>
+    <string name="notesPickDestinationFolder">Elija la carpeta de destino</string>
+    <string name="notesSwipeToDelete">Deslizar para eliminar</string>
+    <string name="notesToastFolderMoved">¡Carpeta movida!</string>
+    <string name="notesToastNoteMoved">¡Nota movida!</string>
+    <string name="settingsAboutContactDescription">Para informar de un error o sugerir una nueva función, ponte en contacto con nosotros en la dirección de correo electrónico indicada anteriormente.\n\nSi te pones en contacto con nosotros por un error, incluye tu versión de Android, tu tipo de dispositivo y los pasos detallados para reproducir el error.\n\nSi tienes una cuenta de GitHub, puedes crear una incidencia en nuestro repositorio.</string>
+    <string name="settingsAppearanceBorderHint">(Aplicado a los elementos de tareas y notas)</string>
+    <string name="settingsAppearanceBorderTitle">Tema del borde oscuro:</string>
     <string name="settingsAppearanceBorderless">Borderless</string>
-    <string name="settingsAppearanceColoredBorder">Colored Border</string>
-    <string name="settingsAppearanceFilled">Filled</string>
-    <string name="settingsAppearanceLanguage">Language</string>
-    <string name="settingsAppearanceResetHint">This won\'t delete any of your data like notes etc.</string>
-    <string name="settingsAppearanceResetTitle">Reset all settings to default?</string>
-    <string name="settingsAppearanceResetToDefault">Reset all settings to default</string>
-    <string name="settingsAppearanceSampleText">Sample Text</string>
-    <string name="settingsAppearanceShakeHomeExplanation">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
-    <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
-    <string name="settingsAppearanceShapes">Shapes</string>
-    <string name="settingsAppearanceSystemTheme">Use system theme (Android 10+)</string>
-    <string name="settingsAppearanceTheme">Theme</string>
+    <string name="settingsAppearanceColoredBorder">Borde coloreado</string>
+    <string name="settingsAppearanceFilled">Relleno</string>
+    <string name="settingsAppearanceLanguage">Idioma</string>
+    <string name="settingsAppearanceResetHint">Esto no borrará ninguno de tus datos, como las notas, etc.</string>
+    <string name="settingsAppearanceResetTitle">¿Restablecer todos los ajustes por defecto?</string>
+    <string name="settingsAppearanceResetToDefault">Restablecer todos los ajustes por defecto</string>
+    <string name="settingsAppearanceSampleText">Texto de ejemplo</string>
+    <string name="settingsAppearanceShakeHomeExplanation">Si hay 1 o más tareas con prioridad 1, el icono de la tarea se moverá cada vez que abra el panel de inicio.</string>
+    <string name="settingsAppearanceShakeTask">Agitar el recordatorio de la tarea en casa</string>
+    <string name="settingsAppearanceShapes">Formas</string>
+    <string name="settingsAppearanceSystemTheme">Usar el tema del sistema (Android 10+)</string>
+    <string name="settingsAppearanceTheme">Tema</string>
     <string name="settingsAppearanceTitle">General</string>
-
-    <string name="settingsBackupChooseFile">Choose file</string>
-    <string name="settingsBackupExport">Export</string>
-    <string name="settingsBackupExportTitle">Export full backup as .zip file</string>
-    <string name="settingsBackupHint">The section below allows you to import / export just part of your data, for a FULL backup use the options above.</string>
-    <string name="settingsBackupImportFailed">Import failed!</string>
-    <string name="settingsBackupImportJson">Import</string>
-    <string name="settingsBackupImportSuccessful">Import successful!</string>
-    <string name="settingsBackupImportTitle">Import full backup from .zip file</string>
-    <string name="settingsBackupTitle">Backup</string>
-    <string name="settingsBackupWarning">Warning! Importing a backup will REPLACE your current data with the imported data!</string>
-
-    <string name="settingsBirthdaysNotificationTime">Change birthday notification time</string>
-    <string name="settingsBirthdaysShowMonth">Display month for every Birthday</string>
-    <string name="settingsBirthdaysShowMonthsExplanation">e.g. display \"14.03\" instead of \"14\"</string>
-    <string name="settingsBirthdaysShowUpcoming">Show next upcoming birthday in home panel</string>
-    <string name="settingsBirthdaysSouthColors">Month colors for southern hemisphere</string>
-    <string name="settingsBirthdaysSouthHint">Shows warmer colors from october to march</string>
-
-    <string name="settingsCustomItems">Manage custom items</string>
-    <string name="settingsCustomCategory">Category</string>
-    <string name="settingsCustomClear">Clear custom items</string>
-    <string name="settingsCustomClearDialog">Delete custom items?</string>
-    <string name="settingsCustomUnit">Unit</string>
-
-    <string name="settingsHowToTitle">HowTo</string>
-
-    <string name="settingsNotesArchiveDeleted">Archive deleted notes</string>
-    <string name="settingsNotesArchiveHint">Up to 5kB of your deleted notes will be accesible in the view below</string>
-    <string name="settingsNotesClearArchived">Clear note archive</string>
-    <string name="settingsNotesDialogDeleteArchived">Delete all archived notes?</string>
-    <string name="settingsNotesFontSize">Fontsize in Editor</string>
-    <string name="settingsNotesMoveRecentTop">Move recently opened notes or folders to the top of the list</string>
-    <string name="settingsNotesNoArchived">No recently deleted notes archived</string>
-    <string name="settingsNotesNumOfCols">Number of note columns</string>
-    <string name="settingsNotesNumOfLines">Number of lines to display</string>
-    <string name="settingsNotesOptionDeleteFolder">Delete Folder</string>
-    <string name="settingsNotesRandomizeColors">Random color for new notes and folders</string>
-    <string name="settingsNotesShowContained">Show number of contained elements for folders</string>
-    <string name="settingsNotesShowDeleted">Show recently deleted notes</string>
-    <string name="settingsNotesTitle">Notes</string>
-
-    <string name="settingsShoppingCloseHint">(In shopping fragment)</string>
-    <string name="settingsShoppingCloseItemDialog">Close item dialog after adding</string>
-    <string name="settingsShoppingCollapseChecked">Collapse checked categories</string>
-    <string name="settingsShoppingCustomHint">View or delete items that you entered, which the shopping list remembered</string>
-    <string name="settingsShoppingImprovedSearch">Improved item search</string>
-    <string name="settingsShoppingListTitle">Shopping List</string>
-    <string name="settingsShoppingMoveDown">Move checked categories down</string>
-    <string name="settingsShoppingOnlyExpandOne">Only expand one category</string>
-    <string name="settingsShoppingSearchHint">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
-
-    <!--    shopping-->
-    <string name="shoppingAddItemTitle">Add item</string>
-    <string name="shoppingDialogClearList">Clear list?</string>
-    <string name="shoppingDialogDeleteTitle">Delete list?</string>
-    <string name="shoppingDialogRemoveChecked">Remove checked items?</string>
-    <string name="shoppingDialogRenameList">Rename List</string>
-    <string name="shoppingEditItemTitle">Edit item</string>
+    <string name="settingsBackupChooseFile">Elegir archivo</string>
+    <string name="settingsBackupExport">Exportar</string>
+    <string name="settingsBackupExportTitle">Exportar copia de seguridad completa como archivo .zip</string>
+    <string name="settingsBackupHint">La sección siguiente le permite importar/exportar sólo una parte de sus datos, para una copia de seguridad COMPLETA utilice las opciones anteriores.</string>
+    <string name="settingsBackupImportFailed">Importación fallida</string>
+    <string name="settingsBackupImportJson">Importar</string>
+    <string name="settingsBackupImportSuccessful">¡Importar con éxito!</string>
+    <string name="settingsBackupImportTitle">Importar la copia de seguridad completa del archivo .zip</string>
+    <string name="settingsBackupTitle">Copia de seguridad</string>
+    <string name="settingsBackupWarning">Advertencia ¡La importación de una copia de seguridad REEMPLAZARÁ sus datos actuales con los datos importados!</string>
+    <string name="settingsBirthdaysNotificationTime">Cambiar la hora de notificación de cumpleaños</string>
+    <string name="settingsBirthdaysShowMonth">Visualizar el mes para cada cumpleaños</string>
+    <string name="settingsBirthdaysShowMonthsExplanation">Por ejemplo, mostrar "14.03" en lugar de "14".</string>
+    <string name="settingsBirthdaysShowUpcoming">Mostrar el próximo cumpleaños en el panel de inicio</string>
+    <string name="settingsBirthdaysSouthColors">Colores del mes para el hemisferio sur</string>
+    <string name="settingsBirthdaysSouthHint">Muestra los colores más cálidos de octubre a marzo</string>
+    <string name="settingsCustomItems">Gestión de elementos personalizados</string>
+    <string name="settingsCustomCategory">Categoría</string>
+    <string name="settingsCustomClear">Borrar elementos personalizados</string>
+    <string name="settingsCustomClearDialog">¿Borrar elementos personalizados?</string>
+    <string name="settingsCustomUnit">Unidad</string>
+    <string name="settingsHowToTitle">Cómo</string>
+    <string name="settingsNotesArchiveDeleted">Archivar notas borradas</string>
+    <string name="settingsNotesArchiveHint">Hasta 5kB de tus notas borradas serán accesibles en la vista de abajo</string>
+    <string name="settingsNotesClearArchived">Borrar el archivo de notas</string>
+    <string name="settingsNotesDialogDeleteArchived">¿Borrar todas las notas archivadas?</string>
+    <string name="settingsNotesFontSize">Tamaño de las fuentes en el editor</string>
+    <string name="settingsNotesMoveRecentTop">Mover las notas o carpetas abiertas recientemente a la parte superior de la lista</string>
+    <string name="settingsNotesNoArchived">No archivar las notas eliminadas recientemente</string>
+    <string name="settingsNotesNumOfCols">Número de columnas de notas</string>
+    <string name="settingsNotesNumOfLines">Número de líneas a mostrar</string>
+    <string name="settingsNotesOptionDeleteFolder">Borrar carpeta</string>
+    <string name="settingsNotesRandomizeColors">Color aleatorio para las nuevas notas y carpetas</string>
+    <string name="settingsNotesShowContained">Mostrar el número de elementos contenidos para las carpetas</string>
+    <string name="settingsNotesShowDeleted">Mostrar las notas eliminadas recientemente</string>
+    <string name="settingsNotesTitle">Notas</string>
+    <string name="settingsShoppingCloseHint">(En el fragmento de compra)</string>
+    <string name="settingsShoppingCloseItemDialog">Cerrar el diálogo de artículos después de añadirlos</string>
+    <string name="settingsShoppingCollapseChecked">Contraer las categorías marcadas</string>
+    <string name="settingsShoppingCustomHint">Ver o eliminar los artículos introducidos que la lista de la compra recuerda</string>
+    <string name="settingsShoppingImprovedSearch">Mejora de la búsqueda de artículos</string>
+    <string name="settingsShoppingListTitle">Lista de la compra</string>
+    <string name="settingsShoppingMoveDown">Desplazar hacia abajo las categorías marcadas</string>
+    <string name="settingsShoppingOnlyExpandOne">Expandir sólo una categoría</string>
+    <string name="settingsShoppingSearchHint">Por ejemplo, recomendar "Apple" si se introduce "Applfe".</string>
+    <string name="shoppingAddItemTitle">Añadir artículo</string>
+    <string name="shoppingDialogClearList">¿Borrar la lista?</string>
+    <string name="shoppingDialogDeleteTitle">¿Borrar la lista?</string>
+    <string name="shoppingDialogRemoveChecked">¿Eliminar elementos marcados?</string>
+    <string name="shoppingDialogRenameList">Cambiar el nombre de la lista</string>
+    <string name="shoppingEditItemTitle">Editar elemento</string>
     <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
-    <string name="shoppingNotificationItemAdded">Item added!</string>
-    <string name="shoppingOptionAddList">Add list</string>
-    <string name="shoppingOptionClearList">Clear list</string>
-    <string name="shoppingOptionCollapseAll">Collapse all</string>
-    <string name="shoppingOptionDeleteChecked">Remove checked items</string>
-    <string name="shoppingOptionDeleteList">Delete List</string>
-    <string name="shoppingOptionExpandAll">Expand all</string>
-    <string name="shoppingOptionRenameList">Rename list</string>
-    <string name="shoppingOptionUncheckAll">Uncheck all</string>
-
-    <!--    sleep-->
-    <string name="sleepActiveDays">Active days</string>
-    <string name="sleepCustomDays">Enable Custom Days</string>
+    <string name="shoppingNotificationItemAdded">¡Elemento añadido!</string>
+    <string name="shoppingOptionAddList">Añadir lista</string>
+    <string name="shoppingOptionClearList">Borrar lista</string>
+    <string name="shoppingOptionCollapseAll">Contraer todo</string>
+    <string name="shoppingOptionDeleteChecked">Eliminar elementos marcados</string>
+    <string name="shoppingOptionDeleteList">Borrar lista</string>
+    <string name="shoppingOptionExpandAll">Expandir todo</string>
+    <string name="shoppingOptionRenameList">Cambiar el nombre de la lista</string>
+    <string name="shoppingOptionUncheckAll">Desmarcar todo</string>
+    <string name="sleepActiveDays">Días activos</string>
+    <string name="sleepCustomDays">Habilitar los días personalizados</string>
     <string name="sleepDialogMinute">m</string>
-    <string name="sleepDuration">Sleep duration</string>
-    <string name="sleepDurationDay">Sleep Duration</string>
-    <string name="sleepEnable">Enable Reminder</string>
-    <string name="sleepFri">Fri</string>
-    <string name="sleepHint">If a day is checked, you will be notified to go to sleep on time the night before that day.</string>
-    <string name="sleepMon">Mon</string>
-    <string name="sleepNotificationText">It\'s time to go to bed, sleep well!</string>
-    <string name="sleepNotificationTitle">Bedtime</string>
-    <string name="sleepSat">Sat</string>
-    <string name="sleepSun">Sun</string>
-    <string name="sleepThu">Thu</string>
-    <string name="sleepTue">Tue</string>
-    <string name="sleepWakeUpTime">Wakeup Time</string>
-    <string name="sleepWed">Wed</string>
-
-    <!--    tasks-->
-    <string name="tasksAddHint">Title</string>
-    <string name="tasksAddTitle">Add Task</string>
-    <string name="tasksDialogClearChecked">Delete checked tasks?</string>
-    <string name="tasksDialogClearList">Clear To-Do List?</string>
-    <string name="tasksEditTitle">Edit Task</string>
-    <string name="tasksOptionClearChecked">Clear checked tasks</string>
-    <string name="tasksOptionClearList">Clear list</string>
-    <string name="tasksOptionUncheckAll">Uncheck all</string>
+    <string name="sleepDuration">Duración del sueño</string>
+    <string name="sleepDurationDay">Duración del sueño</string>
+    <string name="sleepEnable">Habilitar recordatorio</string>
+    <string name="sleepFri">Vie</string>
+    <string name="sleepHint">Si se marca un día, se le avisará para que se vaya a dormir a tiempo la noche anterior a ese día.</string>
+    <string name="sleepMon">Lun</string>
+    <string name="sleepNotificationText">Es hora de ir a la cama, ¡duerme bien!</string>
+    <string name="sleepNotificationTitle">Hora de acostarse</string>
+    <string name="sleepSat">Sáb</string>
+    <string name="sleepSun">Dom</string>
+    <string name="sleepThu">Jue</string>
+    <string name="sleepTue">Mar</string>
+    <string name="sleepWakeUpTime">Hora de levantarse</string>
+    <string name="sleepWed">Miércoles</string>
+    <string name="tasksAddHint">Título</string>
+    <string name="tasksAddTitle">Añadir tarea</string>
+    <string name="tasksDialogClearChecked">¿Borrar tareas marcadas?</string>
+    <string name="tasksDialogClearList">¿Borrar la lista de tareas?</string>
+    <string name="tasksEditTitle">Editar tarea</string>
+    <string name="tasksOptionClearChecked">Borrar tareas marcadas</string>
+    <string name="tasksOptionClearList">Borrar lista</string>
+    <string name="tasksOptionUncheckAll">Desmarcar todo</string>
     <string name="tasksPriority1" translatable="false">1</string>
     <string name="tasksPriority2" translatable="false">2</string>
     <string name="tasksPriority3" translatable="false">3</string>
@@ -242,8 +215,8 @@
     </string-array>
 
     <string-array name="noteLines">
-        <item>all</item>
-        <item>none</item>
+        <item>todo</item>
+        <item>ninguno</item>
         <item>1</item>
         <item>3</item>
         <item>5</item>
@@ -269,102 +242,82 @@
     </string-array>
 
     <string-array name="months">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
-    </string-array>
-
-    <string-array name="categoryCodes" translatable="false">
-        <item>So</item>
-        <item>Ob</item>
-        <item>Gt</item>
-        <item>Nu</item>
-        <item>Bw</item>
-        <item>Km</item>
-        <item>Kf</item>
-        <item>Ve</item>
-        <item>Tk</item>
-        <item>Ko</item>
-        <item>Fr</item>
-        <item>Gw</item>
-        <item>Ha</item>
-        <item>Sn</item>
-        <item>Bz</item>
-        <item>Dr</item>
-        <item>Al</item>
+        <item>Enero</item>
+        <item>Febrero</item>
+        <item>Marzo</item>
+        <item>Abril</item>
+        <item>Mai</item>
+        <item>Junio</item>
+        <item>Julio</item>
+        <item>Agosto</item>
+        <item>Septiembre</item>
+        <item>Octubre</item>
+        <item>Noviembre</item>
+        <item>Diciembre</item>
     </string-array>
 
     <string-array name="categoryNames">
-        <item>Other</item>
-        <item>Fruits &amp; Vegetables</item>
-        <item>Drinks</item>
-        <item>Pasta &amp; Grains</item>
-        <item>Bread &amp; Pastries</item>
-        <item>Dairy</item>
-        <item>Meat</item>
-        <item>Vegan</item>
-        <item>Frozen</item>
-        <item>Canned &amp; ready-made</item>
-        <item>Breakfast &amp; Co.</item>
-        <item>Spices &amp; Co.</item>
-        <item>Household</item>
+        <item>Otros</item>
+        <item>Frutas y Hortalizas</item>
+        <item>Bebidas</item>
+        <item>Pasta y Cereales</item>
+        <item>Pan y Bollería</item>
+        <item>Productos lácteos</item>
+        <item>Carne</item>
+        <item>Vegano</item>
+        <item>Congelados</item>
+        <item>Entalados y Preparados</item>
+        <item>Desayuno</item>
+        <item>Espacias</item>
+        <item>Hogar</item>
         <item>Snacks</item>
-        <item>Baking ingredients</item>
-        <item>Drugstore &amp; Cosmetics</item>
-        <item>Alcoholic Beverages</item>
+        <item>Ingredientes para hornear</item>
+        <item>Farmacia y Cosmética</item>
+        <item>Bebidas alcohólicas</item>
     </string-array>
 
     <string-array name="shapes">
         <item>Normal</item>
-        <item>Round</item>
+        <item>Redondo</item>
     </string-array>
 
     <string-array name="themes">
-        <item>Dark</item>
-        <item>Light</item>
+        <item>oscuro</item>
+        <item>luz</item>
     </string-array>
 
     <string-array name="languages">
-        <item>English</item>
-        <item>German</item>
-        <item>French</item>
-        <item>Spanish</item>
-        <item>Russian</item>
+        <item>Inglés</item>
+        <item>Alemán</item>
+        <item>Francés</item>
+        <item>Español</item>
+        <item>Ruso</item>
     </string-array>
 
     <string-array name="fileOptions">
-        <item>Shoppinglist</item>
-        <item>Notes</item>
-        <item>Birthdays</item>
-        <item>Todolist</item>
-        <item>Settings</item>
-        <item>Custom Items</item>
-        <item>Sleep Times</item>
+        <item>Lista e la compra</item>
+        <item>Notas</item>
+        <item>Compleaños</item>
+        <item>Lista de tareas</item>
+        <item>Configuración</item>
+        <item>Artículos personalizods</item>
+        <item>Horas de suoño</item>
     </string-array>
 
     <!-- Plurals -->
     <plurals name="year">
-        <item quantity="one">year</item>
-        <item quantity="other">years</item>
+        <item quantity="one">año</item>
+        <item quantity="other">años</item>
     </plurals>
 
     <plurals name="dayIn">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">día</item>
+        <item quantity="other">días</item>
     </plurals>
 
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">día</item>
+        <item quantity="other">días</item>
     </plurals>
 
 </resources>
