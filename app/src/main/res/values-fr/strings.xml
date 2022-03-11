@@ -101,7 +101,7 @@
     <string name="settingsAboutContactDescription">Pour signaler un bogue ou suggérer une nouvelle fonctionnalité, contactez-nous à l\'adresse électronique indiquée ci-dessus. Si vous nous contactez au sujet d\'un bogue, veuillez inclure votre version d\'Android, votre type d\'appareil et les étapes détaillées de la reproduction du bogue.\n\nSi tu as un compte GitHub, tu peux aussi créer une issue dans notre repository.</string>
     <string name="settingsAppearanceBorderHint">(Appliqué aux éléments de tâche et de note)</string>
     <string name="settingsAppearanceBorderTitle">Thème de bordure sombre :</string>
-    <string name="settingsAppearanceBorderless">Borderless</string>
+    <string name="settingsAppearanceBorderless">Sans bordure</string>
     <string name="settingsAppearanceColoredBorder">Bordure colorée</string>
     <string name="settingsAppearanceFilled">Rempli</string>
     <string name="settingsAppearanceLanguage">Langue</string>
@@ -308,7 +308,7 @@
 
     <string-array name="languages">
         <item>Anglais</item>
-        <item>Allemandj</item>
+        <item>Allemand</item>
         <item>Français</item>
         <item>Espagnol</item>
         <item>Russe</item>
