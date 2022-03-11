@@ -1,0 +1,9 @@
+<i>PocketPlan</i> is a free, ad-free open-source application that takes care of everyday tasks for you. Development was focused on a simple and clear design. Many of the functional or visual aspects of the app can be personalized in the settings.
+
+The features in detail:
+
+* To-do list ✔️<br>In the to-do list you can save tasks with different priorities, according to which the list is automatically sorted. Tasks with priority 1 will be displayed in the home panel!
+* Notes 📝<br>Store text-based notes in different colors and search them for contained text.
+* Birthdays 🎂<br>The birthday list gives you an overview of upcoming birthdays sorted by months.  Here you can set which birthday you want to be reminded of and which not. In order not to forget to buy a present you can also be reminded a few days before! If someone has a birthday today, this will be shown in the home panel.
+* Shopping list 📜<br>Add an item to your shopping list and it will automatically be sorted into the right category! If the shopping list does not know your item, you can also assign the category yourself. You can add multiple lists to keep everything organized.
+* Sleep Reminder ⌛️<br>You often go to bed too late because you lose track of time? Then the integrated sleep reminder can help you. Choose your preferred wake-up time and how much sleep you need, and PocketPlan will remind you to go to sleep at the right time. When this reminder is activated, the Home panel will display, how much time you have left before you should sleep.
