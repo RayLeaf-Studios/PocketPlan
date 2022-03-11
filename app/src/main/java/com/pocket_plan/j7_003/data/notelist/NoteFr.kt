@@ -490,7 +490,8 @@ class NoteFr : Fragment() {
         myRecycler.adapter = myAdapter
 
         //initialize and set layoutManager
-        val lm = StaggeredGridLayoutManager(noteColumns.toInt(), 1)
+        //IMPORTANT, this trim needs to stay in order to support settings that were wrongly set in 1.3.3 to "x       "
+        val lm = StaggeredGridLayoutManager(noteColumns.trim().toInt(), 1)
         myRecycler.layoutManager = lm
         myRecycler.setHasFixedSize(true)
 

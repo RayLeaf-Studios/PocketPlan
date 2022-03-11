@@ -101,7 +101,7 @@
     <string name="settingsAboutContactDescription">Para informar de un error o sugerir una nueva función, ponte en contacto con nosotros en la dirección de correo electrónico indicada anteriormente.\n\nSi te pones en contacto con nosotros por un error, incluye tu versión de Android, tu tipo de dispositivo y los pasos detallados para reproducir el error.\n\nSi tienes una cuenta de GitHub, puedes crear una incidencia en nuestro repositorio.</string>
     <string name="settingsAppearanceBorderHint">(Aplicado a los elementos de tareas y notas)</string>
     <string name="settingsAppearanceBorderTitle">Tema del borde oscuro:</string>
-    <string name="settingsAppearanceBorderless">Borderless</string>
+    <string name="settingsAppearanceBorderless">Sin bordes</string>
     <string name="settingsAppearanceColoredBorder">Borde coloreado</string>
     <string name="settingsAppearanceFilled">Relleno</string>
     <string name="settingsAppearanceLanguage">Idioma</string>
@@ -258,7 +258,7 @@
 
     <string-array name="categoryNames">
         <item>Otros</item>
-        <item>Frutas y Hortalizas</item>
+        <item>Frutas y Verduras</item>
         <item>Bebidas</item>
         <item>Pasta y Cereales</item>
         <item>Pan y Bollería</item>
