@@ -142,10 +142,11 @@ class SettingsNotesFr : Fragment() {
         spNoteLines.setSelection(noteLinesStringIndex)
         tvCurrentNoteLines.text = resources.getStringArray(R.array.noteLines)[noteLinesStringIndex]
 
+        val columnIndex = (SettingsManager.getSetting(SettingId.NOTE_COLUMNS) as String).trim().toInt() - 1
+        spNoteColumns.setSelection(columnIndex)
+
         val columnOptions = resources.getStringArray(R.array.noteColumns)
-        val columnOptionsStringIndex = columnOptions.indexOf(SettingsManager.getSetting(SettingId.NOTE_COLUMNS))
-        spNoteColumns.setSelection(columnOptionsStringIndex)
-        tvCurrentNoteColumns.text = columnOptions[columnOptionsStringIndex]
+        tvCurrentNoteColumns.text = columnOptions[columnIndex]
 
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
         val fontSizeOptionsStringIndex = fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE))
@@ -214,7 +215,11 @@ class SettingsNotesFr : Fragment() {
                     initialDisplayNoteColumns = false
                     return
                 }
-                val value = spNoteColumns.selectedItem as String
+                val value = when(spNoteColumns.selectedItemPosition){
+                    0 -> "1"
+                    1 -> "2"
+                    else -> "3"
+                }
                 SettingsManager.addSetting(SettingId.NOTE_COLUMNS, value)
                 tvCurrentNoteColumns.text = value
             }
@@ -237,7 +242,8 @@ class SettingsNotesFr : Fragment() {
                     return
                 }
                 val value = spEditorFontSize.selectedItem as String
-                SettingsManager.addSetting(SettingId.FONT_SIZE, value)
+                //this trim is necessary to prevent possible parsing issues
+                SettingsManager.addSetting(SettingId.FONT_SIZE, value.trim())
                 tvCurrentFontSize.text = value
             }
 
