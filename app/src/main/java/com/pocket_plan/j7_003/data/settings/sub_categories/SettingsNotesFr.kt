@@ -149,7 +149,10 @@ class SettingsNotesFr : Fragment() {
         tvCurrentNoteColumns.text = columnOptions[columnIndex]
 
         val fontSizeOptions = resources.getStringArray(R.array.fontSizes)
-        val fontSizeOptionsStringIndex = fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE))
+        fontSizeOptions.forEachIndexed {i, it ->
+            fontSizeOptions[i] = it.trim()
+        }
+        val fontSizeOptionsStringIndex = fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim())
         spEditorFontSize.setSelection(fontSizeOptionsStringIndex)
         tvCurrentFontSize.text = fontSizeOptions[fontSizeOptionsStringIndex]
 

@@ -67,8 +67,10 @@ class NoteEditorFr : Fragment() {
         myEtTitle = myView.etNoteTitle
         myEtContent = myView.etNoteContent
 
-        myEtTitle.textSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().toFloat()
-        myEtContent.textSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().toFloat()
+        val fontSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim().toFloat()
+
+        myEtTitle.textSize = fontSize
+        myEtContent.textSize = fontSize
 
         /**
          * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when = noteFr
