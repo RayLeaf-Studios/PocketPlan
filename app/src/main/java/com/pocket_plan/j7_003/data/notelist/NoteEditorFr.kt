@@ -246,8 +246,9 @@ class NoteEditorFr : Fragment() {
     fun relevantNoteChanges(): Boolean {
 
         //check if note was edited, return otherwise
-        if (NoteFr.editNoteHolder != null && NoteFr.editNoteHolder!!.title == getEditorTitle() &&
-            NoteFr.editNoteHolder!!.content == getEditorContent() &&
+        if (NoteFr.editNoteHolder != null && NoteFr.editNoteHolder!!.title.trim() == getEditorTitle() &&
+            //trim necessary here since older version allowed saving notes with trailing white spaces
+            NoteFr.editNoteHolder!!.content!!.trim() == getEditorContent() &&
             NoteFr.editNoteHolder!!.color == noteColor
         ) {
             //no relevant note changes if the title, content and color did not get changed
