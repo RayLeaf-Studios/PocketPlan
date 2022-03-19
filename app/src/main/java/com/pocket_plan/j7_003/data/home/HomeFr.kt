@@ -15,6 +15,7 @@ import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
+import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
@@ -77,8 +78,7 @@ class HomeFr : Fragment() {
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.clAddNote.setOnClickListener {
-            PreferenceManager.getDefaultSharedPreferences(myActivity).edit()
-                .putBoolean("editingNote", false).apply()
+            NoteFr.editNoteHolder = null
             NoteEditorFr.noteColor = NoteColors.GREEN
             myActivity.changeToFragment(FT.NOTE_EDITOR)
         }
