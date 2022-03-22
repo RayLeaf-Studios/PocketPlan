@@ -1,7 +1,7 @@
 ## Contributing to PocketPlan
 Contributions are always welcome! Take a look at the [firstcontributions repository](https://github.com/firstcontributions/first-contributions), to learn how to fork, make changes and send a PR.
 ### Branch 
-All PRs should be targeting the `dev` branch.
+All PRs should be targeting the `Beta` branch.
 ### Procedure
 If you are planning to implement a new functionality, or to make other major changes, create an [issue](https://github.com/estep248/PocketPlan/issues) or comment on an existing issue mentioning this functionality, so we know what is being worked on, and have the ability to discuss / comment on the idea.
 For minor changes / bug fixes, a PR with an explanatory comment is sufficient.
