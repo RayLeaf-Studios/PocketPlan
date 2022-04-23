@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
@@ -84,8 +83,8 @@ class HomeFr : Fragment() {
         }
         myView.clAddTask.setOnClickListener { myActivity.todoFr!!.dialogAddTask() }
         myView.clAddItem.setOnClickListener {
-            myActivity.multiShoppingFr!!.editing = false
-            myActivity.multiShoppingFr!!.openAddItemDialog()
+            myActivity.multiShoppingFr.editing = false
+            myActivity.multiShoppingFr.openAddItemDialog()
         }
 
         return myView
@@ -204,7 +203,7 @@ class HomeFr : Fragment() {
         }
 
         //get list of birthdays today
-        val birthdaysToday = myBirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
+        val birthdaysToday = MainActivity.birthdayList.getRelevantCurrentBirthdays()
 
         //get amount of birthdays to display (max = 3)
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
@@ -237,10 +236,10 @@ class HomeFr : Fragment() {
         )
 
         //check for ANY birthday in the next 30 days
-        val nextBirthday = myBirthdayFr.birthdayListInstance.getNextRelevantBirthday()
+        val nextBirthday = MainActivity.birthdayList.getNextRelevantBirthday()
         if (nextBirthday != null && SettingsManager.getSetting(SettingId.PREVIEW_BIRTHDAY) as Boolean) {
             //if any birthday was found, display it
-            val daysUntilString = when (val daysUntil = nextBirthday!!.daysUntil()) {
+            val daysUntilString = when (val daysUntil = nextBirthday.daysUntil()) {
                 //"tomorrow"
                 1 -> myActivity.resources.getString(R.string.birthdayTomorrow)
                 //"in x days"

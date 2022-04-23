@@ -79,12 +79,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var myBtnAdd: FloatingActionButton
 
     companion object {
-        //contents for shopping list
-        lateinit var  mainNoteListDir: NoteDirList
-        lateinit var itemNameList: ArrayList<String>
-
         val previousFragmentStack: Stack<FT> = Stack()
         lateinit var bottomNavigation: BottomNavigationView
+
+        lateinit var mainNoteListDir: NoteDirList
+        lateinit var birthdayList: BirthdayList
+
+        lateinit var itemNameList: ArrayList<String>
+        lateinit var shoppingListWrapper: ShoppingListWrapper
     }
 
     private fun setLocale(activity: Activity, languageCode: String?) {
@@ -190,7 +192,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
         birthdayFr = BirthdayFr()
-        birthdayFr!!.birthdayListInstance = BirthdayList(resources.getStringArray(R.array.months))
+        birthdayList = BirthdayList(resources.getStringArray(R.array.months))
         homeFr = HomeFr()
 
         //spinning app Icon
@@ -229,9 +231,8 @@ class MainActivity : AppCompatActivity() {
         //initialize bottom navigation
         bottomNavigation = findViewById(R.id.btm_nav)
 
-        //preload add item dialog to reduce loading time
         multiShoppingFr = MultiShoppingFr()
-        multiShoppingFr.shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
+        shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
 
         //When activity is entered via special intent, change to respective fragment
         when (intent.extras?.get("NotificationEntry").toString()) {
@@ -588,11 +589,6 @@ class MainActivity : AppCompatActivity() {
     /**
      * OVERRIDE FUNCTIONS
      */
-    override fun onDestroy() {
-        super.onDestroy()
-        this.finish()
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onBackPressed() {
         //close drawer when its open
@@ -644,7 +640,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         previousFragmentStack.pop()
-        if (previousFragmentStack.peek() != FT.EMPTY) {
+        if (previousFragmentStack.isNotEmpty() && previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())
         } else super.onBackPressed()
     }

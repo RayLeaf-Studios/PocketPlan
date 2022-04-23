@@ -48,7 +48,7 @@ class BirthdayFr : Fragment() {
     private val darkMode: Boolean = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
     //Current date to properly initialize date picker
-    private var date: LocalDate = LocalDate.now()
+    private lateinit var date: LocalDate
 
     //reference to birthday options menu
     private lateinit var myMenu: Menu
@@ -210,9 +210,11 @@ class BirthdayFr : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        date = LocalDate.now()
         myActivity = activity as MainActivity
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
         myRecycler = myView.recycler_view_birthday
+        birthdayListInstance = MainActivity.birthdayList
 
         searchList = arrayListOf()
 

@@ -77,6 +77,7 @@ class MultiShoppingFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         myActivity = activity as MainActivity
+        shoppingListWrapper = MainActivity.shoppingListWrapper
 
         //reset parameters when fragment is opened again
         shoppingFragments = ArrayList()
@@ -105,7 +106,6 @@ class MultiShoppingFr : Fragment() {
                 currentpos = position
                 activeShoppingFr = shoppingFragments[position]
                 activeShoppingFr.query = null
-                activeShoppingFr.myAdapter.notifyDataSetChanged()
                 activeDeletedItems = deletedItems[position]
                 myActivity.btnAdd.visibility = View.VISIBLE
                 updateShoppingMenu()
@@ -165,7 +165,6 @@ class MultiShoppingFr : Fragment() {
         newFr.shoppingListInstance = shoppingList
         newFr.shoppingListName = listName
         newFr.myMultiShoppingFr = this
-        newFr.myAdapter = ShoppingListAdapter(myActivity, newFr)
         return newFr
     }
 
