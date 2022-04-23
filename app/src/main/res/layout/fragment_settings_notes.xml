@@ -145,6 +145,16 @@
                     app:layout_constraintTop_toBottomOf="@id/tvNoteEditorFontSize"
                     />
 
+                <TextView
+                    android:id="@+id/tvEditorSample"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settingsAppearanceSampleText"
+                    android:textColor="?attr/colorOnBackGround"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <Spinner
                     android:id="@+id/spEditorFontsize"
                     android:layout_width="wrap_content"

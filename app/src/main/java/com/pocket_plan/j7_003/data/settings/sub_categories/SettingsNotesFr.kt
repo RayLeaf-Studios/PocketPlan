@@ -48,6 +48,7 @@ class SettingsNotesFr : Fragment() {
     private lateinit var tvCurrentNoteColumns: TextView
     private lateinit var tvCurrentFontSize: TextView
     private lateinit var tvArchive: TextView
+    private lateinit var tvEditorSample: TextView
 
     private lateinit var ivArchiveExpand: ImageView
     private lateinit var svArchive: NestedScrollView
@@ -88,6 +89,7 @@ class SettingsNotesFr : Fragment() {
         tvCurrentNoteColumns = myView.tvCurrentNoteColumns
         tvCurrentFontSize = myView.tvCurrentNoteEditorFontSize
         tvArchive = myView.tvArchive
+        tvEditorSample = myView.tvEditorSample
 
         ivArchiveExpand = myView.ivArchiveExpand
         svArchive = myView.svArchive
@@ -155,6 +157,7 @@ class SettingsNotesFr : Fragment() {
         val fontSizeOptionsStringIndex = fontSizeOptions.indexOf(SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim())
         spEditorFontSize.setSelection(fontSizeOptionsStringIndex)
         tvCurrentFontSize.text = fontSizeOptions[fontSizeOptionsStringIndex]
+        tvEditorSample.textSize = fontSizeOptions[fontSizeOptionsStringIndex].toFloat()
 
         swAllowSwipe.isChecked = SettingsManager.getSetting(SettingId.NOTES_SWIPE_DELETE) as Boolean
         swRandomizeNoteColors.isChecked = SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean
@@ -248,6 +251,7 @@ class SettingsNotesFr : Fragment() {
                 //this trim is necessary to prevent possible parsing issues
                 SettingsManager.addSetting(SettingId.FONT_SIZE, value.trim())
                 tvCurrentFontSize.text = value
+                tvEditorSample.textSize = value.trim().toFloat()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
