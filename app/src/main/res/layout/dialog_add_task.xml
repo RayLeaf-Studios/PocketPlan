@@ -10,7 +10,7 @@
     >
 
     <EditText
-        android:id="@+id/etxTitleAddTask"
+        android:id="@+id/etTitleAddTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/tasksAddHint"
@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnConfirm2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+        app:layout_constraintTop_toBottomOf="@+id/etTitleAddTask" />
 
     <Button
         android:id="@+id/btnConfirm2"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnConfirm3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnConfirm1"
-        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask"
+        app:layout_constraintTop_toBottomOf="@+id/etTitleAddTask"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnConfirm2"
-        app:layout_constraintTop_toBottomOf="@+id/etxTitleAddTask" />
+        app:layout_constraintTop_toBottomOf="@+id/etTitleAddTask" />
 
 
 
