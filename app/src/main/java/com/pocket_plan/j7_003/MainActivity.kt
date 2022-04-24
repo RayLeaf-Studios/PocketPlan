@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
@@ -235,40 +236,46 @@ class MainActivity : AppCompatActivity() {
         multiShoppingFr = MultiShoppingFr()
         shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
 
-        //When activity is entered via special intent, change to respective fragment
-        when (intent.extras?.get("NotificationEntry").toString()) {
-            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
-            "SReminder" -> changeToFragment(FT.HOME)
-            "settings" -> changeToFragment(FT.SETTINGS)
-            "appearance" -> {
-                previousFragmentStack.push(FT.HOME)
-                previousFragmentStack.push(FT.SETTINGS)
-                changeToFragment(FT.SETTINGS_APPEARANCE)
-            }
-
-            "backup" -> {
-                previousFragmentStack.push(FT.HOME)
-                changeToFragment(FT.SETTINGS)
-            }
-
-            else -> {
-                if (previousFragmentStack.peek() == FT.EMPTY) {
-                    changeToFragment(FT.HOME)
-                } else {
-                    changeToFragment(previousFragmentStack.pop())
-                }
-            }
-        }
-
-        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
-        todoFr!!.preloadAddTaskDialog(this, layoutInflater)
-
         //Initialize remaining fragments
         noteFr = NoteFr()
         mainNoteListDir = NoteDirList()
         noteFr!!.noteListDirs = mainNoteListDir
 
-        try {
+    //When activity is entered via special intent, change to respective fragment
+        if(intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain"){
+            if(handleTextViaIntent(intent)) changeToFragment(FT.NOTES)
+        }
+
+
+        when (intent.extras?.get("NotificationEntry").toString()) {
+        "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+        "SReminder" -> changeToFragment(FT.HOME)
+        "settings" -> changeToFragment(FT.SETTINGS)
+        "appearance" -> {
+            previousFragmentStack.push(FT.HOME)
+            previousFragmentStack.push(FT.SETTINGS)
+            changeToFragment(FT.SETTINGS_APPEARANCE)
+        }
+
+        "backup" -> {
+            previousFragmentStack.push(FT.HOME)
+            changeToFragment(FT.SETTINGS)
+        }
+
+        else -> {
+            if (previousFragmentStack.peek() == FT.EMPTY) {
+                changeToFragment(FT.HOME)
+            } else {
+                changeToFragment(previousFragmentStack.pop())
+            }
+        }
+    }
+
+    multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
+    todoFr!!.preloadAddTaskDialog(this, layoutInflater)
+
+
+    try {
             //1000 things can go wrong here
             manageNoteRestore()
         } catch (e: Exception) {
@@ -361,6 +368,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun handleTextViaIntent(intent: Intent): Boolean{
+        try {
+            val content = intent.getStringExtra(Intent.EXTRA_TEXT)
+            if (content != null) {
+                mainNoteListDir.addNote(title = "", content = content, color = NoteColors.BLUE)
+                Toast.makeText(this, getString(R.string.notesNotificationNoteAdded), Toast.LENGTH_SHORT).show()
+                return true
+            }
+        }catch (e: Exception){
+            Toast.makeText(this, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
+        }
+        return false
+    }
+
 
     private fun manageNoteRestore() {
 
