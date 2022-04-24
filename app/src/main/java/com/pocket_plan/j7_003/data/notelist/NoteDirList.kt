@@ -250,6 +250,14 @@ class NoteDirList: Checkable {
     }
 
     /**
+     * Resets the folder stack to the starting condition, only containing the root dir
+     */
+    fun resetStack() {
+        folderStack.clear()
+        folderStack.push(rootDir)
+    }
+
+    /**
      * Deletes the currently opened folder, except for the root folder which can't
      * be deleted. Also saves the notes to file.
      */
