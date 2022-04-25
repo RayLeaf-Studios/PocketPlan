@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
-import kotlinx.android.synthetic.main.main_panel.*
+import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
 import kotlin.collections.ArrayDeque

@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
@@ -129,6 +130,24 @@ class NoteEditorFr : Fragment() {
             R.id.item_editor_color -> dialogColorChooser()
 
             R.id.item_editor_move -> dialogMoveNote()
+
+            R.id.item_editor_share -> {
+                val noteContent = getEditorContent()
+                val noteTitle = getEditorTitle()
+                var fullNote = ""
+                if(noteTitle != ""){
+                    fullNote += noteTitle + "\n"
+                }
+                fullNote += noteContent
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, fullNote)
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
+            }
 
             R.id.item_editor_save -> {
                 val noteContent = getEditorContent()

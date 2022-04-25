@@ -54,7 +54,7 @@ import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHand
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
-import kotlinx.android.synthetic.main.main_panel.*
+import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
@@ -163,9 +163,9 @@ class MainActivity : AppCompatActivity() {
         }
         setTheme(themeToSet)
 
-        //create main_panel
+        //create drawer_layout
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_panel)
+        setContentView(R.layout.drawer_layout)
 
         //IMPORTANT: ORDER IS CRITICAL HERE
         //Initialize Time api and AlarmHandler

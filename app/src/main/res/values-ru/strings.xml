@@ -321,5 +321,6 @@
         <item quantity="one" tools:ignore="ImpliedQuantity">день</item>
         <item quantity="other">дней</item>
     </plurals>
+    <string name="notesShare">Поделить</string>
 
 </resources>
