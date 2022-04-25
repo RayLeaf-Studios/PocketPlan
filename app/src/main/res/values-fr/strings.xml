@@ -339,5 +339,6 @@
         <item quantity="one" tools:ignore="ImpliedQuantity">jour</item>
         <item quantity="other">jours</item>
     </plurals>
+    <string name="notesShare">Partager</string>
 
 </resources>

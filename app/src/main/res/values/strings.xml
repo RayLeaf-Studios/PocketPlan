@@ -366,5 +366,6 @@
         <item quantity="one">day</item>
         <item quantity="other">days</item>
     </plurals>
+    <string name="notesShare">Share</string>
 
 </resources>

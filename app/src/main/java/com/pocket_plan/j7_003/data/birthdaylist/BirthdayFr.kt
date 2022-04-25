@@ -22,8 +22,8 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
+import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
-import kotlinx.android.synthetic.main.main_panel.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
@@ -48,7 +48,7 @@ class BirthdayFr : Fragment() {
     private val darkMode: Boolean = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
     //Current date to properly initialize date picker
-    private var date: LocalDate = LocalDate.now()
+    private lateinit var date: LocalDate
 
     //reference to birthday options menu
     private lateinit var myMenu: Menu
@@ -210,9 +210,11 @@ class BirthdayFr : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        date = LocalDate.now()
         myActivity = activity as MainActivity
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
         myRecycler = myView.recycler_view_birthday
+        birthdayListInstance = MainActivity.birthdayList
 
         searchList = arrayListOf()
 
@@ -969,6 +971,21 @@ class BirthdayAdapter(
 
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
+    private val monthColors = listOf(
+        Pair(R.attr.colorMonth2, R.attr.colorMonth1),
+        Pair(R.attr.colorMonth3, R.attr.colorMonth2),
+        Pair(R.attr.colorMonth4, R.attr.colorMonth3),
+        Pair(R.attr.colorMonth5, R.attr.colorMonth4),
+        Pair(R.attr.colorMonth6, R.attr.colorMonth5),
+        Pair(R.attr.colorMonth7, R.attr.colorMonth6),
+        Pair(R.attr.colorMonth8, R.attr.colorMonth7),
+        Pair(R.attr.colorMonth9, R.attr.colorMonth8),
+        Pair(R.attr.colorMonth10, R.attr.colorMonth9),
+        Pair(R.attr.colorMonth11, R.attr.colorMonth10),
+        Pair(R.attr.colorMonth12, R.attr.colorMonth11),
+        Pair(R.attr.colorMonth1, R.attr.colorMonth12)
+    )
+
     fun deleteItem(viewHolder: RecyclerView.ViewHolder) {
         val parsed = viewHolder as BirthdayViewHolder
         //get deleted birthday via index
@@ -1255,21 +1272,6 @@ class BirthdayAdapter(
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         holder.tvRowBirthdayDivider.setTextColor(
             myActivity.colorForAttr(R.attr.colorCategory)
-        )
-
-        val monthColors = listOf(
-            Pair(R.attr.colorMonth2, R.attr.colorMonth1),
-            Pair(R.attr.colorMonth3, R.attr.colorMonth2),
-            Pair(R.attr.colorMonth4, R.attr.colorMonth3),
-            Pair(R.attr.colorMonth5, R.attr.colorMonth4),
-            Pair(R.attr.colorMonth6, R.attr.colorMonth5),
-            Pair(R.attr.colorMonth7, R.attr.colorMonth6),
-            Pair(R.attr.colorMonth8, R.attr.colorMonth7),
-            Pair(R.attr.colorMonth9, R.attr.colorMonth8),
-            Pair(R.attr.colorMonth10, R.attr.colorMonth9),
-            Pair(R.attr.colorMonth11, R.attr.colorMonth10),
-            Pair(R.attr.colorMonth12, R.attr.colorMonth11),
-            Pair(R.attr.colorMonth1, R.attr.colorMonth12)
         )
 
         //determine the background color of the card

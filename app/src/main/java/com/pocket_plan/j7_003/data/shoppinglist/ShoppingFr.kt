@@ -95,6 +95,7 @@ class ShoppingFr : Fragment() {
     ): View? {
         myActivity = activity as MainActivity
         query = null
+        myAdapter = ShoppingListAdapter(myActivity, this)
 
         //load settings
         expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean

@@ -314,5 +314,6 @@
         <item quantity="one">Tag</item>
         <item quantity="other">Tagen</item>
     </plurals>
+    <string name="notesShare">Teilen</string>
 
 </resources>

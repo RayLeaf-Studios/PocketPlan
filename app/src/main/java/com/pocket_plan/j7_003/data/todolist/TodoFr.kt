@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.dialog_add_task.view.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.row_task.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
-import kotlin.collections.ArrayDeque
 
 /**
  * A simple [Fragment] subclass.
@@ -38,6 +37,8 @@ class TodoFr : Fragment() {
     lateinit var myFragment: TodoFr
 
     companion object {
+        //Displayed as middle priority 2, (0 indexed)
+        var lastUsedTaskPriority = 1
         lateinit var myAdapter: TodoTaskAdapter
         lateinit var myRecycler: RecyclerView
 
@@ -63,6 +64,7 @@ class TodoFr : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
@@ -337,18 +339,25 @@ class TodoFr : Fragment() {
             addTaskDialogView.btnConfirm3
         )
 
+        addTaskDialogView.etTitleAddTask.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                taskConfirmButtons[lastUsedTaskPriority].performClick()
+                true
+            } else false
+        }
+
         taskConfirmButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
-                val title = addTaskDialogView.etxTitleAddTask.text.toString()
-                addTaskDialog.etxTitleAddTask.setText("")
+                val title = addTaskDialogView.etTitleAddTask.text.toString()
+                addTaskDialog.etTitleAddTask.setText("")
                 if (title.trim().isEmpty()) {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, anim.shake)
-                    addTaskDialogView.etxTitleAddTask.startAnimation(animationShake)
+                    addTaskDialogView.etTitleAddTask.startAnimation(animationShake)
                     @Suppress("LABEL_NAME_CLASH")
                     return@setOnClickListener
                 }
-
+                lastUsedTaskPriority = index
                 val newPos =
                     todoListInstance.addFullTask(
                         Task(
@@ -377,7 +386,7 @@ class TodoFr : Fragment() {
     @SuppressLint("InflateParams")
     fun dialogAddTask() {
         addTaskDialog.show()
-        addTaskDialogView.etxTitleAddTask.requestFocus()
+        addTaskDialogView.etTitleAddTask.requestFocus()
     }
 }
 
@@ -510,9 +519,9 @@ class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
             myAlertDialog.show()
 
             //write current task to textField
-            myDialogView.etxTitleAddTask.requestFocus()
-            myDialogView.etxTitleAddTask.setText(listInstance.getTask(holder.bindingAdapterPosition).title)
-            myDialogView.etxTitleAddTask.setSelection(myDialogView.etxTitleAddTask.text.length)
+            myDialogView.etTitleAddTask.requestFocus()
+            myDialogView.etTitleAddTask.setText(listInstance.getTask(holder.bindingAdapterPosition).title)
+            myDialogView.etTitleAddTask.setSelection(myDialogView.etTitleAddTask.text.length)
 
             //adds listeners to confirmButtons in addTaskDialog
             val taskConfirmButtons = arrayListOf<Button>(
@@ -524,15 +533,15 @@ class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener Button@{
-                    if (myDialogView.etxTitleAddTask.text.toString().trim() == "") {
+                    if (myDialogView.etTitleAddTask.text.toString().trim() == "") {
                         val animationShake =
                             AnimationUtils.loadAnimation(myActivity, anim.shake)
-                        myDialogView.etxTitleAddTask.startAnimation(animationShake)
+                        myDialogView.etTitleAddTask.startAnimation(animationShake)
                         return@Button
                     }
                     val newPos = listInstance.editTask(
                         holder.bindingAdapterPosition, index + 1,
-                        myDialogView.etxTitleAddTask.text.toString(),
+                        myDialogView.etTitleAddTask.text.toString(),
                         listInstance.getTask(holder.bindingAdapterPosition).isChecked
                     )
                     this.notifyItemChanged(holder.bindingAdapterPosition)

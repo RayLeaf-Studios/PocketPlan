@@ -319,5 +319,6 @@
         <item quantity="one">día</item>
         <item quantity="other">días</item>
     </plurals>
+    <string name="notesShare">Compartir</string>
 
 </resources>

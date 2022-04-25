@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
@@ -67,8 +68,10 @@ class NoteEditorFr : Fragment() {
         myEtTitle = myView.etNoteTitle
         myEtContent = myView.etNoteContent
 
-        myEtTitle.textSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().toFloat()
-        myEtContent.textSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().toFloat()
+        val fontSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim().toFloat()
+
+        myEtTitle.textSize = fontSize
+        myEtContent.textSize = fontSize
 
         /**
          * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when = noteFr
@@ -127,6 +130,24 @@ class NoteEditorFr : Fragment() {
             R.id.item_editor_color -> dialogColorChooser()
 
             R.id.item_editor_move -> dialogMoveNote()
+
+            R.id.item_editor_share -> {
+                val noteContent = getEditorContent()
+                val noteTitle = getEditorTitle()
+                var fullNote = ""
+                if(noteTitle != ""){
+                    fullNote += noteTitle + "\n"
+                }
+                fullNote += noteContent
+                val sendIntent: Intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, fullNote)
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
+            }
 
             R.id.item_editor_save -> {
                 val noteContent = getEditorContent()
@@ -244,8 +265,9 @@ class NoteEditorFr : Fragment() {
     fun relevantNoteChanges(): Boolean {
 
         //check if note was edited, return otherwise
-        if (NoteFr.editNoteHolder != null && NoteFr.editNoteHolder!!.title == getEditorTitle() &&
-            NoteFr.editNoteHolder!!.content == getEditorContent() &&
+        if (NoteFr.editNoteHolder != null && NoteFr.editNoteHolder!!.title.trim() == getEditorTitle() &&
+            //trim necessary here since older version allowed saving notes with trailing white spaces
+            NoteFr.editNoteHolder!!.content!!.trim() == getEditorContent() &&
             NoteFr.editNoteHolder!!.color == noteColor
         ) {
             //no relevant note changes if the title, content and color did not get changed

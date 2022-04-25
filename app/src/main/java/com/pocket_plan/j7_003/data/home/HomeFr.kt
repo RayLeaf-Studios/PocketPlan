@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
+import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
@@ -77,15 +77,14 @@ class HomeFr : Fragment() {
 
         //buttons to create new notes, tasks, terms or items from the home panel
         myView.clAddNote.setOnClickListener {
-            PreferenceManager.getDefaultSharedPreferences(myActivity).edit()
-                .putBoolean("editingNote", false).apply()
+            NoteFr.editNoteHolder = null
             NoteEditorFr.noteColor = NoteColors.GREEN
             myActivity.changeToFragment(FT.NOTE_EDITOR)
         }
         myView.clAddTask.setOnClickListener { myActivity.todoFr!!.dialogAddTask() }
         myView.clAddItem.setOnClickListener {
-            myActivity.multiShoppingFr!!.editing = false
-            myActivity.multiShoppingFr!!.openAddItemDialog()
+            myActivity.multiShoppingFr.editing = false
+            myActivity.multiShoppingFr.openAddItemDialog()
         }
 
         return myView
@@ -204,7 +203,7 @@ class HomeFr : Fragment() {
         }
 
         //get list of birthdays today
-        val birthdaysToday = myBirthdayFr.birthdayListInstance.getRelevantCurrentBirthdays()
+        val birthdaysToday = MainActivity.birthdayList.getRelevantCurrentBirthdays()
 
         //get amount of birthdays to display (max = 3)
         val birthdaysToDisplay = minOf(birthdaysToday.size, 3)
@@ -237,10 +236,10 @@ class HomeFr : Fragment() {
         )
 
         //check for ANY birthday in the next 30 days
-        val nextBirthday = myBirthdayFr.birthdayListInstance.getNextRelevantBirthday()
+        val nextBirthday = MainActivity.birthdayList.getNextRelevantBirthday()
         if (nextBirthday != null && SettingsManager.getSetting(SettingId.PREVIEW_BIRTHDAY) as Boolean) {
             //if any birthday was found, display it
-            val daysUntilString = when (val daysUntil = nextBirthday!!.daysUntil()) {
+            val daysUntilString = when (val daysUntil = nextBirthday.daysUntil()) {
                 //"tomorrow"
                 1 -> myActivity.resources.getString(R.string.birthdayTomorrow)
                 //"in x days"
