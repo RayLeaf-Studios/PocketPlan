@@ -108,7 +108,7 @@
     <string name="settingsAppearanceResetHint">Cela ne supprimera aucune de vos données, comme vos notes, etc.</string>
     <string name="settingsAppearanceResetTitle">Réinitialiser tous les paramètres par défaut ?</string>
     <string name="settingsAppearanceResetToDefault">Réinitialiser tous les paramètres par défaut</string>
-    <string name="settingsAppearanceSampleText">Exemple de texte</string>
+    <string name="settingsAppearanceSampleText">Exemple</string>
     <string name="settingsAppearanceShakeHomeExplanation">S\'il y a une ou plusieurs tâches de priorité 1, l\'icône de la tâche se déplace lorsque vous ouvrez le panneau d\'accueil.</string>
     <string name="settingsAppearanceShakeTask">Secouer le rappel de tâche dans le panneau d\'accueil</string>
     <string name="settingsAppearanceShapes">Formes</string>

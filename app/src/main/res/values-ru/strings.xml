@@ -108,7 +108,7 @@
     <string name="settingsAppearanceResetHint">При этом\ не будут удалены все ваши данные, такие как заметки и т.д.</string>
     <string name="settingsAppearanceResetTitle">Сбросить все настройки по умолчанию?</string>
     <string name="settingsAppearanceResetToDefault">Сбросить все настройки по умолчанию</string>
-    <string name="settingsAppearanceSampleText">Образец текста</string>
+    <string name="settingsAppearanceSampleText">Образец</string>
     <string name="settingsAppearanceShakeHomeExplanation">Если есть 1 или более задач с приоритетом 1, значок задачи будет перемещаться при каждом открытии домашней панели.</string>
     <string name="settingsAppearanceShakeTask">Встряхнуть напоминание о задаче в домашней панели</string>
     <string name="settingsAppearanceShapes">Формы</string>

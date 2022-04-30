@@ -120,7 +120,7 @@
     <string name="settingsAppearanceResetHint">Deine Daten wie Notizen usw. werden dabei nicht gelöscht.</string>
     <string name="settingsAppearanceResetTitle">Alle Einstellungen zurücksetzen?</string>
     <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
-    <string name="settingsAppearanceSampleText">Beispiel Text</string>
+    <string name="settingsAppearanceSampleText">Beispiel</string>
     <string name="settingsAppearanceShakeHomeExplanation">Wenn es eine oder mehr Aufgaben mit Priorität 1 gibt, bewegt sich das Aufgaben Icon, sobald du das Home Panel öffnest.</string>
     <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
     <string name="settingsAppearanceShapes">Formen</string>
