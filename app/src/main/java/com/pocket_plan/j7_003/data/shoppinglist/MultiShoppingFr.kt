@@ -557,8 +557,11 @@ class MultiShoppingFr : Fragment() {
                 spCategory.tag = categoryToSet
                 spCategory.setSelection(categoryToSet)
 
-                spItemUnit.tag = unitToSet
-                spItemUnit.setSelection(unitToSet)
+                //select unit depending on text change (user or regular template)
+                if(!unitChanged){
+                    spItemUnit.tag = unitToSet
+                    spItemUnit.setSelection(unitToSet)
+                }
 
             }
 
@@ -767,6 +770,7 @@ class MultiShoppingFr : Fragment() {
             .indexOf(item.suggestedUnit)
 
         addItemDialogView!!.spItemUnit.tag = unitIndex
+        //Select correct unit when opening dialog for edit
         addItemDialogView!!.spItemUnit.setSelection(unitIndex)
 
         unitChanged = false
