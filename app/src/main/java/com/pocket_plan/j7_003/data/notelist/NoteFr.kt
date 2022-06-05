@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 import kotlin.random.Random
 
@@ -342,12 +341,11 @@ class NoteFr : Fragment() {
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            val moveMessage =
-                when (noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)) {
-                    true -> getString(R.string.notesToastFolderMoved)
-                    else -> getString(R.string.notesCantMove)
+            if(spFolderPaths.selectedItemPosition != currentParentFolderIndex){
+                if (noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)){
+                    myActivity.toast(getString(R.string.notesToastFolderMoved))
                 }
-            myActivity.toast(moveMessage)
+            }
             myAdapter.notifyDataSetChanged()
             //reload title, current folder has been edited
             myActivity.setToolbarTitle(noteListDirs.getCurrentPathName(getString(R.string.menuTitleNotes)))
@@ -714,13 +712,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                    containingList.removeAt(noteIndex)
                    containingList.add(0, currentNote)
                 }
+                myNoteFr.noteListDirs.adjustStackAbove(currentNote)
 
                 NoteFr.editNoteHolder = currentNote
-
-//                notePosition = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
-
-//                PreferenceManager.getDefaultSharedPreferences(myActivity)
-//                    .edit().putBoolean("editingNote", true).apply()
 
                 myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
                 myActivity.hideKeyboard()
