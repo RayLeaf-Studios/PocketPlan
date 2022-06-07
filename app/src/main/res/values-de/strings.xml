@@ -22,7 +22,7 @@
     <string name="birthdayNotificationMultText">Heute haben %1$d Leute Geburtstag!</string>
     <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
     <string name="birthdayNotificationSingleText">Heute hat %1$s Geburtstag!</string>
-    <string name="birthdayNotificationSingleUpcText">In %2$d Tagen hat %1$s Geburtstag!</string>
+    <string name="birthdayNotificationSingleUpcText">In %2$d %3$s hat %1$s Geburtstag!</string>
     <string name="birthdayNotificationTitle">Geburtstage</string>
     <string name="birthdayNotificationTitleUpc">Bevorstehende Geburtstage</string>
     <string name="birthdayOldBornIn">" alt, geboren "</string>

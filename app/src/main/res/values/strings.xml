@@ -23,7 +23,7 @@
     <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">There are %1$d birthdays today!</string>
     <string name="birthdayNotificationMultUpcText">%1$d birthdays are coming up!</string>
     <string name="birthdayNotificationSingleText">It\'s %1$s birthday!</string>
-    <string name="birthdayNotificationSingleUpcText">%1$s birthday is coming up in %2$d days!</string>
+    <string name="birthdayNotificationSingleUpcText">%1$s\'s birthday is coming up in %2$d %3$s!</string>
     <string name="birthdayNotificationTitle">Birthdays</string>
     <string name="birthdayNotificationTitleUpc">Upcoming Birthdays</string>
     <string name="birthdayOldBornIn">" old, born in "</string>

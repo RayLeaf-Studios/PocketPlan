@@ -20,7 +20,7 @@
     <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">Сегодня %1$d дней рождения!</string>
     <string name="birthdayNotificationMultUpcText">Скоро %1$d дней рождения!</string>
     <string name="birthdayNotificationSingleText">Это\ день рождения %1$s!</string>
-    <string name="birthdayNotificationSingleUpcText">День рождения %1$s наступит через %2$d дней!</string>
+    <string name="birthdayNotificationSingleUpcText">День рождения %1$s наступит через %2$d %3$s!</string>
     <string name="birthdayNotificationTitle">Дни рождения</string>
     <string name="birthdayNotificationTitleUpc">Ближайшие дни рождения</string>
     <string name="birthdayOldBornIn">"лет, родился в "</string>

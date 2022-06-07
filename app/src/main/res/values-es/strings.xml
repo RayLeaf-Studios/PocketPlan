@@ -20,7 +20,7 @@
     <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">¡Hoy hay %1$d cumpleaños!</string>
     <string name="birthdayNotificationMultUpcText">¡Se acercan %1$d cumpleaños!</string>
     <string name="birthdayNotificationSingleText">¡Es el cumpleaños de %1$s!</string>
-    <string name="birthdayNotificationSingleUpcText">¡El cumpleaños de %1$s se acerca en %2$d días!</string>
+    <string name="birthdayNotificationSingleUpcText">¡El cumpleaños de %1$s se acerca en %2$d %3$s!</string>
     <string name="birthdayNotificationTitle">Cumpleaños</string>
     <string name="birthdayNotificationTitleUpc">Próximos cumpleaños</string>
     <string name="birthdayOldBornIn">" viejo, nacido en "</string>

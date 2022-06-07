@@ -5,16 +5,15 @@ import android.content.Context
 import android.content.Intent
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
-import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
 import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
+import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import org.threeten.bp.LocalDate
-import kotlin.collections.ArrayList
 
 
 class NotificationReceiver : BroadcastReceiver() {
@@ -120,7 +119,7 @@ class NotificationReceiver : BroadcastReceiver() {
         NotificationHandler.createNotification(
             "Birthday Notification", context.resources.getString(R.string.birthdayNotificationTitleUpc),
             101, context.resources.getString(R.string.birthdayNotificationTitleUpc),
-            context.resources.getString(R.string.birthdayNotificationSingleUpcText, birthday.name, birthday.daysToRemind),
+            context.resources.getString(R.string.birthdayNotificationSingleUpcText, birthday.name, birthday.daysToRemind, context.resources.getQuantityString(R.plurals.dayIn, birthday.daysToRemind)),
             R.drawable.ic_action_birthday, "birthdays", context
         )
     }
