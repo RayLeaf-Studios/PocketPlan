@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.shoppinglist
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,12 +11,14 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
@@ -27,12 +30,17 @@ import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayDeque
 import kotlin.math.abs
 import kotlin.math.min
 
 class MultiShoppingFr : Fragment() {
+
+    companion object{
+       var openFromImport = false
+    }
 
     private lateinit var myMenu: Menu
     private lateinit var myActivity: MainActivity
@@ -94,8 +102,6 @@ class MultiShoppingFr : Fragment() {
         shoppingPager.adapter = pagerAdapter
         shoppingPager.isSaveEnabled = false
 
-        val startPage = 0
-        shoppingPager.setCurrentItem(startPage, false)
 
         //create and register onPageChangeCallback on shoppingPager
         val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
@@ -106,8 +112,9 @@ class MultiShoppingFr : Fragment() {
                 activeShoppingFr.query = null
                 activeDeletedItems = deletedItems[position]
                 myActivity.btnAdd.visibility = View.VISIBLE
-                updateShoppingMenu()
                 tabLayout.selectTab(tabLayout.getTabAt(position))
+                if (!::myMenu.isInitialized) return
+                updateShoppingMenu()
             }
         }
         shoppingPager.registerOnPageChangeCallback(pageChangeCallback)
@@ -131,6 +138,13 @@ class MultiShoppingFr : Fragment() {
         }
         tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         updateTabs()
+        val startPage = when (openFromImport){
+            true -> MainActivity.shoppingListWrapper.size-1
+            else -> 0
+        }
+        if (openFromImport) openFromImport = false
+
+        shoppingPager.setCurrentItem(startPage, false)
         return myView
     }
 
@@ -390,6 +404,28 @@ class MultiShoppingFr : Fragment() {
                     0,
                     activeShoppingFr.shoppingListInstance.size
                 )
+            }
+
+            R.id.item_shopping_share_list -> {
+                val list = activeShoppingFr.shoppingListInstance
+
+                val listName = tabLayout.getTabAt(currentpos)?.text
+                val tmpfile = File("${myActivity.filesDir}/${listName}.json")
+                tmpfile.writeText(Gson().toJson(list))
+                val uri = FileProvider.getUriForFile(myActivity,
+                    "${myActivity.applicationContext.packageName}.provider", tmpfile)
+//                val uri = Uri.fromFile(tmpfile)
+
+                // the intent used to share the zip archived backup
+                val sharingIntent = Intent(Intent.ACTION_SEND)
+                sharingIntent.type = "application/json"
+
+                sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+                // actual start of sharing
+                myActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+                tmpfile.deleteOnExit()
             }
         }
 
@@ -992,6 +1028,7 @@ class AutoCompleteAdapter(
                         lowerItem[i] == input[i] -> {
                             //increase score by 2 if this char occurs at this index
                             likelihoodScore += 2
+                            lettersLeft = lettersLeft.replaceFirst(input[i], '\u0000')
                         }
                         lettersLeft.contains(input[i]) -> {
                             //increase score by 1 if this char occurs anywhere in the string
@@ -1007,13 +1044,13 @@ class AutoCompleteAdapter(
                     i++
                 }
                 //subtract length difference from likelihood score
-                likelihoodScore -= abs(itemName.length - input.length)
+                likelihoodScore -= abs(itemName.length - input.length) * abs(itemName.length - input.length)
                 //store score for this item name in the withValues map
                 withValues[itemName] = likelihoodScore
             }
 
             //Filter map for all items that pass the likelihood threshold of their length / 1.2.
-            //Decrease this value to make the algorithm more stricter
+            //Decrease this value to make the algorithm stricter
             //Sort it descending by value (highest values first) and add the first <maxSuggestions> items to the suggestions
             withValues.toList().filter { (name, value) -> value > name.length / 1.2 }
                 .sortedByDescending { (_, value) -> value }.forEach {

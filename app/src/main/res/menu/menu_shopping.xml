@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/item_shopping_share_list"
+        android:title="Share"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/item_shopping_add_list"
         android:title="@string/shoppingOptionAddList"
         app:showAsAction="never" />

@@ -7,7 +7,9 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
@@ -26,6 +28,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
@@ -42,10 +46,7 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.sub_categories.*
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplateList
-import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
-import com.pocket_plan.j7_003.data.shoppinglist.ShoppingListWrapper
-import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
+import com.pocket_plan.j7_003.data.shoppinglist.*
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
@@ -53,10 +54,12 @@ import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
-import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.drawer_layout.*
+import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar.*
+import java.io.File
+import java.io.FileInputStream
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -127,8 +130,16 @@ class MainActivity : AppCompatActivity() {
         return typedValue.data
     }
 
+    override fun onNewIntent(intent: Intent?) {
+//        startActivity(intent)
+//        this.finish()
+        Log.e("NEW", "INTENT")
+        super.onNewIntent(intent)
+    }
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.e("NEW", "ONCREATE")
+
 
         //Initialize fragment stack that enables onBackPress behavior
         previousFragmentStack.clear()
@@ -240,42 +251,69 @@ class MainActivity : AppCompatActivity() {
         noteFr = NoteFr()
         mainNoteListDir = NoteDirList()
         noteFr!!.noteListDirs = mainNoteListDir
+        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
 
-    //When activity is entered via special intent, change to respective fragment
-        if(intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain"){
-            if(handleTextViaIntent(intent)) changeToFragment(FT.NOTES)
+        //When activity is entered via special intent, change to respective fragment
+        if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
+            if (handleTextViaIntent(intent)) changeToFragment(FT.NOTES)
+        } else if (intent?.type == "application/json") {
+            val uri: Uri = intent.extras?.get(Intent.EXTRA_STREAM) as Uri
+            if (uri.path == null) {
+                return
+            }
+            val tmpFile = File(uri.path!!)
+            var listName = tmpFile.name.substringBeforeLast(".")
+            for (i in 1 until 99) {
+                if (!shoppingListWrapper.contains(listName)) break
+                var numString = ""
+                for (j in listName.length-1 downTo 0){
+                    if (listName[j].isDigit()) numString += listName[j]
+                    else break
+                }
+                listName = listName.substring(0, listName.length-numString.length)
+                listName += i.toString()
+            }
+            val inputStream: FileInputStream =
+                contentResolver.openInputStream(uri) as FileInputStream
+            val c = inputStream.bufferedReader().readText()
+            val list = GsonBuilder().create()
+                .fromJson<ShoppingList>(c, object : TypeToken<ShoppingList>() {}.type)
+            shoppingListWrapper.add(listName, list)
+            tmpFile.delete()
+            MultiShoppingFr.openFromImport = true
+            changeToFragment(FT.SHOPPING)
         }
+
 
 
         when (intent.extras?.get("NotificationEntry").toString()) {
-        "birthdays" -> changeToFragment(FT.BIRTHDAYS)
-        "SReminder" -> changeToFragment(FT.HOME)
-        "settings" -> changeToFragment(FT.SETTINGS)
-        "appearance" -> {
-            previousFragmentStack.push(FT.HOME)
-            previousFragmentStack.push(FT.SETTINGS)
-            changeToFragment(FT.SETTINGS_APPEARANCE)
-        }
+            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder" -> changeToFragment(FT.HOME)
+            "settings" -> changeToFragment(FT.SETTINGS)
+            "appearance" -> {
+                previousFragmentStack.push(FT.HOME)
+                previousFragmentStack.push(FT.SETTINGS)
+                changeToFragment(FT.SETTINGS_APPEARANCE)
+            }
 
-        "backup" -> {
-            previousFragmentStack.push(FT.HOME)
-            changeToFragment(FT.SETTINGS)
-        }
+            "backup" -> {
+                previousFragmentStack.push(FT.HOME)
+                changeToFragment(FT.SETTINGS)
+            }
 
-        else -> {
-            if (previousFragmentStack.peek() == FT.EMPTY) {
-                changeToFragment(FT.HOME)
-            } else {
-                changeToFragment(previousFragmentStack.pop())
+            else -> {
+                if (previousFragmentStack.peek() == FT.EMPTY) {
+                    changeToFragment(FT.HOME)
+                } else {
+                    changeToFragment(previousFragmentStack.pop())
+                }
             }
         }
-    }
 
-    multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
-    todoFr!!.preloadAddTaskDialog(this, layoutInflater)
+        todoFr!!.preloadAddTaskDialog(this, layoutInflater)
 
 
-    try {
+        try {
             //1000 things can go wrong here
             manageNoteRestore()
         } catch (e: Exception) {
@@ -369,16 +407,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleTextViaIntent(intent: Intent): Boolean{
+    private fun handleTextViaIntent(intent: Intent): Boolean {
         try {
             val content = intent.getStringExtra(Intent.EXTRA_TEXT)
             if (content != null) {
                 mainNoteListDir.addNote(title = "", content = content, color = NoteColors.BLUE)
-                Toast.makeText(this, getString(R.string.notesNotificationNoteAdded), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.notesNotificationNoteAdded),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
-        }catch (e: Exception){
-            Toast.makeText(this, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT)
+                .show()
         }
         return false
     }
