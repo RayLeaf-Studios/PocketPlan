@@ -140,7 +140,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="?attr/colorHint"
                     android:textSize="@dimen/font_size_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvNoteEditorFontSize"
                     />
@@ -151,7 +150,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/settingsAppearanceSampleText"
                     android:textColor="?attr/colorOnBackGround"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

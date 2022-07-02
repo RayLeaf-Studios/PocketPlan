@@ -20,7 +20,7 @@
     <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">Il y a %1$d anniversaires aujourd\'hui !</string>
     <string name="birthdayNotificationMultUpcText">%1$d anniversaires sont à venir !</string>
     <string name="birthdayNotificationSingleText">C\'est l\'anniversaire de %1$s !</string>
-    <string name="birthdayNotificationSingleUpcText">L\'anniversaire de %1$s arrive dans %2$d jours !</string>
+    <string name="birthdayNotificationSingleUpcText">L\'anniversaire de %1$s arrive dans %2$d %3$s!</string>
     <string name="birthdayNotificationTitle">Anniversaires</string>
     <string name="birthdayNotificationTitleUpc">Anniversaires à venir</string>
     <string name="birthdayOldBornIn">âgé de ", né en "</string>
@@ -108,7 +108,7 @@
     <string name="settingsAppearanceResetHint">Cela ne supprimera aucune de vos données, comme vos notes, etc.</string>
     <string name="settingsAppearanceResetTitle">Réinitialiser tous les paramètres par défaut ?</string>
     <string name="settingsAppearanceResetToDefault">Réinitialiser tous les paramètres par défaut</string>
-    <string name="settingsAppearanceSampleText">Exemple de texte</string>
+    <string name="settingsAppearanceSampleText">Exemple</string>
     <string name="settingsAppearanceShakeHomeExplanation">S\'il y a une ou plusieurs tâches de priorité 1, l\'icône de la tâche se déplace lorsque vous ouvrez le panneau d\'accueil.</string>
     <string name="settingsAppearanceShakeTask">Secouer le rappel de tâche dans le panneau d\'accueil</string>
     <string name="settingsAppearanceShapes">Formes</string>

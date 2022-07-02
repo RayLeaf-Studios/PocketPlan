@@ -20,7 +20,7 @@
     <string name="birthdayNotificationMultText" tools:ignore="PluralsCandidate">¡Hoy hay %1$d cumpleaños!</string>
     <string name="birthdayNotificationMultUpcText">¡Se acercan %1$d cumpleaños!</string>
     <string name="birthdayNotificationSingleText">¡Es el cumpleaños de %1$s!</string>
-    <string name="birthdayNotificationSingleUpcText">¡El cumpleaños de %1$s se acerca en %2$d días!</string>
+    <string name="birthdayNotificationSingleUpcText">¡El cumpleaños de %1$s se acerca en %2$d %3$s!</string>
     <string name="birthdayNotificationTitle">Cumpleaños</string>
     <string name="birthdayNotificationTitleUpc">Próximos cumpleaños</string>
     <string name="birthdayOldBornIn">" viejo, nacido en "</string>
@@ -108,7 +108,7 @@
     <string name="settingsAppearanceResetHint">Esto no borrará ninguno de tus datos, como las notas, etc.</string>
     <string name="settingsAppearanceResetTitle">¿Restablecer todos los ajustes por defecto?</string>
     <string name="settingsAppearanceResetToDefault">Restablecer todos los ajustes por defecto</string>
-    <string name="settingsAppearanceSampleText">Texto de ejemplo</string>
+    <string name="settingsAppearanceSampleText">Ejemplo</string>
     <string name="settingsAppearanceShakeHomeExplanation">Si hay 1 o más tareas con prioridad 1, el icono de la tarea se moverá cada vez que abra el panel de inicio.</string>
     <string name="settingsAppearanceShakeTask">Agitar el recordatorio de la tarea en casa</string>
     <string name="settingsAppearanceShapes">Formas</string>

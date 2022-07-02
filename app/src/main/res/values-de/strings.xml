@@ -22,7 +22,7 @@
     <string name="birthdayNotificationMultText">Heute haben %1$d Leute Geburtstag!</string>
     <string name="birthdayNotificationMultUpcText">%1$d Geburtstage stehen bevor!</string>
     <string name="birthdayNotificationSingleText">Heute hat %1$s Geburtstag!</string>
-    <string name="birthdayNotificationSingleUpcText">In %2$d Tagen hat %1$s Geburtstag!</string>
+    <string name="birthdayNotificationSingleUpcText">In %2$d %3$s hat %1$s Geburtstag!</string>
     <string name="birthdayNotificationTitle">Geburtstage</string>
     <string name="birthdayNotificationTitleUpc">Bevorstehende Geburtstage</string>
     <string name="birthdayOldBornIn">" alt, geboren "</string>
@@ -120,7 +120,7 @@
     <string name="settingsAppearanceResetHint">Deine Daten wie Notizen usw. werden dabei nicht gelöscht.</string>
     <string name="settingsAppearanceResetTitle">Alle Einstellungen zurücksetzen?</string>
     <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
-    <string name="settingsAppearanceSampleText">Beispiel Text</string>
+    <string name="settingsAppearanceSampleText">Beispiel</string>
     <string name="settingsAppearanceShakeHomeExplanation">Wenn es eine oder mehr Aufgaben mit Priorität 1 gibt, bewegt sich das Aufgaben Icon, sobald du das Home Panel öffnest.</string>
     <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
     <string name="settingsAppearanceShapes">Formen</string>

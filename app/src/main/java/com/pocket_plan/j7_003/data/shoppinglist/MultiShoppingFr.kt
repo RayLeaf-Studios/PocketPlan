@@ -23,9 +23,9 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_item.view.*
 import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
+import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.*
 import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
-import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
 import kotlin.collections.ArrayDeque
@@ -51,7 +51,6 @@ class MultiShoppingFr : Fragment() {
     var deletedItems = ArrayList<ArrayDeque<ShoppingItem?>>()
     var activeDeletedItems = ArrayDeque<ShoppingItem?>()
 
-    lateinit var shoppingListWrapper: ShoppingListWrapper
     lateinit var shoppingFragments: ArrayList<ShoppingFr>
     private var currentpos = 0
     private lateinit var activeShoppingFr: ShoppingFr
@@ -77,7 +76,6 @@ class MultiShoppingFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         myActivity = activity as MainActivity
-        shoppingListWrapper = MainActivity.shoppingListWrapper
 
         //reset parameters when fragment is opened again
         shoppingFragments = ArrayList()
@@ -137,20 +135,20 @@ class MultiShoppingFr : Fragment() {
     }
 
     private fun updateTabs() {
-        if (shoppingListWrapper.size == 1) {
+        if (MainActivity.shoppingListWrapper.size == 1) {
             tabLayout.visibility = View.GONE
         } else {
             tabLayout.visibility = View.VISIBLE
         }
         tabLayout.removeAllTabs()
-        shoppingListWrapper.forEach {
+        MainActivity.shoppingListWrapper.forEach {
             tabLayout.addTab(tabLayout.newTab().setText(it.first))
         }
     }
     //initialize all necessary fragments
     private fun initializeShoppingFragments() {
         val isEmpty = deletedItems.isEmpty()
-        shoppingListWrapper.forEach {
+        MainActivity.shoppingListWrapper.forEach {
             val newFr = createShoppingFrInstance(listName = it.first, shoppingList = it.second)
             shoppingFragments.add(newFr)
 
@@ -253,20 +251,20 @@ class MultiShoppingFr : Fragment() {
         myAlertDialog?.show()
 
         //show current name
-        val oldName = shoppingListWrapper[currentpos].first
+        val oldName = MainActivity.shoppingListWrapper[currentpos].first
         myDialogView.etAddShoppingList.setText(oldName)
 
         myDialogView.btnAddShoppingList.setOnClickListener {
 
             val newName = myDialogView.etAddShoppingList.text.toString()
-            val taken = shoppingListWrapper.contains(newName)
+            val taken = MainActivity.shoppingListWrapper.contains(newName)
             if (newName.trim() == "" || taken) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 myDialogView.etAddShoppingList.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            shoppingListWrapper.rename(oldName, newName)
+            MainActivity.shoppingListWrapper.rename(oldName, newName)
             activeShoppingFr.shoppingListName = newName
             tabLayout.getTabAt(currentpos)?.text = newName
             myAlertDialog?.dismiss()
@@ -297,7 +295,7 @@ class MultiShoppingFr : Fragment() {
 
         myDialogView.btnAddShoppingList.setOnClickListener {
             val newName = myDialogView.etAddShoppingList.text.toString()
-            val addResult = shoppingListWrapper.add(newName)
+            val addResult = MainActivity.shoppingListWrapper.add(newName)
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
@@ -305,7 +303,7 @@ class MultiShoppingFr : Fragment() {
                 return@setOnClickListener
             }
 
-            val newFr = createShoppingFrInstance(newName, shoppingListWrapper.getListByName(newName)!!)
+            val newFr = createShoppingFrInstance(newName, MainActivity.shoppingListWrapper.getListByName(newName)!!)
             shoppingFragments.add(newFr)
 
             deletedItems.add(ArrayDeque())
@@ -314,7 +312,7 @@ class MultiShoppingFr : Fragment() {
             tabLayout.visibility = View.VISIBLE
 
             shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
-            shoppingPager.currentItem = shoppingListWrapper.size - 1
+            shoppingPager.currentItem = MainActivity.shoppingListWrapper.size - 1
             myAlertDialog?.dismiss()
         }
 
@@ -333,12 +331,12 @@ class MultiShoppingFr : Fragment() {
             R.id.item_shopping_delete_list -> {
                 val titleId = R.string.shoppingDialogDeleteTitle
                 val action: () -> Unit = {
-                    shoppingListWrapper.remove(activeShoppingFr.shoppingListName)
+                    MainActivity.shoppingListWrapper.remove(activeShoppingFr.shoppingListName)
                     shoppingFragments.remove(activeShoppingFr)
                     shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
                     //This automatically selects the tab left of the deleted tab
                     tabLayout.removeTabAt(currentpos)
-                    if (shoppingListWrapper.size == 1) {
+                    if (MainActivity.shoppingListWrapper.size == 1) {
                         tabLayout.visibility = View.GONE
                     }
                 }
@@ -559,8 +557,11 @@ class MultiShoppingFr : Fragment() {
                 spCategory.tag = categoryToSet
                 spCategory.setSelection(categoryToSet)
 
-                spItemUnit.tag = unitToSet
-                spItemUnit.setSelection(unitToSet)
+                //select unit depending on text change (user or regular template)
+                if(!unitChanged){
+                    spItemUnit.tag = unitToSet
+                    spItemUnit.setSelection(unitToSet)
+                }
 
             }
 
@@ -688,7 +689,7 @@ class MultiShoppingFr : Fragment() {
                 updateShoppingMenu()
             } else {
                 //handling adding in home
-                shoppingListWrapper[0].second.add(item)
+                MainActivity.shoppingListWrapper[0].second.add(item)
                 Toast.makeText(
                     myActivity,
                     myActivity.getString(R.string.shoppingNotificationItemAdded),
@@ -769,6 +770,7 @@ class MultiShoppingFr : Fragment() {
             .indexOf(item.suggestedUnit)
 
         addItemDialogView!!.spItemUnit.tag = unitIndex
+        //Select correct unit when opening dialog for edit
         addItemDialogView!!.spItemUnit.setSelection(unitIndex)
 
         unitChanged = false
@@ -852,7 +854,7 @@ class MultiShoppingFr : Fragment() {
     }
 
     private fun updateDeleteListIcon() {
-        myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible = shoppingListWrapper.size > 1
+        myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible = MainActivity.shoppingListWrapper.size > 1
     }
 
     private fun updateRemoveChecked() {
@@ -877,7 +879,7 @@ class MultiShoppingFr : Fragment() {
 
 
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        override fun getItemCount(): Int = shoppingListWrapper.size
+        override fun getItemCount(): Int = MainActivity.shoppingListWrapper.size
 
         override fun createFragment(position: Int): Fragment {
             return this@MultiShoppingFr.shoppingFragments[position]

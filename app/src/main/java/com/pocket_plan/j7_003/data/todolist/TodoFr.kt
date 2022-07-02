@@ -530,6 +530,13 @@ class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
                 myDialogView.btnConfirm3
             )
 
+            myDialogView.etTitleAddTask.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                    taskConfirmButtons[listInstance.getTask(holder.bindingAdapterPosition).priority-1].performClick()
+                    true
+                } else false
+            }
+
             //Three buttons to create tasks with priorities 1-3
             taskConfirmButtons.forEachIndexed { index, button ->
                 button.setOnClickListener Button@{
