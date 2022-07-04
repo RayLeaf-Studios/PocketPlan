@@ -1,0 +1,24 @@
+Privacy policy
+
+General
+
+Privacy Policy ("Policy") describes how information obtained from users is collected, used and disclosed.
+
+By using PocketPlan, you agree that your personal information will be handled as described in this Policy.
+
+All your data stays on your device. There is no server and PocketPlan does not use your internet connection.
+This is also the reason why we advise you to backup your data regularly, by going to Settings -> Backup -> Export Full Backup as Zip.
+
+Information being collected
+
+PocketPlan does not collect any personal identifiable information.
+
+Changes to the Policy
+
+If the Policy changes, the modification date below will be updated. 
+
+Last modified: 17-06-2022
+
+Contact
+
+If you have any questions about the Policy, please contact us via rayleaf.studios@gmail.com

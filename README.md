@@ -30,7 +30,7 @@ A Todolist where tasks can be sorted by priority
 
 ![alt tag](https://i.ibb.co/L0Mh7Yd/todo.png)
 
-A simple way to store, edit and reorder notes
+A simple way to store, edit and organize notes into folders
 
 ![alt tag](https://i.ibb.co/fNJyprk/notes.png)
 
@@ -38,6 +38,6 @@ A smart birthday list
 
 ![alt tag](https://i.ibb.co/9vR2mB0/bdays.png)
 
-Version 1.3.1 (31)
+Screenshots from version 1.3.1 (31)
 
 
