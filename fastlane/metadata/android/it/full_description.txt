@@ -1,0 +1,9 @@
+<i>PocketPlan</i> è un'applicazione open source, gratuita e senza pubblicità che si prende cura delle attività quotidiane per te. Lo sviluppo si è concentrato su un design semplice e chiaro. Molti degli aspetti funzionali o visivi dell'app possono essere personalizzati nelle impostazioni.
+
+Le caratteristiche in dettaglio:
+
+* Lista di cose da fare ✔️<br>Nell'elenco delle cose da fare è possibile salvare attività con priorità diverse, in base alle quali l'elenco viene ordinato automaticamente. Le attività con priorità 1 verranno visualizzate nel pannello principale!
+* Note 📝<br>Memorizza note di testo in diversi colori e cercale per il testo contenuto.
+* Compleanni 🎂<br>L'elenco dei compleanni offre una panoramica dei compleanni imminenti ordinati per mesi.  Qui puoi impostare quale compleanno vuoi che ti venga ricordato e quale no. Per non dimenticare l'acquisto di un regalo, è possibile essere avvisati qualche giorno prima! Se qualcuno compie gli anni oggi, questo viene visualizzato nel pannello iniziale.
+* Lista della spesa 📜<br>Aggiungi un articolo alla tua lista della spesa e verrà automaticamente classificato nella categoria giusta! Se la lista della spesa non conosce il tuo articolo, puoi anche assegnare tu stesso la categoria. È possibile aggiungere più elenchi per tenere tutto organizzato.
+* Promemoria del sonno ⌛️<br>Vai spesso a letto troppo tardi perché perdi la cognizione del tempo? Allora il promemoria del sonno integrato può aiutarti. Scegli il tuo orario preferito per la sveglia e la quantità di sonno di cui hai bisogno e PocketPlan ti ricorderà di andare a dormire al momento giusto. Quando questo promemoria è attivato, il pannello Home visualizza il tempo rimanente prima di andare a dormire.
