@@ -711,6 +711,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
                    containingList.removeAt(noteIndex)
                    containingList.add(0, currentNote)
+                   myNoteFr.noteListDirs.save()
                 }
                 myNoteFr.noteListDirs.adjustStackAbove(currentNote)
 
@@ -786,6 +787,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
                     myNoteFr.noteListDirs.currentList().removeAt(noteIndex)
                     myNoteFr.noteListDirs.currentList().add(0, noteToMove)
+                    myNoteFr.noteListDirs.save()
                 }
 
                 myNoteFr.noteListDirs.openFolder(currentNote)
