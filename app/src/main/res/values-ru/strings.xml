@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="aboutAppName">PocketPlan</string>
     <string name="aboutDevs">Разработано</string>
     <string name="aboutFeedback">Отзывы</string>
-    <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Исходный код</string>
-    <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="aboutStudioName">RayLeaf Studios</string>
     <string name="aboutVersion">Версия</string>
     <string name="aboutViewOnGithub">Посмотреть на GitHub</string>
     <string name="birthdayAgeUnknown">"Год не сохранен"</string>
@@ -284,14 +280,6 @@
     <string-array name="themes">
         <item>яркий</item>
         <item>темный</item>
-    </string-array>
-
-    <string-array name="languages">
-        <item>Английский</item>
-        <item>Немецкий</item>
-        <item>Французский</item>
-        <item>Испанский</item>
-        <item>Русский</item>
     </string-array>
 
     <string-array name="fileOptions">

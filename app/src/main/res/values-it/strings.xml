@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 <!--    about-->
+    <string name="aboutFeedback">Feedback</string>
     <string name="aboutDevs">Sviluppata da</string>
     <string name="aboutSourcecode">Codice sorgente</string>
     <string name="aboutVersion">Versione</string>
@@ -275,15 +276,6 @@
     <string-array name="themes">
         <item>Scuro</item>
         <item>Chiaro</item>
-    </string-array>
-
-    <string-array name="languages">
-        <item>Inglese</item>
-        <item>Tedesco</item>
-        <item>Francese</item>
-        <item>Spagnolo</item>
-        <item>Russo</item>
-        <!-- <item>Italiano</item> -->
     </string-array>
 
     <string-array name="fileOptions">

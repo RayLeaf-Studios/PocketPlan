@@ -2,12 +2,9 @@
 <resources>
 
 <!--    about-->
-    <string name="aboutAppName">PocketPlan</string>
     <string name="aboutDevs">Entwickelt von</string>
     <string name="aboutFeedback">Feedback</string>
-    <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Sourcecode</string>
-    <string name="aboutStudioName">RayLeaf Studios</string>
     <string name="aboutVersion">Version</string>
     <string name="aboutViewOnGithub">Auf GitHub</string>
 
@@ -244,14 +241,6 @@
     <string-array name="themes">
         <item>Dunkel</item>
         <item>Hell</item>
-    </string-array>
-
-    <string-array name="languages">
-        <item>Englisch</item>
-        <item>Deutsch</item>
-        <item>Französisch</item>
-        <item>Spanisch</item>
-        <item>Russisch</item>
     </string-array>
 
     <string-array name="months">

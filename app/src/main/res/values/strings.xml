@@ -2,13 +2,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 <!--    about-->
-    <string name="aboutAppName">PocketPlan</string>
+    <string name="aboutAppName" translatable="false">PocketPlan</string>
     <string name="aboutDevs">Developed by</string>
     <string name="aboutFeedback">Feedback</string>
-    <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
+    <string name="aboutMailAdress" translatable="false">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Sourcecode</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="aboutStudioName">RayLeaf Studios</string>
+    <string name="aboutStudioName" translatable="false">RayLeaf Studios</string>
     <string name="aboutVersion">Version</string>
     <string name="aboutViewOnGithub">View on GitHub</string>
 
@@ -333,12 +333,13 @@
         <item>Light</item>
     </string-array>
 
-    <string-array name="languages">
+    <string-array name="languages" translatable="false">
         <item>English</item>
-        <item>German</item>
-        <item>French</item>
-        <item>Spanish</item>
-        <item>Russian</item>
+        <item>Deutsch</item>
+        <item>Français</item>
+        <item>Español</item>
+        <item>Русский</item>
+        <item>Italiano</item>
     </string-array>
 
     <string-array name="fileOptions">

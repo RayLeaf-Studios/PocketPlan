@@ -53,8 +53,8 @@ import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
-import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.drawer_layout.*
+import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.*
@@ -140,6 +140,7 @@ class MainActivity : AppCompatActivity() {
 
         //set correct language depending on setting
         val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
+            Languages.ITALIAN.index -> Languages.ITALIAN.code
             Languages.RUSSIAN.index -> Languages.RUSSIAN.code
             Languages.SPANISH.index -> Languages.SPANISH.code
             Languages.FRENCH.index -> Languages.FRENCH.code
