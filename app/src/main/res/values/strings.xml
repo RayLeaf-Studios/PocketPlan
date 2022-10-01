@@ -177,7 +177,7 @@
     <string name="settingsShoppingCollapseChecked">Collapse checked categories</string>
     <string name="settingsShoppingCustomHint">View or delete items that you entered, which the shopping list remembered</string>
     <string name="settingsShoppingImprovedSearch">Improved item search</string>
-    <string name="settingsShoppingListTitle">Shopping List</string>
+    <string name="settingsShoppingListTitle">Shopping</string>
     <string name="settingsShoppingMoveDown">Move checked categories down</string>
     <string name="settingsShoppingOnlyExpandOne">Only expand one category</string>
     <string name="settingsShoppingSearchHint">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
