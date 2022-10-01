@@ -731,7 +731,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             holder.tvNoteContent.text = currentNote.content
 
-            //decide how many lines per note are shown, depending on teh setting noteLines
+            //decide how many lines per note are shown, depending on the setting noteLines
             if (NoteFr.noteLines == -1) {
                 holder.tvNoteContent.maxLines = Int.MAX_VALUE
             } else {
@@ -780,7 +780,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
 
             holder.itemView.setOnClickListener {
-                //move current note to top if setting says so
+                //move current folder to top if setting says so
                 if (moveViewedToTop) {
                     val noteToMove = holder.noteObj
                     val noteIndex = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
@@ -790,7 +790,13 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                     myNoteFr.noteListDirs.save()
                 }
 
-                myNoteFr.noteListDirs.openFolder(currentNote)
+                if(NoteFr.searching){
+                    myNoteFr.noteListDirs.adjustStackAbove(currentNote)
+                }
+                else{
+                    myNoteFr.noteListDirs.openFolder(currentNote)
+                }
+                myActivity.hideKeyboard()
                 myActivity.changeToFragment(FT.NOTES)
 
             }
