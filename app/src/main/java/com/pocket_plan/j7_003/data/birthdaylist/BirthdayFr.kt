@@ -148,6 +148,7 @@ class BirthdayFr : Fragment() {
             searchList.clear()
             //reload adapter dataSet
             myAdapter.notifyDataSetChanged()
+            searchView.requestFocus()
         }
 
         //initialize editBirthdayHolder with null to signal that no birthday is being edited
