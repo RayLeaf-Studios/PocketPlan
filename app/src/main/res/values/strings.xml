@@ -368,5 +368,6 @@
         <item quantity="other">days</item>
     </plurals>
     <string name="notesShare">Share</string>
+    <string name="show_advanced_backup_options">Show advanced backup options</string>
 
 </resources>

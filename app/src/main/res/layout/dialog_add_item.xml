@@ -36,11 +36,9 @@
             android:layout_height="60dp"
 
             android:layout_marginTop="15dp"
-            android:background="@drawable/corner_input"
             android:gravity="center"
+            android:background="@drawable/corner_input"
             android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-
-
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.842"

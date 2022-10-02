@@ -328,5 +328,6 @@
         <item quantity="other">jours</item>
     </plurals>
     <string name="notesShare">Partager</string>
+    <string name="show_advanced_backup_options">Aafficher les options de sauvegarde avancées</string>
 
 </resources>

@@ -308,5 +308,6 @@
         <item quantity="other">días</item>
     </plurals>
     <string name="notesShare">Compartir</string>
+    <string name="show_advanced_backup_options">Mostrar opciones avanzadas de copia de seguridad</string>
 
 </resources>

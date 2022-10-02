@@ -304,5 +304,6 @@
         <item quantity="other">giorni</item>
     </plurals>
     <string name="notesShare">Condividi</string>
+    <string name="show_advanced_backup_options">Mostra le opzioni di backup avanzate</string>
 
 </resources>

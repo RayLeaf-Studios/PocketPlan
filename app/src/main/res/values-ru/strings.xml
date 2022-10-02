@@ -310,5 +310,6 @@
         <item quantity="other">дней</item>
     </plurals>
     <string name="notesShare">Поделить</string>
+    <string name="show_advanced_backup_options">Показать расширенные параметры резервного копирования</string>
 
 </resources>
