@@ -17,11 +17,13 @@ The goal of this project is to create a simplistic, lightweight, open-source, ad
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"/>
 </a>
 
-<a href="https://apt.izzysoft.de/fdroid/index/apk/com.pocket_plan.j7_003">
-    <img alt="Get it IzzyOnDroid"
+<a href="https://f-droid.org/packages/com.pocket_plan.j7_003/">
+    <img alt="Get it F-Droid"
         height="80"
-        src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"/>
+        src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"/>
 </a>
+
+Or get the APK from the [Releases Section](https://github.com/RayLeaf-Studios/PocketPlan/releases/latest).
 
 Check out the [Contribution guidelines](https://github.com/estep248/PocketPlan/blob/master/CONTRIBUTING.md) if you would like to contribute to this project.
 
@@ -40,5 +42,3 @@ A smart birthday list
 ![alt tag](https://i.ibb.co/9vR2mB0/bdays.png)
 
 Screenshots from version 1.3.1 (31)
-
-
