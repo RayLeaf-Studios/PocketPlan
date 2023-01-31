@@ -1,13 +1,5 @@
 # PocketPlan
 <img src="https://github.com/estep248/PocketPlan/blob/master/app/src/main/ic_launcher-playstore.png?raw=true" width="128">
-<p align="left">
-    <a href="https://opensource.org/licenses/MIT">
-        <img src="https://img.shields.io/badge/License-MIT-green.svg"/>
-    </a>  
-    <a href="https://apt.izzysoft.de/fdroid/index/apk/com.pocket_plan.j7_003">
-        <img src="https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.pocket_plan.j7_003"/>
-    </a>  
-</p>
 
 The goal of this project is to create a simplistic, lightweight, open-source, ad-free android app, designed to take care of small everyday tasks like managing a todo-list, keeping notes, reminding you of upcoming birthdays, providing a smart shopping list etc.
 
