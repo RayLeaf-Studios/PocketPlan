@@ -113,12 +113,12 @@
     <string name="settingsAppearanceTitle">Général</string>
     <string name="settingsBackupChooseFile">Choisir un fichier</string>
     <string name="settingsBackupExport">Exporter</string>
-    <string name="settingsBackupExportTitle">Exporter une sauvegarde complète sous forme de fichier .zip</string>
+    <string name="settingsBackupExportTitle">Exporter une sauvegarde complète en .zip</string>
     <string name="settingsBackupHint">La section ci-dessous vous permet d\'importer / exporter juste une partie de vos données, pour une sauvegarde COMPLÈTE utilisez les options ci-dessus.</string>
     <string name="settingsBackupImportFailed">L\'importation a échoué !</string>
-    <string name="settingsBackupImportJson">Importation</string>
+    <string name="settingsBackupImportJson">Importer</string>
     <string name="settingsBackupImportSuccessful">Importation réussie !</string>
-    <string name="settingsBackupImportTitle">Importation d\'une sauvegarde complète à partir d\'un fichier .zip</string>
+    <string name="settingsBackupImportTitle">Importer une sauvegarde complète en .zip</string>
     <string name="settingsBackupTitle">Sauvegarde</string>
     <string name="settingsBackupWarning">Attention ! L\'importation d\'une sauvegarde remplacera vos données actuelles par les données importées !</string>
     <string name="settingsBirthdaysNotificationTime">Modifier l\'heure de notification d\'anniversaire</string>

@@ -127,12 +127,12 @@
 
     <string name="settingsBackupChooseFile">Datei wählen</string>
     <string name="settingsBackupExport">exportieren</string>
-    <string name="settingsBackupExportTitle">Volles Backup als .zip exportieren</string>
+    <string name="settingsBackupExportTitle">Volles Backup als\n.zip exportieren</string>
     <string name="settingsBackupHint">Die Optionen unterhalb dieses Textes erlauben dir Teile deiner Daten einzeln zu exportieren / importieren. Für ein vollständiges Backup, nutze die oberen Optionen.</string>
     <string name="settingsBackupImportFailed">Import fehlgeschlagen!</string>
     <string name="settingsBackupImportJson">importieren</string>
     <string name="settingsBackupImportSuccessful">Import erfolgreich!</string>
-    <string name="settingsBackupImportTitle">Volles Backup aus .zip importieren</string>
+    <string name="settingsBackupImportTitle">Volles Backup aus\n.zip importieren</string>
     <string name="settingsBackupTitle">Backup</string>
     <string name="settingsBackupWarning">Achtung! Das importieren eines Backups ERSETZT die aktuellen Daten mit den importierten!</string>
 

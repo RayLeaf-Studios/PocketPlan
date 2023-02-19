@@ -112,7 +112,7 @@
     <string name="settingsAppearanceTheme">Тема</string>
     <string name="settingsAppearanceTitle">Общая</string>
     <string name="settingsBackupChooseFile">Выберите файл</string>
-    <string name="settingsBackupExport">Экспортировать</string>
+    <string name="settingsBackupExport">Экспорт</string>
     <string name="settingsBackupExportTitle">Экспорт полной резервной копии в виде файла .zip</string>
     <string name="settingsBackupHint">Раздел ниже позволяет импортировать / экспортировать только часть данных, для ПОЛНОГО резервного копирования используйте опции выше.</string>
     <string name="settingsBackupImportFailed">Импорт не удался!</string>
