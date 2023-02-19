@@ -96,7 +96,7 @@ class NoteFr : Fragment() {
         searchResults = arrayListOf()
 
         //color tint for undo icon
-        myMenu.getItem(0).icon.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.getItem(0).icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         searchView = menu.findItem(R.id.item_notes_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
