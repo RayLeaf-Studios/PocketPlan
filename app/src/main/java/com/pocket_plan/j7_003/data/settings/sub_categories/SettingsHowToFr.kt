@@ -2,17 +2,16 @@ package com.pocket_plan.j7_003.data.settings.sub_categories
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import kotlinx.android.synthetic.main.fragment_settings_how_to.view.*
 import kotlinx.android.synthetic.main.row_howto.view.*
-import kotlinx.android.synthetic.main.row_howto.view.ivExpand
 import kotlinx.android.synthetic.main.row_howto_cat.view.*
 
 class HowToCategory(val nameId: Int, val iconId: Int, val elements: ArrayList<HowToElement>){}
@@ -101,10 +100,7 @@ class HowToAdapter(private val myFragment: SettingsHowTo, val myActivity: MainAc
 
         holder.itemView.tvCategoryHowTo.text = myActivity.getString(category.nameId)
         holder.itemView.ivHowToCategory.setImageResource(category.iconId)
-        holder.itemView.cvCategory.setCardBackgroundColor(when(position%2 == 0){
-            true -> myActivity.colorForAttr(R.attr.colorDrogerieKosmetikL)
-            else -> myActivity.colorForAttr(R.attr.colorAccent)
-        })
+        holder.itemView.cvCategory.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorHint))
     }
 
     override fun getItemCount() = myFragment.howToList.size

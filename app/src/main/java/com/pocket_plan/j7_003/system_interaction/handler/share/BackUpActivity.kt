@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -92,6 +93,16 @@ class BackUpActivity : AppCompatActivity() {
                 iHandler.browse("json", storageId)
             }
 
+        }
+
+        clShowAdvancedBackup.setOnClickListener {
+            if(llSettingsAdvanced.visibility == View.VISIBLE){
+                llSettingsAdvanced.visibility = View.GONE
+                icShowAdvancedBackup.rotation = 0f
+            } else {
+                llSettingsAdvanced.visibility = View.VISIBLE
+                icShowAdvancedBackup.rotation = 180f
+            }
         }
 
     }

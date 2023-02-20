@@ -27,14 +27,34 @@ data class Birthday constructor(
     var notify: Boolean) {
 
     fun daysUntil(): Int {
-        return ChronoUnit.DAYS.between(LocalDate.now(), asLocalDate()).toInt()
+        return ChronoUnit.DAYS.between(LocalDate.now(), asAdjustedLocalDate()).toInt()
     }
 
-    private fun asLocalDate(): LocalDate {
-        return if (LocalDate.of(LocalDate.now().year, month, day).isBefore(LocalDate.now())) {
-            LocalDate.of(LocalDate.now().year.plus(1), month, day)
-        } else {
-            LocalDate.of(LocalDate.now().year, month, day)
+    /**
+     * Returns this birthday as a LocalDate, which is adjusted for the calculation of the
+     * remaining days until the birthday.
+     *
+     * Year adjustment: If the month - day combination in this year is after the current date, the year
+     * is unchanged. If it is before the current date (e.g. Today: 28.12.2022, Birthday 01.02
+     * +1 is added to the year, since the required delta is between 28.12.2022 and 01.02.2023)
+     *
+     * Day adjustment: Special case for leap year. If the year is not a leap year, but the date
+     * is 29.02, it is set to 28.02. for the "days until" calculation.
+     */
+    private fun asAdjustedLocalDate(): LocalDate {
+        val leapDay = day == 29 && month == 2
+        val today = LocalDate.now()
+        var dayToUse = day
+        if (leapDay && !today.isLeapYear){
+            dayToUse -= 1
         }
+        var yearToUse = today.year
+        if(LocalDate.of(today.year, month, dayToUse).isBefore(today)){
+            yearToUse += 1
+        }
+        if(leapDay && LocalDate.of(yearToUse, 1, 1).isLeapYear){
+            dayToUse = 29
+        }
+        return LocalDate.of(yearToUse, month, dayToUse)
     }
 }

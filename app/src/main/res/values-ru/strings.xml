@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="aboutAppName">PocketPlan</string>
     <string name="aboutDevs">Разработано</string>
     <string name="aboutFeedback">Отзывы</string>
-    <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Исходный код</string>
-    <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="aboutStudioName">RayLeaf Studios</string>
     <string name="aboutVersion">Версия</string>
     <string name="aboutViewOnGithub">Посмотреть на GitHub</string>
     <string name="birthdayAgeUnknown">"Год не сохранен"</string>
@@ -116,7 +112,7 @@
     <string name="settingsAppearanceTheme">Тема</string>
     <string name="settingsAppearanceTitle">Общая</string>
     <string name="settingsBackupChooseFile">Выберите файл</string>
-    <string name="settingsBackupExport">Экспортировать</string>
+    <string name="settingsBackupExport">Экспорт</string>
     <string name="settingsBackupExportTitle">Экспорт полной резервной копии в виде файла .zip</string>
     <string name="settingsBackupHint">Раздел ниже позволяет импортировать / экспортировать только часть данных, для ПОЛНОГО резервного копирования используйте опции выше.</string>
     <string name="settingsBackupImportFailed">Импорт не удался!</string>
@@ -286,14 +282,6 @@
         <item>темный</item>
     </string-array>
 
-    <string-array name="languages">
-        <item>Английский</item>
-        <item>Немецкий</item>
-        <item>Французский</item>
-        <item>Испанский</item>
-        <item>Русский</item>
-    </string-array>
-
     <string-array name="fileOptions">
         <item>Список покупок</item>
         <item>Примечания</item>
@@ -322,5 +310,6 @@
         <item quantity="other">дней</item>
     </plurals>
     <string name="notesShare">Поделить</string>
+    <string name="show_advanced_backup_options">Показать расширенные параметры резервного копирования</string>
 
 </resources>

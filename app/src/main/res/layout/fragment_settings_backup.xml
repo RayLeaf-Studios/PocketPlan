@@ -3,11 +3,9 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorBackground"
-    >
+    android:background="?attr/colorBackground">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,107 +28,223 @@
                 android:layout_width="wrap_content"
                 android:textColor="?attr/colorGoToSleep"
                 android:text="@string/settingsBackupWarning"
-                android:padding="10dp"
+                android:paddingVertical="15dp"
+                android:textSize="@dimen/font_size_small"
+                android:paddingHorizontal="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:id="@+id/clExport"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:paddingStart="11dp"
-                android:paddingVertical="15dp"
-                tools:ignore="RtlSymmetry">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settingsBackupExportTitle"
-                    android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteX="44dp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
-
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clButtonsImpExp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="11dp"
-                android:id="@+id/clImport"
-                android:background="?attr/selectableItemBackground"
-                android:paddingEnd="0dp"
-                android:paddingVertical="15dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/settingsBackupImportTitle"
-                    android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginHorizontal="15dp"
+                    app:cardBackgroundColor="?attr/colorAccent"
+                    app:cardCornerRadius="5dp"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineButtons"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/clImport"
+                        >
+
+                        <ImageView
+                            android:id="@+id/icImport"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/ic_import"
+                            app:tint="?attr/colorOnBackGroundTask"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/colorAccent"
+                            android:paddingHorizontal="5dp"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:textSize="@dimen/font_size_small"
+                            android:textColor="?attr/colorOnBackGroundTask"
+                            android:paddingBottom="15dp"
+                            android:text="@string/settingsBackupImportTitle"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/icImport" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    app:cardBackgroundColor="?attr/colorAccent"
+                    app:cardCornerRadius="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guidelineButtons"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/clExport"
+                        android:layout_height="match_parent"
+                        >
+
+                        <ImageView
+                            android:id="@+id/icExport"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            app:tint="?attr/colorOnBackGroundTask"
+                            android:src="@drawable/ic_export"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="?attr/colorAccent"
+                            android:paddingHorizontal="5dp"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="15dp"
+                            android:textSize="@dimen/font_size_small"
+                            android:textColor="?attr/colorOnBackGroundTask"
+                            android:text="@string/settingsBackupExportTitle"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/icExport" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineButtons"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.516" />
+                    app:layout_constraintGuide_percent="0.5"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clShowAdvancedBackup"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
+                android:paddingHorizontal="20dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvAdvanced"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_advanced_backup_options"
+                    android:textColor="?attr/colorHint"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/icShowAdvancedBackup"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/icShowAdvancedBackup"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_action_expand"
+                    app:layout_constraintBottom_toBottomOf="@id/tvAdvanced"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvAdvanced"
+                    app:tint="?attr/colorHint" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/llSettingsAdvanced"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="11dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
+                android:paddingHorizontal="20dp"
                 android:background="?attr/selectableItemBackground"
-                android:paddingEnd="0dp"
-                android:paddingVertical="15dp"
+                android:paddingVertical="5dp"
                 >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settingsBackupHint"
-                    android:textColor="?attr/colorHint"
+                    android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.516" />
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvImport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_corner_accent"
+                    android:padding="10dp"
+                    android:text="@string/settingsBackupImportJson"
+                    android:elevation="3dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="?attr/colorOnBackGroundTask"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/spImportOne"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Spinner
+                    android:id="@+id/spImportOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_input"
+                    android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </Spinner>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -149,8 +263,8 @@
                     android:text="@string/settingsBackupExport"
                     android:textColor="?attr/colorOnBackGroundTask"
                     android:textSize="@dimen/font_size_small"
+                    android:layout_marginStart="20dp"
                     android:elevation="3dp"
-                    android:layout_margin="3dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/spExportOne"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -158,46 +272,11 @@
                 <Spinner
                     android:id="@+id/spExportOne"
                     android:layout_width="wrap_content"
+                    android:layout_marginStart="20dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </Spinner>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:paddingVertical="10dp"
-                >
-
-                <TextView
-                    android:id="@+id/tvImport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/round_corner_accent"
-                    android:padding="10dp"
-                    android:text="@string/settingsBackupImportJson"
-                    android:elevation="3dp"
-                    android:layout_margin="3dp"
-                    android:textColor="?attr/colorOnBackGroundTask"
-                    android:textSize="@dimen/font_size_small"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/spImportOne"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Spinner
-                    android:id="@+id/spImportOne"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_input"
+                    android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -205,6 +284,8 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+            </LinearLayout>
         </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

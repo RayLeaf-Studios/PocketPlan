@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="aboutAppName">PocketPlan</string>
     <string name="aboutDevs">Développé par</string>
     <string name="aboutFeedback">Commentaires</string>
-    <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Code source</string>
-    <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="aboutStudioName">RayLeaf Studios</string>
     <string name="aboutVersion">Version</string>
     <string name="aboutViewOnGithub">Voir sur GitHub</string>
     <string name="birthdayAgeUnknown">"Aucune année enregistrée"</string>
@@ -117,12 +113,12 @@
     <string name="settingsAppearanceTitle">Général</string>
     <string name="settingsBackupChooseFile">Choisir un fichier</string>
     <string name="settingsBackupExport">Exporter</string>
-    <string name="settingsBackupExportTitle">Exporter une sauvegarde complète sous forme de fichier .zip</string>
+    <string name="settingsBackupExportTitle">Exporter une sauvegarde complète en .zip</string>
     <string name="settingsBackupHint">La section ci-dessous vous permet d\'importer / exporter juste une partie de vos données, pour une sauvegarde COMPLÈTE utilisez les options ci-dessus.</string>
     <string name="settingsBackupImportFailed">L\'importation a échoué !</string>
-    <string name="settingsBackupImportJson">Importation</string>
+    <string name="settingsBackupImportJson">Importer</string>
     <string name="settingsBackupImportSuccessful">Importation réussie !</string>
-    <string name="settingsBackupImportTitle">Importation d\'une sauvegarde complète à partir d\'un fichier .zip</string>
+    <string name="settingsBackupImportTitle">Importer une sauvegarde complète en .zip</string>
     <string name="settingsBackupTitle">Sauvegarde</string>
     <string name="settingsBackupWarning">Attention ! L\'importation d\'une sauvegarde remplacera vos données actuelles par les données importées !</string>
     <string name="settingsBirthdaysNotificationTime">Modifier l\'heure de notification d\'anniversaire</string>
@@ -306,14 +302,6 @@
         <item>Lumineux</item>
     </string-array>
 
-    <string-array name="languages">
-        <item>Anglais</item>
-        <item>Allemand</item>
-        <item>Français</item>
-        <item>Espagnol</item>
-        <item>Russe</item>
-    </string-array>
-
     <string-array name="fileOptions">
         <item>List d\'achats</item>
         <item>Notes</item>
@@ -340,5 +328,6 @@
         <item quantity="other">jours</item>
     </plurals>
     <string name="notesShare">Partager</string>
+    <string name="show_advanced_backup_options">Aafficher les options de sauvegarde avancées</string>
 
 </resources>

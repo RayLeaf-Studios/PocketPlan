@@ -6,7 +6,6 @@ import com.pocket_plan.j7_003.App
 import com.pocket_plan.j7_003.data.settings.Languages
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import java.util.*
 
 class ItemTemplateList : ArrayList<ItemTemplate>() {
     init {
@@ -31,6 +30,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
 
     private fun loadFromAssets() {
         val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
+            Languages.ITALIAN.index -> Languages.ITALIAN.code
             Languages.RUSSIAN.index -> Languages.RUSSIAN.code
             Languages.SPANISH.index -> Languages.SPANISH.code
             Languages.FRENCH.index -> Languages.FRENCH.code

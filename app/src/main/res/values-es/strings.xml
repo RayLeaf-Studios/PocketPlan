@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <string name="aboutAppName">PocketPlan</string>
     <string name="aboutDevs">Desarrollado por</string>
     <string name="aboutFeedback">Comentarios</string>
-    <string name="aboutMailAdress">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Código fuente</string>
-    <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
-    <string name="aboutStudioName">Estudios RayLeaf</string>
     <string name="aboutVersion">Versión</string>
     <string name="aboutViewOnGithub">Ver en GitHub</string>
     <string name="birthdayAgeUnknown">"No hay año guardado"</string>
@@ -117,12 +113,12 @@
     <string name="settingsAppearanceTitle">General</string>
     <string name="settingsBackupChooseFile">Elegir archivo</string>
     <string name="settingsBackupExport">Exportar</string>
-    <string name="settingsBackupExportTitle">Exportar copia de seguridad completa como archivo .zip</string>
+    <string name="settingsBackupExportTitle">Exportar copia de seguridad en .zip</string>
     <string name="settingsBackupHint">La sección siguiente le permite importar/exportar sólo una parte de sus datos, para una copia de seguridad COMPLETA utilice las opciones anteriores.</string>
     <string name="settingsBackupImportFailed">Importación fallida</string>
     <string name="settingsBackupImportJson">Importar</string>
     <string name="settingsBackupImportSuccessful">¡Importar con éxito!</string>
-    <string name="settingsBackupImportTitle">Importar la copia de seguridad completa del archivo .zip</string>
+    <string name="settingsBackupImportTitle">Importar copia de seguridad en .zip</string>
     <string name="settingsBackupTitle">Copia de seguridad</string>
     <string name="settingsBackupWarning">Advertencia ¡La importación de una copia de seguridad REEMPLAZARÁ sus datos actuales con los datos importados!</string>
     <string name="settingsBirthdaysNotificationTime">Cambiar la hora de notificación de cumpleaños</string>
@@ -286,14 +282,6 @@
         <item>luz</item>
     </string-array>
 
-    <string-array name="languages">
-        <item>Inglés</item>
-        <item>Alemán</item>
-        <item>Francés</item>
-        <item>Español</item>
-        <item>Ruso</item>
-    </string-array>
-
     <string-array name="fileOptions">
         <item>Lista e la compra</item>
         <item>Notas</item>
@@ -320,5 +308,6 @@
         <item quantity="other">días</item>
     </plurals>
     <string name="notesShare">Compartir</string>
+    <string name="show_advanced_backup_options">Mostrar opciones avanzadas de copia de seguridad</string>
 
 </resources>

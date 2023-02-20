@@ -96,7 +96,7 @@ class NoteFr : Fragment() {
         searchResults = arrayListOf()
 
         //color tint for undo icon
-        myMenu.getItem(0).icon.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        myMenu.getItem(0).icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         searchView = menu.findItem(R.id.item_notes_search).actionView as SearchView
         val textListener = object : SearchView.OnQueryTextListener {
@@ -711,6 +711,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
                    containingList.removeAt(noteIndex)
                    containingList.add(0, currentNote)
+                   myNoteFr.noteListDirs.save()
                 }
                 myNoteFr.noteListDirs.adjustStackAbove(currentNote)
 
@@ -730,7 +731,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             holder.tvNoteContent.text = currentNote.content
 
-            //decide how many lines per note are shown, depending on teh setting noteLines
+            //decide how many lines per note are shown, depending on the setting noteLines
             if (NoteFr.noteLines == -1) {
                 holder.tvNoteContent.maxLines = Int.MAX_VALUE
             } else {
@@ -779,16 +780,23 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
 
             holder.itemView.setOnClickListener {
-                //move current note to top if setting says so
+                //move current folder to top if setting says so
                 if (moveViewedToTop) {
                     val noteToMove = holder.noteObj
                     val noteIndex = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
 
                     myNoteFr.noteListDirs.currentList().removeAt(noteIndex)
                     myNoteFr.noteListDirs.currentList().add(0, noteToMove)
+                    myNoteFr.noteListDirs.save()
                 }
 
-                myNoteFr.noteListDirs.openFolder(currentNote)
+                if(NoteFr.searching){
+                    myNoteFr.noteListDirs.adjustStackAbove(currentNote)
+                }
+                else{
+                    myNoteFr.noteListDirs.openFolder(currentNote)
+                }
+                myActivity.hideKeyboard()
                 myActivity.changeToFragment(FT.NOTES)
 
             }

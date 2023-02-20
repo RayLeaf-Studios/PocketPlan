@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
@@ -190,6 +191,7 @@ class ImportHandler(private val parentActivity: Activity) {
 
             true
         } catch (e: Exception) {
+            Log.e("IMPORT FAILED", e.toString())
             Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
             false
         }
