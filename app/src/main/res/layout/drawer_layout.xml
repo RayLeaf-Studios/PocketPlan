@@ -45,13 +45,13 @@
             android:layout_width="match_parent"
             android:layout_height="7dp"
             app:layout_constraintTop_toTopOf="@id/frame_layout"
-            android:background="@drawable/shadow_down"/>
+            android:background="@drawable/dc_shadow_down"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="7dp"
             app:layout_constraintBottom_toTopOf="@id/btm_nav"
-            android:background="@drawable/shadow"/>
+            android:background="@drawable/dc_shadow"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             app:layout_constraintBottom_toBottomOf="parent"

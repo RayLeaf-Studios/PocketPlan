@@ -74,12 +74,12 @@
 
             <ImageView
                 android:id="@+id/icRowBirthdayNotification"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_circle_24"
+                app:srcCompat="@drawable/ic_action_circle"
                 tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

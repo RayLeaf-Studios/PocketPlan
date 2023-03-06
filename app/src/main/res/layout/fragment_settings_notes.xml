@@ -421,7 +421,7 @@
                 android:layout_height="200dp"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/corner_input"
+                android:background="@drawable/dc_corner_input"
                 app:layout_constraintStart_toStartOf="parent"
                 android:visibility="visible"
                 android:scrollbars="vertical"

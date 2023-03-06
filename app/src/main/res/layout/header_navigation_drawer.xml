@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="10dp"
-        android:src="@drawable/hrt" />
+        android:src="@drawable/logo" />
 
 
     <TextView

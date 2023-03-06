@@ -153,7 +153,7 @@
         android:layout_height="60dp"
 
         android:layout_marginTop="10dp"
-        android:background="@drawable/corner_input"
+        android:background="@drawable/dc_corner_input"
         android:gravity="center"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
 
@@ -169,7 +169,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/round_corner1"
+        android:background="@drawable/dc_round_corner1"
         android:elevation="@dimen/btnElevation"
         android:text="@string/noteDeleteDialogCancel"
         android:textColor="#FFF"
@@ -183,7 +183,7 @@
         android:id="@+id/btnAddNoteFolder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner_accent"
+        android:background="@drawable/dc_round_corner_accent"
         android:elevation="@dimen/btnElevation"
         android:text="@string/noteDiscardDialogSave"
         android:textColor="#FFF"
