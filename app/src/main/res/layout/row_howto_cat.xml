@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/ivHowToCategory"
             android:src="@drawable/ic_action_birthday"
-            >
+            app:tint="?attr/colorOnBackGroundTask">
 
         </ImageView>
 

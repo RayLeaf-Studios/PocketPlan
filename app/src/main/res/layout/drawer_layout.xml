@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="26dp"
             android:clickable="true"
+            android:tint="?attr/colorOnBackGroundTask"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/btm_nav"
             android:layout_marginBottom="26dp"

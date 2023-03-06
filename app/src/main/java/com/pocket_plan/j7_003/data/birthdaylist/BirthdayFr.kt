@@ -1215,11 +1215,7 @@ class BirthdayAdapter(
         } else {
             R.attr.colorBirthdayNotifyDisabled
         }
-        holder.itemView.icRowBirthdayNotification.setColorFilter(
-            myActivity.colorForAttr(
-                notificationColor
-            ), android.graphics.PorterDuff.Mode.MULTIPLY
-        )
+        holder.itemView.icRowBirthdayNotification.setColorFilter(myActivity.colorForAttr(notificationColor))
 
         // edit birthday via long click on main body
         holder.itemView.clRowBirthdayMain.setOnLongClickListener {
