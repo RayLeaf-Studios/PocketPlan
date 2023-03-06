@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btm_nav"
             app:itemTextColor="?attr/colorOnBackGround"
-            app:itemIconTint="?attr/colorOnBackGround"
+            app:itemIconTint="?attr/colorIconTint"
             android:layout_alignParentBottom="true"
             android:background="?attr/colorBackgroundElevated"
             app:menu="@menu/menu_nav_bottom"/>
@@ -75,7 +75,7 @@
         android:background="?attr/colorBackground"
         android:layout_width="wrap_content"
         app:itemTextColor="?attr/colorOnBackGround"
-        app:itemIconTint="?attr/colorOnBackGround"
+        app:itemIconTint="?attr/colorIconTint"
         android:layout_height="match_parent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:menu="@menu/menu_nav_drawer"

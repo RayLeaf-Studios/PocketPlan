@@ -21,6 +21,7 @@
         <item name="colorHyperLink">#23A8E4</item>
         <item name="colorOnBackGround">#F1F1F1</item>
         <item name="colorOnBackGroundTask">#F1F1F1</item>
+        <item name="colorIconTint">?attr/colorOnBackGround</item>
 
         <item name="colorPrimary">#1C1C1C</item>
         <item name="colorPrimaryLight">#353535</item>
@@ -156,6 +157,7 @@
         <item name="colorOnBackGround">#1B1B1B</item>
         <item name="colorOnBackGroundTask">#FFFFFF</item>
         <item name="colorHyperLink">#23A8E4</item>
+        <item name="colorIconTint">#414141</item>
 
         <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryLight">#FFFFFF</item>

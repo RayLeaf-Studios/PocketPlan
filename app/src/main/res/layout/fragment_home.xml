@@ -127,7 +127,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorBackgroundElevated"
         android:clickable="true"
-        android:tint="?attr/colorOnBackGround"
+        android:tint="?attr/colorIconTint"
         android:focusable="true"
         android:src="@drawable/ic_action_add_note"
         app:borderWidth="0dp"
@@ -140,7 +140,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/clAddTask"
-        android:tint="?attr/colorOnBackGround"
+        android:tint="?attr/colorIconTint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorBackgroundElevated"
@@ -159,7 +159,7 @@
         android:id="@+id/clAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="?attr/colorOnBackGround"
+        android:tint="?attr/colorIconTint"
         android:layout_marginBottom="20dp"
         android:backgroundTint="?attr/colorBackgroundElevated"
         android:clickable="true"

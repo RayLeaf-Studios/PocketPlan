@@ -26,6 +26,7 @@
     <attr name="colorCheckedCategoryTitle" format="color"/>
     <attr name="colorCheckedTask" format="color"/>
     <attr name="colorHyperLink" format="color"/>
+    <attr name="colorIconTint" format="color"/>
 
     <attr name="colorPriority1" format="color"/>
     <attr name="colorPriority2" format="color"/>
