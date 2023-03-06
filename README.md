@@ -22,7 +22,7 @@ The goal of this project is to create a simplistic, lightweight, open-source, ad
         src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"/>
 </a>
 
-Check out the [Contribution guidelines](https://github.com/estep248/PocketPlan/blob/master/CONTRIBUTING.md) if you would like to contribute to this project.
+Check out the [Contribution guidelines](https://github.com/RayLeaf-Studios/PocketPlan/blob/master/CONTRIBUTING.md) if you would like to contribute to this project.
 
 Some of the features already implemented include but are not limited to:
 

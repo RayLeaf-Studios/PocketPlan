@@ -8,7 +8,7 @@
     <string name="aboutFeedback">Feedback</string>
     <string name="aboutMailAdress" translatable="false">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Sourcecode</string>
-    <string name="aboutSrcLink" translatable="false">https://github.com/estep248/Pocket-Plan</string>
+    <string name="aboutSrcLink" translatable="false">https://github.com/RayLeaf-Studios/PocketPlan</string>
     <string name="aboutStudioName" translatable="false">RayLeaf Studios</string>
     <string name="aboutVersion">Version</string>
     <string name="aboutViewOnGithub">View on GitHub</string>
