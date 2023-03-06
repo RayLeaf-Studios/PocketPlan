@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="@id/tvNumberOfItems"
             app:layout_constraintTop_toTopOf="@id/tvNumberOfItems"
             app:layout_constraintBottom_toBottomOf="@id/tvNumberOfItems"
-            android:src="@drawable/ic_check_mark"
+            android:src="@drawable/ic_action_checkmark"
             app:tint="?attr/colorHint">
 
         </ImageView>

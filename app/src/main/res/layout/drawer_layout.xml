@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toTopOf="@id/btm_nav"
             android:layout_marginBottom="26dp"
             android:focusable="true"
-            android:src="@drawable/ic_add_button" />
+            android:src="@drawable/ic_action_add_button" />
 
         <FrameLayout
             android:layout_width="match_parent"
