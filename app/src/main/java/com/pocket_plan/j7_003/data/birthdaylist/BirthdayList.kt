@@ -1,15 +1,11 @@
 package com.pocket_plan.j7_003.data.birthdaylist
 
-import android.content.Context
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.pocket_plan.j7_003.App
-import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import org.threeten.bp.LocalDate
-import java.lang.NullPointerException
 
 /**
  * A simple handler to manage the interaction of different objects
@@ -230,7 +226,7 @@ class BirthdayList(val monthNames: Array<String>) : ArrayList<Birthday>(), Check
         )
     }
 
-    private fun save() {
+    fun save() {
         StorageHandler.saveAsJsonToFile(
             StorageHandler.files[StorageId.BIRTHDAYS], this
         )

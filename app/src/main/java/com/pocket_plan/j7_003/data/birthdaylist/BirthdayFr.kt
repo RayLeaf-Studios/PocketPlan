@@ -8,7 +8,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -24,6 +23,7 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
@@ -43,7 +43,7 @@ class BirthdayFr : Fragment() {
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
     //initialize recycler view
-    lateinit var myRecycler: RecyclerView
+    private lateinit var myRecycler: RecyclerView
 
     private val darkMode: Boolean = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
@@ -60,7 +60,7 @@ class BirthdayFr : Fragment() {
     var searching: Boolean = false
 
     //List containing birthdays that correspond to current search pattern
-    lateinit var searchList: ArrayList<Birthday>
+    private lateinit var searchList: ArrayList<Birthday>
 
     //reference to searchView in toolbar
     lateinit var searchView: SearchView
@@ -896,7 +896,7 @@ class BirthdayFr : Fragment() {
             //Create multiple possible strings by which a birthday can be found
             birthdayListInstance.forEach {
                 //Find by name
-                val nameString = it.name.toLowerCase(Locale.ROOT)
+                val nameString = it.name.lowercase(Locale.ROOT)
                 //Find by day, no 0 padding e.g. 1.2.
                 val dateFull = it.day.toString() + "." + it.month.toString()
                 //Find by date, 0 padding the month, e.g. 3.02
@@ -906,7 +906,7 @@ class BirthdayFr : Fragment() {
                 //Find by date, 0 padding both day and month e.g. 03.02
                 val dateFullPad =
                     it.day.toString().padStart(2, '0') + "." + it.month.toString().padStart(2, '0')
-                val queryLower = query.toLowerCase(Locale.ROOT)
+                val queryLower = query.lowercase(Locale.ROOT)
 
                 //only check birthdays (not month or year dividers with daysToRemind < 0)
                 if (it.daysToRemind >= 0) {
@@ -959,7 +959,7 @@ class SwipeToDeleteBirthday(
 class BirthdayAdapter(
     birthdayFr: BirthdayFr,
     mainActivity: MainActivity,
-    var searchList: ArrayList<Birthday>
+    private var searchList: ArrayList<Birthday>
 ) :
     RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val myFragment = birthdayFr
@@ -1058,9 +1058,11 @@ class BirthdayAdapter(
         //reset elevation
         holder.cvBirthday.elevation = 10f
 
-        //make name and date visible
+        //make birthday specific elements visible
         holder.tvRowBirthdayDate.visibility = View.VISIBLE
         holder.tvRowBirthdayName.visibility = View.VISIBLE
+        holder.tvRowBirthdayDays.visibility = View.VISIBLE
+        holder.itemView.icRowBirthdayNotification.visibility = View.VISIBLE
 
         if (myFragment.searching) {
             //display all corners as round if in searching mode
@@ -1150,7 +1152,7 @@ class BirthdayAdapter(
             //"tomorrow"
             1 -> myActivity.resources.getString(R.string.birthdayTomorrow)
             //"in x days"
-            in 2..30 ->
+            in 2..14 ->
                 myActivity.resources.getString(R.string.birthdayIn) + " " + currentBirthday.daysUntil()
                     .toString() + " " + myActivity.resources.getQuantityString(
                     R.plurals.dayIn,
@@ -1159,11 +1161,29 @@ class BirthdayAdapter(
             //no addition
             else -> ""
         }
-        //combines name and daysUntil addition to displayed text and applies it
-        val birthdayText = currentBirthday.name + " " + daysUntilString
-        holder.tvRowBirthdayName.text = birthdayText
 
-        //signalColor applied to birthday bell icon and text
+        // display name and daysUntil string
+        holder.tvRowBirthdayName.text = currentBirthday.name
+        holder.tvRowBirthdayDays.text = daysUntilString
+
+        //show or hide daysUntil text
+        holder.tvRowBirthdayDays.visibility = when (daysUntilString == "") {
+            true -> View.GONE
+            else -> View.VISIBLE
+        }
+
+        // Adjust distance between birthday name and expanded info, depending on if there is a "daysUntil" string below the name
+        if (daysUntilString == "") {
+            val layoutParams =
+                holder.itemView.tvBirthdayInfo.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.setMargins(0, (-12 * density).toInt(), 0, 0)
+        } else {
+            val layoutParams =
+                holder.itemView.tvBirthdayInfo.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.setMargins(0, (-2 * density).toInt(), 0, 0)
+        }
+
+        //determine signalColor applied to birthday notification icon and text
         val today = LocalDate.now()
         val signalColor =
             if (holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue) {
@@ -1180,60 +1200,45 @@ class BirthdayAdapter(
         //apply signal color
         holder.tvRowBirthdayDate.setTextColor(signalColor)
         holder.tvRowBirthdayName.setTextColor(signalColor)
-        holder.iconBell.setColorFilter(signalColor)
 
-        //display bell if birthday has a reminder
-        holder.iconBell.visibility = View.VISIBLE
-        if (currentBirthday.notify) {
-            holder.iconBell.setImageResource(R.drawable.ic_bell)
+        // determine and apply daysUntilColor for "in 3 days" string, signalColor if there is anything to signal, hint color otherwise
+        val daysUntilColor =
+            when (signalColor == myActivity.colorForAttr(R.attr.colorOnBackGround)) {
+                true -> myActivity.colorForAttr(R.attr.colorHint)
+                else -> signalColor
+            }
+        holder.tvRowBirthdayDays.setTextColor(daysUntilColor)
+
+        // change color of notification circle, depending if reminder is set
+        val notificationColor = if (currentBirthday.notify) {
+            monthColors[currentBirthday.month - 1].first
         } else {
-            holder.iconBell.setColorFilter(
-                myActivity.colorForAttr(R.attr.colorHint),
-                android.graphics.PorterDuff.Mode.MULTIPLY
-            )
-            holder.iconBell.setImageResource(R.drawable.ic_action_no_notification)
+            R.attr.colorBirthdayNotifyDisabled
         }
+        holder.itemView.icRowBirthdayNotification.setColorFilter(
+            myActivity.colorForAttr(
+                notificationColor
+            ), android.graphics.PorterDuff.Mode.MULTIPLY
+        )
 
-        //lambda that initializes edit, by saving birthday to editBirthdayHolder and opening dialog
-        val initializeEdit: () -> Boolean = {
+        // edit birthday via long click on main body
+        holder.itemView.clRowBirthdayMain.setOnLongClickListener {
             BirthdayFr.editBirthdayHolder = holder.birthday
             myFragment.openEditBirthdayDialog()
             true
         }
 
-        //onLongClickListeners on name, date and icon to initialize edit
-        holder.itemView.tvRowBirthdayName.setOnLongClickListener {
-            initializeEdit()
-        }
-        holder.itemView.tvRowBirthdayDate.setOnLongClickListener {
-            initializeEdit()
-        }
-        holder.itemView.icon_bell.setOnLongClickListener {
-            initializeEdit()
-        }
-
-        //expands info
-        val switchExpandState: () -> Unit = {
+        // switch expand state via tap on main body
+        holder.itemView.clRowBirthdayMain.setOnClickListener {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
             notifyItemChanged(holder.bindingAdapterPosition)
         }
 
-        //onClickListeners on name, date and info to switch expansion state
-        holder.itemView.tvRowBirthdayDate.setOnClickListener {
-            switchExpandState()
-        }
-
-        holder.itemView.tvRowBirthdayName.setOnClickListener {
-            switchExpandState()
-        }
-        holder.itemView.tvBirthdayInfo.setOnClickListener {
-            switchExpandState()
-        }
-
-        //onClickListener on bell icon to enable / disable reminder
-        holder.itemView.icon_bell.setOnClickListener {
+        // enable / disable reminder via tap on notification symbol
+        holder.itemView.clRowBirthdayDotField.setOnClickListener {
             holder.birthday.notify = !holder.birthday.notify
+            myFragment.birthdayListInstance.save()
             notifyItemChanged(holder.bindingAdapterPosition)
         }
     }
@@ -1328,7 +1333,8 @@ class BirthdayAdapter(
         holder.tvRowBirthdayDate.visibility = View.GONE
         holder.tvRowBirthdayName.visibility = View.GONE
         holder.itemView.tvBirthdayInfo.visibility = View.GONE
-        holder.itemView.icon_bell.visibility = View.GONE
+        holder.itemView.icRowBirthdayNotification.visibility = View.GONE
+        holder.itemView.tvRowBirthdayDays.visibility = View.GONE
 
         //reset onLongClickListener to prevent editDialog
         holder.itemView.setOnLongClickListener { true }
@@ -1364,9 +1370,7 @@ class BirthdayAdapter(
         val tvRowBirthdayName: TextView = itemView.tvRowBirthdayName
         val tvRowBirthdayDate: TextView = itemView.tvRowBirthdayDate
         val tvRowBirthdayDivider: TextView = itemView.tvRowBirthdayDivider
-
-        //reminder bell icon
-        val iconBell: ImageView = itemView.icon_bell
+        val tvRowBirthdayDays: TextView = itemView.tvRowBirthdayDays
 
         //dividers used to display a year element
         val myDividerLeft: View = itemView.viewDividerLeft

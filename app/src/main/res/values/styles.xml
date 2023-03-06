@@ -35,8 +35,9 @@
 
         <item name="colorBackgroundListElement">#252525</item>
         <item name="colorBirthdayNotify">#1976D2</item>
-        <item name="colorBirthdaySoon">#BD5B0F</item>
-        <item name="colorBirthdayToday">#B50505</item>
+        <item name="colorBirthdayNotifyDisabled">#313131</item>
+        <item name="colorBirthdaySoon">#D0742C</item>
+        <item name="colorBirthdayToday">#C92C2C</item>
         <item name="colorButtonCancel">#A80F0F</item>
         <item name="colorCategory">#FFFFFF</item>
         <item name="colorCheckedCategoryTitle">#757272</item>
@@ -169,8 +170,9 @@
 
         <item name="colorBackgroundListElement">#E1E1E1</item>
         <item name="colorBirthdayNotify">#1CBCFB</item>
+        <item name="colorBirthdayNotifyDisabled">#CDCDCD</item>
         <item name="colorBirthdaySoon">#FF6600</item>
-        <item name="colorBirthdayToday">#F50057</item>
+        <item name="colorBirthdayToday">#FF4757</item>
         <item name="colorButtonCancel">#EC4B5E</item>
         <item name="colorCategory">#FFFFFF</item>
         <item name="colorCheckedCategoryTitle">#FFFFFF</item>
