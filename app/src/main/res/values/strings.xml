@@ -3,6 +3,7 @@
 
 <!--    about-->
     <string name="aboutAppName" translatable="false">PocketPlan</string>
+    <string name="aboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.\n\nIf you have a GitHub account, you are welcome to create an issue in our repository.</string>
     <string name="aboutDevs">Developed by</string>
     <string name="aboutFeedback">Feedback</string>
     <string name="aboutMailAdress" translatable="false">rayleaf.studios@gmail.com</string>
@@ -113,24 +114,23 @@
     <string name="notesToastNoteMoved">Note moved!</string>
 
 <!--    settings-->
-    <string name="settingsAboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.\n\nIf you have a GitHub account, you are welcome to create an issue in our repository.</string>
-    <string name="settingsAppearanceBorderHint">(Applied to task and note elements)</string>
-    <string name="settingsAppearanceBorderTitle">Dark border theme:</string>
-    <string name="settingsAppearanceBorderless">Borderless</string>
-    <string name="settingsAppearanceColoredBorder">Colored Border</string>
-    <string name="settingsAppearanceFilled">Filled</string>
-    <string name="settingsAppearanceLanguage">Language</string>
-    <string name="settingsAppearanceResetHint">This won\'t delete any of your data like notes etc.</string>
-    <string name="settingsAppearanceResetTitle">Reset all settings to default?</string>
-    <string name="settingsAppearanceResetToDefault">Reset all settings to default</string>
-    <string name="settingsAppearanceSampleText">Sample Text</string>
-    <string name="settingsAppearanceShakeHomeExplanation">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
-    <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
-    <string name="settingsAppearanceShapes">Shapes</string>
-    <string name="settingsAppearanceSystemTheme">Use system theme</string>
-    <string name="settingsAppearanceSystemThemeHint">(Android 10+)</string>
-    <string name="settingsAppearanceTheme">Theme</string>
-    <string name="settingsAppearanceTitle">General</string>
+    <string name="settingsGeneralBorderHint">(Applied to task and note elements)</string>
+    <string name="settingsGeneralBorderTitle">Dark border theme:</string>
+    <string name="settingsGeneralBorderless">Borderless</string>
+    <string name="settingsGeneralColoredBorder">Colored Border</string>
+    <string name="settingsGeneralFilled">Filled</string>
+    <string name="settingsGeneralLanguage">Language</string>
+    <string name="settingsGeneralResetHint">This won\'t delete any of your data like notes etc.</string>
+    <string name="settingsGeneralResetTitle">Reset all settings to default?</string>
+    <string name="settingsGeneralResetToDefault">Reset all settings to default</string>
+    <string name="settingsGeneralSampleText">Sample Text</string>
+    <string name="settingsGeneralShakeHomeExplanation">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
+    <string name="settingsGeneralShakeTask">Shake task reminder in home</string>
+    <string name="settingsGeneralShapes">Shapes</string>
+    <string name="settingsGeneralSystemTheme">Use system theme</string>
+    <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
+    <string name="settingsGeneralTheme">Theme</string>
+    <string name="settingsGeneralTitle">General</string>
 
     <string name="settingsBackupChooseFile">Choose file</string>
     <string name="settingsBackupExport">Export</string>

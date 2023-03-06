@@ -328,7 +328,7 @@ class SettingsGeneralFr : Fragment() {
                 startActivity(intent)
                 myActivity.finish()
             }
-            myActivity.dialogConfirm(R.string.settingsAppearanceResetTitle, action, hint=getString(R.string.settingsAppearanceResetHint))
+            myActivity.dialogConfirm(R.string.settingsGeneralResetTitle, action, hint=getString(R.string.settingsGeneralResetHint))
         }
         
         //listener for radio group to change dark border theme

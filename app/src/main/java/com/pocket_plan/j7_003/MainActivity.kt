@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity() {
         "birthdays" -> changeToFragment(FT.BIRTHDAYS)
         "SReminder" -> changeToFragment(FT.HOME)
         "settings" -> changeToFragment(FT.SETTINGS)
-        "appearance" -> {
+        "general" -> {
             previousFragmentStack.push(FT.HOME)
             previousFragmentStack.push(FT.SETTINGS)
             changeToFragment(FT.SETTINGS_GENERAL)
@@ -554,7 +554,7 @@ class MainActivity : AppCompatActivity() {
             FT.CUSTOM_ITEMS -> resources.getText(R.string.menuTitleCustomItem)
             FT.SLEEP -> resources.getText(R.string.menuTitleSleep)
             FT.SETTINGS_BACKUP -> resources.getText(R.string.settingsBackupTitle)
-            FT.SETTINGS_GENERAL -> resources.getText(R.string.settingsAppearanceTitle)
+            FT.SETTINGS_GENERAL -> resources.getText(R.string.settingsGeneralTitle)
             FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHowToTitle)
             FT.SETTINGS_BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             else -> ""

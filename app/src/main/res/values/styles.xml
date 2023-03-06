@@ -157,7 +157,7 @@
         <item name="colorOnBackGround">#1B1B1B</item>
         <item name="colorOnBackGroundTask">#FFFFFF</item>
         <item name="colorHyperLink">#23A8E4</item>
-        <item name="colorIconTint">#414141</item>
+        <item name="colorIconTint">#4F4F4F</item>
 
         <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryLight">#FFFFFF</item>

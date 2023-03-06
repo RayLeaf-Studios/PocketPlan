@@ -277,7 +277,7 @@ class HomeFr : Fragment() {
                     myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
                 myView.icSleepHome.setColorFilter(
-                    myActivity.colorForAttr(R.attr.colorOnBackGround)
+                    myActivity.colorForAttr(R.attr.colorIconTint)
                 )
             }
             1 -> {
