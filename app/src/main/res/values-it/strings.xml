@@ -122,6 +122,7 @@
     <string name="settingsAppearanceShakeTask">Scuoti il promemoria di attività nella Home</string>
     <string name="settingsAppearanceShapes">Forme</string>
     <string name="settingsAppearanceSystemTheme">Usa il tema di sistema (Android 10+)</string>
+    <string name="settingsAppearanceSystemThemeHint">(Android 10+)</string>
     <string name="settingsAppearanceTheme">Tema</string>
     <string name="settingsAppearanceTitle">Generali</string>
 

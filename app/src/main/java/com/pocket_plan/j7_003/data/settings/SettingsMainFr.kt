@@ -2,11 +2,11 @@ package com.pocket_plan.j7_003.data.settings
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
@@ -21,7 +21,7 @@ class SettingsMainFr : Fragment() {
 
     private lateinit var clSettingBackup: ConstraintLayout
     private lateinit var clSettingAbout: ConstraintLayout
-    private lateinit var clSettingAppearance: ConstraintLayout
+    private lateinit var clSettingsGeneral: ConstraintLayout
     private lateinit var clSettingBirthdays: ConstraintLayout
 
     override fun onCreateView(
@@ -43,7 +43,7 @@ class SettingsMainFr : Fragment() {
         clSettingBackup = myView.clSettingBackup
         clSettingShopping = myView.clSettingShopping
         clSettingNotes = myView.clSettingNotes
-        clSettingAppearance = myView.clSettingAppearance
+        clSettingsGeneral = myView.clSettingGeneral
         clSettingBirthdays = myView.clSettingBirthdays
     }
 
@@ -56,7 +56,7 @@ class SettingsMainFr : Fragment() {
         }
         clSettingShopping.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_SHOPPING) }
         clSettingAbout.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_ABOUT) }
-        clSettingAppearance.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_APPEARANCE) }
+        clSettingsGeneral.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_GENERAL) }
         clSettingBirthdays.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_BIRTHDAYS) }
     }
 

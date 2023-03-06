@@ -15,13 +15,13 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.fragment_settings_appearance.*
-import kotlinx.android.synthetic.main.fragment_settings_appearance.view.*
+import kotlinx.android.synthetic.main.fragment_settings_general.*
+import kotlinx.android.synthetic.main.fragment_settings_general.view.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsAppearanceFr : Fragment() {
+class SettingsGeneralFr : Fragment() {
     private lateinit var myActivity: MainActivity
     private lateinit var spTheme: Spinner
     private lateinit var spShapes: Spinner
@@ -56,7 +56,7 @@ class SettingsAppearanceFr : Fragment() {
     ): View? {
 
         myActivity = activity as MainActivity
-        val myView = inflater.inflate(R.layout.fragment_settings_appearance, container, false)
+        val myView = inflater.inflate(R.layout.fragment_settings_general, container, false)
 
         initializeComponents(myView)
         initializeAdapters()
@@ -209,7 +209,7 @@ class SettingsAppearanceFr : Fragment() {
                 if(setTo!=SettingsManager.getSetting(SettingId.LANGUAGE)){
                     SettingsManager.addSetting(SettingId.LANGUAGE, setTo)
                     val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("NotificationEntry", "appearance")
+                    intent.putExtra("NotificationEntry", "general")
                     startActivity(intent)
                     myActivity.finish()
                 }
@@ -241,16 +241,17 @@ class SettingsAppearanceFr : Fragment() {
                 if(SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean){
                     val systemDark = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
                     //check if systemDarkState not equal to selected dark state
-                    if(systemDark != selectedDarkTheme)
+                    if(systemDark != selectedDarkTheme) {
                         SettingsManager.addSetting(SettingId.USE_SYSTEM_THEME, false)
                         swSystemTheme.isChecked = false
                     }
+                }
 
                 //check if selected dark state is equal to current dark state
                 if(selectedDarkTheme != SettingsManager.getSetting(SettingId.THEME_DARK)){
                     SettingsManager.addSetting(SettingId.THEME_DARK, selectedDarkTheme)
                     val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("NotificationEntry", "appearance")
+                    intent.putExtra("NotificationEntry", "general")
                     startActivity(intent)
                     myActivity.finish()
                 }
@@ -311,7 +312,7 @@ class SettingsAppearanceFr : Fragment() {
             //if theme got changed, trigger activity reload to load new theme
             if(previousSettingDark != SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean){
                 val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("NotificationEntry", "appearance")
+                intent.putExtra("NotificationEntry", "general")
                 startActivity(intent)
                 myActivity.finish()
             }
@@ -323,7 +324,7 @@ class SettingsAppearanceFr : Fragment() {
             val action: () -> Unit = {
                 SettingsManager.restoreDefault()
                 val intent = Intent(context, MainActivity::class.java)
-                intent.putExtra("NotificationEntry", "appearance")
+                intent.putExtra("NotificationEntry", "general")
                 startActivity(intent)
                 myActivity.finish()
             }

@@ -109,6 +109,7 @@
     <string name="settingsAppearanceShakeTask">Agitar el recordatorio de la tarea en casa</string>
     <string name="settingsAppearanceShapes">Formas</string>
     <string name="settingsAppearanceSystemTheme">Usar el tema del sistema (Android 10+)</string>
+    <string name="settingsAppearanceSystemThemeHint">(Android 10+)</string>
     <string name="settingsAppearanceTheme">Tema</string>
     <string name="settingsAppearanceTitle">General</string>
     <string name="settingsBackupChooseFile">Elegir archivo</string>

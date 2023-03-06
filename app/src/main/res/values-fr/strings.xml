@@ -109,6 +109,7 @@
     <string name="settingsAppearanceShakeTask">Secouer le rappel de tâche dans le panneau d\'accueil</string>
     <string name="settingsAppearanceShapes">Formes</string>
     <string name="settingsAppearanceSystemTheme">Utiliser le thème du système (Android 10+)</string>
+    <string name="settingsAppearanceSystemThemeHint">(Android 10+)</string>
     <string name="settingsAppearanceTheme">Thème</string>
     <string name="settingsAppearanceTitle">Général</string>
     <string name="settingsBackupChooseFile">Choisir un fichier</string>

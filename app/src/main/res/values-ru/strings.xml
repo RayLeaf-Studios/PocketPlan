@@ -109,6 +109,7 @@
     <string name="settingsAppearanceShakeTask">Встряхнуть напоминание о задаче в домашней панели</string>
     <string name="settingsAppearanceShapes">Формы</string>
     <string name="settingsAppearanceSystemTheme">Использовать системную тему (Android 10+)</string>
+    <string name="settingsAppearanceSystemThemeHint">(Android 10+)</string>
     <string name="settingsAppearanceTheme">Тема</string>
     <string name="settingsAppearanceTitle">Общая</string>
     <string name="settingsBackupChooseFile">Выберите файл</string>

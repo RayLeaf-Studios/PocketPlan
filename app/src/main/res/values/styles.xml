@@ -145,7 +145,7 @@
         <item name="android:navigationBarColor">?attr/colorOnBackGround</item>
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="colorControlHighlight">#282729</item>
+        <item name="colorControlHighlight">#BDBDBD</item>
         <item name="colorControlNormal">#000000</item>
 
         <item name="colorBackgroundElevated">#FFFFFF</item>
@@ -169,7 +169,7 @@
         <item name="colorAccentClone">#4FC3F7</item>
 
         <item name="colorBackgroundListElement">#E1E1E1</item>
-        <item name="colorBirthdayNotify">#1CBCFB</item>
+        <item name="colorBirthdayNotify">#5FCFFB</item>
         <item name="colorBirthdayNotifyDisabled">#CDCDCD</item>
         <item name="colorBirthdaySoon">#FF6600</item>
         <item name="colorBirthdayToday">#FF4757</item>
@@ -177,7 +177,7 @@
         <item name="colorCategory">#FFFFFF</item>
         <item name="colorCheckedCategoryTitle">#FFFFFF</item>
         <item name="colorCheckedTask">#BDBCBC</item>
-        <item name="colorGoToSleep">#E91E63</item>
+        <item name="colorGoToSleep">#FF4A4A</item>
         <item name="colorSun">#F3A318</item>
 
         <item name="colorPriority1">#EC7380</item>

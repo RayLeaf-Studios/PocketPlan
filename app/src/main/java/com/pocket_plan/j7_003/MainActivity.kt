@@ -255,7 +255,7 @@ class MainActivity : AppCompatActivity() {
         "appearance" -> {
             previousFragmentStack.push(FT.HOME)
             previousFragmentStack.push(FT.SETTINGS)
-            changeToFragment(FT.SETTINGS_APPEARANCE)
+            changeToFragment(FT.SETTINGS_GENERAL)
         }
 
         "backup" -> {
@@ -554,7 +554,7 @@ class MainActivity : AppCompatActivity() {
             FT.CUSTOM_ITEMS -> resources.getText(R.string.menuTitleCustomItem)
             FT.SLEEP -> resources.getText(R.string.menuTitleSleep)
             FT.SETTINGS_BACKUP -> resources.getText(R.string.settingsBackupTitle)
-            FT.SETTINGS_APPEARANCE -> resources.getText(R.string.settingsAppearanceTitle)
+            FT.SETTINGS_GENERAL -> resources.getText(R.string.settingsAppearanceTitle)
             FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHowToTitle)
             FT.SETTINGS_BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
             else -> ""
@@ -610,7 +610,7 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
             FT.SETTINGS_NOTES -> SettingsNotesFr()
             FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
-            FT.SETTINGS_APPEARANCE -> SettingsAppearanceFr()
+            FT.SETTINGS_GENERAL -> SettingsGeneralFr()
             FT.SETTINGS -> SettingsMainFr()
             FT.CUSTOM_ITEMS -> CustomItemFr()
             FT.SLEEP -> sleepFr

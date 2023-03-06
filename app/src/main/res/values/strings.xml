@@ -127,7 +127,8 @@
     <string name="settingsAppearanceShakeHomeExplanation">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
     <string name="settingsAppearanceShakeTask">Shake task reminder in home</string>
     <string name="settingsAppearanceShapes">Shapes</string>
-    <string name="settingsAppearanceSystemTheme">Use system theme (Android 10+)</string>
+    <string name="settingsAppearanceSystemTheme">Use system theme</string>
+    <string name="settingsAppearanceSystemThemeHint">(Android 10+)</string>
     <string name="settingsAppearanceTheme">Theme</string>
     <string name="settingsAppearanceTitle">General</string>
 
