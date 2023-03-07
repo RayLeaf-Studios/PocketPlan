@@ -70,7 +70,7 @@ class NoteEditorFr : Fragment() {
 
         val fontSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim().toFloat()
 
-        myEtTitle.textSize = fontSize
+        myEtTitle.textSize = fontSize + 4
         myEtContent.textSize = fontSize
 
         /**

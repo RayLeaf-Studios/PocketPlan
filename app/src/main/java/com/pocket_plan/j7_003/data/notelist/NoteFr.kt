@@ -550,21 +550,19 @@ class NoteFr : Fragment() {
     private fun getContainedNoteTexts(note: Note): String{
         var result = ""
         if(note.content == null){
+            // folder got deleted, add all contained notes and folders recursively to archive
             note.noteList.forEach {
                 result += getContainedNoteTexts(it)
             }
         }else{
             val c = Calendar.getInstance()
-
             val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
+            val month = c.get(Calendar.MONTH) + 1 // Note: Month is 0-based in Calendar class
             val day = c.get(Calendar.DAY_OF_MONTH)
-
             val hour = c.get(Calendar.HOUR_OF_DAY)
             val minute = c.get(Calendar.MINUTE)
 
-            //Add deletion time and title to new entry
-            var newEntry = "$day.$month.$year $hour:$minute\n"
+            var newEntry = String.format("%02d.%02d.%04d %02d:%02d", day, month, year, hour, minute) + "\n"
             if(note.title.trim()!="") newEntry += note.title + "\n"
             //Add content
             if(note.content != null) newEntry += note.content + "\n\n"
