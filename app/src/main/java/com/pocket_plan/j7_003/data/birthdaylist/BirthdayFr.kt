@@ -12,6 +12,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.row_birthday.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import org.threeten.bp.LocalDate
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.math.abs
 
 
@@ -208,8 +210,7 @@ class BirthdayFr : Fragment() {
 
     @SuppressLint("InflateParams")
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         date = LocalDate.now()
         myActivity = activity as MainActivity
@@ -272,8 +273,7 @@ class BirthdayFr : Fragment() {
 
     private fun hideMenuExceptSearch() {
         val size = myMenu.size()
-        for (i in 0 until size)
-            myMenu.getItem(i).isVisible = false
+        for (i in 0 until size) myMenu.getItem(i).isVisible = false
         myMenu.findItem(R.id.item_birthdays_search)?.isVisible = true
     }
 
@@ -283,14 +283,11 @@ class BirthdayFr : Fragment() {
 
         //set date to birthdays date
         date = LocalDate.of(
-            editBirthdayHolder!!.year,
-            editBirthdayHolder!!.month,
-            editBirthdayHolder!!.day
+            editBirthdayHolder!!.year, editBirthdayHolder!!.month, editBirthdayHolder!!.day
         )
 
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+        val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
 
         //initialize references to ui elements
         val etName = myDialogView.etName
@@ -332,9 +329,9 @@ class BirthdayFr : Fragment() {
         if (editBirthdayHolder!!.year != 0) {
             yearString = "." + editBirthdayHolder!!.year.toString()
         }
-        val dateText = editBirthdayHolder!!.day.toString().padStart(2, '0') + "." +
-                editBirthdayHolder!!.month.toString()
-                    .padStart(2, '0') + yearString
+        val dateText = editBirthdayHolder!!.day.toString()
+            .padStart(2, '0') + "." + editBirthdayHolder!!.month.toString()
+            .padStart(2, '0') + yearString
         tvBirthdayDate.text = dateText
 
         //initialize color of tvSaveYear
@@ -362,9 +359,8 @@ class BirthdayFr : Fragment() {
             true -> 0
             else -> etDaysToRemind.text.toString().toInt()
         }
-        val daysPriorTextEdit =
-            myActivity.resources.getQuantityText(R.plurals.day, daysToRemind)
-                .toString() + " " + myActivity.resources.getString(R.string.birthdaysDaysPrior)
+        val daysPriorTextEdit = myActivity.resources.getQuantityText(R.plurals.day, daysToRemind)
+            .toString() + " " + myActivity.resources.getString(R.string.birthdaysDaysPrior)
         tvDaysPrior.text = daysPriorTextEdit
 
         //set the correct daysToRemind text
@@ -447,32 +443,28 @@ class BirthdayFr : Fragment() {
             }
 
             val dpd = when (darkMode) {
-                true ->
-                    DatePickerDialog(
-                        myActivity,
-                        R.style.MyDatePickerStyle,
-                        dateSetListener,
-                        yearToDisplay,
-                        date.monthValue - 1,
-                        date.dayOfMonth
-                    )
-                else ->
-                    DatePickerDialog(
-                        myActivity,
-                        R.style.DialogTheme,
-                        dateSetListener,
-                        yearToDisplay,
-                        date.monthValue - 1,
-                        date.dayOfMonth
-                    )
+                true -> DatePickerDialog(
+                    myActivity,
+                    R.style.MyDatePickerStyle,
+                    dateSetListener,
+                    yearToDisplay,
+                    date.monthValue - 1,
+                    date.dayOfMonth
+                )
+                else -> DatePickerDialog(
+                    myActivity,
+                    R.style.DialogTheme,
+                    dateSetListener,
+                    yearToDisplay,
+                    date.monthValue - 1,
+                    date.dayOfMonth
+                )
             }
             dpd.show()
-            dpd.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(
+            dpd.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
                     myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
-            dpd.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(
+            dpd.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
                     myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
         }
@@ -549,11 +541,9 @@ class BirthdayFr : Fragment() {
 
         etDaysToRemind.setOnClickListener {
             if (!cbNotifyMe.isChecked) {
-                val animationShake =
-                    AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
+                val animationShake = AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
                 tvNotifyMe.startAnimation(animationShake)
-                val animationShakeCb =
-                    AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
+                val animationShakeCb = AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
                 cbNotifyMe.startAnimation(animationShakeCb)
             }
         }
@@ -577,8 +567,7 @@ class BirthdayFr : Fragment() {
 
             //tell user to enter a name if none is entered
             if (name.trim() == "") {
-                val animationShake =
-                    AnimationUtils.loadAnimation(myActivity, R.anim.shake)
+                val animationShake = AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 etName.startAnimation(animationShake)
                 return@setOnClickListener
             }
@@ -619,8 +608,7 @@ class BirthdayFr : Fragment() {
         date = LocalDate.now()
 
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+        val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
 
         //initialize references to ui elements
         val etName = myDialogView.etName
@@ -639,9 +627,10 @@ class BirthdayFr : Fragment() {
          * INITIALIZE VALUES
          */
 
+        var dateRegistered = false
+        var dateStringStartIndex = 0
         val initPriorText = myActivity.resources.getQuantityString(
-            R.plurals.day,
-            0
+            R.plurals.day, 0
         ) + " " + myActivity.resources.getString(
             R.string.birthdaysDaysPrior
         )
@@ -650,6 +639,70 @@ class BirthdayFr : Fragment() {
         /**
          * INITIALIZE LISTENERS
          */
+
+        etName.doOnTextChanged { text, _, _, _ ->
+            if (text == null) return@doOnTextChanged
+            val pattern =
+                Pattern.compile("(\\d{1,2})[-/.](\\d{1,2})[-/.](\\d{4})|(\\d{4})[-/.](\\d{1,2})[-/.](\\d{1,2})|(\\d{1,2})[-/.](\\d{1,2})")
+            val matcher = pattern.matcher(text)
+            var valid = true
+            if (matcher.find()) {
+                var yearPresent = true
+                if (matcher.group(1) != null) {
+                    try {
+                        dateStringStartIndex = matcher.start(1)
+                        val day = matcher.group(1)!!.toInt()
+                        val month = matcher.group(2)!!.toInt()
+                        val year = matcher.group(3)!!.toInt()
+                        date = LocalDate.of(year, month, day)
+                    } catch (_: Exception) {
+                        valid = false
+                    }
+                } else if (matcher.group(4) != null) {
+                    try {
+                        dateStringStartIndex = matcher.start(4)
+                        val day = matcher.group(6)!!.toInt()
+                        val month = matcher.group(5)!!.toInt()
+                        val year = matcher.group(4)!!.toInt()
+                        date = LocalDate.of(year, month, day)
+                    } catch (_: Exception) {
+                        valid = false
+                    }
+                } else {
+                    yearPresent = false
+                    try {
+                        dateStringStartIndex = matcher.start(7)
+                        val day = matcher.group(7)!!.toInt()
+                        val month = matcher.group(8)!!.toInt()
+                        date = LocalDate.of(date.year, month, day)
+                    } catch (_: Exception) {
+                        valid = false
+                    }
+                }
+                if (valid) {
+                    dateRegistered = true
+                    val dayMonthString = date.dayOfMonth.toString()
+                        .padStart(2, '0') + "." + (date.monthValue).toString().padStart(2, '0')
+
+                    tvBirthdayDate.text = when (yearPresent) {
+                        false -> dayMonthString
+                        else -> dayMonthString + "." + date.year.toString()
+                    }
+                    // only remove date from name line, if it was a complete date
+                    if (yearPresent) {
+                        etName.setText(text.substring(0, dateStringStartIndex))
+                        etName.setSelection(etName.text.length)
+                    }
+                    cbSaveBirthdayYear.isChecked = true
+                    tvSaveYear.setTextColor(
+                        myActivity.colorForAttr(R.attr.colorOnBackGround)
+                    )
+                    yearChanged = true
+                } else {
+                    dateRegistered = false
+                }
+            }
+        }
 
         var cachedRemindText = "0"
         //listener for cbNotifyMe to change color of tvNotifyMe depending on checked state
@@ -708,24 +761,22 @@ class BirthdayFr : Fragment() {
                 yearToDisplay = LocalDate.now().year
             }
             val dpd = when (darkMode) {
-                true ->
-                    DatePickerDialog(
-                        myActivity,
-                        R.style.MyDatePickerStyle,
-                        dateSetListener,
-                        yearToDisplay,
-                        date.monthValue - 1,
-                        date.dayOfMonth
-                    )
-                else ->
-                    DatePickerDialog(
-                        myActivity,
-                        R.style.DialogTheme,
-                        dateSetListener,
-                        yearToDisplay,
-                        date.monthValue - 1,
-                        date.dayOfMonth
-                    )
+                true -> DatePickerDialog(
+                    myActivity,
+                    R.style.MyDatePickerStyle,
+                    dateSetListener,
+                    yearToDisplay,
+                    date.monthValue - 1,
+                    date.dayOfMonth
+                )
+                else -> DatePickerDialog(
+                    myActivity,
+                    R.style.DialogTheme,
+                    dateSetListener,
+                    yearToDisplay,
+                    date.monthValue - 1,
+                    date.dayOfMonth
+                )
             }
             dpd.show()
         }
@@ -760,15 +811,13 @@ class BirthdayFr : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 cachedRemindText = etDaysToRemind.text.toString()
-                var color =
-                    myActivity.colorForAttr(R.attr.colorHint)
+                var color = myActivity.colorForAttr(R.attr.colorHint)
 
                 val amount: Int
                 if (cachedRemindText == "" || cachedRemindText.toInt() == 0) {
                     amount = 0
                 } else {
-                    color =
-                        myActivity.colorForAttr(R.attr.colorOnBackGround)
+                    color = myActivity.colorForAttr(R.attr.colorOnBackGround)
 
                     amount = cachedRemindText.toInt()
                 }
@@ -777,8 +826,7 @@ class BirthdayFr : Fragment() {
                 tvDaysPrior.setTextColor(color)
 
                 val result = myActivity.resources.getQuantityString(
-                    R.plurals.day,
-                    amount
+                    R.plurals.day, amount
                 ) + " " + myActivity.resources.getString(
                     R.string.birthdaysDaysPrior
                 )
@@ -805,11 +853,9 @@ class BirthdayFr : Fragment() {
 
         etDaysToRemind.setOnClickListener {
             if (!cbNotifyMe.isChecked) {
-                val animationShake =
-                    AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
+                val animationShake = AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
                 tvNotifyMe.startAnimation(animationShake)
-                val animationShakeCb =
-                    AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
+                val animationShakeCb = AnimationUtils.loadAnimation(myActivity, R.anim.shake2)
                 cbNotifyMe.startAnimation(animationShakeCb)
             }
         }
@@ -827,20 +873,21 @@ class BirthdayFr : Fragment() {
 
         //button to confirm adding of birthday
         myDialogView.btnConfirmBirthday.setOnClickListener {
-            val name = etName.text.toString()
+            val name = when (dateRegistered) {
+                true -> etName.text.toString().substring(0, dateStringStartIndex).trim()
+                else -> etName.text.toString().trim()
+            }
 
             //tell user to enter a name if none is entered
             if (name.trim() == "") {
-                val animationShake =
-                    AnimationUtils.loadAnimation(myActivity, R.anim.shake)
+                val animationShake = AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 etName.startAnimation(animationShake)
                 return@setOnClickListener
             }
 
 
             if (!yearChanged) {
-                val animationShake =
-                    AnimationUtils.loadAnimation(myActivity, R.anim.shake)
+                val animationShake = AnimationUtils.loadAnimation(myActivity, R.anim.shake)
                 tvBirthdayDate.startAnimation(animationShake)
                 return@setOnClickListener
             }
@@ -862,8 +909,7 @@ class BirthdayFr : Fragment() {
 
             //add birthday and get info about position and range of added elements (month labels, year labels etc)
             val addInfo = birthdayListInstance.addBirthday(
-                name, date.dayOfMonth, date.monthValue,
-                yearToSave, daysToRemind, false, notifyMe
+                name, date.dayOfMonth, date.monthValue, yearToSave, daysToRemind, false, notifyMe
             )
 
             myRecycler.adapter?.notifyItemRangeInserted(addInfo.first, addInfo.second)
@@ -927,15 +973,11 @@ class BirthdayFr : Fragment() {
 }
 
 class SwipeToDeleteBirthday(
-    private var adapter: BirthdayAdapter,
-    direction: Int,
-    birthdayFr: BirthdayFr
-) :
-    ItemTouchHelper.SimpleCallback(0, direction) {
+    private var adapter: BirthdayAdapter, direction: Int, birthdayFr: BirthdayFr
+) : ItemTouchHelper.SimpleCallback(0, direction) {
     private val myFragment = birthdayFr
     override fun getSwipeDirs(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder
+        recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder
     ): Int {
         val parsed = viewHolder as BirthdayAdapter.BirthdayViewHolder
         return if (viewHolder.bindingAdapterPosition == myFragment.birthdayListInstance.size || parsed.birthday.daysToRemind < 0) {
@@ -957,11 +999,8 @@ class SwipeToDeleteBirthday(
 
 
 class BirthdayAdapter(
-    birthdayFr: BirthdayFr,
-    mainActivity: MainActivity,
-    private var searchList: ArrayList<Birthday>
-) :
-    RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
+    birthdayFr: BirthdayFr, mainActivity: MainActivity, private var searchList: ArrayList<Birthday>
+) : RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val myFragment = birthdayFr
     private val myActivity = mainActivity
     private val listInstance = myFragment.birthdayListInstance
@@ -1017,8 +1056,8 @@ class BirthdayAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_birthday, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.row_birthday, parent, false)
         return BirthdayViewHolder(itemView)
     }
 
@@ -1045,8 +1084,7 @@ class BirthdayAdapter(
         }
 
         //set regular birthday background
-        val colorA =
-            myActivity.colorForAttr(R.attr.colorHomePanel)
+        val colorA = myActivity.colorForAttr(R.attr.colorHomePanel)
 
         val myGradientDrawable =
             GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorA))
@@ -1074,10 +1112,7 @@ class BirthdayAdapter(
                 params.setMargins(marginSide, marginSide, marginSide, (density * 10).toInt())
             } else {
                 params.setMargins(
-                    marginSide,
-                    (density * 10).toInt(),
-                    marginSide,
-                    (density * 10).toInt()
+                    marginSide, (density * 10).toInt(), marginSide, (density * 10).toInt()
                 )
             }
         } else {
@@ -1111,20 +1146,15 @@ class BirthdayAdapter(
                     age.toString() + " " + ageYearText + myActivity.resources.getString(R.string.birthdayOldBornIn) + birthday.year
             }
             val reminderDayString = myActivity.resources.getQuantityString(
-                R.plurals.day,
-                currentBirthday.daysToRemind
+                R.plurals.day, currentBirthday.daysToRemind
             )
             val reminderText = when (currentBirthday.notify) {
-                true ->
-                    when (currentBirthday.daysToRemind) {
-                        0 -> myActivity.resources.getString(R.string.birthdaysReminderActivated)
-                        else ->
-                            myActivity.resources.getString(
-                                R.string.birthdayReminder,
-                                currentBirthday.daysToRemind,
-                                reminderDayString
-                            )
-                    }
+                true -> when (currentBirthday.daysToRemind) {
+                    0 -> myActivity.resources.getString(R.string.birthdaysReminderActivated)
+                    else -> myActivity.resources.getString(
+                        R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
+                    )
+                }
                 else -> myActivity.resources.getString(R.string.birthdaysNoReminder)
             }
 
@@ -1135,13 +1165,11 @@ class BirthdayAdapter(
         }
 
         //creates initial dateString containing padded dayOfMonth "03" or "12" e.g.
-        var dateString =
-            currentBirthday.day.toString().padStart(2, '0')
+        var dateString = currentBirthday.day.toString().padStart(2, '0')
 
         //adds month to this string if searching, or setting says to show month
         if (myFragment.searching || SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean) {
-            dateString += "." + currentBirthday.month.toString()
-                .padStart(2, '0')
+            dateString += "." + currentBirthday.month.toString().padStart(2, '0')
         }
 
         //Display name and date
@@ -1152,12 +1180,10 @@ class BirthdayAdapter(
             //"tomorrow"
             1 -> myActivity.resources.getString(R.string.birthdayTomorrow)
             //"in x days"
-            in 2..14 ->
-                myActivity.resources.getString(R.string.birthdayIn) + " " + currentBirthday.daysUntil()
-                    .toString() + " " + myActivity.resources.getQuantityString(
-                    R.plurals.dayIn,
-                    currentBirthday.daysUntil()
-                )
+            in 2..14 -> myActivity.resources.getString(R.string.birthdayIn) + " " + currentBirthday.daysUntil()
+                .toString() + " " + myActivity.resources.getQuantityString(
+                R.plurals.dayIn, currentBirthday.daysUntil()
+            )
             //no addition
             else -> ""
         }
@@ -1215,7 +1241,11 @@ class BirthdayAdapter(
         } else {
             R.attr.colorBirthdayNotifyDisabled
         }
-        holder.itemView.icRowBirthdayNotification.setColorFilter(myActivity.colorForAttr(notificationColor))
+        holder.itemView.icRowBirthdayNotification.setColorFilter(
+            myActivity.colorForAttr(
+                notificationColor
+            )
+        )
 
         // edit birthday via long click on main body
         holder.itemView.clRowBirthdayMain.setOnLongClickListener {
@@ -1261,8 +1291,7 @@ class BirthdayAdapter(
     }
 
     private fun initializeMonthViewHolder(
-        holder: BirthdayViewHolder,
-        currentBirthday: Birthday
+        holder: BirthdayViewHolder, currentBirthday: Birthday
     ) {
         //initialize values specific to month divider
         // reintroduces margin at sides
@@ -1279,29 +1308,26 @@ class BirthdayAdapter(
         //determine the background color of the card
         //daysToRemind acts as a marker in mothDividers to mark the month they display
         // -1 = january, -2 february etc
-        val gradientPair: Pair<Int, Int> =
-            when (southColors) {
-                true ->
-                    //month colors for southern hemisphere, days to remind gets turned positive, then + 7 % 12, to shift the colors by 7 month
-                    //now warm colors are represented in months 8 - 2 etc
-                    monthColors[((currentBirthday.daysToRemind * -1) + 7) % 12]
-                else ->
-                    //regular month colors, days to remind gets turned positive, then -1 so january => index 0
-                    monthColors[(currentBirthday.daysToRemind * -1) - 1]
-            }
+        val gradientPair: Pair<Int, Int> = when (southColors) {
+            true ->
+                //month colors for southern hemisphere, days to remind gets turned positive, then + 7 % 12, to shift the colors by 7 month
+                //now warm colors are represented in months 8 - 2 etc
+                monthColors[((currentBirthday.daysToRemind * -1) + 7) % 12]
+            else ->
+                //regular month colors, days to remind gets turned positive, then -1 so january => index 0
+                monthColors[(currentBirthday.daysToRemind * -1) - 1]
+        }
 
         //create a gradient drawable as a background for the month divider
         val myGradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.TL_BR,
-            intArrayOf(
+            GradientDrawable.Orientation.TL_BR, intArrayOf(
                 myActivity.colorForAttr(gradientPair.second),
                 myActivity.colorForAttr(gradientPair.first)
             )
         )
 
         //check if setting says to use round design, apply correct corner angles
-        if (round) myGradientDrawable.cornerRadii =
-            floatArrayOf(cr, cr, cr, cr, 0f, 0f, 0f, 0f)
+        if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, 0f, 0f, 0f, 0f)
 
         holder.cvBirthday.background = myGradientDrawable
 
@@ -1318,8 +1344,7 @@ class BirthdayAdapter(
      * @param currentBirthday the birthday being displayed by this BirthdayViewHolder
      */
     private fun initializeDividerViewHolder(
-        holder: BirthdayViewHolder,
-        currentBirthday: Birthday
+        holder: BirthdayViewHolder, currentBirthday: Birthday
     ) {
         //show tvRowBirthdayDivider and set its text to the correct month or year name
         holder.tvRowBirthdayDivider.visibility = View.VISIBLE
