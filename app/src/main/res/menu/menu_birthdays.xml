@@ -15,6 +15,7 @@
         android:id="@+id/item_birthdays_undo"
         android:icon="@drawable/ic_action_undo"
         android:title=""
+        android:tint="?attr/colorIconTint"
         app:showAsAction="ifRoom">
     </item>
     <item
