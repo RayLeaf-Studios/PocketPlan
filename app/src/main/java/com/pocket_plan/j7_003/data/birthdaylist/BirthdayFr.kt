@@ -690,13 +690,18 @@ class BirthdayFr : Fragment() {
                     }
                     // only remove date from name line, if it was a complete date
                     if (yearPresent) {
-                        etName.setText(text.substring(0, dateStringStartIndex))
+                        etName.setText(text.substring(0, dateStringStartIndex).trim())
                         etName.setSelection(etName.text.length)
+                        cbSaveBirthdayYear.isChecked = true
+                        tvSaveYear.setTextColor(
+                            myActivity.colorForAttr(R.attr.colorOnBackGround)
+                        )
+                    } else {
+                        cbSaveBirthdayYear.isChecked = false
+                        tvSaveYear.setTextColor(
+                            myActivity.colorForAttr(R.attr.colorHint)
+                        )
                     }
-                    cbSaveBirthdayYear.isChecked = true
-                    tvSaveYear.setTextColor(
-                        myActivity.colorForAttr(R.attr.colorOnBackGround)
-                    )
                     yearChanged = true
                 } else {
                     dateRegistered = false
