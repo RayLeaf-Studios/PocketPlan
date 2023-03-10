@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/icon_folder"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
                 app:tint="?attr/colorOnBackGround"
                 android:tintMode="@null"
                 android:src="@drawable/ic_action_folder"
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="1dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_size_small"
+                android:textSize="@dimen/font_size_very_small"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/icon_folder"
                 app:layout_constraintEnd_toEndOf="@id/icon_folder"
