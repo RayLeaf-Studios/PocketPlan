@@ -78,14 +78,6 @@ class NoteEditorFr : Fragment() {
          * called from an editing context
          */
 
-//        if(myNoteFr.noteListDirs.currentList().isEmpty()){
-//            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
-//        }
-//        editNoteHolder = when(PreferenceManager.getDefaultSharedPreferences(myActivity).getBoolean("editingNote", false)){
-//            true -> myNoteFr.noteListDirs.getNote(NoteFr.myAdapter.notePosition)
-//            else -> null
-//        }
-
         if (NoteFr.editNoteHolder != null) {
             if(NoteFr.displayContent != "" || NoteFr.displayTitle != ""){
                 myEtContent.setText(NoteFr.displayContent)

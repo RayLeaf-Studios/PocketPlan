@@ -24,6 +24,38 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvFixedNoteSize"
+                    android:layout_width="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settingsNotesEqualSize"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swFixedNoteSize"
+                    app:layout_constraintTop_toTopOf="@id/tvFixedNoteSize"
+                    app:layout_constraintBottom_toBottomOf="@id/tvFixedNoteSize"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/clNoteLines"
                 android:paddingVertical="5dp"
                 android:background="?attr/selectableItemBackground"

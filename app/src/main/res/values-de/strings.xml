@@ -166,6 +166,7 @@
     <string name="settingsNotesShowContained">Zeige Anzahl der in einem Ordner enthaltenen Elemente</string>
     <string name="settingsNotesShowDeleted">Zeige kürzlich gelöschte Notizen</string>
     <string name="settingsNotesTitle">Notizen</string>
+    <string name="settingsNotesEqualSize">Gleiche Größe für alle Notizen</string>
 
     <string name="settingsShoppingCloseHint">(In der Einkaufsliste)</string>
     <string name="settingsShoppingCloseItemDialog">Artikeldialog nach hinzufügen schließen</string>

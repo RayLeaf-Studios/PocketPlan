@@ -330,5 +330,6 @@
     </plurals>
     <string name="notesShare">Partager</string>
     <string name="show_advanced_backup_options">Aafficher les options de sauvegarde avancées</string>
+    <string name="settingsNotesEqualSize">Notes de même taille</string>
 
 </resources>
