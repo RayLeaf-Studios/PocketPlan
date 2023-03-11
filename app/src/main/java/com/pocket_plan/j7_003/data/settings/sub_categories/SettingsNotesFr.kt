@@ -38,6 +38,7 @@ class SettingsNotesFr : Fragment() {
     private lateinit var swMoveUpCurrentNote: SwitchCompat
     private lateinit var swArchive: SwitchCompat
     private lateinit var swFixedNoteSize: SwitchCompat
+    private lateinit var swSortFoldersToTop: SwitchCompat
 
     private lateinit var clNoteLines: ConstraintLayout
     private lateinit var clNoteColumns: ConstraintLayout
@@ -82,6 +83,7 @@ class SettingsNotesFr : Fragment() {
         swMoveUpCurrentNote = myView.swMoveUpCurrentNote
         swArchive = myView.swArchive
         swFixedNoteSize = myView.swFixedNoteSize
+        swSortFoldersToTop = myView.swSortFoldersToTop
 
         clNoteColumns = myView.clNoteColumns
         clNoteLines = myView.clNoteLines
@@ -167,6 +169,7 @@ class SettingsNotesFr : Fragment() {
         swMoveUpCurrentNote.isChecked = SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
         swArchive.isChecked = SettingsManager.getSetting(SettingId.NOTES_ARCHIVE) as Boolean
         swFixedNoteSize.isChecked = SettingsManager.getSetting(SettingId.NOTES_FIXED_SIZE) as Boolean
+        swSortFoldersToTop.isChecked = SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean
 
         clNoteLines.visibility = when(swFixedNoteSize.isChecked){
             true -> View.GONE
@@ -289,6 +292,10 @@ class SettingsNotesFr : Fragment() {
 
         swMoveUpCurrentNote.setOnClickListener{
             SettingsManager.addSetting(SettingId.NOTES_MOVE_UP_CURRENT, swMoveUpCurrentNote.isChecked)
+        }
+
+        swSortFoldersToTop.setOnClickListener{
+            SettingsManager.addSetting(SettingId.NOTES_DIRS_TO_TOP, swSortFoldersToTop.isChecked)
         }
 
         swArchive.setOnClickListener{

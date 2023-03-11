@@ -307,5 +307,6 @@
     </plurals>
     <string name="notesShare">Teilen</string>
     <string name="show_advanced_backup_options">Erweiterte Backup Optionen</string>
+    <string name="settingsNotesSortFoldersTop">Ordner nach oben sortieren</string>
 
 </resources>

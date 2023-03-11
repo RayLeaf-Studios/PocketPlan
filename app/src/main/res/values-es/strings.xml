@@ -311,5 +311,6 @@
     <string name="notesShare">Compartir</string>
     <string name="show_advanced_backup_options">Mostrar opciones avanzadas de copia de seguridad</string>
     <string name="settingsNotesEqualSize">Billetes de igual tamaño</string>
+    <string name="settingsNotesSortFoldersTop">Ordenar las carpetas al principio</string>
 
 </resources>

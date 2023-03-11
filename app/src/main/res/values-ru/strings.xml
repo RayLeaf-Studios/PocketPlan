@@ -313,5 +313,6 @@
     <string name="notesShare">Поделить</string>
     <string name="show_advanced_backup_options">Показать расширенные параметры резервного копирования</string>
     <string name="settingsNotesEqualSize">Купюры одинакового размера</string>
+    <string name="settingsNotesSortFoldersTop">Сортировка папок к верху</string>
 
 </resources>

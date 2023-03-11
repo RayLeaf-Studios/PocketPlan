@@ -371,5 +371,6 @@
     <string name="notesShare">Share</string>
     <string name="show_advanced_backup_options">Show advanced backup options</string>
     <string name="settingsNotesEqualSize">Equally sized notes</string>
+    <string name="settingsNotesSortFoldersTop">Sort folders to the top</string>
 
 </resources>
