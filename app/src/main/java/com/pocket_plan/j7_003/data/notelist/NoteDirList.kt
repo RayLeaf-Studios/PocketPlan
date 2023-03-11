@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.notelist
 
+import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
@@ -9,23 +10,27 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.util.*
 
-class NoteDirList: Checkable {
+class NoteDirList : Checkable {
     private val rootDirName = "groot"
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
-    var currentList : () -> NoteList = {folderStack.peek().noteList}
+    var currentList: () -> NoteList = { folderStack.peek().noteList }
     var folderStack: Stack<Note> = Stack()
 
     init {
         StorageHandler.createJsonFile(StorageId.NOTES)
         try {   // Todo - part of the compatibility layer; remove try, catch soon
             fetchFromFile()
-        } catch (_: Exception) {/* no-op */}
+        } catch (_: Exception) {/* no-op */
+        }
         folderStack.push(rootDir)
 
         try {   // Todo - main part of the comp. layer; also remove soon
             val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
             GsonBuilder().create()
-                .fromJson<LinkedList<Note>>(jsonString, object : TypeToken<LinkedList<Note>>() {}.type)
+                .fromJson<LinkedList<Note>>(
+                    jsonString,
+                    object : TypeToken<LinkedList<Note>>() {}.type
+                )
                 .forEach {
                     if (it.noteList == null) {
                         it.noteList = NoteList()
@@ -33,7 +38,8 @@ class NoteDirList: Checkable {
                     currentList().add(it)
                 }
             save()
-        } catch (_: Exception) {/* no-op */}
+        } catch (_: Exception) {/* no-op */
+        }
 
     }
 
@@ -77,7 +83,7 @@ class NoteDirList: Checkable {
      * From superordinatepaths
      */
     fun getParentFolderIndex(dir: Note): Int {
-        val parentDir = getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
+        val parentDir = getDirPathsWithRef().find { it.second.noteList.contains(dir) }!!.second
         val containingDirs = containingDirs(dir)
         containingDirs.add(dir)
         val supPairs = getDirPathsWithRef().filter {
@@ -90,15 +96,15 @@ class NoteDirList: Checkable {
     }
 
     fun getParentDirectory(dir: Note): Note {
-        return getDirPathsWithRef().find {it.second.noteList.contains(dir)}!!.second
+        return getDirPathsWithRef().find { it.second.noteList.contains(dir) }!!.second
     }
 
-    fun moveDir(noteToMove: Note, toIndex: Int) : Boolean {
+    fun moveDir(noteToMove: Note, toIndex: Int): Boolean {
         //Get containing directories
         val containingDirs = containingDirs(noteToMove)
         containingDirs.add(noteToMove)
         //Get all dirs, that are not contained in the current dir
-        val validWithParent = getDirPathsWithRef().filter {!containingDirs.contains(it.second)}
+        val validWithParent = getDirPathsWithRef().filter { !containingDirs.contains(it.second) }
 
         //get new parent directory
         val newParent = validWithParent[toIndex].second
@@ -118,13 +124,13 @@ class NoteDirList: Checkable {
         return true
     }
 
-    fun adjustStackAbove(note: Note){
+    fun adjustStackAbove(note: Note) {
         //Adjust folder stack
         folderStack.clear()
         var currentDir = note
 
         while (getParentDirectory(currentDir) != rootDir) {
-            if (currentDir.content==null) folderStack.push(currentDir)
+            if (currentDir.content == null) folderStack.push(currentDir)
             currentDir = getParentDirectory(currentDir)
         }
         //Add last parent directory and root directory to stack
@@ -137,15 +143,15 @@ class NoteDirList: Checkable {
 
     fun getNoteByTitleAndContent(title: String, content: String, directory: Note = rootDir): Note? {
         for (note in directory.noteList) {
-            if(note.content!=null){
+            if (note.content != null) {
                 //Check note
-               if(note.content == content && note.title == title){
-                   return note
-               }
-            }else{
+                if (note.content == content && note.title == title) {
+                    return note
+                }
+            } else {
                 //Check subDirectory val
                 val subResult = getNoteByTitleAndContent(title, content, note)
-                if(subResult != null) return subResult
+                if (subResult != null) return subResult
             }
         }
         return null
@@ -196,7 +202,7 @@ class NoteDirList: Checkable {
             }
         }
 
-        if(path.length > 26) {
+        if (path.length > 26) {
             path = "...   ›   " + path.split("   ›   ").last()
         }
         return path
@@ -241,8 +247,8 @@ class NoteDirList: Checkable {
      * moving was possible.
      * @return True if the move worked, false otherwise.
      */
-    fun goBack(): Boolean{
-        if(folderStack.size <= 1){
+    fun goBack(): Boolean {
+        if (folderStack.size <= 1) {
             return false
         }
         folderStack.pop()
@@ -277,7 +283,7 @@ class NoteDirList: Checkable {
      * @param newName The new name the directory will get.
      * @return True on success, false otherwise.
      */
-    fun editFolder(newName: String, newColor: NoteColors): Boolean{
+    fun editFolder(newName: String, newColor: NoteColors): Boolean {
         if (folderStack.size == 1 || newName.trim() == "" || newName == rootDirName) return false
         folderStack.peek().title = newName
         folderStack.peek().color = newColor
@@ -290,9 +296,9 @@ class NoteDirList: Checkable {
      * @see NoteList.addNote
      */
     fun addNote(note: Note) {
-        if(SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean){
+        if (SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean) {
             currentList().add(0, note)
-        }else{
+        } else {
             currentList().add(note)
         }
         save()
@@ -304,14 +310,15 @@ class NoteDirList: Checkable {
      * @return True if the directory was added, false otherwise.
      */
     fun addNoteDir(noteDir: Note): Boolean {
-        if (noteDir.title == rootDirName || noteDir.title.trim() == ""){
+        if (noteDir.title == rootDirName || noteDir.title.trim() == "") {
             return false
         }
-        if(SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean){
+        if (SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean) {
             currentList().add(0, noteDir)
-        }else{
+        } else {
             currentList().add(noteDir)
         }
+        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop();
         save()
         return true
     }
@@ -320,8 +327,8 @@ class NoteDirList: Checkable {
      * The count of notes and folders in the current directory.
      * @return The aforementioned count notes and folders.
      */
-    fun getNoteObjCount(): Int{
-       return currentList().size
+    fun getNoteObjCount(): Int {
+        return currentList().size
     }
 
     /**
@@ -329,13 +336,22 @@ class NoteDirList: Checkable {
      */
     fun save() {
         StorageHandler.saveAsJsonToFile(
-            StorageHandler.files[StorageId.NOTES], rootDir)
+            StorageHandler.files[StorageId.NOTES], rootDir
+        )
     }
 
     private fun fetchFromFile() {
         val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
 
         rootDir = GsonBuilder().create().fromJson(jsonString, object : TypeToken<Note>() {}.type)
+
+        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop();
+    }
+
+    fun sortDirsToTop() {
+        getDirPathsWithRef().forEach {
+            it.second.noteList.sortBy { listNote -> listNote.content }
+        }
     }
 
     override fun check() {
@@ -351,8 +367,10 @@ class NoteDirList: Checkable {
         dirs.forEach {
             it.second.noteList.forEach { note ->
                 if (note.title.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))
-                    || note.content != null && note.content!!.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT)))
-                        results.add(note)
+                    || note.content != null && note.content!!.toLowerCase(Locale.ROOT)
+                        .contains(query.toLowerCase(Locale.ROOT))
+                )
+                    results.add(note)
             }
         }
 

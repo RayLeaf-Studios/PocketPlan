@@ -296,6 +296,8 @@ class SettingsNotesFr : Fragment() {
 
         swSortFoldersToTop.setOnClickListener{
             SettingsManager.addSetting(SettingId.NOTES_DIRS_TO_TOP, swSortFoldersToTop.isChecked)
+            if (swSortFoldersToTop.isChecked)
+                MainActivity.mainNoteListDir.sortDirsToTop();
         }
 
         swArchive.setOnClickListener{
