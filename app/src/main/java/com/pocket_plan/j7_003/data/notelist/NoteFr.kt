@@ -592,6 +592,8 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
     private val moveViewedToTop =
         SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
+    private val foldersToTop =
+        SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
@@ -695,6 +697,34 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(textColor))
         holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(textColor))
 
+        val moveToTop: () -> Unit = {
+            if (moveViewedToTop) {
+                val containingList = when (NoteFr.searching){
+                    true -> myNoteFr.noteListDirs.getParentDirectory(currentNote).noteList
+                    else -> myNoteFr.noteListDirs.currentList()
+                }
+                val noteIndex = containingList.indexOf(currentNote)
+
+                // if this is a note, and the setting says to move folders to the top,
+                // adjust the insert index to insert after the last folder
+                val insertIndex = when(foldersToTop && currentNote.content != null){
+                    false -> 0
+                    true -> {
+                        var index = 0
+                        for (note in containingList){
+                            if (note.content == null){
+                                index += 1
+                            }
+                        }
+                        index
+                    }
+                }
+                containingList.removeAt(noteIndex)
+                containingList.add(insertIndex, currentNote)
+                myNoteFr.noteListDirs.save()
+            }
+        }
+
         if (currentNote.content != null) {
             //CONTENT AND LISTENERS FOR NOTE
             //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
@@ -702,23 +732,13 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.itemView.setOnClickListener {
 
                 //move current note to top if setting says so
-                if (moveViewedToTop) {
-                    val containingList = when (NoteFr.searching){
-                        true -> myNoteFr.noteListDirs.getParentDirectory(currentNote).noteList
-                        else -> myNoteFr.noteListDirs.currentList()
-                    }
-                    val noteIndex = containingList.indexOf(currentNote)
-
-                   containingList.removeAt(noteIndex)
-                   containingList.add(0, currentNote)
-                   myNoteFr.noteListDirs.save()
-                }
+                moveToTop()
                 myNoteFr.noteListDirs.adjustStackAbove(currentNote)
 
                 NoteFr.editNoteHolder = currentNote
 
-                myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
                 myActivity.hideKeyboard()
+                myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
             }
 
             //when title is empty, hide it else show it and set the proper text
@@ -788,14 +808,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             holder.itemView.setOnClickListener {
                 //move current folder to top if setting says so
-                if (moveViewedToTop) {
-                    val noteToMove = holder.noteObj
-                    val noteIndex = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
-
-                    myNoteFr.noteListDirs.currentList().removeAt(noteIndex)
-                    myNoteFr.noteListDirs.currentList().add(0, noteToMove)
-                    myNoteFr.noteListDirs.save()
-                }
+                moveToTop()
 
                 if(NoteFr.searching){
                     myNoteFr.noteListDirs.adjustStackAbove(currentNote)

@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.notelist
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
@@ -297,7 +296,13 @@ class NoteDirList : Checkable {
      */
     fun addNote(note: Note) {
         if (SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean) {
-            currentList().add(0, note)
+            var index = 0
+            for (n in currentList()){
+                if (n.content == null){
+                    index += 1
+                }
+            }
+            currentList().add(index, note)
         } else {
             currentList().add(note)
         }
