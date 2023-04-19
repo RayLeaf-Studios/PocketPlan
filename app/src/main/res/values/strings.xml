@@ -33,7 +33,7 @@
     <string name="birthdaySaveYear">save year</string>
     <string name="birthdayToday">today</string>
     <string name="birthdayTomorrow">tomorrow</string>
-    <string name="birthdaysAddNameHint">Name</string>
+    <string name="birthdaysAddNameHint">Name (Date)</string>
     <string name="birthdaysDaysPrior">" prior."</string>
     <string name="birthdaysDisableReminders">Disable all reminders</string>
     <string name="birthdaysEnableReminders">Enable all reminders</string>

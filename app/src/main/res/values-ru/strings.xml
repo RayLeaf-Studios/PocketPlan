@@ -25,7 +25,7 @@
     <string name="birthdaySaveYear">сохранить год</string>
     <string name="birthdayToday">сегодня</string>
     <string name="birthdayTomorrow">завтра</string>
-    <string name="birthdaysAddNameHint">Имя</string>
+    <string name="birthdaysAddNameHint">Имя (Дата)</string>
     <string name="birthdaysDaysPrior">прежде</string>
     <string name="birthdaysDisableReminders">Отключить все напоминания</string>
     <string name="birthdaysEnableReminders">Включить все напоминания</string>

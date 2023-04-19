@@ -25,7 +25,7 @@
     <string name="birthdaySaveYear">avec l\'année</string>
     <string name="birthdayToday">aujourd\'hui</string>
     <string name="birthdayTomorrow">demain</string>
-    <string name="birthdaysAddNameHint">Nom</string>
+    <string name="birthdaysAddNameHint">Nom (Date)</string>
     <string name="birthdaysDaysPrior">" antérieur."</string>
     <string name="birthdaysDisableReminders">Désactiver tous les rappels</string>
     <string name="birthdaysEnableReminders">Activer tous les rappels</string>
