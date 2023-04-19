@@ -27,7 +27,7 @@
         android:src="@drawable/ic_action_expand"
         app:layout_constraintBottom_toBottomOf="@+id/tvHowToSubTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="?attr/colorOnBackGround"
+        app:tint="?attr/colorIconTint"
         app:layout_constraintTop_toTopOf="@+id/tvHowToSubTitle"/>
 
     <TextView

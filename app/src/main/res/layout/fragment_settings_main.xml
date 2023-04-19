@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clSettingAppearance"
+                android:id="@+id/clSettingGeneral"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -35,14 +35,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorOnBackGround" />
+                    app:tint="?attr/colorIconTint" />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
-                    android:text="@string/settingsAppearanceTitle"
+                    android:text="@string/settingsGeneralTitle"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -70,7 +70,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorOnBackGround" />
+                    app:tint="?attr/colorIconTint" />
 
 
                 <TextView
@@ -106,7 +106,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorOnBackGround" />
+                    app:tint="?attr/colorIconTint" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -141,7 +141,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorOnBackGround" />
+                    app:tint="?attr/colorIconTint" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -176,7 +176,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorOnBackGround" />
+                    app:tint="?attr/colorIconTint" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -212,7 +212,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?attr/colorOnBackGround" />
+                    app:tint="?attr/colorIconTint" />
 
                 <TextView
                     android:layout_width="wrap_content"

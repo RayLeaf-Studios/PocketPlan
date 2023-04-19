@@ -37,6 +37,8 @@ class SettingsNotesFr : Fragment() {
     private lateinit var swShowContained: SwitchCompat
     private lateinit var swMoveUpCurrentNote: SwitchCompat
     private lateinit var swArchive: SwitchCompat
+    private lateinit var swFixedNoteSize: SwitchCompat
+    private lateinit var swSortFoldersToTop: SwitchCompat
 
     private lateinit var clNoteLines: ConstraintLayout
     private lateinit var clNoteColumns: ConstraintLayout
@@ -80,6 +82,8 @@ class SettingsNotesFr : Fragment() {
         swShowContained = myView.swShowContained
         swMoveUpCurrentNote = myView.swMoveUpCurrentNote
         swArchive = myView.swArchive
+        swFixedNoteSize = myView.swFixedNoteSize
+        swSortFoldersToTop = myView.swSortFoldersToTop
 
         clNoteColumns = myView.clNoteColumns
         clNoteLines = myView.clNoteLines
@@ -164,6 +168,13 @@ class SettingsNotesFr : Fragment() {
         swShowContained.isChecked = SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
         swMoveUpCurrentNote.isChecked = SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
         swArchive.isChecked = SettingsManager.getSetting(SettingId.NOTES_ARCHIVE) as Boolean
+        swFixedNoteSize.isChecked = SettingsManager.getSetting(SettingId.NOTES_FIXED_SIZE) as Boolean
+        swSortFoldersToTop.isChecked = SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean
+
+        clNoteLines.visibility = when(swFixedNoteSize.isChecked){
+            true -> View.GONE
+            else -> View.VISIBLE
+        }
 
         val archiveContent = PreferenceManager.getDefaultSharedPreferences(myActivity).getString("noteArchive", "")
         if (archiveContent != null) {
@@ -259,7 +270,14 @@ class SettingsNotesFr : Fragment() {
             }
         }
 
-        //listener for switch to allow / disallow swipe to delete for notes
+        swFixedNoteSize.setOnClickListener{
+            SettingsManager.addSetting(SettingId.NOTES_FIXED_SIZE, swFixedNoteSize.isChecked)
+            clNoteLines.visibility = when(swFixedNoteSize.isChecked){
+                true -> View.GONE
+                else -> View.VISIBLE
+            }
+        }
+
         swAllowSwipe.setOnClickListener {
             SettingsManager.addSetting(SettingId.NOTES_SWIPE_DELETE, swAllowSwipe.isChecked)
         }
@@ -274,6 +292,12 @@ class SettingsNotesFr : Fragment() {
 
         swMoveUpCurrentNote.setOnClickListener{
             SettingsManager.addSetting(SettingId.NOTES_MOVE_UP_CURRENT, swMoveUpCurrentNote.isChecked)
+        }
+
+        swSortFoldersToTop.setOnClickListener{
+            SettingsManager.addSetting(SettingId.NOTES_DIRS_TO_TOP, swSortFoldersToTop.isChecked)
+            if (swSortFoldersToTop.isChecked)
+                MainActivity.mainNoteListDir.sortDirsToTop();
         }
 
         swArchive.setOnClickListener{

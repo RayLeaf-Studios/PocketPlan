@@ -15,9 +15,11 @@ The goal of this project is to create a simplistic, lightweight, open-source, ad
         src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"/>
 </a>
 
+
 Or get the APK from the [Releases Section](https://github.com/RayLeaf-Studios/PocketPlan/releases/latest).
 
 Check out the [Contribution guidelines](https://github.com/estep248/PocketPlan/blob/master/CONTRIBUTING.md) if you would like to contribute to this project.
+
 
 Some of the features already implemented include but are not limited to:
 

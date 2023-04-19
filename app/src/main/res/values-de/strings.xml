@@ -106,24 +106,25 @@
     <string name="notesToastFolderMoved">Ordner verschoben!</string>
     <string name="notesToastNoteMoved">Notiz wurde verschoben</string>
 
-    <string name="settingsAboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter der oben genannten E-Mail Adresse.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.\n\nFalls du einen GitHub Account hast, kannst du natürlich auch ein Issue in unserem Repository erstellen.</string>
+    <string name="aboutContactDescription">Um einen Fehler zu melden, oder eine neue Funktion vorzuschlagen, kontaktiere uns unter der oben genannten E-Mail Adresse.\n\nWenn du einen Fehler meldest, teile uns bitte deine Android Version, deinen Gerätetyp und detaillierte Schritte zur Reproduktion des Fehlers mit.\n\nFalls du einen GitHub Account hast, kannst du natürlich auch ein Issue in unserem Repository erstellen.</string>
 
-    <string name="settingsAppearanceBorderHint">(Wird auf Aufgaben und Notizen angewandt)</string>
-    <string name="settingsAppearanceBorderTitle">Randdarstellung im dunklen Modus:</string>
-    <string name="settingsAppearanceBorderless">Randlos</string>
-    <string name="settingsAppearanceColoredBorder">Farbiger Rand</string>
-    <string name="settingsAppearanceFilled">Gefüllt</string>
-    <string name="settingsAppearanceLanguage">Sprache</string>
-    <string name="settingsAppearanceResetHint">Deine Daten wie Notizen usw. werden dabei nicht gelöscht.</string>
-    <string name="settingsAppearanceResetTitle">Alle Einstellungen zurücksetzen?</string>
-    <string name="settingsAppearanceResetToDefault">Alle Einstellungen zurücksetzen</string>
-    <string name="settingsAppearanceSampleText">Beispiel</string>
-    <string name="settingsAppearanceShakeHomeExplanation">Wenn es eine oder mehr Aufgaben mit Priorität 1 gibt, bewegt sich das Aufgaben Icon, sobald du das Home Panel öffnest.</string>
-    <string name="settingsAppearanceShakeTask">Animation für Todo-Erinnerung in Home</string>
-    <string name="settingsAppearanceShapes">Formen</string>
-    <string name="settingsAppearanceSystemTheme">Übernehme Systemdesign (Android 10+)</string>
-    <string name="settingsAppearanceTheme">Design</string>
-    <string name="settingsAppearanceTitle">Allgemeines</string>
+    <string name="settingsGeneralBorderHint">(Wird auf Aufgaben und Notizen angewandt)</string>
+    <string name="settingsGeneralBorderTitle">Randdarstellung im dunklen Modus:</string>
+    <string name="settingsGeneralBorderless">Randlos</string>
+    <string name="settingsGeneralColoredBorder">Farbiger Rand</string>
+    <string name="settingsGeneralFilled">Gefüllt</string>
+    <string name="settingsGeneralLanguage">Sprache</string>
+    <string name="settingsGeneralResetHint">Deine Daten wie Notizen usw. werden dabei nicht gelöscht.</string>
+    <string name="settingsGeneralResetTitle">Alle Einstellungen zurücksetzen?</string>
+    <string name="settingsGeneralResetToDefault">Alle Einstellungen zurücksetzen</string>
+    <string name="settingsGeneralSampleText">Beispiel</string>
+    <string name="settingsGeneralShakeHomeExplanation">Wenn es eine oder mehr Aufgaben mit Priorität 1 gibt, bewegt sich das Aufgaben Icon, sobald du das Home Panel öffnest.</string>
+    <string name="settingsGeneralShakeTask">Animation für Todo-Erinnerung in Home</string>
+    <string name="settingsGeneralShapes">Formen</string>
+    <string name="settingsGeneralSystemTheme">Übernehme Systemdesign</string>
+    <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
+    <string name="settingsGeneralTheme">Design</string>
+    <string name="settingsGeneralTitle">Allgemeines</string>
 
     <string name="settingsBackupChooseFile">Datei wählen</string>
     <string name="settingsBackupExport">exportieren</string>
@@ -165,6 +166,7 @@
     <string name="settingsNotesShowContained">Zeige Anzahl der in einem Ordner enthaltenen Elemente</string>
     <string name="settingsNotesShowDeleted">Zeige kürzlich gelöschte Notizen</string>
     <string name="settingsNotesTitle">Notizen</string>
+    <string name="settingsNotesEqualSize">Gleiche Größe für alle Notizen</string>
 
     <string name="settingsShoppingCloseHint">(In der Einkaufsliste)</string>
     <string name="settingsShoppingCloseItemDialog">Artikeldialog nach hinzufügen schließen</string>
@@ -305,5 +307,6 @@
     </plurals>
     <string name="notesShare">Teilen</string>
     <string name="show_advanced_backup_options">Erweiterte Backup Optionen</string>
+    <string name="settingsNotesSortFoldersTop">Ordner nach oben sortieren</string>
 
 </resources>

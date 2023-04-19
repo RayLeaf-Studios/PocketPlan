@@ -23,11 +23,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="26dp"
             android:clickable="true"
+            android:tint="?attr/colorOnBackGroundTask"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/btm_nav"
             android:layout_marginBottom="26dp"
             android:focusable="true"
-            android:src="@drawable/ic_add_button" />
+            android:src="@drawable/ic_action_add_button" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -45,13 +46,13 @@
             android:layout_width="match_parent"
             android:layout_height="7dp"
             app:layout_constraintTop_toTopOf="@id/frame_layout"
-            android:background="@drawable/shadow_down"/>
+            android:background="@drawable/dc_shadow_down"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="7dp"
             app:layout_constraintBottom_toTopOf="@id/btm_nav"
-            android:background="@drawable/shadow"/>
+            android:background="@drawable/dc_shadow"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +62,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btm_nav"
             app:itemTextColor="?attr/colorOnBackGround"
-            app:itemIconTint="?attr/colorOnBackGround"
+            app:itemIconTint="?attr/colorIconTint"
             android:layout_alignParentBottom="true"
             android:background="?attr/colorBackgroundElevated"
             app:menu="@menu/menu_nav_bottom"/>
@@ -74,7 +75,7 @@
         android:background="?attr/colorBackground"
         android:layout_width="wrap_content"
         app:itemTextColor="?attr/colorOnBackGround"
-        app:itemIconTint="?attr/colorOnBackGround"
+        app:itemIconTint="?attr/colorIconTint"
         android:layout_height="match_parent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:menu="@menu/menu_nav_drawer"

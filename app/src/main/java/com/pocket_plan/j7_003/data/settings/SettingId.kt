@@ -36,5 +36,7 @@ enum class SettingId(val default: Any) {
     LAST_USED_NOTE_COLOR(0.0),
     NOTES_SHOW_CONTAINED(true),
     NOTES_MOVE_UP_CURRENT(false),
-    NOTES_ARCHIVE(true)
+    NOTES_ARCHIVE(true),
+    NOTES_FIXED_SIZE(true),
+    NOTES_DIRS_TO_TOP(true),
 }

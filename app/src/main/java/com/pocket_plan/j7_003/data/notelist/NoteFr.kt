@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.fragment_note.view.*
 import kotlinx.android.synthetic.main.row_note.view.*
 import kotlinx.android.synthetic.main.title_dialog.view.*
 import java.util.*
-import kotlin.properties.Delegates
 import kotlin.random.Random
 
 /**
@@ -47,6 +46,7 @@ class NoteFr : Fragment() {
     val darkBorderStyle = SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) as Double
     val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
     val archiveDeletedNotes = SettingsManager.getSetting(SettingId.NOTES_ARCHIVE) as Boolean
+    val fixedNoteSize = SettingsManager.getSetting(SettingId.NOTES_FIXED_SIZE) as Boolean
 
     companion object {
         lateinit var myAdapter: NoteAdapter
@@ -550,21 +550,19 @@ class NoteFr : Fragment() {
     private fun getContainedNoteTexts(note: Note): String{
         var result = ""
         if(note.content == null){
+            // folder got deleted, add all contained notes and folders recursively to archive
             note.noteList.forEach {
                 result += getContainedNoteTexts(it)
             }
         }else{
             val c = Calendar.getInstance()
-
             val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
+            val month = c.get(Calendar.MONTH) + 1 // Note: Month is 0-based in Calendar class
             val day = c.get(Calendar.DAY_OF_MONTH)
-
             val hour = c.get(Calendar.HOUR_OF_DAY)
             val minute = c.get(Calendar.MINUTE)
 
-            //Add deletion time and title to new entry
-            var newEntry = "$day.$month.$year $hour:$minute\n"
+            var newEntry = String.format("%02d.%02d.%04d %02d:%02d", day, month, year, hour, minute) + "\n"
             if(note.title.trim()!="") newEntry += note.title + "\n"
             //Add content
             if(note.content != null) newEntry += note.content + "\n\n"
@@ -594,6 +592,8 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         SettingsManager.getSetting(SettingId.NOTES_SHOW_CONTAINED) as Boolean
     private val moveViewedToTop =
         SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean
+    private val foldersToTop =
+        SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
@@ -601,11 +601,13 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
     private val myNoteFr = noteFr
 
-    var notePosition by Delegates.notNull<Int>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
+        val layout = when(myNoteFr.fixedNoteSize){
+            true -> R.layout.row_note_fixed_size
+            else -> R.layout.row_note
+        }
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_note, parent, false)
+            .inflate(layout, parent, false)
         return NoteViewHolder(itemView)
     }
 
@@ -695,6 +697,34 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(textColor))
         holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(textColor))
 
+        val moveToTop: () -> Unit = {
+            if (moveViewedToTop) {
+                val containingList = when (NoteFr.searching){
+                    true -> myNoteFr.noteListDirs.getParentDirectory(currentNote).noteList
+                    else -> myNoteFr.noteListDirs.currentList()
+                }
+                val noteIndex = containingList.indexOf(currentNote)
+
+                // if this is a note, and the setting says to move folders to the top,
+                // adjust the insert index to insert after the last folder
+                val insertIndex = when(foldersToTop && currentNote.content != null){
+                    false -> 0
+                    true -> {
+                        var index = 0
+                        for (note in containingList){
+                            if (note.content == null){
+                                index += 1
+                            }
+                        }
+                        index
+                    }
+                }
+                containingList.removeAt(noteIndex)
+                containingList.add(insertIndex, currentNote)
+                myNoteFr.noteListDirs.save()
+            }
+        }
+
         if (currentNote.content != null) {
             //CONTENT AND LISTENERS FOR NOTE
             //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
@@ -702,23 +732,13 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.itemView.setOnClickListener {
 
                 //move current note to top if setting says so
-                if (moveViewedToTop) {
-                    val containingList = when (NoteFr.searching){
-                        true -> myNoteFr.noteListDirs.getParentDirectory(currentNote).noteList
-                        else -> myNoteFr.noteListDirs.currentList()
-                    }
-                    val noteIndex = containingList.indexOf(currentNote)
-
-                   containingList.removeAt(noteIndex)
-                   containingList.add(0, currentNote)
-                   myNoteFr.noteListDirs.save()
-                }
+                moveToTop()
                 myNoteFr.noteListDirs.adjustStackAbove(currentNote)
 
                 NoteFr.editNoteHolder = currentNote
 
-                myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
                 myActivity.hideKeyboard()
+                myActivity.changeToFragment(FT.NOTE_EDITOR) as NoteEditorFr
             }
 
             //when title is empty, hide it else show it and set the proper text
@@ -731,21 +751,28 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             holder.tvNoteContent.text = currentNote.content
 
-            //decide how many lines per note are shown, depending on the setting noteLines
-            if (NoteFr.noteLines == -1) {
-                holder.tvNoteContent.maxLines = Int.MAX_VALUE
-            } else {
-                holder.tvNoteContent.maxLines = NoteFr.noteLines
-                holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
-            }
-
-            if (NoteFr.noteLines == 0) {
-                holder.tvNoteContent.maxLines = 1
-                val displayedContent = when (currentNote.content == "") {
-                    true -> ""
-                    false -> "..."
+            //decide how many lines per note are shown, depending on the setting noteLines (and only if note sizes are not fixed by setting)
+            if(!myNoteFr.fixedNoteSize){
+                if (NoteFr.noteLines == -1) {
+                    holder.tvNoteContent.maxLines = Int.MAX_VALUE
+                } else {
+                    holder.tvNoteContent.maxLines = NoteFr.noteLines
+                    holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
                 }
-                holder.tvNoteContent.text = displayedContent
+
+                if (NoteFr.noteLines == 0) {
+                    holder.tvNoteContent.maxLines = 1
+                    val displayedContent = when (currentNote.content == "") {
+                        true -> ""
+                        false -> "..."
+                    }
+                    holder.tvNoteContent.text = displayedContent
+                }
+            } else{
+                // show 3 lines of text in the fixed size setting, if there is no title
+                if(currentNote.title.trim()==""){
+                    holder.tvNoteContent.maxLines = 3
+                }
             }
 
             holder.itemView.icon_folder.visibility = View.GONE
@@ -781,14 +808,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             holder.itemView.setOnClickListener {
                 //move current folder to top if setting says so
-                if (moveViewedToTop) {
-                    val noteToMove = holder.noteObj
-                    val noteIndex = myNoteFr.noteListDirs.currentList().indexOf(currentNote)
-
-                    myNoteFr.noteListDirs.currentList().removeAt(noteIndex)
-                    myNoteFr.noteListDirs.currentList().add(0, noteToMove)
-                    myNoteFr.noteListDirs.save()
-                }
+                moveToTop()
 
                 if(NoteFr.searching){
                     myNoteFr.noteListDirs.adjustStackAbove(currentNote)
@@ -817,7 +837,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout
-    class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(itemView: View) : ViewHolder(itemView) {
         val tvNoteTitle: TextView = itemView.tvNoteTitle
         val tvNoteContent: TextView = itemView.tvNoteContent
         var cvNoteCard: CardView = itemView.cvNoteCard

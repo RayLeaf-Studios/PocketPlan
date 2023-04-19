@@ -23,7 +23,7 @@
             android:id="@+id/tvNumberOfItems"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle"
+            android:background="@drawable/ic_action_circle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="@id/tvNumberOfItems"
             app:layout_constraintTop_toTopOf="@id/tvNumberOfItems"
             app:layout_constraintBottom_toBottomOf="@id/tvNumberOfItems"
-            android:src="@drawable/ic_check_mark"
+            android:src="@drawable/ic_action_checkmark"
             app:tint="?attr/colorHint">
 
         </ImageView>
@@ -78,7 +78,8 @@
                 android:src="@drawable/ic_action_expand"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorOnBackGroundTask">
 
 
             </ImageView>

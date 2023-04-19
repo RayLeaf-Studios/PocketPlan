@@ -107,23 +107,24 @@
     <string name="notesToastNoteMoved">Nota spostata!</string>
 
 <!--    settings-->
-    <string name="settingsAboutContactDescription">Per segnalare un bug o suggerire una nuova funzionalità, contattaci all\'indirizzo e-mail sopra elencato.\n\nSe ci stai contattando per un bug, includi la tua versione di Android, il tipo di dispositivo e i passaggi dettagliati su come riprodurre il bug.\n\nSe hai un account GitHub, puoi creare una issue nel nostro repository.</string>
-    <string name="settingsAppearanceBorderHint">(Applicato agli elementi delle attività e delle note)</string>
-    <string name="settingsAppearanceBorderTitle">Tema con bordi scuri:</string>
-    <string name="settingsAppearanceBorderless">Senza bordi</string>
-    <string name="settingsAppearanceColoredBorder">Bordo colorato</string>
-    <string name="settingsAppearanceFilled">Riempito</string>
-    <string name="settingsAppearanceLanguage">Lingua</string>
-    <string name="settingsAppearanceResetHint">Ciò non eliminerà nessuno dei tuoi dati come note ecc.</string>
-    <string name="settingsAppearanceResetTitle">Ripristinare tutte le impostazioni predefinite?</string>
-    <string name="settingsAppearanceResetToDefault">Ripristina le impostazioni predefinite</string>
-    <string name="settingsAppearanceSampleText">Testo di esempio</string>
-    <string name="settingsAppearanceShakeHomeExplanation">Se ci sono 1 o più attività con priorità 1, l\'icona dell\'attività si sposta ogni volta che si apre il pannello iniziale.</string>
-    <string name="settingsAppearanceShakeTask">Scuoti il promemoria di attività nella Home</string>
-    <string name="settingsAppearanceShapes">Forme</string>
-    <string name="settingsAppearanceSystemTheme">Usa il tema di sistema (Android 10+)</string>
-    <string name="settingsAppearanceTheme">Tema</string>
-    <string name="settingsAppearanceTitle">Generali</string>
+    <string name="aboutContactDescription">Per segnalare un bug o suggerire una nuova funzionalità, contattaci all\'indirizzo e-mail sopra elencato.\n\nSe ci stai contattando per un bug, includi la tua versione di Android, il tipo di dispositivo e i passaggi dettagliati su come riprodurre il bug.\n\nSe hai un account GitHub, puoi creare una issue nel nostro repository.</string>
+    <string name="settingsGeneralBorderHint">(Applicato agli elementi delle attività e delle note)</string>
+    <string name="settingsGeneralBorderTitle">Tema con bordi scuri:</string>
+    <string name="settingsGeneralBorderless">Senza bordi</string>
+    <string name="settingsGeneralColoredBorder">Bordo colorato</string>
+    <string name="settingsGeneralFilled">Riempito</string>
+    <string name="settingsGeneralLanguage">Lingua</string>
+    <string name="settingsGeneralResetHint">Ciò non eliminerà nessuno dei tuoi dati come note ecc.</string>
+    <string name="settingsGeneralResetTitle">Ripristinare tutte le impostazioni predefinite?</string>
+    <string name="settingsGeneralResetToDefault">Ripristina le impostazioni predefinite</string>
+    <string name="settingsGeneralSampleText">Testo di esempio</string>
+    <string name="settingsGeneralShakeHomeExplanation">Se ci sono 1 o più attività con priorità 1, l\'icona dell\'attività si sposta ogni volta che si apre il pannello iniziale.</string>
+    <string name="settingsGeneralShakeTask">Scuoti il promemoria di attività nella Home</string>
+    <string name="settingsGeneralShapes">Forme</string>
+    <string name="settingsGeneralSystemTheme">Usa il tema di sistema (Android 10+)</string>
+    <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
+    <string name="settingsGeneralTheme">Tema</string>
+    <string name="settingsGeneralTitle">Generali</string>
 
     <string name="settingsBackupChooseFile">Scegli il file</string>
     <string name="settingsBackupExport">Esporta</string>
@@ -305,5 +306,7 @@
     </plurals>
     <string name="notesShare">Condividi</string>
     <string name="show_advanced_backup_options">Mostra le opzioni di backup avanzate</string>
+    <string name="settingsNotesEqualSize">Note di dimensioni uguali</string>
+    <string name="settingsNotesSortFoldersTop">Ordinare le cartelle in alto</string>
 
 </resources>

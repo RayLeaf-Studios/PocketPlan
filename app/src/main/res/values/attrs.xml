@@ -26,6 +26,7 @@
     <attr name="colorCheckedCategoryTitle" format="color"/>
     <attr name="colorCheckedTask" format="color"/>
     <attr name="colorHyperLink" format="color"/>
+    <attr name="colorIconTint" format="color"/>
 
     <attr name="colorPriority1" format="color"/>
     <attr name="colorPriority2" format="color"/>
@@ -71,6 +72,7 @@
     <attr name="colorSun" format="color"/>
 
     <attr name="colorBirthdayNotify" format="color"/>
+    <attr name="colorBirthdayNotifyDisabled" format="color"/>
     <attr name="colorHomePanel" format="color"/>
 
     <attr name="colorCategory" format="color"/>

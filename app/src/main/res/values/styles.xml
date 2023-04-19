@@ -21,6 +21,7 @@
         <item name="colorHyperLink">#23A8E4</item>
         <item name="colorOnBackGround">#F1F1F1</item>
         <item name="colorOnBackGroundTask">#F1F1F1</item>
+        <item name="colorIconTint">?attr/colorOnBackGround</item>
 
         <item name="colorPrimary">#1C1C1C</item>
         <item name="colorPrimaryLight">#353535</item>
@@ -35,8 +36,9 @@
 
         <item name="colorBackgroundListElement">#252525</item>
         <item name="colorBirthdayNotify">#1976D2</item>
-        <item name="colorBirthdaySoon">#BD5B0F</item>
-        <item name="colorBirthdayToday">#B50505</item>
+        <item name="colorBirthdayNotifyDisabled">#313131</item>
+        <item name="colorBirthdaySoon">#D0742C</item>
+        <item name="colorBirthdayToday">#C92C2C</item>
         <item name="colorButtonCancel">#A80F0F</item>
         <item name="colorCategory">#FFFFFF</item>
         <item name="colorCheckedCategoryTitle">#757272</item>
@@ -144,7 +146,7 @@
         <item name="android:navigationBarColor">?attr/colorOnBackGround</item>
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="colorControlHighlight">#282729</item>
+        <item name="colorControlHighlight">#BDBDBD</item>
         <item name="colorControlNormal">#000000</item>
 
         <item name="colorBackgroundElevated">#FFFFFF</item>
@@ -155,6 +157,7 @@
         <item name="colorOnBackGround">#1B1B1B</item>
         <item name="colorOnBackGroundTask">#FFFFFF</item>
         <item name="colorHyperLink">#23A8E4</item>
+        <item name="colorIconTint">#4F4F4F</item>
 
         <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryLight">#FFFFFF</item>
@@ -168,14 +171,15 @@
         <item name="colorAccentClone">#4FC3F7</item>
 
         <item name="colorBackgroundListElement">#E1E1E1</item>
-        <item name="colorBirthdayNotify">#1CBCFB</item>
+        <item name="colorBirthdayNotify">#5FCFFB</item>
+        <item name="colorBirthdayNotifyDisabled">#CDCDCD</item>
         <item name="colorBirthdaySoon">#FF6600</item>
-        <item name="colorBirthdayToday">#F50057</item>
+        <item name="colorBirthdayToday">#FF4757</item>
         <item name="colorButtonCancel">#EC4B5E</item>
         <item name="colorCategory">#FFFFFF</item>
         <item name="colorCheckedCategoryTitle">#FFFFFF</item>
         <item name="colorCheckedTask">#BDBCBC</item>
-        <item name="colorGoToSleep">#E91E63</item>
+        <item name="colorGoToSleep">#FF4A4A</item>
         <item name="colorSun">#F3A318</item>
 
         <item name="colorPriority1">#EC7380</item>

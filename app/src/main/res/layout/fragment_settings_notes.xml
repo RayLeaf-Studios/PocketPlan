@@ -18,7 +18,134 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"><androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:paddingVertical="5dp"
+            android:id="@+id/clFontSize"
+            android:paddingHorizontal="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tvNoteEditorFontSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settingsNotesFontSize"
+                android:textColor="?attr/colorOnBackGround"
+                android:textSize="@dimen/font_size_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCurrentNoteEditorFontSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorHint"
+                android:textSize="@dimen/font_size_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNoteEditorFontSize"
+                />
+
+            <TextView
+                android:id="@+id/tvEditorSample"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settingsGeneralSampleText"
+                android:textColor="?attr/colorOnBackGround"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/spEditorFontsize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </Spinner>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvRandomize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:text="@string/settingsNotesRandomizeColors"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swRandomizeColors"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swRandomizeColors"
+                    app:layout_constraintTop_toTopOf="@id/tvRandomize"
+                    app:layout_constraintBottom_toBottomOf="@id/tvRandomize"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="56dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvFixedNoteSize"
+                    android:layout_width="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settingsNotesEqualSize"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swFixedNoteSize"
+                    app:layout_constraintTop_toTopOf="@id/tvFixedNoteSize"
+                    app:layout_constraintBottom_toBottomOf="@id/tvFixedNoteSize"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,6 +194,138 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvAllowSwipeDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notesSwipeToDelete"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swAllowSwipe"
+                    app:layout_constraintTop_toTopOf="@id/tvAllowSwipeDelete"
+                    app:layout_constraintBottom_toBottomOf="@id/tvAllowSwipeDelete"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvShowContained"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/settingsNotesShowContained"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swShowContained"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swShowContained"
+                    app:layout_constraintTop_toTopOf="@id/tvShowContained"
+                    app:layout_constraintBottom_toBottomOf="@id/tvShowContained"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvSortFoldersTop"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/settingsNotesSortFoldersTop"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swSortFoldersToTop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swSortFoldersToTop"
+                    app:layout_constraintTop_toTopOf="@id/tvSortFoldersTop"
+                    app:layout_constraintBottom_toBottomOf="@id/tvSortFoldersTop"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:paddingHorizontal="20dp"
+                >
+
+                <TextView
+                    android:id="@+id/tvMoveUpCurrentNote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/settingsNotesMoveRecentTop"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/swMoveUpCurrentNote"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/swMoveUpCurrentNote"
+                    app:layout_constraintTop_toTopOf="@id/tvMoveUpCurrentNote"
+                    app:layout_constraintBottom_toBottomOf="@id/tvMoveUpCurrentNote"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -111,196 +370,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                 </Spinner>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:paddingVertical="5dp"
-                android:id="@+id/clFontSize"
-                android:paddingHorizontal="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/tvNoteEditorFontSize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settingsNotesFontSize"
-                    android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvCurrentNoteEditorFontSize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/colorHint"
-                    android:textSize="@dimen/font_size_small"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvNoteEditorFontSize"
-                    />
-
-                <TextView
-                    android:id="@+id/tvEditorSample"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settingsAppearanceSampleText"
-                    android:textColor="?attr/colorOnBackGround"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Spinner
-                    android:id="@+id/spEditorFontsize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </Spinner>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider"
-                tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="56dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
-                android:paddingHorizontal="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/tvAllowSwipeDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/notesSwipeToDelete"
-                    android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/swAllowSwipe"
-                    app:layout_constraintTop_toTopOf="@id/tvAllowSwipeDelete"
-                    app:layout_constraintBottom_toBottomOf="@id/tvAllowSwipeDelete"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
-                android:paddingHorizontal="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/tvRandomize"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:text="@string/settingsNotesRandomizeColors"
-                    android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/swRandomizeColors"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/swRandomizeColors"
-                    app:layout_constraintTop_toTopOf="@id/tvRandomize"
-                    app:layout_constraintBottom_toBottomOf="@id/tvRandomize"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
-                android:paddingHorizontal="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/tvShowContained"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/settingsNotesShowContained"
-                    android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/swShowContained"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/swShowContained"
-                    app:layout_constraintTop_toTopOf="@id/tvShowContained"
-                    app:layout_constraintBottom_toBottomOf="@id/tvShowContained"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
-                android:paddingHorizontal="20dp"
-                >
-
-                <TextView
-                    android:id="@+id/tvMoveUpCurrentNote"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:text="@string/settingsNotesMoveRecentTop"
-                    android:textColor="?attr/colorOnBackGround"
-                    android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/swMoveUpCurrentNote"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/swMoveUpCurrentNote"
-                    app:layout_constraintTop_toTopOf="@id/tvMoveUpCurrentNote"
-                    app:layout_constraintBottom_toBottomOf="@id/tvMoveUpCurrentNote"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -411,7 +480,7 @@
                     android:src="@drawable/ic_action_expand"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:id="@+id/ivArchiveExpand"
-                    app:tint="?attr/colorOnBackGround"
+                    app:tint="?attr/colorIconTint"
                     android:layout_width="40dp"
                     android:layout_height="40dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -421,7 +490,7 @@
                 android:layout_height="200dp"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:background="@drawable/corner_input"
+                android:background="@drawable/dc_corner_input"
                 app:layout_constraintStart_toStartOf="parent"
                 android:visibility="visible"
                 android:scrollbars="vertical"

@@ -18,13 +18,13 @@
         />
     <item android:id="@+id/item_editor_save"
         android:title=""
-        android:icon="@drawable/ic_check_mark"
+        android:icon="@drawable/ic_action_checkmark"
         app:showAsAction="always"
         />
 
     <item android:id="@+id/item_editor_share"
         android:title="@string/notesShare"
-        android:icon="@drawable/ic_check_mark"
+        android:icon="@drawable/ic_action_checkmark"
         app:showAsAction="never"
         />
 

@@ -70,21 +70,13 @@ class NoteEditorFr : Fragment() {
 
         val fontSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim().toFloat()
 
-        myEtTitle.textSize = fontSize
+        myEtTitle.textSize = fontSize + 4
         myEtContent.textSize = fontSize
 
         /**
          * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when = noteFr
          * called from an editing context
          */
-
-//        if(myNoteFr.noteListDirs.currentList().isEmpty()){
-//            PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putBoolean("editingNote", false).apply()
-//        }
-//        editNoteHolder = when(PreferenceManager.getDefaultSharedPreferences(myActivity).getBoolean("editingNote", false)){
-//            true -> myNoteFr.noteListDirs.getNote(NoteFr.myAdapter.notePosition)
-//            else -> null
-//        }
 
         if (NoteFr.editNoteHolder != null) {
             if(NoteFr.displayContent != "" || NoteFr.displayTitle != ""){

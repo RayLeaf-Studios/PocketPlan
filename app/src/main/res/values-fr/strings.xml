@@ -94,23 +94,24 @@
     <string name="notesSwipeToDelete">Faites glisser pour supprimer</string>
     <string name="notesToastFolderMoved">Dossier déplacé !</string>
     <string name="notesToastNoteMoved">La note a été déplacée !</string>
-    <string name="settingsAboutContactDescription">Pour signaler un bogue ou suggérer une nouvelle fonctionnalité, contactez-nous à l\'adresse électronique indiquée ci-dessus. Si vous nous contactez au sujet d\'un bogue, veuillez inclure votre version d\'Android, votre type d\'appareil et les étapes détaillées de la reproduction du bogue.\n\nSi tu as un compte GitHub, tu peux aussi créer une issue dans notre repository.</string>
-    <string name="settingsAppearanceBorderHint">(Appliqué aux éléments de tâche et de note)</string>
-    <string name="settingsAppearanceBorderTitle">Thème de bordure sombre :</string>
-    <string name="settingsAppearanceBorderless">Sans bordure</string>
-    <string name="settingsAppearanceColoredBorder">Bordure colorée</string>
-    <string name="settingsAppearanceFilled">Rempli</string>
-    <string name="settingsAppearanceLanguage">Langue</string>
-    <string name="settingsAppearanceResetHint">Cela ne supprimera aucune de vos données, comme vos notes, etc.</string>
-    <string name="settingsAppearanceResetTitle">Réinitialiser tous les paramètres par défaut ?</string>
-    <string name="settingsAppearanceResetToDefault">Réinitialiser tous les paramètres par défaut</string>
-    <string name="settingsAppearanceSampleText">Exemple</string>
-    <string name="settingsAppearanceShakeHomeExplanation">S\'il y a une ou plusieurs tâches de priorité 1, l\'icône de la tâche se déplace lorsque vous ouvrez le panneau d\'accueil.</string>
-    <string name="settingsAppearanceShakeTask">Secouer le rappel de tâche dans le panneau d\'accueil</string>
-    <string name="settingsAppearanceShapes">Formes</string>
-    <string name="settingsAppearanceSystemTheme">Utiliser le thème du système (Android 10+)</string>
-    <string name="settingsAppearanceTheme">Thème</string>
-    <string name="settingsAppearanceTitle">Général</string>
+    <string name="aboutContactDescription">Pour signaler un bogue ou suggérer une nouvelle fonctionnalité, contactez-nous à l\'adresse électronique indiquée ci-dessus. Si vous nous contactez au sujet d\'un bogue, veuillez inclure votre version d\'Android, votre type d\'appareil et les étapes détaillées de la reproduction du bogue.\n\nSi tu as un compte GitHub, tu peux aussi créer une issue dans notre repository.</string>
+    <string name="settingsGeneralBorderHint">(Appliqué aux éléments de tâche et de note)</string>
+    <string name="settingsGeneralBorderTitle">Thème de bordure sombre :</string>
+    <string name="settingsGeneralBorderless">Sans bordure</string>
+    <string name="settingsGeneralColoredBorder">Bordure colorée</string>
+    <string name="settingsGeneralFilled">Rempli</string>
+    <string name="settingsGeneralLanguage">Langue</string>
+    <string name="settingsGeneralResetHint">Cela ne supprimera aucune de vos données, comme vos notes, etc.</string>
+    <string name="settingsGeneralResetTitle">Réinitialiser tous les paramètres par défaut ?</string>
+    <string name="settingsGeneralResetToDefault">Réinitialiser tous les paramètres par défaut</string>
+    <string name="settingsGeneralSampleText">Exemple</string>
+    <string name="settingsGeneralShakeHomeExplanation">S\'il y a une ou plusieurs tâches de priorité 1, l\'icône de la tâche se déplace lorsque vous ouvrez le panneau d\'accueil.</string>
+    <string name="settingsGeneralShakeTask">Secouer le rappel de tâche dans le panneau d\'accueil</string>
+    <string name="settingsGeneralShapes">Formes</string>
+    <string name="settingsGeneralSystemTheme">Utiliser le thème du système (Android 10+)</string>
+    <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
+    <string name="settingsGeneralTheme">Thème</string>
+    <string name="settingsGeneralTitle">Général</string>
     <string name="settingsBackupChooseFile">Choisir un fichier</string>
     <string name="settingsBackupExport">Exporter</string>
     <string name="settingsBackupExportTitle">Exporter une sauvegarde complète en .zip</string>
@@ -329,5 +330,7 @@
     </plurals>
     <string name="notesShare">Partager</string>
     <string name="show_advanced_backup_options">Aafficher les options de sauvegarde avancées</string>
+    <string name="settingsNotesEqualSize">Notes de même taille</string>
+    <string name="settingsNotesSortFoldersTop">Trier les dossiers en haut</string>
 
 </resources>
