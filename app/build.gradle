@@ -46,6 +46,7 @@ android {
 
     lintOptions {
         disable 'ContentDescription'
+        disable 'NotifyDataSetChanged'
     }
     namespace 'com.pocket_plan.j7_003'
 
