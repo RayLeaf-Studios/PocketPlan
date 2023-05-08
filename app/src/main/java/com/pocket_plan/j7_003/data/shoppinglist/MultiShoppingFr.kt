@@ -64,7 +64,6 @@ class MultiShoppingFr : Fragment() {
     //reference to searchView in toolbar
     lateinit var searchView: SearchView
     var searchList = ArrayList<Pair<String, ArrayList<ShoppingItem>>>()
-    lateinit var lastQuery: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -713,7 +712,7 @@ class MultiShoppingFr : Fragment() {
 
         val imm =
             myActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, InputMethodManager.SHOW_FORCED)
+        imm.showSoftInput(autoCompleteTv, InputMethodManager.SHOW_IMPLICIT)
     }
 
     /**
@@ -788,7 +787,6 @@ class MultiShoppingFr : Fragment() {
         editing = true
     }
 
-    @SuppressLint("InflateParams")
     private fun dialogShoppingClear() {
         val titleId = R.string.shoppingDialogClearList
         val action: () -> Unit = {
@@ -801,7 +799,6 @@ class MultiShoppingFr : Fragment() {
         myActivity.dialogConfirm(titleId, action)
     }
 
-    @SuppressLint("InflateParams")
     private fun dialogRemoveCheckedItems() {
         val titleId = R.string.shoppingDialogRemoveChecked
         val action: () -> Unit = {
@@ -913,7 +910,7 @@ class AutoCompleteAdapter(
 
         override fun performFiltering(inputCharSequence: CharSequence?): FilterResults {
             //convert inputCharSequence to string, remove leading or trailing white spaces and change it to lower case
-            val input = inputCharSequence.toString().trim().toLowerCase(Locale.getDefault()).split("(")[0].trim()
+            val input = inputCharSequence.toString().trim().lowercase().split("(")[0].trim()
 
             val result = FilterResults()
 
@@ -932,7 +929,7 @@ class AutoCompleteAdapter(
             //checks for every item if it starts with input (case insensitive search) (stop if maxSuggestions reached)
             itemNames.forEach {
                 if(suggestions.size >= maxSuggestions) return@forEach
-                if (it.toLowerCase(Locale.getDefault()).startsWith(input)) {
+                if (it.lowercase().startsWith(input)) {
                     suggestions.add(it)
                 }
             }
@@ -944,7 +941,7 @@ class AutoCompleteAdapter(
             //items that contain "input" to the end of the list
             itemNames.forEach {
                 if(suggestions.size >= maxSuggestions) return@forEach
-                if (it.toLowerCase(Locale.getDefault()).contains(input)) {
+                if (it.lowercase().contains(input)) {
                     if (!suggestions.contains(it)) {
                         suggestions.add(it)
                     }
@@ -973,7 +970,7 @@ class AutoCompleteAdapter(
                 //score that indicates how much this item matches the input
                 var likelihoodScore = 0
                 //Copy of the itemName in which found letters will be replaced with empty ones
-                var lettersLeft = itemName.toLowerCase(Locale.ROOT)
+                var lettersLeft = itemName.lowercase()
 
                 val lowerItem = lettersLeft
                 //Add 2 points to score, if item starts with the same char as the input
