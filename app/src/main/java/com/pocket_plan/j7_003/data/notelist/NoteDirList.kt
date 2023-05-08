@@ -7,7 +7,9 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
-import java.util.*
+import java.util.LinkedList
+import java.util.Locale
+import java.util.Stack
 
 class NoteDirList : Checkable {
     private val rootDirName = "groot"
@@ -68,18 +70,8 @@ class NoteDirList : Checkable {
         save()
     }
 
-    fun removeNoteAt(index: Int) {
-        currentList().removeAt(index)
-        save()
-    }
-
-    fun addNote(index: Int, note: Note) {
-        currentList().add(index, note)
-        save()
-    }
-
     /**
-     * From superordinatepaths
+     * From superordinate-paths
      */
     fun getParentFolderIndex(dir: Note): Int {
         val parentDir = getDirPathsWithRef().find { it.second.noteList.contains(dir) }!!.second
@@ -117,7 +109,7 @@ class NoteDirList : Checkable {
 
         //Add to new parent directory
         newParent.noteList.add(noteToMove)
-
+        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
         adjustStackAbove(noteToMove)
         save()
         return true
@@ -323,7 +315,7 @@ class NoteDirList : Checkable {
         } else {
             currentList().add(noteDir)
         }
-        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop();
+        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
         save()
         return true
     }
@@ -350,7 +342,7 @@ class NoteDirList : Checkable {
 
         rootDir = GsonBuilder().create().fromJson(jsonString, object : TypeToken<Note>() {}.type)
 
-        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop();
+        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
     }
 
     fun sortDirsToTop() {
@@ -371,9 +363,9 @@ class NoteDirList : Checkable {
 
         dirs.forEach {
             it.second.noteList.forEach { note ->
-                if (note.title.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))
-                    || note.content != null && note.content!!.toLowerCase(Locale.ROOT)
-                        .contains(query.toLowerCase(Locale.ROOT))
+                if (note.title.lowercase(Locale.ROOT).contains(query.lowercase(Locale.ROOT))
+                    || note.content != null && note.content!!.lowercase(Locale.ROOT)
+                        .contains(query.lowercase(Locale.ROOT))
                 )
                     results.add(note)
             }
