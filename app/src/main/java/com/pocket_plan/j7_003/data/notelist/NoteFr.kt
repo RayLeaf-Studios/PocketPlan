@@ -3,7 +3,13 @@ package com.pocket_plan.j7_003.data.notelist
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -24,11 +30,30 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
-import kotlinx.android.synthetic.main.fragment_note.view.*
-import kotlinx.android.synthetic.main.row_note.view.*
-import kotlinx.android.synthetic.main.title_dialog.view.*
-import java.util.*
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnAddNoteFolder
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnBlue
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnBlueBg
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnCancelNoteFolder
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnGreen
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnGreenBg
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnPurple
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnPurpleBg
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnRed
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnRedBg
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnYellow
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnYellowBg
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.etAddNoteFolder
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.spFolderPaths
+import kotlinx.android.synthetic.main.dialog_add_note_folder.view.textView5
+import kotlinx.android.synthetic.main.fragment_note.view.recycler_view_note
+import kotlinx.android.synthetic.main.row_note.view.cvNoteBg
+import kotlinx.android.synthetic.main.row_note.view.cvNoteCard
+import kotlinx.android.synthetic.main.row_note.view.icon_folder
+import kotlinx.android.synthetic.main.row_note.view.tvContainedNoteElements
+import kotlinx.android.synthetic.main.row_note.view.tvNoteContent
+import kotlinx.android.synthetic.main.row_note.view.tvNoteTitle
+import kotlinx.android.synthetic.main.title_dialog.view.tvDialogTitle
+import java.util.Calendar
 import kotlin.random.Random
 
 /**
@@ -224,7 +249,7 @@ class NoteFr : Fragment() {
             R.id.item_notes_delete_folder -> {
                 val action: () -> Unit = {
                     val deletedDir = noteListDirs.deleteCurrentFolder()
-                    if (deletedDir != null){
+                    if (deletedDir != null) {
                         deletedNote = deletedDir
                         archive(deletedDir)
                     }
@@ -341,8 +366,8 @@ class NoteFr : Fragment() {
                 myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
-            if(spFolderPaths.selectedItemPosition != currentParentFolderIndex){
-                if (noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)){
+            if (spFolderPaths.selectedItemPosition != currentParentFolderIndex) {
+                if (noteListDirs.moveDir(editFolder, spFolderPaths.selectedItemPosition)) {
                     myActivity.toast(getString(R.string.notesToastFolderMoved))
                 }
             }
@@ -412,6 +437,7 @@ class NoteFr : Fragment() {
                     val randColorIndex = Random.nextInt(0, 5)
                     NoteColors.values()[randColorIndex]
                 }
+
                 else -> {
                     val lastUsedColorIndex =
                         (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
@@ -527,7 +553,7 @@ class NoteFr : Fragment() {
                         myAdapter.notifyItemRemoved(viewHolder.bindingAdapterPosition)
                     }
 
-                    if(archiveDeletedNotes) archive(parsed.noteObj)
+                    if (archiveDeletedNotes) archive(parsed.noteObj)
 
                     updateNoteSearchIcon()
                     updateNoteUndoIcon()
@@ -537,24 +563,26 @@ class NoteFr : Fragment() {
         itemTouchHelper.attachToRecyclerView(myRecycler)
     }
 
-    fun archive(note: Note){
-        var currentArchiveContent = PreferenceManager.getDefaultSharedPreferences(myActivity).getString("noteArchive", "")
+    fun archive(note: Note) {
+        var currentArchiveContent =
+            PreferenceManager.getDefaultSharedPreferences(myActivity).getString("noteArchive", "")
         val noteText = getContainedNoteTexts(note)
         //Append to archive, and shorten archive if its too big now
         currentArchiveContent = (noteText + currentArchiveContent).take(10000)
         //Save archive
-        PreferenceManager.getDefaultSharedPreferences(myActivity).edit().putString("noteArchive", currentArchiveContent).apply()
+        PreferenceManager.getDefaultSharedPreferences(myActivity).edit()
+            .putString("noteArchive", currentArchiveContent).apply()
 
     }
 
-    private fun getContainedNoteTexts(note: Note): String{
+    private fun getContainedNoteTexts(note: Note): String {
         var result = ""
-        if(note.content == null){
+        if (note.content == null) {
             // folder got deleted, add all contained notes and folders recursively to archive
             note.noteList.forEach {
                 result += getContainedNoteTexts(it)
             }
-        }else{
+        } else {
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
             val month = c.get(Calendar.MONTH) + 1 // Note: Month is 0-based in Calendar class
@@ -562,10 +590,11 @@ class NoteFr : Fragment() {
             val hour = c.get(Calendar.HOUR_OF_DAY)
             val minute = c.get(Calendar.MINUTE)
 
-            var newEntry = String.format("%02d.%02d.%04d %02d:%02d", day, month, year, hour, minute) + "\n"
-            if(note.title.trim()!="") newEntry += note.title + "\n"
+            var newEntry =
+                String.format("%02d.%02d.%04d %02d:%02d", day, month, year, hour, minute) + "\n"
+            if (note.title.trim() != "") newEntry += note.title + "\n"
             //Add content
-            if(note.content != null) newEntry += note.content + "\n\n"
+            if (note.content != null) newEntry += note.content + "\n\n"
             result += newEntry
         }
         return result
@@ -602,7 +631,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     private val myNoteFr = noteFr
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val layout = when(myNoteFr.fixedNoteSize){
+        val layout = when (myNoteFr.fixedNoteSize) {
             true -> R.layout.row_note_fixed_size
             else -> R.layout.row_note
         }
@@ -699,7 +728,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
         val moveToTop: () -> Unit = {
             if (moveViewedToTop) {
-                val containingList = when (NoteFr.searching){
+                val containingList = when (NoteFr.searching) {
                     true -> myNoteFr.noteListDirs.getParentDirectory(currentNote).noteList
                     else -> myNoteFr.noteListDirs.currentList()
                 }
@@ -707,12 +736,12 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
                 // if this is a note, and the setting says to move folders to the top,
                 // adjust the insert index to insert after the last folder
-                val insertIndex = when(foldersToTop && currentNote.content != null){
+                val insertIndex = when (foldersToTop && currentNote.content != null) {
                     false -> 0
                     true -> {
                         var index = 0
-                        for (note in containingList){
-                            if (note.content == null){
+                        for (note in containingList) {
+                            if (note.content == null) {
                                 index += 1
                             }
                         }
@@ -752,7 +781,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             holder.tvNoteContent.text = currentNote.content
 
             //decide how many lines per note are shown, depending on the setting noteLines (and only if note sizes are not fixed by setting)
-            if(!myNoteFr.fixedNoteSize){
+            if (!myNoteFr.fixedNoteSize) {
                 if (NoteFr.noteLines == -1) {
                     holder.tvNoteContent.maxLines = Int.MAX_VALUE
                 } else {
@@ -768,9 +797,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                     }
                     holder.tvNoteContent.text = displayedContent
                 }
-            } else{
+            } else {
                 // show 3 lines of text in the fixed size setting, if there is no title
-                if(currentNote.title.trim()==""){
+                if (currentNote.title.trim() == "") {
                     holder.tvNoteContent.maxLines = 3
                 }
             }
@@ -789,6 +818,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                         holder.noteObj.noteList.size.toString()
                     View.VISIBLE
                 }
+
                 else -> View.GONE
             }
 
@@ -810,10 +840,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 //move current folder to top if setting says so
                 moveToTop()
 
-                if(NoteFr.searching){
+                if (NoteFr.searching) {
                     myNoteFr.noteListDirs.adjustStackAbove(currentNote)
-                }
-                else{
+                } else {
                     myNoteFr.noteListDirs.openFolder(currentNote)
                 }
                 myActivity.hideKeyboard()

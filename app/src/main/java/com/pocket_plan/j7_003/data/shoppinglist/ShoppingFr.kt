@@ -17,9 +17,18 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.fragment_shopping.view.*
-import kotlinx.android.synthetic.main.row_category.view.*
-import kotlinx.android.synthetic.main.row_item.view.*
+import kotlinx.android.synthetic.main.fragment_shopping.view.recycler_view_shopping
+import kotlinx.android.synthetic.main.row_category.view.clTapExpand
+import kotlinx.android.synthetic.main.row_category.view.cvCategory
+import kotlinx.android.synthetic.main.row_category.view.ivCheckMark
+import kotlinx.android.synthetic.main.row_category.view.ivExpand
+import kotlinx.android.synthetic.main.row_category.view.subRecyclerView
+import kotlinx.android.synthetic.main.row_category.view.tvCategoryName
+import kotlinx.android.synthetic.main.row_category.view.tvNumberOfItems
+import kotlinx.android.synthetic.main.row_item.view.cbItem
+import kotlinx.android.synthetic.main.row_item.view.clItemTapfield
+import kotlinx.android.synthetic.main.row_item.view.tvItemTitle
+import java.util.Locale
 
 
 class ShoppingFr : Fragment() {
@@ -56,19 +65,20 @@ class ShoppingFr : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    fun getCategoryVisibility(category: Pair<String, ArrayList<ShoppingItem>>):Boolean {
+    fun getCategoryVisibility(category: Pair<String, ArrayList<ShoppingItem>>): Boolean {
 
-        val categoryName = myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
-            R.array.categoryCodes
-        ).indexOf(category.first)]
-        if(categoryName.toLowerCase().contains(query!!.toLowerCase())){
+        val categoryName =
+            myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
+                R.array.categoryCodes
+            ).indexOf(category.first)]
+        if (categoryName.lowercase(Locale.ROOT).contains(query!!.lowercase(Locale.ROOT))) {
             return true
         }
-        category.second.forEachIndexed(){ index, item->
-            if(index == 0){
+        category.second.forEachIndexed() { index, item ->
+            if (index == 0) {
                 return@forEachIndexed
             }
-            if(item.name!!.toLowerCase().contains(query!!.toLowerCase())) {
+            if (item.name!!.lowercase().contains(query!!.lowercase())) {
                 return true
             }
 
@@ -76,14 +86,15 @@ class ShoppingFr : Fragment() {
         return false
     }
 
-    fun getItemVisibility(item: ShoppingItem):Boolean {
-        val categoryName = myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
+    fun getItemVisibility(item: ShoppingItem): Boolean {
+        val categoryName =
+            myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
                 R.array.categoryCodes
             ).indexOf(item.tag)]
-        if(categoryName.toLowerCase().contains(query!!.toLowerCase())){
+        if (categoryName.lowercase().contains(query!!.lowercase())) {
             return true
         }
-        if(item.name!!.toLowerCase().contains(query!!.toLowerCase())) {
+        if (item.name!!.lowercase().contains(query!!.lowercase())) {
             return true
         }
         return false
@@ -143,7 +154,7 @@ class ShoppingFr : Fragment() {
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder
                 ): Int {
-                    return when(myMultiShoppingFr.searching){
+                    return when (myMultiShoppingFr.searching) {
                         true -> 0
                         else -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
                     }
@@ -264,6 +275,7 @@ class ShoppingFr : Fragment() {
 
         return myView
     }
+
     /**
      * Helper function to prevent scrolling due to notifyMove
      */
@@ -316,7 +328,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         //long click listener playing shake animation to indicate moving is possible
         holder.itemView.setOnLongClickListener {
-            if(myFragment.myMultiShoppingFr.searching){
+            if (myFragment.myMultiShoppingFr.searching) {
                 return@setOnLongClickListener true
             }
             val animationShake =
@@ -336,16 +348,16 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         val categoryIndex = shoppingListInstance.getTagIndex(tag)
         val category = shoppingListInstance[categoryIndex]
-        if (myFragment.query != null && !myFragment.getCategoryVisibility(category)){
+        if (myFragment.query != null && !myFragment.getCategoryVisibility(category)) {
             holder.itemView.layoutParams.height = 0
             val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
-            params.setMargins(0,0,0, 0)
+            params.setMargins(0, 0, 0, 0)
             return
         }
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
         val margin = (density * 10).toInt()
-        params.setMargins(margin,margin,margin, margin)
+        params.setMargins(margin, margin, margin, margin)
 
         val numberOfItems = shoppingListInstance.getUncheckedSize(tag)
 
@@ -384,7 +396,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         holder.subRecyclerView.setHasFixedSize(true)
 
         holder.subRecyclerView.setOnLongClickListener {
-            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
+            if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
@@ -422,7 +434,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         //long click listener on clTapExpand to ensure shake animation for long click on whole category holder
         holder.itemView.clTapExpand.setOnLongClickListener {
-            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
+            if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             holder.itemView.startAnimation(animationShake)
@@ -598,6 +610,7 @@ class SublistAdapter(
     private val myActivity = mainActivity
     private val myFragment = shoppingFr
     private val density = myActivity.resources.displayMetrics.density
+
     //boolean stating if design is round or not
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
 
@@ -617,7 +630,7 @@ class SublistAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         //longClickListener on item to ensure shake animation for category
         holder.itemView.setOnLongClickListener {
-            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
+            if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
@@ -628,16 +641,16 @@ class SublistAdapter(
         //get shopping item
         val item = myFragment.shoppingListInstance.getItem(tag, position)!!
 
-        if (myFragment.query != null && !myFragment.getItemVisibility(item)){
+        if (myFragment.query != null && !myFragment.getItemVisibility(item)) {
             holder.itemView.layoutParams.height = 0
             val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
-            params.setMargins(0,0,0, 0)
+            params.setMargins(0, 0, 0, 0)
             return
         }
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
         val margin = (density * 4).toInt()
-        params.setMargins(margin ,margin ,margin , margin)
+        params.setMargins(margin, margin, margin, margin)
         //manage onClickListener to edit item
         holder.itemView.setOnClickListener {
             myFragment.myMultiShoppingFr.editTag = tag
@@ -730,7 +743,7 @@ class SublistAdapter(
                 )
             ) {
                 myFragment.shoppingListInstance.flipExpansionState(holder.tag)
-            myFragment.myAdapter.notifyItemChanged(parentHolder.bindingAdapterPosition)
+                myFragment.myAdapter.notifyItemChanged(parentHolder.bindingAdapterPosition)
             }
 
             notifyItemChanged(holder.bindingAdapterPosition)
@@ -757,7 +770,7 @@ class SublistAdapter(
         }
 
         holder.itemView.clItemTapfield.setOnLongClickListener {
-            if(myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
+            if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
             parentHolder.itemView.startAnimation(animationShake)
@@ -818,7 +831,10 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
         } else {
             //sublist changed length =>
 
-            if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(parsed.tag) && !previouslyAllChecked) {
+            if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(
+                    parsed.tag
+                ) && !previouslyAllChecked
+            ) {
                 myFragment.shoppingListInstance.flipExpansionState(parsed.tag)
             }
 
