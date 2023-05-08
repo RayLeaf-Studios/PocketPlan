@@ -25,23 +25,31 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <EditText
-        android:padding="4dp"
-        android:id="@+id/etNoteContent"
-        android:hint="@string/noteEditorText"
-        android:textSize="@dimen/font_size_big"
-        android:textColorHint="?attr/colorHint"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/etNoteTitle"
         android:scrollbars="vertical"
-        android:background="@android:color/transparent"
-        android:ems="10"
-        android:gravity="top|start"
-        android:inputType="textMultiLine|textCapSentences"
-        android:text=""
-        android:textColor="?attr/colorOnBackGround"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etNoteTitle" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:padding="4dp"
+            android:id="@+id/etNoteContent"
+            android:hint="@string/noteEditorText"
+            android:textSize="@dimen/font_size_big"
+            android:textColorHint="?attr/colorHint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:nestedScrollingEnabled="false"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:gravity="top|start"
+            android:inputType="textMultiLine|textCapSentences"
+            android:text=""
+            android:textColor="?attr/colorOnBackGround"
+            />
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
