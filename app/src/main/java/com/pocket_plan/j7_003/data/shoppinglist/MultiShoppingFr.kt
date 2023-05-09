@@ -21,14 +21,11 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.dialog_add_item.view.*
-import kotlinx.android.synthetic.main.dialog_add_shopping_list.view.*
-import kotlinx.android.synthetic.main.drawer_layout.*
-import kotlinx.android.synthetic.main.fragment_multi_shopping.*
-import kotlinx.android.synthetic.main.fragment_multi_shopping.view.*
-import kotlinx.android.synthetic.main.title_dialog.view.*
-import java.util.*
-import kotlin.collections.ArrayDeque
+import com.pocket_plan.j7_003.databinding.DialogAddItemBinding
+import com.pocket_plan.j7_003.databinding.DialogAddShoppingListBinding
+import com.pocket_plan.j7_003.databinding.FragmentMultiShoppingBinding
+import com.pocket_plan.j7_003.databinding.TitleDialogBinding
+import java.util.Collections
 import kotlin.math.abs
 import kotlin.math.min
 
@@ -41,7 +38,7 @@ class MultiShoppingFr : Fragment() {
     private var unitChanged: Boolean = false
 
     private lateinit var addItemDialog: AlertDialog
-    var addItemDialogView: View? = null
+    private lateinit var dialogAddItemBinding: DialogAddItemBinding
     lateinit var autoCompleteTv: AutoCompleteTextView
 
     var editing: Boolean = false
@@ -65,6 +62,8 @@ class MultiShoppingFr : Fragment() {
     lateinit var searchView: SearchView
     var searchList = ArrayList<Pair<String, ArrayList<ShoppingItem>>>()
 
+    lateinit var shoppingPager: ViewPager2
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
@@ -73,7 +72,7 @@ class MultiShoppingFr : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         myActivity = activity as MainActivity
 
         //reset parameters when fragment is opened again
@@ -85,10 +84,10 @@ class MultiShoppingFr : Fragment() {
         initializeShoppingFragments()
 
         // Inflate the layout for this fragment
-        val myView = inflater.inflate(R.layout.fragment_multi_shopping, container, false)
+        val fragmentMultiShoppingBinding = FragmentMultiShoppingBinding.inflate(layoutInflater)
 
         //setup pager and adapter
-        val shoppingPager = myView.shoppingPager
+        shoppingPager = fragmentMultiShoppingBinding.shoppingPager
         pagerAdapter = ScreenSlidePagerAdapter(myActivity)
         shoppingPager.adapter = pagerAdapter
         shoppingPager.isSaveEnabled = false
@@ -104,14 +103,14 @@ class MultiShoppingFr : Fragment() {
                 activeShoppingFr = shoppingFragments[position]
                 activeShoppingFr.query = null
                 activeDeletedItems = deletedItems[position]
-                myActivity.btnAdd.visibility = View.VISIBLE
+                myActivity.myBtnAdd.visibility = View.VISIBLE
                 updateShoppingMenu()
                 tabLayout.selectTab(tabLayout.getTabAt(position))
             }
         }
         shoppingPager.registerOnPageChangeCallback(pageChangeCallback)
 
-        tabLayout = myView.tab_layout
+        tabLayout = fragmentMultiShoppingBinding.tabLayout
         val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -130,7 +129,7 @@ class MultiShoppingFr : Fragment() {
         }
         tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         updateTabs()
-        return myView
+        return fragmentMultiShoppingBinding.root
     }
 
     private fun updateTabs() {
@@ -144,6 +143,7 @@ class MultiShoppingFr : Fragment() {
             tabLayout.addTab(tabLayout.newTab().setText(it.first))
         }
     }
+
     //initialize all necessary fragments
     private fun initializeShoppingFragments() {
         val isEmpty = deletedItems.isEmpty()
@@ -151,13 +151,13 @@ class MultiShoppingFr : Fragment() {
             val newFr = createShoppingFrInstance(listName = it.first, shoppingList = it.second)
             shoppingFragments.add(newFr)
 
-            if(isEmpty)
+            if (isEmpty)
                 deletedItems.add(ArrayDeque())
         }
         activeShoppingFr = shoppingFragments[0]
     }
 
-    private fun createShoppingFrInstance(listName: String, shoppingList: ShoppingList): ShoppingFr{
+    private fun createShoppingFrInstance(listName: String, shoppingList: ShoppingList): ShoppingFr {
         val newFr = ShoppingFr.newInstance()
         newFr.shoppingListInstance = shoppingList
         newFr.shoppingListName = listName
@@ -186,7 +186,7 @@ class MultiShoppingFr : Fragment() {
 
             //start a new search whenever input text has changed
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText == null)
+                if (newText == null)
                     return true
                 if (searching) {
                     activeShoppingFr.search(newText.toString())
@@ -200,7 +200,7 @@ class MultiShoppingFr : Fragment() {
 
 
         searchView.setOnCloseListener {
-            myActivity.btnAdd.visibility = View.VISIBLE
+            myActivity.myBtnAdd.visibility = View.VISIBLE
             //reset title
             myActivity.toolBar.title = getString(R.string.menuTitleShopping)
             //collapse searchView
@@ -233,16 +233,17 @@ class MultiShoppingFr : Fragment() {
 
     private fun dialogRenameCurrentList() {
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_shopping_list, null)
+        val dialogAddShoppingListBinding = DialogAddShoppingListBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
         val myBuilder =
-            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
+            myActivity.let { it1 ->
+                AlertDialog.Builder(it1).setView(dialogAddShoppingListBinding.root)
+            }
 
-        val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.shoppingDialogRenameList)
-        myBuilder.setCustomTitle(customTitle)
+        val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        titleDialogBinding.tvDialogTitle.text = getString(R.string.shoppingDialogRenameList)
+        myBuilder.setCustomTitle(titleDialogBinding.root)
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
@@ -251,16 +252,16 @@ class MultiShoppingFr : Fragment() {
 
         //show current name
         val oldName = MainActivity.shoppingListWrapper[currentpos].first
-        myDialogView.etAddShoppingList.setText(oldName)
+        dialogAddShoppingListBinding.etAddShoppingList.setText(oldName)
 
-        myDialogView.btnAddShoppingList.setOnClickListener {
+        dialogAddShoppingListBinding.btnAddShoppingList.setOnClickListener {
 
-            val newName = myDialogView.etAddShoppingList.text.toString()
+            val newName = dialogAddShoppingListBinding.etAddShoppingList.text.toString()
             val taken = MainActivity.shoppingListWrapper.contains(newName)
             if (newName.trim() == "" || taken) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                myDialogView.etAddShoppingList.startAnimation(animationShake)
+                dialogAddShoppingListBinding.etAddShoppingList.startAnimation(animationShake)
                 return@setOnClickListener
             }
             MainActivity.shoppingListWrapper.rename(oldName, newName)
@@ -269,40 +270,44 @@ class MultiShoppingFr : Fragment() {
             myAlertDialog?.dismiss()
         }
 
-        val cancelBtn = myDialogView.btnCancelShoppingList
+        val cancelBtn = dialogAddShoppingListBinding.btnCancelShoppingList
         cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
 
-        myDialogView.etAddShoppingList.requestFocus()
+        dialogAddShoppingListBinding.etAddShoppingList.requestFocus()
     }
 
     private fun dialogAddShoppingList() {
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_shopping_list, null)
+        val dialogAddShoppingListBinding = DialogAddShoppingListBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
         val myBuilder =
-            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.shoppingOptionAddList)
-        myBuilder?.setCustomTitle(customTitle)
+            myActivity.let { it1 ->
+                AlertDialog.Builder(it1).setView(dialogAddShoppingListBinding.root)
+            }
+        val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        titleDialogBinding.tvDialogTitle.text = myActivity.getString(R.string.shoppingOptionAddList)
+        myBuilder?.setCustomTitle(titleDialogBinding.root)
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
         myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
-        myDialogView.btnAddShoppingList.setOnClickListener {
-            val newName = myDialogView.etAddShoppingList.text.toString()
+        dialogAddShoppingListBinding.btnAddShoppingList.setOnClickListener {
+            val newName = dialogAddShoppingListBinding.etAddShoppingList.text.toString()
             val addResult = MainActivity.shoppingListWrapper.add(newName)
             if (newName.trim() == "" || !addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                myDialogView!!.etAddShoppingList.startAnimation(animationShake)
+                dialogAddShoppingListBinding.etAddShoppingList.startAnimation(animationShake)
                 return@setOnClickListener
             }
 
-            val newFr = createShoppingFrInstance(newName, MainActivity.shoppingListWrapper.getListByName(newName)!!)
+            val newFr = createShoppingFrInstance(
+                newName,
+                MainActivity.shoppingListWrapper.getListByName(newName)!!
+            )
             shoppingFragments.add(newFr)
 
             deletedItems.add(ArrayDeque())
@@ -315,10 +320,10 @@ class MultiShoppingFr : Fragment() {
             myAlertDialog?.dismiss()
         }
 
-        val cancelBtn = myDialogView.btnCancelShoppingList
+        val cancelBtn = dialogAddShoppingListBinding.btnCancelShoppingList
         cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
 
-        myDialogView.etAddShoppingList.requestFocus()
+        dialogAddShoppingListBinding.etAddShoppingList.requestFocus()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -397,7 +402,7 @@ class MultiShoppingFr : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun refreshItemNamesAndAutoCompleteAdapter(){
+    fun refreshItemNamesAndAutoCompleteAdapter() {
         //initialize itemNameList
         MainActivity.itemNameList = ArrayList()
 
@@ -428,7 +433,7 @@ class MultiShoppingFr : Fragment() {
      * Prepare layout and adapters for addItemDialog to decrease loading time
      */
     @SuppressLint("InflateParams")
-    fun preloadAddItemDialog(passedActivity: MainActivity, mylayoutInflater: LayoutInflater) {
+    fun preloadAddItemDialog(passedActivity: MainActivity, layoutInflater: LayoutInflater) {
         myActivity = passedActivity
 
         //initialize shopping list data
@@ -437,26 +442,23 @@ class MultiShoppingFr : Fragment() {
 
 
         //inflate view for this dialog
-        addItemDialogView =
-            mylayoutInflater.inflate(R.layout.dialog_add_item, null)
+        dialogAddItemBinding = DialogAddItemBinding.inflate(layoutInflater)
 
         //Initialize dialogBuilder and set its title
-        val myBuilder = myActivity.let {
-            AlertDialog.Builder(it).setView(addItemDialogView)
-        }
+        val myBuilder = myActivity.let { AlertDialog.Builder(it).setView(dialogAddItemBinding.root) }
 
-        val customTitle = mylayoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.shoppingAddItemTitle)
-        myBuilder?.setCustomTitle(customTitle)
+        val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        titleDialogBinding.tvDialogTitle.text = myActivity.getString(R.string.shoppingAddItemTitle)
+        myBuilder?.setCustomTitle(titleDialogBinding.root)
 
         myBuilder.setCancelable(true)
         addItemDialog = myBuilder?.create()!!
         addItemDialog.setCancelable(true)
 
-        myActivity.shoppingTitle = customTitle
+        myActivity.titleDialogBinding = titleDialogBinding
 
         //initialize spinner for categories + adapter
-        val spCategory = addItemDialogView!!.spCategory
+        val spCategory = dialogAddItemBinding.spCategory
         val categoryAdapter = ArrayAdapter(
             myActivity,
             android.R.layout.simple_list_item_1,
@@ -474,7 +476,7 @@ class MultiShoppingFr : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                if(position!=spCategory.tag){
+                if (position != spCategory.tag) {
                     lastSelectedCategoryIndex = position
                 }
             }
@@ -484,7 +486,7 @@ class MultiShoppingFr : Fragment() {
         }
 
         //initialize spinner for units + its adapter and listener
-        val spItemUnit = addItemDialogView!!.spItemUnit
+        val spItemUnit = dialogAddItemBinding.spItemUnit
         val unitAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             myActivity.resources.getStringArray(R.array.units)
@@ -513,7 +515,7 @@ class MultiShoppingFr : Fragment() {
 
 
         //initialize autocompleteTextView
-        autoCompleteTv = addItemDialogView!!.actvItem
+        autoCompleteTv = dialogAddItemBinding.actvItem
         refreshItemNamesAndAutoCompleteAdapter()
 
 
@@ -547,9 +549,11 @@ class MultiShoppingFr : Fragment() {
                 var categoryToSet = lastSelectedCategoryIndex
 
                 //Unit and category from template if there is any
-                if(template!=null){
-                    unitToSet = myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
-                    categoryToSet = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(template.c)
+                if (template != null) {
+                    unitToSet =
+                        myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
+                    categoryToSet = myActivity.resources.getStringArray(R.array.categoryCodes)
+                        .indexOf(template.c)
                 }
 
                 //Apply selections
@@ -557,7 +561,7 @@ class MultiShoppingFr : Fragment() {
                 spCategory.setSelection(categoryToSet)
 
                 //select unit depending on text change (user or regular template)
-                if(!unitChanged){
+                if (!unitChanged) {
                     spItemUnit.tag = unitToSet
                     spItemUnit.setSelection(unitToSet)
                 }
@@ -570,7 +574,7 @@ class MultiShoppingFr : Fragment() {
         autoCompleteTv.addTextChangedListener(textWatcher)
 
         //initialize edit text for item amount string
-        val etItemAmount = addItemDialogView!!.etItemAmount
+        val etItemAmount = dialogAddItemBinding.etItemAmount
         etItemAmount.setText("1")
 
         etItemAmount.setOnFocusChangeListener { _, hasFocus ->
@@ -580,24 +584,24 @@ class MultiShoppingFr : Fragment() {
         }
 
         //initialize onclick listener for "cancel" button, which closes the add item dialog
-        addItemDialogView!!.btnCancelItem.setOnClickListener {
+        dialogAddItemBinding.btnCancelItem.setOnClickListener {
             addItemDialog.dismiss()
         }
 
         //initialize key listener to add item via enter-press by triggering a click on the add button
         autoCompleteTv.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                addItemDialogView!!.btnAddItemToList.performClick()
+                dialogAddItemBinding.btnAddItemToList.performClick()
                 true
             } else false
         }
 
         //initialize checkMark sprite, which plays an animation when an item is added
-        val checkMark = addItemDialogView!!.ivCheckItemAdded
+        val checkMark = dialogAddItemBinding.ivCheckItemAdded
         checkMark.visibility = View.GONE
 
         //listener for button to confirm adding item to list
-        addItemDialogView!!.btnAddItemToList.setOnClickListener {
+        dialogAddItemBinding.btnAddItemToList.setOnClickListener {
             unitChanged = false
 
             val nameInput = autoCompleteTv.text.toString()
@@ -606,7 +610,7 @@ class MultiShoppingFr : Fragment() {
             if (nameInput.trim() == "") {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                addItemDialogView!!.actvItem.startAnimation(animationShake)
+                dialogAddItemBinding.actvItem.startAnimation(animationShake)
                 return@setOnClickListener
             }
 
@@ -635,7 +639,7 @@ class MultiShoppingFr : Fragment() {
                 if (template == null || categoryCode != template!!.c || spItemUnit.selectedItemPosition != 0) {
                     //item unknown, or item known under different category or with different unit, use selected category and unit,
                     // add item new ItemTemplate to userItemTemplate list, using entered values
-                    if(!nameInput.contains("(")){
+                    if (!nameInput.contains("(")) {
                         //Only add a new user item, if it was not an optional item
                         myActivity.userItemTemplateList.add(
                             ItemTemplate(nameInput, categoryCode, unitString)
@@ -665,7 +669,7 @@ class MultiShoppingFr : Fragment() {
                 nameInput,
                 categoryCode,
                 unitString,
-                etItemAmount!!.text.toString(),
+                etItemAmount.text.toString(),
                 unitString,
                 false
             )
@@ -720,25 +724,25 @@ class MultiShoppingFr : Fragment() {
      */
     fun openAddItemDialog() {
         //set dialog title to "add item"
-        myActivity.shoppingTitle!!.tvDialogTitle.text =
+        myActivity.titleDialogBinding.tvDialogTitle.text =
             myActivity.getString(R.string.shoppingAddItemTitle)
 
         //Clear item autoCompleteTextView
-        addItemDialogView!!.actvItem.setText("")
+        dialogAddItemBinding.actvItem.setText("")
 
         //Request focus in item autoCompleteTextView
-        addItemDialogView!!.actvItem.requestFocus()
+        dialogAddItemBinding.actvItem.requestFocus()
 
         //set confirm button text to "add"
-        addItemDialogView!!.btnAddItemToList.text =
+        dialogAddItemBinding.btnAddItemToList.text =
             myActivity.getString(R.string.birthdayDialogAdd)
 
-        addItemDialogView!!.spItemUnit.tag = 0
-        addItemDialogView!!.spItemUnit.setSelection(0)
-        addItemDialogView!!.spCategory.setSelection(0)
+        dialogAddItemBinding.spItemUnit.tag = 0
+        dialogAddItemBinding.spItemUnit.setSelection(0)
+        dialogAddItemBinding.spCategory.setSelection(0)
 
         //set default amount text to 1
-        addItemDialogView!!.etItemAmount.setText("1")
+        dialogAddItemBinding.etItemAmount.setText("1")
 
         //open keyboard
         addItemDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
@@ -747,39 +751,39 @@ class MultiShoppingFr : Fragment() {
 
     fun openEditItemDialog(item: ShoppingItem) {
         //set dialog title to "editing"
-        myActivity.shoppingTitle!!.tvDialogTitle.text =
+        myActivity.titleDialogBinding.tvDialogTitle.text =
             myActivity.getString(R.string.shoppingEditItemTitle)
 
         //set confirm Button text to "save"
-        addItemDialogView!!.btnAddItemToList.text =
+        dialogAddItemBinding.btnAddItemToList.text =
             resources.getString(R.string.noteDiscardDialogSave)
 
         //show item name
-        addItemDialogView!!.actvItem.setText(item.name)
+        dialogAddItemBinding.actvItem.setText(item.name)
 
         //request focus in item autoCompleteTextView
-        addItemDialogView!!.actvItem.requestFocus()
+        dialogAddItemBinding.actvItem.requestFocus()
 
         //set cursor to end of item name
-        addItemDialogView!!.actvItem.setSelection(item.name!!.length)
+        dialogAddItemBinding.actvItem.setSelection(item.name!!.length)
 
         //select correct unit
         val unitIndex = myActivity.resources
             .getStringArray(R.array.units)
             .indexOf(item.suggestedUnit)
 
-        addItemDialogView!!.spItemUnit.tag = unitIndex
+        dialogAddItemBinding.spItemUnit.tag = unitIndex
         //Select correct unit when opening dialog for edit
-        addItemDialogView!!.spItemUnit.setSelection(unitIndex)
+        dialogAddItemBinding.spItemUnit.setSelection(unitIndex)
 
         unitChanged = false
 
         //show correct item amount
-        addItemDialogView!!.etItemAmount.setText(item.amount.toString())
+        dialogAddItemBinding.etItemAmount.setText(item.amount.toString())
 
         //open keyboard
         addItemDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        addItemDialogView!!.actvItem.dismissDropDown()
+        dialogAddItemBinding.actvItem.dismissDropDown()
 
         //show dialog
         addItemDialog.show()
@@ -822,9 +826,9 @@ class MultiShoppingFr : Fragment() {
     }
 
     //Hides all menu icons besides the search element
-    private fun updateShoppingMenuForSearch(){
+    private fun updateShoppingMenuForSearch() {
         myMenu.forEach {
-            if(it.itemId == R.id.item_shopping_search){
+            if (it.itemId == R.id.item_shopping_search) {
                 return@forEach
             }
             it.isVisible = false
@@ -851,7 +855,8 @@ class MultiShoppingFr : Fragment() {
     }
 
     private fun updateDeleteListIcon() {
-        myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible = MainActivity.shoppingListWrapper.size > 1
+        myMenu.findItem(R.id.item_shopping_delete_list)?.isVisible =
+            MainActivity.shoppingListWrapper.size > 1
     }
 
     private fun updateRemoveChecked() {
@@ -928,7 +933,7 @@ class AutoCompleteAdapter(
 
             //checks for every item if it starts with input (case insensitive search) (stop if maxSuggestions reached)
             itemNames.forEach {
-                if(suggestions.size >= maxSuggestions) return@forEach
+                if (suggestions.size >= maxSuggestions) return@forEach
                 if (it.lowercase().startsWith(input)) {
                     suggestions.add(it)
                 }
@@ -940,7 +945,7 @@ class AutoCompleteAdapter(
             //If less than 5 items that start with "input" have been found, add
             //items that contain "input" to the end of the list
             itemNames.forEach {
-                if(suggestions.size >= maxSuggestions) return@forEach
+                if (suggestions.size >= maxSuggestions) return@forEach
                 if (it.lowercase().contains(input)) {
                     if (!suggestions.contains(it)) {
                         suggestions.add(it)
@@ -974,12 +979,12 @@ class AutoCompleteAdapter(
 
                 val lowerItem = lettersLeft
                 //Add 2 points to score, if item starts with the same char as the input
-                if(lowerItem[0] == input[0]){
-                   likelihoodScore += 2
+                if (lowerItem[0] == input[0]) {
+                    likelihoodScore += 2
                 }
 
                 //Add 2 points to score, if item ends with the same char as the input
-                if(lowerItem.last() == input.last()){
+                if (lowerItem.last() == input.last()) {
                     likelihoodScore += 2
                 }
 
@@ -990,12 +995,14 @@ class AutoCompleteAdapter(
                             //increase score by 2 if this char occurs at this index
                             likelihoodScore += 2
                         }
+
                         lettersLeft.contains(input[i]) -> {
                             //increase score by 1 if this char occurs anywhere in the string
                             likelihoodScore++
                             //Remove letter from word copy so it can't be counted twice
                             lettersLeft = lettersLeft.replaceFirst(input[i], '\u0000')
                         }
+
                         else -> {
                             //decrease score by 1 if Letter does not occur in item name
                             likelihoodScore -= 1
@@ -1014,9 +1021,9 @@ class AutoCompleteAdapter(
             //Sort it descending by value (highest values first) and add the first <maxSuggestions> items to the suggestions
             withValues.toList().filter { (name, value) -> value > name.length / 1.2 }
                 .sortedByDescending { (_, value) -> value }.forEach {
-                if(suggestions.size >= maxSuggestions) return@forEach
-                suggestions.add(it.first)
-            }
+                    if (suggestions.size >= maxSuggestions) return@forEach
+                    suggestions.add(it.first)
+                }
 
             result.values = suggestions
             result.count = suggestions.size

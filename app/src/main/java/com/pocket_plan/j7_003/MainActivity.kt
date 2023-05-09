@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private var sleepFr: SleepFr? = null
     var todoFr: TodoFr? = null
 
-    var shoppingTitle: View? = null
+    lateinit var titleDialogBinding: TitleDialogBinding
     lateinit var toolBar: Toolbar
 
     lateinit var itemTemplateList: ItemTemplateList
@@ -170,7 +170,7 @@ class MainActivity : AppCompatActivity() {
 
         //create drawer_layout
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.drawer_layout)
+        setContentView(drawerLayoutBinding.root)
 
         //IMPORTANT: ORDER IS CRITICAL HERE
         //Initialize Time api and AlarmHandler
