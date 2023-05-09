@@ -21,6 +21,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.databinding.FragmentBirthdayBinding
 import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
 import kotlinx.android.synthetic.main.drawer_layout.*
 import kotlinx.android.synthetic.main.fragment_birthday.view.*
@@ -214,8 +215,11 @@ class BirthdayFr : Fragment() {
     ): View? {
         date = LocalDate.now()
         myActivity = activity as MainActivity
+
+        val fragmentBirthdayBinding = FragmentBirthdayBinding.inflate(inflater)
+
         val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
-        myRecycler = myView.recycler_view_birthday
+        myRecycler = fragmentBirthdayBinding.recyclerViewBirthday
         birthdayListInstance = MainActivity.birthdayList
 
         searchList = arrayListOf()

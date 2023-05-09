@@ -50,16 +50,20 @@ import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.data.todolist.TodoList
 import com.pocket_plan.j7_003.data.todolist.TodoTaskAdapter
+import com.pocket_plan.j7_003.databinding.DialogConfirmBinding
+import com.pocket_plan.j7_003.databinding.DrawerLayoutBinding
+import com.pocket_plan.j7_003.databinding.HeaderNavigationDrawerBinding
+import com.pocket_plan.j7_003.databinding.TitleDialogBinding
+import com.pocket_plan.j7_003.databinding.ToolbarBinding
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
-import kotlinx.android.synthetic.main.dialog_confirm.view.*
-import kotlinx.android.synthetic.main.drawer_layout.*
-import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
-import kotlinx.android.synthetic.main.title_dialog.view.*
-import kotlinx.android.synthetic.main.toolbar.*
-import java.util.*
+import java.util.Locale
+import java.util.Stack
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var toolbarBinding: ToolbarBinding
+    private lateinit var drawerLayoutBinding: DrawerLayoutBinding
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
 
@@ -175,16 +179,19 @@ class MainActivity : AppCompatActivity() {
         AlarmHandler.setBirthdayAlarms(time, context = this)
 
         //Initialize toolbar
-        setSupportActionBar(myNewToolbar)
-        toolBar = myNewToolbar
+        toolbarBinding = ToolbarBinding.inflate(layoutInflater)
+        setSupportActionBar(toolbarBinding.myNewToolbar)
+        toolBar = toolbarBinding.myNewToolbar
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
 
         //Initialize header and icon in side drawer, show current version name
-        val header = nav_drawer.inflateHeaderView(R.layout.header_navigation_drawer)
+        drawerLayoutBinding = DrawerLayoutBinding.inflate(layoutInflater)
+        val headerView = drawerLayoutBinding.navDrawer.getHeaderView(0)
+        val headerBinding = HeaderNavigationDrawerBinding.bind(headerView)
         val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName
-        header.tvVersion.text = versionString
+        headerBinding.tvVersion.text = versionString
 
         //Initialize adapters and necessary list instances
         todoFr = TodoFr()
@@ -198,7 +205,7 @@ class MainActivity : AppCompatActivity() {
         homeFr = HomeFr()
 
         //spinning app Icon
-        val myLogo = header.ivLogo
+        val myLogo = headerBinding.ivLogo
         var allowSpin = true
         myLogo.setOnClickListener {
             if (!allowSpin) {
@@ -227,8 +234,8 @@ class MainActivity : AppCompatActivity() {
 
         //initialize drawer toggle button
         mDrawerToggle =
-            ActionBarDrawerToggle(this, drawer_layout, R.string.generalOpen, R.string.generalClose)
-        drawer_layout.addDrawerListener(mDrawerToggle)
+            ActionBarDrawerToggle(this, drawerLayoutBinding.drawerLayout, R.string.generalOpen, R.string.generalClose)
+        drawerLayoutBinding.drawerLayout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
 
         //initialize bottom navigation
@@ -284,17 +291,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         //initialize navigation drawer listener
-        nav_drawer.setNavigationItemSelectedListener { item ->
+        drawerLayoutBinding.navDrawer.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
                 R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
                 R.id.menuHelp -> changeToFragment(FT.SETTINGS_HOWTO)
             }
-            drawer_layout.closeDrawer(GravityCompat.START)
+            drawerLayoutBinding.drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
 
-        drawer_layout.addDrawerListener(object : DrawerLayout.DrawerListener {
+        drawerLayoutBinding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 hideKeyboard()
             }
@@ -331,10 +338,10 @@ class MainActivity : AppCompatActivity() {
             return@setOnItemSelectedListener true
         }
 
-        this.myBtnAdd = btnAdd
+        this.myBtnAdd = drawerLayoutBinding.btnAdd
 
         //initialize btn to add elements, depending on which fragment is active
-        btnAdd.setOnClickListener {
+        drawerLayoutBinding.btnAdd.setOnClickListener {
             when (previousFragmentStack.peek()) {
                 FT.BIRTHDAYS -> {
                     BirthdayFr.editBirthdayHolder = null
@@ -524,7 +531,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //display add button where it is needed
-        btnAdd.visibility = when (fragmentTag) {
+        drawerLayoutBinding.btnAdd.visibility = when (fragmentTag) {
             FT.TASKS,
             FT.SHOPPING,
             FT.NOTES,
@@ -541,7 +548,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         //Set the correct ActionbarTitle
-        myNewToolbar.title = when (fragmentTag) {
+        toolbarBinding.myNewToolbar.title = when (fragmentTag) {
             FT.HOME -> resources.getText(R.string.menuTitleHome)
             FT.TASKS -> resources.getText(R.string.menuTitleTasks)
             FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
@@ -636,7 +643,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setToolbarTitle(msg: String) {
-        myNewToolbar.title = msg
+        toolbarBinding.myNewToolbar.title = msg
     }
 
 
@@ -646,8 +653,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onBackPressed() {
         //close drawer when its open
-        if (drawer_layout.isDrawerOpen(nav_drawer)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawerLayoutBinding.drawerLayout.isDrawerOpen(drawerLayoutBinding.navDrawer)) {
+            drawerLayoutBinding.drawerLayout.closeDrawer(GravityCompat.START)
             return
         }
 
@@ -737,17 +744,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun dialogConfirm(title: String, action: () -> Unit, hint: String = "") {
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_confirm, null)
+        val dialogConfirmBinding = DialogConfirmBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
-        val myBuilder = AlertDialog.Builder(this).setView(myDialogView)
-        val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = title
-        myBuilder.setCustomTitle(customTitle)
+        val myBuilder = AlertDialog.Builder(this).setView(dialogConfirmBinding.root)
+        val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        titleDialogBinding.tvDialogTitle.text = title
+        myBuilder.setCustomTitle(titleDialogBinding.tvDialogTitle)
         val myAlertDialog = myBuilder.create()
 
         //show or hide hint
-        val tvConfirmHint = myDialogView.tvConfirmHint
+        val tvConfirmHint = dialogConfirmBinding.tvConfirmHint
         tvConfirmHint.visibility = when (hint == "") {
             true -> View.GONE
             else -> View.VISIBLE
@@ -758,8 +765,8 @@ class MainActivity : AppCompatActivity() {
             tvConfirmHint.text = hint
         }
 
-        val btnCancel = myDialogView.btnCancel
-        val btnConfirm = myDialogView.btnConfirm
+        val btnCancel = dialogConfirmBinding.btnCancel
+        val btnConfirm = dialogConfirmBinding.btnConfirm
 
         //onclick to confirm
         btnConfirm.setOnClickListener {

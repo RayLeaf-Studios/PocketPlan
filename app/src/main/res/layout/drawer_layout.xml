@@ -72,6 +72,7 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_drawer"
+        app:headerLayout="@layout/header_navigation_drawer"
         android:background="?attr/colorBackground"
         android:layout_width="wrap_content"
         app:itemTextColor="?attr/colorOnBackGround"
