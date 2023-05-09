@@ -9,9 +9,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.SearchView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,13 +19,10 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.databinding.DialogAddBirthdayBinding
 import com.pocket_plan.j7_003.databinding.FragmentBirthdayBinding
-import kotlinx.android.synthetic.main.dialog_add_birthday.view.*
-import kotlinx.android.synthetic.main.drawer_layout.*
-import kotlinx.android.synthetic.main.fragment_birthday.view.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.row_birthday.view.*
-import kotlinx.android.synthetic.main.title_dialog.view.*
+import com.pocket_plan.j7_003.databinding.RowBirthdayBinding
+import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import org.threeten.bp.LocalDate
 import java.util.*
 import java.util.regex.Pattern
@@ -44,6 +39,8 @@ class BirthdayFr : Fragment() {
     lateinit var birthdayListInstance: BirthdayList
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private var _frBinding: FragmentBirthdayBinding? = null
+    private val frBinding get() = _frBinding!!
 
     //initialize recycler view
     private lateinit var myRecycler: RecyclerView
@@ -121,7 +118,7 @@ class BirthdayFr : Fragment() {
 
         //set onClose listener, that resets birthdayFragment whenever the searchView gets closed
         searchView.setOnCloseListener {
-            myActivity.btnAdd.visibility = View.VISIBLE
+            myActivity.myBtnAdd.visibility = View.VISIBLE
             //reset title
             myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
             //collapse searchView
@@ -208,18 +205,22 @@ class BirthdayFr : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _frBinding = null
+    }
 
     @SuppressLint("InflateParams")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _frBinding = FragmentBirthdayBinding.inflate(inflater, container, false)
+        val view = frBinding.root
+
         date = LocalDate.now()
         myActivity = activity as MainActivity
 
-        val fragmentBirthdayBinding = FragmentBirthdayBinding.inflate(inflater)
-
-        val myView = inflater.inflate(R.layout.fragment_birthday, container, false)
-        myRecycler = fragmentBirthdayBinding.recyclerViewBirthday
+        myRecycler = frBinding.recyclerViewBirthday
         birthdayListInstance = MainActivity.birthdayList
 
         searchList = arrayListOf()
@@ -243,7 +244,7 @@ class BirthdayFr : Fragment() {
             ItemTouchHelper(SwipeToDeleteBirthday(myAdapter, ItemTouchHelper.RIGHT, this))
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
-        return myView
+        return view
     }
 
 
@@ -291,20 +292,21 @@ class BirthdayFr : Fragment() {
         )
 
         //inflate the dialog with custom view
-        val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+//        val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+        val myDialogBinding = DialogAddBirthdayBinding.inflate(layoutInflater)
 
         //initialize references to ui elements
-        val etName = myDialogView.etName
-        val etDaysToRemind = myDialogView.etDaysToRemind
+        val etName = myDialogBinding.etName
+        val etDaysToRemind = myDialogBinding.etDaysToRemind
 
-        val tvBirthdayDate = myDialogView.tvBirthdayDate
-        val tvSaveYear = myDialogView.tvSaveYear
-        val tvNotifyMe = myDialogView.tvNotifyMe
-        val tvRemindMe = myDialogView.tvRemindMe
-        val tvDaysPrior = myDialogView.tvDaysPrior
+        val tvBirthdayDate = myDialogBinding.tvBirthdayDate
+        val tvSaveYear = myDialogBinding.tvSaveYear
+        val tvNotifyMe = myDialogBinding.tvNotifyMe
+        val tvRemindMe = myDialogBinding.tvRemindMe
+        val tvDaysPrior = myDialogBinding.tvDaysPrior
 
-        val cbSaveBirthdayYear = myDialogView.cbSaveBirthdayYear
-        val cbNotifyMe = myDialogView.cbNotifyMe
+        val cbSaveBirthdayYear = myDialogBinding.cbSaveBirthdayYear
+        val cbNotifyMe = myDialogBinding.cbNotifyMe
 
         /**
          * INITIALIZE DISPLAY VALUES
@@ -380,7 +382,7 @@ class BirthdayFr : Fragment() {
         }
 
         //initialize button text
-        myDialogView.btnConfirmBirthday.text = resources.getText(R.string.birthdayDialogEdit)
+        myDialogBinding.btnConfirmBirthday.text = resources.getText(R.string.birthdayDialogEdit)
 
         /**
          * INITIALIZE LISTENERS
@@ -455,6 +457,7 @@ class BirthdayFr : Fragment() {
                     date.monthValue - 1,
                     date.dayOfMonth
                 )
+
                 else -> DatePickerDialog(
                     myActivity,
                     R.style.DialogTheme,
@@ -466,11 +469,11 @@ class BirthdayFr : Fragment() {
             }
             dpd.show()
             dpd.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
-                    myActivity.colorForAttr(R.attr.colorOnBackGround)
-                )
+                myActivity.colorForAttr(R.attr.colorOnBackGround)
+            )
             dpd.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
-                    myActivity.colorForAttr(R.attr.colorOnBackGround)
-                )
+                myActivity.colorForAttr(R.attr.colorOnBackGround)
+            )
         }
 
         //checkbox to include year
@@ -554,10 +557,11 @@ class BirthdayFr : Fragment() {
 
 
         //AlertDialogBuilder
-        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogEditTitle)
-        myBuilder?.setCustomTitle(myTitle)
+        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
+        val myTitleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        myTitleDialogBinding.tvDialogTitle.text =
+            resources.getText(R.string.birthdayDialogEditTitle)
+        myBuilder?.setCustomTitle(myTitleDialogBinding.root)
 
 
         //show dialog
@@ -566,7 +570,7 @@ class BirthdayFr : Fragment() {
         myAlertDialog?.show()
 
         //button to confirm edit of birthday
-        myDialogView.btnConfirmBirthday.setOnClickListener {
+        myDialogBinding.btnConfirmBirthday.setOnClickListener {
             val name = etName.text.toString()
 
             //tell user to enter a name if none is entered
@@ -612,20 +616,20 @@ class BirthdayFr : Fragment() {
         date = LocalDate.now()
 
         //inflate the dialog with custom view
-        val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
+        val myDialogBinding = DialogAddBirthdayBinding.inflate(layoutInflater)
 
         //initialize references to ui elements
-        val etName = myDialogView.etName
-        val etDaysToRemind = myDialogView.etDaysToRemind
+        val etName = myDialogBinding.etName
+        val etDaysToRemind = myDialogBinding.etDaysToRemind
 
-        val tvBirthdayDate = myDialogView.tvBirthdayDate
-        val tvSaveYear = myDialogView.tvSaveYear
-        val tvNotifyMe = myDialogView.tvNotifyMe
-        val tvRemindMe = myDialogView.tvRemindMe
-        val tvDaysPrior = myDialogView.tvDaysPrior
+        val tvBirthdayDate = myDialogBinding.tvBirthdayDate
+        val tvSaveYear = myDialogBinding.tvSaveYear
+        val tvNotifyMe = myDialogBinding.tvNotifyMe
+        val tvRemindMe = myDialogBinding.tvRemindMe
+        val tvDaysPrior = myDialogBinding.tvDaysPrior
 
-        val cbSaveBirthdayYear = myDialogView.cbSaveBirthdayYear
-        val cbNotifyMe = myDialogView.cbNotifyMe
+        val cbSaveBirthdayYear = myDialogBinding.cbSaveBirthdayYear
+        val cbNotifyMe = myDialogBinding.cbNotifyMe
 
         /**
          * INITIALIZE VALUES
@@ -778,6 +782,7 @@ class BirthdayFr : Fragment() {
                     date.monthValue - 1,
                     date.dayOfMonth
                 )
+
                 else -> DatePickerDialog(
                     myActivity,
                     R.style.DialogTheme,
@@ -870,10 +875,11 @@ class BirthdayFr : Fragment() {
         }
 
         //AlertDialogBuilder
-        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        myTitle.tvDialogTitle.text = resources.getText(R.string.birthdayDialogAddTitle)
-        myBuilder?.setCustomTitle(myTitle)
+        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
+//        val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
+        val myTitleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        myTitleDialogBinding.tvDialogTitle.text = resources.getText(R.string.birthdayDialogAddTitle)
+        myBuilder?.setCustomTitle(myTitleDialogBinding.root)
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
@@ -881,7 +887,7 @@ class BirthdayFr : Fragment() {
         myAlertDialog?.show()
 
         //button to confirm adding of birthday
-        myDialogView.btnConfirmBirthday.setOnClickListener {
+        myDialogBinding.btnConfirmBirthday.setOnClickListener {
             val name = when (dateRegistered) {
                 true -> etName.text.toString().substring(0, dateStringStartIndex).trim()
                 else -> etName.text.toString().trim()
@@ -1065,16 +1071,17 @@ class BirthdayAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.row_birthday, parent, false)
-        return BirthdayViewHolder(itemView)
+//        val itemView =
+//            LayoutInflater.from(parent.context).inflate(R.layout.row_birthday, parent, false)
+        val rowBirthdayBinding = RowBirthdayBinding.inflate(LayoutInflater.from(parent.context))
+        return BirthdayViewHolder(rowBirthdayBinding)
     }
 
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: BirthdayViewHolder, position: Int) {
 
         //reset elevation
-        holder.cvBirthday.elevation = 10f
+        holder.binding.cvBirthday.elevation = 10f
 
         //get birthday for this view holder, from BirthdayFr.adjustedList if this Fragment currently is
         //in search mode, or from listInstance.getBirthday(position) if its in regular display mode
@@ -1099,17 +1106,17 @@ class BirthdayAdapter(
             GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, intArrayOf(colorA, colorA))
 
         //reset margin
-        val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+        val params = holder.binding.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
         holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
 
         //reset elevation
-        holder.cvBirthday.elevation = 10f
+        holder.binding.cvBirthday.elevation = 10f
 
         //make birthday specific elements visible
-        holder.tvRowBirthdayDate.visibility = View.VISIBLE
-        holder.tvRowBirthdayName.visibility = View.VISIBLE
-        holder.tvRowBirthdayDays.visibility = View.VISIBLE
-        holder.itemView.icRowBirthdayNotification.visibility = View.VISIBLE
+        holder.binding.tvRowBirthdayDate.visibility = View.VISIBLE
+        holder.binding.tvRowBirthdayName.visibility = View.VISIBLE
+        holder.binding.tvRowBirthdayDays.visibility = View.VISIBLE
+        holder.binding.icRowBirthdayNotification.visibility = View.VISIBLE
 
         if (myFragment.searching) {
             //display all corners as round if in searching mode
@@ -1134,16 +1141,16 @@ class BirthdayAdapter(
             }
         }
 
-        holder.cvBirthday.background = myGradientDrawable
+        holder.binding.cvBirthday.background = myGradientDrawable
 
         //initialize regular birthday design
-        holder.tvRowBirthdayDivider.visibility = View.GONE
-        holder.myDividerLeft.visibility = View.GONE
-        holder.myDividerRight.visibility = View.GONE
+        holder.binding.tvRowBirthdayDivider.visibility = View.GONE
+        holder.binding.viewDividerLeft.visibility = View.GONE
+        holder.binding.viewDividerRight.visibility = View.GONE
 
         //display info if birthday is expanded
         if (currentBirthday.expanded) {
-            holder.itemView.tvBirthdayInfo.visibility = View.VISIBLE
+            holder.binding.tvBirthdayInfo.visibility = View.VISIBLE
             var ageText = myActivity.resources.getString(R.string.birthdayAgeUnknown)
             //if a year is saved, calculate age and display it
             if (holder.birthday.year != 0) {
@@ -1164,13 +1171,14 @@ class BirthdayAdapter(
                         R.string.birthdayReminder, currentBirthday.daysToRemind, reminderDayString
                     )
                 }
+
                 else -> myActivity.resources.getString(R.string.birthdaysNoReminder)
             }
 
             val infoText = ageText + reminderText
-            holder.itemView.tvBirthdayInfo.text = infoText
+            holder.binding.tvBirthdayInfo.text = infoText
         } else {
-            holder.itemView.tvBirthdayInfo.visibility = View.GONE
+            holder.binding.tvBirthdayInfo.visibility = View.GONE
         }
 
         //creates initial dateString containing padded dayOfMonth "03" or "12" e.g.
@@ -1182,7 +1190,7 @@ class BirthdayAdapter(
         }
 
         //Display name and date
-        holder.tvRowBirthdayDate.text = dateString
+        holder.binding.tvRowBirthdayDate.text = dateString
         val daysUntilString = when (currentBirthday.daysUntil()) {
             //"today"
             0 -> myActivity.resources.getString(R.string.birthdayToday)
@@ -1198,11 +1206,11 @@ class BirthdayAdapter(
         }
 
         // display name and daysUntil string
-        holder.tvRowBirthdayName.text = currentBirthday.name
-        holder.tvRowBirthdayDays.text = daysUntilString
+        holder.binding.tvRowBirthdayName.text = currentBirthday.name
+        holder.binding.tvRowBirthdayDays.text = daysUntilString
 
         //show or hide daysUntil text
-        holder.tvRowBirthdayDays.visibility = when (daysUntilString == "") {
+        holder.binding.tvRowBirthdayDays.visibility = when (daysUntilString == "") {
             true -> View.GONE
             else -> View.VISIBLE
         }
@@ -1210,11 +1218,11 @@ class BirthdayAdapter(
         // Adjust distance between birthday name and expanded info, depending on if there is a "daysUntil" string below the name
         if (daysUntilString == "") {
             val layoutParams =
-                holder.itemView.tvBirthdayInfo.layoutParams as ViewGroup.MarginLayoutParams
+                holder.binding.tvBirthdayInfo.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.setMargins(0, (-12 * density).toInt(), 0, 0)
         } else {
             val layoutParams =
-                holder.itemView.tvBirthdayInfo.layoutParams as ViewGroup.MarginLayoutParams
+                holder.binding.tvBirthdayInfo.layoutParams as ViewGroup.MarginLayoutParams
             layoutParams.setMargins(0, (-2 * density).toInt(), 0, 0)
         }
 
@@ -1233,8 +1241,8 @@ class BirthdayAdapter(
             }
 
         //apply signal color
-        holder.tvRowBirthdayDate.setTextColor(signalColor)
-        holder.tvRowBirthdayName.setTextColor(signalColor)
+        holder.binding.tvRowBirthdayDate.setTextColor(signalColor)
+        holder.binding.tvRowBirthdayName.setTextColor(signalColor)
 
         // determine and apply daysUntilColor for "in 3 days" string, signalColor if there is anything to signal, hint color otherwise
         val daysUntilColor =
@@ -1242,7 +1250,7 @@ class BirthdayAdapter(
                 true -> myActivity.colorForAttr(R.attr.colorHint)
                 else -> signalColor
             }
-        holder.tvRowBirthdayDays.setTextColor(daysUntilColor)
+        holder.binding.tvRowBirthdayDays.setTextColor(daysUntilColor)
 
         // change color of notification circle, depending if reminder is set
         val notificationColor = if (currentBirthday.notify) {
@@ -1250,28 +1258,28 @@ class BirthdayAdapter(
         } else {
             R.attr.colorBirthdayNotifyDisabled
         }
-        holder.itemView.icRowBirthdayNotification.setColorFilter(
+        holder.binding.icRowBirthdayNotification.setColorFilter(
             myActivity.colorForAttr(
                 notificationColor
             )
         )
 
         // edit birthday via long click on main body
-        holder.itemView.clRowBirthdayMain.setOnLongClickListener {
+        holder.binding.clRowBirthdayMain.setOnLongClickListener {
             BirthdayFr.editBirthdayHolder = holder.birthday
             myFragment.openEditBirthdayDialog()
             true
         }
 
         // switch expand state via tap on main body
-        holder.itemView.clRowBirthdayMain.setOnClickListener {
+        holder.binding.clRowBirthdayMain.setOnClickListener {
             holder.birthday.expanded = !holder.birthday.expanded
             listInstance.sortAndSaveBirthdays()
             notifyItemChanged(holder.bindingAdapterPosition)
         }
 
         // enable / disable reminder via tap on notification symbol
-        holder.itemView.clRowBirthdayDotField.setOnClickListener {
+        holder.binding.clRowBirthdayDotField.setOnClickListener {
             holder.birthday.notify = !holder.birthday.notify
             myFragment.birthdayListInstance.save()
             notifyItemChanged(holder.bindingAdapterPosition)
@@ -1280,23 +1288,23 @@ class BirthdayAdapter(
 
     private fun initializeYearViewHolder(holder: BirthdayViewHolder) {
         //YEAR DIVIDER
-        holder.cvBirthday.elevation = 0f
-        holder.itemView.layoutParams.height = (70 * density).toInt()
-        holder.tvRowBirthdayDivider.textSize = 22f
-        holder.tvRowBirthdayDivider.setTextColor(
+        holder.binding.cvBirthday.elevation = 0f
+        holder.binding.root.layoutParams.height = (70 * density).toInt()
+        holder.binding.tvRowBirthdayDivider.textSize = 22f
+        holder.binding.tvRowBirthdayDivider.setTextColor(
             myActivity.colorForAttr(R.attr.colorOnBackGround)
         )
 
         //removes margin at sides so year divider spans parent width
-        val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+        val params = holder.binding.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
         params.setMargins(0, marginSide, 0, (0 * density).toInt())
 
         //change backgroundColor to app background color and show year dividers
-        holder.cvBirthday.setBackgroundColor(
+        holder.binding.cvBirthday.setBackgroundColor(
             myActivity.colorForAttr(R.attr.colorBackground)
         )
-        holder.myDividerRight.visibility = View.VISIBLE
-        holder.myDividerLeft.visibility = View.VISIBLE
+        holder.binding.viewDividerRight.visibility = View.VISIBLE
+        holder.binding.viewDividerLeft.visibility = View.VISIBLE
     }
 
     private fun initializeMonthViewHolder(
@@ -1304,13 +1312,13 @@ class BirthdayAdapter(
     ) {
         //initialize values specific to month divider
         // reintroduces margin at sides
-        val params = holder.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
+        val params = holder.binding.cvBirthday.layoutParams as ViewGroup.MarginLayoutParams
         params.setMargins(marginSide, marginSide, marginSide, (2 * density).toInt())
 
         //sets correct text size, height and text color
-        holder.tvRowBirthdayDivider.textSize = 20f
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        holder.tvRowBirthdayDivider.setTextColor(
+        holder.binding.tvRowBirthdayDivider.textSize = 20f
+        holder.binding.root.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        holder.binding.tvRowBirthdayDivider.setTextColor(
             myActivity.colorForAttr(R.attr.colorCategory)
         )
 
@@ -1322,6 +1330,7 @@ class BirthdayAdapter(
                 //month colors for southern hemisphere, days to remind gets turned positive, then + 7 % 12, to shift the colors by 7 month
                 //now warm colors are represented in months 8 - 2 etc
                 monthColors[((currentBirthday.daysToRemind * -1) + 7) % 12]
+
             else ->
                 //regular month colors, days to remind gets turned positive, then -1 so january => index 0
                 monthColors[(currentBirthday.daysToRemind * -1) - 1]
@@ -1338,11 +1347,11 @@ class BirthdayAdapter(
         //check if setting says to use round design, apply correct corner angles
         if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, 0f, 0f, 0f, 0f)
 
-        holder.cvBirthday.background = myGradientDrawable
+        holder.binding.cvBirthday.background = myGradientDrawable
 
         //hide dividers that are specific to year divider
-        holder.myDividerRight.visibility = View.GONE
-        holder.myDividerLeft.visibility = View.GONE
+        holder.binding.viewDividerRight.visibility = View.GONE
+        holder.binding.viewDividerLeft.visibility = View.GONE
     }
 
     /**
@@ -1356,15 +1365,15 @@ class BirthdayAdapter(
         holder: BirthdayViewHolder, currentBirthday: Birthday
     ) {
         //show tvRowBirthdayDivider and set its text to the correct month or year name
-        holder.tvRowBirthdayDivider.visibility = View.VISIBLE
-        holder.tvRowBirthdayDivider.text = currentBirthday.name
+        holder.binding.tvRowBirthdayDivider.visibility = View.VISIBLE
+        holder.binding.tvRowBirthdayDivider.text = currentBirthday.name
 
         //hide elements only used for a regular birthday
-        holder.tvRowBirthdayDate.visibility = View.GONE
-        holder.tvRowBirthdayName.visibility = View.GONE
-        holder.itemView.tvBirthdayInfo.visibility = View.GONE
-        holder.itemView.icRowBirthdayNotification.visibility = View.GONE
-        holder.itemView.tvRowBirthdayDays.visibility = View.GONE
+        holder.binding.tvRowBirthdayDate.visibility = View.GONE
+        holder.binding.tvRowBirthdayName.visibility = View.GONE
+        holder.binding.tvBirthdayInfo.visibility = View.GONE
+        holder.binding.icRowBirthdayNotification.visibility = View.GONE
+        holder.binding.tvRowBirthdayDays.visibility = View.GONE
 
         //reset onLongClickListener to prevent editDialog
         holder.itemView.setOnLongClickListener { true }
@@ -1392,22 +1401,11 @@ class BirthdayAdapter(
         }
     }
 
-    class BirthdayViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BirthdayViewHolder(itemBinding: RowBirthdayBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
         //birthday instance represented by this viewHolder
         lateinit var birthday: Birthday
-
-        //textViews for name, date and monthNames
-        val tvRowBirthdayName: TextView = itemView.tvRowBirthdayName
-        val tvRowBirthdayDate: TextView = itemView.tvRowBirthdayDate
-        val tvRowBirthdayDivider: TextView = itemView.tvRowBirthdayDivider
-        val tvRowBirthdayDays: TextView = itemView.tvRowBirthdayDays
-
-        //dividers used to display a year element
-        val myDividerLeft: View = itemView.viewDividerLeft
-        val myDividerRight: View = itemView.viewDividerRight
-
-        //reference to the constraintLayout containing the elements above
-        val cvBirthday: ConstraintLayout = itemView.cvBirthday
+        var binding = itemBinding
     }
 
 }
