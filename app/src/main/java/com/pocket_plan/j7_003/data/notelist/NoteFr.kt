@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.notelist
 
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.TextUtils
@@ -15,9 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.SearchView
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
@@ -30,29 +29,11 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnAddNoteFolder
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnBlue
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnBlueBg
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnCancelNoteFolder
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnGreen
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnGreenBg
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnPurple
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnPurpleBg
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnRed
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnRedBg
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnYellow
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.btnYellowBg
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.etAddNoteFolder
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.spFolderPaths
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.textView5
-import kotlinx.android.synthetic.main.fragment_note.view.recycler_view_note
-import kotlinx.android.synthetic.main.row_note.view.cvNoteBg
-import kotlinx.android.synthetic.main.row_note.view.cvNoteCard
-import kotlinx.android.synthetic.main.row_note.view.icon_folder
-import kotlinx.android.synthetic.main.row_note.view.tvContainedNoteElements
-import kotlinx.android.synthetic.main.row_note.view.tvNoteContent
-import kotlinx.android.synthetic.main.row_note.view.tvNoteTitle
-import kotlinx.android.synthetic.main.title_dialog.view.tvDialogTitle
+import com.pocket_plan.j7_003.databinding.DialogAddNoteFolderBinding
+import com.pocket_plan.j7_003.databinding.FragmentNoteBinding
+import com.pocket_plan.j7_003.databinding.RowNoteBinding
+import com.pocket_plan.j7_003.databinding.RowNoteFixedSizeBinding
+import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import java.util.Calendar
 import kotlin.random.Random
 
@@ -67,6 +48,8 @@ class NoteFr : Fragment() {
     lateinit var searchView: SearchView
     lateinit var noteListDirs: NoteDirList
     lateinit var myActivity: MainActivity
+    private var _frBinding: FragmentNoteBinding? = null
+    private val frBinding get() = _frBinding!!
 
     val darkBorderStyle = SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) as Double
     val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
@@ -104,7 +87,7 @@ class NoteFr : Fragment() {
         deletedNote = null
 
         //create and set new adapter for recyclerview
-        myRecycler = myView.recycler_view_note
+        myRecycler = frBinding.recyclerViewNote
         myAdapter = NoteAdapter(myActivity, this)
         myRecycler.adapter = myAdapter
 
@@ -268,15 +251,14 @@ class NoteFr : Fragment() {
         val editFolder = noteListDirs.folderStack.peek() ?: return
 
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_note_folder, null)
+        val myDialogBinding = DialogAddNoteFolderBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
         val myBuilder =
-            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = getString(R.string.notesEditFolder)
-        myBuilder?.setCustomTitle(customTitle)
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
+        val customTitleBinding = TitleDialogBinding.inflate(layoutInflater)
+        customTitleBinding.tvDialogTitle.text = getString(R.string.notesEditFolder)
+        myBuilder?.setCustomTitle(customTitleBinding.root)
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
@@ -284,25 +266,25 @@ class NoteFr : Fragment() {
         myAlertDialog?.show()
 
         var folderColor = editFolder.color
-        myDialogView.etAddNoteFolder.setText(editFolder.title)
+        myDialogBinding.etAddNoteFolder.setText(editFolder.title)
 
         val btnList = arrayListOf<Button>(
-            myDialogView.btnRed,
-            myDialogView.btnYellow,
-            myDialogView.btnGreen,
-            myDialogView.btnBlue,
-            myDialogView.btnPurple,
+            myDialogBinding.btnRed,
+            myDialogBinding.btnYellow,
+            myDialogBinding.btnGreen,
+            myDialogBinding.btnBlue,
+            myDialogBinding.btnPurple,
         )
 
         val backgroundList = arrayListOf<ConstraintLayout>(
-            myDialogView.btnRedBg,
-            myDialogView.btnYellowBg,
-            myDialogView.btnGreenBg,
-            myDialogView.btnBlueBg,
-            myDialogView.btnPurpleBg,
+            myDialogBinding.btnRedBg,
+            myDialogBinding.btnYellowBg,
+            myDialogBinding.btnGreenBg,
+            myDialogBinding.btnBlueBg,
+            myDialogBinding.btnPurpleBg,
         )
 
-        val spFolderPaths = myDialogView.spFolderPaths
+        val spFolderPaths = myDialogBinding.spFolderPaths
         val paths =
             noteListDirs.getSuperordinatePaths(editFolder, getString(R.string.menuTitleNotes))
         val spFolderAdapter = ArrayAdapter(
@@ -357,13 +339,13 @@ class NoteFr : Fragment() {
             button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
         }
 
-        myDialogView.btnAddNoteFolder.setOnClickListener {
-            val newName = myDialogView.etAddNoteFolder.text.toString().trim()
+        myDialogBinding.btnAddNoteFolder.setOnClickListener {
+            val newName = myDialogBinding.etAddNoteFolder.text.toString().trim()
             val addResult = noteListDirs.editFolder(newName, folderColor)
             if (!addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
+                myDialogBinding.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
             if (spFolderPaths.selectedItemPosition != currentParentFolderIndex) {
@@ -377,25 +359,24 @@ class NoteFr : Fragment() {
             myAlertDialog?.dismiss()
         }
 
-        val cancelBtn = myDialogView.btnCancelNoteFolder
+        val cancelBtn = myDialogBinding.btnCancelNoteFolder
         cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
 
-        myDialogView.etAddNoteFolder.requestFocus()
+        myDialogBinding.etAddNoteFolder.requestFocus()
 
     }
 
     private fun dialogAddNoteFolder() {
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(myActivity).inflate(R.layout.dialog_add_note_folder, null)
+        val myDialogBinding = DialogAddNoteFolderBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
         val myBuilder =
-            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
+        val customTitleBinding = TitleDialogBinding.inflate(layoutInflater)
         //Set "Add folder" title
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.notesOptionAddFolder)
-        myBuilder?.setCustomTitle(customTitle)
+        customTitleBinding.tvDialogTitle.text = myActivity.getString(R.string.notesOptionAddFolder)
+        myBuilder?.setCustomTitle(customTitleBinding.root)
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
@@ -404,19 +385,19 @@ class NoteFr : Fragment() {
 
         //Get references to color buttons and their backgrounds (used for border)
         val btnList = arrayListOf<Button>(
-            myDialogView.btnRed,
-            myDialogView.btnYellow,
-            myDialogView.btnGreen,
-            myDialogView.btnBlue,
-            myDialogView.btnPurple,
+            myDialogBinding.btnRed,
+            myDialogBinding.btnYellow,
+            myDialogBinding.btnGreen,
+            myDialogBinding.btnBlue,
+            myDialogBinding.btnPurple,
         )
 
         val backgroundList = arrayListOf<ConstraintLayout>(
-            myDialogView.btnRedBg,
-            myDialogView.btnYellowBg,
-            myDialogView.btnGreenBg,
-            myDialogView.btnBlueBg,
-            myDialogView.btnPurpleBg,
+            myDialogBinding.btnRedBg,
+            myDialogBinding.btnYellowBg,
+            myDialogBinding.btnGreenBg,
+            myDialogBinding.btnBlueBg,
+            myDialogBinding.btnPurpleBg,
         )
 
         //Show the proper darker note colors if the "fill" theme is selected
@@ -449,10 +430,10 @@ class NoteFr : Fragment() {
             .indexOf(folderColor)].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         //hide elements unnecessary for adding
-        val spFolderPaths = myDialogView.spFolderPaths
+        val spFolderPaths = myDialogBinding.spFolderPaths
         spFolderPaths.layoutParams.height = 0
         spFolderPaths.isClickable = false
-        myDialogView.textView5.visibility = View.GONE
+        myDialogBinding.textView5.visibility = View.GONE
 
         //Onclick listeners for the color buttons, to visually reflect the users selection
         btnList.forEachIndexed { index, button ->
@@ -478,13 +459,13 @@ class NoteFr : Fragment() {
             button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
         }
 
-        myDialogView.btnAddNoteFolder.setOnClickListener {
-            val newName = myDialogView.etAddNoteFolder.text.toString().trim()
+        myDialogBinding.btnAddNoteFolder.setOnClickListener {
+            val newName = myDialogBinding.etAddNoteFolder.text.toString().trim()
             val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
             if (!addResult) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                myDialogView!!.etAddNoteFolder.startAnimation(animationShake)
+                myDialogBinding.etAddNoteFolder.startAnimation(animationShake)
                 return@setOnClickListener
             }
             //Save last used note color
@@ -496,10 +477,10 @@ class NoteFr : Fragment() {
             myAlertDialog?.dismiss()
         }
 
-        val cancelBtn = myDialogView.btnCancelNoteFolder
+        val cancelBtn = myDialogBinding.btnCancelNoteFolder
         cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
 
-        myDialogView.etAddNoteFolder.requestFocus()
+        myDialogBinding.etAddNoteFolder.requestFocus()
     }
 
 
@@ -631,13 +612,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     private val myNoteFr = noteFr
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val layout = when (myNoteFr.fixedNoteSize) {
-            true -> R.layout.row_note_fixed_size
-            else -> R.layout.row_note
-        }
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(layout, parent, false)
-        return NoteViewHolder(itemView)
+        return NoteViewHolder(myNoteFr.fixedNoteSize, parent.context)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
@@ -659,7 +634,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         holder.noteObj = currentNote
 
         //set corner radius
-        holder.cvNoteCard.radius = when (round) {
+        holder.binding.cvNoteCard.radius = when (round) {
             true -> cr
             else -> 0f
         }
@@ -866,11 +841,11 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout
-    class NoteViewHolder(itemView: View) : ViewHolder(itemView) {
-        val tvNoteTitle: TextView = itemView.tvNoteTitle
-        val tvNoteContent: TextView = itemView.tvNoteContent
-        var cvNoteCard: CardView = itemView.cvNoteCard
+    class NoteViewHolder(fixedNoteSize: Boolean, context: Context) : ViewHolder() {
         lateinit var noteObj: Note
+        val binding = when(fixedNoteSize) {
+            true -> RowNoteFixedSizeBinding.inflate(LayoutInflater.from(context))
+            false -> RowNoteBinding.inflate(LayoutInflater.from(context))
+        }
     }
-
 }
