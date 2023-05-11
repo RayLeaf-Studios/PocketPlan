@@ -20,35 +20,35 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoFr
-import kotlinx.android.synthetic.main.fragment_home.view.*
+import com.pocket_plan.j7_003.databinding.FragmentHomeBinding
 
 
 /**
  * A simple [Fragment] subclass.
  */
 class HomeFr : Fragment() {
+    private var _fragmentBinding: FragmentHomeBinding? = null
+    private val fragmentBinding get() = _fragmentBinding!!
+
     private lateinit var myActivity: MainActivity
 
     private var cr = 0f
     private lateinit var myBirthdayFr: BirthdayFr
     private lateinit var mySleepFr: SleepFr
 
-    lateinit var myView: View
     private lateinit var timer: CountDownTimer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _fragmentBinding = FragmentHomeBinding.inflate(inflater, container, false)
         myActivity = (activity as MainActivity)
 
         cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
         myBirthdayFr = myActivity.getFragment(FT.BIRTHDAYS) as BirthdayFr
         mySleepFr = myActivity.getFragment(FT.SLEEP) as SleepFr
         mySleepFr.sleepReminderInstance = SleepReminder(myActivity)
-
-        //initializing layout
-        myView = inflater.inflate(R.layout.fragment_home, container, false)
 
         timer = object : CountDownTimer(Long.MAX_VALUE, 30000) {
             // creates a timer to update the clock
@@ -67,27 +67,27 @@ class HomeFr : Fragment() {
         updateBirthdayPanel()
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
-        myView.panelTasks.setOnClickListener {
+        fragmentBinding.panelTasks.setOnClickListener {
             myActivity.changeToFragment(FT.TASKS)
         }
-        myView.panelBirthdays.setOnClickListener { myActivity.changeToFragment(FT.BIRTHDAYS) }
-        myView.tvRemainingWakeTime.setOnClickListener { myActivity.changeToFragment(FT.SLEEP) }
-        myView.icSleepHome.setOnClickListener { myActivity.changeToFragment(FT.SLEEP) }
+        fragmentBinding.panelBirthdays.setOnClickListener { myActivity.changeToFragment(FT.BIRTHDAYS) }
+        fragmentBinding.tvRemainingWakeTime.setOnClickListener { myActivity.changeToFragment(FT.SLEEP) }
+        fragmentBinding.icSleepHome.setOnClickListener { myActivity.changeToFragment(FT.SLEEP) }
 
 
         //buttons to create new notes, tasks, terms or items from the home panel
-        myView.clAddNote.setOnClickListener {
+        fragmentBinding.clAddNote.setOnClickListener {
             NoteFr.editNoteHolder = null
             NoteEditorFr.noteColor = NoteColors.GREEN
             myActivity.changeToFragment(FT.NOTE_EDITOR)
         }
-        myView.clAddTask.setOnClickListener { myActivity.todoFr!!.dialogAddTask() }
-        myView.clAddItem.setOnClickListener {
+        fragmentBinding.clAddTask.setOnClickListener { myActivity.todoFr!!.dialogAddTask() }
+        fragmentBinding.clAddItem.setOnClickListener {
             myActivity.multiShoppingFr.editing = false
             myActivity.multiShoppingFr.openAddItemDialog()
         }
 
-        return myView
+        return fragmentBinding.root
     }
 
     /**
@@ -105,15 +105,15 @@ class HomeFr : Fragment() {
     }
 
     /**
-     * Sets the text of myView.tvTasks to the titles of at most 3 priority 1 tasks
-     * @param shake if true, animates a shake animation on myView.ivTaskHome
+     * Sets the text of fragmentBinding.tvTasks to the titles of at most 3 priority 1 tasks
+     * @param shake if true, animates a shake animation on fragmentBinding.ivTaskHome
      */
 
     @SuppressLint("ResourceType")
     fun updateTaskPanel(shake: Boolean) {
         val density = myActivity.resources.displayMetrics.density
         val (_, status) = mySleepFr.sleepReminderInstance.getRemainingWakeDurationString()
-        val params = myView.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
+        val params = fragmentBinding.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
         val sideMargin = (density * 3).toInt()
         val bottomMargin = (density * 10).toInt()
 
@@ -127,7 +127,7 @@ class HomeFr : Fragment() {
 
 
         if (SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean) {
-            myView.panelTasks.radius = cr
+            fragmentBinding.panelTasks.radius = cr
         }
 
         var myShake = shake
@@ -150,27 +150,27 @@ class HomeFr : Fragment() {
 
         //displays "No important tasks" if there aren't any
         if (displayTaskCount == 0) {
-            myView.tvTasks.text = resources.getText(R.string.homeNoTasks)
-            myView.tvTasks.setTextColor(
+            fragmentBinding.tvTasks.text = resources.getText(R.string.homeNoTasks)
+            fragmentBinding.tvTasks.setTextColor(
                 myActivity.colorForAttr(R.attr.colorHint)
             )
-            myView.ivTasksHome.setColorFilter(
+            fragmentBinding.ivTasksHome.setColorFilter(
                 myActivity.colorForAttr(R.attr.colorHint)
             )
             return
         } else {
-            myView.tvTasks.setTextColor(
+            fragmentBinding.tvTasks.setTextColor(
                 myActivity.colorForAttr(R.attr.colorOnBackGround)
             )
 
-            myView.ivTasksHome.setColorFilter(
+            fragmentBinding.ivTasksHome.setColorFilter(
                 myActivity.colorForAttr(R.attr.colorGoToSleep)
             )
 
             if (myShake) {
                 val animationShake =
                     AnimationUtils.loadAnimation(myActivity, R.anim.shake_long)
-                myView.ivTasksHome.startAnimation(animationShake)
+                fragmentBinding.ivTasksHome.startAnimation(animationShake)
             }
 
         }
@@ -178,10 +178,7 @@ class HomeFr : Fragment() {
         //creates text displaying the tasks by concatenating their titles with newlines
         var taskPanelText = "\n"
         for (i in 0 until displayTaskCount) {
-            taskPanelText += taskList[i].title
-            if (i < displayTaskCount) {
-                taskPanelText += "\n"
-            }
+            taskPanelText += taskList[i].title + "\n"
         }
 
         //displays "+ (additionalTasks) more" if there are more than 3 important tasks
@@ -191,7 +188,7 @@ class HomeFr : Fragment() {
         }
 
         //sets the testViews text to taskPanelText
-        myView.tvTasks.text = taskPanelText
+        fragmentBinding.tvTasks.text = taskPanelText
 
     }
 
@@ -199,7 +196,7 @@ class HomeFr : Fragment() {
 
         //round corners of birthday panel if settings say so
         if (SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean) {
-            myView.panelBirthdays.radius = cr
+            fragmentBinding.panelBirthdays.radius = cr
         }
 
         //get list of birthdays today
@@ -210,10 +207,10 @@ class HomeFr : Fragment() {
 
         if (birthdaysToDisplay != 0) {
             //if there are any birthdays today set color to be black / white and set text to these birthdays
-            myView.tvBirthday.setTextColor(
+            fragmentBinding.tvBirthday.setTextColor(
                 myActivity.colorForAttr(R.attr.colorOnBackGround)
             )
-            myView.icBirthdaysHome.setColorFilter(
+            fragmentBinding.icBirthdaysHome.setColorFilter(
                 myActivity.colorForAttr(R.attr.colorBirthdayNotify)
             )
             var birthdayText = "\n"
@@ -224,14 +221,14 @@ class HomeFr : Fragment() {
             if (excess > 0) {
                 birthdayText += "+ $excess\n"
             }
-            myView.tvBirthday.text = birthdayText
+            fragmentBinding.tvBirthday.text = birthdayText
             return
         }
         //no birthday today, set colors to gray
-        myView.tvBirthday.setTextColor(
+        fragmentBinding.tvBirthday.setTextColor(
             myActivity.colorForAttr(R.attr.colorHint)
         )
-        myView.icBirthdaysHome.setColorFilter(
+        fragmentBinding.icBirthdaysHome.setColorFilter(
             myActivity.colorForAttr(R.attr.colorHint)
         )
 
@@ -251,12 +248,12 @@ class HomeFr : Fragment() {
                     )
             }
             val birthdayText = nextBirthday.name + " " + daysUntilString
-            myView.tvBirthday.text = birthdayText
+            fragmentBinding.tvBirthday.text = birthdayText
             return
         }
 
         //no birthday today nor any birthday in the next 30 days => display "No birthdays"
-        myView.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)
+        fragmentBinding.tvBirthday.text = resources.getText(R.string.homeNoBirthdays)
 
     }
 
@@ -270,32 +267,32 @@ class HomeFr : Fragment() {
         //0 -> positive wake time, 1 -> negative wake time, 2 -> no reminder set
         when (status) {
             0 -> { //show icon, set and show message, text white
-                myView.icSleepHome.visibility = View.VISIBLE
-                myView.tvRemainingWakeTime.text = message
-                myView.tvRemainingWakeTime.visibility = View.VISIBLE
-                myView.tvRemainingWakeTime.setTextColor(
+                fragmentBinding.icSleepHome.visibility = View.VISIBLE
+                fragmentBinding.tvRemainingWakeTime.text = message
+                fragmentBinding.tvRemainingWakeTime.visibility = View.VISIBLE
+                fragmentBinding.tvRemainingWakeTime.setTextColor(
                     myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
-                myView.icSleepHome.setColorFilter(
+                fragmentBinding.icSleepHome.setColorFilter(
                     myActivity.colorForAttr(R.attr.colorIconTint)
                 )
             }
             1 -> {
                 //show icon, set and show message, text red
-                myView.icSleepHome.visibility = View.VISIBLE
-                myView.tvRemainingWakeTime.text = message
-                myView.tvRemainingWakeTime.visibility = View.VISIBLE
-                myView.tvRemainingWakeTime.setTextColor(
+                fragmentBinding.icSleepHome.visibility = View.VISIBLE
+                fragmentBinding.tvRemainingWakeTime.text = message
+                fragmentBinding.tvRemainingWakeTime.visibility = View.VISIBLE
+                fragmentBinding.tvRemainingWakeTime.setTextColor(
                     myActivity.colorForAttr(R.attr.colorGoToSleep)
                 )
-                myView.icSleepHome.setColorFilter(
+                fragmentBinding.icSleepHome.setColorFilter(
                     myActivity.colorForAttr(R.attr.colorGoToSleep)
                 )
             }
             2 -> {
                 //hide icon, hide text
-                myView.icSleepHome.visibility = View.GONE
-                myView.tvRemainingWakeTime.visibility = View.GONE
+                fragmentBinding.icSleepHome.visibility = View.GONE
+                fragmentBinding.tvRemainingWakeTime.visibility = View.GONE
             }
         }
     }
