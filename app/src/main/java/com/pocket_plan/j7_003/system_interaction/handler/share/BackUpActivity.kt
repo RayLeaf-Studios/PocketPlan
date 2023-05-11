@@ -12,9 +12,9 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
+import com.pocket_plan.j7_003.databinding.FragmentSettingsBackupBinding
+import com.pocket_plan.j7_003.databinding.ToolbarBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
-import kotlinx.android.synthetic.main.fragment_settings_backup.*
-import kotlinx.android.synthetic.main.toolbar.*
 import java.io.File
 
 /**
@@ -23,6 +23,7 @@ import java.io.File
 class BackUpActivity : AppCompatActivity() {
     private val eHandler = ExportHandler(this)
     private val iHandler = ImportHandler(this)
+    private val binding = FragmentSettingsBackupBinding.inflate(layoutInflater)
 
 
     /**
@@ -30,6 +31,7 @@ class BackUpActivity : AppCompatActivity() {
      * text and listeners for the logic.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
+        val toolbarBinding = ToolbarBinding.inflate(layoutInflater)
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
             else -> R.style.AppThemeLight
@@ -40,7 +42,7 @@ class BackUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_settings_backup)
 
-        setSupportActionBar(myNewToolbar)
+        setSupportActionBar(toolbarBinding.myNewToolbar)
 
         //Spinner for single file export
         val spExportOneAdapter = ArrayAdapter(
@@ -49,7 +51,7 @@ class BackUpActivity : AppCompatActivity() {
         )
 
         spExportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spExportOne.adapter = spExportOneAdapter
+        binding.spExportOne.adapter = spExportOneAdapter
 
         //Spinner for single file import
         val spImportOneAdapter = ArrayAdapter(
@@ -58,27 +60,27 @@ class BackUpActivity : AppCompatActivity() {
         )
 
         spImportOneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spImportOne.adapter = spImportOneAdapter
+        binding.spImportOne.adapter = spImportOneAdapter
 
         //initialize spinners to show "shopping list" as default option
-        spImportOne.setSelection(0)
-        spExportOne.setSelection(0)
+        binding.spImportOne.setSelection(0)
+        binding.spExportOne.setSelection(0)
 
         // adds the logic to the export/import buttons
         initializeListeners()
     }
 
     private fun initializeListeners() {
-        clExport.setOnClickListener {
+        binding.clExport.setOnClickListener {
             eHandler.shareAll()
         }
 
-        clImport.setOnClickListener {
+        binding.clImport.setOnClickListener {
             iHandler.browse("zip", 7)
         }
 
-        tvExport.setOnClickListener {
-            val storageId = StorageId.getByI(spExportOne.selectedItemPosition)
+        binding.tvExport.setOnClickListener {
+            val storageId = StorageId.getByI(binding.spExportOne.selectedItemPosition)
 
             if (storageId != null) {
                 eHandler.shareById(storageId)
@@ -86,8 +88,8 @@ class BackUpActivity : AppCompatActivity() {
 
         }
 
-        tvImport.setOnClickListener {
-            val storageId = StorageId.getByI(spImportOne.selectedItemPosition)
+        binding.tvImport.setOnClickListener {
+            val storageId = StorageId.getByI(binding.spImportOne.selectedItemPosition)
 
             if (storageId != null) {
                 iHandler.browse("json", storageId)
@@ -95,13 +97,13 @@ class BackUpActivity : AppCompatActivity() {
 
         }
 
-        clShowAdvancedBackup.setOnClickListener {
-            if(llSettingsAdvanced.visibility == View.VISIBLE){
-                llSettingsAdvanced.visibility = View.GONE
-                icShowAdvancedBackup.rotation = 0f
+        binding.clShowAdvancedBackup.setOnClickListener {
+            if(binding.llSettingsAdvanced.visibility == View.VISIBLE){
+                binding.llSettingsAdvanced.visibility = View.GONE
+                binding.icShowAdvancedBackup.rotation = 0f
             } else {
-                llSettingsAdvanced.visibility = View.VISIBLE
-                icShowAdvancedBackup.rotation = 180f
+                binding.llSettingsAdvanced.visibility = View.VISIBLE
+                binding.icShowAdvancedBackup.rotation = 180f
             }
         }
 

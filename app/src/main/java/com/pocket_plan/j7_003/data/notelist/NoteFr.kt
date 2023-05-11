@@ -612,7 +612,12 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     private val myNoteFr = noteFr
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        return NoteViewHolder(myNoteFr.fixedNoteSize, parent.context)
+        val binding = when (myNoteFr.fixedNoteSize) {
+            true -> RowNoteFixedSizeBinding.inflate(LayoutInflater.from(parent.context))
+            false -> RowNoteBinding.inflate(LayoutInflater.from(parent.context))
+        }
+
+        return NoteViewHolder(binding as RowNoteBinding)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
@@ -638,7 +643,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             true -> cr
             else -> 0f
         }
-        holder.itemView.cvNoteBg.radius = holder.cvNoteCard.radius
+        holder.binding.cvNoteBg.radius = holder.binding.cvNoteCard.radius
 
         val cardColor = when (dark) {
             //DARK THEME BACKGROUND COLORS
@@ -679,7 +684,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             //LIGHT BACKGROUND, just use note color as border
             else -> currentNote.color.colorAttributeValue
         }
-        holder.itemView.tvContainedNoteElements.setTextColor(myActivity.colorForAttr(cardColor))
+        holder.binding.tvContainedNoteElements.setTextColor(myActivity.colorForAttr(cardColor))
 
         val textColor = when (dark) {
             //DARK THEME BACKGROUND COLORS
@@ -695,11 +700,11 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             else -> R.attr.colorBackground
         }
 
-        holder.itemView.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(cardColor))
-        holder.itemView.cvNoteBg.setCardBackgroundColor(myActivity.colorForAttr(borderColor))
+        holder.binding.cvNoteCard.setCardBackgroundColor(myActivity.colorForAttr(cardColor))
+        holder.binding.cvNoteBg.setCardBackgroundColor(myActivity.colorForAttr(borderColor))
 
-        holder.itemView.tvNoteTitle.setTextColor(myActivity.colorForAttr(textColor))
-        holder.itemView.tvNoteContent.setTextColor(myActivity.colorForAttr(textColor))
+        holder.binding.tvNoteTitle.setTextColor(myActivity.colorForAttr(textColor))
+        holder.binding.tvNoteContent.setTextColor(myActivity.colorForAttr(textColor))
 
         val moveToTop: () -> Unit = {
             if (moveViewedToTop) {
@@ -732,8 +737,8 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         if (currentNote.content != null) {
             //CONTENT AND LISTENERS FOR NOTE
             //EDITING TASK VIA ONCLICK LISTENER ON RECYCLER ITEMS
-            holder.itemView.tvContainedNoteElements.visibility = View.GONE
-            holder.itemView.setOnClickListener {
+            holder.binding.tvContainedNoteElements.visibility = View.GONE
+            holder.binding.root.setOnClickListener {
 
                 //move current note to top if setting says so
                 moveToTop()
@@ -747,49 +752,49 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
             //when title is empty, hide it else show it and set the proper text
             if (currentNote.title.trim() == "") {
-                holder.tvNoteTitle.visibility = View.GONE
+                holder.binding.tvNoteTitle.visibility = View.GONE
             } else {
-                holder.tvNoteTitle.visibility = View.VISIBLE
-                holder.tvNoteTitle.text = currentNote.title
+                holder.binding.tvNoteTitle.visibility = View.VISIBLE
+                holder.binding.tvNoteTitle.text = currentNote.title
             }
 
-            holder.tvNoteContent.text = currentNote.content
+            holder.binding.tvNoteContent.text = currentNote.content
 
             //decide how many lines per note are shown, depending on the setting noteLines (and only if note sizes are not fixed by setting)
             if (!myNoteFr.fixedNoteSize) {
                 if (NoteFr.noteLines == -1) {
-                    holder.tvNoteContent.maxLines = Int.MAX_VALUE
+                    holder.binding.tvNoteContent.maxLines = Int.MAX_VALUE
                 } else {
-                    holder.tvNoteContent.maxLines = NoteFr.noteLines
-                    holder.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
+                    holder.binding.tvNoteContent.maxLines = NoteFr.noteLines
+                    holder.binding.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
                 }
 
                 if (NoteFr.noteLines == 0) {
-                    holder.tvNoteContent.maxLines = 1
+                    holder.binding.tvNoteContent.maxLines = 1
                     val displayedContent = when (currentNote.content == "") {
                         true -> ""
                         false -> "..."
                     }
-                    holder.tvNoteContent.text = displayedContent
+                    holder.binding.tvNoteContent.text = displayedContent
                 }
             } else {
                 // show 3 lines of text in the fixed size setting, if there is no title
                 if (currentNote.title.trim() == "") {
-                    holder.tvNoteContent.maxLines = 3
+                    holder.binding.tvNoteContent.maxLines = 3
                 }
             }
 
-            holder.itemView.icon_folder.visibility = View.GONE
+            holder.binding.iconFolder.visibility = View.GONE
         } else {
             //CONTENT AND LISTENERS FOR FOLDER
-            holder.tvNoteTitle.text = currentNote.title
-            holder.tvNoteContent.text = ""
-            holder.tvNoteTitle.visibility = View.VISIBLE
-            holder.itemView.icon_folder.visibility = View.VISIBLE
+            holder.binding.tvNoteTitle.text = currentNote.title
+            holder.binding.tvNoteContent.text = ""
+            holder.binding.tvNoteTitle.visibility = View.VISIBLE
+            holder.binding.iconFolder.visibility = View.VISIBLE
 
-            holder.itemView.tvContainedNoteElements.visibility = when (showContained) {
+            holder.binding.tvContainedNoteElements.visibility = when (showContained) {
                 true -> {
-                    holder.itemView.tvContainedNoteElements.text =
+                    holder.binding.tvContainedNoteElements.text =
                         holder.noteObj.noteList.size.toString()
                     View.VISIBLE
                 }
@@ -809,9 +814,9 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 //white icon for light theme
                 else -> R.attr.colorBackground
             }
-            holder.itemView.icon_folder.setColorFilter(myActivity.colorForAttr(iconColor))
+            holder.binding.iconFolder.setColorFilter(myActivity.colorForAttr(iconColor))
 
-            holder.itemView.setOnClickListener {
+            holder.binding.root.setOnClickListener {
                 //move current folder to top if setting says so
                 moveToTop()
 
@@ -841,11 +846,8 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout
-    class NoteViewHolder(fixedNoteSize: Boolean, context: Context) : ViewHolder() {
+    class NoteViewHolder(view: RowNoteBinding) : ViewHolder(view.root) {
         lateinit var noteObj: Note
-        val binding = when(fixedNoteSize) {
-            true -> RowNoteFixedSizeBinding.inflate(LayoutInflater.from(context))
-            false -> RowNoteBinding.inflate(LayoutInflater.from(context))
-        }
+        val binding = view
     }
 }
