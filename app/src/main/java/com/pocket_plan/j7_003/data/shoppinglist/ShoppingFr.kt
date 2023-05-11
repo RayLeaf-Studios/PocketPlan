@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,21 +15,15 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.fragment_shopping.view.recycler_view_shopping
-import kotlinx.android.synthetic.main.row_category.view.clTapExpand
-import kotlinx.android.synthetic.main.row_category.view.cvCategory
-import kotlinx.android.synthetic.main.row_category.view.ivCheckMark
-import kotlinx.android.synthetic.main.row_category.view.ivExpand
-import kotlinx.android.synthetic.main.row_category.view.subRecyclerView
-import kotlinx.android.synthetic.main.row_category.view.tvCategoryName
-import kotlinx.android.synthetic.main.row_category.view.tvNumberOfItems
-import kotlinx.android.synthetic.main.row_item.view.cbItem
-import kotlinx.android.synthetic.main.row_item.view.clItemTapfield
-import kotlinx.android.synthetic.main.row_item.view.tvItemTitle
+import com.pocket_plan.j7_003.databinding.FragmentShoppingBinding
+import com.pocket_plan.j7_003.databinding.RowCategoryBinding
+import com.pocket_plan.j7_003.databinding.RowItemBinding
 import java.util.Locale
 
 
 class ShoppingFr : Fragment() {
+    private var _fragmentBinding: FragmentShoppingBinding? = null
+    private val fragmentBinding get() = _fragmentBinding!!
     private lateinit var myActivity: MainActivity
     lateinit var myMultiShoppingFr: MultiShoppingFr
     lateinit var shoppingListInstance: ShoppingList
@@ -103,7 +95,9 @@ class ShoppingFr : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _fragmentBinding = FragmentShoppingBinding.inflate(inflater, container, false)
+
         myActivity = activity as MainActivity
         query = null
         myAdapter = ShoppingListAdapter(myActivity, this)
@@ -128,11 +122,9 @@ class ShoppingFr : Fragment() {
             }
         }
 
-        // Inflate the layout for this fragment
-        val myView = inflater.inflate(R.layout.fragment_shopping, container, false)
 
         //Initialize references to recycler and its adapter
-        val myRecycler = myView.recycler_view_shopping
+        val myRecycler = fragmentBinding.recyclerViewShopping
 
         //attach adapter to recycler and initialize parameters of recycler
         myRecycler.adapter = myAdapter
@@ -273,7 +265,7 @@ class ShoppingFr : Fragment() {
 
         itemTouchHelper.attachToRecyclerView(myRecycler)
 
-        return myView
+        return fragmentBinding.root
     }
 
     /**
@@ -320,20 +312,19 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val density = myActivity.resources.displayMetrics.density
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_category, parent, false)
-        return CategoryViewHolder(itemView)
+        val rowCategoryBinding = RowCategoryBinding.inflate(LayoutInflater.from(parent.context))
+        return CategoryViewHolder(rowCategoryBinding)
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         //long click listener playing shake animation to indicate moving is possible
-        holder.itemView.setOnLongClickListener {
+        holder.binding.root.setOnLongClickListener {
             if (myFragment.myMultiShoppingFr.searching) {
                 return@setOnLongClickListener true
             }
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
-            holder.itemView.startAnimation(animationShake)
+            holder.binding.root.startAnimation(animationShake)
             return@setOnLongClickListener true
         }
 
@@ -354,7 +345,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
             params.setMargins(0, 0, 0, 0)
             return
         }
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        holder.binding.root.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
         val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
         val margin = (density * 10).toInt()
         params.setMargins(margin, margin, margin, margin)
@@ -364,19 +355,19 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         val expanded = shoppingListInstance.isTagExpanded(tag) || myFragment.query != null
 
         //Expand or contract recyclerview depending on its expansion state
-        holder.subRecyclerView.visibility = when (expanded) {
+        holder.binding.subRecyclerView.visibility = when (expanded) {
             true -> View.VISIBLE
             false -> View.GONE
         }
 
         //Flip expansion arrow to show expansion state of category
-        holder.itemView.ivExpand.rotation = when (expanded) {
+        holder.binding.ivExpand.rotation = when (expanded) {
             true -> 180f
             else -> 0f
         }
 
         //Sets Text name of category of sublist
-        holder.tvCategoryName.text =
+        holder.binding.tvCategoryName.text =
             myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
                 R.array.categoryCodes
             ).indexOf(tag)]
@@ -391,11 +382,11 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         //Setting adapter for this sublist
         val subAdapter = SublistAdapter(tag, holder, myActivity, myFragment)
-        holder.subRecyclerView.adapter = subAdapter
-        holder.subRecyclerView.layoutManager = LinearLayoutManager(myActivity)
-        holder.subRecyclerView.setHasFixedSize(true)
+        holder.binding.subRecyclerView.adapter = subAdapter
+        holder.binding.subRecyclerView.layoutManager = LinearLayoutManager(myActivity)
+        holder.binding.subRecyclerView.setHasFixedSize(true)
 
-        holder.subRecyclerView.setOnLongClickListener {
+        holder.binding.subRecyclerView.setOnLongClickListener {
             if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
@@ -405,13 +396,13 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         //Initialize and attach swipe helpers to recyclerview of sublist
         val swipeHelperLeft = ItemTouchHelper(SwipeItemToDelete(ItemTouchHelper.LEFT, myFragment))
-        swipeHelperLeft.attachToRecyclerView(holder.subRecyclerView)
+        swipeHelperLeft.attachToRecyclerView(holder.binding.subRecyclerView)
 
         val swipeHelperRight = ItemTouchHelper(SwipeItemToDelete(ItemTouchHelper.RIGHT, myFragment))
-        swipeHelperRight.attachToRecyclerView(holder.subRecyclerView)
+        swipeHelperRight.attachToRecyclerView(holder.binding.subRecyclerView)
 
         //Onclick reaction to expand / contract this sublist
-        holder.itemView.clTapExpand.setOnClickListener {
+        holder.binding.clTapExpand.setOnClickListener {
             val newState: Boolean = shoppingListInstance.flipExpansionState(holder.tag)!!
             //if the item gets expanded and the setting says to only expand one
             if (newState && ShoppingFr.expandOne) {
@@ -433,7 +424,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         }
 
         //long click listener on clTapExpand to ensure shake animation for long click on whole category holder
-        holder.itemView.clTapExpand.setOnLongClickListener {
+        holder.binding.clTapExpand.setOnLongClickListener {
             if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
@@ -442,7 +433,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         }
 
 
-        holder.tvNumberOfItems.setOnClickListener {
+        holder.binding.tvNumberOfItems.setOnClickListener {
             //get new checked state of all items (result)
             val newAllChecked = shoppingListInstance.equalizeCheckedStates(tag)
             if (collapseCheckedSublists) {
@@ -535,17 +526,17 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
             if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
 
             //set category background
-            holder.cvCategory.background = myGradientDrawable
+            holder.binding.cvCategory.background = myGradientDrawable
 
             //set text colors to white
-            holder.tvCategoryName.setTextColor(colorCategory)
-            holder.tvNumberOfItems.setTextColor(colorOnBackground)
+            holder.binding.tvCategoryName.setTextColor(colorCategory)
+            holder.binding.tvNumberOfItems.setTextColor(colorOnBackground)
 
             //display number of unchecked items
-            holder.tvNumberOfItems.text = numberOfItems.toString()
+            holder.binding.tvNumberOfItems.text = numberOfItems.toString()
 
             //hide checkMark
-            holder.itemView.ivCheckMark.visibility = View.GONE
+            holder.binding.ivCheckMark.visibility = View.GONE
         } else {
             //get title color
             val colorTitle =
@@ -565,16 +556,16 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
             if (round) myGradientDrawable.cornerRadii = floatArrayOf(cr, cr, cr, cr, cr, cr, cr, cr)
 
             //set background for checked category
-            holder.cvCategory.background = myGradientDrawable
+            holder.binding.cvCategory.background = myGradientDrawable
 
             //hint text color for checked category
-            holder.tvCategoryName.setTextColor(colorTitle)
+            holder.binding.tvCategoryName.setTextColor(colorTitle)
 
             //clear text displaying number of items
-            holder.tvNumberOfItems.text = ""
+            holder.binding.tvNumberOfItems.text = ""
 
             //show checkMark
-            holder.itemView.ivCheckMark.visibility = View.VISIBLE
+            holder.binding.ivCheckMark.visibility = View.VISIBLE
         }
     }
 
@@ -589,12 +580,9 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
      * one instance of this class will contain one instance of row_category and meta data like
      * position also holds references to views inside the layout
      */
-    class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class CategoryViewHolder(rowCategoryBinding: RowCategoryBinding) : RecyclerView.ViewHolder(rowCategoryBinding.root) {
         lateinit var tag: String
-        val tvCategoryName: TextView = itemView.tvCategoryName
-        var subRecyclerView: RecyclerView = itemView.subRecyclerView
-        val cvCategory: CardView = itemView.cvCategory
-        val tvNumberOfItems: TextView = itemView.tvNumberOfItems
+        val binding = rowCategoryBinding
     }
 }
 
@@ -622,18 +610,17 @@ class SublistAdapter(
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_item, parent, false)
-        return ItemViewHolder(itemView)
+        val rowItemBinding = RowItemBinding.inflate(LayoutInflater.from(parent.context))
+        return ItemViewHolder(rowItemBinding)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         //longClickListener on item to ensure shake animation for category
-        holder.itemView.setOnLongClickListener {
+        holder.binding.root.setOnLongClickListener {
             if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
-            parentHolder.itemView.startAnimation(animationShake)
+            parentHolder.binding.root.startAnimation(animationShake)
             true
         }
 
@@ -642,17 +629,17 @@ class SublistAdapter(
         val item = myFragment.shoppingListInstance.getItem(tag, position)!!
 
         if (myFragment.query != null && !myFragment.getItemVisibility(item)) {
-            holder.itemView.layoutParams.height = 0
-            val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+            holder.binding.root.layoutParams.height = 0
+            val params = holder.binding.root.layoutParams as ViewGroup.MarginLayoutParams
             params.setMargins(0, 0, 0, 0)
             return
         }
-        holder.itemView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        val params = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
+        holder.binding.root.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        val params = holder.binding.root.layoutParams as ViewGroup.MarginLayoutParams
         val margin = (density * 4).toInt()
         params.setMargins(margin, margin, margin, margin)
         //manage onClickListener to edit item
-        holder.itemView.setOnClickListener {
+        holder.binding.root.setOnClickListener {
             myFragment.myMultiShoppingFr.editTag = tag
             myFragment.myMultiShoppingFr.editPos = position
             myFragment.myMultiShoppingFr.openEditItemDialog(item)
@@ -662,10 +649,10 @@ class SublistAdapter(
         holder.tag = tag
 
         //initialize checkbox
-        holder.itemView.cbItem.isChecked = item.checked
+        holder.binding.cbItem.isChecked = item.checked
 
         //initialize text
-        holder.itemView.tvItemTitle.text = when (item.amount == "") {
+        holder.binding.tvItemTitle.text = when (item.amount == "") {
             true -> item.name
             else ->
                 myActivity.getString(
@@ -678,8 +665,8 @@ class SublistAdapter(
 
         //initialize text / background color and strike through flag
         if (item.checked) {
-            holder.itemView.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.itemView.tvItemTitle
+            holder.binding.tvItemTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            holder.binding.tvItemTitle
                 .setTextColor(
                     myActivity.colorForAttr(R.attr.colorHint)
                 )
@@ -694,8 +681,8 @@ class SublistAdapter(
 
         } else {
             //white and no strike through otherwise
-            holder.itemView.tvItemTitle.paintFlags = 0
-            holder.itemView.tvItemTitle
+            holder.binding.tvItemTitle.paintFlags = 0
+            holder.binding.tvItemTitle
                 .setTextColor(
                     myActivity.colorForAttr(R.attr.colorOnBackGround)
                 )
@@ -717,7 +704,7 @@ class SublistAdapter(
 
 
         //Onclick Listener for checkBox
-        holder.itemView.clItemTapfield.setOnClickListener {
+        holder.binding.clItemTapfield.setOnClickListener {
 
             //flip checkedState of item and save new position (flipItemCheckedState sorts list and returns new position)
             val newPosition = myFragment.shoppingListInstance.flipItemCheckedState(
@@ -769,7 +756,7 @@ class SublistAdapter(
             myFragment.myMultiShoppingFr.updateShoppingMenu()
         }
 
-        holder.itemView.clItemTapfield.setOnLongClickListener {
+        holder.binding.clItemTapfield.setOnLongClickListener {
             if (myFragment.myMultiShoppingFr.searching) return@setOnLongClickListener true
             val animationShake =
                 AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
@@ -786,10 +773,11 @@ class SublistAdapter(
     one instance of this class will contain one instance of row_item and meta data like position
     also holds references to views inside the layout
      */
-    class ItemViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    class ItemViewHolder(rowItemBinding: RowItemBinding) :
+        RecyclerView.ViewHolder(rowItemBinding.root) {
 
         lateinit var tag: String
+        var binding = rowItemBinding
     }
 }
 
