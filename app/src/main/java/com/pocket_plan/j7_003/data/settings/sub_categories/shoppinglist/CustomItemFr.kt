@@ -2,7 +2,12 @@ package com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,17 +19,19 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
-import kotlinx.android.synthetic.main.fragment_custom_items.view.*
-import kotlinx.android.synthetic.main.row_custom_item.view.*
-import kotlinx.android.synthetic.main.row_task.view.tvName
+import com.pocket_plan.j7_003.databinding.FragmentCustomItemsBinding
+import com.pocket_plan.j7_003.databinding.RowCustomItemBinding
 
 class CustomItemFr : Fragment() {
+    private var _fragmentBinding: FragmentCustomItemsBinding? = null
+    private val fragmentBinding get() = _fragmentBinding!!
+
     private lateinit var myShoppingFr: MultiShoppingFr
 
     private lateinit var myActivity: MainActivity
     private lateinit var myMenu: Menu
 
-    companion object{
+    companion object {
         lateinit var myFragment: CustomItemFr
         lateinit var myAdapter: CustomItemAdapter
         lateinit var myRecycler: RecyclerView
@@ -33,15 +40,14 @@ class CustomItemFr : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _fragmentBinding = FragmentCustomItemsBinding.inflate(inflater, container, false)
 
         myActivity = activity as MainActivity
         myShoppingFr = myActivity.getFragment(FT.SHOPPING) as MultiShoppingFr
 
-        val myView = inflater.inflate(R.layout.fragment_custom_items, container, false)
-        myRecycler = myView.recycler_view_customItems
+        myRecycler = fragmentBinding.recyclerViewCustomItems
         myFragment = this
         deletedItem = null
 
@@ -54,32 +60,41 @@ class CustomItemFr : Fragment() {
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
 
-        val swipeHelperLeft = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.LEFT, myShoppingFr, myActivity))
+        val swipeHelperLeft = ItemTouchHelper(
+            SwipeToDeleteCustomItem(
+                ItemTouchHelper.LEFT, myActivity
+            )
+        )
         swipeHelperLeft.attachToRecyclerView(myRecycler)
-        val swipeHelperRight = ItemTouchHelper(SwipeToDeleteCustomItem(ItemTouchHelper.RIGHT, myShoppingFr, myActivity))
+        val swipeHelperRight = ItemTouchHelper(
+            SwipeToDeleteCustomItem(
+                ItemTouchHelper.RIGHT, myActivity
+            )
+        )
         swipeHelperRight.attachToRecyclerView(myRecycler)
 
-        return myView
+        return fragmentBinding.root
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-           R.id.item_custom_clear -> {
-               val action : () -> Unit = {
-                   //remove user items from itemNameList and update act adapter so they
-                   //don't show up in the add item dialog anymore
-                   myActivity.userItemTemplateList.clear()
-                   myActivity.userItemTemplateList.save()
-                   myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
-                   myAdapter.notifyDataSetChanged()
-                   updateClearCustomListIcon()
-               }
-               val titleId = R.string.settingsCustomClearDialog
-               myActivity.dialogConfirm(titleId, action)
-           }
+        when (item.itemId) {
+            R.id.item_custom_clear -> {
+                val action: () -> Unit = {
+                    //remove user items from itemNameList and update act adapter so they
+                    //don't show up in the add item dialog anymore
+                    myActivity.userItemTemplateList.clear()
+                    myActivity.userItemTemplateList.save()
+                    myActivity.multiShoppingFr.refreshItemNamesAndAutoCompleteAdapter()
+                    myAdapter.notifyDataSetChanged()
+                    updateClearCustomListIcon()
+                }
+                val titleId = R.string.settingsCustomClearDialog
+                myActivity.dialogConfirm(titleId, action)
+            }
+
             R.id.item_custom_undo -> {
                 //Return if deletedItem = null, this should never happen
-                if(deletedItem == null) return true
+                if (deletedItem == null) return true
                 //Re-Add item to userItemTemplateList
                 myActivity.userItemTemplateList.add(deletedItem!!)
                 myActivity.userItemTemplateList.save()
@@ -100,11 +115,11 @@ class CustomItemFr : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    fun updateClearCustomListIcon(){
-       myMenu.findItem(R.id.item_custom_clear).isVisible = myActivity.userItemTemplateList.size > 0
+    fun updateClearCustomListIcon() {
+        myMenu.findItem(R.id.item_custom_clear).isVisible = myActivity.userItemTemplateList.size > 0
     }
 
-    fun updateUndoCustomIcon(){
+    fun updateUndoCustomIcon() {
         myMenu.findItem(R.id.item_custom_undo).isVisible = deletedItem != null
     }
 
@@ -119,13 +134,14 @@ class CustomItemFr : Fragment() {
 
 }
 
-class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val myActivity: MainActivity): ItemTouchHelper
-.SimpleCallback(0, direction){
+class SwipeToDeleteCustomItem(direction: Int, val myActivity: MainActivity) :
+    ItemTouchHelper.SimpleCallback(0, direction) {
 
-    private val myShoppingFr = shoppingFr
-
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
         return false
     }
 
@@ -152,7 +168,7 @@ class SwipeToDeleteCustomItem(direction: Int, shoppingFr: MultiShoppingFr, val m
 }
 
 class CustomItemAdapter(val myActivity: MainActivity) :
-    RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>(){
+    RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>() {
 
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
@@ -160,9 +176,8 @@ class CustomItemAdapter(val myActivity: MainActivity) :
     override fun getItemCount() = myActivity.userItemTemplateList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomItemViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_custom_item, parent, false)
-        return CustomItemViewHolder(itemView)
+        val rowCustomItemBinding = RowCustomItemBinding.inflate(LayoutInflater.from(parent.context))
+        return CustomItemViewHolder(rowCustomItemBinding)
     }
 
 
@@ -170,27 +185,31 @@ class CustomItemAdapter(val myActivity: MainActivity) :
     override fun onBindViewHolder(holder: CustomItemViewHolder, position: Int) {
 
 
-        if(round){
-            holder.itemView.cvCustom.radius = cr
+        if (round) {
+            holder.binding.cvCustom.radius = cr
         }
 
         val currentItem = myActivity.userItemTemplateList[holder.bindingAdapterPosition]
         holder.myItem = currentItem
 
         //show name
-        holder.itemView.tvName.text = currentItem.n
+        holder.binding.tvName.text = currentItem.n
 
         //show category
         val id = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
         val catText = myActivity.resources.getStringArray(R.array.categoryNames)[id]
-        holder.itemView.tvCategory.text = myActivity.getString(R.string.settingsCustomCategory) + ":  " + catText
+        holder.binding.tvCategory.text =
+            myActivity.getString(R.string.settingsCustomCategory) + ":  " + catText
 
         //show unit
-        holder.itemView.tvUnit.text = myActivity.getString(R.string.settingsCustomUnit) + ": " + currentItem.s
+        holder.binding.tvUnit.text =
+            myActivity.getString(R.string.settingsCustomUnit) + ": " + currentItem.s
 
     }
 
-    class CustomItemViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView){
+    class CustomItemViewHolder(rowCustomItemBinding: RowCustomItemBinding) :
+        RecyclerView.ViewHolder(rowCustomItemBinding.root) {
         lateinit var myItem: ItemTemplate
+        var binding = rowCustomItemBinding
     }
 }

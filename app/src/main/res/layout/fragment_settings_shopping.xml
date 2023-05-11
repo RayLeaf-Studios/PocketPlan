@@ -129,12 +129,12 @@
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/swMoveCheckedToBottom"
+                    app:layout_constraintEnd_toStartOf="@+id/swMoveCheckedCategoriesDown"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/swMoveCheckedToBottom"
+                    android:id="@+id/swMoveCheckedCategoriesDown"
                     app:layout_constraintTop_toTopOf="@id/tvMoveCheckedToBottom"
                     app:layout_constraintBottom_toBottomOf="@id/tvMoveCheckedToBottom"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -197,7 +197,7 @@
                     android:text="@string/settingsShoppingImprovedSearch"
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
-                    app:layout_constraintEnd_toStartOf="@+id/swSuggestSimilar"
+                    app:layout_constraintEnd_toStartOf="@+id/swSuggestSimilarItems"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -213,7 +213,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvSuggestSimilarItems" />
 
                 <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/swSuggestSimilar"
+                    android:id="@+id/swSuggestSimilarItems"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"

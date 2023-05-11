@@ -10,15 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import kotlinx.android.synthetic.main.fragment_settings_how_to.view.*
-import kotlinx.android.synthetic.main.row_howto.view.*
-import kotlinx.android.synthetic.main.row_howto_cat.view.*
+import com.pocket_plan.j7_003.databinding.FragmentSettingsHowToBinding
+import com.pocket_plan.j7_003.databinding.RowHowtoBinding
+import com.pocket_plan.j7_003.databinding.RowHowtoCatBinding
 
 class HowToCategory(val nameId: Int, val iconId: Int, val elements: ArrayList<HowToElement>){}
 
 class HowToElement(val subNameId: Int, val explanationId: Int, var expanded: Boolean = false){}
 
 class SettingsHowTo : Fragment() {
+
+    private var _fragmentSettingsHowToBinding: FragmentSettingsHowToBinding? = null
+    private val fragmentSettingsHowToBinding: FragmentSettingsHowToBinding = _fragmentSettingsHowToBinding!!
 
     lateinit var myAdapter: HowToAdapter
     lateinit var myActivity: MainActivity
@@ -61,10 +64,10 @@ class SettingsHowTo : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         myActivity = activity as MainActivity
-        val myView = inflater.inflate(R.layout.fragment_settings_how_to, container, false)
-        val myRecycler = myView.recycler_view_howto
+        _fragmentSettingsHowToBinding = FragmentSettingsHowToBinding.inflate(inflater, container, false)
+        val myRecycler = fragmentSettingsHowToBinding.recyclerViewHowto
 
         myAdapter = HowToAdapter(this, myActivity)
         myRecycler.adapter = myAdapter
@@ -73,7 +76,7 @@ class SettingsHowTo : Fragment() {
         myRecycler.setHasFixedSize(true)
 
         // Inflate the layout for this fragment
-        return myView
+        return fragmentSettingsHowToBinding.root
     }
 }
 
@@ -84,28 +87,29 @@ class HowToAdapter(private val myFragment: SettingsHowTo, val myActivity: MainAc
     RecyclerView.Adapter<HowToAdapter.HowToViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HowToViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_howto_cat, parent, false)
-        return HowToViewHolder(itemView)
+        val rowHowtoCatBinding = RowHowtoCatBinding.inflate(LayoutInflater.from(parent.context))
+        return HowToViewHolder(rowHowtoCatBinding)
     }
 
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: HowToViewHolder, position: Int) {
         val category = myFragment.howToList[position]
 
-        val subRecyclerView = holder.itemView.subRecyclerViewHowTo
+        val subRecyclerView = holder.binding.subRecyclerViewHowTo
         val subAdapter = SubHowToAdapter(myFragment, category, myActivity)
         subRecyclerView.layoutManager = LinearLayoutManager(myActivity)
         subRecyclerView.adapter = subAdapter
 
-        holder.itemView.tvCategoryHowTo.text = myActivity.getString(category.nameId)
-        holder.itemView.ivHowToCategory.setImageResource(category.iconId)
-        holder.itemView.cvCategory.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorHint))
+        holder.binding.tvCategoryHowTo.text = myActivity.getString(category.nameId)
+        holder.binding.ivHowToCategory.setImageResource(category.iconId)
+        holder.binding.cvCategory.setCardBackgroundColor(myActivity.colorForAttr(R.attr.colorHint))
     }
 
     override fun getItemCount() = myFragment.howToList.size
 
-    class HowToViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class HowToViewHolder(rowHowtoCatBinding: RowHowtoCatBinding) : RecyclerView.ViewHolder(rowHowtoCatBinding.root) {
+        var binding = rowHowtoCatBinding
+    }
 }
 /**
  * SUB ADAPTER
@@ -114,9 +118,8 @@ class SubHowToAdapter(private val myFragment: SettingsHowTo, val category: HowTo
     RecyclerView.Adapter<SubHowToAdapter.SubHowToViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubHowToViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_howto, parent, false)
-        return SubHowToViewHolder(itemView)
+        val rowHowtoBinding = RowHowtoBinding.inflate(LayoutInflater.from(parent.context))
+        return SubHowToViewHolder(rowHowtoBinding)
     }
 
     @SuppressLint("InflateParams")
@@ -128,23 +131,23 @@ class SubHowToAdapter(private val myFragment: SettingsHowTo, val category: HowTo
         val itemExpanded = item.expanded
 
         //set the contents to the text fields
-        holder.itemView.tvHowToSubTitle.text = itemName
-        holder.itemView.tvHowToExplanation.text = itemExplanation
+        holder.binding.tvHowToSubTitle.text = itemName
+        holder.binding.tvHowToExplanation.text = itemExplanation
 
         //show howto element content, depending on expansion state
-        holder.itemView.tvHowToExplanation.visibility = when(itemExpanded){
+        holder.binding.tvHowToExplanation.visibility = when(itemExpanded){
             true -> View.VISIBLE
             else -> View.GONE
         }
 
         //Flip expansion arrow to show expansion state of category
-        holder.itemView.ivExpand.rotation = when (itemExpanded) {
+        holder.binding.ivExpand.rotation = when (itemExpanded) {
             true -> 180f
             else -> 0f
         }
 
         //Onclick listener to expand howto element
-        holder.itemView.setOnClickListener {
+        holder.binding.root.setOnClickListener {
             category.elements[position].expanded++
             myFragment.myAdapter.notifyItemChanged(myFragment.howToList.indexOf(category))
         }
@@ -152,7 +155,9 @@ class SubHowToAdapter(private val myFragment: SettingsHowTo, val category: HowTo
 
     override fun getItemCount() = category.elements.size
 
-    class SubHowToViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class SubHowToViewHolder(itemViewBinding: RowHowtoBinding) : RecyclerView.ViewHolder(itemViewBinding.root) {
+        var binding = itemViewBinding
+    }
 }
 //Override for boolean inc function, to flip it using ++
 operator fun Boolean.inc() = !this

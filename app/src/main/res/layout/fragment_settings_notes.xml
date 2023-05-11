@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
-                android:id="@+id/spEditorFontsize"
+                android:id="@+id/spEditorFontSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -86,7 +86,7 @@
                     android:textColor="?attr/colorOnBackGround"
                     android:textSize="@dimen/font_size_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/swRandomizeColors"
+                    app:layout_constraintEnd_toStartOf="@+id/swRandomizeNoteColors"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_marginEnd="3dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/swRandomizeColors"
+                    android:id="@+id/swRandomizeNoteColors"
                     app:layout_constraintTop_toTopOf="@id/tvRandomize"
                     app:layout_constraintBottom_toBottomOf="@id/tvRandomize"
                     app:layout_constraintEnd_toEndOf="parent"/>

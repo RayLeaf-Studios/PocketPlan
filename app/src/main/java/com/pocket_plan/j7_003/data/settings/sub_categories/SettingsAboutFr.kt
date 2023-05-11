@@ -8,23 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.App
-import com.pocket_plan.j7_003.R
-import kotlinx.android.synthetic.main.fragment_settings_about.view.*
+import com.pocket_plan.j7_003.databinding.FragmentSettingsAboutBinding
 
 class SettingsAboutFr : Fragment() {
 
+    private var _fragmentSettingsAboutBinding: FragmentSettingsAboutBinding? = null
+    private val fragmentSettingsAboutBinding get() = _fragmentSettingsAboutBinding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val myView = inflater.inflate(R.layout.fragment_settings_about, container, false)
-        myView.clGithubLink.setOnClickListener {
+    ): View {
+        _fragmentSettingsAboutBinding = FragmentSettingsAboutBinding.inflate(inflater, container, false)
+
+        fragmentSettingsAboutBinding.clGithubLink.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/RayLeaf-Studios/PocketPlan"))
             startActivity(intent)
         }
 
-        myView.tvStudioMail.setOnClickListener {
+        fragmentSettingsAboutBinding.tvStudioMail.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/mail"
             //shareIntent.flags = Intent.CATEGORY_APP_EMAIL
@@ -33,8 +34,8 @@ class SettingsAboutFr : Fragment() {
 
         //display current version name
         val versionString = "v "+ App.instance.packageManager.getPackageInfo(App.instance.packageName, 0).versionName
-        myView.tvVersionAbout.text = versionString
-        return myView
+        fragmentSettingsAboutBinding.tvVersionAbout.text = versionString
+        return fragmentSettingsAboutBinding.root
     }
 
 }

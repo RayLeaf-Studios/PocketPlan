@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.settings
 
-import java.util.*
+import java.util.Locale
+
 
 enum class SettingId(val default: Any) {
     EXPAND_ONE_CATEGORY(false),
