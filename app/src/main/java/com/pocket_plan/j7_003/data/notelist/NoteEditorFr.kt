@@ -5,11 +5,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -19,25 +24,22 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import kotlinx.android.synthetic.main.dialog_add_note_folder.view.*
-import kotlinx.android.synthetic.main.dialog_choose_color.view.btnBlue
-import kotlinx.android.synthetic.main.dialog_choose_color.view.btnGreen
-import kotlinx.android.synthetic.main.dialog_choose_color.view.btnPurple
-import kotlinx.android.synthetic.main.dialog_choose_color.view.btnRed
-import kotlinx.android.synthetic.main.dialog_choose_color.view.btnYellow
-import kotlinx.android.synthetic.main.dialog_discard_note_edit.view.*
-import kotlinx.android.synthetic.main.fragment_note_editor.*
-import kotlinx.android.synthetic.main.fragment_note_editor.view.*
-import kotlinx.android.synthetic.main.title_dialog.view.*
+import com.pocket_plan.j7_003.databinding.DialogChooseColorBinding
+import com.pocket_plan.j7_003.databinding.DialogDiscardNoteEditBinding
+import com.pocket_plan.j7_003.databinding.DialogMoveNoteBinding
+import com.pocket_plan.j7_003.databinding.FragmentNoteEditorBinding
+import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import kotlin.random.Random
 
 
 class NoteEditorFr : Fragment() {
 
+    private var _fragmentBinding: FragmentNoteEditorBinding? = null
+    private val fragmentBinding get() = _fragmentBinding!!
+
     private lateinit var myActivity: MainActivity
     private lateinit var myNoteFr: NoteFr
-    private lateinit var myEtTitle: EditText
-    private lateinit var myEtContent: EditText
+
     private var dialogOpened = false
 
     private val archiveDeletedNotes = SettingsManager.getSetting(SettingId.NOTES_ARCHIVE) as Boolean
@@ -56,22 +58,19 @@ class NoteEditorFr : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        _fragmentBinding = FragmentNoteEditorBinding.inflate(inflater, container, false)
         myActivity = activity as MainActivity
         myNoteFr = myActivity.getFragment(FT.NOTES) as NoteFr
 
 
-        val myView = inflater.inflate(R.layout.fragment_note_editor, container, false)
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
 
-        myEtTitle = myView.etNoteTitle
-        myEtContent = myView.etNoteContent
-
         val fontSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim().toFloat()
 
-        myEtTitle.textSize = fontSize + 4
-        myEtContent.textSize = fontSize
+        fragmentBinding.etNoteTitle.textSize = fontSize + 4
+        fragmentBinding.etNoteContent.textSize = fontSize
 
         /**
          * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when = noteFr
@@ -80,34 +79,31 @@ class NoteEditorFr : Fragment() {
 
         if (NoteFr.editNoteHolder != null) {
             if(NoteFr.displayContent != "" || NoteFr.displayTitle != ""){
-                myEtContent.setText(NoteFr.displayContent)
-                myEtTitle.setText(NoteFr.displayTitle)
+                fragmentBinding.etNoteContent.setText(NoteFr.displayContent)
+                fragmentBinding.etNoteTitle.setText(NoteFr.displayTitle)
                 NoteFr.displayTitle = ""
                 NoteFr.displayContent = ""
             }else{
-                myEtTitle.setText(NoteFr.editNoteHolder!!.title)
-                myEtContent.setText(NoteFr.editNoteHolder!!.content)
+                fragmentBinding.etNoteTitle.setText(NoteFr.editNoteHolder!!.title)
+                fragmentBinding.etNoteContent.setText(NoteFr.editNoteHolder!!.content)
             }
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, NoteFr.editNoteHolder!!.content!!.trim()).apply()
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, NoteFr.editNoteHolder!!.title.trim()).apply()
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.values().indexOf(NoteFr.editNoteHolder!!.color)).apply()
-            myEtTitle.clearFocus()
+            fragmentBinding.etNoteTitle.clearFocus()
         } else {
             //Empty editNoteContent to signal we are adding a new note
-            myView.etNoteTitle.setText("")
-            myView.etNoteContent.setText("")
+            fragmentBinding.etNoteTitle.setText("")
+            fragmentBinding.etNoteContent.setText("")
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.values().indexOf(
                 noteColor)).apply()
-            myEtContent.requestFocus()
-            imm.toggleSoftInput(
-                InputMethodManager.HIDE_IMPLICIT_ONLY,
-                InputMethodManager.SHOW_FORCED
-            )
+            fragmentBinding.etNoteContent.requestFocus()
+            imm.showSoftInput(fragmentBinding.etNoteContent, InputMethodManager.SHOW_IMPLICIT)
         }
 
-        return myView
+        return fragmentBinding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,8 +144,8 @@ class NoteEditorFr : Fragment() {
                 if (noteContent == "" && noteTitle.trim() == "") {
                     val animationShake =
                         AnimationUtils.loadAnimation(myActivity, R.anim.shake_small)
-                    etNoteContent.startAnimation(animationShake)
-                    etNoteTitle.startAnimation(animationShake)
+                    fragmentBinding.etNoteContent.startAnimation(animationShake)
+                    fragmentBinding.etNoteTitle.startAnimation(animationShake)
                     return true
                 }
                 //act as check mark to add / confirm note edit
@@ -243,11 +239,11 @@ class NoteEditorFr : Fragment() {
     }
 
     fun getEditorContent(): String{
-        return etNoteContent.text.toString().trim()
+        return fragmentBinding.etNoteContent.text.toString().trim()
     }
 
     fun getEditorTitle(): String{
-        return etNoteTitle.text.toString().trim()
+        return fragmentBinding.etNoteTitle.text.toString().trim()
     }
 
     fun getNoteColor(): Int {
@@ -286,17 +282,14 @@ class NoteEditorFr : Fragment() {
         }
         dialogOpened = true
 
-        val myDialogView = LayoutInflater.from(myActivity).inflate(
-            R.layout.dialog_discard_note_edit,
-            null
-        )
+        val dialogDiscardNoteEdit = DialogDiscardNoteEditBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
         val myBuilder =
-            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val customTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = resources.getText(R.string.noteDiscardDialogTitle)
-        myBuilder?.setCustomTitle(customTitle)
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(dialogDiscardNoteEdit.root) }
+        val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        titleDialogBinding.tvDialogTitle.text = resources.getText(R.string.noteDiscardDialogTitle)
+        myBuilder?.setCustomTitle(titleDialogBinding.root)
 
         val myAlertDialog = myBuilder?.create()
         myAlertDialog?.show()
@@ -305,7 +298,7 @@ class NoteEditorFr : Fragment() {
             dialogOpened = false
         }
 
-        myDialogView.btnDiscardChanges.setOnClickListener {
+        dialogDiscardNoteEdit.btnDiscardChanges.setOnClickListener {
             if (fragmentTag != MainActivity.previousFragmentStack.pop() && fragmentTag != FT.EMPTY) {
                 MainActivity.previousFragmentStack.push(fragmentTag)
             }
@@ -314,7 +307,7 @@ class NoteEditorFr : Fragment() {
             myAlertDialog?.dismiss()
             myActivity.changeToFragment(MainActivity.previousFragmentStack.peek())
         }
-        myDialogView.btnSaveChanges.setOnClickListener {
+        dialogDiscardNoteEdit.btnSaveChanges.setOnClickListener {
             if (fragmentTag != MainActivity.previousFragmentStack.pop() && fragmentTag != FT.EMPTY) {
                 MainActivity.previousFragmentStack.push(fragmentTag)
             }
@@ -351,15 +344,14 @@ class NoteEditorFr : Fragment() {
 
     private fun dialogMoveNote(){
         //inflate the dialog with custom view
-        val myDialogView =
-            LayoutInflater.from(myActivity).inflate(R.layout.dialog_move_note, null)
+        val dialogMoveNoteBinding = DialogMoveNoteBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
         val myBuilder =
-            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(myDialogView) }
-        val customTitle = myActivity.layoutInflater.inflate(R.layout.title_dialog, null)
-        customTitle.tvDialogTitle.text = myActivity.getString(R.string.notesConfirmMove)
-        myBuilder?.setCustomTitle(customTitle)
+            myActivity.let { it1 -> AlertDialog.Builder(it1).setView(dialogMoveNoteBinding.root) }
+        val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        titleDialogBinding.tvDialogTitle.text = myActivity.getString(R.string.notesConfirmMove)
+        myBuilder?.setCustomTitle(titleDialogBinding.root)
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
@@ -367,7 +359,7 @@ class NoteEditorFr : Fragment() {
         myAlertDialog?.show()
 
 
-        val spFolderPaths = myDialogView.spFolderPaths
+        val spFolderPaths = dialogMoveNoteBinding.spFolderPaths
         val paths = myNoteFr.noteListDirs.getSuperordinatePaths(NoteFr.editNoteHolder!!, getString(R.string.menuTitleNotes))
         val spFolderAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
@@ -381,7 +373,7 @@ class NoteEditorFr : Fragment() {
         spFolderPaths.setSelection(currentParentFolderIndex)
 
 
-        myDialogView.btnAddNoteFolder.setOnClickListener {
+        dialogMoveNoteBinding.btnAddNoteFolder.setOnClickListener {
             val moveResult = myNoteFr.noteListDirs.moveDir(NoteFr.editNoteHolder!!, spFolderPaths.selectedItemPosition)
             NoteFr.myAdapter.notifyDataSetChanged()
             val moveMessage = when(moveResult){
@@ -392,7 +384,7 @@ class NoteEditorFr : Fragment() {
             myAlertDialog?.dismiss()
         }
 
-        val cancelBtn = myDialogView.btnCancelNoteFolder
+        val cancelBtn = dialogMoveNoteBinding.btnCancelNoteFolder
         cancelBtn.setOnClickListener { myAlertDialog?.dismiss() }
 
 
@@ -401,13 +393,13 @@ class NoteEditorFr : Fragment() {
     @SuppressLint("InflateParams")
     private fun dialogColorChooser() {
         //inflate the dialog with custom view
-        val myDialogView = layoutInflater.inflate(R.layout.dialog_choose_color, null)
+        val dialogChooseColorBinding = DialogChooseColorBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
-        val myBuilder = AlertDialog.Builder(myActivity).setView(myDialogView)
-        val editTitle = layoutInflater.inflate(R.layout.title_dialog, null)
-        editTitle.tvDialogTitle.text = getString(R.string.menuTitleColorChoose)
-        myBuilder.setCustomTitle(editTitle)
+        val myBuilder = AlertDialog.Builder(myActivity).setView(dialogChooseColorBinding.root)
+        val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
+        titleDialogBinding.tvDialogTitle.text = getString(R.string.menuTitleColorChoose)
+        myBuilder.setCustomTitle(titleDialogBinding.root)
 
         //show dialog
         val myAlertDialog = myBuilder.create()
@@ -415,8 +407,8 @@ class NoteEditorFr : Fragment() {
         myAlertDialog.show()
 
         val buttonList = arrayOf(
-            myDialogView.btnRed, myDialogView.btnYellow,
-            myDialogView.btnGreen, myDialogView.btnBlue, myDialogView.btnPurple
+            dialogChooseColorBinding.btnRed, dialogChooseColorBinding.btnYellow,
+            dialogChooseColorBinding.btnGreen, dialogChooseColorBinding.btnBlue, dialogChooseColorBinding.btnPurple
         )
         /**
          * Onclick-listeners for every specific color button
