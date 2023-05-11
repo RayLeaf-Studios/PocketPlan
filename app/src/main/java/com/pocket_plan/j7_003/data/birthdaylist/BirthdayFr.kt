@@ -292,7 +292,6 @@ class BirthdayFr : Fragment() {
         )
 
         //inflate the dialog with custom view
-//        val myDialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_add_birthday, null)
         val myDialogBinding = DialogAddBirthdayBinding.inflate(layoutInflater)
 
         //initialize references to ui elements
