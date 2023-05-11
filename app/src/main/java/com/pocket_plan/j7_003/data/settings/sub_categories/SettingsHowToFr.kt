@@ -21,7 +21,7 @@ class HowToElement(val subNameId: Int, val explanationId: Int, var expanded: Boo
 class SettingsHowTo : Fragment() {
 
     private var _fragmentSettingsHowToBinding: FragmentSettingsHowToBinding? = null
-    private val fragmentSettingsHowToBinding: FragmentSettingsHowToBinding = _fragmentSettingsHowToBinding!!
+    private val fragmentSettingsHowToBinding get() = _fragmentSettingsHowToBinding!!
 
     lateinit var myAdapter: HowToAdapter
     lateinit var myActivity: MainActivity

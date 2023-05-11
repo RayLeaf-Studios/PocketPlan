@@ -96,19 +96,6 @@ class MultiShoppingFr : Fragment() {
         shoppingPager.setCurrentItem(startPage, false)
 
         //create and register onPageChangeCallback on shoppingPager
-        val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                deletedItems[currentpos] = activeDeletedItems
-                currentpos = position
-                activeShoppingFr = shoppingFragments[position]
-                activeShoppingFr.query = null
-                activeDeletedItems = deletedItems[position]
-                myActivity.myBtnAdd.visibility = View.VISIBLE
-                updateShoppingMenu()
-                tabLayout.selectTab(tabLayout.getTabAt(position))
-            }
-        }
-        shoppingPager.registerOnPageChangeCallback(pageChangeCallback)
 
         tabLayout = fragmentMultiShoppingBinding.tabLayout
         val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
@@ -167,8 +154,8 @@ class MultiShoppingFr : Fragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_shopping, menu)
         myMenu = menu
+        inflater.inflate(R.menu.menu_shopping, menu)
         myMenu.findItem(R.id.item_shopping_undo)?.icon?.setTint(myActivity.colorForAttr(R.attr.colorOnBackGround))
         updateShoppingMenu()
 
@@ -228,6 +215,21 @@ class MultiShoppingFr : Fragment() {
             //reload adapter dataSet
             activeShoppingFr.myAdapter.notifyDataSetChanged()
         }
+
+        val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                deletedItems[currentpos] = activeDeletedItems
+                currentpos = position
+                activeShoppingFr = shoppingFragments[position]
+                activeShoppingFr.query = null
+                activeDeletedItems = deletedItems[position]
+                myActivity.myBtnAdd.visibility = View.VISIBLE
+                updateShoppingMenu()
+                tabLayout.selectTab(tabLayout.getTabAt(position))
+            }
+        }
+        shoppingPager.registerOnPageChangeCallback(pageChangeCallback)
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 

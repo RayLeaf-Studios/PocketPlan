@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
+        drawerLayoutBinding = DrawerLayoutBinding.inflate(layoutInflater)
 
         //Initialize fragment stack that enables onBackPress behavior
         previousFragmentStack.clear()
@@ -187,7 +188,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
 
         //Initialize header and icon in side drawer, show current version name
-        drawerLayoutBinding = DrawerLayoutBinding.inflate(layoutInflater)
         val headerView = drawerLayoutBinding.navDrawer.getHeaderView(0)
         val headerBinding = HeaderNavigationDrawerBinding.bind(headerView)
         val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName

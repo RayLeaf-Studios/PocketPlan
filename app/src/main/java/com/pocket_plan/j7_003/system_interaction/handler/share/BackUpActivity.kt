@@ -3,6 +3,7 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -23,7 +24,7 @@ import java.io.File
 class BackUpActivity : AppCompatActivity() {
     private val eHandler = ExportHandler(this)
     private val iHandler = ImportHandler(this)
-    private val binding = FragmentSettingsBackupBinding.inflate(layoutInflater)
+    private lateinit var binding: FragmentSettingsBackupBinding
 
 
     /**
@@ -31,6 +32,7 @@ class BackUpActivity : AppCompatActivity() {
      * text and listeners for the logic.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = FragmentSettingsBackupBinding.inflate(layoutInflater)
         val toolbarBinding = ToolbarBinding.inflate(layoutInflater)
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
