@@ -87,7 +87,7 @@ class HowToAdapter(private val myFragment: SettingsHowTo, val myActivity: MainAc
     RecyclerView.Adapter<HowToAdapter.HowToViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HowToViewHolder {
-        val rowHowtoCatBinding = RowHowtoCatBinding.inflate(LayoutInflater.from(parent.context))
+        val rowHowtoCatBinding = RowHowtoCatBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HowToViewHolder(rowHowtoCatBinding)
     }
 
@@ -118,7 +118,7 @@ class SubHowToAdapter(private val myFragment: SettingsHowTo, val category: HowTo
     RecyclerView.Adapter<SubHowToAdapter.SubHowToViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubHowToViewHolder {
-        val rowHowtoBinding = RowHowtoBinding.inflate(LayoutInflater.from(parent.context))
+        val rowHowtoBinding = RowHowtoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SubHowToViewHolder(rowHowtoBinding)
     }
 

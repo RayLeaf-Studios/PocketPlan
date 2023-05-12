@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.pocket_plan.j7_003.MainActivity
@@ -31,7 +33,6 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.databinding.DialogAddNoteFolderBinding
 import com.pocket_plan.j7_003.databinding.FragmentNoteBinding
 import com.pocket_plan.j7_003.databinding.RowNoteBinding
-import com.pocket_plan.j7_003.databinding.RowNoteFixedSizeBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import java.util.Calendar
 import kotlin.random.Random
@@ -606,21 +607,51 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
     private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
 
+    private val density = myActivity.resources.displayMetrics.density
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     private val myNoteFr = noteFr
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val binding = when (myNoteFr.fixedNoteSize) {
-            true -> RowNoteFixedSizeBinding.inflate(LayoutInflater.from(parent.context))
-            false -> RowNoteBinding.inflate(LayoutInflater.from(parent.context))
-        }
-
-        return NoteViewHolder(binding as RowNoteBinding)
+        val binding = RowNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return NoteViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
+        if (myNoteFr.fixedNoteSize) {
+            // Adjust background cardView layout
+            holder.binding.cvNoteBg.layoutParams.height = 0
+            holder.binding.cvNoteBg.layoutParams.height = (density * 80).toInt()
+            val cardMarginParams = holder.binding.cvNoteBg.layoutParams as MarginLayoutParams
+            cardMarginParams.setMargins(
+                (5 * density).toInt(),
+                (5 * density).toInt(),
+                (5 * density).toInt(),
+                (5 * density).toInt()
+            )
+
+            // Adjust foreground cardView layout
+            holder.binding.cvNoteCard.layoutParams.height = LayoutParams.MATCH_PARENT
+
+            // Adjust content textView layout
+            holder.binding.tvNoteContent.layoutParams.height = 0
+            val tvContentMarginParams =
+                holder.binding.tvNoteContent.layoutParams as MarginLayoutParams
+            tvContentMarginParams.setMargins(0, 0, 0, (density * 10).toInt())
+            holder.binding.tvNoteContent.ellipsize = TextUtils.TruncateAt.END
+            holder.binding.tvNoteContent.maxLines = 1
+            holder.binding.tvNoteContent.canScrollHorizontally(1)
+            val tvContentConstraintParams =
+                holder.binding.tvNoteContent.layoutParams as ConstraintLayout.LayoutParams
+            tvContentConstraintParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+            holder.binding.tvNoteContent.setPadding(
+                (density * 10).toInt(),
+                (density * 6).toInt(),
+                (density * 10).toInt(),
+                0
+            )
+        }
 
         val currentNote = when (NoteFr.searching) {
             /**
@@ -837,16 +868,15 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
         return when (NoteFr.searching) {
             true -> NoteFr.searchResults.size
             false -> {
-                val result = myNoteFr.noteListDirs.getNoteObjCount()
-                return result
+                return myNoteFr.noteListDirs.getNoteObjCount()
             }
         }
     }
 
     //one instance of this class will contain one instance of row_task and meta data like position
     //also holds references to views inside the layout
-    class NoteViewHolder(view: RowNoteBinding) : ViewHolder(view.root) {
+    class NoteViewHolder(bind: RowNoteBinding) : ViewHolder(bind.root) {
         lateinit var noteObj: Note
-        val binding = view
+        val binding = bind
     }
 }

@@ -322,7 +322,7 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepViewHolder {
-        val rowSleepBinding = RowSleepBinding.inflate(LayoutInflater.from(parent.context))
+        val rowSleepBinding = RowSleepBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SleepViewHolder(rowSleepBinding)
     }
 

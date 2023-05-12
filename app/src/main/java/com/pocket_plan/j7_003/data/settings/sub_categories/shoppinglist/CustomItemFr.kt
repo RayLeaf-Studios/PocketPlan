@@ -176,7 +176,7 @@ class CustomItemAdapter(val myActivity: MainActivity) :
     override fun getItemCount() = myActivity.userItemTemplateList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomItemViewHolder {
-        val rowCustomItemBinding = RowCustomItemBinding.inflate(LayoutInflater.from(parent.context))
+        val rowCustomItemBinding = RowCustomItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CustomItemViewHolder(rowCustomItemBinding)
     }
 
