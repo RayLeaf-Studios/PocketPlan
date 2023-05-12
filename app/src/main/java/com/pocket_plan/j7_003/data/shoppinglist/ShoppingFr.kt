@@ -312,7 +312,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val density = myActivity.resources.displayMetrics.density
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val rowCategoryBinding = RowCategoryBinding.inflate(LayoutInflater.from(parent.context))
+        val rowCategoryBinding = RowCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CategoryViewHolder(rowCategoryBinding)
     }
 
@@ -610,7 +610,7 @@ class SublistAdapter(
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val rowItemBinding = RowItemBinding.inflate(LayoutInflater.from(parent.context))
+        val rowItemBinding = RowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(rowItemBinding)
     }
 

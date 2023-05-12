@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.notelist
 
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.TextUtils
@@ -76,12 +75,12 @@ class NoteFr : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         myActivity = (activity as MainActivity)
 
         //inflating layout for NoteFragment
-        val myView = inflater.inflate(R.layout.fragment_note, container, false)
+        _frBinding = FragmentNoteBinding.inflate(inflater)
 
         //reset deletedNote to signal no undo is possible
         deletedNote = null
@@ -95,7 +94,7 @@ class NoteFr : Fragment() {
 
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
-        return myView
+        return frBinding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -133,7 +132,7 @@ class NoteFr : Fragment() {
 
         //close listener to restore fragment to normal after search is finished
         val onCloseListener = SearchView.OnCloseListener {
-            myActivity.toolBar.title = getString(R.string.menuTitleNotes)
+            myActivity.toolbar.title = getString(R.string.menuTitleNotes)
             myActivity.myBtnAdd.visibility = View.VISIBLE
             searchView.onActionViewCollapsed()
             myActivity.setToolbarTitle(noteListDirs.getCurrentPathName(getString(R.string.menuTitleNotes)))
@@ -148,7 +147,7 @@ class NoteFr : Fragment() {
 //        onSearchCloseListener to refresh fragment once search is ended
         searchView.setOnSearchClickListener {
             myActivity.myBtnAdd.visibility = View.GONE
-            myActivity.toolBar.title = ""
+            myActivity.toolbar.title = ""
             searching = true
             setMenuAccessibility(false)
             updateNoteUndoIcon()

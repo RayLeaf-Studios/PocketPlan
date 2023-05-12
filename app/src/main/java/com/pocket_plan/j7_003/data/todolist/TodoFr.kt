@@ -386,7 +386,6 @@ class TodoFr : Fragment() {
         }
     }
 
-    @SuppressLint("InflateParams")
     fun dialogAddTask() {
         addTaskDialog.show()
         dialogAddTaskBinding.etTitleAddTask.requestFocus()
@@ -402,12 +401,11 @@ class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
-        val rowTaskBinding = RowTaskBinding.inflate(LayoutInflater.from(parent.context))
+        val rowTaskBinding = RowTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TodoTaskViewHolder(rowTaskBinding)
     }
 
 
-    @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: TodoTaskViewHolder, position: Int) {
 
         holder.binding.root.visibility = View.VISIBLE

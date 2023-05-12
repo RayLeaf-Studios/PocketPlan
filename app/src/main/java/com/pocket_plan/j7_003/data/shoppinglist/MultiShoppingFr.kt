@@ -189,7 +189,7 @@ class MultiShoppingFr : Fragment() {
         searchView.setOnCloseListener {
             myActivity.myBtnAdd.visibility = View.VISIBLE
             //reset title
-            myActivity.toolBar.title = getString(R.string.menuTitleShopping)
+            myActivity.toolbar.title = getString(R.string.menuTitleShopping)
             //collapse searchView
             searchView.onActionViewCollapsed()
             //signal that no search is being performed
@@ -205,7 +205,7 @@ class MultiShoppingFr : Fragment() {
         searchView.setOnSearchClickListener {
             myActivity.myBtnAdd.visibility = View.GONE
             //removes title from toolbar
-            myActivity.toolBar.title = ""
+            myActivity.toolbar.title = ""
             //sets searching to true, which results in the recyclerViewAdapter reading its elements from
             searching = true
             updateShoppingMenuForSearch()

@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -14,7 +13,6 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.databinding.FragmentSettingsBackupBinding
-import com.pocket_plan.j7_003.databinding.ToolbarBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.io.File
 
@@ -33,7 +31,6 @@ class BackUpActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = FragmentSettingsBackupBinding.inflate(layoutInflater)
-        val toolbarBinding = ToolbarBinding.inflate(layoutInflater)
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
             else -> R.style.AppThemeLight
@@ -43,8 +40,9 @@ class BackUpActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_settings_backup)
+        val toolBar = binding.tbBackup
 
-        setSupportActionBar(toolbarBinding.myNewToolbar)
+        setSupportActionBar(toolBar)
 
         //Spinner for single file export
         val spExportOneAdapter = ArrayAdapter(

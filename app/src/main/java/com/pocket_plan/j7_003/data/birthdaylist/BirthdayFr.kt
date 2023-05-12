@@ -120,7 +120,7 @@ class BirthdayFr : Fragment() {
         searchView.setOnCloseListener {
             myActivity.myBtnAdd.visibility = View.VISIBLE
             //reset title
-            myActivity.toolBar.title = getString(R.string.menuTitleBirthdays)
+            myActivity.toolbar.title = getString(R.string.menuTitleBirthdays)
             //collapse searchView
             searchView.onActionViewCollapsed()
             //signal that no search is being performed
@@ -137,7 +137,7 @@ class BirthdayFr : Fragment() {
         searchView.setOnSearchClickListener {
             myActivity.myBtnAdd.visibility = View.GONE
             //removes title from toolbar
-            myActivity.toolBar.title = ""
+            myActivity.toolbar.title = ""
             //sets searching to true, which results in the recyclerViewAdapter reading its elements from
             //adjusted list instead of birthdayList
             searching = true
@@ -1072,7 +1072,7 @@ class BirthdayAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
 //        val itemView =
 //            LayoutInflater.from(parent.context).inflate(R.layout.row_birthday, parent, false)
-        val rowBirthdayBinding = RowBirthdayBinding.inflate(LayoutInflater.from(parent.context))
+        val rowBirthdayBinding = RowBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BirthdayViewHolder(rowBirthdayBinding)
     }
 

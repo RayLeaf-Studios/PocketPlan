@@ -54,7 +54,6 @@ import com.pocket_plan.j7_003.databinding.DialogConfirmBinding
 import com.pocket_plan.j7_003.databinding.DrawerLayoutBinding
 import com.pocket_plan.j7_003.databinding.HeaderNavigationDrawerBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
-import com.pocket_plan.j7_003.databinding.ToolbarBinding
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import java.util.Locale
@@ -62,7 +61,7 @@ import java.util.Stack
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var toolbarBinding: ToolbarBinding
+    lateinit var toolbar: Toolbar
     private lateinit var drawerLayoutBinding: DrawerLayoutBinding
 
     private lateinit var mDrawerToggle: ActionBarDrawerToggle
@@ -76,7 +75,6 @@ class MainActivity : AppCompatActivity() {
     var todoFr: TodoFr? = null
 
     lateinit var titleDialogBinding: TitleDialogBinding
-    lateinit var toolBar: Toolbar
 
     lateinit var itemTemplateList: ItemTemplateList
     lateinit var userItemTemplateList: UserItemTemplateList
@@ -133,7 +131,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
-        drawerLayoutBinding = DrawerLayoutBinding.inflate(layoutInflater)
 
         //Initialize fragment stack that enables onBackPress behavior
         previousFragmentStack.clear()
@@ -171,6 +168,7 @@ class MainActivity : AppCompatActivity() {
 
         //create drawer_layout
         super.onCreate(savedInstanceState)
+        drawerLayoutBinding = DrawerLayoutBinding.inflate(layoutInflater)
         setContentView(drawerLayoutBinding.root)
 
         //IMPORTANT: ORDER IS CRITICAL HERE
@@ -180,9 +178,8 @@ class MainActivity : AppCompatActivity() {
         AlarmHandler.setBirthdayAlarms(time, context = this)
 
         //Initialize toolbar
-        toolbarBinding = ToolbarBinding.inflate(layoutInflater)
-        setSupportActionBar(toolbarBinding.myNewToolbar)
-        toolBar = toolbarBinding.myNewToolbar
+        toolbar = drawerLayoutBinding.tbMain
+        setSupportActionBar(toolbar)
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_action_menu)
@@ -548,7 +545,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         //Set the correct ActionbarTitle
-        toolbarBinding.myNewToolbar.title = when (fragmentTag) {
+        toolbar.title = when (fragmentTag) {
             FT.HOME -> resources.getText(R.string.menuTitleHome)
             FT.TASKS -> resources.getText(R.string.menuTitleTasks)
             FT.SETTINGS_ABOUT -> resources.getText(R.string.menuTitleAbout)
@@ -643,7 +640,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setToolbarTitle(msg: String) {
-        toolbarBinding.myNewToolbar.title = msg
+       toolbar.title = msg
     }
 
 
@@ -661,7 +658,7 @@ class MainActivity : AppCompatActivity() {
         //When in birthdayFragment and searching, close search and restore fragment to normal mode
         if (previousFragmentStack.peek() == FT.BIRTHDAYS && birthdayFr!!.searching) {
             myBtnAdd.visibility = View.VISIBLE
-            toolBar.title = getString(R.string.menuTitleBirthdays)
+            toolbar.title = getString(R.string.menuTitleBirthdays)
             birthdayFr!!.searchView.onActionViewCollapsed()
             birthdayFr!!.searching = false
             birthdayFr!!.updateBirthdayMenu()
@@ -673,7 +670,7 @@ class MainActivity : AppCompatActivity() {
         //When in noteFragment and searching, close search and restore fragment to normal mode
         if (previousFragmentStack.peek() == FT.NOTES && NoteFr.searching) {
             myBtnAdd.visibility = View.VISIBLE
-            toolBar.title = getString(R.string.menuTitleNotes)
+            toolbar.title = getString(R.string.menuTitleNotes)
             noteFr!!.searchView.onActionViewCollapsed()
             NoteFr.searching = false
             NoteFr.myAdapter.notifyDataSetChanged()

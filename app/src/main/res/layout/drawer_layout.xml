@@ -7,10 +7,19 @@
     android:background="?attr/colorBackground"
     android:layout_height="match_parent">
 
-    <include
-        android:layout_height="wrap_content"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        layout="@layout/toolbar"/>
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/tbMain"
+            app:title="My Drawer Ap"
+            app:popupTheme="@style/MyLightToolbarStyle"
+            android:background="?attr/colorBackgroundElevated"
+            app:titleTextColor="?attr/colorOnBackGround"
+            android:elevation="@dimen/elevation"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

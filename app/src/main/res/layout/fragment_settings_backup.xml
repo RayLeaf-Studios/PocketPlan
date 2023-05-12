@@ -13,6 +13,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 app:title="@string/settingsBackupTitle"
+                android:id="@+id/tbBackup"
                 android:background="?attr/colorBackgroundElevated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
