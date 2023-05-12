@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.MenuItem
@@ -98,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         val resources: Resources = activity.resources
         val config: Configuration = resources.configuration
         config.setLocale(locale)
+        // un-deprecating this will require minSDK 24 (Android 7)
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
@@ -187,7 +191,7 @@ class MainActivity : AppCompatActivity() {
         //Initialize header and icon in side drawer, show current version name
         val headerView = drawerLayoutBinding.navDrawer.getHeaderView(0)
         val headerBinding = HeaderNavigationDrawerBinding.bind(headerView)
-        val versionString = "v " + packageManager.getPackageInfo(packageName, 0).versionName
+        val versionString = "v " + packageManager.getPackageInfoCompat(packageName, 0).versionName
         headerBinding.tvVersion.text = versionString
 
         //Initialize adapters and necessary list instances
@@ -251,8 +255,7 @@ class MainActivity : AppCompatActivity() {
             if(handleTextViaIntent(intent)) changeToFragment(FT.NOTES)
         }
 
-
-        when (intent.extras?.get("NotificationEntry").toString()) {
+        when (intent.extras?.getString("NotificationEntry")) {
         "birthdays" -> changeToFragment(FT.BIRTHDAYS)
         "SReminder" -> changeToFragment(FT.HOME)
         "settings" -> changeToFragment(FT.SETTINGS)
@@ -386,6 +389,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
         }
         return false
+    }
+    private fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+    } else {
+        @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
     }
 
 
@@ -539,6 +548,7 @@ class MainActivity : AppCompatActivity() {
         //Set correct soft input mode
         this.window.setSoftInputMode(
             when (fragmentTag) {
+                // SOFT_INPUT_ADJUST_RESIZE is deprecated, if this is upgraded, min SDK would be lifted to 30 (Android 11)
                 FT.NOTE_EDITOR -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                 else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
             }
@@ -647,6 +657,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * OVERRIDE FUNCTIONS
      */
+    @Deprecated("Deprecated in Java")
     @SuppressLint("NotifyDataSetChanged")
     override fun onBackPressed() {
         //close drawer when its open
@@ -700,7 +711,7 @@ class MainActivity : AppCompatActivity() {
         previousFragmentStack.pop()
         if (previousFragmentStack.isNotEmpty() && previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())
-        } else super.onBackPressed()
+        } else onBackPressedDispatcher.onBackPressed()
     }
 
 
