@@ -11,7 +11,7 @@ import org.threeten.bp.LocalDate
  * A simple handler to manage the interaction of different objects
  * with a similar structure.
  */
-class BirthdayList(val monthNames: Array<String>) : ArrayList<Birthday>(), Checkable {
+class BirthdayList(private val monthNames: Array<String>) : ArrayList<Birthday>(), Checkable {
 
     init {
         StorageHandler.createJsonFile(StorageId.BIRTHDAYS)

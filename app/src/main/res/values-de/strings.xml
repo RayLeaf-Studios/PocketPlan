@@ -40,7 +40,6 @@
     <string name="generalClose">schließen</string>
     <string name="generalOk">OK</string>
     <string name="generalOpen">öffnen</string>
-    <string name="generalShowHowTo">Öffnen</string>
 
 <!--    home-->
     <string name="homeNoBirthdays">\nKeine Geburtstage heute\n</string>

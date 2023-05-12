@@ -14,7 +14,6 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -268,7 +267,7 @@ class NoteFr : Fragment() {
         var folderColor = editFolder.color
         myDialogBinding.etAddNoteFolder.setText(editFolder.title)
 
-        val btnList = arrayListOf<Button>(
+        val btnList = arrayListOf(
             myDialogBinding.btnRed,
             myDialogBinding.btnYellow,
             myDialogBinding.btnGreen,
@@ -276,7 +275,7 @@ class NoteFr : Fragment() {
             myDialogBinding.btnPurple,
         )
 
-        val backgroundList = arrayListOf<ConstraintLayout>(
+        val backgroundList = arrayListOf(
             myDialogBinding.btnRedBg,
             myDialogBinding.btnYellowBg,
             myDialogBinding.btnGreenBg,
@@ -310,7 +309,7 @@ class NoteFr : Fragment() {
         }
 
         //White background for color of folder that is edited
-        backgroundList.get(NoteColors.values().indexOf(editFolder.color))
+        backgroundList[NoteColors.values().indexOf(editFolder.color)]
             .setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
 
@@ -331,7 +330,7 @@ class NoteFr : Fragment() {
                 folderColor = NoteColors.values()[index]
             }
 
-            //INitialize dark button colors if necessary
+            //Initialize dark button colors if necessary
             var buttonColor = NoteColors.values()[index].colorAttributeValue
             if (dark && darkBorderStyle == 3.0) {
                 buttonColor = getCorrespondingDarkNoteColor(buttonColor)
@@ -384,7 +383,7 @@ class NoteFr : Fragment() {
         myAlertDialog?.show()
 
         //Get references to color buttons and their backgrounds (used for border)
-        val btnList = arrayListOf<Button>(
+        val btnList = arrayListOf(
             myDialogBinding.btnRed,
             myDialogBinding.btnYellow,
             myDialogBinding.btnGreen,
@@ -392,7 +391,7 @@ class NoteFr : Fragment() {
             myDialogBinding.btnPurple,
         )
 
-        val backgroundList = arrayListOf<ConstraintLayout>(
+        val backgroundList = arrayListOf(
             myDialogBinding.btnRedBg,
             myDialogBinding.btnYellowBg,
             myDialogBinding.btnGreenBg,

@@ -32,12 +32,9 @@
     <string name="birthdaysNoReminder">\nPas de rappel activé</string>
     <string name="birthdaysNotify">m\'avertir</string>
     <string name="birthdaysReminderActivated">\nRappel activé</string>
-    <string name="generalAppName" translatable="false">PocketPlan</string>
     <string name="generalClose">fermer</string>
     <string name="generalOk">OK</string>
     <string name="generalOpen">ouvrir</string>
-    <string name="generalShowHowTo">Afficher le mode d\'emploi</string>
-    <string name="generalZero" translatable="false">0</string>
     <string name="homeNoBirthdays">\nPas d\'anniversaires aujourd\'hui\n</string>
     <string name="homeNoTasks">\nPas de tâches importantes\n</string>
     <string name="homeNotificationTaskAdded">Tâche ajoutée !</string>
@@ -163,7 +160,6 @@
     <string name="shoppingDialogRemoveChecked">Supprimer les éléments cochés ?</string>
     <string name="shoppingDialogRenameList">Renommer la liste</string>
     <string name="shoppingEditItemTitle">Modifier un élément</string>
-    <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
     <string name="shoppingNotificationItemAdded">Élément ajouté !</string>
     <string name="shoppingOptionAddList">Ajouter une liste</string>
     <string name="shoppingOptionClearList">Effacer la liste</string>
@@ -198,9 +194,6 @@
     <string name="tasksOptionClearChecked">Effacer les tâches cochées</string>
     <string name="tasksOptionClearList">Effacer la liste</string>
     <string name="tasksOptionUncheckAll">Décocher tout</string>
-    <string name="tasksPriority1" translatable="false">1</string>
-    <string name="tasksPriority2" translatable="false">2</string>
-    <string name="tasksPriority3" translatable="false">3</string>
 
     <!-- Arrays -->
     <string-array name="units">

@@ -1,30 +1,16 @@
 package com.pocket_plan.j7_003.data.todolist
 
-import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
-import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
-import java.lang.NullPointerException
-import java.util.*
-import kotlin.collections.ArrayList
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 
 class TodoList: ArrayList<Task>(), Checkable{
    init {
        StorageHandler.createJsonFile(StorageId.TASKS)
        fetchFromFile()
    }
-
-    /**
-     * Adds a task to the taskList and saves the taskList.
-     * @param title The title of the created task
-     * @param priority The priority the task will be set to
-     */
-    fun addTask(title: String, priority: Int, isChecked: Boolean) {
-        this.add(Task(title, priority, isChecked))
-        sortTasks()
-        save()
-    }
 
     /**
      * Helper function to add a task object, used for undoing deletions
@@ -42,17 +28,6 @@ class TodoList: ArrayList<Task>(), Checkable{
      */
     fun deleteTask(index: Int) {
         this.removeAt(index)
-        save()
-    }
-
-    /**
-     * Swaps item from
-     * @param fromPos to
-     * @param toPos
-     * and then saves
-     */
-    fun swap(fromPos: Int, toPos: Int){
-        Collections.swap(this, fromPos, toPos)
         save()
     }
 

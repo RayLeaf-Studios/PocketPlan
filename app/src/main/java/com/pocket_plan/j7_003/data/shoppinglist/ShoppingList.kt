@@ -326,7 +326,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
     }
 
     fun updateOrder() {
-        var pos = 0;
+        var pos = 0
         this.forEach lit@{
             if (areAllChecked(it.first)) return@lit
 

@@ -5,8 +5,6 @@ import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A simple wrapper for shopping lists to easily manage multiple instances of them.

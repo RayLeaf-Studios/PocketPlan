@@ -66,7 +66,7 @@ class ShoppingFr : Fragment() {
         if (categoryName.lowercase(Locale.ROOT).contains(query!!.lowercase(Locale.ROOT))) {
             return true
         }
-        category.second.forEachIndexed() { index, item ->
+        category.second.forEachIndexed { index, item ->
             if (index == 0) {
                 return@forEachIndexed
             }

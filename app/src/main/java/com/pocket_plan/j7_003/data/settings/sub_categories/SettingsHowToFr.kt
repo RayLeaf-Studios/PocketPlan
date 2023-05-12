@@ -14,9 +14,9 @@ import com.pocket_plan.j7_003.databinding.FragmentSettingsHowToBinding
 import com.pocket_plan.j7_003.databinding.RowHowtoBinding
 import com.pocket_plan.j7_003.databinding.RowHowtoCatBinding
 
-class HowToCategory(val nameId: Int, val iconId: Int, val elements: ArrayList<HowToElement>){}
+class HowToCategory(val nameId: Int, val iconId: Int, val elements: ArrayList<HowToElement>)
 
-class HowToElement(val subNameId: Int, val explanationId: Int, var expanded: Boolean = false){}
+class HowToElement(val subNameId: Int, val explanationId: Int, var expanded: Boolean = false)
 
 class SettingsHowTo : Fragment() {
 

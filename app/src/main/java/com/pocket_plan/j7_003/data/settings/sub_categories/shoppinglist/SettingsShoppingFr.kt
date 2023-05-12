@@ -25,14 +25,11 @@ class SettingsShoppingFr : Fragment() {
     ): View {
         _fragmentBinding = FragmentSettingsShoppingBinding.inflate(inflater, container, false)
 
-        initializeAdapters()
         initializeDisplayValues()
         initializeListeners()
 
         return fragmentBinding.root
     }
-
-    private fun initializeAdapters(){}
 
     private fun initializeDisplayValues() {
 

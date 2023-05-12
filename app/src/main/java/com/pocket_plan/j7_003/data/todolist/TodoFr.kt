@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -337,7 +336,7 @@ class TodoFr : Fragment() {
         addTaskDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         //adds listeners to confirmButtons in addTaskDialog
-        val taskConfirmButtons = arrayListOf<Button>(
+        val taskConfirmButtons = arrayListOf(
             dialogAddTaskBinding.btnConfirm1,
             dialogAddTaskBinding.btnConfirm2,
             dialogAddTaskBinding.btnConfirm3
@@ -392,7 +391,7 @@ class TodoFr : Fragment() {
     }
 }
 
-class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
+class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
     private val myActivity = activity
     private val listInstance = TodoFr.todoListInstance
@@ -519,7 +518,7 @@ class TodoTaskAdapter(activity: MainActivity, var myFragment: TodoFr) :
             dialogAddTaskBinding.etTitleAddTask.setSelection(dialogAddTaskBinding.etTitleAddTask.text.length)
 
             //adds listeners to confirmButtons in addTaskDialog
-            val taskConfirmButtons = arrayListOf<Button>(
+            val taskConfirmButtons = arrayListOf(
                 dialogAddTaskBinding.btnConfirm1,
                 dialogAddTaskBinding.btnConfirm2,
                 dialogAddTaskBinding.btnConfirm3

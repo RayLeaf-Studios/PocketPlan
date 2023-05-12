@@ -10,7 +10,7 @@
         android:textSize="@dimen/font_size_big"
         android:textColor="?attr/colorOnBackGround"
         android:background="?attr/colorBackground"
-        android:gravity="left"
+        android:gravity="start"
         android:paddingStart="13dp"
         android:paddingTop="10dp"
         android:text="@string/tasksAddTitle" />

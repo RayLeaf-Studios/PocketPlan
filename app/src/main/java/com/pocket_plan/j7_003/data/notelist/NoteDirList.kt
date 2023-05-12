@@ -226,7 +226,7 @@ class NoteDirList : Checkable {
     fun getNote(index: Int): Note = currentList()[index]
 
     /**
-     * Navigates into the given folder and updates the currentlist.
+     * Navigates into the given folder and updates the current list.
      * @param dir The directory to open.
      */
     fun openFolder(dir: Note) {

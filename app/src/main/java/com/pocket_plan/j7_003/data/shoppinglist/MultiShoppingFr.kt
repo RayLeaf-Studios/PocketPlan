@@ -59,8 +59,8 @@ class MultiShoppingFr : Fragment() {
     var searching: Boolean = false
 
     //reference to searchView in toolbar
-    lateinit var searchView: SearchView
-    var searchList = ArrayList<Pair<String, ArrayList<ShoppingItem>>>()
+    private lateinit var searchView: SearchView
+    private var searchList = ArrayList<Pair<String, ArrayList<ShoppingItem>>>()
 
     lateinit var shoppingPager: ViewPager2
 

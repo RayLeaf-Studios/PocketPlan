@@ -32,12 +32,9 @@
     <string name="birthdaysNoReminder">\nНе установлено напоминание</string>
     <string name="birthdaysNotify">уведомить меня</string>
     <string name="birthdaysReminderActivated">\nНапоминание установлено</string>
-    <string name="generalAppName" translatable="false">PocketPlan</string>
     <string name="generalClose">закрыть</string>
     <string name="generalOk">OK</string>
     <string name="generalOpen">открыть</string>
-    <string name="generalShowHowTo">Показать инструкцию</string>
-    <string name="generalZero" translatable="false">0</string>
     <string name="homeNoBirthdays">\nНикаких дней рождения сегодня\n</string>
     <string name="homeNoTasks">\nНет важных задач\n</string>
     <string name="homeNotificationTaskAdded">Задача добавлена!</string>
@@ -163,7 +160,6 @@
     <string name="shoppingDialogRemoveChecked">Удалить отмеченные элементы?</string>
     <string name="shoppingDialogRenameList">Переименовать список</string>
     <string name="shoppingEditItemTitle">Редактировать элемент</string>
-    <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
     <string name="shoppingNotificationItemAdded">Элемент добавлен!</string>
     <string name="shoppingOptionAddList">Добавить список</string>
     <string name="shoppingOptionClearList">Очистить список</string>
@@ -198,9 +194,6 @@
     <string name="tasksOptionClearChecked">Очистить отмеченные задачи</string>
     <string name="tasksOptionClearList">Очистить список</string>
     <string name="tasksOptionUncheckAll">Снять все галочки</string>
-    <string name="tasksPriority1" translatable="false">1</string>
-    <string name="tasksPriority2" translatable="false">2</string>
-    <string name="tasksPriority3" translatable="false">3</string>
 
     <!-- Arrays -->
     <string-array name="units">
