@@ -107,17 +107,11 @@ class ShoppingFr : Fragment() {
         collapseCheckedSublists =
             SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
 
-        //if expandOne Setting = true, expand one category, contract all others
+        //if expandOne Setting = true, collapse all categories
         if (expandOne) {
             shoppingListInstance.forEach {
-                if (shoppingListInstance.getTagIndex(it.first) == 0) {
-                    if (!shoppingListInstance.isTagExpanded(it.first)) {
-                        shoppingListInstance.flipExpansionState(it.first)
-                    }
-                } else {
-                    if (shoppingListInstance.isTagExpanded(it.first)) {
-                        shoppingListInstance.flipExpansionState(it.first)
-                    }
+                if (shoppingListInstance.isTagExpanded(it.first)) {
+                    shoppingListInstance.flipExpansionState(it.first)
                 }
             }
         }
