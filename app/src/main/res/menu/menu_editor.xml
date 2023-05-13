@@ -4,12 +4,12 @@
     <item android:id="@+id/item_editor_delete"
         android:title=""
         android:icon="@drawable/ic_action_delete"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
     <item android:id="@+id/item_editor_color"
         android:title=""
         android:icon="@drawable/ic_action_color_picker"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
     <item android:id="@+id/item_editor_move"
         android:title="@string/notesConfirmMove"
@@ -19,7 +19,7 @@
     <item android:id="@+id/item_editor_save"
         android:title=""
         android:icon="@drawable/ic_action_checkmark"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
 
     <item android:id="@+id/item_editor_share"
