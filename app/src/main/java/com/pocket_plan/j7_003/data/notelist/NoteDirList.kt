@@ -67,6 +67,7 @@ class NoteDirList : Checkable {
      */
     fun addFullNote(note: Note) {
         currentList().addFullNote(note)
+        sortDirsToTop()
         save()
     }
 
@@ -315,7 +316,9 @@ class NoteDirList : Checkable {
         } else {
             currentList().add(noteDir)
         }
-        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
+        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) {
+            sortDirsToTop()
+        }
         save()
         return true
     }
