@@ -30,16 +30,16 @@ class BackUpActivity : AppCompatActivity() {
      * text and listeners for the logic.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = FragmentSettingsBackupBinding.inflate(layoutInflater)
         val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
             true -> R.style.AppThemeDark
             else -> R.style.AppThemeLight
         }
 
         setTheme(themeToSet)
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_settings_backup)
+
+        binding = FragmentSettingsBackupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val toolBar = binding.tbBackup
 
         setSupportActionBar(toolBar)
@@ -112,6 +112,7 @@ class BackUpActivity : AppCompatActivity() {
     /**
      * Called when the file picker activity (from the ImportHandler) returns.
      */
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -175,9 +176,10 @@ class BackUpActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         startMainActivity()
         this.finish()
-        super.onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
     }
 }
