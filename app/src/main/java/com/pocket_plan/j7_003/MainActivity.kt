@@ -758,7 +758,7 @@ class MainActivity : AppCompatActivity() {
         val myBuilder = AlertDialog.Builder(this).setView(dialogConfirmBinding.root)
         val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
         titleDialogBinding.tvDialogTitle.text = title
-        myBuilder.setCustomTitle(titleDialogBinding.tvDialogTitle)
+        myBuilder.setCustomTitle(titleDialogBinding.root)
         val myAlertDialog = myBuilder.create()
 
         //show or hide hint
