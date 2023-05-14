@@ -2,14 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <gradient
-                android:angle="180"
-                android:startColor="?attr/colorPriorityButtonBackground2"
-                android:endColor="?attr/colorPriorityButtonBackground2"
-                android:type="linear"
-                />
+            <solid android:color="?attr/colorPriority2darker"/>
             <corners android:radius="5dp"/>
-            <stroke android:width="2dip" android:color="?attr/colorPriority2border"/>
         </shape>
 
     </item>

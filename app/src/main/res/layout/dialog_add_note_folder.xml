@@ -302,7 +302,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/dc_round_corner1"
+        android:background="@drawable/dc_round_corner_red"
         android:elevation="@dimen/btnElevation"
         android:text="@string/noteDeleteDialogCancel"
         android:textColor="#FFF"

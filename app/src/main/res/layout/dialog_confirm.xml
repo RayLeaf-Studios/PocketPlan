@@ -39,6 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/dc_round_corner_red"
+        android:layout_marginEnd="10dp"
         android:elevation="@dimen/btnElevation"
         android:text="@string/generalOk"
         android:textColor="?attr/colorOnBackGroundTask"
