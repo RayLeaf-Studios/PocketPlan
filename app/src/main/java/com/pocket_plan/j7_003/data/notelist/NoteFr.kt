@@ -273,6 +273,11 @@ class NoteFr : Fragment() {
             myDialogBinding.btnGreen,
             myDialogBinding.btnBlue,
             myDialogBinding.btnPurple,
+            myDialogBinding.btnOrange,
+            myDialogBinding.btnLime,
+            myDialogBinding.btnTurquoise,
+            myDialogBinding.btnDarkBlue,
+            myDialogBinding.btnDarkPurple
         )
 
         val backgroundList = arrayListOf(
@@ -281,6 +286,11 @@ class NoteFr : Fragment() {
             myDialogBinding.btnGreenBg,
             myDialogBinding.btnBlueBg,
             myDialogBinding.btnPurpleBg,
+            myDialogBinding.btnOrangeBg,
+            myDialogBinding.btnLimeBg,
+            myDialogBinding.btnTurquoiseBg,
+            myDialogBinding.btnDarkBlueBg,
+            myDialogBinding.btnDarkPurpleBg
         )
 
         val spFolderPaths = myDialogBinding.spFolderPaths
@@ -302,7 +312,7 @@ class NoteFr : Fragment() {
             backgroundList.forEachIndexed { index, constraintLayout ->
                 constraintLayout.setBackgroundColor(
                     myActivity.colorForAttr(
-                        getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)
+                        (NoteColors.values()[index].colorAttributeValue)
                     )
                 )
             }
@@ -320,7 +330,7 @@ class NoteFr : Fragment() {
                 backgroundList.forEachIndexed { index, constraintLayout ->
                     var borderColor = NoteColors.values()[index].colorAttributeValue
                     if (dark && darkBorderStyle == 3.0) {
-                        borderColor = getCorrespondingDarkNoteColor(borderColor)
+                        borderColor = getCorrespondingDarkColor(borderColor)
                     }
                     constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
                 }
@@ -333,7 +343,7 @@ class NoteFr : Fragment() {
             //Initialize dark button colors if necessary
             var buttonColor = NoteColors.values()[index].colorAttributeValue
             if (dark && darkBorderStyle == 3.0) {
-                buttonColor = getCorrespondingDarkNoteColor(buttonColor)
+                buttonColor = getCorrespondingDarkColor(buttonColor)
             }
             button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
         }
@@ -389,6 +399,11 @@ class NoteFr : Fragment() {
             myDialogBinding.btnGreen,
             myDialogBinding.btnBlue,
             myDialogBinding.btnPurple,
+            myDialogBinding.btnOrange,
+            myDialogBinding.btnLime,
+            myDialogBinding.btnTurquoise,
+            myDialogBinding.btnDarkBlue,
+            myDialogBinding.btnDarkPurple
         )
 
         val backgroundList = arrayListOf(
@@ -397,6 +412,11 @@ class NoteFr : Fragment() {
             myDialogBinding.btnGreenBg,
             myDialogBinding.btnBlueBg,
             myDialogBinding.btnPurpleBg,
+            myDialogBinding.btnOrangeBg,
+            myDialogBinding.btnLimeBg,
+            myDialogBinding.btnTurquoiseBg,
+            myDialogBinding.btnDarkBlueBg,
+            myDialogBinding.btnDarkPurpleBg
         )
 
         //Show the proper darker note colors if the "fill" theme is selected
@@ -404,7 +424,7 @@ class NoteFr : Fragment() {
             backgroundList.forEachIndexed { index, constraintLayout ->
                 constraintLayout.setBackgroundColor(
                     myActivity.colorForAttr(
-                        getCorrespondingDarkNoteColor(NoteColors.values()[index].colorAttributeValue)
+                        getCorrespondingDarkColor(NoteColors.values()[index].colorAttributeValue)
                     )
                 )
             }
@@ -414,7 +434,7 @@ class NoteFr : Fragment() {
         var folderColor =
             when (SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean) {
                 true -> {
-                    val randColorIndex = Random.nextInt(0, 5)
+                    val randColorIndex = Random.nextInt(0, NoteColors.values().size)
                     NoteColors.values()[randColorIndex]
                 }
 
@@ -441,7 +461,7 @@ class NoteFr : Fragment() {
                 backgroundList.forEachIndexed { index, constraintLayout ->
                     var borderColor = NoteColors.values()[index].colorAttributeValue
                     if (dark && darkBorderStyle == 3.0) {
-                        borderColor = getCorrespondingDarkNoteColor(borderColor)
+                        borderColor = getCorrespondingDarkColor(borderColor)
                     }
                     constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
                 }
@@ -453,7 +473,7 @@ class NoteFr : Fragment() {
 
             var buttonColor = NoteColors.values()[index].colorAttributeValue
             if (dark && darkBorderStyle == 3.0) {
-                buttonColor = getCorrespondingDarkNoteColor(buttonColor)
+                buttonColor = getCorrespondingDarkColor(buttonColor)
             }
             button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
         }
@@ -580,14 +600,18 @@ class NoteFr : Fragment() {
         return result
     }
 
-
-    fun getCorrespondingDarkNoteColor(lightColor: Int): Int {
-        return when (lightColor) {
-            NoteColors.RED.colorAttributeValue -> R.attr.colorNoteRedDarker
-            NoteColors.GREEN.colorAttributeValue -> R.attr.colorNoteGreenDarker
-            NoteColors.BLUE.colorAttributeValue -> R.attr.colorNoteBlueDarker
-            NoteColors.YELLOW.colorAttributeValue -> R.attr.colorNoteYellowDarker
-            else -> R.attr.colorNotePurpleDarker
+    fun getCorrespondingDarkColor(color: Int): Int {
+        return when (color) {
+            R.attr.colorNoteRed -> R.attr.colorNoteRedDarker
+            R.attr.colorNoteOrange -> R.attr.colorNoteOrangeDarker
+            R.attr.colorNoteYellow -> R.attr.colorNoteYellowDarker
+            R.attr.colorNoteLime -> R.attr.colorNoteLimeDarker
+            R.attr.colorNoteGreen -> R.attr.colorNoteGreenDarker
+            R.attr.colorNoteTurquoise -> R.attr.colorNoteTurquoiseDarker
+            R.attr.colorNoteBlue -> R.attr.colorNoteBlueDarker
+            R.attr.colorNoteDarkBlue -> R.attr.colorNoteDarkBlueDarker
+            R.attr.colorNotePurple -> R.attr.colorNotePurpleDarker
+            else -> R.attr.colorNoteDarkPurpleDarker
         }
     }
 
@@ -678,13 +702,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
             //DARK THEME BACKGROUND COLORS
             true -> when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
                 //Darker colored background (filled with color but uses darker color)
-                3.0 -> when (currentNote.color) {
-                    NoteColors.RED -> R.attr.colorNoteRedDarker
-                    NoteColors.GREEN -> R.attr.colorNoteGreenDarker
-                    NoteColors.BLUE -> R.attr.colorNoteBlueDarker
-                    NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
-                    NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
-                }
+                3.0 -> myNoteFr.getCorrespondingDarkColor(currentNote.color.colorAttributeValue)
 
                 //Dark background for 1 and 2
                 else -> R.attr.colorBackgroundElevated
@@ -702,13 +720,7 @@ class NoteAdapter(mainActivity: MainActivity, noteFr: NoteFr) :
                 //Colored border
                 2.0 -> currentNote.color.colorAttributeValue
                 //3.0 Darker colored background (filled with color but uses darker color)
-                else -> when (currentNote.color) {
-                    NoteColors.RED -> R.attr.colorNoteRedDarker
-                    NoteColors.GREEN -> R.attr.colorNoteGreenDarker
-                    NoteColors.BLUE -> R.attr.colorNoteBlueDarker
-                    NoteColors.YELLOW -> R.attr.colorNoteYellowDarker
-                    NoteColors.PURPLE -> R.attr.colorNotePurpleDarker
-                }
+                else -> myNoteFr.getCorrespondingDarkColor(currentNote.color.colorAttributeValue)
             }
             //LIGHT BACKGROUND, just use note color as border
             else -> currentNote.color.colorAttributeValue

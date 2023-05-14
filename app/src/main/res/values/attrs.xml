@@ -55,16 +55,26 @@
     <attr name="colorRoundRedBackground" format="color"/>
 
     <attr name="colorNoteRed" format="color"/>
+    <attr name="colorNoteOrange" format="color"/>
     <attr name="colorNoteYellow" format="color"/>
+    <attr name="colorNoteLime" format="color"/>
     <attr name="colorNoteGreen" format="color"/>
+    <attr name="colorNoteTurquoise" format="color"/>
     <attr name="colorNoteBlue" format="color"/>
+    <attr name="colorNoteDarkBlue" format="color"/>
     <attr name="colorNotePurple" format="color"/>
+    <attr name="colorNoteDarkPurple" format="color"/>
 
     <attr name="colorNoteRedDarker" format="color"/>
+    <attr name="colorNoteOrangeDarker" format="color"/>
     <attr name="colorNoteYellowDarker" format="color"/>
+    <attr name="colorNoteLimeDarker" format="color"/>
     <attr name="colorNoteGreenDarker" format="color"/>
+    <attr name="colorNoteTurquoiseDarker" format="color"/>
     <attr name="colorNoteBlueDarker" format="color"/>
+    <attr name="colorNoteDarkBlueDarker" format="color"/>
     <attr name="colorNotePurpleDarker" format="color"/>
+    <attr name="colorNoteDarkPurpleDarker" format="color"/>
 
     <attr name="colorBackgroundListElement" format="color"/>
     <attr name="colorGoToSleep" format="color"/>

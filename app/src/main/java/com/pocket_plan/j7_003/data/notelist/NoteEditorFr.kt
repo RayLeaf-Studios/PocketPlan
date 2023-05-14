@@ -48,7 +48,9 @@ class NoteEditorFr : Fragment() {
 
     private val colorList = arrayOf(
         R.attr.colorNoteRed, R.attr.colorNoteYellow,
-        R.attr.colorNoteGreen, R.attr.colorNoteBlue, R.attr.colorNotePurple
+        R.attr.colorNoteGreen, R.attr.colorNoteBlue, R.attr.colorNotePurple,
+        R.attr.colorNoteOrange, R.attr.colorNoteLime, R.attr.colorNoteTurquoise,
+        R.attr.colorNoteDarkBlue, R.attr.colorNoteDarkPurple
     )
 
     companion object {
@@ -182,7 +184,7 @@ class NoteEditorFr : Fragment() {
             }
             //Adjust it to the dark color, if dark theme and dark border style = 3.0 (fill)
             if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
-                tintColor = myNoteFr.getCorrespondingDarkNoteColor(tintColor)
+                tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
             }
             //Apply tint to icon
             myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
@@ -192,12 +194,12 @@ class NoteEditorFr : Fragment() {
         } else {
                 if(SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean){
                     //init random note color if setting says so
-                    val randColorIndex = Random.nextInt(0,5)
+                    val randColorIndex = Random.nextInt(0,NoteColors.values().size)
                     noteColor = NoteColors.values()[randColorIndex]
 
                     var tintColor = noteColor.colorAttributeValue
                     if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
-                        tintColor = myNoteFr.getCorrespondingDarkNoteColor(tintColor)
+                        tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
                     }
 
                     myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
@@ -211,7 +213,7 @@ class NoteEditorFr : Fragment() {
 
                     var tintColor = noteColor.colorAttributeValue
                     if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
-                        tintColor = myNoteFr.getCorrespondingDarkNoteColor(tintColor)
+                        tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
                     }
                     myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
                         myActivity.colorForAttr(tintColor)
@@ -408,7 +410,9 @@ class NoteEditorFr : Fragment() {
 
         val buttonList = arrayOf(
             dialogChooseColorBinding.btnRed, dialogChooseColorBinding.btnYellow,
-            dialogChooseColorBinding.btnGreen, dialogChooseColorBinding.btnBlue, dialogChooseColorBinding.btnPurple
+            dialogChooseColorBinding.btnGreen, dialogChooseColorBinding.btnBlue, dialogChooseColorBinding.btnPurple,
+            dialogChooseColorBinding.btnOrange, dialogChooseColorBinding.btnLime, dialogChooseColorBinding.btnTurquoise,
+            dialogChooseColorBinding.btnDarkBlue, dialogChooseColorBinding.btnDarkPurple
         )
         /**
          * Onclick-listeners for every specific color button
@@ -425,7 +429,7 @@ class NoteEditorFr : Fragment() {
             }
             var buttonColor = NoteColors.values()[i].colorAttributeValue
             if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
-                buttonColor = myNoteFr.getCorrespondingDarkNoteColor(buttonColor)
+                buttonColor = myNoteFr.getCorrespondingDarkColor(buttonColor)
             }
             b.setBackgroundColor(myActivity.colorForAttr(buttonColor))
         }

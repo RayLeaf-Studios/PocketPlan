@@ -20,131 +20,264 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btnRedBg"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="3dp"
-        android:background="?attr/colorNoteRed"
+        android:id="@+id/clTopBtnRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etAddNoteFolder">
 
-        <Button
-            android:id="@+id/btnRed"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnRedBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="15dp"
             android:background="?attr/colorNoteRed"
-            android:elevation="@dimen/btnElevation"
-            android:text=""
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btnYellowBg"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="?attr/colorNoteYellow"
-        app:layout_constraintEnd_toStartOf="@+id/btnGreenBg"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnRedBg"
-        app:layout_constraintTop_toTopOf="@+id/btnRedBg">
+            <Button
+                android:id="@+id/btnRed"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteRed"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btnYellow"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnYellowBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="?attr/colorNoteYellow"
-            android:elevation="@dimen/btnElevation"
-            android:text=""
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintEnd_toStartOf="@+id/btnGreenBg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnRedBg"
+            app:layout_constraintTop_toTopOf="@+id/btnRedBg">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btnGreenBg"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="?attr/colorNoteGreen"
-        app:layout_constraintEnd_toStartOf="@+id/btnBlueBg"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnYellowBg"
-        app:layout_constraintTop_toTopOf="@+id/btnYellowBg">
+            <Button
+                android:id="@+id/btnYellow"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteYellow"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btnGreen"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnGreenBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="?attr/colorNoteGreen"
-            android:elevation="@dimen/btnElevation"
-            android:text=""
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintEnd_toStartOf="@+id/btnBlueBg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnYellowBg"
+            app:layout_constraintTop_toTopOf="@+id/btnYellowBg">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btnBlueBg"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="?attr/colorNoteBlue"
-        app:layout_constraintEnd_toStartOf="@+id/btnPurpleBg"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnGreenBg"
-        app:layout_constraintTop_toTopOf="@+id/btnGreenBg">
+            <Button
+                android:id="@+id/btnGreen"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteGreen"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btnBlue"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnBlueBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="?attr/colorNoteBlue"
-            android:elevation="@dimen/btnElevation"
-            android:text=""
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnPurpleBg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnGreenBg"
+            app:layout_constraintTop_toTopOf="@+id/btnGreenBg">
+
+            <Button
+                android:id="@+id/btnBlue"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteBlue"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnPurpleBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="3dp"
+            android:background="?attr/colorNotePurple"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/btnBlueBg">
+
+            <Button
+                android:id="@+id/btnPurple"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNotePurple"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/btnPurpleBg"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="3dp"
-        android:background="?attr/colorNotePurple"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnBlueBg">
+        android:id="@+id/clBottomBtnRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/clTopBtnRow">
 
-        <Button
-            android:id="@+id/btnPurple"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="?attr/colorNotePurple"
-            android:elevation="@dimen/btnElevation"
-            android:text=""
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnOrangeBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="15dp"
+            android:background="?attr/colorNoteOrange"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btnOrange"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteOrange"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnLimeBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/colorNoteLime"
+            app:layout_constraintEnd_toStartOf="@+id/btnTurquoiseBg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnOrangeBg"
+            app:layout_constraintTop_toTopOf="@+id/btnOrangeBg">
+
+            <Button
+                android:id="@+id/btnLime"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteLime"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnTurquoiseBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/colorNoteTurquoise"
+            app:layout_constraintEnd_toStartOf="@+id/btnDarkBlueBg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnLimeBg"
+            app:layout_constraintTop_toTopOf="@+id/btnLimeBg">
+
+            <Button
+                android:id="@+id/btnTurquoise"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteTurquoise"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnDarkBlueBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/colorNoteDarkBlue"
+            app:layout_constraintEnd_toStartOf="@+id/btnDarkPurpleBg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btnTurquoiseBg"
+            app:layout_constraintTop_toTopOf="@+id/btnTurquoiseBg">
+
+            <Button
+                android:id="@+id/btnDarkBlue"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteDarkBlue"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btnDarkPurpleBg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="3dp"
+            android:background="?attr/colorNoteDarkPurple"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnDarkBlueBg">
+
+            <Button
+                android:id="@+id/btnDarkPurple"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/colorNoteDarkPurple"
+                android:elevation="@dimen/btnElevation"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/notesContainedInFolder"
         android:layout_marginTop="10dp"
-        android:textSize="@dimen/font_size_small"
+        android:text="@string/notesContainedInFolder"
         android:textColor="?attr/colorOnBackGround"
-        app:layout_constraintStart_toStartOf="@+id/btnRedBg"
-        app:layout_constraintTop_toBottomOf="@+id/btnRedBg" />
+        android:textSize="@dimen/font_size_small"
+        app:layout_constraintStart_toStartOf="@+id/clBottomBtnRow"
+        app:layout_constraintTop_toBottomOf="@+id/clBottomBtnRow" />
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spFolderPaths"
@@ -158,7 +291,7 @@
         android:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
 
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintEnd_toEndOf="@+id/btnPurpleBg"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 

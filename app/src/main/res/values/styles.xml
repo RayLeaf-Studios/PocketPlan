@@ -73,16 +73,26 @@
         <item name="colorRoundRedBorder">?attr/colorButtonCancel</item>
 
         <item name="colorNoteRed">#C52D2D</item>
+        <item name="colorNoteOrange">#CD501F</item>
         <item name="colorNoteYellow">#E4A13B</item>
+        <item name="colorNoteLime">#C5E43B</item>
         <item name="colorNoteGreen">#3DCD37</item>
-        <item name="colorNoteBlue">#2581E3</item>
+        <item name="colorNoteTurquoise">#1EDA88</item>
+        <item name="colorNoteBlue">#2A9AE4</item>
+        <item name="colorNoteDarkBlue">#4C5CEF</item>
         <item name="colorNotePurple">#BA2B7D</item>
+        <item name="colorNoteDarkPurple">#9428D8</item>
 
         <item name="colorNoteRedDarker">#8C1616</item>
+        <item name="colorNoteOrangeDarker">#B4461A</item>
         <item name="colorNoteYellowDarker">#BF8002</item>
+        <item name="colorNoteLimeDarker">#8DA22B</item>
         <item name="colorNoteGreenDarker">#036854</item>
-        <item name="colorNoteBlueDarker">#023D97</item>
+        <item name="colorNoteTurquoiseDarker">#158F59</item>
+        <item name="colorNoteBlueDarker">#1554A2</item>
+        <item name="colorNoteDarkBlueDarker">#162AAD</item>
         <item name="colorNotePurpleDarker">#4D2B80</item>
+        <item name="colorNoteDarkPurpleDarker">#9521AF</item>
 
         <item name="colorMonth1">#024B98</item>
         <item name="colorMonth2">#1584C1</item>
@@ -205,10 +215,15 @@
         <item name="colorRoundRedBorder">?attr/colorButtonCancel</item>
 
         <item name="colorNoteRed">#F06273</item>
+        <item name="colorNoteOrange">#F49663</item>
         <item name="colorNoteYellow">#FFB649</item>
-        <item name="colorNoteGreen">#77BD7A</item>
+        <item name="colorNoteLime">#BACF5A</item>
+        <item name="colorNoteGreen">#8CBD77</item>
+        <item name="colorNoteTurquoise">#77BDA7</item>
         <item name="colorNoteBlue">#49B3E3</item>
-        <item name="colorNotePurple">#BA68C8</item>
+        <item name="colorNoteDarkBlue">#4975E3</item>
+        <item name="colorNotePurple">#CA61BB</item>
+        <item name="colorNoteDarkPurple">#9352CD</item>
 
         <item name="colorMonth1">#3590D8</item>
         <item name="colorMonth2">#48CFE1</item>
