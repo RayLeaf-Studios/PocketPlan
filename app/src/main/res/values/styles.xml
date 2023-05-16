@@ -196,6 +196,10 @@
         <item name="colorPriority2">#FABB5D</item>
         <item name="colorPriority3">#85CF8A</item>
 
+        <item name="colorPriority1darker">?attr/colorPriority1</item>
+        <item name="colorPriority2darker">?attr/colorPriority2</item>
+        <item name="colorPriority3darker">?attr/colorPriority3</item>
+
         <item name="colorPriority1border">?attr/colorPriority1</item>
         <item name="colorPriority2border">?attr/colorPriority2</item>
         <item name="colorPriority3border">?attr/colorPriority3</item>
