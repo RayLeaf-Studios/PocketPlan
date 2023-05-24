@@ -3,6 +3,10 @@
 
 PocketPlan is a lightweight, simplistic Android App designed to take care of everyday tasks such as managing a To-Do list, keeping notes, reminding you of upcoming birthdays and providing a self-sorting shopping list. It features both a light and a dark theme, and allows for a high degree of customizability of appearance and behavior in the settings menu.
 
+All your data, including the settings, can be exported as a local backup.
+
+
+
 
 Check out the [Contribution guidelines](https://github.com/estep248/PocketPlan/blob/master/CONTRIBUTING.md) if you would like to contribute to this project.
 
