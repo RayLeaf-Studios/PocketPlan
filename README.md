@@ -20,7 +20,7 @@ Check out the [Contribution guidelines](https://github.com/estep248/PocketPlan/b
 </a>
 
 ## Birthdays
-Toggle reminders for individual birthdays or set custom reminders a couple days prior, e.g. to remember to buy a present.
+Toggle reminders for individual birthdays or set custom reminders a couple days prior.
 <div style="display:flex;">
 <img alt="App image" src="https://github.com/RayLeaf-Studios/PocketPlan/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%">
 <img alt="App image" src="https://github.com/RayLeaf-Studios/PocketPlan/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%">
