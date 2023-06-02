@@ -556,7 +556,8 @@ class BirthdayFr : Fragment() {
 
 
         //AlertDialogBuilder
-        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
+        val myBuilder =
+            activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
         val myTitleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
         myTitleDialogBinding.tvDialogTitle.text =
             resources.getText(R.string.birthdayDialogEditTitle)
@@ -874,7 +875,8 @@ class BirthdayFr : Fragment() {
         }
 
         //AlertDialogBuilder
-        val myBuilder = activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
+        val myBuilder =
+            activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
 //        val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         val myTitleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
         myTitleDialogBinding.tvDialogTitle.text = resources.getText(R.string.birthdayDialogAddTitle)
@@ -1072,7 +1074,8 @@ class BirthdayAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
 //        val itemView =
 //            LayoutInflater.from(parent.context).inflate(R.layout.row_birthday, parent, false)
-        val rowBirthdayBinding = RowBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rowBirthdayBinding =
+            RowBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BirthdayViewHolder(rowBirthdayBinding)
     }
 
@@ -1227,8 +1230,10 @@ class BirthdayAdapter(
 
         //determine signalColor applied to birthday notification icon and text
         val today = LocalDate.now()
+        val birthdayIsToday =
+            holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue
         val signalColor =
-            if (holder.birthday.day == today.dayOfMonth && holder.birthday.month == today.monthValue) {
+            if (birthdayIsToday) {
                 //if birthday is today
                 myActivity.colorForAttr(R.attr.colorBirthdayToday)
             } else if (holder.birthday.daysToRemind > 0 && holder.birthday.daysUntil() <= holder.birthday.daysToRemind) {
@@ -1251,10 +1256,20 @@ class BirthdayAdapter(
             }
         holder.binding.tvRowBirthdayDays.setTextColor(daysUntilColor)
 
-        // change color of notification circle, depending if reminder is set
+        // change color of notification circle
         val notificationColor = if (currentBirthday.notify) {
-            monthColors[currentBirthday.month - 1].first
+            // if notification is enabled, color red if it's today, or month color otherwise
+            if (birthdayIsToday) {
+                R.attr.colorBirthdayToday
+            } else {
+                // month colored circle if not today, but notification enabled
+                when (southColors) {
+                    true -> monthColors[(currentBirthday.month + 7) % 12].first
+                    else -> monthColors[currentBirthday.month - 1].first
+                }
+            }
         } else {
+            // gray circle if notification disabled
             R.attr.colorBirthdayNotifyDisabled
         }
         holder.binding.icRowBirthdayNotification.setColorFilter(
