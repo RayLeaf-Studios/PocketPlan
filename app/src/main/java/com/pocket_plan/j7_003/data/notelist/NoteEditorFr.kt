@@ -2,6 +2,7 @@ package com.pocket_plan.j7_003.data.notelist
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -66,7 +66,6 @@ class NoteEditorFr : Fragment() {
         myNoteFr = myActivity.getFragment(FT.NOTES) as NoteFr
 
 
-        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
 
         val fontSize = SettingsManager.getSetting(SettingId.FONT_SIZE).toString().trim().toFloat()
@@ -80,29 +79,45 @@ class NoteEditorFr : Fragment() {
          */
 
         if (NoteFr.editNoteHolder != null) {
-            if(NoteFr.displayContent != "" || NoteFr.displayTitle != ""){
+            if (NoteFr.displayContent != "" || NoteFr.displayTitle != "") {
                 fragmentBinding.etNoteContent.setText(NoteFr.displayContent)
                 fragmentBinding.etNoteTitle.setText(NoteFr.displayTitle)
                 NoteFr.displayTitle = ""
                 NoteFr.displayContent = ""
-            }else{
+            } else {
                 fragmentBinding.etNoteTitle.setText(NoteFr.editNoteHolder!!.title)
                 fragmentBinding.etNoteContent.setText(NoteFr.editNoteHolder!!.content)
             }
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, NoteFr.editNoteHolder!!.content!!.trim()).apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, NoteFr.editNoteHolder!!.title.trim()).apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.values().indexOf(NoteFr.editNoteHolder!!.color)).apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(
+                PreferenceIDs.EDIT_NOTE_CONTENT.id,
+                NoteFr.editNoteHolder!!.content!!.trim()
+            ).apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
+                .putString(PreferenceIDs.EDIT_NOTE_TITLE.id, NoteFr.editNoteHolder!!.title.trim())
+                .apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(
+                PreferenceIDs.EDIT_NOTE_COLOR.id,
+                NoteColors.values().indexOf(NoteFr.editNoteHolder!!.color)
+            ).apply()
             fragmentBinding.etNoteTitle.clearFocus()
         } else {
             //Empty editNoteContent to signal we are adding a new note
             fragmentBinding.etNoteTitle.setText("")
             fragmentBinding.etNoteContent.setText("")
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.values().indexOf(
-                noteColor)).apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
+                .putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
+                .putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(
+                PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.values().indexOf(
+                    noteColor
+                )
+            ).apply()
             fragmentBinding.etNoteContent.requestFocus()
-            imm.showSoftInput(fragmentBinding.etNoteContent, InputMethodManager.SHOW_IMPLICIT)
+            fragmentBinding.etNoteContent.postDelayed({
+                val imm = myActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(fragmentBinding.etNoteContent, InputMethodManager.SHOW_IMPLICIT)
+            }, 100)
         }
 
         return fragmentBinding.root
@@ -125,7 +140,7 @@ class NoteEditorFr : Fragment() {
                 val noteContent = getEditorContent()
                 val noteTitle = getEditorTitle()
                 var fullNote = ""
-                if(noteTitle != ""){
+                if (noteTitle != "") {
                     fullNote += noteTitle + "\n"
                 }
                 fullNote += noteContent
@@ -170,20 +185,21 @@ class NoteEditorFr : Fragment() {
             //Show delete icon in menu bar
             myMenu.findItem(R.id.item_editor_delete)?.isVisible = true
             //Get color from note to be edited, to tint the color change icon
-            var tintColor = when(NoteFr.displayColor != -1){
-                true ->{
+            var tintColor = when (NoteFr.displayColor != -1) {
+                true -> {
                     val color = NoteColors.values()[NoteFr.displayColor].colorAttributeValue
                     noteColor = NoteColors.values()[NoteFr.displayColor]
                     NoteFr.displayColor = -1
                     color
                 }
+
                 else -> {
                     noteColor = NoteFr.editNoteHolder!!.color
                     NoteFr.editNoteHolder!!.color.colorAttributeValue
                 }
             }
             //Adjust it to the dark color, if dark theme and dark border style = 3.0 (fill)
-            if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
+            if (myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0) {
                 tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
             }
             //Apply tint to icon
@@ -192,34 +208,35 @@ class NoteEditorFr : Fragment() {
             )
 
         } else {
-                if(SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean){
-                    //init random note color if setting says so
-                    val randColorIndex = Random.nextInt(0,NoteColors.values().size)
-                    noteColor = NoteColors.values()[randColorIndex]
+            if (SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean) {
+                //init random note color if setting says so
+                val randColorIndex = Random.nextInt(0, NoteColors.values().size)
+                noteColor = NoteColors.values()[randColorIndex]
 
-                    var tintColor = noteColor.colorAttributeValue
-                    if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
-                        tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
-                    }
-
-                    myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
-                        myActivity.colorForAttr(tintColor)
-                    )
-
-                } else {
-                    //init last used note color
-                    val lastUsedColorIndex = (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
-                    noteColor = NoteColors.values()[lastUsedColorIndex]
-
-                    var tintColor = noteColor.colorAttributeValue
-                    if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
-                        tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
-                    }
-                    myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
-                        myActivity.colorForAttr(tintColor)
-                    )
-
+                var tintColor = noteColor.colorAttributeValue
+                if (myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0) {
+                    tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
                 }
+
+                myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
+                    myActivity.colorForAttr(tintColor)
+                )
+
+            } else {
+                //init last used note color
+                val lastUsedColorIndex =
+                    (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
+                noteColor = NoteColors.values()[lastUsedColorIndex]
+
+                var tintColor = noteColor.colorAttributeValue
+                if (myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0) {
+                    tintColor = myNoteFr.getCorrespondingDarkColor(tintColor)
+                }
+                myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
+                    myActivity.colorForAttr(tintColor)
+                )
+
+            }
 
         }
 
@@ -240,11 +257,11 @@ class NoteEditorFr : Fragment() {
         }
     }
 
-    fun getEditorContent(): String{
+    fun getEditorContent(): String {
         return fragmentBinding.etNoteContent.text.toString().trim()
     }
 
-    fun getEditorTitle(): String{
+    fun getEditorTitle(): String {
         return fragmentBinding.etNoteTitle.text.toString().trim()
     }
 
@@ -328,7 +345,8 @@ class NoteEditorFr : Fragment() {
         myNoteFr.noteListDirs.addNote(Note(noteTitle, noteContent, noteColor))
         val cache = MainActivity.previousFragmentStack.pop()
         if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
-            Toast.makeText(myActivity, R.string.notesNotificationNoteAdded, Toast.LENGTH_SHORT).show()
+            Toast.makeText(myActivity, R.string.notesNotificationNoteAdded, Toast.LENGTH_SHORT)
+                .show()
         }
         MainActivity.previousFragmentStack.push(cache)
     }
@@ -344,7 +362,7 @@ class NoteEditorFr : Fragment() {
         myNoteFr.noteListDirs.save()
     }
 
-    private fun dialogMoveNote(){
+    private fun dialogMoveNote() {
         //inflate the dialog with custom view
         val dialogMoveNoteBinding = DialogMoveNoteBinding.inflate(layoutInflater)
 
@@ -357,18 +375,21 @@ class NoteEditorFr : Fragment() {
 
         //show dialog
         val myAlertDialog = myBuilder?.create()
-        myAlertDialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog?.show()
 
 
         val spFolderPaths = dialogMoveNoteBinding.spFolderPaths
-        val paths = myNoteFr.noteListDirs.getSuperordinatePaths(NoteFr.editNoteHolder!!, getString(R.string.menuTitleNotes))
+        val paths = myNoteFr.noteListDirs.getSuperordinatePaths(
+            NoteFr.editNoteHolder!!,
+            getString(R.string.menuTitleNotes)
+        )
         val spFolderAdapter = ArrayAdapter(
             myActivity, android.R.layout.simple_list_item_1,
             paths
         )
 
-        val currentParentFolderIndex = myNoteFr.noteListDirs.getParentFolderIndex(NoteFr.editNoteHolder!!)
+        val currentParentFolderIndex =
+            myNoteFr.noteListDirs.getParentFolderIndex(NoteFr.editNoteHolder!!)
 
         spFolderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spFolderPaths.adapter = spFolderAdapter
@@ -376,9 +397,12 @@ class NoteEditorFr : Fragment() {
 
 
         dialogMoveNoteBinding.btnAddNoteFolder.setOnClickListener {
-            val moveResult = myNoteFr.noteListDirs.moveDir(NoteFr.editNoteHolder!!, spFolderPaths.selectedItemPosition)
+            val moveResult = myNoteFr.noteListDirs.moveDir(
+                NoteFr.editNoteHolder!!,
+                spFolderPaths.selectedItemPosition
+            )
             NoteFr.myAdapter.notifyDataSetChanged()
-            val moveMessage = when(moveResult){
+            val moveMessage = when (moveResult) {
                 true -> getString(R.string.notesToastNoteMoved)
                 else -> getString(R.string.notesCantMove)
             }
@@ -405,14 +429,19 @@ class NoteEditorFr : Fragment() {
 
         //show dialog
         val myAlertDialog = myBuilder.create()
-        myAlertDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         myAlertDialog.show()
 
         val buttonList = arrayOf(
-            dialogChooseColorBinding.btnRed, dialogChooseColorBinding.btnYellow,
-            dialogChooseColorBinding.btnGreen, dialogChooseColorBinding.btnBlue, dialogChooseColorBinding.btnPurple,
-            dialogChooseColorBinding.btnOrange, dialogChooseColorBinding.btnLime, dialogChooseColorBinding.btnTurquoise,
-            dialogChooseColorBinding.btnDarkBlue, dialogChooseColorBinding.btnDarkPurple
+            dialogChooseColorBinding.btnRed,
+            dialogChooseColorBinding.btnYellow,
+            dialogChooseColorBinding.btnGreen,
+            dialogChooseColorBinding.btnBlue,
+            dialogChooseColorBinding.btnPurple,
+            dialogChooseColorBinding.btnOrange,
+            dialogChooseColorBinding.btnLime,
+            dialogChooseColorBinding.btnTurquoise,
+            dialogChooseColorBinding.btnDarkBlue,
+            dialogChooseColorBinding.btnDarkPurple
         )
         /**
          * Onclick-listeners for every specific color button
@@ -428,7 +457,7 @@ class NoteEditorFr : Fragment() {
                 SettingsManager.addSetting(SettingId.LAST_USED_NOTE_COLOR, i.toDouble())
             }
             var buttonColor = NoteColors.values()[i].colorAttributeValue
-            if(myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0){
+            if (myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0) {
                 buttonColor = myNoteFr.getCorrespondingDarkColor(buttonColor)
             }
             b.setBackgroundColor(myActivity.colorForAttr(buttonColor))
@@ -440,7 +469,7 @@ class NoteEditorFr : Fragment() {
         val titleId = R.string.noteDeleteDialogText
         val action: () -> Unit = {
             myNoteFr.noteListDirs.remove(NoteFr.editNoteHolder!!)
-            if(archiveDeletedNotes) myNoteFr.archive(NoteFr.editNoteHolder!!)
+            if (archiveDeletedNotes) myNoteFr.archive(NoteFr.editNoteHolder!!)
             NoteFr.editNoteHolder = null
             myNoteFr.noteListDirs.save()
             myActivity.hideKeyboard()
@@ -450,7 +479,7 @@ class NoteEditorFr : Fragment() {
         myActivity.dialogConfirm(titleId, action)
     }
 
-    private fun updateMenuAccessibility(){
+    private fun updateMenuAccessibility() {
         myMenu.findItem(R.id.item_editor_delete).isVisible = NoteFr.editNoteHolder != null
         myMenu.findItem(R.id.item_editor_move).isVisible = NoteFr.editNoteHolder != null
     }
