@@ -1151,7 +1151,12 @@ class BirthdayAdapter(
         holder.binding.viewDividerRight.visibility = View.GONE
 
         //display info if birthday is expanded
-        if (currentBirthday.expanded) {
+        var expanded = currentBirthday.expanded
+        if (myFragment.searching && itemCount == 1){
+            // expand birthday if it is the only search result
+            expanded = true
+        }
+        if (expanded) {
             holder.binding.tvBirthdayInfo.visibility = View.VISIBLE
             var ageText = myActivity.resources.getString(R.string.birthdayAgeUnknown)
             //if a year is saved, calculate age and display it
