@@ -25,6 +25,11 @@ class SettingsAboutFr : Fragment() {
             startActivity(intent)
         }
 
+        fragmentSettingsAboutBinding.clSupportThisProject.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://paypal.me/rayleaf"))
+            startActivity(intent)
+        }
+
         fragmentSettingsAboutBinding.tvStudioMail.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.type = "text/mail"

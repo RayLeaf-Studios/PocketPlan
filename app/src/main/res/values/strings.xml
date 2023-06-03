@@ -9,9 +9,11 @@
     <string name="aboutMailAdress" translatable="false">rayleaf.studios@gmail.com</string>
     <string name="aboutSourcecode">Sourcecode</string>
     <string name="aboutSrcLink" translatable="false">https://github.com/RayLeaf-Studios/PocketPlan</string>
+    <string name="aboutSponsorLink" translatable="false">https://paypal.me/rayleaf</string>
     <string name="aboutStudioName" translatable="false">RayLeaf Studios</string>
     <string name="aboutVersion">Version</string>
     <string name="aboutViewOnGithub">View on GitHub</string>
+    <string name="aboutSupportThisProject">PocketPlan is ad-free and therefore does not generate any revenue. If you want to support the development of this project, consider donating via the following link.</string>
 
 <!--    birthdays-->
     <string name="birthdayAgeUnknown">No year saved</string>
@@ -371,5 +373,6 @@
     <string name="show_advanced_backup_options">Show advanced backup options</string>
     <string name="settingsNotesEqualSize">Equally sized notes</string>
     <string name="settingsNotesSortFoldersTop">Sort folders to the top</string>
+    <string name="aboutSupportThis">Support this project</string>
 
 </resources>

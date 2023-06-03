@@ -307,5 +307,7 @@
     <string name="notesShare">Teilen</string>
     <string name="show_advanced_backup_options">Erweiterte Backup Optionen</string>
     <string name="settingsNotesSortFoldersTop">Ordner nach oben sortieren</string>
+    <string name="aboutSupportThisProject">PocketPlan ist werbefrei und generiert daher keine Einnahmen. Wenn du die Entwicklung dieses Projekts unterstützen willst, kannst du dies über den folgenden Link tun.</string>
+    <string name="aboutSupportThis">Unterstütze dieses Projekt</string>
 
 </resources>

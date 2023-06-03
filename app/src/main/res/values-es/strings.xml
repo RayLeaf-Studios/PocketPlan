@@ -305,5 +305,7 @@
     <string name="show_advanced_backup_options">Mostrar opciones avanzadas de copia de seguridad</string>
     <string name="settingsNotesEqualSize">Billetes de igual tamaño</string>
     <string name="settingsNotesSortFoldersTop">Ordenar las carpetas al principio</string>
+    <string name="aboutSupportThisProject">PocketPlan no tiene publicidad y, por tanto, no genera ingresos. Si desea apoyar el desarrollo de este proyecto, considere hacer una donación a través del siguiente enlace.</string>
+    <string name="aboutSupportThis">Apoyar este proyecto</string>
 
 </resources>

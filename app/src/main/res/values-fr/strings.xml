@@ -325,5 +325,7 @@
     <string name="show_advanced_backup_options">Aafficher les options de sauvegarde avancées</string>
     <string name="settingsNotesEqualSize">Notes de même taille</string>
     <string name="settingsNotesSortFoldersTop">Trier les dossiers en haut</string>
+    <string name="aboutSupportThisProject">PocketPlan est sans publicité et ne génère donc aucun revenu. Si vous souhaitez soutenir le développement de ce projet, pensez à faire un don via le lien suivant.</string>
+    <string name="aboutSupportThis">Soutenir ce projet</string>
 
 </resources>
