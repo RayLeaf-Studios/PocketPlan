@@ -723,6 +723,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
+        if(previousFragmentStack.isEmpty()){
+            super.onStop()
+            return
+        }
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
             getPreferences(Context.MODE_PRIVATE).edit().putString(
                 PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id,
