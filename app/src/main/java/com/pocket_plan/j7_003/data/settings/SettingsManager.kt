@@ -6,17 +6,21 @@ import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 
-class SettingsManager{
+class SettingsManager {
     companion object : Checkable {
         var settings = HashMap<String, Any>()
 
         fun init() {
             createFile()
-            load()
+            try {
+                load()
+            } catch (_: Exception) {
+                StorageHandler.files[StorageId.SETTINGS]?.writeText("[]")
+            }
         }
 
         fun getSetting(setting: SettingId): Any? {
-            return if(settings.containsKey(setting.name)){
+            return if (settings.containsKey(setting.name)) {
                 settings[setting.name]
             } else setting.default
         }
@@ -57,7 +61,7 @@ class SettingsManager{
 
         override fun check() {
             settings.forEach {
-                if(it.key == null || it.value == null){
+                if (it.key == null || it.value == null) {
                     throw NullPointerException()
                 }
             }

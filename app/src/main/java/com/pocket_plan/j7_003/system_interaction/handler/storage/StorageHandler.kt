@@ -5,7 +5,7 @@ import java.io.File
 
 class StorageHandler {
 
-    companion object{
+    companion object {
         var files = HashMap<StorageId, File>()
         lateinit var path: String
 
@@ -21,8 +21,7 @@ class StorageHandler {
         }
 
         fun createJsonFile(identifier: StorageId, text: String = "[]") {
-            files[identifier] =
-                setStorageLocation(identifier.s)
+            files[identifier] = setStorageLocation(identifier.s)
 
             if (files[identifier]?.exists() == null || files[identifier]?.exists() == false) {
                 files[identifier]?.writeText(text)
