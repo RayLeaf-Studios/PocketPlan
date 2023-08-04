@@ -374,5 +374,6 @@
     <string name="settingsNotesEqualSize">Equally sized notes</string>
     <string name="settingsNotesSortFoldersTop">Sort folders to the top</string>
     <string name="aboutSupportThis">Support this project</string>
+    <string name="menuTitleCalendar">Calendar</string>
 
 </resources>
