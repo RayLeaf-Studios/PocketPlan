@@ -81,23 +81,23 @@
     <string name="howtoBackupExplanation">All your PocketPlan data is stored locally on your device. To keep your data, in case you loose your device, or to migrate it to a different device, you can export a backup.\n\nGo to settings -> Backup and select \"Export full backup as .zip\", then save this zip file, for example by sending it to yourself via E-Mail.\n\nTo import this backup on a new device, go to settings -> Backup and select \"Import backup from .zip\". Then select the previously saved backup.</string>
 
 <!--    menu-->
-    <string name="menuTitleAbout">About</string>
-    <string name="menuTitleBirthdays">Birthdays</string>
-    <string name="menuTitleColorChoose">Choose a color</string>
-    <string name="menuTitleCustomItem">Custom Items</string>
-    <string name="menuTitleHome">Home</string>
-    <string name="menuTitleNotes">Notes</string>
+    <string name="menuTitleAbout">Despre</string>
+    <string name="menuTitleBirthdays">Zilele de naștere</string>
+    <string name="menuTitleColorChoose">Alegeți o culoare</string>
+    <string name="menuTitleCustomItem">Articole personalizate</string>
+    <string name="menuTitleHome">Acasă</string>
+    <string name="menuTitleNotes">Notițe</string>
     <string name="menuTitleNotesEditor">Editor</string>
-    <string name="menuTitleSettings">Settings</string>
-    <string name="menuTitleShopping">Shopping</string>
-    <string name="menuTitleSleep">Sleep Reminder</string>
-    <string name="menuTitleTasks">To-Do</string>
+    <string name="menuTitleSettings">Setări</string>
+    <string name="menuTitleShopping">Cumpărături</string>
+    <string name="menuTitleSleep">Reamintire de somn</string>
+    <string name="menuTitleTasks">De-a face</string>
 
 <!--    notes-->
-    <string name="noteDeleteDialogCancel">Cancel</string>
-    <string name="noteDeleteDialogText">Delete this note?</string>
-    <string name="noteDiscardDialogDiscard">Discard</string>
-    <string name="noteDiscardDialogSave">Save</string>
+    <string name="noteDeleteDialogCancel">Anulare</string>
+    <string name="noteDeleteDialogText">Să șterg această notă?</string>
+    <string name="noteDiscardDialogDiscard">Aruncare</string>
+    <string name="noteDiscardDialogSave">Salvați</string>
     <string name="noteDiscardDialogTitle">Save changes?</string>
     <string name="noteEditorText">Note</string>
     <string name="noteEditorTitle">Title</string>
