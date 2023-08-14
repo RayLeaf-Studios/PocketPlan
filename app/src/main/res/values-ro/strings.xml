@@ -98,31 +98,31 @@
     <string name="noteDeleteDialogText">Să șterg această notă?</string>
     <string name="noteDiscardDialogDiscard">Aruncare</string>
     <string name="noteDiscardDialogSave">Salvați</string>
-    <string name="noteDiscardDialogTitle">Save changes?</string>
-    <string name="noteEditorText">Note</string>
-    <string name="noteEditorTitle">Title</string>
-    <string name="notesCantMove">Can\'t move to current directory</string>
-    <string name="notesConfirmMove">Move note</string>
-    <string name="notesContainedInFolder">Contained in Folder:</string>
-    <string name="notesDialogDeleteFolder">Delete folder \"%1$s\" and its content?</string>
-    <string name="notesEditFolder">Edit folder</string>
-    <string name="notesNotificationNoteAdded">Note was added!</string>
-    <string name="notesOptionAddFolder">Add folder</string>
-    <string name="notesPickDestinationFolder">Pick destination folder</string>
-    <string name="notesSwipeToDelete">Swipe to delete</string>
-    <string name="notesToastFolderMoved">Folder moved!</string>
-    <string name="notesToastNoteMoved">Note moved!</string>
+    <string name="noteDiscardDialogTitle">Salvați schimbările?</string>
+    <string name="noteEditorText">Notă</string>
+    <string name="noteEditorTitle">Titlu</string>
+    <string name="notesCantMove">Nu se poate muta la directorul curent</string>
+    <string name="notesConfirmMove">Mutați nota</string>
+    <string name="notesContainedInFolder">Conținut în dosar:</string>
+    <string name="notesDialogDeleteFolder">Ștergeți dosarul \"%1$s\" și conținutul său?</string>
+    <string name="notesEditFolder">Editare dosar</string>
+    <string name="notesNotificationNoteAdded">Nota a fost adăugată!</string>
+    <string name="notesOptionAddFolder">Adăugați un dosar</string>
+    <string name="notesPickDestinationFolder">Alegeți dosarul de destinație</string>
+    <string name="notesSwipeToDelete">Glisați pentru a șterge</string>
+    <string name="notesToastFolderMoved">Dosar mutat!</string>
+    <string name="notesToastNoteMoved">Notă mutată!</string>
 
 <!--    settings-->
-    <string name="settingsGeneralBorderHint">(Applied to task and note elements)</string>
-    <string name="settingsGeneralBorderTitle">Dark border theme:</string>
-    <string name="settingsGeneralBorderless">Borderless</string>
-    <string name="settingsGeneralColoredBorder">Colored Border</string>
-    <string name="settingsGeneralFilled">Filled</string>
-    <string name="settingsGeneralLanguage">Language</string>
-    <string name="settingsGeneralResetHint">This won\'t delete any of your data like notes etc.</string>
-    <string name="settingsGeneralResetTitle">Reset all settings to default?</string>
-    <string name="settingsGeneralResetToDefault">Reset all settings to default</string>
+    <string name="settingsGeneralBorderHint">(Aplicat la elementele de sarcină și de notă)</string>
+    <string name="settingsGeneralBorderTitle">Tema de margine întunecată:</string>
+    <string name="settingsGeneralBorderless">Fără margini</string>
+    <string name="settingsGeneralColoredBorder">Margine colorată</string>
+    <string name="settingsGeneralFilled">Umpluturată</string>
+    <string name="settingsGeneralLanguage">Limba</string>
+    <string name="settingsGeneralResetHint">Acest lucru nu va șterge niciunul dintre datele tale, cum ar fi notițele etc.</string>
+    <string name="settingsGeneralResetTitle">Resetați toate setările la implicit?</string>
+    <string name="settingsGeneralResetToDefault">Resetați toate setările la implicit</string>
     <string name="settingsGeneralSampleText">Sample Text</string>
     <string name="settingsGeneralShakeHomeExplanation">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
     <string name="settingsGeneralShakeTask">Shake task reminder in home</string>
@@ -269,19 +269,19 @@
         <item>24</item>
     </string-array>
 
-    <string-array name="months">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
+    <string-array name="lunile">
+        <item>Ianuarie</item>
+        <item>Februarie</item>
+        <item>Martie</item>
+        <item>Aprilie</item>
+        <item>Mai</item>
+        <item>Iunie</item>
+        <item>Iulie</item>
         <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
+        <item>Septembrie</item>
+        <item>Octombrie</item>
+        <item>Noiembrie</item>
+        <item>Decembrie</item>
     </string-array>
 
     <string-array name="categoryCodes" translatable="false">
@@ -324,9 +324,9 @@
         <item>Alcoholic Beverages</item>
     </string-array>
 
-    <string-array name="shapes">
+    <string-array name="forme">
         <item>Normal</item>
-        <item>Round</item>
+        <item>Rotund</item>
     </string-array>
 
     <string-array name="themes">
@@ -356,18 +356,18 @@
 
     <!-- Plurals -->
     <plurals name="year">
-        <item quantity="one">year</item>
-        <item quantity="other">years</item>
+        <item quantity="one">an</item>
+        <item quantity="other">ani</item>
     </plurals>
 
     <plurals name="dayIn">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">zi</item>
+        <item quantity="other">zile</item>
     </plurals>
 
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">zi</item>
+        <item quantity="other">zile</item>
     </plurals>
     <string name="notesShare">Share</string>
     <string name="show_advanced_backup_options">Show advanced backup options</string>
