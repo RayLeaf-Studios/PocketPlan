@@ -123,16 +123,16 @@
     <string name="settingsGeneralResetHint">Acest lucru nu va șterge niciunul dintre datele tale, cum ar fi notițele etc.</string>
     <string name="settingsGeneralResetTitle">Resetați toate setările la implicit?</string>
     <string name="settingsGeneralResetToDefault">Resetați toate setările la implicit</string>
-    <string name="settingsGeneralSampleText">Sample Text</string>
-    <string name="settingsGeneralShakeHomeExplanation">If there are 1 or more tasks with priority 1, the task icon will move whenever you open the home panel.</string>
-    <string name="settingsGeneralShakeTask">Shake task reminder in home</string>
-    <string name="settingsGeneralShapes">Shapes</string>
-    <string name="settingsGeneralSystemTheme">Use system theme</string>
+    <string name="settingsGeneralSampleText">Exemplu de text</string>
+    <string name="settingsGeneralShakeHomeExplanation">Dacă există una sau mai multe sarcini cu prioritatea 1, pictograma sarcinii se va muta când deschideți panoul acasă.</string>
+    <string name="settingsGeneralShakeTask">Agitați reamintire de sarcină în acasă</string>
+    <string name="settingsGeneralShapes">Forme</string>
+    <string name="settingsGeneralSystemTheme">Utilizați tema sistemului</string>
     <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
-    <string name="settingsGeneralTheme">Theme</string>
+    <string name="settingsGeneralTheme">Tema</string>
     <string name="settingsGeneralTitle">General</string>
 
-    <string name="settingsBackupChooseFile">Choose file</string>
+    <string name="settingsBackupChooseFile">Alege fișierul</string>
     <string name="settingsBackupExport">Export</string>
     <string name="settingsBackupExportTitle">Export full backup\nas .zip file</string>
     <string name="settingsBackupHint">The section below allows you to import / export just part of your data, for a FULL backup use the options above.</string>
@@ -143,20 +143,20 @@
     <string name="settingsBackupTitle">Backup</string>
     <string name="settingsBackupWarning">Warning! Importing a backup will REPLACE your current data with the imported data!</string>
 
-    <string name="settingsBirthdaysNotificationTime">Change birthday notification time</string>
-    <string name="settingsBirthdaysShowMonth">Display month for every Birthday</string>
-    <string name="settingsBirthdaysShowMonthsExplanation">e.g. display \"14.03\" instead of \"14\"</string>
-    <string name="settingsBirthdaysShowUpcoming">Show next upcoming birthday in home panel</string>
-    <string name="settingsBirthdaysSouthColors">Month colors for southern hemisphere</string>
-    <string name="settingsBirthdaysSouthHint">Shows warmer colors from october to march</string>
+    <string name="settingsBirthdaysNotificationTime">Schimbă timpul notificării zilei de naștere</string>
+    <string name="settingsBirthdaysShowMonth">Afișează luna pentru fiecare zi de naștere</string>
+    <string name="settingsBirthdaysShowMonthsExplanation">de ex. afișați \"14.03\" în loc de \"14\"</string>
+    <string name="settingsBirthdaysShowUpcoming">Afișați următoarea zi de naștere viitoare în panoul acasă</string>
+    <string name="settingsBirthdaysSouthColors">Culorile lunii pentru emisfera sudică</string>
+    <string name="settingsBirthdaysSouthHint">Arată culori mai calde din octombrie până în martie</string>
 
-    <string name="settingsCustomItems">Manage custom items</string>
-    <string name="settingsCustomCategory">Category</string>
-    <string name="settingsCustomClear">Clear custom items</string>
-    <string name="settingsCustomClearDialog">Delete custom items?</string>
-    <string name="settingsCustomUnit">Unit</string>
+    <string name="settingsCustomItems">Gestionați elementele customizate</string>
+    <string name="settingsCustomCategory">Categoria</string>
+    <string name="settingsCustomClear">Șterge elementele customizate</string>
+    <string name="settingsCustomClearDialog">Să șterg elemente customizate?</string>
+    <string name="settingsCustomUnit">Unitate</string>
 
-    <string name="settingsHowToTitle">HowTo</string>
+    <string name="settingsHowToTitle">Cum să</string>
 
     <string name="settingsNotesArchiveDeleted">Archive deleted notes</string>
     <string name="settingsNotesArchiveHint">Up to 5kB of your deleted notes will be accesible in the view below</string>
