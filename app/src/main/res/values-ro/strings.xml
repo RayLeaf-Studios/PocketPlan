@@ -158,20 +158,20 @@
 
     <string name="settingsHowToTitle">Cum să</string>
 
-    <string name="settingsNotesArchiveDeleted">Archive deleted notes</string>
-    <string name="settingsNotesArchiveHint">Up to 5kB of your deleted notes will be accesible in the view below</string>
-    <string name="settingsNotesClearArchived">Clear note archive</string>
-    <string name="settingsNotesDialogDeleteArchived">Delete all archived notes?</string>
-    <string name="settingsNotesFontSize">Fontsize in Editor</string>
-    <string name="settingsNotesMoveRecentTop">Move recently opened notes or folders to the top of the list</string>
-    <string name="settingsNotesNoArchived">No recently deleted notes archived</string>
-    <string name="settingsNotesNumOfCols">Number of note columns</string>
-    <string name="settingsNotesNumOfLines">Number of lines to display</string>
-    <string name="settingsNotesOptionDeleteFolder">Delete Folder</string>
-    <string name="settingsNotesRandomizeColors">Random color for new notes and folders</string>
-    <string name="settingsNotesShowContained">Show number of contained elements for folders</string>
-    <string name="settingsNotesShowDeleted">Show recently deleted notes</string>
-    <string name="settingsNotesTitle">Notes</string>
+    <string name="settingsNotesArchiveDeleted">Arhivare notițe șterse</string>
+    <string name="settingsNotesArchiveHint">Până la 5kB din notițele tale șterse vor fi accesibile în vizualizarea de mai jos</string>
+    <string name="settingsNotesClearArchived">Șterge arhiva de notițe</string>
+    <string name="settingsNotesDialogDeleteArchived">Ștergeți toate notele arhivate?</string>
+    <string name="settingsNotesFontSize">Mărimea fonturilor în editor</string>
+    <string name="settingsNotesMoveRecentTop">Mutați notițele sau dosarele deschise recent în partea de sus a listei</string>
+    <string name="settingsNotesNoArchived">Nu sunt arhivate notițele șterse recent</string>
+    <string name="settingsNotesNumOfCols">Numărul de coloane de notițe</string>
+    <string name="settingsNotesNumOfLines">Număr de linii de afișat</string>
+    <string name="settingsNotesOptionDeleteFolder">Ștergeți dosarul</string>
+    <string name="settingsNotesRandomizeColors">Culoare aleatorie pentru notițe și dosare noi</string>
+    <string name="settingsNotesShowContained">Afișează numărul de elemente conținute pentru dosare</string>
+    <string name="settingsNotesShowDeleted">Afișați notițele șterse recent</string>
+    <string name="settingsNotesTitle">Notițe</string>
 
     <string name="settingsShoppingCloseHint">(In shopping fragment)</string>
     <string name="settingsShoppingCloseItemDialog">Close item dialog after adding</string>
