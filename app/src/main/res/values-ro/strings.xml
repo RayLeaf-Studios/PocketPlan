@@ -335,16 +335,6 @@
         <item>Luminos</item>
     </string-array>
 
-    <string-array name="languages" translatable="false">
-        <item>English</item>
-        <item>Deutsch</item>
-        <item>Français</item>
-        <item>Español</item>
-        <item>Română</item>
-        <item>Русский</item>
-        <item>Italiano</item>
-    </string-array>
-
     <string-array name="fileOptions">
         <item>Lista de cumpărături</item>
         <item>Notițe</item>
@@ -356,17 +346,17 @@
     </string-array>
 
     <!-- Plurals -->
-    <plurals name="year">
+    <plurals name="year" tools:ignore="MissingQuantity">
         <item quantity="one">an</item>
         <item quantity="other">ani</item>
     </plurals>
 
-    <plurals name="dayIn">
+    <plurals name="dayIn" tools:ignore="MissingQuantity">
         <item quantity="one">zi</item>
         <item quantity="other">zile</item>
     </plurals>
 
-    <plurals name="day">
+    <plurals name="day" tools:ignore="MissingQuantity">
         <item quantity="one">zi</item>
         <item quantity="other">zile</item>
     </plurals>
@@ -375,6 +365,5 @@
     <string name="settingsNotesEqualSize">Notițe de dimensiuni egale</string>
     <string name="settingsNotesSortFoldersTop">Sortează dosarele în partea de sus</string>
     <string name="aboutSupportThis">Susțineți acest proiect</string>
-    <string name="menuTitleCalendar">Calendar</string>
 
 </resources>
