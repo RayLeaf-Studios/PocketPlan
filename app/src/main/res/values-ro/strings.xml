@@ -3,7 +3,7 @@
 
 <!--    about-->
     <string name="aboutAppName" translatable="false">PocketPlan</string>
-    <string name="aboutContactDescription">To report a bug or to suggest a new feature, contact us at the e-mail address listed above.\n\nIf you are contacting us about a bug, please include your Android version, your device type and detailed steps on how to reproduce the bug.\n\nIf you have a GitHub account, you are welcome to create an issue in our repository.</string>
+    <string name="aboutContactDescription">Pentru a raporta un bug sau pentru a sugera o nouă caracteristică, contactați-ne la adresa de e-mail listată mai sus.\n\nDacă ne contactați în legătură cu un bug, vă rugăm să includeți versiunea Android, tipul de dispozitiv și pașii detaliați pentru a reproduce bug-ul.\n\nDacă aveți un cont de GitHub, sunteți binevenit să creați o problemă în depozitul nostru.</string>
     <string name="aboutDevs">Dezvoltat de</string>
     <string name="aboutFeedback">Feedback</string>
     <string name="aboutMailAdress" translatable="false">rayleaf.studios@gmail.com</string>
@@ -58,27 +58,28 @@
 <!--    howto-->
     <string name="howtoBirthdaysDelete">Glisați o zi de naștere spre stânga sau spre dreapta pentru a o șterge.</string>
     <string name="howtoBirthdaysEdit">Apăsați lung pe ziua de naștere pentru a-l edita.</string>
-    <string name="howtoBirthdaysExplanation">Atingeți ziua de naștere pentru a afișa informații suplimentare.\n\nDacă ziua de naștere urmează peste 30 de zile sau mai puțin, zilele rămase vor fi afișate în listă.\n\nDacă o reamintire este setată pentru x zile anterioare, iar ziua de naștere urmează peste x zile sau mai puțin, aceasta este evidențiată color în listă.</string>   <string name="howtoHomeExplanation">If the sleepreminder is enabled, an indicator at the top will tell you how much time you got, until you should go to sleep.\n\nThe task panel below will display tasks of priority one.\n\nBelow that, the birthday panel will display current birthdays.</string>
+    <string name="howtoBirthdaysExplanation">Atingeți ziua de naștere pentru a afișa informații suplimentare.\n\nDacă ziua de naștere urmează peste 30 de zile sau mai puțin, zilele rămase vor fi afișate în listă.\n\nDacă o reamintire este setată pentru x zile anterioare, iar ziua de naștere urmează peste x zile sau mai puțin, aceasta este evidențiată color în listă.</string>
+    <string name="howtoHomeExplanation">Dacă este activată funcția memento de somn, un indicator din partea de sus vă va spune cât timp mai aveți până când ar trebui să mergeți la culcare.\n\nPanoul de sarcini de mai jos va afișa sarcinile de prioritate unu.\n\nDupă acesta, panoul cu ziua de naștere va afișa zilele de naștere curente.</string>
     <string name="howtoNoteEdit">Atingeți o notă pentru a-i edita.\n\nÎn editorul de notițe, atingeți pictograma de dosar din partea de sus, pentru a muta nota într-un alt dosar.</string>
-    <string name="howtoNoteExplanation">If the app is closed while creating a new note without saving it, it is saved automatically.\n\nDeleted notes are archived by default, you can access them in the settings in the \"notes\" section.</string>
-    <string name="howtoNoteFolder">Using the menu options at the top right, its possible to add a new folder or edit / move the folder that is currently opened.</string>
-    <string name="howtoShoppingCheckCategories">Tap the circle at the top of a category to check all contained items.</string>
-    <string name="howtoShoppingDelete">Swipe an item left or right to delete it.</string>
-    <string name="howtoShoppingExplanation">When adding an item to the list, you can enter optional details in parentheses. For example, if you enter \"Bread (whole wheat)\", the item will still be sorted into the category \"Bread and pastries\" despite the app only recognising the \"Bread\" part of the name.</string>
-    <string name="howtoShoppingLists">You can add additional shopping lists and edit or delete them via the menu at the top right.</string>
-    <string name="howtoShoppingReorder">Longpress and drag a category to re-order it.</string>
-    <string name="howtoSleepExplanation">Set your desired wake up time and how many hours of sleep you need and the sleepreminder will notify you when you should go to sleep.</string>
-    <string name="howtoSubCheckCategory">Check category</string>
-    <string name="howtoSubDelete">Delete</string>
-    <string name="howtoSubEdit">Edit</string>
-    <string name="howtoSubExplanation">Explanation</string>
-    <string name="howtoSubFolders">Folder</string>
-    <string name="howtoSubLists">Lists</string>
-    <string name="howtoSubRearrange">Rearrange</string>
-    <string name="howtoTodoDelete">Swipe a task left or right to delete it.</string>
-    <string name="howtoTodoEdit">Tap a task to edit it.</string>
-    <string name="howtoTodoReorder">Longpress and drag a task to move it within the list.</string>
-    <string name="howtoBackupExplanation">All your PocketPlan data is stored locally on your device. To keep your data, in case you loose your device, or to migrate it to a different device, you can export a backup.\n\nGo to settings -> Backup and select \"Export full backup as .zip\", then save this zip file, for example by sending it to yourself via E-Mail.\n\nTo import this backup on a new device, go to settings -> Backup and select \"Import backup from .zip\". Then select the previously saved backup.</string>
+    <string name="howtoNoteExplanation">Dacă aplicația este închisă în timp ce creați o notă nouă fără să o salvați, aceasta este salvată automat.\n\nNotele șterse sunt arhivate în mod implicit, le puteți accesa în setările din secțiunea \"note\".</string>
+    <string name="howtoNoteFolder">Cu ajutorul opțiunilor de meniu din dreapta sus, este posibil să adăugați un nou dosar sau să modificați / mutați dosarul deschis în acel moment.</string>
+    <string name="howtoShoppingCheckCategories">Atingeți cercul din partea de sus a unei categorii pentru a verifica toate elementele conținute.</string>
+    <string name="howtoShoppingDelete">Glisați un element la stânga sau dreapta pentru a-l șterge.</string>
+    <string name="howtoShoppingExplanation">Atunci când adăugați un element în listă, puteți introduce detalii opționale în paranteze. De exemplu, dacă introduceți \"Pâine (integrală)\", elementul va fi totuși sortat în categoria \"Pâine și produse de patiserie\", deși aplicația recunoaște doar partea \"Pâine\" din nume.</string>
+    <string name="howtoShoppingLists">Puteți adăuga liste de cumpărături suplimentare și le puteți modifica sau șterge prin intermediul meniului din dreapta sus.</string>
+    <string name="howtoShoppingReorder">Apăsați lung și trageți o categorie pentru a o rearanja.</string>
+    <string name="howtoSleepExplanation">Setați ora de trezire dorită și câte ore de somn aveți nevoie, iar sleeppreminder vă va anunța când trebuie să mergeți la culcare.</string>
+    <string name="howtoSubCheckCategory">Bifați categoria</string>
+    <string name="howtoSubDelete">Șterge</string>
+    <string name="howtoSubEdit">Editați</string>
+    <string name="howtoSubExplanation">Explicație</string>
+    <string name="howtoSubFolders">Dosar</string>
+    <string name="howtoSubLists">Liste</string>
+    <string name="howtoSubRearrange">Rearanjare</string>
+    <string name="howtoTodoDelete">Glisați o sarcină la stânga sau dreapta pentru a o șterge.</string>
+    <string name="howtoTodoEdit">Atingeți o sarcină pentru a o edita.</string>
+    <string name="howtoTodoReorder">Apăsați lung și trageți o sarcină pentru a o muta în cadrul listei.</string>
+    <string name="howtoBackupExplanation">Toate datele PocketPlan sunt stocate local pe dispozitivul tău. Pentru a vă păstra datele, în cazul în care vă pierdeți dispozitivul sau pentru a le migra pe un alt dispozitiv, puteți exporta o copie de rezervă.\n\nMergeți la Setări -> Backup și selectați \"Exportați backup-ul complet ca fișier .zip\", apoi salvați acest fișier zip, de exemplu, trimițându-l la tine prin e-mail.\n\nPentru a importa această copie de rezervă pe un dispozitiv nou, mergeți la Setări -> Backup și selectați \"Importați backup-ul din .zip\". Apoi selectați copia de rezervă salvată anterior.</string>
 
 <!--    menu-->
     <string name="menuTitleAbout">Despre</string>
@@ -91,7 +92,7 @@
     <string name="menuTitleSettings">Setări</string>
     <string name="menuTitleShopping">Cumpărături</string>
     <string name="menuTitleSleep">Reamintire de somn</string>
-    <string name="menuTitleTasks">De-a face</string>
+    <string name="menuTitleTasks">To-Do</string>
 
 <!--    notes-->
     <string name="noteDeleteDialogCancel">Anulare</string>
@@ -132,16 +133,16 @@
     <string name="settingsGeneralTheme">Tema</string>
     <string name="settingsGeneralTitle">General</string>
 
-    <string name="settingsBackupChooseFile">Alege fișierul</string>
-    <string name="settingsBackupExport">Export</string>
-    <string name="settingsBackupExportTitle">Export full backup\nas .zip file</string>
-    <string name="settingsBackupHint">The section below allows you to import / export just part of your data, for a FULL backup use the options above.</string>
-    <string name="settingsBackupImportFailed">Import failed!</string>
-    <string name="settingsBackupImportJson">Import</string>
-    <string name="settingsBackupImportSuccessful">Import successful!</string>
-    <string name="settingsBackupImportTitle">Import full backup from .zip file</string>
+    <string name="settingsBackupChooseFile">Alegeți fișierul</string>
+    <string name="settingsBackupExport">Exportați</string>
+    <string name="settingsBackupExportTitle">Exportați backup-ul complet ca fișier .zip</string>
+    <string name="settingsBackupHint">Secțiunea de mai jos vă permite să importați/exportați doar o parte din datele tale, pentru o copie de rezervă COMPLETĂ utilizați opțiunile de mai sus.</string>
+    <string name="settingsBackupImportFailed">Importul a eșuat!</string>
+    <string name="settingsBackupImportJson">Importați</string>
+    <string name="settingsBackupImportSuccessful">Importul a reușit!</string>
+    <string name="settingsBackupImportTitle">Importați backup-ul complet din fișierul .zip</string>
     <string name="settingsBackupTitle">Backup</string>
-    <string name="settingsBackupWarning">Warning! Importing a backup will REPLACE your current data with the imported data!</string>
+    <string name="settingsBackupWarning">Atenție! Importând o copie de rezervă, datele curente vor fi ÎNLOCUITE cu datele importate!</string>
 
     <string name="settingsBirthdaysNotificationTime">Schimbă timpul notificării zilei de naștere</string>
     <string name="settingsBirthdaysShowMonth">Afișează luna pentru fiecare zi de naștere</string>
@@ -173,62 +174,62 @@
     <string name="settingsNotesShowDeleted">Afișați notițele șterse recent</string>
     <string name="settingsNotesTitle">Notițe</string>
 
-    <string name="settingsShoppingCloseHint">(In shopping fragment)</string>
-    <string name="settingsShoppingCloseItemDialog">Close item dialog after adding</string>
-    <string name="settingsShoppingCollapseChecked">Collapse checked categories</string>
-    <string name="settingsShoppingCustomHint">View or delete items that you entered, which the shopping list remembered</string>
-    <string name="settingsShoppingImprovedSearch">Improved item search</string>
-    <string name="settingsShoppingListTitle">Shopping</string>
-    <string name="settingsShoppingMoveDown">Move checked categories down</string>
-    <string name="settingsShoppingOnlyExpandOne">Only expand one category</string>
-    <string name="settingsShoppingSearchHint">E.g. recommend \'Apple\' if \'Applfe\' is entered.</string>
+    <string name="settingsShoppingCloseHint">(În fragmentul de cumpărături)</string>
+    <string name="settingsShoppingCloseItemDialog">Închideți dialogul elementului după adăugare</string>
+    <string name="settingsShoppingCollapseChecked">Colapsarea categoriilor bifate</string>
+    <string name="settingsShoppingCustomHint">Vizualizați sau ștergeți elementele pe care le-ați introdus, pe care lista de cumpărături le-a reținut</string>
+    <string name="settingsShoppingImprovedSearch">Căutare îmbunătățită a elementelor</string>
+    <string name="settingsShoppingListTitle">Cumpărături</string>
+    <string name="settingsShoppingMoveDown">Mutați categoriile bifate în jos</string>
+    <string name="settingsShoppingOnlyExpandOne">Extindeți doar o categorie</string>
+    <string name="settingsShoppingSearchHint">De exemplu, recomandă \'Apple\' dacă se introduce \'Applfe\'.</string>
 
 <!--    shopping-->
-    <string name="shoppingAddItemTitle">Add item</string>
-    <string name="shoppingDialogClearList">Clear list?</string>
-    <string name="shoppingDialogDeleteTitle">Delete list?</string>
-    <string name="shoppingDialogRemoveChecked">Remove checked items?</string>
-    <string name="shoppingDialogRenameList">Rename List</string>
-    <string name="shoppingEditItemTitle">Edit item</string>
+    <string name="shoppingAddItemTitle">Adăugați un element</string>
+    <string name="shoppingDialogClearList">Să golesc lista?</string>
+    <string name="shoppingDialogDeleteTitle">Să șterg lista?</string>
+    <string name="shoppingDialogRemoveChecked">Eliminați elementele bifate?</string>
+    <string name="shoppingDialogRenameList">Redenumiți lista</string>
+    <string name="shoppingEditItemTitle">Editați elementul</string>
     <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
-    <string name="shoppingNotificationItemAdded">Item added!</string>
-    <string name="shoppingOptionAddList">Add list</string>
-    <string name="shoppingOptionClearList">Clear list</string>
-    <string name="shoppingOptionCollapseAll">Collapse all</string>
-    <string name="shoppingOptionDeleteChecked">Remove checked items</string>
-    <string name="shoppingOptionDeleteList">Delete List</string>
-    <string name="shoppingOptionExpandAll">Expand all</string>
-    <string name="shoppingOptionRenameList">Rename list</string>
-    <string name="shoppingOptionUncheckAll">Uncheck all</string>
+    <string name="shoppingNotificationItemAdded">Element adăugat!</string>
+    <string name="shoppingOptionAddList">Adaugă listă</string>
+    <string name="shoppingOptionClearList">Goliți lista</string>
+    <string name="shoppingOptionCollapseAll">Restrânge toate</string>
+    <string name="shoppingOptionDeleteChecked">Eliminați elementele bifate</string>
+    <string name="shoppingOptionDeleteList">Ștergeți lista</string>
+    <string name="shoppingOptionExpandAll">Extindeți tot</string>
+    <string name="shoppingOptionRenameList">Redenumiți lista</string>
+    <string name="shoppingOptionUncheckAll">Debifați tot</string>
 
 <!--    sleep-->
-    <string name="sleepActiveDays">Active days</string>
-    <string name="sleepCustomDays">Enable Custom Days</string>
+    <string name="sleepActiveDays">Zile active</string>
+    <string name="sleepCustomDays">Activați Zilele personalizate</string>
     <string name="sleepDialogMinute">m</string>
-    <string name="sleepDuration">Sleep duration</string>
-    <string name="sleepDurationDay">Sleep Duration</string>
-    <string name="sleepEnable">Enable Reminder</string>
-    <string name="sleepFri">Fri</string>
-    <string name="sleepHint">If a day is checked, you will be notified to go to sleep on time the night before that day.</string>
-    <string name="sleepMon">Mon</string>
-    <string name="sleepNotificationText">It\'s time to go to bed, sleep well!</string>
-    <string name="sleepNotificationTitle">Bedtime</string>
-    <string name="sleepSat">Sat</string>
-    <string name="sleepSun">Sun</string>
-    <string name="sleepThu">Thu</string>
-    <string name="sleepTue">Tue</string>
-    <string name="sleepWakeUpTime">Wakeup Time</string>
-    <string name="sleepWed">Wed</string>
+    <string name="sleepDuration">Durata somnului</string>
+    <string name="sleepDurationDay">Durata somnului</string>
+    <string name="sleepEnable">Activați memento</string>
+    <string name="sleepFri">Vin</string>
+    <string name="sleepHint">Dacă o zi este bifată, veți fi notificat să vă culcați la timp în noaptea dinaintea zilei respective.</string>
+    <string name="sleepMon">Lun</string>
+    <string name="sleepNotificationText">E timpul să mergi la culcare, somn ușor!</string>
+    <string name="sleepNotificationTitle">Ora de culcare</string>
+    <string name="sleepSat">Sâm</string>
+    <string name="sleepSun">Dum</string>
+    <string name="sleepThu">Joi</string>
+    <string name="sleepTue">Mar</string>
+    <string name="sleepWakeUpTime">Ora de trezire</string>
+    <string name="sleepWed">Mie</string>
 
 <!--    tasks-->
-    <string name="tasksAddHint">Title</string>
-    <string name="tasksAddTitle">Add Task</string>
-    <string name="tasksDialogClearChecked">Delete checked tasks?</string>
-    <string name="tasksDialogClearList">Clear To-Do List?</string>
-    <string name="tasksEditTitle">Edit Task</string>
-    <string name="tasksOptionClearChecked">Clear checked tasks</string>
-    <string name="tasksOptionClearList">Clear list</string>
-    <string name="tasksOptionUncheckAll">Uncheck all</string>
+    <string name="tasksAddHint">Titlu</string>
+    <string name="tasksAddTitle">Adăugați o sarcină</string>
+    <string name="tasksDialogClearChecked">Să ștergeți sarcinile bifate?</string>
+    <string name="tasksDialogClearList">Să golesc lista de sarcini?</string>
+    <string name="tasksEditTitle">Editare sarcină</string>
+    <string name="tasksOptionClearChecked">Ștergeți sarcinile bifate</string>
+    <string name="tasksOptionClearList">Goliți lista</string>
+    <string name="tasksOptionUncheckAll">Debifați tot</string>
     <string name="tasksPriority1" translatable="false">1</string>
     <string name="tasksPriority2" translatable="false">2</string>
     <string name="tasksPriority3" translatable="false">3</string>
@@ -243,8 +244,8 @@
     </string-array>
 
     <string-array name="noteLines">
-        <item>all</item>
-        <item>none</item>
+        <item>tot</item>
+        <item>niciunul</item>
         <item>1</item>
         <item>3</item>
         <item>5</item>
@@ -269,7 +270,7 @@
         <item>24</item>
     </string-array>
 
-    <string-array name="lunile">
+    <string-array name="months">
         <item>Ianuarie</item>
         <item>Februarie</item>
         <item>Martie</item>
@@ -305,33 +306,33 @@
     </string-array>
 
     <string-array name="categoryNames">
-        <item>Other</item>
-        <item>Fruits &amp; Vegetables</item>
-        <item>Drinks</item>
-        <item>Pasta &amp; Grains</item>
-        <item>Bread &amp; Pastries</item>
-        <item>Dairy</item>
-        <item>Meat</item>
+        <item>Altele</item>
+        <item>Fructe &amp; Legume</item>
+        <item>Băuturi</item>
+        <item>Paste &amp; Cereale</item>
+        <item>Pâine &amp; Produse de patiserie</item>
+        <item>Lactate</item>
+        <item>Carne</item>
         <item>Vegan</item>
-        <item>Frozen</item>
-        <item>Canned &amp; Ready-made</item>
-        <item>Breakfast &amp; Co.</item>
-        <item>Spices &amp; Co.</item>
-        <item>Household</item>
-        <item>Snacks</item>
-        <item>Baking Ingredients</item>
-        <item>Drugstore &amp; Cosmetics</item>
-        <item>Alcoholic Beverages</item>
+        <item>Congelate</item>
+        <item>Conservă &amp; Gata făcute</item>
+        <item>Mic dejun &amp; Co.</item>
+        <item>Condimente &amp; Co.</item>
+        <item>Gospodărie</item>
+        <item>Snacks-uri</item>
+        <item>Ingrediente de coacere</item>
+        <item>Farmacie &amp; Cosmetice</item>
+        <item>Băuturi alcoolice</item>
     </string-array>
 
-    <string-array name="forme">
+    <string-array name="shapes">
         <item>Normal</item>
         <item>Rotund</item>
     </string-array>
 
     <string-array name="themes">
-        <item>Dark</item>
-        <item>Light</item>
+        <item>Întunecat</item>
+        <item>Luminos</item>
     </string-array>
 
     <string-array name="languages" translatable="false">
@@ -345,13 +346,13 @@
     </string-array>
 
     <string-array name="fileOptions">
-        <item>Shoppinglist</item>
-        <item>Notes</item>
-        <item>Birthdays</item>
-        <item>Todolist</item>
-        <item>Settings</item>
-        <item>Custom Items</item>
-        <item>Sleep Times</item>
+        <item>Lista de cumpărături</item>
+        <item>Notițe</item>
+        <item>Aniversări</item>
+        <item>Lista To-do</item>
+        <item>Setări</item>
+        <item>Elemente personalizate</item>
+        <item>Timpii de somn</item>
     </string-array>
 
     <!-- Plurals -->
@@ -369,11 +370,11 @@
         <item quantity="one">zi</item>
         <item quantity="other">zile</item>
     </plurals>
-    <string name="notesShare">Share</string>
-    <string name="show_advanced_backup_options">Show advanced backup options</string>
-    <string name="settingsNotesEqualSize">Equally sized notes</string>
-    <string name="settingsNotesSortFoldersTop">Sort folders to the top</string>
-    <string name="aboutSupportThis">Support this project</string>
+    <string name="notesShare">Partajați</string>
+    <string name="show_advanced_backup_options">Afișați opțiunile avansate de backup</string>
+    <string name="settingsNotesEqualSize">Notițe de dimensiuni egale</string>
+    <string name="settingsNotesSortFoldersTop">Sortează dosarele în partea de sus</string>
+    <string name="aboutSupportThis">Susțineți acest proiect</string>
     <string name="menuTitleCalendar">Calendar</string>
 
 </resources>
