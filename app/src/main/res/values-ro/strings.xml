@@ -65,7 +65,7 @@
     <string name="howtoNoteFolder">Cu ajutorul opțiunilor de meniu din dreapta sus, este posibil să adăugați un nou dosar sau să modificați / mutați dosarul deschis în acel moment.</string>
     <string name="howtoShoppingCheckCategories">Atingeți cercul din partea de sus a unei categorii pentru a verifica toate elementele conținute.</string>
     <string name="howtoShoppingDelete">Glisați un element la stânga sau dreapta pentru a-l șterge.</string>
-    <string name="howtoShoppingExplanation">Atunci când adăugați un element în listă, puteți introduce detalii opționale în paranteze. De exemplu, dacă introduceți \"Pâine (integrală)\", elementul va fi totuși sortat în categoria \"Pâine și produse de patiserie\", deși aplicația recunoaște doar partea \"Pâine\" din nume.</string>
+    <string name="howtoShoppingExplanation">Atunci când adăugați un element în listă, puteți introduce detalii opționale în paranteze. De exemplu, dacă introduceți \"Pâine (integrală)\", elementul va fi totuși sortat în categoria \"Pâine și Produse de patiserie\", deși aplicația recunoaște doar partea \"Pâine\" din nume.</string>
     <string name="howtoShoppingLists">Puteți adăuga liste de cumpărături suplimentare și le puteți modifica sau șterge prin intermediul meniului din dreapta sus.</string>
     <string name="howtoShoppingReorder">Apăsați lung și trageți o categorie pentru a o rearanja.</string>
     <string name="howtoSleepExplanation">Setați ora de trezire dorită și câte ore de somn aveți nevoie, iar sleeppreminder vă va anunța când trebuie să mergeți la culcare.</string>
@@ -315,7 +315,7 @@
         <item>Carne</item>
         <item>Vegan</item>
         <item>Congelate</item>
-        <item>Conservă &amp; Gata făcute</item>
+        <item>Conservă &amp; Gata preparate</item>
         <item>Mic dejun &amp; Co.</item>
         <item>Condimente &amp; Co.</item>
         <item>Gospodărie</item>
