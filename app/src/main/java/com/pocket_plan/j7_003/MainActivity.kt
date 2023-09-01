@@ -32,7 +32,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
-import com.pocket_plan.j7_003.data.calendar.CalendarFr
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
 import com.pocket_plan.j7_003.data.notelist.NoteColors
@@ -297,7 +296,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.menuItemSettings -> changeToFragment(FT.SETTINGS)
                 R.id.menuSleepReminder -> changeToFragment(FT.SLEEP)
                 R.id.menuHelp -> changeToFragment(FT.SETTINGS_HOWTO)
-                R.id.menuCalendar -> changeToFragment(FT.CALENDAR)
             }
             drawerLayoutBinding.drawerLayout.closeDrawer(GravityCompat.START)
             true
@@ -543,7 +541,6 @@ class MainActivity : AppCompatActivity() {
             FT.TASKS,
             FT.SHOPPING,
             FT.NOTES,
-            FT.CALENDAR,
             FT.BIRTHDAYS -> View.VISIBLE
             else -> View.INVISIBLE
         }
@@ -574,7 +571,6 @@ class MainActivity : AppCompatActivity() {
             FT.SETTINGS_GENERAL -> resources.getText(R.string.settingsGeneralTitle)
             FT.SETTINGS_HOWTO -> resources.getText(R.string.settingsHowToTitle)
             FT.SETTINGS_BIRTHDAYS -> resources.getText(R.string.menuTitleBirthdays)
-            FT.CALENDAR -> resources.getText(R.string.menuTitleCalendar)
             else -> ""
         }
 
@@ -634,7 +630,6 @@ class MainActivity : AppCompatActivity() {
             FT.SLEEP -> sleepFr
             FT.SETTINGS_HOWTO -> SettingsHowTo()
             FT.SETTINGS_BIRTHDAYS -> SettingsBirthdays()
-            FT.CALENDAR -> CalendarFr()
             else -> homeFr
         }
 

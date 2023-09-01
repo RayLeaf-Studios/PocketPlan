@@ -12,9 +12,5 @@
         android:title="@string/menuTitleSettings"
         android:icon="@drawable/ic_action_settings"
         android:id="@+id/menuItemSettings"/>
-    <item
-        android:title="@string/menuTitleCalendar"
-        android:icon="@drawable/ic_action_info"
-        android:id="@+id/menuCalendar"/>
 
 </menu>
