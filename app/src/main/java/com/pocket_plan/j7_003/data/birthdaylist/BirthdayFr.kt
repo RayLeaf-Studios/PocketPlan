@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.SearchView
@@ -656,37 +657,25 @@ class BirthdayFr : Fragment() {
             var valid = true
             if (matcher.find()) {
                 var yearPresent = true
-                if (matcher.group(1) != null) {
-                    try {
-                        dateStringStartIndex = matcher.start(1)
-                        val day = matcher.group(1)!!.toInt()
-                        val month = matcher.group(2)!!.toInt()
-                        val year = matcher.group(3)!!.toInt()
-                        date = LocalDate.of(year, month, day)
-                    } catch (_: Exception) {
-                        valid = false
-                    }
-                } else if (matcher.group(4) != null) {
-                    try {
-                        dateStringStartIndex = matcher.start(4)
-                        val day = matcher.group(6)!!.toInt()
-                        val month = matcher.group(5)!!.toInt()
-                        val year = matcher.group(4)!!.toInt()
-                        date = LocalDate.of(year, month, day)
-                    } catch (_: Exception) {
-                        valid = false
-                    }
-                } else {
-                    yearPresent = false
-                    try {
-                        dateStringStartIndex = matcher.start(7)
-                        val day = matcher.group(7)!!.toInt()
-                        val month = matcher.group(8)!!.toInt()
-                        date = LocalDate.of(date.year, month, day)
-                    } catch (_: Exception) {
-                        valid = false
-                    }
+
+                val groupIndex = when {
+                    matcher.group(1) != null -> 1
+                    matcher.group(4) != null -> 4
+                    else -> 7
                 }
+
+                try {
+                    dateStringStartIndex = matcher.start(groupIndex)
+                    val day = matcher.group(groupIndex)!!.toInt()
+                    val month = matcher.group(groupIndex + 1)!!.toInt()
+                    val year =
+                        if (groupIndex != 7) matcher.group(groupIndex + 2)!!.toInt() else date.year
+                    yearPresent = groupIndex != 7
+                    date = LocalDate.of(year, month, day)
+                } catch (_: Exception) {
+                    valid = false
+                }
+
                 if (valid) {
                     dateRegistered = true
                     val dayMonthString = date.dayOfMonth.toString()
@@ -698,6 +687,7 @@ class BirthdayFr : Fragment() {
                     }
                     // only remove date from name line, if it was a complete date
                     if (yearPresent) {
+                        if (text.filterNot { it.isWhitespace() }.length != text.length) dateStringStartIndex--
                         etName.setText(text.substring(0, dateStringStartIndex).trim())
                         etName.setSelection(etName.text.length)
                         cbSaveBirthdayYear.isChecked = true
@@ -773,25 +763,16 @@ class BirthdayFr : Fragment() {
             } else if (cbSaveBirthdayYear.isChecked) {
                 yearToDisplay = LocalDate.now().year
             }
-            val dpd = when (darkMode) {
-                true -> DatePickerDialog(
-                    myActivity,
-                    R.style.MyDatePickerStyle,
-                    dateSetListener,
-                    yearToDisplay,
-                    date.monthValue - 1,
-                    date.dayOfMonth
-                )
 
-                else -> DatePickerDialog(
-                    myActivity,
-                    R.style.DialogTheme,
-                    dateSetListener,
-                    yearToDisplay,
-                    date.monthValue - 1,
-                    date.dayOfMonth
-                )
-            }
+            val dpd = DatePickerDialog(
+                myActivity,
+                if (darkMode) R.style.MyDatePickerStyle else R.style.DialogTheme,
+                dateSetListener,
+                yearToDisplay,
+                date.monthValue - 1,
+                date.dayOfMonth
+            )
+
             dpd.show()
         }
 
@@ -889,6 +870,10 @@ class BirthdayFr : Fragment() {
 
         //button to confirm adding of birthday
         myDialogBinding.btnConfirmBirthday.setOnClickListener {
+            Log.e("BirthdayFr", etName.text.toString())
+            Log.e("BirthdayFr", etName.text.toString().length.toString())
+            Log.e("BirthdayFr", etName.text.toString().trim().length.toString())
+            Log.e("BirthdayFr", dateStringStartIndex.toString())
             val name = when (dateRegistered) {
                 true -> etName.text.toString().substring(0, dateStringStartIndex).trim()
                 else -> etName.text.toString().trim()
@@ -1152,7 +1137,7 @@ class BirthdayAdapter(
 
         //display info if birthday is expanded
         var expanded = currentBirthday.expanded
-        if (myFragment.searching && itemCount == 1){
+        if (myFragment.searching && itemCount == 1) {
             // expand birthday if it is the only search result
             expanded = true
         }
