@@ -6,7 +6,6 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.SearchView
@@ -637,6 +636,7 @@ class BirthdayFr : Fragment() {
          */
 
         var dateRegistered = false
+        var dateRemoved = false
         var dateStringStartIndex = 0
         val initPriorText = myActivity.resources.getQuantityString(
             R.plurals.day, 0
@@ -654,57 +654,59 @@ class BirthdayFr : Fragment() {
             val pattern =
                 Pattern.compile("(\\d{1,2})[-/.](\\d{1,2})[-/.](\\d{4})|(\\d{4})[-/.](\\d{1,2})[-/.](\\d{1,2})|(\\d{1,2})[-/.](\\d{1,2})")
             val matcher = pattern.matcher(text)
-            var valid = true
-            if (matcher.find()) {
-                var yearPresent = true
 
-                val groupIndex = when {
-                    matcher.group(1) != null -> 1
-                    matcher.group(4) != null -> 4
-                    else -> 7
-                }
+            // return if no date of valid format is found
+            if (!matcher.find()) return@doOnTextChanged
 
-                try {
-                    dateStringStartIndex = matcher.start(groupIndex)
-                    val day = matcher.group(groupIndex)!!.toInt()
-                    val month = matcher.group(groupIndex + 1)!!.toInt()
-                    val year =
-                        if (groupIndex != 7) matcher.group(groupIndex + 2)!!.toInt() else date.year
-                    yearPresent = groupIndex != 7
-                    date = LocalDate.of(year, month, day)
-                } catch (_: Exception) {
-                    valid = false
-                }
+            val yearPresent: Boolean
 
-                if (valid) {
-                    dateRegistered = true
-                    val dayMonthString = date.dayOfMonth.toString()
-                        .padStart(2, '0') + "." + (date.monthValue).toString().padStart(2, '0')
-
-                    tvBirthdayDate.text = when (yearPresent) {
-                        false -> dayMonthString
-                        else -> dayMonthString + "." + date.year.toString()
-                    }
-                    // only remove date from name line, if it was a complete date
-                    if (yearPresent) {
-                        if (text.filterNot { it.isWhitespace() }.length != text.length) dateStringStartIndex--
-                        etName.setText(text.substring(0, dateStringStartIndex).trim())
-                        etName.setSelection(etName.text.length)
-                        cbSaveBirthdayYear.isChecked = true
-                        tvSaveYear.setTextColor(
-                            myActivity.colorForAttr(R.attr.colorOnBackGround)
-                        )
-                    } else {
-                        cbSaveBirthdayYear.isChecked = false
-                        tvSaveYear.setTextColor(
-                            myActivity.colorForAttr(R.attr.colorHint)
-                        )
-                    }
-                    yearChanged = true
-                } else {
-                    dateRegistered = false
-                }
+            val groupIndex = when {
+                matcher.group(1) != null -> 1
+                matcher.group(4) != null -> 4
+                else -> 7
             }
+
+            try {
+                dateStringStartIndex = matcher.start(groupIndex)
+                val day = matcher.group(groupIndex)!!.toInt()
+                val month = matcher.group(groupIndex + 1)!!.toInt()
+                val year =
+                    if (groupIndex != 7) matcher.group(groupIndex + 2)!!.toInt() else date.year
+                yearPresent = groupIndex != 7
+                date = LocalDate.of(year, month, day)
+            } catch (_: Exception) {
+                // return if date not valid, e.g. 35.12.2023
+                return@doOnTextChanged
+            }
+
+            // construct date string and set it in the "choose date button"
+            val dayMonthString = date.dayOfMonth.toString()
+                .padStart(2, '0') + "." + (date.monthValue).toString().padStart(2, '0')
+            tvBirthdayDate.text = when (yearPresent) {
+                false -> dayMonthString
+                else -> dayMonthString + "." + date.year.toString()
+            }
+
+            // only remove date from name line, if it was a complete date
+            if (yearPresent) {
+                if (text.filterNot { it.isWhitespace() }.length != text.length) dateStringStartIndex--
+                etName.setText(text.substring(0, dateStringStartIndex).trim())
+                etName.setSelection(etName.text.length)
+                cbSaveBirthdayYear.isChecked = true
+                tvSaveYear.setTextColor(
+                    myActivity.colorForAttr(R.attr.colorOnBackGround)
+                )
+                dateRemoved = true
+            } else {
+                cbSaveBirthdayYear.isChecked = false
+                tvSaveYear.setTextColor(
+                    myActivity.colorForAttr(R.attr.colorHint)
+                )
+                dateRemoved = false
+            }
+
+            yearChanged = true
+            dateRegistered = true
         }
 
         var cachedRemindText = "0"
@@ -858,7 +860,6 @@ class BirthdayFr : Fragment() {
         //AlertDialogBuilder
         val myBuilder =
             activity?.let { it1 -> AlertDialog.Builder(it1).setView(myDialogBinding.root) }
-//        val myTitle = layoutInflater.inflate(R.layout.title_dialog, null)
         val myTitleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
         myTitleDialogBinding.tvDialogTitle.text = resources.getText(R.string.birthdayDialogAddTitle)
         myBuilder?.setCustomTitle(myTitleDialogBinding.root)
@@ -870,13 +871,10 @@ class BirthdayFr : Fragment() {
 
         //button to confirm adding of birthday
         myDialogBinding.btnConfirmBirthday.setOnClickListener {
-            Log.e("BirthdayFr", etName.text.toString())
-            Log.e("BirthdayFr", etName.text.toString().length.toString())
-            Log.e("BirthdayFr", etName.text.toString().trim().length.toString())
-            Log.e("BirthdayFr", dateStringStartIndex.toString())
-            val name = when (dateRegistered) {
-                true -> etName.text.toString().substring(0, dateStringStartIndex).trim()
-                else -> etName.text.toString().trim()
+            val name = if (!dateRegistered || (dateRegistered && dateRemoved)){
+                etName.text.toString().trim()
+            } else {
+                etName.text.toString().substring(0, dateStringStartIndex).trim()
             }
 
             //tell user to enter a name if none is entered
