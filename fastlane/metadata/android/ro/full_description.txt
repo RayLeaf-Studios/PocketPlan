@@ -1,0 +1,9 @@
+<i>PocketPlan</i> este o aplicație open-source gratuită, fără reclame, care se ocupă de sarcinile de zi cu zi pentru tine. Dezvoltarea s-a axat pe un design simplu și clar. Multe dintre aspectele funcționale sau vizuale ale aplicației pot fi personalizate în setări.
+
+Caracteristicile în detaliu:
+
+* Listă de sarcini ✔️<br>În lista de sarcini puteți salva sarcini cu diferite priorități, în funcție de care lista este sortată automat. Sarcinile cu prioritatea 1 vor fi afișate în panoul de start!
+* Notițe 📝<br>Stocați notițe bazate pe text în culori diferite și căutați în ele textul conținut.
+* Aniversări 🎂<br>Lista aniversărilor vă oferă o imagine de ansamblu a zilelor de naștere viitoare, sortate pe luni.  Aici puteți seta care zi de naștere doriți să vă fie reamintită și care nu. Pentru a nu uita să cumpărați un cadou, puteți fi reamintit și cu câteva zile înainte! Dacă cineva își aniversează ziua de naștere astăzi, acest lucru va fi afișat în panoul de start.
+* Listă de cumpărături 📜<br>Adaugați un articol pe lista de cumpărături și acesta va fi sortat automat în categoria potrivită! Dacă lista de cumpărături nu vă cunoaște articolul, puteți, de asemenea, să îi atribuiți voi înșivă categoria. Puteți adăuga mai multe liste pentru a păstra totul organizat.
+* Reamintire somn ⌛️<br>Vă culcați adesea prea târziu pentru că pierdeți noțiunea timpului? Atunci reamintirea de somn integrată te poate ajuta. Alegeți ora de trezire preferată și cât de mult somn aveți nevoie, iar PocketPlan vă va reaminti să vă culcați la ora potrivită. Atunci când acest memento este activat, panoul Home va afișa, cât timp mai aveți până când ar trebui să dormiți.
