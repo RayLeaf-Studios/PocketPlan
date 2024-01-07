@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-
     defaultConfig {
         applicationId "com.pocket_plan.j7_003"
+        compileSdk 34
         minSdkVersion 23
         targetSdkVersion 34
 
