@@ -26,6 +26,10 @@
         android:title="@string/shoppingOptionDeleteChecked"
         app:showAsAction="never" />
     <item
+        android:id="@+id/item_shopping_remove_duplicates"
+        android:title="@string/shoppingDialogRemoveCheckedDuplicates"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/item_shopping_undo"
         android:icon="@drawable/ic_action_undo"
         android:title=""

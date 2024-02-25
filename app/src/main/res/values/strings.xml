@@ -189,6 +189,7 @@
     <string name="shoppingDialogClearList">Clear list?</string>
     <string name="shoppingDialogDeleteTitle">Delete list?</string>
     <string name="shoppingDialogRemoveChecked">Remove checked items?</string>
+    <string name="shoppingDialogRemoveCheckedDuplicates">Remove duplicate checked items?</string>
     <string name="shoppingDialogRenameList">Rename List</string>
     <string name="shoppingEditItemTitle">Edit item</string>
     <string name="shoppingItemTitle" translatable="false">%1$s%2$s %3$s</string>
@@ -197,6 +198,7 @@
     <string name="shoppingOptionClearList">Clear list</string>
     <string name="shoppingOptionCollapseAll">Collapse all</string>
     <string name="shoppingOptionDeleteChecked">Remove checked items</string>
+    <string name="shoppingOptionRemoveCheckedDuplicates">Remove duplicate checked items</string>
     <string name="shoppingOptionDeleteList">Delete List</string>
     <string name="shoppingOptionExpandAll">Expand all</string>
     <string name="shoppingOptionRenameList">Rename list</string>

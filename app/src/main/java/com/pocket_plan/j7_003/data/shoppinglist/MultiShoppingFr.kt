@@ -367,6 +367,10 @@ class MultiShoppingFr : Fragment() {
                 dialogRemoveCheckedItems()
             }
 
+            R.id.item_shopping_remove_duplicates -> {
+                dialogRemoveDuplicateItems()
+            }
+
             R.id.item_shopping_uncheck_all -> {
                 //uncheck all shopping items
                 activeShoppingFr.shoppingListInstance.uncheckAll()
@@ -447,7 +451,8 @@ class MultiShoppingFr : Fragment() {
         dialogAddItemBinding = DialogAddItemBinding.inflate(layoutInflater)
 
         //Initialize dialogBuilder and set its title
-        val myBuilder = myActivity.let { AlertDialog.Builder(it).setView(dialogAddItemBinding.root) }
+        val myBuilder =
+            myActivity.let { AlertDialog.Builder(it).setView(dialogAddItemBinding.root) }
 
         val titleDialogBinding = TitleDialogBinding.inflate(layoutInflater)
         titleDialogBinding.tvDialogTitle.text = myActivity.getString(R.string.shoppingAddItemTitle)
@@ -809,6 +814,16 @@ class MultiShoppingFr : Fragment() {
         val titleId = R.string.shoppingDialogRemoveChecked
         val action: () -> Unit = {
             activeShoppingFr.shoppingListInstance.removeCheckedItems()
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+            updateShoppingMenu()
+        }
+        myActivity.dialogConfirm(titleId, action)
+    }
+
+    private fun dialogRemoveDuplicateItems() {
+        val titleId = R.string.shoppingDialogRemoveCheckedDuplicates
+        val action: () -> Unit = {
+            activeShoppingFr.shoppingListInstance.removeCheckedDuplicateItems()
             activeShoppingFr.myAdapter.notifyDataSetChanged()
             updateShoppingMenu()
         }
