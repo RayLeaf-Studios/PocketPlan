@@ -11,6 +11,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
     fun setWrapper(newWrapper: ShoppingListWrapper) {
         this.wrapper = newWrapper
     }
+
     /**
      * Adds a given ShoppingElement to this list, according to its given tag.
      * If no element of the given tag existed before, the list generate a new sublist,
@@ -209,6 +210,36 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
             }
         }
         this.removeAll { e -> e.second.size == 1 }
+        save()
+    }
+
+    /**
+     * Removes duplicates from checked items, either if there is
+     * a unchecked item with the same title or an checked item
+     * with the same title
+     */
+    fun removeCheckedDuplicateItems() {
+        removeCheckedItemsIfAlsoUnchecked()
+        this.forEach { e ->
+            val checkedItems =
+                e.second.filter { item -> item.checked && e.second.indexOf(item) != 0 }
+            e.second.removeAll(checkedItems.toSet())
+            e.second.addAll(checkedItems.distinct())
+        }
+        save()
+    }
+
+    /**
+     * Removes all checked items from shopping list
+     * if there is an uncheck item with the same name
+     */
+    private fun removeCheckedItemsIfAlsoUnchecked() {
+        this.forEach { e ->
+            val unchecked = e.second.filter { item -> !item.checked }.map { item -> item.name }
+            unchecked.forEach { name ->
+                e.second.removeAll { item -> item.checked && item.name.equals(name) }
+            }
+        }
         save()
     }
 
