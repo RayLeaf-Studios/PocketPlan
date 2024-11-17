@@ -64,6 +64,7 @@ class TodoFr : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_tasks, menu)
         myMenu = menu
@@ -72,6 +73,7 @@ class TodoFr : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @Deprecated("Deprecated in Java")
     @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

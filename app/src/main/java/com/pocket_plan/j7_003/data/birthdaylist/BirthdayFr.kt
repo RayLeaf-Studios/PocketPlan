@@ -81,7 +81,7 @@ class BirthdayFr : Fragment() {
         lateinit var lastQuery: String
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         //inflate menu and save reference to it
         inflater.inflate(R.menu.menu_birthdays, menu)
@@ -161,6 +161,7 @@ class BirthdayFr : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    @Deprecated("Deprecated in Java")
     @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

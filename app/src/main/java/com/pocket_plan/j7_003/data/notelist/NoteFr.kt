@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.notelist
 
+import android.annotation.SuppressLint
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.TextUtils
@@ -97,6 +98,7 @@ class NoteFr : Fragment() {
         return frBinding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_notes, menu)
         myMenu = menu
@@ -196,6 +198,7 @@ class NoteFr : Fragment() {
         myAdapter.notifyDataSetChanged()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_notes_search -> {
@@ -312,14 +315,14 @@ class NoteFr : Fragment() {
             backgroundList.forEachIndexed { index, constraintLayout ->
                 constraintLayout.setBackgroundColor(
                     myActivity.colorForAttr(
-                        (NoteColors.values()[index].colorAttributeValue)
+                        (NoteColors.entries[index].colorAttributeValue)
                     )
                 )
             }
         }
 
         //White background for color of folder that is edited
-        backgroundList[NoteColors.values().indexOf(editFolder.color)]
+        backgroundList[NoteColors.entries.indexOf(editFolder.color)]
             .setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
 
@@ -328,7 +331,7 @@ class NoteFr : Fragment() {
             button.setOnClickListener {
                 //reset all backgrounds to their respective color
                 backgroundList.forEachIndexed { index, constraintLayout ->
-                    var borderColor = NoteColors.values()[index].colorAttributeValue
+                    var borderColor = NoteColors.entries[index].colorAttributeValue
                     if (dark && darkBorderStyle == 3.0) {
                         borderColor = getCorrespondingDarkColor(borderColor)
                     }
@@ -337,11 +340,11 @@ class NoteFr : Fragment() {
                 //set white border around clicked button
                 backgroundList[index].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
-                folderColor = NoteColors.values()[index]
+                folderColor = NoteColors.entries.toTypedArray()[index]
             }
 
             //Initialize dark button colors if necessary
-            var buttonColor = NoteColors.values()[index].colorAttributeValue
+            var buttonColor = NoteColors.entries[index].colorAttributeValue
             if (dark && darkBorderStyle == 3.0) {
                 buttonColor = getCorrespondingDarkColor(buttonColor)
             }
@@ -424,7 +427,7 @@ class NoteFr : Fragment() {
             backgroundList.forEachIndexed { index, constraintLayout ->
                 constraintLayout.setBackgroundColor(
                     myActivity.colorForAttr(
-                        getCorrespondingDarkColor(NoteColors.values()[index].colorAttributeValue)
+                        getCorrespondingDarkColor(NoteColors.entries[index].colorAttributeValue)
                     )
                 )
             }
@@ -434,18 +437,18 @@ class NoteFr : Fragment() {
         var folderColor =
             when (SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean) {
                 true -> {
-                    val randColorIndex = Random.nextInt(0, NoteColors.values().size)
-                    NoteColors.values()[randColorIndex]
+                    val randColorIndex = Random.nextInt(0, NoteColors.entries.size)
+                    NoteColors.entries[randColorIndex]
                 }
 
                 else -> {
                     val lastUsedColorIndex =
                         (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
-                    NoteColors.values()[lastUsedColorIndex]
+                    NoteColors.entries[lastUsedColorIndex]
                 }
             }
         //Show initial folder color by changing the color of the background square of the selected button to colorOnBackground
-        backgroundList[NoteColors.values()
+        backgroundList[NoteColors.entries
             .indexOf(folderColor)].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
         //hide elements unnecessary for adding
@@ -459,7 +462,7 @@ class NoteFr : Fragment() {
             button.setOnClickListener {
                 //reset all backgrounds to their respective color
                 backgroundList.forEachIndexed { index, constraintLayout ->
-                    var borderColor = NoteColors.values()[index].colorAttributeValue
+                    var borderColor = NoteColors.entries[index].colorAttributeValue
                     if (dark && darkBorderStyle == 3.0) {
                         borderColor = getCorrespondingDarkColor(borderColor)
                     }
@@ -468,10 +471,10 @@ class NoteFr : Fragment() {
                 //set white border around clicked button
                 backgroundList[index].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
-                folderColor = NoteColors.values()[index]
+                folderColor = NoteColors.entries.toTypedArray()[index]
             }
 
-            var buttonColor = NoteColors.values()[index].colorAttributeValue
+            var buttonColor = NoteColors.entries[index].colorAttributeValue
             if (dark && darkBorderStyle == 3.0) {
                 buttonColor = getCorrespondingDarkColor(buttonColor)
             }
@@ -490,7 +493,7 @@ class NoteFr : Fragment() {
             //Save last used note color
             SettingsManager.addSetting(
                 SettingId.LAST_USED_NOTE_COLOR,
-                NoteColors.values().indexOf(folderColor).toDouble()
+                NoteColors.entries.indexOf(folderColor).toDouble()
             )
             myAdapter.notifyDataSetChanged()
             myAlertDialog?.dismiss()
@@ -575,6 +578,7 @@ class NoteFr : Fragment() {
 
     }
 
+    @SuppressLint("DefaultLocale")
     private fun getContainedNoteTexts(note: Note): String {
         var result = ""
         if (note.content == null) {

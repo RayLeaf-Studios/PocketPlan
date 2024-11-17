@@ -97,7 +97,7 @@ class NoteEditorFr : Fragment() {
                 .apply()
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(
                 PreferenceIDs.EDIT_NOTE_COLOR.id,
-                NoteColors.values().indexOf(NoteFr.editNoteHolder!!.color)
+                NoteColors.entries.indexOf(NoteFr.editNoteHolder!!.color)
             ).apply()
             fragmentBinding.etNoteTitle.clearFocus()
         } else {
@@ -109,7 +109,7 @@ class NoteEditorFr : Fragment() {
             myActivity.getPreferences(Context.MODE_PRIVATE).edit()
                 .putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
             myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(
-                PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.values().indexOf(
+                PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.entries.indexOf(
                     noteColor
                 )
             ).apply()
@@ -128,6 +128,7 @@ class NoteEditorFr : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_editor_delete -> openDeleteNoteDialog()
@@ -177,6 +178,7 @@ class NoteEditorFr : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_editor, menu)
         myMenu = menu
@@ -187,8 +189,8 @@ class NoteEditorFr : Fragment() {
             //Get color from note to be edited, to tint the color change icon
             var tintColor = when (NoteFr.displayColor != -1) {
                 true -> {
-                    val color = NoteColors.values()[NoteFr.displayColor].colorAttributeValue
-                    noteColor = NoteColors.values()[NoteFr.displayColor]
+                    val color = NoteColors.entries[NoteFr.displayColor].colorAttributeValue
+                    noteColor = NoteColors.entries.toTypedArray()[NoteFr.displayColor]
                     NoteFr.displayColor = -1
                     color
                 }
@@ -210,8 +212,8 @@ class NoteEditorFr : Fragment() {
         } else {
             if (SettingsManager.getSetting(SettingId.RANDOMIZE_NOTE_COLORS) as Boolean) {
                 //init random note color if setting says so
-                val randColorIndex = Random.nextInt(0, NoteColors.values().size)
-                noteColor = NoteColors.values()[randColorIndex]
+                val randColorIndex = Random.nextInt(0, NoteColors.entries.size)
+                noteColor = NoteColors.entries.toTypedArray()[randColorIndex]
 
                 var tintColor = noteColor.colorAttributeValue
                 if (myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0) {
@@ -226,7 +228,7 @@ class NoteEditorFr : Fragment() {
                 //init last used note color
                 val lastUsedColorIndex =
                     (SettingsManager.getSetting(SettingId.LAST_USED_NOTE_COLOR) as Double).toInt()
-                noteColor = NoteColors.values()[lastUsedColorIndex]
+                noteColor = NoteColors.entries.toTypedArray()[lastUsedColorIndex]
 
                 var tintColor = noteColor.colorAttributeValue
                 if (myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0) {
@@ -266,7 +268,7 @@ class NoteEditorFr : Fragment() {
     }
 
     fun getNoteColor(): Int {
-        return NoteColors.values().indexOf(noteColor)
+        return NoteColors.entries.indexOf(noteColor)
     }
 
     fun relevantNoteChanges(): Boolean {
@@ -448,7 +450,7 @@ class NoteEditorFr : Fragment() {
          */
         buttonList.forEachIndexed { i, b ->
             b.setOnClickListener {
-                noteColor = NoteColors.values()[i]
+                noteColor = NoteColors.entries.toTypedArray()[i]
                 myMenu.findItem(R.id.item_editor_color)?.icon?.setTint(
                     myActivity.colorForAttr(colorList[i])
                 )
@@ -456,7 +458,7 @@ class NoteEditorFr : Fragment() {
                 //save last used note color
                 SettingsManager.addSetting(SettingId.LAST_USED_NOTE_COLOR, i.toDouble())
             }
-            var buttonColor = NoteColors.values()[i].colorAttributeValue
+            var buttonColor = NoteColors.entries[i].colorAttributeValue
             if (myNoteFr.dark && myNoteFr.darkBorderStyle == 3.0) {
                 buttonColor = myNoteFr.getCorrespondingDarkColor(buttonColor)
             }

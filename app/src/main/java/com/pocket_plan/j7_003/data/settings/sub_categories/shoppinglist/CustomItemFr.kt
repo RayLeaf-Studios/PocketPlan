@@ -76,6 +76,7 @@ class CustomItemFr : Fragment() {
         return fragmentBinding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_custom_clear -> {
@@ -123,6 +124,7 @@ class CustomItemFr : Fragment() {
         myMenu.findItem(R.id.item_custom_undo).isVisible = deletedItem != null
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         myMenu = menu
         inflater.inflate(R.menu.menu_custom_items, menu)

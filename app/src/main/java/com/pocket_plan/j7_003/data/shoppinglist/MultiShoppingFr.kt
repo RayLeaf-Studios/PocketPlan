@@ -153,6 +153,7 @@ class MultiShoppingFr : Fragment() {
     }
 
 
+    @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         myMenu = menu
         inflater.inflate(R.menu.menu_shopping, menu)
@@ -328,6 +329,7 @@ class MultiShoppingFr : Fragment() {
         dialogAddShoppingListBinding.etAddShoppingList.requestFocus()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         //decides if options menu will be refreshed immediately after option is selected
