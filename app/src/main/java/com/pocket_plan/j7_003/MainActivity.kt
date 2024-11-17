@@ -712,7 +712,10 @@ class MainActivity : AppCompatActivity() {
         previousFragmentStack.pop()
         if (previousFragmentStack.isNotEmpty() && previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())
-        } else onBackPressedDispatcher.onBackPressed()
+        } else {
+            onBackPressedDispatcher.onBackPressed()
+            super.onBackPressed()
+        }
     }
 
 
@@ -752,11 +755,11 @@ class MainActivity : AppCompatActivity() {
      */
 
     @SuppressLint("InflateParams")
-    fun dialogConfirm(titleId: Int, action: () -> Unit, hint: String = "") {
-        dialogConfirm(getString(titleId), action, hint)
+    fun dialogConfirm(titleId: Int, action: () -> Unit, hint: String = "", cancelAction: () -> Unit = {}) {
+        dialogConfirm(getString(titleId), action, hint, cancelAction)
     }
 
-    fun dialogConfirm(title: String, action: () -> Unit, hint: String = "") {
+    fun dialogConfirm(title: String, action: () -> Unit, hint: String = "", cancelAction: () -> Unit = {}) {
         val dialogConfirmBinding = DialogConfirmBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
@@ -789,7 +792,12 @@ class MainActivity : AppCompatActivity() {
 
         //hide dialog when "Cancel" is pressed
         btnCancel.setOnClickListener {
+            cancelAction()
             myAlertDialog.dismiss()
+        }
+
+        myAlertDialog.setOnDismissListener {
+            cancelAction()
         }
 
         //show dialog

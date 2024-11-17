@@ -365,5 +365,6 @@
     <string name="settingsNotesEqualSize">Notițe de dimensiuni egale</string>
     <string name="settingsNotesSortFoldersTop">Sortează dosarele în partea de sus</string>
     <string name="aboutSupportThis">Susțineți acest proiect</string>
+    <string name="birthdayDialogDeleteTitle">Șterge ziua de naștere?</string>
 
 </resources>

@@ -309,5 +309,6 @@
     <string name="settingsNotesSortFoldersTop">Сортировка папок к верху</string>
     <string name="aboutSupportThisProject">PocketPlan не содержит рекламы и поэтому не приносит никакого дохода. Если вы хотите поддержать развитие этого проекта, сделайте пожертвование по следующей ссылке.</string>
     <string name="aboutSupportThis">Поддержите этот проект</string>
+    <string name="birthdayDialogDeleteTitle">Удалить день рождения?</string>
 
 </resources>

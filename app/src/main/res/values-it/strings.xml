@@ -309,5 +309,6 @@
     <string name="settingsNotesSortFoldersTop">Ordinare le cartelle in alto</string>
     <string name="aboutSupportThisProject">PocketPlan è privo di pubblicità e pertanto non genera alcun reddito. Se volete sostenere lo sviluppo di questo progetto, considerate la possibilità di effettuare una donazione tramite il seguente link.</string>
     <string name="aboutSupportThis">Sostenete questo progetto</string>
+    <string name="birthdayDialogDeleteTitle">Eliminare il compleanno?</string>
 
 </resources>

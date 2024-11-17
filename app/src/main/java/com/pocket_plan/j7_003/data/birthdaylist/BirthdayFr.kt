@@ -6,7 +6,13 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +30,8 @@ import com.pocket_plan.j7_003.databinding.FragmentBirthdayBinding
 import com.pocket_plan.j7_003.databinding.RowBirthdayBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import org.threeten.bp.LocalDate
-import java.util.*
+import java.util.ArrayDeque
+import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.math.abs
 
@@ -993,8 +1000,17 @@ class SwipeToDeleteBirthday(
         target: RecyclerView.ViewHolder
     ): Boolean = false
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
-        adapter.deleteItem(viewHolder)
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int){
+        val titleID = R.string.birthdayDialogDeleteTitle
+        val action: () -> Unit = {
+            adapter.deleteItem(viewHolder)
+        }
+        val cancelAction: () -> Unit = {
+            myFragment.myAdapter.notifyDataSetChanged()
+        }
+        myFragment.myActivity.dialogConfirm(titleID, action, "", cancelAction)
+    }
+
 }
 
 
