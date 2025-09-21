@@ -1,6 +1,5 @@
-package com.pocket_plan.j7_003.data.sleepreminder
-
 import android.content.Context
+import android.util.Log
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
@@ -21,7 +20,9 @@ import kotlin.math.abs
 /**
  * A simple class to handle different Reminders for a sleep schedule
  */
-class SleepReminder(passedContext: Context) : Checkable{
+class SleepReminder(passedContext: Context) : Checkable {
+    private val TAG = "SleepReminder"
+
     var myContext = passedContext
     var daysAreCustom: Boolean = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
     var reminder = HashMap<DayOfWeek, Reminder>(7)
@@ -32,96 +33,48 @@ class SleepReminder(passedContext: Context) : Checkable{
         load()
     }
 
-    /**
-     * Marks the as regular and saves the SleepReminders state
-     * to the save file.
-     * @see setCustom is the according counterpart.
-     */
     fun setRegular() {
         daysAreCustom = false
         save()
     }
 
-    /**
-     * Marks the SleepReminder as custom and saved the SleepReminders state to the
-     * save file.
-     * @see setRegular is the according counterpart.
-     */
     fun setCustom() {
         daysAreCustom = true
         save()
     }
 
-    /**
-     * Edits a specific Reminders WakeUp time and saves to file.
-     * @param day A DayOfWeek object to specify the Reminder to edit.
-     * @param hour The hour to set the WakeUp time to.
-     * @param minute The minute to set the WakeUp time to.
-     */
     fun editWakeUpAtDay(day: DayOfWeek, hour: Int, minute: Int) {
         reminder[day]?.editWakeUpTime(hour, minute)
         updateSingleReminder(day)
         save()
     }
 
-    /**
-     * Edits the WakeUp time of all Reminders and saves to file.
-     * @param hour The hour to set all Reminders to.
-     * @param minute The minute to set all Reminders to.
-     */
     fun editAllWakeUp(hour: Int, minute: Int) {
-        reminder.forEach { n ->
-            n.value.editWakeUpTime(hour, minute)
-        }
+        reminder.forEach { n -> n.value.editWakeUpTime(hour, minute) }
         updateReminder()
         save()
     }
 
-    /**
-     * Edits a specific Reminders Duration and saves to file.
-     * @param day A DayOfWeek object to specify the Reminder to edit.
-     * @param hour The hour the Duration will last.
-     * @param minute The amount of minutes the Duration will be set to.
-     */
     fun editDurationAtDay(day: DayOfWeek, hour: Int, minute: Int) {
         reminder[day]?.editDuration(hour, minute)
         updateSingleReminder(day)
         save()
     }
 
-    /**
-     * Checks if any reminder is set.
-     * @return Boolean depending on weather at least one reminder is
-     * set or not.
-     */
     fun isAnySet(): Boolean {
         reminder.forEach { n ->
-            if (n.value.isSet) {
-                return true
-            }
+            if (n.value.isSet) return true
         }
         return false
     }
 
-    /**
-     * Edits the Duration of all Reminders and saves to file.
-     * @param hour The amount of hours the Duration will be set to.
-     * @param minute The amount of minutes the Duration will be set to.
-     */
     fun editAllDuration(hour: Int, minute: Int) {
-        reminder.forEach { n ->
-            n.value.editDuration(hour, minute)
-        }
+        reminder.forEach { n -> n.value.editDuration(hour, minute) }
         updateReminder()
         save()
     }
 
-    /**
-     * Returns a string containing the RemainingWakeDuration of the current day.
-     * @return A string of the remaining time until the Reminders reminderTime.
-     */
     fun getRemainingWakeDurationString(): Pair<String, Int> {
-        //ignore this mess, it ain't pretty, but it works as intended
         val nextTwoReminder = getNextTwoReminder()
         val nextReminder = nextTwoReminder.first.nextReminder
         val nextSet = nextTwoReminder.first.isSet
@@ -134,53 +87,37 @@ class SleepReminder(passedContext: Context) : Checkable{
             Pair(
                 "${localDateTime.until(priorReminder, ChronoUnit.HOURS)}h " +
                         "${localDateTime.until(priorReminder, ChronoUnit.MINUTES) % 60}m",
-                if (priorSet) 1
-                else 2
+                if (priorSet) 1 else 2
             )
         } else {
             Pair(
                 "${localDateTime.until(nextReminder, ChronoUnit.HOURS)}h " +
                         "${localDateTime.until(nextReminder, ChronoUnit.MINUTES) % 60}m",
-                if (nextSet) 0
-                else 2
+                if (nextSet) 0 else 2
             )
         }
     }
 
-    /**
-     * Enables all Reminders to notify the user and saves the SleepReminder to the save file.
-     * @see disableAll is the counterpart of this function.
-     */
     fun enableAll() {
-        reminder.forEach { n ->
-            n.value.isSet = true
-        }
+        reminder.forEach { n -> n.value.isSet = true }
         updateReminder()
         save()
     }
 
-
-    /**
-     * Disables all Reminders from notifying the user and saves the SleepReminder to file.
-     * @see enableAll is the counterpart of this function.
-     */
     fun disableAll() {
-        reminder.forEach { n ->
-            n.value.isSet = false
-        }
+        reminder.forEach { n -> n.value.isSet = false }
         updateReminder()
         save()
     }
 
     private fun initMap() {
-        DayOfWeek.values().forEach { n ->
-            reminder[n] = Reminder(n, this)
-        }
+        DayOfWeek.values().forEach { n -> reminder[n] = Reminder(n, this) }
     }
 
     private fun createFile() {
         StorageHandler.createJsonFile(
-            StorageId.SLEEP, text = Gson().toJson(reminder)
+            StorageId.SLEEP,
+            text = Gson().toJson(reminder)
         )
     }
 
@@ -190,16 +127,49 @@ class SleepReminder(passedContext: Context) : Checkable{
     }
 
     private fun load() {
-        val jsonString = StorageHandler.files[StorageId.SLEEP]?.readText()
+        val file = StorageHandler.files[StorageId.SLEEP]
+        val raw = file?.takeIf { it.exists() }?.readText()?.trim()
+        val gson: Gson = GsonBuilder().create()
+        val mapType = object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type
 
-        reminder = GsonBuilder().create()
-            .fromJson(jsonString, object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type)
-
-        daysAreCustom = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
-
-        reminder.forEach { entry ->
-            entry.value.mySleepReminder = this
+        fun freshDefaults(): HashMap<DayOfWeek, Reminder> {
+            val fresh = HashMap<DayOfWeek, Reminder>(7)
+            DayOfWeek.values().forEach { fresh[it] = Reminder(it, this) }
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], fresh)
+            Log.w(TAG, "Loaded defaults for SLEEP due to missing or invalid JSON")
+            return fresh
         }
+
+        reminder = try {
+            when {
+                raw.isNullOrBlank() -> freshDefaults()
+
+                raw.first() == '{' -> {
+                    gson.fromJson<HashMap<DayOfWeek, Reminder>>(raw, mapType)
+                        ?: freshDefaults()
+                }
+
+                raw.first() == '"' -> {
+                    // Handle double-encoded JSON (file contains a JSON string that itself is JSON)
+                    val inner = runCatching { gson.fromJson(raw, String::class.java) }.getOrNull()
+                    if (!inner.isNullOrBlank() && inner.trim().startsWith("{")) {
+                        gson.fromJson<HashMap<DayOfWeek, Reminder>>(inner.trim(), mapType)
+                            ?: freshDefaults()
+                    } else {
+                        freshDefaults()
+                    }
+                }
+
+                else -> freshDefaults()
+            }
+        } catch (t: Throwable) {
+            Log.w(TAG, "Failed to parse SLEEP JSON. Resetting. ${t.message}")
+            freshDefaults()
+        }
+
+        daysAreCustom = (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as? Boolean) ?: false
+
+        reminder.forEach { entry -> entry.value.mySleepReminder = this }
 
         updateReminder()
     }
@@ -223,16 +193,9 @@ class SleepReminder(passedContext: Context) : Checkable{
             reminder[closestReminder.nextReminder.dayOfWeek]
         }
 
-        return Pair(
-            closestReminder,
-            priorReminder!!
-        )
+        return Pair(closestReminder, priorReminder!!)
     }
 
-    /**
-     * Calls the updateAlarm function on all Reminders with their according requestCodes.
-     * @see Reminder.updateAlarm for alarm updating.
-     */
     fun updateReminder() {
         reminder.forEach { n ->
             val i = when (n.key) {
@@ -243,6 +206,7 @@ class SleepReminder(passedContext: Context) : Checkable{
                 FRIDAY -> 205
                 SATURDAY -> 204
                 SUNDAY -> 206
+                else -> 200
             }
             n.value.updateAlarm(i)
         }
@@ -259,6 +223,7 @@ class SleepReminder(passedContext: Context) : Checkable{
                 FRIDAY -> 205
                 SATURDAY -> 204
                 SUNDAY -> 206
+                else -> 200
             }
         )
         save()
@@ -266,9 +231,7 @@ class SleepReminder(passedContext: Context) : Checkable{
 
     override fun check() {
         reminder.forEach {
-            if(it.key == null || it.value == null){
-                throw NullPointerException()
-            }
+            if (it.key == null || it.value == null) throw NullPointerException()
         }
     }
 
@@ -294,73 +257,31 @@ class SleepReminder(passedContext: Context) : Checkable{
         @SerializedName(value = "n")
         var nextReminder: LocalDateTime = getNextReminderCustom()
 
-        /**
-         * @return The hour of the Reminders wakeUpTime as int.
-         */
         fun getWakeHour(): Int = wakeUpTime.hour
-
-        /**
-         * @return The minute of the Reminders wakeUpTime as an int.
-         */
         fun getWakeMinute(): Int = wakeUpTime.minute
-
-        /**
-         * @return The hour of the Reminders duration as an int.
-         */
         fun getDurationHour(): Int = duration.toHours().toInt()
-
-        /**
-         * @return The minute of the Reminders duration as an int.
-         */
         fun getDurationMinute(): Int = (duration.toMinutes() % 60).toInt()
 
-        /**
-         * Changes the Reminders wakeUpTime with the given parameters and
-         * then calculates the reminderTime.
-         * @param hour The hour to set the wakeUpTime to.
-         * @param minute The minute to set the wakeUpTime to.
-         */
         fun editWakeUpTime(hour: Int, minute: Int) {
             wakeUpTime = LocalTime.of(hour, minute)
             updateReminderState()
         }
 
-        /**
-         * Changes the Reminders Duration with the given parameters and
-         * then calculates the reminderTime.
-         * @param hour The hours the duration will last.
-         * @param minute The minutes the duration will last.
-         */
         fun editDuration(hour: Int, minute: Int) {
             duration = Duration.ofHours(hour.toLong()).plusMinutes(minute.toLong())
             updateReminderState()
         }
 
-        /**
-         * Marks the Reminder as notifiable.
-         * @see disable for the counterpart.
-         */
         fun enable(day: DayOfWeek) {
             isSet = true; mySleepReminder.updateSingleReminder(day)
         }
 
-        /**
-         * Marks the Reminder as not notifiable.^^
-         * @see enable for the counterpart.
-         */
         fun disable(day: DayOfWeek) {
             isSet = false; mySleepReminder.updateSingleReminder(day)
         }
 
-        /**
-         * @return The WakeUpTime formatted as a string.
-         */
         fun getWakeUpTimeString(): String = wakeUpTime.toString()
 
-
-        /**
-         * @return The Duration formatted as "HHh MMm".
-         */
         fun getDurationTimeString(): String =
             "${duration.toHours().toString().padStart(2, '0')}h " +
                     "${(duration.toMinutes() % 60).toString().padStart(2, '0')}m"
@@ -369,10 +290,6 @@ class SleepReminder(passedContext: Context) : Checkable{
             nextReminder = getNextReminderCustom()
         }
 
-        /**
-         * Updates the AlarmManager for the calling Reminder.
-         * @param requestCode An integer to identify the alarm.
-         */
         fun updateAlarm(requestCode: Int) {
             updateReminderState()
             AlarmHandler.setNewSleepReminderAlarm(

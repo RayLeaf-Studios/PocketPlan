@@ -1,5 +1,6 @@
 package com.pocket_plan.j7_003.data.sleepreminder
 
+import SleepReminder
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -146,8 +147,13 @@ class SleepFr : Fragment() {
 
 
         regularCheckBoxList = arrayListOf(
-            fragmentBinding.cbMonday, fragmentBinding.cbTuesday, fragmentBinding.cbWednsday,
-            fragmentBinding.cbThursday, fragmentBinding.cbFriday, fragmentBinding.cbSaturday, fragmentBinding.cbSunday
+            fragmentBinding.cbMonday,
+            fragmentBinding.cbTuesday,
+            fragmentBinding.cbWednsday,
+            fragmentBinding.cbThursday,
+            fragmentBinding.cbFriday,
+            fragmentBinding.cbSaturday,
+            fragmentBinding.cbSunday
         )
 
         fragmentBinding.panelWakeTime.setOnClickListener {
@@ -166,6 +172,7 @@ class SleepFr : Fragment() {
                     sleepReminderInstance.reminder[DayOfWeek.MONDAY]?.getWakeMinute()!!,
                     true
                 )
+
                 else -> TimePickerDialog(
                     myActivity,
                     R.style.DialogTheme,
@@ -322,7 +329,8 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SleepViewHolder {
-        val rowSleepBinding = RowSleepBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rowSleepBinding =
+            RowSleepBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SleepViewHolder(rowSleepBinding)
     }
 
@@ -367,7 +375,8 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
         }
 
         holder.binding.clTapFieldDuration.setOnClickListener {
-            val dialogPickTimeBinding = DialogPickTimeBinding.inflate(LayoutInflater.from(myActivity))
+            val dialogPickTimeBinding =
+                DialogPickTimeBinding.inflate(LayoutInflater.from(myActivity))
 
             dialogPickTimeBinding.npHour.minValue = 0
             dialogPickTimeBinding.npHour.maxValue = 23
@@ -420,6 +429,7 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
                         myFragment.sleepReminderInstance.reminder[day]?.getWakeMinute()!!,
                         true
                     )
+
                 else ->
                     TimePickerDialog(
                         myActivity,
@@ -444,7 +454,8 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
 
     override fun getItemCount(): Int = 7
 
-    class SleepViewHolder(rowSleepBinding: RowSleepBinding) : RecyclerView.ViewHolder(rowSleepBinding.root) {
+    class SleepViewHolder(rowSleepBinding: RowSleepBinding) :
+        RecyclerView.ViewHolder(rowSleepBinding.root) {
         lateinit var day: DayOfWeek
         var binding = rowSleepBinding
     }
