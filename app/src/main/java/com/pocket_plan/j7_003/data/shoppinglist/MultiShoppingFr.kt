@@ -192,11 +192,21 @@ class MultiShoppingFr : Fragment() {
         } else {
             tabLayout.visibility = View.VISIBLE
         }
-        tabLayout.removeAllTabs()
-        MainActivity.shoppingListWrapper.forEach {
-            val name =
-                if (it.second.isSyncModeEnabled()) "${if (it.second.isLocked()) "🛑" else "🌐"} ${it.first}" else it.first
-            tabLayout.addTab(tabLayout.newTab().setText(name))
+        if (tabLayout.tabCount != MainActivity.shoppingListWrapper.size || tabLayout.tabCount == 0) {
+            tabLayout.removeAllTabs()
+            MainActivity.shoppingListWrapper.forEach {
+                val name =
+                    if (it.second.isSyncModeEnabled()) "${if (it.second.isLocked()) "🛑" else "🌐"} ${it.first}" else it.first
+                tabLayout.addTab(tabLayout.newTab().setText(name))
+            }
+        } else {
+            for (i in 0 until tabLayout.tabCount) {
+                val tab = tabLayout.getTabAt(i) ?: continue
+                val shoppingList = MainActivity.shoppingListWrapper[i]
+
+                tab.text =
+                    if (shoppingList.second.isSyncModeEnabled()) "${if (shoppingList.second.isLocked()) "🛑" else "🌐"} ${shoppingList.first}" else shoppingList.first
+            }
         }
     }
 
@@ -835,6 +845,7 @@ class MultiShoppingFr : Fragment() {
                 updateShoppingMenu()
             } else {
                 //handling adding in home
+                // todo - look into sync from home fragment
                 MainActivity.shoppingListWrapper[0].second.add(item)
                 Toast.makeText(
                     myActivity,
@@ -896,7 +907,18 @@ class MultiShoppingFr : Fragment() {
     /**
      * Reset and open addItemDialog
      */
-    fun openAddItemDialog() {
+    fun openAddItemDialog(context: Context? = this.context) {
+        // differentiate between adding from shopping and home fragment
+        val list = when {
+            this::activeShoppingFr.isInitialized -> activeShoppingFr.shoppingListInstance
+            else -> MainActivity.shoppingListWrapper[0].second
+        }
+
+        if (list.isLocked()) {
+            Toast.makeText(context, "List is locked", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         //set dialog title to "add item"
         myActivity.titleDialogBinding.tvDialogTitle.text =
             myActivity.getString(R.string.shoppingAddItemTitle)
