@@ -5,18 +5,21 @@ import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import kotlin.collections.arrayListOf
 
 /**
  * A simple wrapper for shopping lists to easily manage multiple instances of them.
  */
-class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, ShoppingList>>(), Checkable {
+class ShoppingListWrapper(defaultListName: String = "") : ArrayList<Pair<String, ShoppingList>>(),
+    Checkable {
+
     private val defaultName = defaultListName
 
     init {
         StorageHandler.createJsonFile(StorageId.SHOPPING_LISTS)
         accountCompatibility()
         fetchList()
-        if (this.size == 0)
+        if (this.isEmpty())
             this.add(defaultListName, ShoppingList(this))
 
         // TODO - this is the compatibility layer for saving
@@ -27,6 +30,15 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
                     it.second[0].amount = list.indexOf(it).toString()
             }
         }
+
+        this.forEach { (listName, list) ->
+            if (list.isNotEmpty() && list.firstOrNull { it.first == "meta" } != null) return@forEach
+
+            val metaCat = Pair<String, ArrayList<ShoppingItem>>("meta", arrayListOf())
+            metaCat.second.add(ShoppingItem("meta", false, null))
+            list.add(metaCat)
+        }
+
         save()
     }
 
@@ -113,7 +125,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
      */
     fun contains(name: String): Boolean {
         this.forEach {
-        if (it.first.equals(name.trim(), ignoreCase = true))
+            if (it.first.equals(name.trim(), ignoreCase = true))
                 return true
         }
         return false
@@ -129,10 +141,10 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
     private fun fetchList() {
         val jsonString = StorageHandler.files[StorageId.SHOPPING_LISTS]?.readText()
         val list: ArrayList<Pair<String, ShoppingList>> = GsonBuilder().create().fromJson(
-                jsonString,
-                object : TypeToken<ArrayList<Pair<String, ShoppingList>>>() {}.type
-            )
-        list.forEach{
+            jsonString,
+            object : TypeToken<ArrayList<Pair<String, ShoppingList>>>() {}.type
+        )
+        list.forEach {
             it.second.setWrapper(this)
         }
         this.addAll(list)
@@ -148,10 +160,11 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
             return
         }
 
-        val list: ArrayList<Pair<String, ArrayList<ShoppingItem>>> = GsonBuilder().create().fromJson(
-            jsonString,
-            object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
-        )
+        val list: ArrayList<Pair<String, ArrayList<ShoppingItem>>> =
+            GsonBuilder().create().fromJson(
+                jsonString,
+                object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
+            )
 
         val shoppingList = ShoppingList(this)
         list.forEach {

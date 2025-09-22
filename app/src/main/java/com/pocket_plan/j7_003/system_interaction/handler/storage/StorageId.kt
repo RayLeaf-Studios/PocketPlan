@@ -9,12 +9,13 @@ enum class StorageId(val s: String, val i: Int) {
     USER_TEMPLATE_LIST("UserShoppingItems.json", 5),
     SLEEP("SleepReminder.json", 6),
     // code 7 is reserved for backups and should not be used
-    SHOPPING_LISTS("ShoppingLists.json", 0)
+    SHOPPING_LISTS("ShoppingLists.json", 0),
+    SHOPPING_SYNC("ShoppingListSync.json", 9)
     ;
 
     companion object {
         fun getByI(i: Int): StorageId? {
-            values().forEach { id ->
+            entries.forEach { id ->
                 if (id.i == i) {
                     return id
                 }

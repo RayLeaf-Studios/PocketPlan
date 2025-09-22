@@ -31,7 +31,8 @@ class SettingsMainFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         myActivity = activity as MainActivity
-        _fragmentSettingsMainBinding = FragmentSettingsMainBinding.inflate(inflater, container, false)
+        _fragmentSettingsMainBinding =
+            FragmentSettingsMainBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
         initializeComponents(fragmentSettingsMainBinding)
         initializeListeners()
@@ -46,6 +47,7 @@ class SettingsMainFr : Fragment() {
         clSettingNotes = fragmentSettingsMainBinding.clSettingNotes
         clSettingsGeneral = fragmentSettingsMainBinding.clSettingGeneral
         clSettingBirthdays = fragmentSettingsMainBinding.clSettingBirthdays
+        fragmentSettingsMainBinding.etSyncUrl.setText(SettingsManager.getSetting(SettingId.SYNC_SERVER_URL) as String)
     }
 
     private fun initializeListeners() {
@@ -59,6 +61,11 @@ class SettingsMainFr : Fragment() {
         clSettingAbout.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_ABOUT) }
         clSettingsGeneral.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_GENERAL) }
         clSettingBirthdays.setOnClickListener { myActivity.changeToFragment(FT.SETTINGS_BIRTHDAYS) }
+
+        fragmentSettingsMainBinding.btnSyncUrl.setOnClickListener {
+            val url: String = fragmentSettingsMainBinding.etSyncUrl.text.toString()
+            SettingsManager.addSetting(SettingId.SYNC_SERVER_URL, url)
+        }
     }
 
 }

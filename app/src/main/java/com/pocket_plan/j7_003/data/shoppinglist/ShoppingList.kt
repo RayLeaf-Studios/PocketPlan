@@ -3,14 +3,22 @@ package com.pocket_plan.j7_003.data.shoppinglist
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.shoppinglist.model.ShoppingMetaData
 
-class ShoppingList(private var wrapper: ShoppingListWrapper?) :
+class ShoppingList(
+    private var wrapper: ShoppingListWrapper?,
+) :
     ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable {
     constructor() : this(null)
+
+    private companion object {
+        private const val META_TAG = "meta"
+    }
 
     fun setWrapper(newWrapper: ShoppingListWrapper) {
         this.wrapper = newWrapper
     }
+
     /**
      * Adds a given ShoppingElement to this list, according to its given tag.
      * If no element of the given tag existed before, the list generate a new sublist,
@@ -75,15 +83,128 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
         }
     }
 
+    /**
+     * Enables sync mode by adding a syncId item to the meta category.
+     * If sync mode is already enabled, nothing happens.
+     * @param id The sync ID to be used for synchronization.
+     */
+    fun enableSyncMode(id: String) {
+        if (isSyncModeEnabled()) return
+
+        val metaList = getMetadataList()
+        val syncEntry = metaList.firstOrNull { it.tag == ShoppingMetaData.SYNC_ID.tag }
+
+        if (syncEntry == null) {
+            val syncItem = ShoppingItem(
+                name = id,
+                tag = ShoppingMetaData.SYNC_ID.tag,
+                suggestedUnit = null,
+                amount = null,
+                unit = null,
+                checked = true
+            )
+
+            this.addMetadataItem(syncItem)
+        } else {
+            syncEntry.checked = true
+            syncEntry.name = id
+        }
+
+        save()
+    }
+
+    /**
+     * Disables sync mode by removing the syncId item from the meta category.
+     * If the meta category or syncId item do not exist, nothing happens.
+     */
+    fun disableSyncMode() {
+        val metaList = getMetadataList()
+        if (metaList.isEmpty()) return
+
+        metaList.first { it.tag == ShoppingMetaData.SYNC_ID.tag }.checked = false
+
+        save()
+    }
+
+    /**
+     * Checks whether sync mode is enabled by verifying the presence of a syncId in the meta category.
+     * @return `true` if sync mode is enabled, `false` otherwise.
+     */
+    fun isSyncModeEnabled(): Boolean {
+        return getSyncId() != null
+    }
+
+    /**
+     * Checks whether the shopping list is locked by looking for a lock item in the meta category.
+     * @return `true` if the shopping list is locked, `false` otherwise.
+     */
+    fun isLocked(): Boolean {
+        val metaList = getMetadataList()
+        if (metaList.isEmpty()) return false
+
+        metaList.forEach {
+            if (it.tag == ShoppingMetaData.LOCK.tag && it.checked) return true
+        }
+
+        return false
+    }
+
+    /**
+     * Sets the lock state of the shopping list by adding or updating a lock item in the meta category.
+     * @param locked `true` to lock the shopping list, `false` to unlock it.
+     */
+    fun setLock(locked: Boolean) {
+        val metaList = getMetadataList()
+        val lockEntry = metaList.firstOrNull { it.tag == ShoppingMetaData.LOCK.tag }
+
+        if (metaList.isEmpty() || lockEntry == null) {
+            val lockItem = ShoppingItem(
+                name = null,
+                tag = ShoppingMetaData.LOCK.tag,
+                suggestedUnit = null,
+                amount = null,
+                unit = null,
+                checked = locked
+            )
+            this.addMetadataItem(lockItem)
+        } else {
+            lockEntry.checked = locked
+        }
+
+        save()
+    }
+
+    /**
+     * Retrieves the sync ID from the meta category if it exists and is enabled.
+     * @return The sync ID string if it exists and is enabled, `null` otherwise.
+     */
+    fun getSyncId(): String? {
+        val metaList = getMetadataList()
+        if (metaList.isEmpty()) return null
+
+        val syncId =
+            metaList.firstOrNull { it.tag == ShoppingMetaData.SYNC_ID.tag && it.name!!.isNotBlank() && it.checked }
+
+        return syncId?.name
+    }
+
+    /**
+     * Expands all tags by setting the checked state of their marker item to true.
+     */
     fun expandAllTags() {
         this.forEach { e ->
+            if (e.first == META_TAG) return@forEach
             e.second[0].checked = true
         }
         save()
     }
 
     /**
-     *
+     * Sets the checked state of all items in the sublist with the given tag to the inverse
+     * of whether all items in that sublist are currently checked.
+     * The first item in the sublist (marker item) is ignored.
+     * @param tag The tag of the sublist to modify.
+     * @return The new checked state of the items in the sublist.
      */
     fun equalizeCheckedStates(tag: String): Boolean {
         val newCheckedState: Boolean = !areAllChecked(tag)
@@ -99,6 +220,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
 
     fun collapseAllTags() {
         this.forEach { e ->
+            if (e.first == META_TAG) return@forEach
             e.second[0].checked = false
         }
         save()
@@ -106,6 +228,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
 
     fun somethingIsExpanded(): Boolean {
         this.forEach { e ->
+            if (e.first == META_TAG) return@forEach
             if (e.second[0].checked) {
                 return true
             }
@@ -115,6 +238,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
 
     fun somethingsCollapsed(): Boolean {
         this.forEach { e ->
+            if (e.first == META_TAG) return@forEach
             if (!e.second[0].checked) {
                 return true
             }
@@ -128,6 +252,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
      */
     fun somethingIsChecked(): Boolean {
         this.forEach { e ->     // go through this list
+            if (e.first == META_TAG) return@forEach
             e.second.forEach { a ->     // go through the sublist
                 if (e.second.indexOf(a) != 0) {     // checks if the current item is a marker
                     if (a.checked) {            // check if the current item is checked
@@ -190,6 +315,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
      */
     fun uncheckAll() {
         this.forEach { e ->
+            if (e.first == META_TAG) return@forEach
             e.second.forEach { s ->
                 if (e.second.indexOf(s) != 0) {
                     s.checked = false
@@ -204,11 +330,15 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
      */
     fun removeCheckedItems() {
         this.forEach { e ->
+            if (e.first == META_TAG) return@forEach
             e.second.removeAll { item ->
                 item.checked && e.second.indexOf(item) != 0
             }
         }
-        this.removeAll { e -> e.second.size == 1 }
+        this.removeAll { e ->
+            if (e.first == META_TAG) return@removeAll false
+            e.second.size == 1
+        }
         save()
     }
 
@@ -328,6 +458,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
     fun updateOrder() {
         var pos = 0
         this.forEach lit@{
+            if (it.first == META_TAG) return@lit
             if (areAllChecked(it.first)) return@lit
 
             it.second[0].amount = pos.toString()
@@ -350,6 +481,7 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
 
         var numUnchecked = 0
         this.forEach {
+            if (it.first == META_TAG) return@forEach
             if (!areAllChecked(it.first))
                 numUnchecked++
         }
@@ -372,6 +504,23 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
         markerList.addAll(list)
         list.clear()
         list.addAll(markerList)
+    }
+
+    /**
+     * Retrieves the metadata list if it exists.
+     * @return The metadata list or an empty list if it doesn't exist.
+     */
+    private fun getMetadataList(): MutableList<ShoppingItem> {
+        return this.firstOrNull { it.first == META_TAG }?.second ?: mutableListOf()
+    }
+
+    /**
+     * Adds a new metadata item to the metadata list.
+     * @param item The metadata item to be added.
+     */
+    private fun addMetadataItem(item: ShoppingItem) {
+        this.first { it.first == META_TAG }.second.add(item)
+        save()
     }
 
     fun save() {

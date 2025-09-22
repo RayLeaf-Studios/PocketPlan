@@ -176,7 +176,7 @@ class ShoppingFr : Fragment() {
                     shoppingListInstance.updateOrder()
                     shoppingListInstance.save()
 
-                    if (moveCheckedSublistsDown){
+                    if (moveCheckedSublistsDown) {
                         //get tag of this category
                         val tag = (viewHolder as ShoppingListAdapter.CategoryViewHolder).tag
                         //get position
@@ -310,11 +310,26 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val density = myActivity.resources.displayMetrics.density
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val rowCategoryBinding = RowCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rowCategoryBinding =
+            RowCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CategoryViewHolder(rowCategoryBinding)
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        if (myFragment.shoppingListInstance[position].first == "meta") {
+            // don't ask why, but setting only the root to GONE doesn't work
+            holder.binding.root.visibility = View.GONE
+            holder.binding.subRecyclerView.visibility = View.GONE
+            holder.binding.tvNumberOfItems.visibility = View.GONE
+            holder.binding.ivCheckMark.visibility = View.GONE
+            holder.binding.tvCategoryName.visibility = View.GONE
+            holder.binding.ivExpand.visibility = View.GONE
+            holder.binding.clTapExpand.visibility = View.GONE
+            holder.binding.cvCategory.visibility = View.GONE
+            holder.binding.divider3.visibility = View.GONE
+            return
+        }
+
         //long click listener playing shake animation to indicate moving is possible
         holder.binding.root.setOnLongClickListener {
             if (myFragment.myMultiShoppingFr.searching) {
@@ -578,7 +593,8 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
      * one instance of this class will contain one instance of row_category and meta data like
      * position also holds references to views inside the layout
      */
-    class CategoryViewHolder(rowCategoryBinding: RowCategoryBinding) : RecyclerView.ViewHolder(rowCategoryBinding.root) {
+    class CategoryViewHolder(rowCategoryBinding: RowCategoryBinding) :
+        RecyclerView.ViewHolder(rowCategoryBinding.root) {
         lateinit var tag: String
         val binding = rowCategoryBinding
     }
@@ -608,7 +624,8 @@ class SublistAdapter(
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val rowItemBinding = RowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rowItemBinding =
+            RowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(rowItemBinding)
     }
 
@@ -794,6 +811,17 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
         return false
     }
 
+    override fun getSwipeDirs(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        if (myFragment.shoppingListInstance.isLocked()) {
+            return 0
+        }
+
+        return super.getSwipeDirs(recyclerView, viewHolder)
+    }
+
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         //position of item in sublist
         val position = viewHolder.bindingAdapterPosition
@@ -809,6 +837,10 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
 
         //Pair of deleted item and boolean stating if sublist is empty now
         val removeInfo = myFragment.shoppingListInstance.removeItem(parsed.tag, position)
+
+        if (myFragment.shoppingListInstance.isSyncModeEnabled() && removeInfo.first != null) {
+            myFragment.myMultiShoppingFr.deleteSyncedItem(removeInfo.first!!)
+        }
 
         if (removeInfo.second) {
             //entire sublist is empty => remove sublist

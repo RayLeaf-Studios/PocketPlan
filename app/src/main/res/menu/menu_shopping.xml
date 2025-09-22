@@ -2,6 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/item_shopping_enable_sync"
+        android:title="@string/shoppingOptionEnableSync"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/item_shopping_disable_sync"
+        android:title="@string/shoppingOptionDisableSync"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/item_shopping_add_list"
         android:title="@string/shoppingOptionAddList"
         app:showAsAction="never" />
@@ -42,7 +50,6 @@
         android:id="@+id/item_shopping_search"
         android:icon="@drawable/ic_action_search"
         android:title=""
-        app:showAsAction="always"
-        app:actionViewClass="android.widget.SearchView">
-    </item>
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
 </menu>

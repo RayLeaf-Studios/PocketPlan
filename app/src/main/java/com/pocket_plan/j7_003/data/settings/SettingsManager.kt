@@ -31,7 +31,7 @@ class SettingsManager {
         }
 
         fun restoreDefault() {
-            SettingId.values().forEach { setId -> settings[setId.name] = setId.default }
+            SettingId.entries.forEach { setId -> settings[setId.name] = setId.default }
             save()
         }
 

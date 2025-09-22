@@ -376,5 +376,9 @@
     <string name="settingsNotesSortFoldersTop">Sort folders to the top</string>
     <string name="aboutSupportThis">Support this project</string>
     <string name="birthdayDialogDeleteTitle">Delete birthday?</string>
+    <string name="shoppingOptionEnableSync">Enable Sync</string>
+    <string name="shoppingOptionDisableSync">Disable sync</string>
+    <string name="connectToPocketSync">Connect to PocketSync</string>
+    <string name="syncUrlExample">e.g. https://example.com</string>
 
 </resources>

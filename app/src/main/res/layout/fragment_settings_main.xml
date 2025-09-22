@@ -234,6 +234,30 @@
                 android:layout_height="50dp"
                 android:paddingHorizontal="20dp" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp">
+
+                <EditText
+                    android:id="@+id/etSyncUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/syncUrlExample"
+                    android:inputType="textUri"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textColorHint="?attr/colorHint"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnSyncUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/connectToPocketSync"
+                    app:layout_constraintTop_toBottomOf="@id/etSyncUrl" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
 
