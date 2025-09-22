@@ -84,7 +84,7 @@ class HomeFr : Fragment() {
         fragmentBinding.clAddTask.setOnClickListener { myActivity.todoFr!!.dialogAddTask() }
         fragmentBinding.clAddItem.setOnClickListener {
             myActivity.multiShoppingFr.editing = false
-            myActivity.multiShoppingFr.openAddItemDialog(context)
+            myActivity.multiShoppingFr.openAddItemDialog()
         }
 
         return fragmentBinding.root

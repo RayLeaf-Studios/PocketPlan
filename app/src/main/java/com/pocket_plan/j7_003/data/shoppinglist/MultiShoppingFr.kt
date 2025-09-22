@@ -37,6 +37,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
@@ -837,65 +840,88 @@ class MultiShoppingFr : Fragment() {
                 editing = false
                 addItemDialog.dismiss()
             }
-            //add new item to list
-            if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
-                //handling adding in shopping
-                activeShoppingFr.shoppingListInstance.add(item)
-                activeShoppingFr.myAdapter.notifyDataSetChanged()
-                updateShoppingMenu()
-            } else {
-                //handling adding in home
-                // todo - look into sync from home fragment
-                MainActivity.shoppingListWrapper[0].second.add(item)
-                Toast.makeText(
-                    myActivity,
-                    myActivity.getString(R.string.shoppingNotificationItemAdded),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            autoCompleteTv.setText("")
-            etItemAmount.setText("1")
-            spItemUnit.tag = 0
-            spItemUnit.setSelection(0)
-            autoCompleteTv.requestFocus()
 
-            //checkMark animation to confirm adding of item
-            checkMark.visibility = View.VISIBLE
-            checkMark.animate().translationYBy(-80f).alpha(0f).setDuration(600L).withEndAction {
-                checkMark.animate().translationY(0f).alpha(1f).setDuration(0).start()
-                checkMark.visibility = View.GONE
-            }.start()
-
-            if (activeShoppingFr.shoppingListInstance.isSyncModeEnabled()) {
-                lifecycleScope.launch {
-                    val response = withContext(Dispatchers.IO) {
-                        clientService.addItemToList(
-                            activeShoppingFr.shoppingListInstance.getSyncId()!!,
-                            item.tag,
-                            item.toDto()
-                        ).execute()
-                    }
-
-                    if (response.isSuccessful) {
-                        Toast.makeText(context, "added item", Toast.LENGTH_SHORT).show()
-                    } else {
-                        val index = activeShoppingFr.shoppingListInstance.getTagIndex(item.tag)
-                        val pos =
-                            activeShoppingFr.shoppingListInstance[index].second.indexOf(item) - 1
-
-                        activeShoppingFr.shoppingListInstance.removeItem(item.tag, pos)
-                        Toast.makeText(context, "failed to add item", Toast.LENGTH_SHORT).show()
-                    }
+            fun addItem() {
+                //add new item to list
+                if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
+                    //handling adding in shopping
+                    activeShoppingFr.shoppingListInstance.add(item)
                     activeShoppingFr.myAdapter.notifyDataSetChanged()
+                    updateShoppingMenu()
+                } else {
+                    //handling adding in home
+                    MainActivity.shoppingListWrapper[0].second.add(item)
+                    Toast.makeText(
+                        myActivity,
+                        myActivity.getString(R.string.shoppingNotificationItemAdded),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                //checkMark animation to confirm adding of item
+                checkMark.visibility = View.VISIBLE
+                checkMark.animate().translationYBy(-80f).alpha(0f).setDuration(600L).withEndAction {
+                    checkMark.animate().translationY(0f).alpha(1f).setDuration(0).start()
+                    checkMark.visibility = View.GONE
+                }.start()
+
+                autoCompleteTv.setText("")
+                etItemAmount.setText("1")
+                spItemUnit.tag = 0
+                spItemUnit.setSelection(0)
+                autoCompleteTv.requestFocus()
+
+                //close dialog if setting says so, or dialog was opened from home fragment
+                if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
+                        SettingId.CLOSE_ITEM_DIALOG
+                    ) as Boolean
+                ) {
+                    addItemDialog.dismiss()
                 }
             }
 
-            //close dialog if setting says so, or dialog was opened from home fragment
-            if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
-                    SettingId.CLOSE_ITEM_DIALOG
-                ) as Boolean
-            ) {
-                addItemDialog.dismiss()
+            // differentiate between adding from shopping and home fragment
+            val list = when {
+                this::activeShoppingFr.isInitialized -> activeShoppingFr.shoppingListInstance
+                else -> MainActivity.shoppingListWrapper[0].second
+            }
+
+            if (list.isSyncModeEnabled()) {
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        clientService.addItemToList(
+                            list.getSyncId()!!,
+                            item.tag,
+                            item.toDto()
+                        ).enqueue(object : Callback<ShoppingItemDto> {
+                            override fun onResponse(
+                                call: Call<ShoppingItemDto?>,
+                                response: Response<ShoppingItemDto?>
+                            ) {
+                                if (!response.isSuccessful) {
+                                    Toast.makeText(
+                                        myActivity,
+                                        "failed to add item",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    return
+                                }
+
+                                addItem()
+                            }
+
+                            override fun onFailure(
+                                call: Call<ShoppingItemDto?>,
+                                t: Throwable
+                            ) {
+                                Toast.makeText(myActivity, "failed to add item", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                        })
+                    }
+                }
+            } else {
+                addItem()
             }
         }
 
@@ -907,7 +933,7 @@ class MultiShoppingFr : Fragment() {
     /**
      * Reset and open addItemDialog
      */
-    fun openAddItemDialog(context: Context? = this.context) {
+    fun openAddItemDialog() {
         // differentiate between adding from shopping and home fragment
         val list = when {
             this::activeShoppingFr.isInitialized -> activeShoppingFr.shoppingListInstance
@@ -915,7 +941,7 @@ class MultiShoppingFr : Fragment() {
         }
 
         if (list.isLocked()) {
-            Toast.makeText(context, "List is locked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(myActivity, "List is locked", Toast.LENGTH_SHORT).show()
             return
         }
 
