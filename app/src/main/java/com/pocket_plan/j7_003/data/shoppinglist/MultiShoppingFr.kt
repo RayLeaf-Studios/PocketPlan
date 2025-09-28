@@ -23,10 +23,9 @@ import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingCategoryDto
 import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingItemDto
-import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingListDto
 import com.pocket_plan.j7_003.data.shoppinglist.mapper.ItemMapper.toDto
+import com.pocket_plan.j7_003.data.shoppinglist.mapper.ListMapper.toCore
 import com.pocket_plan.j7_003.databinding.DialogAddItemBinding
 import com.pocket_plan.j7_003.databinding.DialogAddShoppingListBinding
 import com.pocket_plan.j7_003.databinding.FragmentMultiShoppingBinding
@@ -186,6 +185,38 @@ class MultiShoppingFr : Fragment() {
                 updateTabs()
                 updateShoppingMenu()
             }
+        }
+    }
+
+    fun fetchList(id: String) {
+        lifecycleScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                try {
+                    clientService
+                        .getShoppingList(id)
+                        .execute()
+                } catch (e: Exception) {
+                    Log.e(
+                        "Test",
+                        "Fetching list $id failed, exception ${e.message}"
+                    )
+                    return@withContext null
+                }
+            }
+
+            if (response?.isSuccessful != true) {
+                Log.e("Test", "Fetching list $id failed, code ${response?.code()}")
+                return@launch
+            }
+
+            val newList = response.body()!!.toCore()
+            val shoppingList = MainActivity.shoppingListWrapper.find { it.second.getSyncId() == id }?.second
+                ?: return@launch
+
+            shoppingList.merge(newList)
+
+            activeShoppingFr.myAdapter.notifyDataSetChanged()
+            updateShoppingMenu()
         }
     }
 
@@ -487,27 +518,8 @@ class MultiShoppingFr : Fragment() {
             R.id.item_shopping_enable_sync -> {
                 lifecycleScope.launch {
                     val response = withContext(Dispatchers.IO) {
-                        val categories: List<ShoppingCategoryDto> =
-                            activeShoppingFr.shoppingListInstance
-                                .filter { it.first != "meta" }
-                                .map {
-                                    ShoppingCategoryDto(
-                                        it.first,
-                                        it.second.map { item ->
-                                            ShoppingItemDto(
-                                                item.name,
-                                                item.suggestedUnit,
-                                                item.amount?.toFloat(),
-                                                item.unit,
-                                                item.checked
-                                            )
-                                        }
-                                    )
-                                }
 
-                        val newList =
-                            ShoppingListDto("", activeShoppingFr.shoppingListName, categories)
-
+                        val newList = activeShoppingFr.shoppingListInstance.getSyncData()
                         clientService.syncShoppingList(newList).execute()
                     }
 

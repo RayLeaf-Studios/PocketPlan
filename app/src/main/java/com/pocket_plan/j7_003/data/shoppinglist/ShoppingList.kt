@@ -4,6 +4,9 @@ import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.model.ShoppingMetaData
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingCategoryDto
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingItemDto
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingListDto
 
 class ShoppingList(
     private var wrapper: ShoppingListWrapper?,
@@ -17,6 +20,53 @@ class ShoppingList(
 
     fun setWrapper(newWrapper: ShoppingListWrapper) {
         this.wrapper = newWrapper
+    }
+
+    fun merge(other: ShoppingList) {
+        val otherCatNames = other.map { it.first }
+        val toRemoveCats = this.filter { it.first != META_TAG }
+            .filter { it.first !in otherCatNames }
+
+        toRemoveCats.forEach { toRemove -> this.removeAll { it.first == toRemove.first } }
+
+        val thisCatNames = this.map { it.first }
+        val toAddCats = other.filter { it.first != META_TAG }
+            .filter { it.first !in thisCatNames }
+
+        toAddCats.forEach { it.second.forEach { item -> this.add(item) } }
+
+        this.filter { it.first != META_TAG }
+            .map { (name, list) ->
+                if (name in toRemoveCats.map { it.first } || name in toAddCats.map { it.first }) return@map
+
+                val otherTagIndex = other.getTagIndex(name)
+
+                list.removeAll { it.name != null }
+                list.addAll(other[otherTagIndex].second)
+            }
+
+        save()
+    }
+
+    fun getSyncData(): ShoppingListDto {
+        val syncCats = this.filter { it.first != META_TAG }
+            .map { cat ->
+                ShoppingCategoryDto(
+                    cat.first,
+                    cat.second.filter { it.name != null }
+                        .map { item ->
+                            ShoppingItemDto(
+                                item.name,
+                                item.suggestedUnit,
+                                item.amount?.toFloat(),
+                                item.unit,
+                                item.checked
+                            )
+                        }
+                )
+            }
+
+        return ShoppingListDto("", this[0].first, syncCats)
     }
 
     /**

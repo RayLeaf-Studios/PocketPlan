@@ -28,6 +28,9 @@ interface PocketSyncHandler {
     @GET("/api/v1/shopping-lists/{listName}")
     fun getShoppingLists(@Path("listName") listName: String): Call<Collection<ShoppingListDto>>
 
+    @GET("/api/v1/shopping-lists/{id}")
+    fun getShoppingList(@Path("id") id: String): Call<ShoppingListDto>
+
     @HTTP(method = "DELETE", path = "/api/v1/shopping-lists/{id}/{category}/items", hasBody = true)
     fun deleteItem(
         @Path("id") id: String,

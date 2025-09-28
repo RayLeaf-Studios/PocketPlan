@@ -59,6 +59,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.squareup.retrofit2:retrofit:3.0.0'
     implementation 'com.squareup.retrofit2:converter-kotlinx-serialization:3.0.0'
     testImplementation 'junit:junit:4.13.2'

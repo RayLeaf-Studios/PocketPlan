@@ -18,6 +18,7 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.databinding.FragmentShoppingBinding
 import com.pocket_plan.j7_003.databinding.RowCategoryBinding
 import com.pocket_plan.j7_003.databinding.RowItemBinding
+import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 
@@ -122,6 +123,19 @@ class ShoppingFr : Fragment() {
 
         //Initialize references to recycler and its adapter
         val myRecycler = fragmentBinding.recyclerViewShopping
+        val swipeRefresher = fragmentBinding.swipeRefreshLayoutShopping
+
+        swipeRefresher.setOnRefreshListener {
+            if (!shoppingListInstance.isSyncModeEnabled()) {
+                swipeRefresher.isRefreshing = false
+                return@setOnRefreshListener
+            }
+
+            runBlocking {
+                myMultiShoppingFr.fetchList(shoppingListInstance.getSyncId()!!)
+            }
+            swipeRefresher.isRefreshing = false
+        }
 
         //attach adapter to recycler and initialize parameters of recycler
         myRecycler.adapter = myAdapter
