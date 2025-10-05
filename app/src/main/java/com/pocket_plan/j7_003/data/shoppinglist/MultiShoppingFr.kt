@@ -576,6 +576,24 @@ class MultiShoppingFr : Fragment() {
         }
     }
 
+    fun updateSyncedItem(oldItem: ShoppingItem, newItem: ShoppingItem) {
+        lifecycleScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                clientService.updateItemInList(
+                    activeShoppingFr.shoppingListInstance.getSyncId()!!,
+                    oldItem.tag,
+                    Pair(oldItem.toDto(), newItem.toDto())
+                ).execute()
+            }
+
+            if (response.isSuccessful) {
+                activeShoppingFr.myAdapter.updateCheckedState()
+            } else {
+                Toast.makeText(context, "failed to update item", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     fun refreshItemNamesAndAutoCompleteAdapter() {
         //initialize itemNameList
         MainActivity.itemNameList = ArrayList()

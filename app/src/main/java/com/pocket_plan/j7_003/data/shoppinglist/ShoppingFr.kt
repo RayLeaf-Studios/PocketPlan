@@ -125,6 +125,8 @@ class ShoppingFr : Fragment() {
         val myRecycler = fragmentBinding.recyclerViewShopping
         val swipeRefresher = fragmentBinding.swipeRefreshLayoutShopping
 
+        swipeRefresher.isEnabled = shoppingListInstance.isSyncModeEnabled()
+
         swipeRefresher.setOnRefreshListener {
             if (!shoppingListInstance.isSyncModeEnabled()) {
                 swipeRefresher.isRefreshing = false
@@ -323,6 +325,8 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
     private val density = myActivity.resources.displayMetrics.density
 
+    private lateinit var sublistAdapter: SublistAdapter
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val rowCategoryBinding =
             RowCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -409,6 +413,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         //Setting adapter for this sublist
         val subAdapter = SublistAdapter(tag, holder, myActivity, myFragment)
+        sublistAdapter = subAdapter
         holder.binding.subRecyclerView.adapter = subAdapter
         holder.binding.subRecyclerView.layoutManager = LinearLayoutManager(myActivity)
         holder.binding.subRecyclerView.setHasFixedSize(true)
@@ -461,6 +466,8 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
 
         holder.binding.tvNumberOfItems.setOnClickListener {
+            if (myFragment.shoppingListInstance.isLocked()) return@setOnClickListener
+
             //get new checked state of all items (result)
             val newAllChecked = shoppingListInstance.equalizeCheckedStates(tag)
             if (collapseCheckedSublists) {
@@ -499,6 +506,10 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
             }
             myFragment.myMultiShoppingFr.updateShoppingMenu()
         }
+    }
+
+    fun updateCheckedState() {
+        sublistAdapter.updateCheckedState()
     }
 
     /**
@@ -637,10 +648,13 @@ class SublistAdapter(
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
+    private lateinit var holder : ItemViewHolder
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val rowItemBinding =
             RowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ItemViewHolder(rowItemBinding)
+        holder = ItemViewHolder(rowItemBinding)
+        return holder
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -669,6 +683,8 @@ class SublistAdapter(
         params.setMargins(margin, margin, margin, margin)
         //manage onClickListener to edit item
         holder.binding.root.setOnClickListener {
+            if(myFragment.shoppingListInstance.isLocked()) return@setOnClickListener
+
             myFragment.myMultiShoppingFr.editTag = tag
             myFragment.myMultiShoppingFr.editPos = position
             myFragment.myMultiShoppingFr.openEditItemDialog(item)
@@ -734,55 +750,15 @@ class SublistAdapter(
 
         //Onclick Listener for checkBox
         holder.binding.clItemTapfield.setOnClickListener {
+            val oldItem = myFragment.shoppingListInstance.getItem(tag, holder.bindingAdapterPosition)
+            val newItem = oldItem?.copy().let { it?.checked = !it.checked; it }
 
-            //flip checkedState of item and save new position (flipItemCheckedState sorts list and returns new position)
-            val newPosition = myFragment.shoppingListInstance.flipItemCheckedState(
-                tag,
-                holder.bindingAdapterPosition
-            )
-
-            //get number of uncheckedItems in current sublist
-            val numberOfItems = myFragment.shoppingListInstance.getUncheckedSize(holder.tag)
-
-            //If all are checked after the current item got flipped, the list has to go from color to gray
-            myFragment.myAdapter.manageCheckedCategory(
-                parentHolder,
-                myFragment.shoppingListInstance.areAllChecked(holder.tag),
-                numberOfItems,
-                holder.tag
-            )
-
-            //If setting says to collapse checked sublists, and current sublist is fully checked,
-            //collapse it and notify item change
-            if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(
-                    holder.tag
-                )
-            ) {
-                myFragment.shoppingListInstance.flipExpansionState(holder.tag)
-                myFragment.myAdapter.notifyItemChanged(parentHolder.bindingAdapterPosition)
+            if (myFragment.shoppingListInstance.isLocked()) return@setOnClickListener
+            if (myFragment.shoppingListInstance.isSyncModeEnabled()) {
+                myFragment.myMultiShoppingFr.updateSyncedItem(oldItem!!, newItem!!)
+                return@setOnClickListener
             }
-
-            notifyItemChanged(holder.bindingAdapterPosition)
-
-
-            if (newPosition > -1) {
-                notifyItemMoved(holder.bindingAdapterPosition, newPosition)
-            }
-
-            //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
-            //and animate the move from old to new position
-            if (moveCheckedSublistsDown) {
-                val sublistMoveInfo = myFragment.shoppingListInstance.sortCategoriesByChecked(tag)
-                if (sublistMoveInfo != null) {
-                    myFragment.prepareForMove()
-                    myFragment.myAdapter
-                        .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
-
-                    myFragment.reactToMove()
-                }
-
-            }
-            myFragment.myMultiShoppingFr.updateShoppingMenu()
+            updateCheckedState()
         }
 
         holder.binding.clItemTapfield.setOnLongClickListener {
@@ -792,6 +768,57 @@ class SublistAdapter(
             parentHolder.itemView.startAnimation(animationShake)
             true
         }
+    }
+
+    fun updateCheckedState() {
+        //flip checkedState of item and save new position (flipItemCheckedState sorts list and returns new position)
+        val newPosition = myFragment.shoppingListInstance.flipItemCheckedState(
+            tag,
+            holder.bindingAdapterPosition
+        )
+
+        //get number of uncheckedItems in current sublist
+        val numberOfItems = myFragment.shoppingListInstance.getUncheckedSize(holder.tag)
+
+        //If all are checked after the current item got flipped, the list has to go from color to gray
+        myFragment.myAdapter.manageCheckedCategory(
+            parentHolder,
+            myFragment.shoppingListInstance.areAllChecked(holder.tag),
+            numberOfItems,
+            holder.tag
+        )
+
+        //If setting says to collapse checked sublists, and current sublist is fully checked,
+        //collapse it and notify item change
+        if (ShoppingFr.collapseCheckedSublists && myFragment.shoppingListInstance.areAllChecked(
+                holder.tag
+            )
+        ) {
+            myFragment.shoppingListInstance.flipExpansionState(holder.tag)
+            myFragment.myAdapter.notifyItemChanged(parentHolder.bindingAdapterPosition)
+        }
+
+        notifyItemChanged(holder.bindingAdapterPosition)
+
+
+        if (newPosition > -1) {
+            notifyItemMoved(holder.bindingAdapterPosition, newPosition)
+        }
+
+        //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
+        //and animate the move from old to new position
+        if (moveCheckedSublistsDown) {
+            val sublistMoveInfo = myFragment.shoppingListInstance.sortCategoriesByChecked(tag)
+            if (sublistMoveInfo != null) {
+                myFragment.prepareForMove()
+                myFragment.myAdapter
+                    .notifyItemMoved(sublistMoveInfo.first, sublistMoveInfo.second)
+
+                myFragment.reactToMove()
+            }
+
+        }
+        myFragment.myMultiShoppingFr.updateShoppingMenu()
     }
 
     override fun getItemCount(): Int {

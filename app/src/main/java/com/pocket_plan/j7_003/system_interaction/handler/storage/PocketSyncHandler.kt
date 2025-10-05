@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.HEAD
 import retrofit2.http.HTTP
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface PocketSyncHandler {
@@ -23,6 +24,13 @@ interface PocketSyncHandler {
         @Path("id") id: String,
         @Path("category") category: String,
         @Body newShoppingItem: ShoppingItemDto
+    ): Call<ShoppingItemDto>
+
+    @PUT("/api/v1/shopping-lists/{id}/{category}/items")
+    fun updateItemInList(
+        @Path("id") id: String,
+        @Path("category") category: String,
+        @Body updatedShoppingItem: Pair<ShoppingItemDto, ShoppingItemDto>
     ): Call<ShoppingItemDto>
 
     @GET("/api/v1/shopping-lists/{listName}")
