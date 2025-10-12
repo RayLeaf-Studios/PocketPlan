@@ -12,6 +12,7 @@
         android:name=".App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
+        android:enableOnBackInvokedCallback="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/generalAppName"
         android:roundIcon="@mipmap/ic_launcher_round"
