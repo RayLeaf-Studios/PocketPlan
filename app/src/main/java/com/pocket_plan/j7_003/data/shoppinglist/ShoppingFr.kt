@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.compose.material3.MaterialTheme
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.shoppinglist.views.ShoppingListView
 import com.pocket_plan.j7_003.databinding.FragmentShoppingBinding
 import com.pocket_plan.j7_003.databinding.RowCategoryBinding
 import com.pocket_plan.j7_003.databinding.RowItemBinding
@@ -101,6 +103,13 @@ class ShoppingFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _fragmentBinding = FragmentShoppingBinding.inflate(inflater, container, false)
+            .apply {
+                composeViewShopping.setContent {
+                    MaterialTheme {
+                        ShoppingListView(shoppingListInstance)
+                    }
+                }
+            }
 
         myActivity = activity as MainActivity
         query = null
