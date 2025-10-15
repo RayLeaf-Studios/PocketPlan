@@ -41,5 +41,5 @@ enum class SettingId(val default: Any) {
     NOTES_ARCHIVE(true),
     NOTES_FIXED_SIZE(true),
     NOTES_DIRS_TO_TOP(true),
-    SYNC_SERVER_URL("")
+    SYNC_SERVER_URL("http://10.0.2.2:8080")
 }

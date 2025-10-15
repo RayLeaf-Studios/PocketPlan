@@ -17,7 +17,7 @@ object ListMapper {
     fun ShoppingListDto.toCore(): ShoppingList {
         val newList = ShoppingList()
 
-        list.forEach {
+        content.forEach {
             newList.add(it.toCore())
         }
 

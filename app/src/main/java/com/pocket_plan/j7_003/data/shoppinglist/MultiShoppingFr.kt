@@ -12,6 +12,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.forEach
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +28,9 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingItemDto
 import com.pocket_plan.j7_003.data.shoppinglist.mapper.ItemMapper.toDto
+import com.pocket_plan.j7_003.data.shoppinglist.mapper.ItemMapper.toNewDto
 import com.pocket_plan.j7_003.data.shoppinglist.mapper.ListMapper.toCore
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingListDto
 import com.pocket_plan.j7_003.databinding.DialogAddItemBinding
 import com.pocket_plan.j7_003.databinding.DialogAddShoppingListBinding
 import com.pocket_plan.j7_003.databinding.FragmentMultiShoppingBinding
@@ -49,6 +54,7 @@ import kotlin.math.min
 class MultiShoppingFr : Fragment() {
 
     private lateinit var myMenu: Menu
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
     private lateinit var myActivity: MainActivity
 
 
@@ -210,8 +216,9 @@ class MultiShoppingFr : Fragment() {
             }
 
             val newList = response.body()!!.toCore()
-            val shoppingList = MainActivity.shoppingListWrapper.find { it.second.getSyncId() == id }?.second
-                ?: return@launch
+            val shoppingList =
+                MainActivity.shoppingListWrapper.find { it.second.getSyncId() == id }?.second
+                    ?: return@launch
 
             shoppingList.merge(newList)
 
@@ -519,7 +526,8 @@ class MultiShoppingFr : Fragment() {
                 lifecycleScope.launch {
                     val response = withContext(Dispatchers.IO) {
 
-                        val newList = activeShoppingFr.shoppingListInstance.getSyncData()
+                        val cats = activeShoppingFr.shoppingListInstance.getSyncData()
+                        val newList = NewShoppingListDto(activeShoppingFr.shoppingListName, cats)
                         clientService.syncShoppingList(newList).execute()
                     }
 
@@ -529,6 +537,7 @@ class MultiShoppingFr : Fragment() {
                         val newList = response.body()!!
                         tabLayout.getTabAt(currentpos)?.text = "🌐 ${newList.name}"
                         activeShoppingFr.shoppingListInstance.enableSyncMode(newList.id)
+                        activeShoppingFr.shoppingListInstance.addSyncedItems(newList.toCore())
                         updateShoppingMenu()
                     } else {
                         Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show()
@@ -554,7 +563,7 @@ class MultiShoppingFr : Fragment() {
                 clientService.deleteItem(
                     activeShoppingFr.shoppingListInstance.getSyncId()!!,
                     item.tag,
-                    item.toDto()
+                    item.id!!
                 ).execute()
             }
 
@@ -582,7 +591,8 @@ class MultiShoppingFr : Fragment() {
                 clientService.updateItemInList(
                     activeShoppingFr.shoppingListInstance.getSyncId()!!,
                     oldItem.tag,
-                    Pair(oldItem.toDto(), newItem.toDto())
+                    oldItem.id!!,
+                    newItem.toDto()
                 ).execute()
             }
 
@@ -852,6 +862,7 @@ class MultiShoppingFr : Fragment() {
 
             //create known item from template
             val item = ShoppingItem(
+                null,
                 nameInput,
                 categoryCode,
                 unitString,
@@ -922,7 +933,7 @@ class MultiShoppingFr : Fragment() {
                         clientService.addItemToList(
                             list.getSyncId()!!,
                             item.tag,
-                            item.toDto()
+                            item.toNewDto()
                         ).enqueue(object : Callback<ShoppingItemDto> {
                             override fun onResponse(
                                 call: Call<ShoppingItemDto?>,

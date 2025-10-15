@@ -4,7 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShoppingItemDto(
-    val name: String?,
+    val id: String,
+    val name: String,
     val suggestedUnit: String?,
     val amount: Float?,
     val unit: String?,

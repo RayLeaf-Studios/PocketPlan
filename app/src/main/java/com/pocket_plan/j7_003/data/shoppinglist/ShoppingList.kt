@@ -4,9 +4,9 @@ import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.model.ShoppingMetaData
-import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingCategoryDto
-import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingItemDto
-import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingListDto
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingCategoryDto
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingItemDto
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingListDto
 
 class ShoppingList(
     private var wrapper: ShoppingListWrapper?,
@@ -48,15 +48,39 @@ class ShoppingList(
         save()
     }
 
-    fun getSyncData(): ShoppingListDto {
+    /**
+     * Adds items from another shopping list to this list, replacing existing items in matching categories.
+     * Only categories that already exist in this list will be updated; new categories from the other list are ignored.
+     * @param newItems The shopping list containing items to be added.
+     */
+    fun addSyncedItems(newItems: ShoppingList) {
+        newItems.forEach { (newCatName, newItems) ->
+            this.forEach test@{ (catName, items) ->
+                if (catName != newCatName) return@test
+
+                items.removeAll { it.name != null }
+                items.addAll(newItems)
+            }
+        }
+
+
+        save()
+    }
+
+    /**
+     * Converts this shopping list to a [NewShoppingListDto] for synchronization purposes.
+     * The meta category is excluded from the resulting DTO.
+     * @return A [NewShoppingListDto] representing the current state of the shopping list
+     */
+    fun getSyncData(): List<NewShoppingCategoryDto> {
         val syncCats = this.filter { it.first != META_TAG }
             .map { cat ->
-                ShoppingCategoryDto(
+                NewShoppingCategoryDto(
                     cat.first,
                     cat.second.filter { it.name != null }
                         .map { item ->
-                            ShoppingItemDto(
-                                item.name,
+                            NewShoppingItemDto(
+                                item.name!!,
                                 item.suggestedUnit,
                                 item.amount?.toFloat(),
                                 item.unit,
@@ -66,7 +90,7 @@ class ShoppingList(
                 )
             }
 
-        return ShoppingListDto("", this[0].first, syncCats)
+        return syncCats
     }
 
     /**
@@ -146,6 +170,7 @@ class ShoppingList(
 
         if (syncEntry == null) {
             val syncItem = ShoppingItem(
+                id = null,
                 name = id,
                 tag = ShoppingMetaData.SYNC_ID.tag,
                 suggestedUnit = null,
@@ -209,6 +234,7 @@ class ShoppingList(
 
         if (metaList.isEmpty() || lockEntry == null) {
             val lockItem = ShoppingItem(
+                id = null,
                 name = null,
                 tag = ShoppingMetaData.LOCK.tag,
                 suggestedUnit = null,
@@ -569,6 +595,12 @@ class ShoppingList(
      * @param item The metadata item to be added.
      */
     private fun addMetadataItem(item: ShoppingItem) {
+        if (this.isEmpty() || this.firstOrNull { it.first == "meta" } == null) {
+            val metaCat = Pair<String, ArrayList<ShoppingItem>>("meta", arrayListOf())
+            metaCat.second.add(ShoppingItem("meta", false, null))
+            this.add(metaCat)
+        }
+
         this.first { it.first == META_TAG }.second.add(item)
         save()
     }
@@ -587,6 +619,11 @@ class ShoppingList(
             result += "\b\b}\n"
         }
         return result
+    }
+
+    override fun clear() {
+        this.removeAll { it.first != META_TAG }
+        save()
     }
 
     override fun check() {

@@ -343,19 +343,19 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        if (myFragment.shoppingListInstance[position].first == "meta") {
-            // don't ask why, but setting only the root to GONE doesn't work
-            holder.binding.root.visibility = View.GONE
-            holder.binding.subRecyclerView.visibility = View.GONE
-            holder.binding.tvNumberOfItems.visibility = View.GONE
-            holder.binding.ivCheckMark.visibility = View.GONE
-            holder.binding.tvCategoryName.visibility = View.GONE
-            holder.binding.ivExpand.visibility = View.GONE
-            holder.binding.clTapExpand.visibility = View.GONE
-            holder.binding.cvCategory.visibility = View.GONE
-            holder.binding.divider3.visibility = View.GONE
-            return
-        }
+//        if (myFragment.shoppingListInstance[position].first == "meta") {
+//            // don't ask why, but setting only the root to GONE doesn't work
+//            holder.binding.root.visibility = View.GONE
+//            holder.binding.subRecyclerView.visibility = View.GONE
+//            holder.binding.tvNumberOfItems.visibility = View.GONE
+//            holder.binding.ivCheckMark.visibility = View.GONE
+//            holder.binding.tvCategoryName.visibility = View.GONE
+//            holder.binding.ivExpand.visibility = View.GONE
+//            holder.binding.clTapExpand.visibility = View.GONE
+//            holder.binding.cvCategory.visibility = View.GONE
+//            holder.binding.divider3.visibility = View.GONE
+//            return
+//        }
 
         //long click listener playing shake animation to indicate moving is possible
         holder.binding.root.setOnLongClickListener {
@@ -407,10 +407,12 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         }
 
         //Sets Text name of category of sublist
-        holder.binding.tvCategoryName.text =
-            myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
-                R.array.categoryCodes
-            ).indexOf(tag)]
+        if (tag != "meta") {
+            holder.binding.tvCategoryName.text =
+                myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
+                    R.array.categoryCodes
+                ).indexOf(tag)]
+        }
 
         //Sets background color of sublist according to the tag
         manageCheckedCategory(
@@ -657,7 +659,7 @@ class SublistAdapter(
     private val moveCheckedSublistsDown =
         SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
-    private lateinit var holder : ItemViewHolder
+    private lateinit var holder: ItemViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val rowItemBinding =
@@ -692,7 +694,7 @@ class SublistAdapter(
         params.setMargins(margin, margin, margin, margin)
         //manage onClickListener to edit item
         holder.binding.root.setOnClickListener {
-            if(myFragment.shoppingListInstance.isLocked()) return@setOnClickListener
+            if (myFragment.shoppingListInstance.isLocked()) return@setOnClickListener
 
             myFragment.myMultiShoppingFr.editTag = tag
             myFragment.myMultiShoppingFr.editPos = position
@@ -759,7 +761,8 @@ class SublistAdapter(
 
         //Onclick Listener for checkBox
         holder.binding.clItemTapfield.setOnClickListener {
-            val oldItem = myFragment.shoppingListInstance.getItem(tag, holder.bindingAdapterPosition)
+            val oldItem =
+                myFragment.shoppingListInstance.getItem(tag, holder.bindingAdapterPosition)
             val newItem = oldItem?.copy().let { it?.checked = !it.checked; it }
 
             if (myFragment.shoppingListInstance.isLocked()) return@setOnClickListener
@@ -816,7 +819,8 @@ class SublistAdapter(
 
         //if the setting moveCheckedSublistsDown is true, sort categories by their checked state
         //and animate the move from old to new position
-        if (moveCheckedSublistsDown) {
+        val isSynced = myFragment.shoppingListInstance.isSyncModeEnabled()
+        if (moveCheckedSublistsDown && !isSynced) {
             val sublistMoveInfo = myFragment.shoppingListInstance.sortCategoriesByChecked(tag)
             if (sublistMoveInfo != null) {
                 myFragment.prepareForMove()

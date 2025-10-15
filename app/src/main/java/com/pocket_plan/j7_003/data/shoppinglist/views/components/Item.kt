@@ -30,7 +30,7 @@ fun Item(item: ShoppingItem) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = item.name.toString(),
+            text = "${item.amount}${item.unit} ${item.name}",
             modifier = Modifier.padding(start = 10.dp)
         )
         Checkbox(

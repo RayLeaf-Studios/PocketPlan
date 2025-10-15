@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class ShoppingListDto(
     val id: String,
     val name: String,
-    val list: List<ShoppingCategoryDto>
+    val content: List<ShoppingCategoryDto>
 )

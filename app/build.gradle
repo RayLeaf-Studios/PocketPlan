@@ -4,6 +4,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+apply plugin: 'com.google.devtools.ksp'
 
 android {
     defaultConfig {
@@ -84,4 +85,13 @@ dependencies {
     implementation platform("androidx.compose:compose-bom:2025.10.00")
     implementation "androidx.compose.ui:ui-graphics"
     implementation "androidx.compose.ui:ui-tooling-preview"
+
+    //room dependencies
+    def room_version = "2.8.2"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+
+    // datastore dependencies
+    implementation("androidx.datastore:datastore-preferences:1.1.7")
 }

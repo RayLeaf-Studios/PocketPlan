@@ -1,6 +1,7 @@
 package com.pocket_plan.j7_003.data.shoppinglist.mapper
 
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingItem
+import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingItemDto
 import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingItemDto
 import kotlin.math.ceil
 
@@ -15,7 +16,21 @@ object ItemMapper {
      * @return ShoppingItemDto The converted item
      */
     fun ShoppingItem.toDto() = ShoppingItemDto(
-        name = this.name,
+        id = this.id!!,
+        name = this.name!!,
+        suggestedUnit = this.suggestedUnit,
+        amount = this.amount?.toFloatOrNull(),
+        unit = this.unit,
+        checked = this.checked,
+    )
+
+    /**
+     * Converts a [ShoppingItem] to a [NewShoppingItemDto].
+     * @receiver ShoppingItem The item to convert
+     * @return NewShoppingItemDto The converted item
+     */
+    fun ShoppingItem.toNewDto() = NewShoppingItemDto(
+        name = this.name!!,
         suggestedUnit = this.suggestedUnit,
         amount = this.amount?.toFloatOrNull(),
         unit = this.unit,
@@ -29,6 +44,7 @@ object ItemMapper {
      * @return ShoppingItem The converted item
      */
     fun ShoppingItemDto.toCore(tag: String) = ShoppingItem(
+        id = id,
         name = this.name,
         suggestedUnit = this.suggestedUnit,
         amount = this.amount?.let {
