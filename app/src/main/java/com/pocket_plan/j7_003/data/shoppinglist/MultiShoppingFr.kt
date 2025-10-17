@@ -12,9 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.forEach
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
@@ -54,7 +51,6 @@ import kotlin.math.min
 class MultiShoppingFr : Fragment() {
 
     private lateinit var myMenu: Menu
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
     private lateinit var myActivity: MainActivity
 
 

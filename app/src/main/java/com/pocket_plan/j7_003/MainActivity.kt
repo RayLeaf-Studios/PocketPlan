@@ -58,11 +58,15 @@ import com.pocket_plan.j7_003.databinding.DrawerLayoutBinding
 import com.pocket_plan.j7_003.databinding.HeaderNavigationDrawerBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
+import org.koin.android.ext.android.inject
 import java.util.Locale
 import java.util.Stack
 
 class MainActivity : AppCompatActivity() {
+
+    private val preferencesHandler: PreferencesHandler by inject()
 
     lateinit var toolbar: Toolbar
     private lateinit var drawerLayoutBinding: DrawerLayoutBinding

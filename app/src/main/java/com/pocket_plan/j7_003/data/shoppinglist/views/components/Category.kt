@@ -23,7 +23,6 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -74,7 +73,11 @@ import com.pocket_plan.j7_003.ui.theme_light_vegan
 import com.pocket_plan.j7_003.ui.theme_light_vegan_l
 
 @Composable
-fun Category(categoryCode: String, items: MutableList<ShoppingItem>) {
+fun Category(
+    categoryCode: String,
+    items: MutableList<ShoppingItem>,
+    onItemDelete: (ShoppingItem) -> Unit
+) {
     val categoryNames = stringArrayResource(R.array.categoryNames)
     val categoryCodes = stringArrayResource(R.array.categoryCodes)
     val gradientColors = when (categoryCode) {
@@ -136,7 +139,7 @@ fun Category(categoryCode: String, items: MutableList<ShoppingItem>) {
                         contentPadding = PaddingValues(0.dp),
                         modifier = Modifier.size(30.dp)
                     ) {
-                        Text(text = "${shoppingItems.size - 1}", color = Color.Black)
+                        Text(text = "${items.size - 1}", color = Color.Black)
                     }
                     Text(
                         text = categoryNames[categoryCodes.indexOf(categoryCode)],
@@ -162,22 +165,14 @@ fun Category(categoryCode: String, items: MutableList<ShoppingItem>) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    shoppingItems.forEach { item ->
+                    items.forEach { item ->
                         if (item.name == null) return@forEach
                         SwipeToDismissBox(
                             state = swipeState,
                             modifier = Modifier
                                 .fillMaxWidth(),
                             onDismiss = {
-                                shoppingItems.remove(item)
-                                when (swipeState.currentValue) {
-                                    SwipeToDismissBoxValue.StartToEnd,
-                                    SwipeToDismissBoxValue.EndToStart -> {
-                                    }
-
-                                    SwipeToDismissBoxValue.Settled -> {
-                                    }
-                                }
+                                onItemDelete(item)
                             },
                             backgroundContent = { }
                         ) {

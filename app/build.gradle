@@ -93,5 +93,13 @@ dependencies {
     ksp "androidx.room:room-compiler:$room_version"
 
     // datastore dependencies
-    implementation("androidx.datastore:datastore-preferences:1.1.7")
+    implementation "androidx.datastore:datastore-preferences:1.1.7"
+
+    // koin dependencies
+    def koin_version = "4.1.1"
+    def koin_annotation_version = "2.1.0"
+
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-annotations:$koin_annotation_version"
+    ksp "io.insert-koin:koin-ksp-compiler:$koin_annotation_version"
 }

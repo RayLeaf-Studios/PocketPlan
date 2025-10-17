@@ -3,11 +3,19 @@ package com.pocket_plan.j7_003.data.settings
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class SettingsManager {
-    companion object : Checkable {
+    companion object : KoinComponent, Checkable {
+        private val preferencesHandler: PreferencesHandler by inject()
+
         var settings = HashMap<String, Any>()
 
         fun init() {
@@ -25,6 +33,10 @@ class SettingsManager {
             } else setting.default
         }
 
+        @Deprecated(
+            message = "Will be removed to move persistence to widely supported libraries and apis. Settings should be persist with the new PreferencesHandler.",
+            level = DeprecationLevel.ERROR
+        )
         fun addSetting(id: SettingId, any: Any) {
             settings[id.name] = any
             save()
@@ -52,6 +64,24 @@ class SettingsManager {
                     SettingId.valueOf(settingId)
                     settings[settingId] = value
                 } catch (_: Exception) { /* no-op */ }
+            }
+        }
+
+        private fun migrateToPreferences() {
+            val migrated = runBlocking(Dispatchers.IO) {
+                preferencesHandler
+                    .read(PreferencesHandler.SETTINGS_MIGRATION_DONE)
+                    .first()
+            }
+
+            if (migrated) return
+
+            SettingId.entries.forEach { settingId ->
+                val settingValue = getSetting(settingId) ?: return@forEach
+
+                if (settingValue == settingId.default) return@forEach
+
+//                preferencesHandler.save()
             }
         }
 
