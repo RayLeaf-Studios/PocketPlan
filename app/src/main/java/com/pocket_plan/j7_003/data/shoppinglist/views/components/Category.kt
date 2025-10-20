@@ -112,8 +112,6 @@ fun Category(
             SwipeToDismissBoxDefaults.positionalThreshold
         )
 
-    val shoppingItems = remember { items }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
