@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,12 +28,15 @@ import com.pocket_plan.j7_003.databinding.DialogAddTaskBinding
 import com.pocket_plan.j7_003.databinding.FragmentTodoBinding
 import com.pocket_plan.j7_003.databinding.RowTaskBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass.
  */
 
-class TodoFr : Fragment() {
+class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
     private var _fragmentBinding: FragmentTodoBinding? = null
     private val fragmentBinding get() = _fragmentBinding!!
 
@@ -375,7 +379,9 @@ class TodoFr : Fragment() {
 
                 if(MainActivity.previousFragmentStack.peek() == FT.HOME){
                     val homeFr = myActivity.getFragment(FT.HOME) as HomeFr
-                    homeFr.updateTaskPanel(false)
+                    lifecycleScope.launch(ioDispatcher) {
+                        homeFr.updateTaskPanel(false)
+                    }
                     myActivity.toast(myActivity.getString(R.string.homeNotificationTaskAdded))
                     return@setOnClickListener
                 }

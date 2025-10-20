@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.home
 
-import SleepReminder
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
@@ -16,17 +16,26 @@ import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.notelist.NoteFr
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.databinding.FragmentHomeBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr : Fragment() {
+class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+
+    private val sleepReminder: SleepReminder by inject()
+    private val preferencesHandler: PreferencesHandler by inject()
+
     private var _fragmentBinding: FragmentHomeBinding? = null
     private val fragmentBinding get() = _fragmentBinding!!
 
@@ -48,7 +57,7 @@ class HomeFr : Fragment() {
         cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
         myBirthdayFr = myActivity.getFragment(FT.BIRTHDAYS) as BirthdayFr
         mySleepFr = myActivity.getFragment(FT.SLEEP) as SleepFr
-        mySleepFr.sleepReminderInstance = SleepReminder(myActivity)
+        mySleepFr.sleepReminderInstance = sleepReminder
 
         timer = object : CountDownTimer(Long.MAX_VALUE, 30000) {
             // creates a timer to update the clock
@@ -62,9 +71,11 @@ class HomeFr : Fragment() {
         }.start()
 
         //updating ui
-        updateWakeTimePanel()
-        updateTaskPanel(true)
-        updateBirthdayPanel()
+        lifecycleScope.launch(ioDispatcher) {
+            updateWakeTimePanel()
+            updateTaskPanel(true)
+            updateBirthdayPanel()
+        }
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
         fragmentBinding.panelTasks.setOnClickListener {
@@ -99,8 +110,10 @@ class HomeFr : Fragment() {
     }
 
     override fun onResume() {
-        updateWakeTimePanel()
-        updateTaskPanel(true)
+        lifecycleScope.launch(ioDispatcher) {
+            updateWakeTimePanel()
+            updateTaskPanel(true)
+        }
         super.onResume()
     }
 
@@ -110,7 +123,7 @@ class HomeFr : Fragment() {
      */
 
     @SuppressLint("ResourceType")
-    fun updateTaskPanel(shake: Boolean) {
+    suspend fun updateTaskPanel(shake: Boolean) {
         val density = myActivity.resources.displayMetrics.density
         val (_, status) = mySleepFr.sleepReminderInstance.getRemainingWakeDurationString()
         val params = fragmentBinding.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
@@ -125,15 +138,13 @@ class HomeFr : Fragment() {
             params.setMargins(sideMargin, bottomMargin, sideMargin, bottomMargin)
         }
 
-
-        if (SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean) {
+        if (preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first())
             fragmentBinding.panelTasks.radius = cr
-        }
 
         var myShake = shake
-        if (!(SettingsManager.getSetting(SettingId.SHAKE_TASK_HOME) as Boolean)) {
+        if (preferencesHandler.read(PreferencesHandler.SHAKE_TASK_HOME).first())
             myShake = false
-        }
+
         var p1TaskCounter = 0
         val taskList = TodoFr.todoListInstance
 
@@ -192,12 +203,11 @@ class HomeFr : Fragment() {
 
     }
 
-    private fun updateBirthdayPanel() {
+    private suspend fun updateBirthdayPanel() {
 
         //round corners of birthday panel if settings say so
-        if (SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean) {
+        if (preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first())
             fragmentBinding.panelBirthdays.radius = cr
-        }
 
         //get list of birthdays today
         val birthdaysToday = MainActivity.birthdayList.getRelevantCurrentBirthdays()
@@ -234,7 +244,9 @@ class HomeFr : Fragment() {
 
         //check for ANY birthday in the next 30 days
         val nextBirthday = MainActivity.birthdayList.getNextRelevantBirthday()
-        if (nextBirthday != null && SettingsManager.getSetting(SettingId.PREVIEW_BIRTHDAY) as Boolean) {
+        if (nextBirthday != null && preferencesHandler.read(PreferencesHandler.PREVIEW_BIRTHDAY)
+                .first()
+        ) {
             //if any birthday was found, display it
             val daysUntilString = when (val daysUntil = nextBirthday.daysUntil()) {
                 //"tomorrow"
@@ -277,6 +289,7 @@ class HomeFr : Fragment() {
                     myActivity.colorForAttr(R.attr.colorIconTint)
                 )
             }
+
             1 -> {
                 //show icon, set and show message, text red
                 fragmentBinding.icSleepHome.visibility = View.VISIBLE
@@ -289,6 +302,7 @@ class HomeFr : Fragment() {
                     myActivity.colorForAttr(R.attr.colorGoToSleep)
                 )
             }
+
             2 -> {
                 //hide icon, hide text
                 fragmentBinding.icSleepHome.visibility = View.GONE
