@@ -84,6 +84,14 @@ class PreferencesHandler(private val context: Context) {
         val NOTES_DIRS_TO_TOP = booleanPreferencesKey("notes_dirs_to_top")
         val SYNC_SERVER_URL = stringPreferencesKey("sync_server_url")
 
+        // keys for preferences regarding note caching on close
+        val EDIT_NOTE_CONTENT = stringPreferencesKey("editNoteContent")
+        val EDIT_NOTE_TITLE = stringPreferencesKey("editNoteTitle")
+        val EDIT_NOTE_COLOR = intPreferencesKey("editNoteColor")
+        val EDIT_NOTE_CONTENT_ON_DESTROY = stringPreferencesKey("editNoteContentOnDestroy")
+        val EDIT_NOTE_TITLE_ON_DESTROY = stringPreferencesKey("editNoteTitleOnDestroy")
+        val EDIT_NOTE_COLOR_ON_DESTROY = intPreferencesKey("editNoteColorOnDestroy")
+
         private val defaults: Map<Preferences.Key<*>, *> = mapOf(
             SHOPPING_MIGRATION_DONE withValue false,
             SETTINGS_MIGRATION_DONE withValue false,
@@ -115,7 +123,14 @@ class PreferencesHandler(private val context: Context) {
             NOTES_ARCHIVE withValue true,
             NOTES_FIXED_SIZE withValue true,
             NOTES_DIRS_TO_TOP withValue true,
-            SYNC_SERVER_URL withValue "http://"
+            SYNC_SERVER_URL withValue "http://",
+
+            EDIT_NOTE_CONTENT withValue "",
+            EDIT_NOTE_TITLE withValue "",
+            EDIT_NOTE_COLOR withValue -1,
+            EDIT_NOTE_CONTENT_ON_DESTROY withValue "",
+            EDIT_NOTE_TITLE_ON_DESTROY withValue "",
+            EDIT_NOTE_COLOR_ON_DESTROY withValue -1,
         )
     }
 }

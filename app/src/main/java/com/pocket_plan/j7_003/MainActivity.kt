@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -27,6 +26,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -39,7 +39,6 @@ import com.pocket_plan.j7_003.data.notelist.NoteDirList
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.Languages
-import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.sub_categories.*
@@ -60,11 +59,19 @@ import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import java.util.Locale
 import java.util.Stack
+import androidx.core.view.size
+import androidx.core.view.get
 
-class MainActivity : AppCompatActivity() {
+class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) :
+    AppCompatActivity() {
 
     private val preferencesHandler: PreferencesHandler by inject()
 
@@ -147,33 +154,46 @@ class MainActivity : AppCompatActivity() {
         //Initialize StorageHandler and SettingsManager
         StorageHandler.path = this.filesDir.absolutePath
         SettingsManager.init()
+        lifecycleScope.launch(ioDispatcher) {
+            SettingsManager.migrateToPreferences(ioDispatcher)
 
-        //set correct language depending on setting
-        val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
-            Languages.ROMANIAN.index -> Languages.ROMANIAN.code
-            Languages.ITALIAN.index -> Languages.ITALIAN.code
-            Languages.RUSSIAN.index -> Languages.RUSSIAN.code
-            Languages.SPANISH.index -> Languages.SPANISH.code
-            Languages.FRENCH.index -> Languages.FRENCH.code
-            Languages.GERMAN.index -> Languages.GERMAN.code
-            else -> Languages.ENGLISH.code
+            //set correct language depending on setting
+            preferencesHandler.read(PreferencesHandler.LANGUAGE).collect {
+                val languageCode = when (it) {
+                    Languages.ROMANIAN.index -> Languages.ROMANIAN.code
+                    Languages.ITALIAN.index -> Languages.ITALIAN.code
+                    Languages.RUSSIAN.index -> Languages.RUSSIAN.code
+                    Languages.SPANISH.index -> Languages.SPANISH.code
+                    Languages.FRENCH.index -> Languages.FRENCH.code
+                    Languages.GERMAN.index -> Languages.GERMAN.code
+                    else -> Languages.ENGLISH.code
+                }
+                setLocale(this@MainActivity, languageCode)
+            }
         }
-        setLocale(this, languageCode)
 
         //check if settings say to use system theme, if yes, set theme setting to system theme
-        if (SettingsManager.getSetting(SettingId.USE_SYSTEM_THEME) as Boolean) {
-            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES) {
-                true -> SettingsManager.addSetting(SettingId.THEME_DARK, true)
-                else -> SettingsManager.addSetting(SettingId.THEME_DARK, false)
+        val useSystemTheme = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.USE_SYSTEM_THEME).first()
+        }
+
+        if (useSystemTheme) {
+            lifecycleScope.launch(ioDispatcher) {
+                val isDarkMode =
+                    resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+                preferencesHandler.save(PreferencesHandler.THEME_DARK, isDarkMode)
             }
         }
 
         //set correct theme depending on setting
-        val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
-            true -> R.style.AppThemeDark
-            else -> R.style.AppThemeLight
+        lifecycleScope.launch(ioDispatcher) {
+            val themeDark = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+            val themeToSet = when (themeDark) {
+                true -> R.style.AppThemeDark
+                false -> R.style.AppThemeLight
+            }
+            setTheme(themeToSet)
         }
-        setTheme(themeToSet)
 
         //create drawer_layout
         super.onCreate(savedInstanceState)
@@ -183,8 +203,13 @@ class MainActivity : AppCompatActivity() {
         //IMPORTANT: ORDER IS CRITICAL HERE
         //Initialize Time api and AlarmHandler
         AndroidThreeTen.init(this)
-        val time = SettingsManager.getSetting(SettingId.BIRTHDAY_NOTIFICATION_TIME) as String
-        AlarmHandler.setBirthdayAlarms(time, context = this)
+        lifecycleScope.launch(ioDispatcher) {
+            val time = preferencesHandler
+                .read(PreferencesHandler.BIRTHDAY_NOTIFICATION_TIME)
+                .first()
+
+            AlarmHandler.setBirthdayAlarms(time = time, context = this@MainActivity)
+        }
 
         //Initialize toolbar
         toolbar = drawerLayoutBinding.tbMain
@@ -240,7 +265,12 @@ class MainActivity : AppCompatActivity() {
 
         //initialize drawer toggle button
         mDrawerToggle =
-            ActionBarDrawerToggle(this, drawerLayoutBinding.drawerLayout, R.string.generalOpen, R.string.generalClose)
+            ActionBarDrawerToggle(
+                this,
+                drawerLayoutBinding.drawerLayout,
+                R.string.generalOpen,
+                R.string.generalClose
+            )
         drawerLayoutBinding.drawerLayout.addDrawerListener(mDrawerToggle)
         mDrawerToggle.syncState()
 
@@ -255,43 +285,45 @@ class MainActivity : AppCompatActivity() {
         mainNoteListDir = NoteDirList()
         noteFr!!.noteListDirs = mainNoteListDir
 
-    //When activity is entered via special intent, change to respective fragment
-        if(intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain"){
-            if(handleTextViaIntent(intent)) changeToFragment(FT.NOTES)
+        //When activity is entered via special intent, change to respective fragment
+        if (intent?.action == Intent.ACTION_SEND && intent?.type == "text/plain") {
+            if (handleTextViaIntent(intent)) changeToFragment(FT.NOTES)
         }
 
         when (intent.extras?.getString("NotificationEntry")) {
-        "birthdays" -> changeToFragment(FT.BIRTHDAYS)
-        "SReminder" -> changeToFragment(FT.HOME)
-        "settings" -> changeToFragment(FT.SETTINGS)
-        "general" -> {
-            previousFragmentStack.push(FT.HOME)
-            previousFragmentStack.push(FT.SETTINGS)
-            changeToFragment(FT.SETTINGS_GENERAL)
-        }
+            "birthdays" -> changeToFragment(FT.BIRTHDAYS)
+            "SReminder" -> changeToFragment(FT.HOME)
+            "settings" -> changeToFragment(FT.SETTINGS)
+            "general" -> {
+                previousFragmentStack.push(FT.HOME)
+                previousFragmentStack.push(FT.SETTINGS)
+                changeToFragment(FT.SETTINGS_GENERAL)
+            }
 
-        "backup" -> {
-            previousFragmentStack.push(FT.HOME)
-            changeToFragment(FT.SETTINGS)
-        }
+            "backup" -> {
+                previousFragmentStack.push(FT.HOME)
+                changeToFragment(FT.SETTINGS)
+            }
 
-        else -> {
-            if (previousFragmentStack.peek() == FT.EMPTY) {
-                changeToFragment(FT.HOME)
-            } else {
-                changeToFragment(previousFragmentStack.pop())
+            else -> {
+                if (previousFragmentStack.peek() == FT.EMPTY) {
+                    changeToFragment(FT.HOME)
+                } else {
+                    changeToFragment(previousFragmentStack.pop())
+                }
             }
         }
-    }
 
-    multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
-    todoFr!!.preloadAddTaskDialog(this, layoutInflater)
+        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
+        todoFr!!.preloadAddTaskDialog(this, layoutInflater)
 
 
-    try {
-            //1000 things can go wrong here
-            manageNoteRestore()
-        } catch (e: Exception) {
+        try {
+            //10000 things can go wrong here
+            lifecycleScope.launch(ioDispatcher) {
+                manageNoteRestore()
+            }
+        } catch (_: Exception) {
             /* no-op */
         }
 
@@ -374,70 +406,70 @@ class MainActivity : AppCompatActivity() {
         }
 
         //removes longClick tooltips for bottom navigation
-        for (i in 0 until bottomNavigation.menu.size()) {
-            val view = bottomNavigation.findViewById<View>(bottomNavigation.menu.getItem(i).itemId)
+        for (i in 0 until bottomNavigation.menu.size) {
+            val view = bottomNavigation.findViewById<View>(bottomNavigation.menu[i].itemId)
             view.setOnLongClickListener {
                 true
             }
         }
     }
 
-    private fun handleTextViaIntent(intent: Intent): Boolean{
+    private fun handleTextViaIntent(intent: Intent): Boolean {
         try {
             val content = intent.getStringExtra(Intent.EXTRA_TEXT)
             if (content != null) {
                 mainNoteListDir.addNote(title = "", content = content, color = NoteColors.BLUE)
-                Toast.makeText(this, getString(R.string.notesNotificationNoteAdded), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.notesNotificationNoteAdded),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return true
             }
-        }catch (e: Exception){
-            Toast.makeText(this, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
+        } catch (_: Exception) {
+            Toast.makeText(this, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT)
+                .show()
         }
         return false
     }
-    private fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
-    } else {
-        @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
-    }
+
+    private fun PackageManager.getPackageInfoCompat(
+        packageName: String,
+        flags: Int = 0
+    ): PackageInfo =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+        } else {
+            @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
+        }
 
 
-    private fun manageNoteRestore() {
+    private suspend fun manageNoteRestore() {
 
-        val editNoteContentOnDestroy = getPreferences(Context.MODE_PRIVATE).getString(
-            PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id,
-            ""
-        )
-        val editNoteTitleOnDestroy = getPreferences(Context.MODE_PRIVATE).getString(
-            PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id,
-            ""
-        )
-        val editNoteColorOnDestroy = getPreferences(Context.MODE_PRIVATE).getInt(
-            PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id,
-            -1
-        )
+        val editNoteContentOnDestroy =
+            preferencesHandler.read(PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY).first()
 
-        if (editNoteContentOnDestroy == null || editNoteTitleOnDestroy == null || noteFr == null || editNoteColorOnDestroy == -1) return
+        val editNoteTitleOnDestroy =
+            preferencesHandler.read(PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY).first()
+
+        val editNoteColorOnDestroy =
+            preferencesHandler.read(PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY).first()
+
+        if (noteFr == null || editNoteColorOnDestroy == -1) return
 
         if (editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == "") {
             //App was closed when editor window was empty, do nothing
-            getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
-            getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT, "")
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE, "")
             return
         }
 
         //Get saved editNoteContent (this gets written when editor is opened (content of note to edit)
-        val editNoteContent =
-            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "")
-        val editNoteTitle =
-            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
-        val editNoteColor =
-            getPreferences(Context.MODE_PRIVATE).getInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
+        val editNoteContent = preferencesHandler.read(PreferencesHandler.EDIT_NOTE_CONTENT).first()
+        val editNoteTitle = preferencesHandler.read(PreferencesHandler.EDIT_NOTE_TITLE).first()
+        val editNoteColor = preferencesHandler.read(PreferencesHandler.EDIT_NOTE_COLOR).first()
 
-        if (editNoteContent == null || editNoteTitle == null || editNoteColor == -1) return
+        if (editNoteColor == -1) return
 
         resetNotePreferenceStorage()
 
@@ -446,7 +478,7 @@ class MainActivity : AppCompatActivity() {
             //add new note with content of editor saved onDestroy
             noteFr!!.noteListDirs.rootDir.noteList.addNote(
                 editNoteTitleOnDestroy,
-                editNoteContentOnDestroy, NoteColors.values()[editNoteColorOnDestroy]
+                editNoteContentOnDestroy, NoteColors.entries[editNoteColorOnDestroy]
             )
             noteFr!!.noteListDirs.save()
             return
@@ -472,19 +504,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun resetNotePreferenceStorage() {
-        getPreferences(Context.MODE_PRIVATE).edit()
-            .putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
-        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
-            .apply()
-        getPreferences(Context.MODE_PRIVATE).edit()
-            .putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "").apply()
-        getPreferences(Context.MODE_PRIVATE).edit()
-            .putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "").apply()
-        getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
-            .apply()
-        getPreferences(Context.MODE_PRIVATE).edit()
-            .putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1).apply()
+    private suspend fun resetNotePreferenceStorage() {
+        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT, "")
+        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE, "")
+        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY, "")
+        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY, "")
+        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR, -1)
+        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY, -1)
     }
 
     /**
@@ -512,8 +538,8 @@ class MainActivity : AppCompatActivity() {
 
     fun setNavBarUnchecked() {
         bottomNavigation.menu.setGroupCheckable(0, true, false)
-        for (i in 0 until bottomNavigation.menu.size()) {
-            bottomNavigation.menu.getItem(i).isChecked = false
+        for (i in 0 until bottomNavigation.menu.size) {
+            bottomNavigation.menu[i].isChecked = false
         }
         bottomNavigation.menu.setGroupCheckable(0, true, true)
     }
@@ -547,6 +573,7 @@ class MainActivity : AppCompatActivity() {
             FT.SHOPPING,
             FT.NOTES,
             FT.BIRTHDAYS -> View.VISIBLE
+
             else -> View.INVISIBLE
         }
 
@@ -593,7 +620,7 @@ class MainActivity : AppCompatActivity() {
             5 -> setNavBarUnchecked()
             else -> {
                 setNavBarUnchecked()
-                bottomNavigation.menu.getItem(checkedBottomNav).isChecked = true
+                bottomNavigation.menu[checkedBottomNav].isChecked = true
             }
         }
 
@@ -613,19 +640,23 @@ class MainActivity : AppCompatActivity() {
             FT.SHOPPING -> {
                 multiShoppingFr
             }
+
             FT.NOTES -> {
                 NoteFr.searching = false
                 noteFr = NoteFr()
                 noteFr!!.noteListDirs = mainNoteListDir
                 noteFr
             }
+
             FT.NOTE_EDITOR -> {
                 noteEditorFr = NoteEditorFr()
                 noteEditorFr
             }
+
             FT.BIRTHDAYS -> {
                 birthdayFr
             }
+
             FT.SETTINGS_ABOUT -> SettingsAboutFr()
             FT.SETTINGS_NOTES -> SettingsNotesFr()
             FT.SETTINGS_SHOPPING -> SettingsShoppingFr()
@@ -655,7 +686,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setToolbarTitle(msg: String) {
-       toolbar.title = msg
+        toolbar.title = msg
     }
 
 
@@ -731,22 +762,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        if(previousFragmentStack.isEmpty()){
+        if (previousFragmentStack.isEmpty()) {
             super.onStop()
             return
         }
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            getPreferences(Context.MODE_PRIVATE).edit().putString(
-                PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id,
-                noteEditorFr!!.getEditorContent()
-            ).apply()
-            getPreferences(Context.MODE_PRIVATE).edit().putString(
-                PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id,
-                noteEditorFr!!.getEditorTitle()
-            ).apply()
-            getPreferences(Context.MODE_PRIVATE).edit()
-                .putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, noteEditorFr!!.getNoteColor())
-                .apply()
+            lifecycleScope.launch(ioDispatcher) {
+                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY, noteEditorFr!!.getEditorContent())
+                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY, noteEditorFr!!.getEditorTitle())
+                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY, noteEditorFr!!.getNoteColor())
+            }
         }
         super.onStop()
     }
@@ -759,11 +784,21 @@ class MainActivity : AppCompatActivity() {
      */
 
     @SuppressLint("InflateParams")
-    fun dialogConfirm(titleId: Int, action: () -> Unit, hint: String = "", cancelAction: () -> Unit = {}) {
+    fun dialogConfirm(
+        titleId: Int,
+        action: () -> Unit,
+        hint: String = "",
+        cancelAction: () -> Unit = {}
+    ) {
         dialogConfirm(getString(titleId), action, hint, cancelAction)
     }
 
-    fun dialogConfirm(title: String, action: () -> Unit, hint: String = "", cancelAction: () -> Unit = {}) {
+    fun dialogConfirm(
+        title: String,
+        action: () -> Unit,
+        hint: String = "",
+        cancelAction: () -> Unit = {}
+    ) {
         val dialogConfirmBinding = DialogConfirmBinding.inflate(layoutInflater)
 
         //AlertDialogBuilder
