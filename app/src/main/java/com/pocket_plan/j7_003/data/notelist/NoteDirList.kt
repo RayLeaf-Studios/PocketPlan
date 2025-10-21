@@ -3,16 +3,26 @@ package com.pocket_plan.j7_003.data.notelist
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.LinkedList
 import java.util.Locale
 import java.util.Stack
 
-class NoteDirList : Checkable {
+class NoteDirList(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Checkable,
+    KoinComponent {
+
+    private val preferencesHandler: PreferencesHandler by inject()
+
     private val rootDirName = "groot"
+
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
     var currentList: () -> NoteList = { folderStack.peek().noteList }
     var folderStack: Stack<Note> = Stack()
@@ -92,28 +102,34 @@ class NoteDirList : Checkable {
     }
 
     fun moveDir(noteToMove: Note, toIndex: Int): Boolean {
-        //Get containing directories
-        val containingDirs = containingDirs(noteToMove)
-        containingDirs.add(noteToMove)
-        //Get all dirs, that are not contained in the current dir
-        val validWithParent = getDirPathsWithRef().filter { !containingDirs.contains(it.second) }
+        return runBlocking(ioDispatcher) {
+            //Get containing directories
+            val containingDirs = containingDirs(noteToMove)
+            containingDirs.add(noteToMove)
+            //Get all dirs, that are not contained in the current dir
+            val validWithParent =
+                getDirPathsWithRef().filter { !containingDirs.contains(it.second) }
 
-        //get new parent directory
-        val newParent = validWithParent[toIndex].second
+            //get new parent directory
+            val newParent = validWithParent[toIndex].second
 
-        //Return false if trying to move to parent index
-        if (newParent == getParentDirectory(noteToMove))
-            return false
+            //Return false if trying to move to parent index
+            if (newParent == getParentDirectory(noteToMove))
+                return@runBlocking false
 
-        //remove from current parent directory
-        getParentDirectory(noteToMove).noteList.remove(noteToMove)
+            //remove from current parent directory
+            getParentDirectory(noteToMove).noteList.remove(noteToMove)
 
-        //Add to new parent directory
-        newParent.noteList.add(noteToMove)
-        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
-        adjustStackAbove(noteToMove)
-        save()
-        return true
+            //Add to new parent directory
+            newParent.noteList.add(noteToMove)
+
+            if (preferencesHandler.read(PreferencesHandler.NOTES_DIRS_TO_TOP).first())
+                sortDirsToTop()
+
+            adjustStackAbove(noteToMove)
+            save()
+            return@runBlocking true
+        }
     }
 
     fun adjustStackAbove(note: Note) {
@@ -288,18 +304,20 @@ class NoteDirList : Checkable {
      * @see NoteList.addNote
      */
     fun addNote(note: Note) {
-        if (SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean) {
-            var index = 0
-            for (n in currentList()){
-                if (n.content == null){
-                    index += 1
+        runBlocking(ioDispatcher) {
+            if (preferencesHandler.read(PreferencesHandler.NOTES_MOVE_UP_CURRENT).first()) {
+                var index = 0
+                for (n in currentList()) {
+                    if (n.content == null) {
+                        index += 1
+                    }
                 }
+                currentList().add(index, note)
+            } else {
+                currentList().add(note)
             }
-            currentList().add(index, note)
-        } else {
-            currentList().add(note)
+            save()
         }
-        save()
     }
 
     /**
@@ -308,19 +326,24 @@ class NoteDirList : Checkable {
      * @return True if the directory was added, false otherwise.
      */
     fun addNoteDir(noteDir: Note): Boolean {
-        if (noteDir.title == rootDirName || noteDir.title.trim() == "") {
-            return false
+        return runBlocking {
+            if (noteDir.title == rootDirName || noteDir.title.trim() == "") {
+                return@runBlocking false
+            }
+
+            if (preferencesHandler.read(PreferencesHandler.NOTES_MOVE_UP_CURRENT).first()) {
+                currentList().add(0, noteDir)
+            } else {
+                currentList().add(noteDir)
+            }
+
+            if (preferencesHandler.read(PreferencesHandler.NOTES_DIRS_TO_TOP).first()) {
+                sortDirsToTop()
+            }
+
+            save()
+            return@runBlocking true
         }
-        if (SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean) {
-            currentList().add(0, noteDir)
-        } else {
-            currentList().add(noteDir)
-        }
-        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) {
-            sortDirsToTop()
-        }
-        save()
-        return true
     }
 
     /**
@@ -345,7 +368,9 @@ class NoteDirList : Checkable {
 
         rootDir = GsonBuilder().create().fromJson(jsonString, object : TypeToken<Note>() {}.type)
 
-        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
+        runBlocking {
+            if (preferencesHandler.read(PreferencesHandler.NOTES_DIRS_TO_TOP).first()) sortDirsToTop()
+        }
     }
 
     fun sortDirsToTop() {

@@ -31,6 +31,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import kotlin.random.Random
 
@@ -70,28 +71,30 @@ class NoteEditorFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
         myActivity = activity as MainActivity
         myNoteFr = myActivity.getFragment(FT.NOTES) as NoteFr
 
-        lifecycleScope.launch(ioDispatcher) {
-            val fontSize = preferencesHandler.read(PreferencesHandler.FONT_SIZE).first().toFloat()
+        val fontSize = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.FONT_SIZE).first().toFloat()
+        }
 
-            fragmentBinding.etNoteTitle.textSize = fontSize + 4
-            fragmentBinding.etNoteContent.textSize = fontSize
+        fragmentBinding.etNoteTitle.textSize = fontSize + 4
+        fragmentBinding.etNoteContent.textSize = fontSize
 
-            /**
-             * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when = noteFr
-             * called from an editing context
-             */
+        /**
+         * Prepares WriteNoteFragment, fills in necessary text and adjusts colorEdit button when = noteFr
+         * called from an editing context
+         */
 
-            if (NoteFr.editNoteHolder != null) {
-                if (NoteFr.displayContent != "" || NoteFr.displayTitle != "") {
-                    fragmentBinding.etNoteContent.setText(NoteFr.displayContent)
-                    fragmentBinding.etNoteTitle.setText(NoteFr.displayTitle)
-                    NoteFr.displayTitle = ""
-                    NoteFr.displayContent = ""
-                } else {
-                    fragmentBinding.etNoteTitle.setText(NoteFr.editNoteHolder!!.title)
-                    fragmentBinding.etNoteContent.setText(NoteFr.editNoteHolder!!.content)
-                }
+        if (NoteFr.editNoteHolder != null) {
+            if (NoteFr.displayContent != "" || NoteFr.displayTitle != "") {
+                fragmentBinding.etNoteContent.setText(NoteFr.displayContent)
+                fragmentBinding.etNoteTitle.setText(NoteFr.displayTitle)
+                NoteFr.displayTitle = ""
+                NoteFr.displayContent = ""
+            } else {
+                fragmentBinding.etNoteTitle.setText(NoteFr.editNoteHolder!!.title)
+                fragmentBinding.etNoteContent.setText(NoteFr.editNoteHolder!!.content)
+            }
 
+            runBlocking(ioDispatcher) {
                 preferencesHandler.save(
                     PreferencesHandler.EDIT_NOTE_CONTENT,
                     NoteFr.editNoteHolder!!.content!!.trim()
@@ -106,30 +109,32 @@ class NoteEditorFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
                     PreferencesHandler.EDIT_NOTE_COLOR,
                     NoteColors.entries.indexOf(NoteFr.editNoteHolder!!.color)
                 )
+            }
 
-                fragmentBinding.etNoteTitle.clearFocus()
-            } else {
-                //Empty editNoteContent to signal we are adding a new note
-                fragmentBinding.etNoteTitle.setText("")
-                fragmentBinding.etNoteContent.setText("")
+            fragmentBinding.etNoteTitle.clearFocus()
+        } else {
+            //Empty editNoteContent to signal we are adding a new note
+            fragmentBinding.etNoteTitle.setText("")
+            fragmentBinding.etNoteContent.setText("")
 
+            runBlocking(ioDispatcher) {
                 preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT, "")
                 preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE, "")
                 preferencesHandler.save(
                     PreferencesHandler.EDIT_NOTE_COLOR,
                     NoteColors.entries.indexOf(noteColor)
                 )
-
-                fragmentBinding.etNoteContent.requestFocus()
-                fragmentBinding.etNoteContent.postDelayed({
-                    val imm =
-                        myActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.showSoftInput(
-                        fragmentBinding.etNoteContent,
-                        InputMethodManager.SHOW_IMPLICIT
-                    )
-                }, 100)
             }
+
+            fragmentBinding.etNoteContent.requestFocus()
+            fragmentBinding.etNoteContent.postDelayed({
+                val imm =
+                    myActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(
+                    fragmentBinding.etNoteContent,
+                    InputMethodManager.SHOW_IMPLICIT
+                )
+            }, 100)
         }
 
         return fragmentBinding.root
