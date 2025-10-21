@@ -496,9 +496,9 @@ class NoteEditorFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
                 NoteFr.editNoteHolder = null
                 myNoteFr.noteListDirs.save()
                 myActivity.hideKeyboard()
-                MainActivity.previousFragmentStack.push(FT.EMPTY)
-                myActivity.changeToFragment(FT.NOTES)
             }
+            MainActivity.previousFragmentStack.push(FT.EMPTY)
+            myActivity.changeToFragment(FT.NOTES)
         }
         myActivity.dialogConfirm(titleId, action)
     }
