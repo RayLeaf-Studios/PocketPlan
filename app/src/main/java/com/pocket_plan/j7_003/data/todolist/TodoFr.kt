@@ -22,21 +22,25 @@ import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.databinding.DialogAddTaskBinding
 import com.pocket_plan.j7_003.databinding.FragmentTodoBinding
 import com.pocket_plan.j7_003.databinding.RowTaskBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 /**
  * A simple [Fragment] subclass.
  */
 
 class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+
+    private val preferencesHandler: PreferencesHandler by inject()
+
     private var _fragmentBinding: FragmentTodoBinding? = null
     private val fragmentBinding get() = _fragmentBinding!!
 
@@ -138,7 +142,7 @@ class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        myAdapter = TodoTaskAdapter(myActivity, this)
+        myAdapter = TodoTaskAdapter(myActivity, this, preferencesHandler)
         myRecycler.adapter = myAdapter
 
         layoutManager = LinearLayoutManager(activity)
@@ -280,7 +284,7 @@ class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
     }
 
     private fun updateClearTaskListIcon() {
-        myMenu.findItem(R.id.item_tasks_clear)?.isVisible = todoListInstance.size > 0
+        myMenu.findItem(R.id.item_tasks_clear)?.isVisible = todoListInstance.isNotEmpty()
     }
 
     private fun updateUncheckTaskListIcon() {
@@ -326,7 +330,7 @@ class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
         updateDeleteTaskIcon()
     }
 
-    fun preloadAddTaskDialog(passedActivity: MainActivity, myLayoutInflater: LayoutInflater){
+    fun preloadAddTaskDialog(passedActivity: MainActivity, myLayoutInflater: LayoutInflater) {
         myActivity = passedActivity
         //inflate the dialog with custom view
         dialogAddTaskBinding = DialogAddTaskBinding.inflate(myLayoutInflater)
@@ -377,7 +381,7 @@ class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
 
                 addTaskDialog.dismiss()
 
-                if(MainActivity.previousFragmentStack.peek() == FT.HOME){
+                if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                     val homeFr = myActivity.getFragment(FT.HOME) as HomeFr
                     lifecycleScope.launch(ioDispatcher) {
                         homeFr.updateTaskPanel(false)
@@ -399,16 +403,33 @@ class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
     }
 }
 
-class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
+class TodoTaskAdapter(
+    activity: MainActivity,
+    private var myFragment: TodoFr,
+    private val preferencesHandler: PreferencesHandler,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+) :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
+
+
     private val myActivity = activity
     private val listInstance = TodoFr.todoListInstance
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    private var round = preferencesHandler.getDefault(PreferencesHandler.SHAPES_ROUND)
+    private var dark = preferencesHandler.getDefault(PreferencesHandler.THEME_DARK)
+    private var darkBorderStyle =
+        preferencesHandler.getDefault(PreferencesHandler.DARK_BORDER_STYLE)
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoTaskViewHolder {
-        val rowTaskBinding = RowTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rowTaskBinding =
+            RowTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        myFragment.lifecycleScope.launch(ioDispatcher) {
+            round = preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
+            dark = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+            darkBorderStyle = preferencesHandler.read(PreferencesHandler.DARK_BORDER_STYLE).first()
+        }
+
         return TodoTaskViewHolder(rowTaskBinding)
     }
 
@@ -446,13 +467,13 @@ class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
 
             val taskTextColor = if (dark) {
                 //colored task text when in dark theme
-                if (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) == 3.0)
+                if (darkBorderStyle == 3.0)
                     R.attr.colorOnBackGround
                 else when (listInstance.getTask(holder.bindingAdapterPosition).priority) {
-                        1 -> R.attr.colorPriority1
-                        2 -> R.attr.colorPriority2
-                        else -> R.attr.colorPriority3
-                    }
+                    1 -> R.attr.colorPriority1
+                    2 -> R.attr.colorPriority2
+                    else -> R.attr.colorPriority3
+                }
             } else {
                 //white text when in light theme
                 R.attr.colorBackground
@@ -460,13 +481,13 @@ class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
 
             val taskBackgroundColor = if (dark) {
                 //dark background in dark theme
-                if (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE) != 3.0)
+                if (darkBorderStyle != 3.0)
                     R.attr.colorBackgroundElevated
                 else when (listInstance.getTask(holder.bindingAdapterPosition).priority) {
-                        1 -> R.attr.colorPriority1darker
-                        2 -> R.attr.colorPriority2darker
-                        else -> R.attr.colorPriority3darker
-                    }
+                    1 -> R.attr.colorPriority1darker
+                    2 -> R.attr.colorPriority2darker
+                    else -> R.attr.colorPriority3darker
+                }
             } else {
                 //colored background in light theme
                 when (listInstance.getTask(holder.bindingAdapterPosition).priority) {
@@ -477,7 +498,7 @@ class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
             }
 
             val taskBorderColor = if (dark) {
-                when (SettingsManager.getSetting(SettingId.DARK_BORDER_STYLE)) {
+                when (darkBorderStyle) {
                     1.0 -> R.attr.colorBackgroundElevated
                     2.0 -> taskTextColor
                     else -> taskBackgroundColor
@@ -487,7 +508,11 @@ class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
             }
 
             holder.binding.tvName.setTextColor(myActivity.colorForAttr(taskTextColor))
-            holder.binding.crvTask.setCardBackgroundColor(myActivity.colorForAttr(taskBackgroundColor))
+            holder.binding.crvTask.setCardBackgroundColor(
+                myActivity.colorForAttr(
+                    taskBackgroundColor
+                )
+            )
             holder.binding.crvBg.setCardBackgroundColor(myActivity.colorForAttr(taskBorderColor))
         }
 
@@ -509,7 +534,8 @@ class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
             val myBuilder = AlertDialog.Builder(myActivity).setView(dialogAddTaskBinding.root)
 
             val titleDialogBinding = TitleDialogBinding.inflate(LayoutInflater.from(myActivity))
-            titleDialogBinding.tvDialogTitle.text = myActivity.resources.getText(R.string.tasksEditTitle)
+            titleDialogBinding.tvDialogTitle.text =
+                myActivity.resources.getText(R.string.tasksEditTitle)
             myBuilder.setCustomTitle(titleDialogBinding.root)
 
             //show dialog
@@ -534,7 +560,7 @@ class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
 
             dialogAddTaskBinding.etTitleAddTask.setOnKeyListener { _, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                    taskConfirmButtons[listInstance.getTask(holder.bindingAdapterPosition).priority-1].performClick()
+                    taskConfirmButtons[listInstance.getTask(holder.bindingAdapterPosition).priority - 1].performClick()
                     true
                 } else false
             }
@@ -587,7 +613,8 @@ class TodoTaskAdapter(activity: MainActivity, private var myFragment: TodoFr) :
 
     override fun getItemCount() = TodoFr.todoListInstance.size
 
-    class TodoTaskViewHolder(rowTaskBinding: RowTaskBinding) : RecyclerView.ViewHolder(rowTaskBinding.root){
+    class TodoTaskViewHolder(rowTaskBinding: RowTaskBinding) :
+        RecyclerView.ViewHolder(rowTaskBinding.root) {
         var binding = rowTaskBinding
     }
 }

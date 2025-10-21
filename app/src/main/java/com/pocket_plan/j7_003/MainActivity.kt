@@ -227,7 +227,7 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
         //Initialize adapters and necessary list instances
         todoFr = TodoFr()
         TodoFr.todoListInstance = TodoList()
-        TodoFr.myAdapter = TodoTaskAdapter(this, todoFr!!)
+        TodoFr.myAdapter = TodoTaskAdapter(this, todoFr!!, preferencesHandler)
 
         //Initialize fragment classes necessary for home
         sleepFr = SleepFr()
