@@ -18,17 +18,22 @@ import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.databinding.DialogAddBirthdayBinding
 import com.pocket_plan.j7_003.databinding.FragmentBirthdayBinding
 import com.pocket_plan.j7_003.databinding.RowBirthdayBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.threeten.bp.LocalDate
 import java.util.ArrayDeque
 import java.util.Locale
@@ -40,19 +45,22 @@ import kotlin.math.abs
  * A simple [Fragment] subclass.
  */
 
-class BirthdayFr : Fragment() {
+class BirthdayFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+
+    private val preferencesHandler: PreferencesHandler by inject()
+
     //instance of birthday list, containing all the displayed birthdays
     lateinit var myActivity: MainActivity
     lateinit var birthdayListInstance: BirthdayList
 
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
     private var _frBinding: FragmentBirthdayBinding? = null
     private val frBinding get() = _frBinding!!
 
     //initialize recycler view
     private lateinit var myRecycler: RecyclerView
 
-    private val darkMode: Boolean = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    private var round = preferencesHandler.getDefault(PreferencesHandler.SHAPES_ROUND)
+    private var darkMode = preferencesHandler.getDefault(PreferencesHandler.THEME_DARK)
 
     //Current date to properly initialize date picker
     private lateinit var date: LocalDate
@@ -75,6 +83,10 @@ class BirthdayFr : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch(ioDispatcher) {
+            round = preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
+            darkMode = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+        }
     }
 
     companion object {
@@ -233,7 +245,7 @@ class BirthdayFr : Fragment() {
 
         searchList = arrayListOf()
 
-        myAdapter = BirthdayAdapter(this, myActivity, searchList)
+        myAdapter = BirthdayAdapter(this, myActivity, searchList, preferencesHandler)
 
         //collapse all birthdays when reentering fragment
         birthdayListInstance.collapseAll()
@@ -268,11 +280,12 @@ class BirthdayFr : Fragment() {
     }
 
     fun updateBirthdayMenu() {
-        myMenu.findItem(R.id.item_birthdays_search).isVisible = birthdayListInstance.size > 0
+        myMenu.findItem(R.id.item_birthdays_search).isVisible =
+            birthdayListInstance.isNotEmpty()
         myMenu.findItem(R.id.item_birthdays_enable_reminders).isVisible =
-            birthdayListInstance.size > 0
+            birthdayListInstance.isNotEmpty()
         myMenu.findItem(R.id.item_birthdays_disable_reminders).isVisible =
-            birthdayListInstance.size > 0
+            birthdayListInstance.isNotEmpty()
     }
 
     fun updateUndoBirthdayIcon() {
@@ -879,7 +892,7 @@ class BirthdayFr : Fragment() {
 
         //button to confirm adding of birthday
         myDialogBinding.btnConfirmBirthday.setOnClickListener {
-            val name = if (!dateRegistered || (dateRegistered && dateRemoved)){
+            val name = if (!dateRegistered || dateRemoved) {
                 etName.text.toString().trim()
             } else {
                 etName.text.toString().substring(0, dateStringStartIndex).trim()
@@ -1000,7 +1013,7 @@ class SwipeToDeleteBirthday(
         target: RecyclerView.ViewHolder
     ): Boolean = false
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int){
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val titleID = R.string.birthdayDialogDeleteTitle
         val action: () -> Unit = {
             adapter.deleteItem(viewHolder)
@@ -1015,15 +1028,22 @@ class SwipeToDeleteBirthday(
 
 
 class BirthdayAdapter(
-    birthdayFr: BirthdayFr, mainActivity: MainActivity, private var searchList: ArrayList<Birthday>
+    birthdayFr: BirthdayFr,
+    mainActivity: MainActivity,
+    private var searchList: ArrayList<Birthday>,
+    private val preferencesHandler: PreferencesHandler,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val myFragment = birthdayFr
     private val myActivity = mainActivity
     private val listInstance = myFragment.birthdayListInstance
     private val density = myActivity.resources.displayMetrics.density
     private val marginSide = (density * 20).toInt()
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val southColors = SettingsManager.getSetting(SettingId.BIRTHDAY_COLORS_SOUTH) as Boolean
+
+    private var round = preferencesHandler.getDefault(PreferencesHandler.SHAPES_ROUND)
+    private var southColors =
+        preferencesHandler.getDefault(PreferencesHandler.BIRTHDAY_COLORS_SOUTH)
+    private var showMonth = preferencesHandler.getDefault(PreferencesHandler.BIRTHDAY_SHOW_MONTH)
 
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
@@ -1072,10 +1092,15 @@ class BirthdayAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BirthdayViewHolder {
-//        val itemView =
-//            LayoutInflater.from(parent.context).inflate(R.layout.row_birthday, parent, false)
         val rowBirthdayBinding =
             RowBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        myFragment.lifecycleScope.launch(ioDispatcher) {
+            round = preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
+            southColors = preferencesHandler.read(PreferencesHandler.BIRTHDAY_COLORS_SOUTH).first()
+            showMonth = preferencesHandler.read(PreferencesHandler.BIRTHDAY_SHOW_MONTH).first()
+        }
+
         return BirthdayViewHolder(rowBirthdayBinding)
     }
 
@@ -1192,7 +1217,7 @@ class BirthdayAdapter(
         var dateString = currentBirthday.day.toString().padStart(2, '0')
 
         //adds month to this string if searching, or setting says to show month
-        if (myFragment.searching || SettingsManager.getSetting(SettingId.BIRTHDAY_SHOW_MONTH) as Boolean) {
+        if (myFragment.searching || showMonth) {
             dateString += "." + currentBirthday.month.toString().padStart(2, '0')
         }
 

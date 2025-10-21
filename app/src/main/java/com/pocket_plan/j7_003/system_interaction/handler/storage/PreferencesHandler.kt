@@ -48,7 +48,20 @@ class PreferencesHandler(private val context: Context) {
     fun <T> read(key: Preferences.Key<T>): Flow<T> {
         return context.dataStore.data.map { preferences ->
             @Suppress("UNCHECKED_CAST") // we don't need to check the cast because the map values ensure matching types
-            preferences[key] ?: defaults[key] as T
+            preferences[key] ?: DEFAULTS[key] as T
+        }
+    }
+
+    fun <T> getDefault(key: Preferences.Key<T>): T {
+        @Suppress("UNCHECKED_CAST")
+        return DEFAULTS[key] as T
+    }
+
+    suspend fun restoreDefault() {
+        context.dataStore.edit { preferences ->
+            DEFAULTS.entries.forEach {
+                preferences.remove(it.key)
+            }
         }
     }
 
@@ -91,8 +104,9 @@ class PreferencesHandler(private val context: Context) {
         val EDIT_NOTE_CONTENT_ON_DESTROY = stringPreferencesKey("editNoteContentOnDestroy")
         val EDIT_NOTE_TITLE_ON_DESTROY = stringPreferencesKey("editNoteTitleOnDestroy")
         val EDIT_NOTE_COLOR_ON_DESTROY = intPreferencesKey("editNoteColorOnDestroy")
+        val NOTES_ARCHIVE_NAME = stringPreferencesKey("noteArchive")
 
-        private val defaults: Map<Preferences.Key<*>, *> = mapOf(
+        private val DEFAULTS: Map<Preferences.Key<*>, *> = mapOf(
             SHOPPING_MIGRATION_DONE withValue false,
             SETTINGS_MIGRATION_DONE withValue false,
 
@@ -131,6 +145,7 @@ class PreferencesHandler(private val context: Context) {
             EDIT_NOTE_CONTENT_ON_DESTROY withValue "",
             EDIT_NOTE_TITLE_ON_DESTROY withValue "",
             EDIT_NOTE_COLOR_ON_DESTROY withValue -1,
+            NOTES_ARCHIVE_NAME withValue ""
         )
     }
 }
