@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.system_interaction.handler.share
 
-import SleepReminder
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,16 +9,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.databinding.FragmentSettingsBackupBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.io.File
+import androidx.core.view.isVisible
+import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 
 /**
  * A simple activity used to handle the backup process of the app.
  */
-class BackUpActivity : AppCompatActivity() {
+class BackUpActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) :
+    AppCompatActivity() {
+
+    private val preferencesHandler = PreferencesHandler(this)
+    private lateinit var sleepReminder: SleepReminder
+
     private val eHandler = ExportHandler(this)
     private val iHandler = ImportHandler(this)
     private lateinit var binding: FragmentSettingsBackupBinding
@@ -30,15 +39,18 @@ class BackUpActivity : AppCompatActivity() {
      * text and listeners for the logic.
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        val themeToSet = when (SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean) {
-            true -> R.style.AppThemeDark
-            else -> R.style.AppThemeLight
+        val themeToSet = runBlocking(ioDispatcher) {
+            when (preferencesHandler.read(PreferencesHandler.THEME_DARK).first()) {
+                true -> R.style.AppThemeDark
+                false -> R.style.AppThemeLight
+            }
         }
 
         setTheme(themeToSet)
         super.onCreate(savedInstanceState)
 
         binding = FragmentSettingsBackupBinding.inflate(layoutInflater)
+        sleepReminder = SleepReminder(this)
         setContentView(binding.root)
         val toolBar = binding.tbBackup
 
@@ -98,7 +110,7 @@ class BackUpActivity : AppCompatActivity() {
         }
 
         binding.clShowAdvancedBackup.setOnClickListener {
-            if(binding.llSettingsAdvanced.visibility == View.VISIBLE){
+            if (binding.llSettingsAdvanced.isVisible) {
                 binding.llSettingsAdvanced.visibility = View.GONE
                 binding.icShowAdvancedBackup.rotation = 0f
             } else {
@@ -155,7 +167,7 @@ class BackUpActivity : AppCompatActivity() {
                     file.delete()
 
                     if (targetId == StorageId.SLEEP) {
-                        SleepReminder(this).updateReminder()
+                        sleepReminder.updateReminder()
                     }
                 }
             }
@@ -165,12 +177,16 @@ class BackUpActivity : AppCompatActivity() {
             zipFile.delete()
             file.delete()
             Log.e("backup", e.stackTraceToString())
-            Toast.makeText(baseContext, getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                baseContext,
+                getString(R.string.settingsBackupImportFailed),
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
     }
 
-    private fun startMainActivity(){
+    private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("NotificationEntry", "backup")
         startActivity(intent)
@@ -178,6 +194,7 @@ class BackUpActivity : AppCompatActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        super.onBackPressed()
         startMainActivity()
         this.finish()
         onBackPressedDispatcher.onBackPressed()

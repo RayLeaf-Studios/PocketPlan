@@ -3,12 +3,17 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.google.gson.JsonObject
 import com.pocket_plan.j7_003.BuildConfig
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import org.threeten.bp.LocalDate
+import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
@@ -17,6 +22,7 @@ import java.util.zip.ZipOutputStream
  */
 class ExportHandler(private val parentActivity: AppCompatActivity) {
     private lateinit var zipFile: File
+    private val preferencesHandler = PreferencesHandler(parentActivity)
 
     /**
      * Used to share logs if they exist on the device.
@@ -28,8 +34,10 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
             return
         }
 
-        val uri = FileProvider.getUriForFile(parentActivity,
-            "${parentActivity.applicationContext.packageName}.provider", file)
+        val uri = FileProvider.getUriForFile(
+            parentActivity,
+            "${parentActivity.applicationContext.packageName}.provider", file
+        )
 
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "application/text"
@@ -48,8 +56,10 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
         backUpAsZip()   // creates and adds the backup file object to the StorageHandler
 
         // a uri to the backup file
-        val uri = FileProvider.getUriForFile(parentActivity,
-            "${BuildConfig.APPLICATION_ID}.provider", zipFile)
+        val uri = FileProvider.getUriForFile(
+            parentActivity,
+            "${BuildConfig.APPLICATION_ID}.provider", zipFile
+        )
 
         // the intent used to share the zip archived backup
         val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -67,9 +77,12 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
      * @param id The storage id of the requested file.
      */
     fun shareById(id: StorageId) {
+
         // a uri to the backup file
-        val uri = FileProvider.getUriForFile(parentActivity,
-            "${parentActivity.applicationContext.packageName}.provider", StorageHandler.files[id]!!)
+        val uri = FileProvider.getUriForFile(
+            parentActivity,
+            "${parentActivity.applicationContext.packageName}.provider", StorageHandler.files[id]!!
+        )
 
         // the intent used to share the zip archived backup
         val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -83,17 +96,38 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
     }
 
     private fun backUpAsZip() {
-        zipFile = File(parentActivity.filesDir.absolutePath,
-            "pocket_plan_${BuildConfig.VERSION_NAME}_backup_${LocalDate.now()}.zip")
+        zipFile = File(
+            parentActivity.filesDir.absolutePath,
+            "pocket_plan_${BuildConfig.VERSION_NAME}_backup_${LocalDate.now()}.zip"
+        )
         val outputStream = FileOutputStream(zipFile)
         val zipStream = ZipOutputStream(outputStream)
 
-        StorageHandler.files.forEach { (_, file) ->
+        // to save new preferences to the backup
+        val preferences = JsonObject()
+
+        runBlocking {
+            preferencesHandler.getPreferences().first().asMap().forEach { (key, value) ->
+                preferences.addProperty(key.name.uppercase(Locale.ROOT), value.toString())
+            }
+            writeSettingsToZipFile(zipStream, preferences.toString())
+        }
+
+        StorageHandler.files.forEach { (id, file) ->
+            if (id == StorageId.SETTINGS) return@forEach
             writeToZipFile(zipStream, file)
         }
 
         zipStream.close()
         outputStream.close()
+    }
+
+    private fun writeSettingsToZipFile(zipStream: ZipOutputStream, content: String) {
+        val zipEntry = ZipEntry("Settings.json")
+
+        zipStream.putNextEntry(zipEntry)
+        zipStream.write(content.toByteArray())
+        zipStream.closeEntry()
     }
 
     private fun writeToZipFile(zipStream: ZipOutputStream, file: File) {

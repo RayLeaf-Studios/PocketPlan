@@ -47,13 +47,12 @@ class PreferencesHandler(private val context: Context) {
 
     fun <T> read(key: Preferences.Key<T>): Flow<T> {
         return context.dataStore.data.map { preferences ->
-            @Suppress("UNCHECKED_CAST") // we don't need to check the cast because the map values ensure matching types
-            preferences[key] ?: DEFAULTS[key] as T
+            preferences[key] ?: getDefault(key)
         }
     }
 
     fun <T> getDefault(key: Preferences.Key<T>): T {
-        @Suppress("UNCHECKED_CAST")
+        @Suppress("UNCHECKED_CAST") // we don't need to check the cast because the map values ensure matching types
         return DEFAULTS[key] as T
     }
 
@@ -63,6 +62,10 @@ class PreferencesHandler(private val context: Context) {
                 preferences.remove(it.key)
             }
         }
+    }
+
+    fun getPreferences(): Flow<Preferences> {
+        return context.dataStore.data
     }
 
     companion object {
