@@ -1,16 +1,20 @@
 package com.pocket_plan.j7_003.data.settings
 
+import androidx.datastore.preferences.core.Preferences
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 class SettingsManager {
     companion object : KoinComponent, Checkable {
@@ -27,6 +31,10 @@ class SettingsManager {
             }
         }
 
+        @Deprecated(
+            message = "Will be removed to move persistence to widely supported libraries and apis. Settings should be persist with the new PreferencesHandler.",
+            level = DeprecationLevel.ERROR
+        )
         fun getSetting(setting: SettingId): Any? {
             return if (settings.containsKey(setting.name)) {
                 settings[setting.name]
@@ -39,11 +47,6 @@ class SettingsManager {
         )
         fun addSetting(id: SettingId, any: Any) {
             settings[id.name] = any
-            save()
-        }
-
-        fun restoreDefault() {
-            SettingId.entries.forEach { setId -> settings[setId.name] = setId.default }
             save()
         }
 
@@ -63,25 +66,74 @@ class SettingsManager {
                 try {
                     SettingId.valueOf(settingId)
                     settings[settingId] = value
-                } catch (_: Exception) { /* no-op */ }
+                } catch (_: Exception) { /* no-op */
+                }
             }
         }
 
-        private fun migrateToPreferences() {
-            val migrated = runBlocking(Dispatchers.IO) {
-                preferencesHandler
-                    .read(PreferencesHandler.SETTINGS_MIGRATION_DONE)
-                    .first()
+        suspend fun migrateToPreferences(ioDispatcher: CoroutineDispatcher) {
+            withContext(ioDispatcher) {
+
+                val migrated = runBlocking(ioDispatcher) {
+                    preferencesHandler
+                        .read(PreferencesHandler.SETTINGS_MIGRATION_DONE)
+                        .first()
+                }
+
+                if (migrated) return@withContext
+
+                SettingId.entries.forEach { settingId ->
+                    val settingValue = settings[settingId.name] ?: return@forEach
+
+                    // no need to migrate default values
+                    if (settingValue == settingId.default) return@forEach
+
+                    when (settingId.default) {
+                        is Boolean -> {
+                            val key = getPropertyByName<Preferences.Key<Boolean>>(settingId.name)
+                            preferencesHandler.save(key, settingValue as Boolean)
+                        }
+
+                        is String -> {
+                            val key = getPropertyByName<Preferences.Key<String>>(settingId.name)
+                            preferencesHandler.save(key, settingValue as String)
+                        }
+
+                        is Int -> {
+                            val key = getPropertyByName<Preferences.Key<Int>>(settingId.name)
+                            preferencesHandler.save(key, settingValue as Int)
+                        }
+
+                        is Double -> {
+                            val key = getPropertyByName<Preferences.Key<Double>>(settingId.name)
+                            preferencesHandler.save(key, settingValue as Double)
+                        }
+
+                        else -> { /* no-op */
+                        }
+                    }
+                }
+            }
+        }
+
+        inline fun <reified T> getPropertyByName(propertyName: String): T {
+            val prop =
+                PreferencesHandler.Companion::class.memberProperties.find { it.name == propertyName }
+                    ?: throw IllegalArgumentException()
+
+            // Check if property is public
+            if (prop.visibility != kotlin.reflect.KVisibility.PUBLIC) {
+                throw IllegalArgumentException()
             }
 
-            if (migrated) return
+            prop.isAccessible = true
+            val value = prop.get(PreferencesHandler.Companion)
 
-            SettingId.entries.forEach { settingId ->
-                val settingValue = getSetting(settingId) ?: return@forEach
-
-                if (settingValue == settingId.default) return@forEach
-
-//                preferencesHandler.save()
+            // Check if the value is of the expected type
+            return if (value is T) {
+                value
+            } else {
+                throw IllegalArgumentException()
             }
         }
 

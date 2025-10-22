@@ -15,14 +15,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
 import com.pocket_plan.j7_003.databinding.FragmentCustomItemsBinding
 import com.pocket_plan.j7_003.databinding.RowCustomItemBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.koin.android.ext.android.inject
 
-class CustomItemFr : Fragment() {
+class CustomItemFr() : Fragment() {
+
+    private val preferencesHandler: PreferencesHandler by inject()
+
     private var _fragmentBinding: FragmentCustomItemsBinding? = null
     private val fragmentBinding get() = _fragmentBinding!!
 
@@ -55,7 +62,7 @@ class CustomItemFr : Fragment() {
          * Connecting Adapter, Layout-Manager and Swipe Detection to UI elements
          */
 
-        myAdapter = CustomItemAdapter(myActivity)
+        myAdapter = CustomItemAdapter(myActivity, preferencesHandler)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
@@ -169,16 +176,23 @@ class SwipeToDeleteCustomItem(direction: Int, val myActivity: MainActivity) :
     }
 }
 
-class CustomItemAdapter(val myActivity: MainActivity) :
+class CustomItemAdapter(
+    val myActivity: MainActivity,
+    private val preferencesHandler: PreferencesHandler,
+    ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) :
     RecyclerView.Adapter<CustomItemAdapter.CustomItemViewHolder>() {
 
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val round = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
+    }
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     override fun getItemCount() = myActivity.userItemTemplateList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomItemViewHolder {
-        val rowCustomItemBinding = RowCustomItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rowCustomItemBinding =
+            RowCustomItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CustomItemViewHolder(rowCustomItemBinding)
     }
 

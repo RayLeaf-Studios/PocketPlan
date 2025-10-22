@@ -14,17 +14,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.views.ShoppingListView
 import com.pocket_plan.j7_003.databinding.FragmentShoppingBinding
 import com.pocket_plan.j7_003.databinding.RowCategoryBinding
 import com.pocket_plan.j7_003.databinding.RowItemBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import org.koin.android.ext.android.inject
 import java.util.Locale
 
 
-class ShoppingFr : Fragment() {
+class ShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+    private val preferencesHandler: PreferencesHandler by inject()
+
     private var _fragmentBinding: FragmentShoppingBinding? = null
     private val fragmentBinding get() = _fragmentBinding!!
     private lateinit var myActivity: MainActivity
@@ -33,15 +38,10 @@ class ShoppingFr : Fragment() {
     lateinit var shoppingListName: String
     var query: String? = null
 
+
     lateinit var myAdapter: ShoppingListAdapter
 
     companion object {
-
-        var suggestSimilar: Boolean =
-            SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
-
-        val moveCheckedSublistsDown =
-            SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
 
         lateinit var layoutManager: LinearLayoutManager
 
@@ -49,13 +49,6 @@ class ShoppingFr : Fragment() {
         var firstPos: Int = 0
         var expandOne: Boolean = false
         var collapseCheckedSublists: Boolean = false
-
-        @JvmStatic
-        fun newInstance() =
-            ShoppingFr().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,12 +106,16 @@ class ShoppingFr : Fragment() {
 
         myActivity = activity as MainActivity
         query = null
-        myAdapter = ShoppingListAdapter(myActivity, this)
+        myAdapter = ShoppingListAdapter(myActivity, this, preferencesHandler)
 
         //load settings
-        expandOne = SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
-        collapseCheckedSublists =
-            SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
+        expandOne = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.EXPAND_ONE_CATEGORY).first()
+        }
+
+        collapseCheckedSublists = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.COLLAPSE_CHECKED_SUBLISTS).first()
+        }
 
         //if expandOne Setting = true, collapse all categories
         if (expandOne) {
@@ -142,9 +139,6 @@ class ShoppingFr : Fragment() {
                 return@setOnRefreshListener
             }
 
-            runBlocking {
-                myMultiShoppingFr.fetchList(shoppingListInstance.getSyncId()!!)
-            }
             swipeRefresher.isRefreshing = false
         }
 
@@ -200,6 +194,10 @@ class ShoppingFr : Fragment() {
                     shoppingListInstance.add(currentPosition, movedCategory)
                     shoppingListInstance.updateOrder()
                     shoppingListInstance.save()
+
+                    val moveCheckedSublistsDown = runBlocking {
+                        preferencesHandler.read(PreferencesHandler.MOVE_CHECKED_DOWN).first()
+                    }
 
                     if (moveCheckedSublistsDown) {
                         //get tag of this category
@@ -322,15 +320,24 @@ class ShoppingFr : Fragment() {
 /**
  * Adapter for categories
  */
-class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
+class ShoppingListAdapter(
+    mainActivity: MainActivity,
+    shoppingFr: ShoppingFr,
+    private val preferencesHandler: PreferencesHandler,
+    ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) :
     RecyclerView.Adapter<ShoppingListAdapter.CategoryViewHolder>() {
     private val myFragment = shoppingFr
     private val myActivity = mainActivity
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
-    private val collapseCheckedSublists =
-        SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
-    private val moveCheckedSublistsDown =
-        SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
+    private val round = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
+    }
+    private val collapseCheckedSublists = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.COLLAPSE_CHECKED_SUBLISTS).first()
+    }
+    private val moveCheckedSublistsDown = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.MOVE_CHECKED_DOWN).first()
+    }
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
     private val density = myActivity.resources.displayMetrics.density
 
@@ -423,7 +430,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
         )
 
         //Setting adapter for this sublist
-        val subAdapter = SublistAdapter(tag, holder, myActivity, myFragment)
+        val subAdapter = SublistAdapter(tag, holder, myActivity, myFragment, preferencesHandler)
         sublistAdapter = subAdapter
         holder.binding.subRecyclerView.adapter = subAdapter
         holder.binding.subRecyclerView.layoutManager = LinearLayoutManager(myActivity)
@@ -517,10 +524,6 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
             }
             myFragment.myMultiShoppingFr.updateShoppingMenu()
         }
-    }
-
-    fun updateCheckedState() {
-        sublistAdapter.updateCheckedState()
     }
 
     /**
@@ -643,21 +646,26 @@ class SublistAdapter(
     private val tag: String,
     private val parentHolder: ShoppingListAdapter.CategoryViewHolder,
     mainActivity: MainActivity,
-    shoppingFr: ShoppingFr
+    shoppingFr: ShoppingFr,
+    private val preferencesHandler: PreferencesHandler,
+    ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RecyclerView.Adapter<SublistAdapter.ItemViewHolder>() {
     private val myActivity = mainActivity
     private val myFragment = shoppingFr
     private val density = myActivity.resources.displayMetrics.density
 
     //boolean stating if design is round or not
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val round = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
+    }
 
     //corner radius of items
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
     //setting if checked sublists should be moved below unchecked sublists
-    private val moveCheckedSublistsDown =
-        SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
+    private val moveCheckedSublistsDown = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.MOVE_CHECKED_DOWN).first()
+    }
 
     private lateinit var holder: ItemViewHolder
 
@@ -761,15 +769,7 @@ class SublistAdapter(
 
         //Onclick Listener for checkBox
         holder.binding.clItemTapfield.setOnClickListener {
-            val oldItem =
-                myFragment.shoppingListInstance.getItem(tag, holder.bindingAdapterPosition)
-            val newItem = oldItem?.copy().let { it?.checked = !it.checked; it }
-
             if (myFragment.shoppingListInstance.isLocked()) return@setOnClickListener
-            if (myFragment.shoppingListInstance.isSyncModeEnabled()) {
-                myFragment.myMultiShoppingFr.updateSyncedItem(oldItem!!, newItem!!)
-                return@setOnClickListener
-            }
             updateCheckedState()
         }
 
@@ -891,10 +891,6 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
 
         //Pair of deleted item and boolean stating if sublist is empty now
         val removeInfo = myFragment.shoppingListInstance.removeItem(parsed.tag, position)
-
-        if (myFragment.shoppingListInstance.isSyncModeEnabled() && removeInfo.first != null) {
-            myFragment.myMultiShoppingFr.deleteSyncedItem(removeInfo.first!!)
-        }
 
         if (removeInfo.second) {
             //entire sublist is empty => remove sublist

@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.sleepreminder
 
-import SleepReminder
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -19,19 +18,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.databinding.DialogPickTimeBinding
 import com.pocket_plan.j7_003.databinding.FragmentSleepBinding
 import com.pocket_plan.j7_003.databinding.RowSleepBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.koin.android.ext.android.inject
 import org.threeten.bp.DayOfWeek
 
 /**
  * A simple [Fragment] subclass.
  */
 
-class SleepFr : Fragment() {
+class SleepFr(ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+
+    private val sleepReminder: SleepReminder by inject()
+    private val preferencesHandler: PreferencesHandler by inject()
 
     private var _fragmentBinding: FragmentSleepBinding? = null
     val fragmentBinding get() = _fragmentBinding!!
@@ -48,7 +54,9 @@ class SleepFr : Fragment() {
     private var customIsInit: Boolean = false
     private var regularIsInit: Boolean = false
 
-    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
+    private val dark = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+    }
 
     @SuppressLint("InflateParams")
     override fun onCreateView(
@@ -58,13 +66,13 @@ class SleepFr : Fragment() {
         _fragmentBinding = FragmentSleepBinding.inflate(inflater, container, false)
 
         myActivity = activity as MainActivity
-        sleepReminderInstance = SleepReminder(myActivity)
+        sleepReminderInstance = sleepReminder
         customIsInit = false
         regularIsInit = false
 
         val myRecycler = fragmentBinding.recyclerViewSleep
-        sleepReminderInstance = SleepReminder(myActivity)
-        myAdapter = SleepAdapter(myActivity, this)
+        sleepReminderInstance = sleepReminder
+        myAdapter = SleepAdapter(myActivity, this, preferencesHandler)
         myRecycler.adapter = myAdapter
         myRecycler.layoutManager = LinearLayoutManager(activity)
         myRecycler.setHasFixedSize(true)
@@ -241,7 +249,7 @@ class SleepFr : Fragment() {
 
         regularCheckBoxList.forEachIndexed { i, cb ->
             cb.setOnClickListener {
-                val day = DayOfWeek.values()[i]
+                val day = DayOfWeek.entries[i]
                 if (cb.isChecked) {
                     sleepReminderInstance.reminder[day]?.enable(day)
                 } else {
@@ -267,7 +275,7 @@ class SleepFr : Fragment() {
 
     private fun updateRegularCheckboxes() {
         regularCheckBoxList.forEachIndexed { i, cb ->
-            cb.isChecked = sleepReminderInstance.reminder[DayOfWeek.values()[i]]?.isSet!!
+            cb.isChecked = sleepReminderInstance.reminder[DayOfWeek.entries[i]]?.isSet!!
         }
     }
 
@@ -309,12 +317,21 @@ class SleepFr : Fragment() {
     }
 }
 
-class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
+class SleepAdapter(
+    mainActivity: MainActivity,
+    sleepFr: SleepFr,
+    private val preferencesHandler: PreferencesHandler,
+    ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+) :
     RecyclerView.Adapter<SleepAdapter.SleepViewHolder>() {
     private val myFragment = sleepFr
     private val myActivity = mainActivity
-    private val dark = SettingsManager.getSetting(SettingId.THEME_DARK) as Boolean
-    private val round = SettingsManager.getSetting(SettingId.SHAPES_ROUND) as Boolean
+    private val dark = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+    }
+    private val round = runBlocking(ioDispatcher) {
+        preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
+    }
     private val cr = myActivity.resources.getDimension(R.dimen.cornerRadius)
 
 
@@ -336,7 +353,7 @@ class SleepAdapter(mainActivity: MainActivity, sleepFr: SleepFr) :
 
     @SuppressLint("InflateParams")
     override fun onBindViewHolder(holder: SleepViewHolder, position: Int) {
-        val day = DayOfWeek.values()[position]
+        val day = DayOfWeek.entries[position]
         holder.day = day
 
         if (round) {

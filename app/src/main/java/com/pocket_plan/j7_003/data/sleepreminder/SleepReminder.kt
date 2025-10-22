@@ -1,6 +1,7 @@
+package com.pocket_plan.j7_003.data.sleepreminder
+
 import android.content.Context
 import android.util.Log
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
@@ -9,7 +10,16 @@ import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
-import com.pocket_plan.j7_003.data.settings.SettingId
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.koin.core.annotation.Factory
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.threeten.bp.*
 import org.threeten.bp.DayOfWeek.*
 import org.threeten.bp.temporal.ChronoUnit
@@ -17,17 +27,30 @@ import org.threeten.bp.temporal.TemporalAdjusters
 import java.lang.NullPointerException
 import kotlin.math.abs
 
+private const val TAG = "SleepReminder"
+
 /**
  * A simple class to handle different Reminders for a sleep schedule
  */
-class SleepReminder(passedContext: Context) : Checkable {
-    private val TAG = "SleepReminder"
+@Factory
+class SleepReminder(
+    passedContext: Context,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : Checkable, KoinComponent {
+
+    private val preferencesHandler: PreferencesHandler by inject()
+
+    private val coroutineContext = CoroutineScope(ioDispatcher)
 
     var myContext = passedContext
-    var daysAreCustom: Boolean = SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as Boolean
+    var daysAreCustom: Boolean = preferencesHandler.getDefault(PreferencesHandler.DAYS_ARE_CUSTOM)
     var reminder = HashMap<DayOfWeek, Reminder>(7)
 
     init {
+        runBlocking {
+            daysAreCustom = preferencesHandler.read(PreferencesHandler.DAYS_ARE_CUSTOM).first()
+        }
+
         initMap()
         createFile()
         load()
@@ -111,7 +134,7 @@ class SleepReminder(passedContext: Context) : Checkable {
     }
 
     private fun initMap() {
-        DayOfWeek.values().forEach { n -> reminder[n] = Reminder(n, this) }
+        entries.forEach { n -> reminder[n] = Reminder(n, this) }
     }
 
     private fun createFile() {
@@ -123,7 +146,9 @@ class SleepReminder(passedContext: Context) : Checkable {
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
-        SettingsManager.addSetting(SettingId.DAYS_ARE_CUSTOM, daysAreCustom)
+        coroutineContext.launch(ioDispatcher) {
+            preferencesHandler.save(PreferencesHandler.DAYS_ARE_CUSTOM, daysAreCustom)
+        }
     }
 
     private fun load() {
@@ -134,7 +159,7 @@ class SleepReminder(passedContext: Context) : Checkable {
 
         fun freshDefaults(): HashMap<DayOfWeek, Reminder> {
             val fresh = HashMap<DayOfWeek, Reminder>(7)
-            DayOfWeek.values().forEach { fresh[it] = Reminder(it, this) }
+            entries.forEach { fresh[it] = Reminder(it, this) }
             StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], fresh)
             Log.w(TAG, "Loaded defaults for SLEEP due to missing or invalid JSON")
             return fresh
@@ -167,7 +192,9 @@ class SleepReminder(passedContext: Context) : Checkable {
             freshDefaults()
         }
 
-        daysAreCustom = (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as? Boolean) ?: false
+        daysAreCustom = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.DAYS_ARE_CUSTOM).first()
+        }
 
         reminder.forEach { entry -> entry.value.mySleepReminder = this }
 
@@ -206,7 +233,6 @@ class SleepReminder(passedContext: Context) : Checkable {
                 FRIDAY -> 205
                 SATURDAY -> 204
                 SUNDAY -> 206
-                else -> 200
             }
             n.value.updateAlarm(i)
         }
@@ -223,7 +249,6 @@ class SleepReminder(passedContext: Context) : Checkable {
                 FRIDAY -> 205
                 SATURDAY -> 204
                 SUNDAY -> 206
-                else -> 200
             }
         )
         save()

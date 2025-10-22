@@ -137,7 +137,7 @@ class PreferencesHandler(private val context: Context) {
             NOTES_ARCHIVE withValue true,
             NOTES_FIXED_SIZE withValue true,
             NOTES_DIRS_TO_TOP withValue true,
-            SYNC_SERVER_URL withValue "http://",
+            SYNC_SERVER_URL withValue "http://localhost:8080",
 
             EDIT_NOTE_CONTENT withValue "",
             EDIT_NOTE_TITLE withValue "",

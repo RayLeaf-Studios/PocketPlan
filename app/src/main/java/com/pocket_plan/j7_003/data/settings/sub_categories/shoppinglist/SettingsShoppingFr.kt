@@ -5,17 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.fragmenttags.FT
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.ShoppingFr
 import com.pocket_plan.j7_003.databinding.FragmentSettingsShoppingBinding
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.koin.android.ext.android.inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsShoppingFr : Fragment() {
+class SettingsShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) :
+    Fragment() {
+
+    private val preferencesHandler: PreferencesHandler by inject()
+
     private var _fragmentBinding: FragmentSettingsShoppingBinding? = null
     private val fragmentBinding get() = _fragmentBinding!!
 
@@ -25,28 +34,30 @@ class SettingsShoppingFr : Fragment() {
     ): View {
         _fragmentBinding = FragmentSettingsShoppingBinding.inflate(inflater, container, false)
 
-        initializeDisplayValues()
-        initializeListeners()
+        runBlocking(ioDispatcher) {
+            initializeDisplayValues()
+            initializeListeners()
+        }
 
         return fragmentBinding.root
     }
 
-    private fun initializeDisplayValues() {
+    private suspend fun initializeDisplayValues() {
 
         fragmentBinding.swExpandOneCategory.isChecked =
-            SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean
+            preferencesHandler.read(PreferencesHandler.EXPAND_ONE_CATEGORY).first()
 
         fragmentBinding.swCollapseCheckedSublists.isChecked =
-            SettingsManager.getSetting(SettingId.COLLAPSE_CHECKED_SUBLISTS) as Boolean
+            preferencesHandler.read(PreferencesHandler.COLLAPSE_CHECKED_SUBLISTS).first()
 
         fragmentBinding.swCloseAddItemDialog.isChecked =
-            SettingsManager.getSetting(SettingId.CLOSE_ITEM_DIALOG) as Boolean
+            preferencesHandler.read(PreferencesHandler.CLOSE_ITEM_DIALOG).first()
 
         fragmentBinding.swMoveCheckedCategoriesDown.isChecked =
-            SettingsManager.getSetting(SettingId.MOVE_CHECKED_DOWN) as Boolean
+            preferencesHandler.read(PreferencesHandler.MOVE_CHECKED_DOWN).first()
 
         fragmentBinding.swSuggestSimilarItems.isChecked =
-            SettingsManager.getSetting(SettingId.SUGGEST_SIMILAR_ITEMS) as Boolean
+            preferencesHandler.read(PreferencesHandler.SUGGEST_SIMILAR_ITEMS).first()
     }
 
     private fun initializeListeners() {
@@ -57,40 +68,52 @@ class SettingsShoppingFr : Fragment() {
 
         //Switch for only showing one category as expanded
         fragmentBinding.swExpandOneCategory.setOnClickListener {
-            SettingsManager.addSetting(SettingId.EXPAND_ONE_CATEGORY, fragmentBinding.swExpandOneCategory.isChecked)
+            lifecycleScope.launch(ioDispatcher) {
+                preferencesHandler.save(
+                    PreferencesHandler.EXPAND_ONE_CATEGORY,
+                    fragmentBinding.swExpandOneCategory.isChecked
+                )
+            }
         }
 
         //Switch to collapse sublists when they are fully checked
         fragmentBinding.swCollapseCheckedSublists.setOnClickListener {
-            SettingsManager.addSetting(
-                SettingId.COLLAPSE_CHECKED_SUBLISTS,
-                fragmentBinding.swCollapseCheckedSublists.isChecked
-            )
+            lifecycleScope.launch(ioDispatcher) {
+                preferencesHandler.save(
+                    PreferencesHandler.COLLAPSE_CHECKED_SUBLISTS,
+                    fragmentBinding.swCollapseCheckedSublists.isChecked
+                )
+            }
         }
 
         //Switch to close item dialog after adding a single item
         fragmentBinding.swCloseAddItemDialog.setOnClickListener {
-            SettingsManager.addSetting(
-                SettingId.CLOSE_ITEM_DIALOG,
-                fragmentBinding.swCloseAddItemDialog.isChecked
-            )
+            lifecycleScope.launch(ioDispatcher) {
+                preferencesHandler.save(
+                    PreferencesHandler.CLOSE_ITEM_DIALOG,
+                    fragmentBinding.swCloseAddItemDialog.isChecked
+                )
+            }
         }
 
         //Switch to toggle setting to move categories below unchecked lists once they are fully checked
         fragmentBinding.swMoveCheckedCategoriesDown.setOnClickListener {
-            SettingsManager.addSetting(
-                SettingId.MOVE_CHECKED_DOWN,
-                fragmentBinding.swMoveCheckedCategoriesDown.isChecked
-            )
+            lifecycleScope.launch(ioDispatcher) {
+                preferencesHandler.save(
+                    PreferencesHandler.MOVE_CHECKED_DOWN,
+                    fragmentBinding.swMoveCheckedCategoriesDown.isChecked
+                )
+            }
         }
 
         //Switch to toggle setting to suggest similar items when adding items to shopping list with unknown names
         fragmentBinding.swSuggestSimilarItems.setOnClickListener {
-            SettingsManager.addSetting(
-                SettingId.SUGGEST_SIMILAR_ITEMS,
-                fragmentBinding.swSuggestSimilarItems.isChecked
-            )
-            ShoppingFr.suggestSimilar = fragmentBinding.swSuggestSimilarItems.isChecked
+            lifecycleScope.launch(ioDispatcher) {
+                preferencesHandler.save(
+                    PreferencesHandler.SUGGEST_SIMILAR_ITEMS,
+                    fragmentBinding.swSuggestSimilarItems.isChecked
+                )
+            }
         }
     }
 }

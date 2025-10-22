@@ -4,10 +4,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.App
 import com.pocket_plan.j7_003.data.settings.Languages
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 
-class ItemTemplateList : ArrayList<ItemTemplate>() {
+class ItemTemplateList(private val language: Double) : ArrayList<ItemTemplate>() {
     init {
         loadFromAssets()
     }
@@ -29,7 +27,7 @@ class ItemTemplateList : ArrayList<ItemTemplate>() {
     }
 
     private fun loadFromAssets() {
-        val languageCode = when (SettingsManager.getSetting(SettingId.LANGUAGE)) {
+        val languageCode = when (language) {
             Languages.ROMANIAN.index -> Languages.ROMANIAN.code
             Languages.ITALIAN.index -> Languages.ITALIAN.code
             Languages.RUSSIAN.index -> Languages.RUSSIAN.code

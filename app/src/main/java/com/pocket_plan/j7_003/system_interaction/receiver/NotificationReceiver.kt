@@ -1,6 +1,6 @@
 package com.pocket_plan.j7_003.system_interaction.receiver
 
-import SleepReminder
+import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -8,20 +8,30 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.Birthday
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.threeten.bp.LocalDate
 
 
-class NotificationReceiver : BroadcastReceiver() {
+class NotificationReceiver(
+    private val sleepReminder: SleepReminder,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : BroadcastReceiver() {
+
+
     private lateinit var context: Context
     private lateinit var localDate: LocalDate
+    private lateinit var preferencesHandler: PreferencesHandler
 
     override fun onReceive(context: Context, intent: Intent) {
         this.context = context
+        preferencesHandler = PreferencesHandler(context)
         AndroidThreeTen.init(this.context)
         StorageHandler.path = context.filesDir.absolutePath
         this.localDate = LocalDate.now()
@@ -31,13 +41,14 @@ class NotificationReceiver : BroadcastReceiver() {
             "SReminder" -> checkSleepNotification(intent)
         }
 
-        SettingsManager.init()
-        val time = SettingsManager.getSetting(SettingId.BIRTHDAY_NOTIFICATION_TIME) as String
+        val time = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.BIRTHDAY_NOTIFICATION_TIME).first()
+        }
         AlarmHandler.setBirthdayAlarms(time, context = context)
     }
 
     private fun checkSleepNotification(intent: Intent) {
-        SleepReminder(context).reminder[intent.extras?.get("weekday")]?.updateAlarm(
+        sleepReminder.reminder[intent.extras?.get("weekday")]?.updateAlarm(
             intent.extras?.getInt("requestCode")!!
         )
         sRNotification()
@@ -45,9 +56,15 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun sRNotification() {
         NotificationHandler.createNotification(
-            "Sleep Reminder", context.resources.getString(R.string.menuTitleSleep), 200,
-            context.resources.getString(R.string.sleepNotificationTitle), context.resources.getString(R.string.sleepNotificationText), R.drawable.ic_action_sleepreminder,
-            "SReminder", context, 3 * 60 * 60 * 1000
+            "Sleep Reminder",
+            context.resources.getString(R.string.menuTitleSleep),
+            200,
+            context.resources.getString(R.string.sleepNotificationTitle),
+            context.resources.getString(R.string.sleepNotificationText),
+            R.drawable.ic_action_sleepreminder,
+            "SReminder",
+            context,
+            3 * 60 * 60 * 1000
         )
     }
 
@@ -79,7 +96,8 @@ class NotificationReceiver : BroadcastReceiver() {
         birthdayList.forEach { n ->
             val calculatedDate = LocalDate.now().plusDays(n.daysToRemind.toLong())
             if (n.notify && calculatedDate.monthValue == n.month &&
-                calculatedDate.dayOfMonth == n.day && n.daysToRemind > 0) {
+                calculatedDate.dayOfMonth == n.day && n.daysToRemind > 0
+            ) {
                 upcomingBirthdays.add(n)
             }
         }
@@ -90,7 +108,8 @@ class NotificationReceiver : BroadcastReceiver() {
         val currentBirthdays = ArrayList<Birthday>()
         birthdayList.forEach { n ->
             if (n.notify && n.month == localDate.monthValue &&
-                n.day == localDate.dayOfMonth) {
+                n.day == localDate.dayOfMonth
+            ) {
                 currentBirthdays.add(n)
             }
         }
@@ -117,19 +136,35 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun notifyUpcomingBirthday(birthday: Birthday) {
         NotificationHandler.createNotification(
-            "Birthday Notification", context.resources.getString(R.string.birthdayNotificationTitleUpc),
-            101, context.resources.getString(R.string.birthdayNotificationTitleUpc),
-            context.resources.getString(R.string.birthdayNotificationSingleUpcText, birthday.name, birthday.daysToRemind, context.resources.getQuantityString(R.plurals.dayIn, birthday.daysToRemind)),
-            R.drawable.ic_action_birthday, "birthdays", context
+            "Birthday Notification",
+            context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            101,
+            context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            context.resources.getString(
+                R.string.birthdayNotificationSingleUpcText,
+                birthday.name,
+                birthday.daysToRemind,
+                context.resources.getQuantityString(R.plurals.dayIn, birthday.daysToRemind)
+            ),
+            R.drawable.ic_action_birthday,
+            "birthdays",
+            context
         )
     }
 
     private fun notifyUpcomingBirthdays(upcomingBirthdays: Int) {
         NotificationHandler.createNotification(
-            "Birthday Notification", context.resources.getString(R.string.birthdayNotificationTitleUpc),
-            103, context.resources.getString(R.string.birthdayNotificationTitleUpc),
-            context.resources.getString(R.string.birthdayNotificationMultUpcText, upcomingBirthdays),
-            R.drawable.ic_action_birthday, "birthdays", context
+            "Birthday Notification",
+            context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            103,
+            context.resources.getString(R.string.birthdayNotificationTitleUpc),
+            context.resources.getString(
+                R.string.birthdayNotificationMultUpcText,
+                upcomingBirthdays
+            ),
+            R.drawable.ic_action_birthday,
+            "birthdays",
+            context
         )
     }
 }

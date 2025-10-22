@@ -1,18 +1,26 @@
 package com.pocket_plan.j7_003.data.shoppinglist
 
 import com.pocket_plan.j7_003.data.Checkable
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.model.ShoppingMetaData
 import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingCategoryDto
 import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingItemDto
 import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingListDto
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class ShoppingList(
     private var wrapper: ShoppingListWrapper?,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) :
-    ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable {
+    ArrayList<Pair<String, ArrayList<ShoppingItem>>>(), Checkable, KoinComponent {
     constructor() : this(null)
+
+    private val preferencesHandler: PreferencesHandler by inject()
 
     private companion object {
         private const val META_TAG = "meta"
@@ -101,12 +109,16 @@ class ShoppingList(
      * @param element The element to be added to the list.
      */
     fun add(element: ShoppingItem) {
+        val expandOne = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.EXPAND_ONE_CATEGORY).first()
+        }
+
         this.forEach { e ->         // searching for preexistence of the elements tag
             if (e.first == element.tag) {   // add element to tags sublist and save to file
                 e.second.add(element)
                 e.second[0].checked = true
 
-                if (SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean) {
+                if (expandOne) {
                     this.forEach {
                         if (it != e)
                             it.second[0].checked = false
@@ -130,7 +142,7 @@ class ShoppingList(
 
         var sublistExpanded = true
 
-        if (SettingsManager.getSetting(SettingId.EXPAND_ONE_CATEGORY) as Boolean && somethingIsExpanded()) {
+        if (expandOne && somethingIsExpanded()) {
             sublistExpanded = false
         }
 
@@ -347,7 +359,7 @@ class ShoppingList(
     fun isTagExpanded(tag: String): Boolean {
         return try {
             this[getTagIndex(tag)].second[0].checked
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
@@ -363,7 +375,7 @@ class ShoppingList(
             this[getTagIndex(tag)].second[0].checked = newState
             save()
             newState
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
     }
@@ -381,7 +393,7 @@ class ShoppingList(
             sortSublist(this[getTagIndex(tag)].second)
             save()
             this[getTagIndex(tag)].second.indexOf(itemCache) - 1
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             -1
         }
     }
@@ -471,7 +483,7 @@ class ShoppingList(
     fun areAllChecked(tag: String): Boolean {
         return try {
             getUncheckedSize(tag) == 0
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
@@ -526,7 +538,7 @@ class ShoppingList(
 
             save()
             Pair(removedItem, sublistGotDeleted)
-        } catch (e: NullPointerException) {
+        } catch (_: NullPointerException) {
             Pair(null, sublistGotDeleted)
         }
     }

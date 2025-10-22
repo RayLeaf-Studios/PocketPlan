@@ -40,7 +40,6 @@ import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
 import com.pocket_plan.j7_003.data.notelist.NoteFr
 import com.pocket_plan.j7_003.data.settings.Languages
 import com.pocket_plan.j7_003.data.settings.SettingsMainFr
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.settings.sub_categories.*
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.CustomItemFr
 import com.pocket_plan.j7_003.data.settings.sub_categories.shoppinglist.SettingsShoppingFr
@@ -69,6 +68,7 @@ import java.util.Locale
 import java.util.Stack
 import androidx.core.view.size
 import androidx.core.view.get
+import com.pocket_plan.j7_003.data.settings.SettingsManager
 
 class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) :
     AppCompatActivity() {
@@ -314,9 +314,8 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
             }
         }
 
-        multiShoppingFr.preloadAddItemDialog(this, layoutInflater)
-        todoFr!!.preloadAddTaskDialog(this, layoutInflater)
-
+        multiShoppingFr.preloadAddItemDialog(this@MainActivity, layoutInflater)
+        todoFr!!.preloadAddTaskDialog(this@MainActivity, layoutInflater)
 
         try {
             //10000 things can go wrong here

@@ -7,12 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.databinding.FragmentSettingsMainBinding
 import com.pocket_plan.j7_003.system_interaction.handler.share.BackUpActivity
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
-class SettingsMainFr : Fragment() {
+class SettingsMainFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+
+    private val preferencesHandler: PreferencesHandler by inject()
 
     private var _fragmentSettingsMainBinding: FragmentSettingsMainBinding? = null
     private val fragmentSettingsMainBinding get() = _fragmentSettingsMainBinding!!
@@ -47,7 +55,7 @@ class SettingsMainFr : Fragment() {
         clSettingNotes = fragmentSettingsMainBinding.clSettingNotes
         clSettingsGeneral = fragmentSettingsMainBinding.clSettingGeneral
         clSettingBirthdays = fragmentSettingsMainBinding.clSettingBirthdays
-        fragmentSettingsMainBinding.etSyncUrl.setText(SettingsManager.getSetting(SettingId.SYNC_SERVER_URL) as String)
+//        fragmentSettingsMainBinding.etSyncUrl.setText(SettingsManager.getSetting(SettingId.SYNC_SERVER_URL) as String)
     }
 
     private fun initializeListeners() {
@@ -64,7 +72,9 @@ class SettingsMainFr : Fragment() {
 
         fragmentSettingsMainBinding.btnSyncUrl.setOnClickListener {
             val url: String = fragmentSettingsMainBinding.etSyncUrl.text.toString()
-            SettingsManager.addSetting(SettingId.SYNC_SERVER_URL, url)
+            lifecycleScope.launch(ioDispatcher) {
+                preferencesHandler.save(PreferencesHandler.SYNC_SERVER_URL, url)
+            }
         }
     }
 

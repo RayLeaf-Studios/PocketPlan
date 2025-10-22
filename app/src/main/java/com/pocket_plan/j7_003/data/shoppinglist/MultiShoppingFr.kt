@@ -14,41 +14,29 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
-import com.pocket_plan.j7_003.data.settings.SettingId
-import com.pocket_plan.j7_003.data.settings.SettingsManager
-import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.ShoppingItemDto
-import com.pocket_plan.j7_003.data.shoppinglist.mapper.ItemMapper.toDto
-import com.pocket_plan.j7_003.data.shoppinglist.mapper.ItemMapper.toNewDto
-import com.pocket_plan.j7_003.data.shoppinglist.mapper.ListMapper.toCore
-import com.pocket_plan.j7_003.data.shoppinglist.model.dtos.NewShoppingListDto
 import com.pocket_plan.j7_003.databinding.DialogAddItemBinding
 import com.pocket_plan.j7_003.databinding.DialogAddShoppingListBinding
 import com.pocket_plan.j7_003.databinding.FragmentMultiShoppingBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
-import com.pocket_plan.j7_003.system_interaction.handler.storage.PocketSyncHandler
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
-import retrofit2.create
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.koin.android.ext.android.inject
 import java.util.Collections
 import kotlin.math.abs
 import kotlin.math.min
 
-class MultiShoppingFr : Fragment() {
+class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+
+    private val preferencesHandler: PreferencesHandler by inject()
 
     private lateinit var myMenu: Menu
     private lateinit var myActivity: MainActivity
@@ -82,12 +70,6 @@ class MultiShoppingFr : Fragment() {
     private var searchList = ArrayList<Pair<String, ArrayList<ShoppingItem>>>()
 
     lateinit var shoppingPager: ViewPager2
-
-    val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(SettingsManager.getSetting(SettingId.SYNC_SERVER_URL).toString())
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .build()
-    val clientService = retrofit.create<PocketSyncHandler>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -140,87 +122,10 @@ class MultiShoppingFr : Fragment() {
 
         }
         tabLayout.addOnTabSelectedListener(onTabSelectedListener)
-        syncLists()
+        Log.e("MSF", "beforeUpdate")
         updateTabs()
+        Log.e("MSF", "finished onCreateView")
         return fragmentMultiShoppingBinding.root
-    }
-
-    private fun syncLists() {
-        MainActivity.shoppingListWrapper.forEach {
-            if (!it.second.isSyncModeEnabled()) return@forEach
-            lifecycleScope.launch {
-                it.second.setLock(true)
-                val response = withContext(Dispatchers.IO) {
-                    try {
-                        clientService
-                            .checkConnection(it.second.getSyncId()!!)
-                            .execute()
-                    } catch (e: Exception) {
-                        Log.e(
-                            "Test",
-                            "Connection to list ${it.first} failed, exception ${e.message}"
-                        )
-                        return@withContext null
-                    }
-                }
-
-                when (response?.code()) {
-                    200 -> {
-                        it.second.setLock(false)
-                        Log.e("Test", "Connection to list ${it.first} successful")
-                    }
-
-                    404 -> {
-                        Log.e("Test", "List ${it.first} not found on server, disabling sync mode")
-                        it.second.disableSyncMode()
-                        tabLayout.getTabAt(MainActivity.shoppingListWrapper.indexOf(it))?.text =
-                            it.first
-                    }
-
-                    else -> {
-                        Log.e(
-                            "Test",
-                            "Connection to list ${it.first} failed, code ${response?.code()}"
-                        )
-                    }
-                }
-                updateTabs()
-                updateShoppingMenu()
-            }
-        }
-    }
-
-    fun fetchList(id: String) {
-        lifecycleScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                try {
-                    clientService
-                        .getShoppingList(id)
-                        .execute()
-                } catch (e: Exception) {
-                    Log.e(
-                        "Test",
-                        "Fetching list $id failed, exception ${e.message}"
-                    )
-                    return@withContext null
-                }
-            }
-
-            if (response?.isSuccessful != true) {
-                Log.e("Test", "Fetching list $id failed, code ${response?.code()}")
-                return@launch
-            }
-
-            val newList = response.body()!!.toCore()
-            val shoppingList =
-                MainActivity.shoppingListWrapper.find { it.second.getSyncId() == id }?.second
-                    ?: return@launch
-
-            shoppingList.merge(newList)
-
-            activeShoppingFr.myAdapter.notifyDataSetChanged()
-            updateShoppingMenu()
-        }
     }
 
     private fun updateTabs() {
@@ -261,7 +166,7 @@ class MultiShoppingFr : Fragment() {
     }
 
     private fun createShoppingFrInstance(listName: String, shoppingList: ShoppingList): ShoppingFr {
-        val newFr = ShoppingFr.newInstance()
+        val newFr = ShoppingFr()
         newFr.shoppingListInstance = shoppingList
         newFr.shoppingListName = listName
         newFr.myMultiShoppingFr = this
@@ -293,7 +198,7 @@ class MultiShoppingFr : Fragment() {
                 if (newText == null)
                     return true
                 if (searching) {
-                    activeShoppingFr.search(newText.toString())
+                    activeShoppingFr.search(newText)
                 }
                 return true
             }
@@ -519,26 +424,7 @@ class MultiShoppingFr : Fragment() {
             }
 
             R.id.item_shopping_enable_sync -> {
-                lifecycleScope.launch {
-                    val response = withContext(Dispatchers.IO) {
-
-                        val cats = activeShoppingFr.shoppingListInstance.getSyncData()
-                        val newList = NewShoppingListDto(activeShoppingFr.shoppingListName, cats)
-                        clientService.syncShoppingList(newList).execute()
-                    }
-
-                    if (response.isSuccessful) {
-                        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
-
-                        val newList = response.body()!!
-                        tabLayout.getTabAt(currentpos)?.text = "🌐 ${newList.name}"
-                        activeShoppingFr.shoppingListInstance.enableSyncMode(newList.id)
-                        activeShoppingFr.shoppingListInstance.addSyncedItems(newList.toCore())
-                        updateShoppingMenu()
-                    } else {
-                        Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                Toast.makeText(context, "Sync - Coming soon...", Toast.LENGTH_SHORT).show()
             }
 
             R.id.item_shopping_disable_sync -> {
@@ -553,52 +439,6 @@ class MultiShoppingFr : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun deleteSyncedItem(item: ShoppingItem) {
-        lifecycleScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                clientService.deleteItem(
-                    activeShoppingFr.shoppingListInstance.getSyncId()!!,
-                    item.tag,
-                    item.id!!
-                ).execute()
-            }
-
-            if (response.isSuccessful) {
-                Toast.makeText(context, "deleted item", Toast.LENGTH_SHORT).show()
-            } else {
-                //add new item to list
-                if (MainActivity.previousFragmentStack.peek() == FT.SHOPPING) {
-                    //handling adding in shopping
-                    activeShoppingFr.shoppingListInstance.add(item)
-                    activeShoppingFr.myAdapter.notifyDataSetChanged()
-                    updateShoppingMenu()
-                } else {
-                    //handling adding in home
-                    MainActivity.shoppingListWrapper[0].second.add(item)
-                }
-                Toast.makeText(context, "failed to delete item", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    fun updateSyncedItem(oldItem: ShoppingItem, newItem: ShoppingItem) {
-        lifecycleScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                clientService.updateItemInList(
-                    activeShoppingFr.shoppingListInstance.getSyncId()!!,
-                    oldItem.tag,
-                    oldItem.id!!,
-                    newItem.toDto()
-                ).execute()
-            }
-
-            if (response.isSuccessful) {
-                activeShoppingFr.myAdapter.updateCheckedState()
-            } else {
-                Toast.makeText(context, "failed to update item", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     fun refreshItemNamesAndAutoCompleteAdapter() {
         //initialize itemNameList
@@ -621,7 +461,8 @@ class MultiShoppingFr : Fragment() {
         val customAdapter = AutoCompleteAdapter(
             context = myActivity,
             resource = android.R.layout.simple_spinner_dropdown_item,
-            items = itemNameClone
+            items = itemNameClone,
+            preferencesHandler = preferencesHandler
         )
         autoCompleteTv.setAdapter(customAdapter)
     }
@@ -634,8 +475,14 @@ class MultiShoppingFr : Fragment() {
     fun preloadAddItemDialog(passedActivity: MainActivity, layoutInflater: LayoutInflater) {
         myActivity = passedActivity
 
+        Log.e("MSF", "language")
+        val lang = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.LANGUAGE).first()
+        }
+        Log.e("MSF", "$lang")
+
         //initialize shopping list data
-        myActivity.itemTemplateList = ItemTemplateList()
+        myActivity.itemTemplateList = ItemTemplateList(lang)
         myActivity.userItemTemplateList = UserItemTemplateList()
 
 
@@ -908,58 +755,17 @@ class MultiShoppingFr : Fragment() {
                 spItemUnit.setSelection(0)
                 autoCompleteTv.requestFocus()
 
+                Log.e("MSF", "close item")
+                val closeItemDia = runBlocking(ioDispatcher) {
+                    preferencesHandler.read(PreferencesHandler.CLOSE_ITEM_DIALOG).first()
+                }
                 //close dialog if setting says so, or dialog was opened from home fragment
-                if (MainActivity.previousFragmentStack.peek() == FT.HOME || SettingsManager.getSetting(
-                        SettingId.CLOSE_ITEM_DIALOG
-                    ) as Boolean
-                ) {
+                if (MainActivity.previousFragmentStack.peek() == FT.HOME || closeItemDia) {
                     addItemDialog.dismiss()
                 }
             }
 
-            // differentiate between adding from shopping and home fragment
-            val list = when {
-                this::activeShoppingFr.isInitialized -> activeShoppingFr.shoppingListInstance
-                else -> MainActivity.shoppingListWrapper[0].second
-            }
-
-            if (list.isSyncModeEnabled()) {
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO) {
-                        clientService.addItemToList(
-                            list.getSyncId()!!,
-                            item.tag,
-                            item.toNewDto()
-                        ).enqueue(object : Callback<ShoppingItemDto> {
-                            override fun onResponse(
-                                call: Call<ShoppingItemDto?>,
-                                response: Response<ShoppingItemDto?>
-                            ) {
-                                if (!response.isSuccessful) {
-                                    Toast.makeText(
-                                        myActivity,
-                                        "failed to add item",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    return
-                                }
-
-                                addItem()
-                            }
-
-                            override fun onFailure(
-                                call: Call<ShoppingItemDto?>,
-                                t: Throwable
-                            ) {
-                                Toast.makeText(myActivity, "failed to add item", Toast.LENGTH_LONG)
-                                    .show()
-                            }
-                        })
-                    }
-                }
-            } else {
-                addItem()
-            }
+            addItem()
         }
 
         val imm =
@@ -1073,10 +879,13 @@ class MultiShoppingFr : Fragment() {
     }
 
     fun updateExpandAllIcon() {
+        Log.e("MSF", "expand one")
+        val expandOne = runBlocking(ioDispatcher) {
+            preferencesHandler.read(PreferencesHandler.EXPAND_ONE_CATEGORY).first()
+        }
+
         myMenu.findItem(R.id.item_shopping_expand_all)?.isVisible =
-            activeShoppingFr.shoppingListInstance.somethingsCollapsed() && !(SettingsManager.getSetting(
-                SettingId.EXPAND_ONE_CATEGORY
-            ) as Boolean)
+            activeShoppingFr.shoppingListInstance.somethingsCollapsed() && !expandOne
     }
 
     fun updateCollapseAllIcon() {
@@ -1162,7 +971,8 @@ class AutoCompleteAdapter(
     context: Context,
     resource: Int,
     textViewResourceId: Int = 0,
-    items: List<String> = listOf()
+    items: List<String> = listOf(),
+    private val preferencesHandler: PreferencesHandler
 ) : ArrayAdapter<Any>(context, resource, textViewResourceId, items) {
 
 
@@ -1221,9 +1031,13 @@ class AutoCompleteAdapter(
                 }
             }
 
+            val suggestSimilar = runBlocking {
+                preferencesHandler.read(PreferencesHandler.SUGGEST_SIMILAR_ITEMS).first()
+            }
+
             //if anything was found that starts with, or contains the "input", or if the setting says
             //to only show perfect matches and don't suggest similar items, return the current suggestions
-            if (suggestions.isNotEmpty() || !ShoppingFr.suggestSimilar) {
+            if (suggestions.isNotEmpty() || !suggestSimilar) {
                 result.values = suggestions
                 result.count = suggestions.size
                 return result
