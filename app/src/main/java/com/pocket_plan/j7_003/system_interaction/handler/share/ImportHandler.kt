@@ -1,19 +1,22 @@
 package com.pocket_plan.j7_003.system_interaction.handler.share
 
-import SleepReminder
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
+import androidx.datastore.preferences.core.Preferences
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.notelist.NoteDirList
-import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingListWrapper
 import com.pocket_plan.j7_003.data.shoppinglist.UserItemTemplateList
+import com.pocket_plan.j7_003.data.sleepreminder.SleepReminder
 import com.pocket_plan.j7_003.data.todolist.TodoList
+import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.InputStream
 import java.util.*
@@ -27,6 +30,7 @@ import java.util.zip.ZipFile
  */
 class ImportHandler(private val parentActivity: Activity) {
     private val newFiles: EnumMap<StorageId, File> = EnumMap(StorageId::class.java)
+    private val preferencesHandler = PreferencesHandler(parentActivity)
 
     /**
      * Handles the import for a specific module from json files.
@@ -65,7 +69,8 @@ class ImportHandler(private val parentActivity: Activity) {
         // copies the current modules file content to the rollback file
         oldFile.writeText(StorageHandler.files[id]!!.readText())
         // overwrites the content of the modules file with the selected files content
-        StorageHandler.files[id]!!.writeText(file.readText())
+        if (id == StorageId.SETTINGS) importSettings(file.readText())
+        else StorageHandler.files[id]!!.writeText(file.readText())
 
         if (!testFiles()) { // rollbacks the file if the file couldn't be read correctly
             StorageHandler.files[id]!!.writeText(oldFile.readText())
@@ -126,25 +131,34 @@ class ImportHandler(private val parentActivity: Activity) {
         }
 
         // unzip all all entries from selected file into the /new/ directory
-        StorageId.values().forEach {
-            //Ignore old (unused) shopping file
-            if (it.s != StorageId.SHOPPING.s) {  // check so only module files are used/transferred
-                // the cache file is created with the corresponding name of the modules file name
-                cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
+        StorageId.entries.forEach {
+            //Ignore old (unused) shopping and settings file
+            if (it.s == StorageId.SHOPPING.s) return@forEach
 
-                // getting the content from the requested zip entry
-                // (only file names from storage ids are valid)
-                entryContent = zipFile.getInputStream(ZipEntry(it.s)).bufferedReader()
-                    .use { reader -> reader.readText() }
+            // getting the content from the requested zip entry
+            // (only file names from storage ids are valid)
+            entryContent = zipFile.getInputStream(ZipEntry(it.s))
+                .bufferedReader()
+                .use { reader -> reader.readText() }
 
-                // the read in content is stored in the new file
-                cacheFile.writeText(entryContent)
-                newFiles[it] = cacheFile    // the file is added to a map to be easier managed
+            if (it.s == StorageId.SETTINGS.s) {
+                importSettings(entryContent)
+                return@forEach
             }
+
+            // check so only module files are used/transferred
+            // the cache file is created with the corresponding name of the modules file name
+            cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
+
+            // the read in content is stored in the new file
+            cacheFile.writeText(entryContent)
+            newFiles[it] = cacheFile    // the file is added to a map to be easier managed
         }
 
         // the new files are used to overwrite their corresponding module files
         newFiles.forEach { (id, file) ->
+            // don't write content to old settings file
+            if (id == StorageId.SETTINGS) return@forEach
             StorageHandler.files[id]?.writeText(file.readText())
         }
 
@@ -168,8 +182,38 @@ class ImportHandler(private val parentActivity: Activity) {
         chooseFileIntent.type = "application/$fileType"
         chooseFileIntent.addCategory(Intent.CATEGORY_OPENABLE)
         parentActivity.startActivityForResult(
-            Intent.createChooser(chooseFileIntent, parentActivity.getString(R.string.settingsBackupChooseFile)), id
+            Intent.createChooser(
+                chooseFileIntent,
+                parentActivity.getString(R.string.settingsBackupChooseFile)
+            ), id
         )
+    }
+
+    private fun importSettings(settings: String) {
+        val settingsMap: HashMap<String, Any> = GsonBuilder().create()
+            .fromJson(settings, object : TypeToken<HashMap<String, Any>>() {}.type)
+
+        settingsMap.forEach { (settingId, value) ->
+            val key = preferencesHandler.getKeyByName(settingId)
+
+            // ignore setting if key could not be found
+            if (key == null) return@forEach
+
+            runBlocking {
+                @Suppress("UNCHECKED_CAST")
+                when (value) {
+                    "true", "false" -> preferencesHandler.save(
+                        key as Preferences.Key<Boolean>,
+                        value.toString().toBoolean()
+                    )
+
+                    is Boolean -> preferencesHandler.save(key as Preferences.Key<Boolean>, value)
+                    is String -> preferencesHandler.save(key as Preferences.Key<String>, value)
+                    is Int -> preferencesHandler.save(key as Preferences.Key<Int>, value)
+                    is Double -> preferencesHandler.save(key as Preferences.Key<Double>, value)
+                }
+            }
+        }
     }
 
     private fun testFiles(): Boolean {
@@ -180,19 +224,22 @@ class ImportHandler(private val parentActivity: Activity) {
 
             TodoList().check()
 
-            SettingsManager.init()
-            SettingsManager.check()
-
-
             SleepReminder(parentActivity).check()
             UserItemTemplateList().check()
 
-            Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportSuccessful), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                parentActivity,
+                parentActivity.getString(R.string.settingsBackupImportSuccessful),
+                Toast.LENGTH_SHORT
+            ).show()
 
             true
-        } catch (e: Exception) {
-            Log.e("IMPORT FAILED", e.toString())
-            Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
+        } catch (_: Exception) {
+            Toast.makeText(
+                parentActivity,
+                parentActivity.getString(R.string.settingsBackupImportFailed),
+                Toast.LENGTH_SHORT
+            ).show()
             false
         }
     }

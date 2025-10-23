@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
@@ -21,17 +20,15 @@ import com.pocket_plan.j7_003.data.sleepreminder.SleepFr
 import com.pocket_plan.j7_003.data.todolist.TodoFr
 import com.pocket_plan.j7_003.databinding.FragmentHomeBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+class HomeFr() : Fragment() {
 
     private val sleepReminder: SleepReminder by inject()
     private val preferencesHandler: PreferencesHandler by inject()
@@ -71,11 +68,9 @@ class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
         }.start()
 
         //updating ui
-        lifecycleScope.launch(ioDispatcher) {
-            updateWakeTimePanel()
-            updateTaskPanel(true)
-            updateBirthdayPanel()
-        }
+        updateWakeTimePanel()
+        updateTaskPanel(true)
+        updateBirthdayPanel()
 
         //Onclick listeners for task panel, birthday panel and sleep panel,
         fragmentBinding.panelTasks.setOnClickListener {
@@ -110,10 +105,9 @@ class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
     }
 
     override fun onResume() {
-        lifecycleScope.launch(ioDispatcher) {
-            updateWakeTimePanel()
-            updateTaskPanel(true)
-        }
+        updateWakeTimePanel()
+        updateTaskPanel(true)
+
         super.onResume()
     }
 
@@ -123,7 +117,7 @@ class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
      */
 
     @SuppressLint("ResourceType")
-    suspend fun updateTaskPanel(shake: Boolean) {
+    fun updateTaskPanel(shake: Boolean) {
         val density = myActivity.resources.displayMetrics.density
         val (_, status) = mySleepFr.sleepReminderInstance.getRemainingWakeDurationString()
         val params = fragmentBinding.panelTasks.layoutParams as ViewGroup.MarginLayoutParams
@@ -138,11 +132,11 @@ class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
             params.setMargins(sideMargin, bottomMargin, sideMargin, bottomMargin)
         }
 
-        if (preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first())
+        if (runBlocking { preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first() })
             fragmentBinding.panelTasks.radius = cr
 
         var myShake = shake
-        if (preferencesHandler.read(PreferencesHandler.SHAKE_TASK_HOME).first())
+        if (runBlocking { preferencesHandler.read(PreferencesHandler.SHAKE_TASK_HOME).first() })
             myShake = false
 
         var p1TaskCounter = 0
@@ -203,10 +197,10 @@ class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
 
     }
 
-    private suspend fun updateBirthdayPanel() {
+    private fun updateBirthdayPanel() {
 
         //round corners of birthday panel if settings say so
-        if (preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first())
+        if (runBlocking { preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first() })
             fragmentBinding.panelBirthdays.radius = cr
 
         //get list of birthdays today
@@ -244,8 +238,9 @@ class HomeFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
 
         //check for ANY birthday in the next 30 days
         val nextBirthday = MainActivity.birthdayList.getNextRelevantBirthday()
-        if (nextBirthday != null && preferencesHandler.read(PreferencesHandler.PREVIEW_BIRTHDAY)
-                .first()
+        if (nextBirthday != null && runBlocking {
+                preferencesHandler.read(PreferencesHandler.PREVIEW_BIRTHDAY).first()
+            }
         ) {
             //if any birthday was found, display it
             val daysUntilString = when (val daysUntil = nextBirthday.daysUntil()) {

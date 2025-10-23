@@ -9,23 +9,18 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.databinding.FragmentSettingsGeneralBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsGeneralFr(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) : Fragment() {
+class SettingsGeneralFr() : Fragment() {
     private val preferencesHandler: PreferencesHandler by inject()
 
     private var _fragmentSettingsGeneralBinding: FragmentSettingsGeneralBinding? = null
@@ -39,7 +34,8 @@ class SettingsGeneralFr(
 
     private var round = preferencesHandler.getDefault(PreferencesHandler.SHAPES_ROUND)
     private var dark = preferencesHandler.getDefault(PreferencesHandler.THEME_DARK)
-    private var darkBorderStyle = preferencesHandler.getDefault(PreferencesHandler.DARK_BORDER_STYLE)
+    private var darkBorderStyle =
+        preferencesHandler.getDefault(PreferencesHandler.DARK_BORDER_STYLE)
     private var language = preferencesHandler.getDefault(PreferencesHandler.LANGUAGE)
     private var shake = preferencesHandler.getDefault(PreferencesHandler.SHAKE_TASK_HOME)
     private var systemTheme = preferencesHandler.getDefault(PreferencesHandler.USE_SYSTEM_THEME)
@@ -51,22 +47,21 @@ class SettingsGeneralFr(
         _fragmentSettingsGeneralBinding =
             FragmentSettingsGeneralBinding.inflate(inflater, container, false)
 
-        lifecycleScope.launch(ioDispatcher) {
-
+        runBlocking {
             round = preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
             dark = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
             darkBorderStyle = preferencesHandler.read(PreferencesHandler.DARK_BORDER_STYLE).first()
             language = preferencesHandler.read(PreferencesHandler.LANGUAGE).first()
             shake = preferencesHandler.read(PreferencesHandler.SHAKE_TASK_HOME).first()
             systemTheme = preferencesHandler.read(PreferencesHandler.USE_SYSTEM_THEME).first()
-
-            myActivity = activity as MainActivity
-
-            initializeAdapters()
-            initializeDisplayValues()
-            initializeListeners()
-            updateComponentVisibility()
         }
+
+        myActivity = activity as MainActivity
+
+        initializeAdapters()
+        initializeDisplayValues()
+        initializeListeners()
+        updateComponentVisibility()
 
         return fragmentSettingsGeneralBinding.root
     }
@@ -184,7 +179,7 @@ class SettingsGeneralFr(
                             else -> 0.0
                         }
                     if (setTo != language) {
-                        lifecycleScope.launch(ioDispatcher) {
+                        runBlocking {
                             preferencesHandler.save(PreferencesHandler.LANGUAGE, setTo)
                         }
                         val intent = Intent(context, MainActivity::class.java)
@@ -224,7 +219,7 @@ class SettingsGeneralFr(
                             resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
                         //check if systemDarkState not equal to selected dark state
                         if (systemDark != selectedDarkTheme) {
-                            lifecycleScope.launch(ioDispatcher) {
+                            runBlocking {
                                 preferencesHandler.save(PreferencesHandler.USE_SYSTEM_THEME, false)
                             }
                             fragmentSettingsGeneralBinding.swSystemTheme.isChecked = false
@@ -233,7 +228,7 @@ class SettingsGeneralFr(
 
                     //check if selected dark state is equal to current dark state
                     if (selectedDarkTheme != dark) {
-                        lifecycleScope.launch(ioDispatcher) {
+                        runBlocking {
                             preferencesHandler.save(
                                 PreferencesHandler.THEME_DARK,
                                 selectedDarkTheme
@@ -267,7 +262,7 @@ class SettingsGeneralFr(
                         return
                     }
 
-                    lifecycleScope.launch(ioDispatcher) {
+                    runBlocking {
                         preferencesHandler.save(
                             PreferencesHandler.SHAPES_ROUND,
                             fragmentSettingsGeneralBinding.spShapes.selectedItemPosition == 1
@@ -283,7 +278,7 @@ class SettingsGeneralFr(
             }
 
         fragmentSettingsGeneralBinding.swShakeTaskInHome.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
+            runBlocking {
                 preferencesHandler.save(
                     PreferencesHandler.SHAKE_TASK_HOME,
                     fragmentSettingsGeneralBinding.swShakeTaskInHome.isChecked
@@ -292,38 +287,40 @@ class SettingsGeneralFr(
         }
 
         fragmentSettingsGeneralBinding.swSystemTheme.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
+            runBlocking {
                 preferencesHandler.save(
                     PreferencesHandler.USE_SYSTEM_THEME,
                     fragmentSettingsGeneralBinding.swSystemTheme.isChecked
                 )
+            }
 
-                //use system theme got disabled, current theme will stay activated
-                if (!fragmentSettingsGeneralBinding.swSystemTheme.isChecked) {
-                    return@launch
-                }
+            //use system theme got disabled, current theme will stay activated
+            if (!fragmentSettingsGeneralBinding.swSystemTheme.isChecked) {
+                return@setOnClickListener
+            }
 
-                val previousSettingDark = dark
+            val previousSettingDark = dark
 
-                //use system theme got enabled, check if system uses night mode
-                val isDarkMode =
-                    resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+            //use system theme got enabled, check if system uses night mode
+            val isDarkMode =
+                resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.THEME_DARK, isDarkMode)
+            }
 
-                //if theme got changed, trigger activity reload to load new theme
-                if (previousSettingDark != dark) {
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("NotificationEntry", "general")
-                    startActivity(intent)
-                    myActivity.finish()
-                }
+            //if theme got changed, trigger activity reload to load new theme
+            if (previousSettingDark != dark) {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.putExtra("NotificationEntry", "general")
+                startActivity(intent)
+                myActivity.finish()
             }
         }
 
         //onclick listener to reset to default values
         fragmentSettingsGeneralBinding.clResetToDefault.setOnClickListener {
             val action: () -> Unit = {
-                lifecycleScope.launch(ioDispatcher) {
+                runBlocking {
                     preferencesHandler.restoreDefault()
                 }
                 val intent = Intent(context, MainActivity::class.java)
@@ -345,7 +342,7 @@ class SettingsGeneralFr(
                 R.id.rbColoredBorder -> 2.0
                 else -> 3.0
             }
-            lifecycleScope.launch(ioDispatcher) {
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.DARK_BORDER_STYLE, newStyle)
             }
         }

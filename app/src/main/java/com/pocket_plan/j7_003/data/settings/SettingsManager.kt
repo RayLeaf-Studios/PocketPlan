@@ -7,10 +7,8 @@ import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.reflect.full.memberProperties
@@ -71,23 +69,23 @@ class SettingsManager {
             }
         }
 
-        suspend fun migrateToPreferences(ioDispatcher: CoroutineDispatcher) {
-            withContext(ioDispatcher) {
+        fun migrateToPreferences() {
 
-                val migrated = runBlocking(ioDispatcher) {
-                    preferencesHandler
-                        .read(PreferencesHandler.SETTINGS_MIGRATION_DONE)
-                        .first()
-                }
+            val migrated = runBlocking {
+                preferencesHandler
+                    .read(PreferencesHandler.SETTINGS_MIGRATION_DONE)
+                    .first()
+            }
 
-                if (migrated) return@withContext
+            if (migrated) return
 
-                SettingId.entries.forEach { settingId ->
-                    val settingValue = settings[settingId.name] ?: return@forEach
+            SettingId.entries.forEach { settingId ->
+                val settingValue = settings[settingId.name] ?: return@forEach
 
-                    // no need to migrate default values
-                    if (settingValue == settingId.default) return@forEach
+                // no need to migrate default values
+                if (settingValue == settingId.default) return@forEach
 
+                runBlocking {
                     when (settingId.default) {
                         is Boolean -> {
                             val key = getPropertyByName<Preferences.Key<Boolean>>(settingId.name)
@@ -112,6 +110,10 @@ class SettingsManager {
                         else -> { /* no-op */
                         }
                     }
+                }
+
+                runBlocking {
+                    preferencesHandler.save(PreferencesHandler.SETTINGS_MIGRATION_DONE, true)
                 }
             }
         }

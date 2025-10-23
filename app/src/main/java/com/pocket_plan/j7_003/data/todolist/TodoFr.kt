@@ -14,7 +14,6 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,17 +26,15 @@ import com.pocket_plan.j7_003.databinding.FragmentTodoBinding
 import com.pocket_plan.j7_003.databinding.RowTaskBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 /**
  * A simple [Fragment] subclass.
  */
 
-class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+class TodoFr() : Fragment() {
 
     private val preferencesHandler: PreferencesHandler by inject()
 
@@ -383,9 +380,7 @@ class TodoFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
 
                 if (MainActivity.previousFragmentStack.peek() == FT.HOME) {
                     val homeFr = myActivity.getFragment(FT.HOME) as HomeFr
-                    lifecycleScope.launch(ioDispatcher) {
-                        homeFr.updateTaskPanel(false)
-                    }
+                    homeFr.updateTaskPanel(false)
                     myActivity.toast(myActivity.getString(R.string.homeNotificationTaskAdded))
                     return@setOnClickListener
                 }
@@ -407,7 +402,6 @@ class TodoTaskAdapter(
     activity: MainActivity,
     private var myFragment: TodoFr,
     private val preferencesHandler: PreferencesHandler,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) :
     RecyclerView.Adapter<TodoTaskAdapter.TodoTaskViewHolder>() {
 
@@ -424,7 +418,7 @@ class TodoTaskAdapter(
         val rowTaskBinding =
             RowTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        myFragment.lifecycleScope.launch(ioDispatcher) {
+        runBlocking {
             round = preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
             dark = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
             darkBorderStyle = preferencesHandler.read(PreferencesHandler.DARK_BORDER_STYLE).first()

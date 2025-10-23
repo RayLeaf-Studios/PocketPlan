@@ -26,7 +26,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -58,10 +57,7 @@ import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import java.util.Locale
@@ -70,7 +66,7 @@ import androidx.core.view.size
 import androidx.core.view.get
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 
-class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) :
+class MainActivity() :
     AppCompatActivity() {
 
     private val preferencesHandler: PreferencesHandler by inject()
@@ -154,46 +150,47 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
         //Initialize StorageHandler and SettingsManager
         StorageHandler.path = this.filesDir.absolutePath
         SettingsManager.init()
-        lifecycleScope.launch(ioDispatcher) {
-            SettingsManager.migrateToPreferences(ioDispatcher)
 
+        SettingsManager.migrateToPreferences()
+
+        runBlocking {
             //set correct language depending on setting
-            preferencesHandler.read(PreferencesHandler.LANGUAGE).collect {
-                val languageCode = when (it) {
-                    Languages.ROMANIAN.index -> Languages.ROMANIAN.code
-                    Languages.ITALIAN.index -> Languages.ITALIAN.code
-                    Languages.RUSSIAN.index -> Languages.RUSSIAN.code
-                    Languages.SPANISH.index -> Languages.SPANISH.code
-                    Languages.FRENCH.index -> Languages.FRENCH.code
-                    Languages.GERMAN.index -> Languages.GERMAN.code
-                    else -> Languages.ENGLISH.code
-                }
-                setLocale(this@MainActivity, languageCode)
+            val lang = preferencesHandler.read(PreferencesHandler.LANGUAGE).first()
+            val languageCode = when (lang) {
+                Languages.ROMANIAN.index -> Languages.ROMANIAN.code
+                Languages.ITALIAN.index -> Languages.ITALIAN.code
+                Languages.RUSSIAN.index -> Languages.RUSSIAN.code
+                Languages.SPANISH.index -> Languages.SPANISH.code
+                Languages.FRENCH.index -> Languages.FRENCH.code
+                Languages.GERMAN.index -> Languages.GERMAN.code
+                else -> Languages.ENGLISH.code
             }
+            setLocale(this@MainActivity, languageCode)
         }
 
         //check if settings say to use system theme, if yes, set theme setting to system theme
-        val useSystemTheme = runBlocking(ioDispatcher) {
+        val useSystemTheme = runBlocking {
             preferencesHandler.read(PreferencesHandler.USE_SYSTEM_THEME).first()
         }
 
         if (useSystemTheme) {
-            lifecycleScope.launch(ioDispatcher) {
-                val isDarkMode =
-                    resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+            val isDarkMode = resources.configuration.uiMode and
+                    Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.THEME_DARK, isDarkMode)
             }
         }
 
-        //set correct theme depending on setting
-        lifecycleScope.launch(ioDispatcher) {
-            val themeDark = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
-            val themeToSet = when (themeDark) {
-                true -> R.style.AppThemeDark
-                false -> R.style.AppThemeLight
-            }
-            setTheme(themeToSet)
+        val themeDark = runBlocking {
+            preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
         }
+
+        //set correct theme depending on setting
+        val themeToSet = when (themeDark) {
+            true -> R.style.AppThemeDark
+            false -> R.style.AppThemeLight
+        }
+        setTheme(themeToSet)
 
         //create drawer_layout
         super.onCreate(savedInstanceState)
@@ -203,13 +200,11 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
         //IMPORTANT: ORDER IS CRITICAL HERE
         //Initialize Time api and AlarmHandler
         AndroidThreeTen.init(this)
-        lifecycleScope.launch(ioDispatcher) {
-            val time = preferencesHandler
-                .read(PreferencesHandler.BIRTHDAY_NOTIFICATION_TIME)
-                .first()
-
-            AlarmHandler.setBirthdayAlarms(time = time, context = this@MainActivity)
+        val time = runBlocking {
+            preferencesHandler.read(PreferencesHandler.BIRTHDAY_NOTIFICATION_TIME).first()
         }
+
+        AlarmHandler.setBirthdayAlarms(time = time, context = this@MainActivity)
 
         //Initialize toolbar
         toolbar = drawerLayoutBinding.tbMain
@@ -319,9 +314,7 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
 
         try {
             //10000 things can go wrong here
-            lifecycleScope.launch(ioDispatcher) {
-                manageNoteRestore()
-            }
+            manageNoteRestore()
         } catch (_: Exception) {
             /* no-op */
         }
@@ -443,30 +436,41 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
         }
 
 
-    private suspend fun manageNoteRestore() {
+    private fun manageNoteRestore() {
 
-        val editNoteContentOnDestroy =
+        val editNoteContentOnDestroy = runBlocking {
             preferencesHandler.read(PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY).first()
+        }
 
-        val editNoteTitleOnDestroy =
+        val editNoteTitleOnDestroy = runBlocking {
             preferencesHandler.read(PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY).first()
+        }
 
-        val editNoteColorOnDestroy =
+        val editNoteColorOnDestroy = runBlocking {
             preferencesHandler.read(PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY).first()
+        }
 
         if (noteFr == null || editNoteColorOnDestroy == -1) return
 
         if (editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == "") {
             //App was closed when editor window was empty, do nothing
-            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT, "")
-            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE, "")
+            runBlocking {
+                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT, "")
+                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE, "")
+            }
             return
         }
 
         //Get saved editNoteContent (this gets written when editor is opened (content of note to edit)
-        val editNoteContent = preferencesHandler.read(PreferencesHandler.EDIT_NOTE_CONTENT).first()
-        val editNoteTitle = preferencesHandler.read(PreferencesHandler.EDIT_NOTE_TITLE).first()
-        val editNoteColor = preferencesHandler.read(PreferencesHandler.EDIT_NOTE_COLOR).first()
+        val editNoteContent = runBlocking {
+            preferencesHandler.read(PreferencesHandler.EDIT_NOTE_CONTENT).first()
+        }
+        val editNoteTitle = runBlocking {
+            preferencesHandler.read(PreferencesHandler.EDIT_NOTE_TITLE).first()
+        }
+        val editNoteColor = runBlocking {
+            preferencesHandler.read(PreferencesHandler.EDIT_NOTE_COLOR).first()
+        }
 
         if (editNoteColor == -1) return
 
@@ -503,13 +507,15 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
         }
     }
 
-    private suspend fun resetNotePreferenceStorage() {
-        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT, "")
-        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE, "")
-        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY, "")
-        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY, "")
-        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR, -1)
-        preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY, -1)
+    private fun resetNotePreferenceStorage() {
+        runBlocking {
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT, "")
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE, "")
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY, "")
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY, "")
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR, -1)
+            preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY, -1)
+        }
     }
 
     /**
@@ -766,10 +772,19 @@ class MainActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers.I
             return
         }
         if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            lifecycleScope.launch(ioDispatcher) {
-                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY, noteEditorFr!!.getEditorContent())
-                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY, noteEditorFr!!.getEditorTitle())
-                preferencesHandler.save(PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY, noteEditorFr!!.getNoteColor())
+            runBlocking {
+                preferencesHandler.save(
+                    PreferencesHandler.EDIT_NOTE_CONTENT_ON_DESTROY,
+                    noteEditorFr!!.getEditorContent()
+                )
+                preferencesHandler.save(
+                    PreferencesHandler.EDIT_NOTE_TITLE_ON_DESTROY,
+                    noteEditorFr!!.getEditorTitle()
+                )
+                preferencesHandler.save(
+                    PreferencesHandler.EDIT_NOTE_COLOR_ON_DESTROY,
+                    noteEditorFr!!.getNoteColor()
+                )
             }
         }
         super.onStop()

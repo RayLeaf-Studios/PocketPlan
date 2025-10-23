@@ -18,7 +18,6 @@ import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,23 +28,23 @@ import com.pocket_plan.j7_003.databinding.FragmentBirthdayBinding
 import com.pocket_plan.j7_003.databinding.RowBirthdayBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 import org.threeten.bp.LocalDate
 import java.util.ArrayDeque
 import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.math.abs
+import androidx.core.view.size
+import androidx.core.view.get
 
 
 /**
  * A simple [Fragment] subclass.
  */
 
-class BirthdayFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+class BirthdayFr() : Fragment() {
 
     private val preferencesHandler: PreferencesHandler by inject()
 
@@ -83,7 +82,7 @@ class BirthdayFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO)
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch(ioDispatcher) {
+        runBlocking {
             round = preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
             darkMode = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
         }
@@ -298,8 +297,8 @@ class BirthdayFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO)
     }
 
     private fun hideMenuExceptSearch() {
-        val size = myMenu.size()
-        for (i in 0 until size) myMenu.getItem(i).isVisible = false
+        val size = myMenu.size
+        for (i in 0 until size) myMenu[i].isVisible = false
         myMenu.findItem(R.id.item_birthdays_search)?.isVisible = true
     }
 
@@ -1032,7 +1031,6 @@ class BirthdayAdapter(
     mainActivity: MainActivity,
     private var searchList: ArrayList<Birthday>,
     private val preferencesHandler: PreferencesHandler,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RecyclerView.Adapter<BirthdayAdapter.BirthdayViewHolder>() {
     private val myFragment = birthdayFr
     private val myActivity = mainActivity
@@ -1095,7 +1093,7 @@ class BirthdayAdapter(
         val rowBirthdayBinding =
             RowBirthdayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        myFragment.lifecycleScope.launch(ioDispatcher) {
+        runBlocking {
             round = preferencesHandler.read(PreferencesHandler.SHAPES_ROUND).first()
             southColors = preferencesHandler.read(PreferencesHandler.BIRTHDAY_COLORS_SOUTH).first()
             showMonth = preferencesHandler.read(PreferencesHandler.BIRTHDAY_SHOW_MONTH).first()

@@ -125,7 +125,14 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
 
         runBlocking {
             preferencesHandler.getPreferences().first().asMap().forEach { (key, value) ->
-                preferences.addProperty(key.name.uppercase(Locale.ROOT), value.toString())
+                val uppercaseKey = key.name.uppercase(Locale.ROOT)
+
+                when (value) {
+                    is Boolean -> preferences.addProperty(uppercaseKey, value)
+                    is String -> preferences.addProperty(uppercaseKey, value)
+                    is Int -> preferences.addProperty(uppercaseKey, value)
+                    is Double -> preferences.addProperty(uppercaseKey, value)
+                }
             }
         }
 

@@ -2,7 +2,6 @@ package com.pocket_plan.j7_003.system_interaction.handler.share
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -176,10 +175,9 @@ class BackUpActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers
             }
             startMainActivity()
             this.finish()
-        } catch (e: Exception) {    // in case something goes wrong during the import process
+        } catch (_: Exception) {    // in case something goes wrong during the import process
             zipFile.delete()
             file.delete()
-            Log.e("backup", e.stackTraceToString())
             Toast.makeText(
                 baseContext,
                 getString(R.string.settingsBackupImportFailed),

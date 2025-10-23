@@ -20,7 +20,6 @@ import android.widget.SearchView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
@@ -34,20 +33,18 @@ import com.pocket_plan.j7_003.databinding.FragmentNoteBinding
 import com.pocket_plan.j7_003.databinding.RowNoteBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.util.Calendar
 import kotlin.random.Random
 import androidx.core.view.get
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 /**
  * A simple [Fragment] subclass.
  */
 
-class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+class NoteFr() : Fragment() {
 
     private val preferencesHandler: PreferencesHandler by inject()
 
@@ -87,7 +84,7 @@ class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
         savedInstanceState: Bundle?
     ): View {
 
-        lifecycleScope.launch(ioDispatcher) {
+        runBlocking {
             darkBorderStyle = preferencesHandler.read(PreferencesHandler.DARK_BORDER_STYLE).first()
             dark = preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
             archiveDeletedNotes = preferencesHandler.read(PreferencesHandler.NOTES_ARCHIVE).first()
@@ -105,18 +102,22 @@ class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
 
         //create and set new adapter for recyclerview
         myRecycler = frBinding.recyclerViewNote
-        myAdapter = NoteAdapter(myActivity, this, preferencesHandler, ioDispatcher)
+        myAdapter = NoteAdapter(myActivity, this, preferencesHandler)
         myRecycler.adapter = myAdapter
 
-        lifecycleScope.launch(ioDispatcher) {
-            val noteColumns = preferencesHandler.read(PreferencesHandler.NOTE_COLUMNS)
+
+        val noteColumns = runBlocking {
+            preferencesHandler.read(PreferencesHandler.NOTE_COLUMNS)
                 .first()
                 .toString()
-
-            val setting = preferencesHandler.read(PreferencesHandler.NOTE_LINES).first()
-
-            initializeComponents(noteColumns, setting.toInt())
         }
+
+        val setting = runBlocking {
+            preferencesHandler.read(PreferencesHandler.NOTE_LINES).first()
+
+        }
+
+        initializeComponents(noteColumns, setting.toInt())
 
         myAdapter.notifyDataSetChanged()
         myRecycler.scrollToPosition(0)
@@ -258,14 +259,12 @@ class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
 
             R.id.item_notes_delete_folder -> {
                 val action: () -> Unit = {
-                    lifecycleScope.launch(ioDispatcher) {
-                        val deletedDir = noteListDirs.deleteCurrentFolder()
-                        if (deletedDir != null) {
-                            deletedNote = deletedDir
-                            archive(deletedDir)
-                        }
-                        myActivity.changeToFragment(FT.NOTES)
+                    val deletedDir = noteListDirs.deleteCurrentFolder()
+                    if (deletedDir != null) {
+                        deletedNote = deletedDir
+                        archive(deletedDir)
                     }
+                    myActivity.changeToFragment(FT.NOTES)
                 }
                 val folderName = noteListDirs.folderStack.peek().title
                 val dialogTitle =
@@ -461,67 +460,67 @@ class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
         }
 
         //Get initial folder color, depending on setting
-        lifecycleScope.launch(ioDispatcher) {
-            val colorIndex =
-                when (preferencesHandler.read(PreferencesHandler.RANDOMIZE_NOTE_COLORS).first()) {
-                    true -> Random.nextInt(0, NoteColors.entries.size)
-                    false -> preferencesHandler.read(PreferencesHandler.LAST_USED_NOTE_COLOR)
-                        .first().toInt()
-                }
+        val colorIndex = runBlocking {
+            when (preferencesHandler.read(PreferencesHandler.RANDOMIZE_NOTE_COLORS).first()) {
+                true -> Random.nextInt(0, NoteColors.entries.size)
+                false -> preferencesHandler.read(PreferencesHandler.LAST_USED_NOTE_COLOR)
+                    .first().toInt()
+            }
+        }
 
-            var folderColor = NoteColors.entries[colorIndex]
+        var folderColor = NoteColors.entries[colorIndex]
 
-            //Show initial folder color by changing the color of the background square of the selected button to colorOnBackground
-            backgroundList[NoteColors.entries.indexOf(folderColor)]
-                .setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
+        //Show initial folder color by changing the color of the background square of the selected button to colorOnBackground
+        backgroundList[NoteColors.entries.indexOf(folderColor)]
+            .setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
-            //hide elements unnecessary for adding
-            val spFolderPaths = myDialogBinding.spFolderPaths
-            spFolderPaths.layoutParams.height = 0
-            spFolderPaths.isClickable = false
-            myDialogBinding.textView5.visibility = View.GONE
+        //hide elements unnecessary for adding
+        val spFolderPaths = myDialogBinding.spFolderPaths
+        spFolderPaths.layoutParams.height = 0
+        spFolderPaths.isClickable = false
+        myDialogBinding.textView5.visibility = View.GONE
 
-            //Onclick listeners for the color buttons, to visually reflect the users selection
-            btnList.forEachIndexed { index, button ->
-                button.setOnClickListener {
-                    //reset all backgrounds to their respective color
-                    backgroundList.forEachIndexed { index, constraintLayout ->
-                        var borderColor = NoteColors.entries[index].colorAttributeValue
-                        if (dark && darkBorderStyle == 3.0) {
-                            borderColor = getCorrespondingDarkColor(borderColor)
-                        }
-                        constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
+        //Onclick listeners for the color buttons, to visually reflect the users selection
+        btnList.forEachIndexed { index, button ->
+            button.setOnClickListener {
+                //reset all backgrounds to their respective color
+                backgroundList.forEachIndexed { index, constraintLayout ->
+                    var borderColor = NoteColors.entries[index].colorAttributeValue
+                    if (dark && darkBorderStyle == 3.0) {
+                        borderColor = getCorrespondingDarkColor(borderColor)
                     }
-                    //set white border around clicked button
-                    backgroundList[index].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
-
-                    folderColor = NoteColors.entries.toTypedArray()[index]
+                    constraintLayout.setBackgroundColor(myActivity.colorForAttr(borderColor))
                 }
+                //set white border around clicked button
+                backgroundList[index].setBackgroundColor(myActivity.colorForAttr(R.attr.colorOnBackGround))
 
-                var buttonColor = NoteColors.entries[index].colorAttributeValue
-                if (dark && darkBorderStyle == 3.0) {
-                    buttonColor = getCorrespondingDarkColor(buttonColor)
-                }
-                button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
+                folderColor = NoteColors.entries.toTypedArray()[index]
             }
 
-            myDialogBinding.btnAddNoteFolder.setOnClickListener {
-                val newName = myDialogBinding.etAddNoteFolder.text.toString().trim()
-                val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
-                if (!addResult) {
-                    val animationShake =
-                        AnimationUtils.loadAnimation(myActivity, R.anim.shake)
-                    myDialogBinding.etAddNoteFolder.startAnimation(animationShake)
-                    return@setOnClickListener
-                }
-                lifecycleScope.launch(ioDispatcher) {
-                    //Save last used note color
-                    val color = NoteColors.entries.indexOf(folderColor).toDouble()
-                    preferencesHandler.save(PreferencesHandler.LAST_USED_NOTE_COLOR, color)
-                }
-                myAdapter.notifyDataSetChanged()
-                myAlertDialog?.dismiss()
+            var buttonColor = NoteColors.entries[index].colorAttributeValue
+            if (dark && darkBorderStyle == 3.0) {
+                buttonColor = getCorrespondingDarkColor(buttonColor)
             }
+            button.setBackgroundColor(myActivity.colorForAttr(buttonColor))
+        }
+
+        myDialogBinding.btnAddNoteFolder.setOnClickListener {
+            val newName = myDialogBinding.etAddNoteFolder.text.toString().trim()
+            val addResult = noteListDirs.addNoteDir(Note(newName, folderColor, NoteList()))
+            if (!addResult) {
+                val animationShake =
+                    AnimationUtils.loadAnimation(myActivity, R.anim.shake)
+                myDialogBinding.etAddNoteFolder.startAnimation(animationShake)
+                return@setOnClickListener
+            }
+
+            val color = NoteColors.entries.indexOf(folderColor).toDouble()
+            runBlocking {
+                //Save last used note color
+                preferencesHandler.save(PreferencesHandler.LAST_USED_NOTE_COLOR, color)
+            }
+            myAdapter.notifyDataSetChanged()
+            myAlertDialog?.dismiss()
         }
 
         val cancelBtn = myDialogBinding.btnCancelNoteFolder
@@ -535,7 +534,7 @@ class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
         noteLines = givenNoteLines
 
         //initialize Recyclerview and Adapter
-        myAdapter = NoteAdapter(myActivity, this, preferencesHandler, ioDispatcher)
+        myAdapter = NoteAdapter(myActivity, this, preferencesHandler)
         myRecycler.adapter = myAdapter
 
         //initialize and set layoutManager
@@ -584,9 +583,7 @@ class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
                     }
 
                     if (archiveDeletedNotes) {
-                        lifecycleScope.launch(ioDispatcher) {
-                            archive(parsed.noteObj)
-                        }
+                        archive(parsed.noteObj)
                     }
 
                     updateNoteSearchIcon()
@@ -597,14 +594,18 @@ class NoteFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : F
         itemTouchHelper.attachToRecyclerView(myRecycler)
     }
 
-    suspend fun archive(note: Note) {
-        var currentArchiveContent =
+    fun archive(note: Note) {
+        var currentArchiveContent = runBlocking {
             preferencesHandler.read(PreferencesHandler.NOTES_ARCHIVE_NAME).first()
+        }
         val noteText = getContainedNoteTexts(note)
         //Append to archive, and shorten archive if its too big now
         currentArchiveContent = (noteText + currentArchiveContent).take(10000)
+
         //Save archive
-        preferencesHandler.save(PreferencesHandler.NOTES_ARCHIVE_NAME, currentArchiveContent)
+        runBlocking {
+            preferencesHandler.save(PreferencesHandler.NOTES_ARCHIVE_NAME, currentArchiveContent)
+        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -654,7 +655,6 @@ class NoteAdapter(
     mainActivity: MainActivity,
     noteFr: NoteFr,
     private val preferencesHandler: PreferencesHandler,
-    private val ioDispatcher: CoroutineDispatcher
 ) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val myActivity = mainActivity
@@ -676,7 +676,7 @@ class NoteAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = RowNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        myNoteFr.lifecycleScope.launch(ioDispatcher) {
+        runBlocking {
             showContained = preferencesHandler.read(PreferencesHandler.NOTES_SHOW_CONTAINED).first()
             moveViewedToTop =
                 preferencesHandler.read(PreferencesHandler.NOTES_MOVE_UP_CURRENT).first()

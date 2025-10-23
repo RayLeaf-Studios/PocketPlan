@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -122,9 +121,7 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
 
         }
         tabLayout.addOnTabSelectedListener(onTabSelectedListener)
-        Log.e("MSF", "beforeUpdate")
         updateTabs()
-        Log.e("MSF", "finished onCreateView")
         return fragmentMultiShoppingBinding.root
     }
 
@@ -475,11 +472,9 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
     fun preloadAddItemDialog(passedActivity: MainActivity, layoutInflater: LayoutInflater) {
         myActivity = passedActivity
 
-        Log.e("MSF", "language")
         val lang = runBlocking(ioDispatcher) {
             preferencesHandler.read(PreferencesHandler.LANGUAGE).first()
         }
-        Log.e("MSF", "$lang")
 
         //initialize shopping list data
         myActivity.itemTemplateList = ItemTemplateList(lang)
@@ -755,7 +750,6 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
                 spItemUnit.setSelection(0)
                 autoCompleteTv.requestFocus()
 
-                Log.e("MSF", "close item")
                 val closeItemDia = runBlocking(ioDispatcher) {
                     preferencesHandler.read(PreferencesHandler.CLOSE_ITEM_DIALOG).first()
                 }
@@ -879,7 +873,6 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
     }
 
     fun updateExpandAllIcon() {
-        Log.e("MSF", "expand one")
         val expandOne = runBlocking(ioDispatcher) {
             preferencesHandler.read(PreferencesHandler.EXPAND_ONE_CATEGORY).first()
         }

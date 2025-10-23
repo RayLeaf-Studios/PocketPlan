@@ -12,10 +12,8 @@ import com.google.gson.reflect.TypeToken
 import com.pocket_plan.j7_003.data.Checkable
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.core.annotation.Factory
 import org.koin.core.component.KoinComponent
@@ -39,8 +37,6 @@ class SleepReminder(
 ) : Checkable, KoinComponent {
 
     private val preferencesHandler: PreferencesHandler by inject()
-
-    private val coroutineContext = CoroutineScope(ioDispatcher)
 
     var myContext = passedContext
     var daysAreCustom: Boolean = preferencesHandler.getDefault(PreferencesHandler.DAYS_ARE_CUSTOM)
@@ -146,7 +142,7 @@ class SleepReminder(
 
     private fun save() {
         StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], reminder)
-        coroutineContext.launch(ioDispatcher) {
+        runBlocking {
             preferencesHandler.save(PreferencesHandler.DAYS_ARE_CUSTOM, daysAreCustom)
         }
     }

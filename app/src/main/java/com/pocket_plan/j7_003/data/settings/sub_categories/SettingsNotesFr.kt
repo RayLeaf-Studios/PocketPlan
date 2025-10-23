@@ -9,22 +9,19 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.databinding.FragmentSettingsNotesBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import androidx.core.view.isVisible
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 /**
  * A simple [Fragment] subclass.
  */
-class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+class SettingsNotesFr() : Fragment() {
 
     private val preferencesHandler: PreferencesHandler by inject()
 
@@ -44,11 +41,9 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
         _fragmentBinding = FragmentSettingsNotesBinding.inflate(inflater, container, false)
         myActivity = activity as MainActivity
 
-        lifecycleScope.launch(ioDispatcher) {
-            initializeAdapters()
-            initializeDisplayValues()
-            initializeListeners()
-        }
+        initializeAdapters()
+        initializeDisplayValues()
+        initializeListeners()
 
         return fragmentBinding.root
     }
@@ -84,9 +79,9 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
 
     }
 
-    private suspend fun initializeDisplayValues() {
+    private fun initializeDisplayValues() {
         val noteLinesStringIndex =
-            when (preferencesHandler.read(PreferencesHandler.NOTE_LINES).first()) {
+            when (runBlocking { preferencesHandler.read(PreferencesHandler.NOTE_LINES).first() }) {
                 //0 = show no lines
                 0.0 -> 1
                 //n = show n lines
@@ -102,7 +97,9 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
         fragmentBinding.tvCurrentNoteLines.text =
             resources.getStringArray(R.array.noteLines)[noteLinesStringIndex]
 
-        val columnIndex = preferencesHandler.read(PreferencesHandler.NOTE_COLUMNS).first() - 1
+        val columnIndex = runBlocking {
+            preferencesHandler.read(PreferencesHandler.NOTE_COLUMNS).first() - 1
+        }
         fragmentBinding.spNoteColumns.setSelection(columnIndex)
 
         val columnOptions = resources.getStringArray(R.array.noteColumns)
@@ -113,7 +110,9 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
             fontSizeOptions[i] = it.trim()
         }
         val fontSizeOptionsStringIndex = fontSizeOptions.indexOf(
-            preferencesHandler.read(PreferencesHandler.FONT_SIZE).first().toString()
+            runBlocking {
+                preferencesHandler.read(PreferencesHandler.FONT_SIZE).first().toString()
+            }
         )
         fragmentBinding.spEditorFontSize.setSelection(fontSizeOptionsStringIndex)
         fragmentBinding.tvCurrentNoteEditorFontSize.text =
@@ -121,27 +120,36 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
         fragmentBinding.tvEditorSample.textSize =
             fontSizeOptions[fontSizeOptionsStringIndex].toFloat()
 
-        fragmentBinding.swAllowSwipe.isChecked =
+        fragmentBinding.swAllowSwipe.isChecked = runBlocking {
             preferencesHandler.read(PreferencesHandler.NOTES_SWIPE_DELETE).first()
-        fragmentBinding.swRandomizeNoteColors.isChecked =
+        }
+        fragmentBinding.swRandomizeNoteColors.isChecked = runBlocking {
             preferencesHandler.read(PreferencesHandler.RANDOMIZE_NOTE_COLORS).first()
-        fragmentBinding.swShowContained.isChecked =
+        }
+        fragmentBinding.swShowContained.isChecked = runBlocking {
             preferencesHandler.read(PreferencesHandler.NOTES_SHOW_CONTAINED).first()
-        fragmentBinding.swMoveUpCurrentNote.isChecked =
+        }
+        fragmentBinding.swMoveUpCurrentNote.isChecked = runBlocking {
             preferencesHandler.read(PreferencesHandler.NOTES_MOVE_UP_CURRENT).first()
-        fragmentBinding.swArchive.isChecked =
+        }
+        fragmentBinding.swArchive.isChecked = runBlocking {
             preferencesHandler.read(PreferencesHandler.NOTES_ARCHIVE).first()
-        fragmentBinding.swFixedNoteSize.isChecked =
+        }
+        fragmentBinding.swFixedNoteSize.isChecked = runBlocking {
             preferencesHandler.read(PreferencesHandler.NOTES_FIXED_SIZE).first()
-        fragmentBinding.swSortFoldersToTop.isChecked =
+        }
+        fragmentBinding.swSortFoldersToTop.isChecked = runBlocking {
             preferencesHandler.read(PreferencesHandler.NOTES_DIRS_TO_TOP).first()
+        }
 
         fragmentBinding.clNoteLines.visibility = when (fragmentBinding.swFixedNoteSize.isChecked) {
             true -> View.GONE
             false -> View.VISIBLE
         }
 
-        val archiveContent = preferencesHandler.read(PreferencesHandler.NOTES_ARCHIVE_NAME).first()
+        val archiveContent = runBlocking {
+            preferencesHandler.read(PreferencesHandler.NOTES_ARCHIVE_NAME).first()
+        }
         fragmentBinding.tvArchive.text = when (archiveContent.isBlank()) {
             true -> {
                 getString(R.string.settingsNotesNoArchived)
@@ -177,7 +185,7 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
                         5 -> 10.0
                         else -> 20.0
                     }
-                    lifecycleScope.launch(ioDispatcher) {
+                    runBlocking {
                         preferencesHandler.save(PreferencesHandler.NOTE_LINES, setTo)
                     }
                     fragmentBinding.tvCurrentNoteLines.text =
@@ -206,7 +214,7 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
                         1 -> 2
                         else -> 3
                     }
-                    lifecycleScope.launch(ioDispatcher) {
+                    runBlocking {
                         preferencesHandler.save(PreferencesHandler.NOTE_COLUMNS, value)
                     }
                     fragmentBinding.tvCurrentNoteColumns.text = value.toString()
@@ -231,7 +239,7 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
                         return
                     }
                     val value = fragmentBinding.spEditorFontSize.selectedItem as String
-                    lifecycleScope.launch(ioDispatcher) {
+                    runBlocking {
                         //this trim is necessary to prevent possible parsing issues
                         preferencesHandler.save(PreferencesHandler.FONT_SIZE, value.trim().toInt())
                     }
@@ -245,8 +253,8 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
             }
 
         fragmentBinding.swFixedNoteSize.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
-                val isNoteSizeFixed = fragmentBinding.swFixedNoteSize.isChecked
+            val isNoteSizeFixed = fragmentBinding.swFixedNoteSize.isChecked
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.NOTES_FIXED_SIZE, isNoteSizeFixed)
             }
             fragmentBinding.clNoteLines.visibility =
@@ -257,15 +265,15 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
         }
 
         fragmentBinding.swAllowSwipe.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
-                val swipeAllowed = fragmentBinding.swAllowSwipe.isChecked
+            val swipeAllowed = fragmentBinding.swAllowSwipe.isChecked
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.NOTES_SWIPE_DELETE, swipeAllowed)
             }
         }
 
         fragmentBinding.swRandomizeNoteColors.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
-                val randomizeNoteColors = fragmentBinding.swRandomizeNoteColors.isChecked
+            val randomizeNoteColors = fragmentBinding.swRandomizeNoteColors.isChecked
+            runBlocking {
                 preferencesHandler.save(
                     PreferencesHandler.RANDOMIZE_NOTE_COLORS,
                     randomizeNoteColors
@@ -274,22 +282,22 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
         }
 
         fragmentBinding.swShowContained.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
-                val showContained = fragmentBinding.swShowContained.isChecked
+            val showContained = fragmentBinding.swShowContained.isChecked
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.NOTES_SHOW_CONTAINED, showContained)
             }
         }
 
         fragmentBinding.swMoveUpCurrentNote.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
-                val moveCurrentNode = fragmentBinding.swMoveUpCurrentNote.isChecked
+            val moveCurrentNode = fragmentBinding.swMoveUpCurrentNote.isChecked
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.NOTES_MOVE_UP_CURRENT, moveCurrentNode)
             }
         }
 
         fragmentBinding.swSortFoldersToTop.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
-                val sortFoldersToTop = fragmentBinding.swSortFoldersToTop.isChecked
+            val sortFoldersToTop = fragmentBinding.swSortFoldersToTop.isChecked
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.NOTES_DIRS_TO_TOP, sortFoldersToTop)
             }
             if (fragmentBinding.swSortFoldersToTop.isChecked)
@@ -297,8 +305,8 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
         }
 
         fragmentBinding.swArchive.setOnClickListener {
-            lifecycleScope.launch(ioDispatcher) {
-                val archive = fragmentBinding.swArchive.isChecked
+            val archive = fragmentBinding.swArchive.isChecked
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.NOTES_ARCHIVE, archive)
             }
         }
@@ -334,12 +342,12 @@ class SettingsNotesFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
 
         fragmentBinding.clClearArchive.setOnClickListener {
             val action: () -> Unit = {
-                lifecycleScope.launch(ioDispatcher) {
+                runBlocking {
                     preferencesHandler.save(PreferencesHandler.NOTES_ARCHIVE_NAME, "")
-                    fragmentBinding.tvArchive.text = getString(R.string.settingsNotesNoArchived)
-                    fragmentBinding.ivArchiveExpand.rotation = 0f
-                    fragmentBinding.svArchive.visibility = View.GONE
                 }
+                fragmentBinding.tvArchive.text = getString(R.string.settingsNotesNoArchived)
+                fragmentBinding.ivArchiveExpand.rotation = 0f
+                fragmentBinding.svArchive.visibility = View.GONE
             }
             myActivity.dialogConfirm(getString(R.string.settingsNotesDialogDeleteArchived), action)
         }

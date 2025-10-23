@@ -35,7 +35,6 @@ private infix fun <T> Preferences.Key<T>.withValue(value: T): Pair<Preferences.K
     return Pair(this, value!!)
 }
 
-
 @Single
 class PreferencesHandler(private val context: Context) {
 
@@ -54,6 +53,12 @@ class PreferencesHandler(private val context: Context) {
     fun <T> getDefault(key: Preferences.Key<T>): T {
         @Suppress("UNCHECKED_CAST") // we don't need to check the cast because the map values ensure matching types
         return DEFAULTS[key] as T
+    }
+
+    fun getKeyByName(name: String): Preferences.Key<*>? {
+        return PreferencesHandler::class.java.declaredFields
+            .firstOrNull { it.name == name }
+            ?.get(null) as? Preferences.Key<*>
     }
 
     suspend fun restoreDefault() {

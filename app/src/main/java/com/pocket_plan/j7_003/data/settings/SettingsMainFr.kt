@@ -7,18 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.databinding.FragmentSettingsMainBinding
 import com.pocket_plan.j7_003.system_interaction.handler.share.BackUpActivity
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
-class SettingsMainFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+class SettingsMainFr : Fragment() {
 
     private val preferencesHandler: PreferencesHandler by inject()
 
@@ -72,7 +69,7 @@ class SettingsMainFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers
 
         fragmentSettingsMainBinding.btnSyncUrl.setOnClickListener {
             val url: String = fragmentSettingsMainBinding.etSyncUrl.text.toString()
-            lifecycleScope.launch(ioDispatcher) {
+            runBlocking {
                 preferencesHandler.save(PreferencesHandler.SYNC_SERVER_URL, url)
             }
         }
