@@ -73,10 +73,34 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
     }
 
     /**
+     * Starts an activity to share the app settings as a json file.
+     */
+    fun shareSettings() {
+        val settings = settingsAsJson()
+
+        val file = File(parentActivity.filesDir.absolutePath, "Settings.json")
+        file.writeText(settings.toString())
+
+        val uri = FileProvider.getUriForFile(
+            parentActivity,
+            "${parentActivity.applicationContext.packageName}.provider",
+            file
+        )
+
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "application/json"
+        sharingIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+        parentActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
+    }
+
+    /**
      * Starts an activity to share a json file, containing the requested modules save file.
      * @param id The storage id of the requested file.
      */
     fun shareById(id: StorageId) {
+        if (id == StorageId.SETTINGS) return
 
         // a uri to the backup file
         val uri = FileProvider.getUriForFile(
@@ -95,6 +119,19 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
         parentActivity.startActivity(Intent.createChooser(sharingIntent, "Share via"))
     }
 
+    private fun settingsAsJson(): JsonObject {
+        // to save new preferences to the backup
+        val preferences = JsonObject()
+
+        runBlocking {
+            preferencesHandler.getPreferences().first().asMap().forEach { (key, value) ->
+                preferences.addProperty(key.name.uppercase(Locale.ROOT), value.toString())
+            }
+        }
+
+        return preferences
+    }
+
     private fun backUpAsZip() {
         zipFile = File(
             parentActivity.filesDir.absolutePath,
@@ -103,15 +140,8 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
         val outputStream = FileOutputStream(zipFile)
         val zipStream = ZipOutputStream(outputStream)
 
-        // to save new preferences to the backup
-        val preferences = JsonObject()
-
-        runBlocking {
-            preferencesHandler.getPreferences().first().asMap().forEach { (key, value) ->
-                preferences.addProperty(key.name.uppercase(Locale.ROOT), value.toString())
-            }
-            writeSettingsToZipFile(zipStream, preferences.toString())
-        }
+        val settings = settingsAsJson()
+        writeSettingsToZipFile(zipStream, settings.toString())
 
         StorageHandler.files.forEach { (id, file) ->
             if (id == StorageId.SETTINGS) return@forEach

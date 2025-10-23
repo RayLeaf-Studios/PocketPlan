@@ -94,8 +94,11 @@ class BackUpActivity(private val ioDispatcher: CoroutineDispatcher = Dispatchers
         binding.tvExport.setOnClickListener {
             val storageId = StorageId.getByI(binding.spExportOne.selectedItemPosition)
 
-            if (storageId != null) {
-                eHandler.shareById(storageId)
+            storageId?.let {
+                when (storageId) {
+                    StorageId.SETTINGS -> eHandler.shareSettings()
+                    else -> eHandler.shareById(storageId)
+                }
             }
 
         }
