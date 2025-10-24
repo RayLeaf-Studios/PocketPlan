@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
-import com.pocket_plan.j7_003.data.shoppinglist.views.ShoppingListView
+import com.pocket_plan.j7_003.data.shoppinglist.views.components.ShoppingListView
 import com.pocket_plan.j7_003.databinding.FragmentShoppingBinding
 import com.pocket_plan.j7_003.databinding.RowCategoryBinding
 import com.pocket_plan.j7_003.databinding.RowItemBinding

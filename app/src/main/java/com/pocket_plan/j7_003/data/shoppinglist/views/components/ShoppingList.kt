@@ -1,4 +1,4 @@
-package com.pocket_plan.j7_003.data.shoppinglist.views
+package com.pocket_plan.j7_003.data.shoppinglist.views.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.unit.dp
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.shoppinglist.ShoppingList
-import com.pocket_plan.j7_003.data.shoppinglist.views.components.Category
 
 @Composable
 fun ShoppingListView(shoppingList: ShoppingList, modifier: Modifier = Modifier) {
@@ -22,8 +21,7 @@ fun ShoppingListView(shoppingList: ShoppingList, modifier: Modifier = Modifier) 
     val observableList = remember { mutableStateListOf(*shoppingList.toTypedArray()) }
 
     LazyColumn(
-        modifier = modifier
-            .fillMaxHeight(),
+        modifier = modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         items(items = observableList, key = { it }) { item ->

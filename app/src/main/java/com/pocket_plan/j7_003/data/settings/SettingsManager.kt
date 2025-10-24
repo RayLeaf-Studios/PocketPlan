@@ -106,9 +106,6 @@ class SettingsManager {
                             val key = getPropertyByName<Preferences.Key<Double>>(settingId.name)
                             preferencesHandler.save(key, settingValue as Double)
                         }
-
-                        else -> { /* no-op */
-                        }
                     }
                 }
 

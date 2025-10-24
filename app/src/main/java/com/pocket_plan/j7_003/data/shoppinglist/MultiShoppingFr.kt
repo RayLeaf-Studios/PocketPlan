@@ -10,6 +10,10 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -19,13 +23,12 @@ import com.google.android.material.tabs.TabLayout
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
+import com.pocket_plan.j7_003.data.shoppinglist.views.MultiShoppingView
 import com.pocket_plan.j7_003.databinding.DialogAddItemBinding
 import com.pocket_plan.j7_003.databinding.DialogAddShoppingListBinding
 import com.pocket_plan.j7_003.databinding.FragmentMultiShoppingBinding
 import com.pocket_plan.j7_003.databinding.TitleDialogBinding
 import com.pocket_plan.j7_003.system_interaction.handler.storage.PreferencesHandler
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
@@ -33,7 +36,7 @@ import java.util.Collections
 import kotlin.math.abs
 import kotlin.math.min
 
-class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) : Fragment() {
+class MultiShoppingFr() : Fragment() {
 
     private val preferencesHandler: PreferencesHandler by inject()
 
@@ -89,8 +92,19 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
 
         initializeShoppingFragments()
 
+        val dark = runBlocking {
+            preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+        }
+
         // Inflate the layout for this fragment
         val fragmentMultiShoppingBinding = FragmentMultiShoppingBinding.inflate(layoutInflater)
+            .apply {
+                composeViewMultiShopping.setContent {
+                    MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
+                        MultiShoppingView(wrapper = MainActivity.shoppingListWrapper)
+                    }
+                }
+            }
 
         //setup pager and adapter
         shoppingPager = fragmentMultiShoppingBinding.shoppingPager
@@ -472,7 +486,7 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
     fun preloadAddItemDialog(passedActivity: MainActivity, layoutInflater: LayoutInflater) {
         myActivity = passedActivity
 
-        val lang = runBlocking(ioDispatcher) {
+        val lang = runBlocking {
             preferencesHandler.read(PreferencesHandler.LANGUAGE).first()
         }
 
@@ -750,7 +764,7 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
                 spItemUnit.setSelection(0)
                 autoCompleteTv.requestFocus()
 
-                val closeItemDia = runBlocking(ioDispatcher) {
+                val closeItemDia = runBlocking {
                     preferencesHandler.read(PreferencesHandler.CLOSE_ITEM_DIALOG).first()
                 }
                 //close dialog if setting says so, or dialog was opened from home fragment
@@ -873,7 +887,7 @@ class MultiShoppingFr(private val ioDispatcher: CoroutineDispatcher = Dispatcher
     }
 
     fun updateExpandAllIcon() {
-        val expandOne = runBlocking(ioDispatcher) {
+        val expandOne = runBlocking {
             preferencesHandler.read(PreferencesHandler.EXPAND_ONE_CATEGORY).first()
         }
 

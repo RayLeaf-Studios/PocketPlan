@@ -113,10 +113,7 @@ fun Category(
         )
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Green),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(dimensionResource(R.dimen.cornerRadius)),
         elevation = CardDefaults.cardElevation(dimensionResource(R.dimen.elevation))
     ) {
