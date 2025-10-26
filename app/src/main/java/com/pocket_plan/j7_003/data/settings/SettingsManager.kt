@@ -85,10 +85,32 @@ class SettingsManager {
                 // no need to migrate default values
                 if (settingValue == settingId.default) return@forEach
 
+                // special case to migrate note columns from string to int
+                if (settingId == SettingId.NOTE_COLUMNS || settingId == SettingId.FONT_SIZE) {
+                    runBlocking {
+                        when (settingId) {
+                            SettingId.FONT_SIZE -> preferencesHandler.save(
+                                PreferencesHandler.FONT_SIZE,
+                                (settingValue as String).toInt()
+                            )
+
+                            SettingId.NOTE_COLUMNS -> preferencesHandler.save(
+                                PreferencesHandler.NOTE_COLUMNS,
+                                (settingValue as String).toInt()
+                            )
+
+                            else -> Unit
+                        }
+                    }
+
+                    return@forEach
+                }
+
                 runBlocking {
                     when (settingId.default) {
                         is Boolean -> {
-                            val key = getPropertyByName<Preferences.Key<Boolean>>(settingId.name)
+                            val key =
+                                getPropertyByName<Preferences.Key<Boolean>>(settingId.name)
                             preferencesHandler.save(key, settingValue as Boolean)
                         }
 

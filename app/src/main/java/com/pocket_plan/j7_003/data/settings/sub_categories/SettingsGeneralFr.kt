@@ -212,6 +212,9 @@ class SettingsGeneralFr() : Fragment() {
                         fragmentSettingsGeneralBinding.spTheme.selectedItemPosition == 0
 
 
+                    val systemTheme = runBlocking {
+                        preferencesHandler.read(PreferencesHandler.USE_SYSTEM_THEME).first()
+                    }
                     //check if use system theme is set and if current change does not conform to system theme
                     //if yes, disable "use system theme"
                     if (systemTheme) {
@@ -226,6 +229,9 @@ class SettingsGeneralFr() : Fragment() {
                         }
                     }
 
+                    val dark = runBlocking {
+                        preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+                    }
                     //check if selected dark state is equal to current dark state
                     if (selectedDarkTheme != dark) {
                         runBlocking {
@@ -299,7 +305,9 @@ class SettingsGeneralFr() : Fragment() {
                 return@setOnClickListener
             }
 
-            val previousSettingDark = dark
+            val previousSettingDark = runBlocking {
+                preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+            }
 
             //use system theme got enabled, check if system uses night mode
             val isDarkMode =
@@ -308,8 +316,11 @@ class SettingsGeneralFr() : Fragment() {
                 preferencesHandler.save(PreferencesHandler.THEME_DARK, isDarkMode)
             }
 
+            val darkMode = runBlocking {
+                preferencesHandler.read(PreferencesHandler.THEME_DARK).first()
+            }
             //if theme got changed, trigger activity reload to load new theme
-            if (previousSettingDark != dark) {
+            if (previousSettingDark != darkMode) {
                 val intent = Intent(context, MainActivity::class.java)
                 intent.putExtra("NotificationEntry", "general")
                 startActivity(intent)

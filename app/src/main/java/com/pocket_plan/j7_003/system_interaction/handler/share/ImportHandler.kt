@@ -199,6 +199,26 @@ class ImportHandler(private val parentActivity: Activity) {
             // ignore setting if key could not be found
             if (key == null) return@forEach
 
+            // special case to migrate note columns and font size from string to int
+            if (settingId == PreferencesHandler.NOTE_COLUMNS.name.uppercase() || settingId == PreferencesHandler.FONT_SIZE.name.uppercase()) {
+                runBlocking {
+                    @Suppress("UNCHECKED_CAST")
+                    when (value) {
+                        is String -> preferencesHandler.save(
+                            key as Preferences.Key<Int>,
+                            value.toInt()
+                        )
+
+                        is Double -> preferencesHandler.save(
+                            key as Preferences.Key<Int>,
+                            value.toInt()
+                        )
+                    }
+                }
+
+                return@forEach
+            }
+
             runBlocking {
                 @Suppress("UNCHECKED_CAST")
                 when (value) {
