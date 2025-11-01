@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlinx-serialization'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 apply plugin: 'com.google.devtools.ksp'
+apply plugin: 'androidx.room'
 
 android {
     defaultConfig {
@@ -43,6 +44,10 @@ android {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_21
         }
+    }
+
+    room {
+        schemaDirectory "$projectDir/schemas"
     }
 
     buildFeatures {
