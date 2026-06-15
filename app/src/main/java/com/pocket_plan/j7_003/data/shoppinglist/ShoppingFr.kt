@@ -63,9 +63,7 @@ class ShoppingFr : Fragment() {
     fun getCategoryVisibility(category: Pair<String, ArrayList<ShoppingItem>>): Boolean {
 
         val categoryName =
-            myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
-                R.array.categoryCodes
-            ).indexOf(category.first)]
+            ShoppingCategories.nameForTag(myActivity.resources, category.first)
         if (categoryName.lowercase(Locale.ROOT).contains(query!!.lowercase(Locale.ROOT))) {
             return true
         }
@@ -83,9 +81,7 @@ class ShoppingFr : Fragment() {
 
     fun getItemVisibility(item: ShoppingItem): Boolean {
         val categoryName =
-            myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
-                R.array.categoryCodes
-            ).indexOf(item.tag)]
+            ShoppingCategories.nameForTag(myActivity.resources, item.tag)
         if (categoryName.lowercase().contains(query!!.lowercase())) {
             return true
         }
@@ -366,9 +362,7 @@ class ShoppingListAdapter(mainActivity: MainActivity, shoppingFr: ShoppingFr) :
 
         //Sets Text name of category of sublist
         holder.binding.tvCategoryName.text =
-            myActivity.resources.getStringArray(R.array.categoryNames)[myActivity.resources.getStringArray(
-                R.array.categoryCodes
-            ).indexOf(tag)]
+            ShoppingCategories.nameForTag(myActivity.resources, tag)
 
         //Sets background color of sublist according to the tag
         manageCheckedCategory(
@@ -847,4 +841,3 @@ class SwipeItemToDelete(direction: Int, shoppingFr: ShoppingFr) :
 
     }
 }
-

@@ -22,6 +22,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
         // TODO - this is the compatibility layer for saving
         //  category order remove after a few releases
         this.forEach { (_, list) ->
+            list.normalizeCategoryTags()
             list.forEach {
                 if (it.second[0].amount == null)
                     it.second[0].amount = list.indexOf(it).toString()

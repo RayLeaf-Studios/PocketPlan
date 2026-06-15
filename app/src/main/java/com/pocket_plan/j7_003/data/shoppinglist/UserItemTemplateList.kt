@@ -71,9 +71,13 @@ class UserItemTemplateList: ArrayList<ItemTemplate>(), Checkable {
             .fromJson(jsonString,
                 object : TypeToken<ArrayList<TMPTemplate>>() {}.type))
 
+        var changed = false
         list.forEach { e ->
-            this.add(ItemTemplate(e.n, e.c, e.s))
+            val normalizedCategory = ShoppingCategories.normalizeTag(e.c)
+            if (normalizedCategory != e.c) changed = true
+            super.add(ItemTemplate(e.n, normalizedCategory, e.s))
         }
+        if (changed) save()
     }
 
     private class TMPTemplate(val n: String, val c: String, val s: String)

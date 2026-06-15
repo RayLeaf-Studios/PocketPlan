@@ -19,6 +19,7 @@ import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.data.shoppinglist.ItemTemplate
 import com.pocket_plan.j7_003.data.shoppinglist.MultiShoppingFr
+import com.pocket_plan.j7_003.data.shoppinglist.ShoppingCategories
 import com.pocket_plan.j7_003.databinding.FragmentCustomItemsBinding
 import com.pocket_plan.j7_003.databinding.RowCustomItemBinding
 
@@ -198,8 +199,7 @@ class CustomItemAdapter(val myActivity: MainActivity) :
         holder.binding.tvName.text = currentItem.n
 
         //show category
-        val id = myActivity.resources.getStringArray(R.array.categoryCodes).indexOf(currentItem.c)
-        val catText = myActivity.resources.getStringArray(R.array.categoryNames)[id]
+        val catText = ShoppingCategories.nameForTag(myActivity.resources, currentItem.c)
         holder.binding.tvCategory.text =
             myActivity.getString(R.string.settingsCustomCategory) + ":  " + catText
 
