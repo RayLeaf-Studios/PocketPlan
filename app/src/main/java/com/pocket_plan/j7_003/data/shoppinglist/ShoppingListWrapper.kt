@@ -137,7 +137,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
             fallbackText = "[]"
         )
         val list: ArrayList<Pair<String, ShoppingList>> = runCatching {
-            GsonBuilder().create().fromJson(
+            GsonBuilder().create().fromJson<ArrayList<Pair<String, ShoppingList>>>(
                 jsonString,
                 object : TypeToken<ArrayList<Pair<String, ShoppingList>>>() {}.type
             )
@@ -167,7 +167,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
         }
 
         val list: ArrayList<Pair<String, ArrayList<ShoppingItem>>> = runCatching {
-            GsonBuilder().create().fromJson(
+            GsonBuilder().create().fromJson<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>(
                 jsonString,
                 object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
             )

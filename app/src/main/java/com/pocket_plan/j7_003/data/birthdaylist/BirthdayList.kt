@@ -223,9 +223,12 @@ class BirthdayList(private val monthNames: Array<String>) : ArrayList<Birthday>(
             fallbackText = "[]"
         )
 
-        val birthdays = runCatching {
+        val birthdays: ArrayList<Birthday> = runCatching {
             GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
+                .fromJson<ArrayList<Birthday>>(
+                    jsonString,
+                    object : TypeToken<ArrayList<Birthday>>() {}.type
+                )
         }.getOrNull() ?: arrayListOf()
 
         birthdays.forEach {

@@ -108,9 +108,11 @@ class TodoList: ArrayList<Task>(), Checkable{
             fallbackText = "[]"
         )
 
-        val tasks = runCatching {
-            GsonBuilder().create().fromJson(
-                jsonString, object : TypeToken<ArrayList<Task>>() {}.type)
+        val tasks: ArrayList<Task> = runCatching {
+            GsonBuilder().create().fromJson<ArrayList<Task>>(
+                jsonString,
+                object : TypeToken<ArrayList<Task>>() {}.type
+            )
         }.getOrNull() ?: arrayListOf()
 
         tasks.forEach {

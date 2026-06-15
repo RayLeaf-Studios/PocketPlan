@@ -69,10 +69,12 @@ class UserItemTemplateList: ArrayList<ItemTemplate>(), Checkable {
             fallbackText = "[]"
         )
 
-        val savedTemplates = runCatching {
+        val savedTemplates: ArrayList<TMPTemplate> = runCatching {
             GsonBuilder().create()
-            .fromJson(jsonString,
-                object : TypeToken<ArrayList<TMPTemplate>>() {}.type)
+            .fromJson<ArrayList<TMPTemplate>>(
+                jsonString,
+                object : TypeToken<ArrayList<TMPTemplate>>() {}.type
+            )
         }.getOrNull() ?: arrayListOf()
 
         list.addAll(savedTemplates)
