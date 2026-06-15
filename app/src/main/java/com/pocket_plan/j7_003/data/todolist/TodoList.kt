@@ -103,7 +103,7 @@ class TodoList: ArrayList<Task>(), Checkable{
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.TASKS]?.readText()
+        val jsonString = StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.TASKS])
 
         this.addAll(
             GsonBuilder().create().fromJson(

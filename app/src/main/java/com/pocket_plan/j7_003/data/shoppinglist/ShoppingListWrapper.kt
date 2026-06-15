@@ -127,7 +127,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
     }
 
     private fun fetchList() {
-        val jsonString = StorageHandler.files[StorageId.SHOPPING_LISTS]?.readText()
+        val jsonString = StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.SHOPPING_LISTS])
         val list: ArrayList<Pair<String, ShoppingList>> = GsonBuilder().create().fromJson(
                 jsonString,
                 object : TypeToken<ArrayList<Pair<String, ShoppingList>>>() {}.type
@@ -140,7 +140,7 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
 
     private fun accountCompatibility() {    // TODO - remove when enough users updated
         StorageHandler.createJsonFile(StorageId.SHOPPING)
-        val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
+        val jsonString = StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.SHOPPING])
 
         if (jsonString == "[]") {
             StorageHandler.files[StorageId.SHOPPING]?.delete()

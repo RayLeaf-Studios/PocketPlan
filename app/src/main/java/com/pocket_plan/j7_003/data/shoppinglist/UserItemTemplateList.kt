@@ -64,7 +64,7 @@ class UserItemTemplateList: ArrayList<ItemTemplate>(), Checkable {
 
     private fun fetchList() {
         val list = ArrayList<TMPTemplate>()
-        val jsonString = StorageHandler.files[StorageId.USER_TEMPLATE_LIST]?.readText()
+        val jsonString = StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.USER_TEMPLATE_LIST])
 
         list.addAll(
             GsonBuilder().create()

@@ -19,30 +19,40 @@ class NoteDirList : Checkable {
 
     init {
         StorageHandler.createJsonFile(StorageId.NOTES)
+        val jsonString = try {
+            StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.NOTES])
+        } catch (_: Exception) {
+            null
+        }
+        var loadedFromFile = false
+
         try {   // Todo - part of the compatibility layer; remove try, catch soon
-            fetchFromFile()
+            fetchFromFile(jsonString)
+            loadedFromFile = true
         } catch (_: Exception) {/* no-op */
         }
         folderStack.push(rootDir)
 
-        try {   // Todo - main part of the comp. layer; also remove soon
-            val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
-            GsonBuilder().create()
-                .fromJson<LinkedList<Note>>(
-                    jsonString,
-                    object : TypeToken<LinkedList<Note>>() {}.type
-                )
-                .forEach {
-                    if (it.noteList == null) {
-                        it.noteList = NoteList()
+        if (!loadedFromFile) {
+            try {   // Todo - main part of the comp. layer; also remove soon
+                GsonBuilder().create()
+                    .fromJson<LinkedList<Note>>(
+                        jsonString,
+                        object : TypeToken<LinkedList<Note>>() {}.type
+                    )
+                    .forEach {
+                        if (it.noteList == null) {
+                            it.noteList = NoteList()
+                        }
+                        currentList().add(it)
                     }
-                    currentList().add(it)
-                }
-            save()
-        } catch (_: Exception) {/* no-op */
+                loadedFromFile = true
+                save()
+            } catch (_: Exception) {/* no-op */
+            }
         }
 
-        if (normalizeNotes()) save()
+        if (loadedFromFile && normalizeNotes()) save()
 
     }
 
@@ -379,10 +389,10 @@ class NoteDirList : Checkable {
         )
     }
 
-    private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
-
+    private fun fetchFromFile(jsonString: String?) {
+        if (jsonString == null) throw IllegalStateException("Missing notes JSON")
         rootDir = GsonBuilder().create().fromJson(jsonString, object : TypeToken<Note>() {}.type)
+            ?: throw IllegalStateException("Missing notes root")
         val normalized = normalizeNotes()
 
         if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()

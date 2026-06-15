@@ -218,7 +218,7 @@ class BirthdayList(private val monthNames: Array<String>) : ArrayList<Birthday>(
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.BIRTHDAYS]?.readText()
+        val jsonString = StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.BIRTHDAYS])
 
         this.addAll(
             GsonBuilder().create()

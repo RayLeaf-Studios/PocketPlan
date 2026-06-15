@@ -63,12 +63,12 @@ class ImportHandler(private val parentActivity: Activity) {
         val oldFile = File("${fileDir}old_${id.s}")
 
         // copies the current modules file content to the rollback file
-        oldFile.writeText(StorageHandler.files[id]!!.readText())
+        oldFile.writeText(StorageHandler.readJsonFromFile(StorageHandler.files[id]) ?: "")
         // overwrites the content of the modules file with the selected files content
-        StorageHandler.files[id]!!.writeText(file.readText())
+        StorageHandler.writeTextToFile(StorageHandler.files[id], file.readText())
 
         if (!testFiles()) { // rollbacks the file if the file couldn't be read correctly
-            StorageHandler.files[id]!!.writeText(oldFile.readText())
+            StorageHandler.writeTextToFile(StorageHandler.files[id], oldFile.readText())
         }
 
         // deletes the rollback file
@@ -145,13 +145,16 @@ class ImportHandler(private val parentActivity: Activity) {
 
         // the new files are used to overwrite their corresponding module files
         newFiles.forEach { (id, file) ->
-            StorageHandler.files[id]?.writeText(file.readText())
+            StorageHandler.writeTextToFile(StorageHandler.files[id], file.readText())
         }
 
         // test of all file, if it fails all files are rolled back
         if (!testFiles()) {
             File("${parentActivity.filesDir}/old/").listFiles()!!.forEach { currentFile ->
-                File("${parentActivity.filesDir}/${currentFile.name}").writeText(currentFile.readText())
+                StorageHandler.writeTextToFile(
+                    File("${parentActivity.filesDir}/${currentFile.name}"),
+                    currentFile.readText()
+                )
             }
         }
 
