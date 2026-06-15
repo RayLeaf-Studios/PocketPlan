@@ -42,6 +42,8 @@ class NoteDirList : Checkable {
         } catch (_: Exception) {/* no-op */
         }
 
+        if (normalizeNotes()) save()
+
     }
 
     /**
@@ -57,7 +59,12 @@ class NoteDirList : Checkable {
     }
 
     fun remove(note: Note) {
-        currentList().remove(note)
+        val parentDirectory = getParentDirectoryOrNull(note)
+        if (parentDirectory != null) {
+            parentDirectory.noteList.remove(note)
+        } else {
+            currentList().remove(note)
+        }
         save()
     }
 
@@ -88,7 +95,11 @@ class NoteDirList : Checkable {
     }
 
     fun getParentDirectory(dir: Note): Note {
-        return getDirPathsWithRef().find { it.second.noteList.contains(dir) }!!.second
+        return getParentDirectoryOrNull(dir)!!
+    }
+
+    private fun getParentDirectoryOrNull(dir: Note): Note? {
+        return getDirPathsWithRef().find { it.second.noteList.contains(dir) }?.second
     }
 
     fun moveDir(noteToMove: Note, toIndex: Int): Boolean {
@@ -143,6 +154,22 @@ class NoteDirList : Checkable {
             } else {
                 //Check subDirectory val
                 val subResult = getNoteByTitleAndContent(title, content, note)
+                if (subResult != null) return subResult
+            }
+        }
+        return null
+    }
+
+    fun getNoteById(id: String?, directory: Note = rootDir): Note? {
+        if (id.isNullOrBlank()) return null
+        if (directory.id == id) return directory
+
+        for (note in directory.noteList) {
+            if (note.id == id) {
+                return note
+            }
+            if (note.content == null) {
+                val subResult = getNoteById(id, note)
                 if (subResult != null) return subResult
             }
         }
@@ -255,6 +282,8 @@ class NoteDirList : Checkable {
         folderStack.push(rootDir)
     }
 
+    fun getCurrentFolderId(): String? = folderStack.peek().id
+
     /**
      * Deletes the currently opened folder, except for the root folder which can't
      * be deleted. Also saves the notes to file.
@@ -288,18 +317,28 @@ class NoteDirList : Checkable {
      * @see NoteList.addNote
      */
     fun addNote(note: Note) {
+        addNoteToList(currentList(), note)
+        save()
+    }
+
+    fun addNoteToFolder(note: Note, folderId: String?) {
+        val folder = getNoteById(folderId)?.takeIf { it.content == null } ?: rootDir
+        addNoteToList(folder.noteList, note)
+        save()
+    }
+
+    private fun addNoteToList(noteList: NoteList, note: Note) {
         if (SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean) {
             var index = 0
-            for (n in currentList()){
-                if (n.content == null){
+            for (n in noteList) {
+                if (n.content == null) {
                     index += 1
                 }
             }
-            currentList().add(index, note)
+            noteList.add(index, note)
         } else {
-            currentList().add(note)
+            noteList.add(note)
         }
-        save()
     }
 
     /**
@@ -344,8 +383,10 @@ class NoteDirList : Checkable {
         val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
 
         rootDir = GsonBuilder().create().fromJson(jsonString, object : TypeToken<Note>() {}.type)
+        val normalized = normalizeNotes()
 
         if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
+        if (normalized) save()
     }
 
     fun sortDirsToTop() {
@@ -375,5 +416,35 @@ class NoteDirList : Checkable {
         }
 
         return results
+    }
+
+    private fun normalizeNotes(): Boolean {
+        val usedIds = HashSet<String>()
+
+        fun normalize(note: Note): Boolean {
+            var changed = false
+            val noteId = note.id
+
+            if (noteId.isNullOrBlank() || !usedIds.add(noteId)) {
+                var newId: String
+                do {
+                    newId = Note.newId()
+                } while (!usedIds.add(newId))
+                note.id = newId
+                changed = true
+            }
+
+            if (note.noteList == null) {
+                note.noteList = NoteList()
+                changed = true
+            }
+
+            note.noteList.forEach {
+                if (normalize(it)) changed = true
+            }
+            return changed
+        }
+
+        return normalize(rootDir)
     }
 }
