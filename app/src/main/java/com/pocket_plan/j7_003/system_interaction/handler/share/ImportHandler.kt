@@ -191,7 +191,11 @@ class ImportHandler(private val parentActivity: Activity) {
         return try {
             ShoppingListWrapper().check()
             BirthdayList(parentActivity.resources.getStringArray(R.array.months)).check()
-            NoteDirList().check()
+            val noteDirList = NoteDirList()
+            if (!noteDirList.loadedFromStorage) {
+                throw IllegalStateException("Notes JSON could not be loaded")
+            }
+            noteDirList.check()
 
             TodoList().check()
 

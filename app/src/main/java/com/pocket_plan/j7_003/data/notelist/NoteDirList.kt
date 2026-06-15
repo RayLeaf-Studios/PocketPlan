@@ -16,6 +16,8 @@ class NoteDirList : Checkable {
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
     var currentList: () -> NoteList = { folderStack.peek().noteList }
     var folderStack: Stack<Note> = Stack()
+    var loadedFromStorage: Boolean = false
+        private set
 
     init {
         StorageHandler.createJsonFile(StorageId.NOTES)
@@ -24,16 +26,15 @@ class NoteDirList : Checkable {
         } catch (_: Exception) {
             null
         }
-        var loadedFromFile = false
 
         try {   // Todo - part of the compatibility layer; remove try, catch soon
             fetchFromFile(jsonString)
-            loadedFromFile = true
+            loadedFromStorage = true
         } catch (_: Exception) {/* no-op */
         }
         folderStack.push(rootDir)
 
-        if (!loadedFromFile) {
+        if (!loadedFromStorage) {
             try {   // Todo - main part of the comp. layer; also remove soon
                 GsonBuilder().create()
                     .fromJson<LinkedList<Note>>(
@@ -46,13 +47,13 @@ class NoteDirList : Checkable {
                         }
                         currentList().add(it)
                     }
-                loadedFromFile = true
+                loadedFromStorage = true
                 save()
             } catch (_: Exception) {/* no-op */
             }
         }
 
-        if (loadedFromFile && normalizeNotes()) save()
+        if (loadedFromStorage && normalizeNotes()) save()
 
     }
 

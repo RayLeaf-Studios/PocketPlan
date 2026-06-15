@@ -167,11 +167,46 @@ class SleepReminder(passedContext: Context) : Checkable {
             freshDefaults()
         }
 
+        reminder = sanitizeReminderMap(reminder)
         daysAreCustom = (SettingsManager.getSetting(SettingId.DAYS_ARE_CUSTOM) as? Boolean) ?: false
 
         reminder.forEach { entry -> entry.value.mySleepReminder = this }
 
         updateReminder()
+    }
+
+    private fun sanitizeReminderMap(loadedReminder: HashMap<DayOfWeek, Reminder>): HashMap<DayOfWeek, Reminder> {
+        val sanitized = HashMap<DayOfWeek, Reminder>(7)
+        var changed = loadedReminder.size != DayOfWeek.values().size
+
+        DayOfWeek.values().forEach { day ->
+            val reminderForDay = loadedReminder[day]
+            if (reminderForDay != null && reminderForDay.isUsable(day)) {
+                reminderForDay.mySleepReminder = this
+                sanitized[day] = reminderForDay
+            } else {
+                sanitized[day] = Reminder(day, this)
+                changed = true
+            }
+        }
+
+        if (changed) {
+            StorageHandler.saveAsJsonToFile(StorageHandler.files[StorageId.SLEEP], sanitized)
+            Log.w(TAG, "Repaired SLEEP JSON with missing or invalid reminders")
+        }
+
+        return sanitized
+    }
+
+    private fun Reminder.isUsable(day: DayOfWeek): Boolean {
+        return runCatching {
+            val reminderDuration = duration.toMinutes()
+            nextReminder.toLocalDate()
+            weekday == day &&
+                    wakeUpTime.hour in 0..23 &&
+                    wakeUpTime.minute in 0..59 &&
+                    reminderDuration in 0L until (24L * 60L)
+        }.getOrDefault(false)
     }
 
     private fun getNextTwoReminder(): Pair<Reminder, Reminder> {
@@ -241,7 +276,7 @@ class SleepReminder(passedContext: Context) : Checkable {
      */
     inner class Reminder(
         @SerializedName(value = "w")
-        private val weekday: DayOfWeek,
+        val weekday: DayOfWeek,
         @Transient
         var mySleepReminder: SleepReminder
     ) {
