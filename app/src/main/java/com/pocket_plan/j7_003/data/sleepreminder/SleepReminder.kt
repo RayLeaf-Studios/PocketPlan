@@ -128,7 +128,7 @@ class SleepReminder(passedContext: Context) : Checkable {
 
     private fun load() {
         val file = StorageHandler.files[StorageId.SLEEP]
-        val raw = StorageHandler.readJsonFromFile(file)?.trim()
+        val raw = StorageHandler.readJsonFromFile(file, fallbackText = Gson().toJson(reminder))?.trim()
         val gson: Gson = GsonBuilder().create()
         val mapType = object : TypeToken<HashMap<DayOfWeek, Reminder>>() {}.type
 

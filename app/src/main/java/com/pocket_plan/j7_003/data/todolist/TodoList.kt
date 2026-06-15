@@ -103,11 +103,28 @@ class TodoList: ArrayList<Task>(), Checkable{
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.TASKS])
+        val jsonString = StorageHandler.readJsonFromFile(
+            StorageHandler.files[StorageId.TASKS],
+            fallbackText = "[]"
+        )
 
-        this.addAll(
+        val tasks = runCatching {
             GsonBuilder().create().fromJson(
-                jsonString, object : TypeToken<ArrayList<Task>>() {}.type))
+                jsonString, object : TypeToken<ArrayList<Task>>() {}.type)
+        }.getOrNull() ?: arrayListOf()
+
+        tasks.forEach {
+            runCatching {
+                if (it != null && isStoredTaskUsable(it)) this.add(it)
+            }
+        }
+    }
+
+    private fun isStoredTaskUsable(task: Task): Boolean {
+        return runCatching {
+            task.title.length
+            true
+        }.getOrDefault(false)
     }
 
     override fun check() {

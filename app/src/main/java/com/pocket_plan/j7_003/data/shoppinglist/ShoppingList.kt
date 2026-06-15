@@ -16,27 +16,33 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
         val normalizedLists = LinkedHashMap<String, ArrayList<ShoppingItem>>()
         var changed = false
 
-        this.forEach { (tag, items) ->
-            val normalizedTag = ShoppingCategories.normalizeTag(tag)
-            if (normalizedTag != tag) changed = true
+        this.forEach { category ->
+            runCatching {
+                val tag = category.first
+                val items = category.second
+                val normalizedTag = ShoppingCategories.normalizeTag(tag)
+                if (normalizedTag != tag) changed = true
 
-            if (items.isEmpty()) {
-                items.add(ShoppingItem(normalizedTag, checked = false, position = "0"))
-                changed = true
-            }
-
-            items.forEach {
-                if (it.tag != normalizedTag) {
-                    it.tag = normalizedTag
+                if (items.isEmpty()) {
+                    items.add(ShoppingItem(normalizedTag, checked = false, position = "0"))
                     changed = true
                 }
-            }
 
-            val existingItems = normalizedLists[normalizedTag]
-            if (existingItems == null) {
-                normalizedLists[normalizedTag] = items
-            } else {
-                existingItems.addAll(items.drop(1))
+                items.forEach {
+                    if (it.tag != normalizedTag) {
+                        it.tag = normalizedTag
+                        changed = true
+                    }
+                }
+
+                val existingItems = normalizedLists[normalizedTag]
+                if (existingItems == null) {
+                    normalizedLists[normalizedTag] = items
+                } else {
+                    existingItems.addAll(items.drop(1))
+                    changed = true
+                }
+            }.onFailure {
                 changed = true
             }
         }

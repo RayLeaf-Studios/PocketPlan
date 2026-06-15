@@ -28,8 +28,8 @@ class StorageHandler {
             writeTextAtomic(file, text)
         }
 
-        fun readJsonFromFile(file: File?): String? {
-            if (file == null) return null
+        fun readJsonFromFile(file: File?, fallbackText: String? = null): String? {
+            if (file == null) return fallbackText
 
             readValidJson(file)?.let { return it }
 
@@ -41,6 +41,14 @@ class StorageHandler {
                 val backupText = readValidJson(backupFile(file, i)) ?: continue
                 writeTextAtomic(file, backupText)
                 return backupText
+            }
+
+            if (fallbackText != null) {
+                if (!isValidJson(fallbackText)) {
+                    throw IllegalArgumentException("Refusing to use invalid fallback JSON")
+                }
+                writeTextToFile(file, fallbackText, rotateBackup = false)
+                return fallbackText
             }
 
             throw IllegalStateException("No readable JSON storage file found for ${file.name}")

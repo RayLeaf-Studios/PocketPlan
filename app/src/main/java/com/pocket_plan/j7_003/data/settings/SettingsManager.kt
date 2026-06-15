@@ -15,7 +15,7 @@ class SettingsManager {
             try {
                 load()
             } catch (_: Exception) {
-                StorageHandler.writeTextToFile(StorageHandler.files[StorageId.SETTINGS], "[]")
+                StorageHandler.writeTextToFile(StorageHandler.files[StorageId.SETTINGS], "{}")
             }
         }
 
@@ -42,7 +42,10 @@ class SettingsManager {
         }
 
         private fun load() {
-            val jsonString = StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.SETTINGS])
+            val jsonString = StorageHandler.readJsonFromFile(
+                StorageHandler.files[StorageId.SETTINGS],
+                fallbackText = "{}"
+            )
 
             val cacheMap: HashMap<String, Any> = GsonBuilder().create()
                 .fromJson(jsonString, object : TypeToken<HashMap<String, Any>>() {}.type)
@@ -56,7 +59,7 @@ class SettingsManager {
         }
 
         private fun createFile() {
-            StorageHandler.createJsonFile(StorageId.SETTINGS)
+            StorageHandler.createJsonFile(StorageId.SETTINGS, text = "{}")
         }
 
         override fun check() {
