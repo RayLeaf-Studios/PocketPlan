@@ -11,6 +11,54 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
     fun setWrapper(newWrapper: ShoppingListWrapper) {
         this.wrapper = newWrapper
     }
+
+    fun normalizeCategoryTags(): Boolean {
+        val normalizedLists = LinkedHashMap<String, ArrayList<ShoppingItem>>()
+        var changed = false
+
+        this.forEach { category ->
+            runCatching {
+                val tag = category.first
+                val items = category.second
+                val normalizedTag = ShoppingCategories.normalizeTag(tag)
+                if (normalizedTag != tag) changed = true
+
+                if (items.isEmpty()) {
+                    items.add(ShoppingItem(normalizedTag, checked = false, position = "0"))
+                    changed = true
+                }
+
+                items.forEach {
+                    if (it.tag != normalizedTag) {
+                        it.tag = normalizedTag
+                        changed = true
+                    }
+                }
+
+                val existingItems = normalizedLists[normalizedTag]
+                if (existingItems == null) {
+                    normalizedLists[normalizedTag] = items
+                } else {
+                    existingItems.addAll(items.drop(1))
+                    changed = true
+                }
+            }.onFailure {
+                changed = true
+            }
+        }
+
+        if (changed) {
+            clear()
+            normalizedLists.forEach { (tag, items) ->
+                sortSublist(items)
+                add(Pair(tag, items))
+            }
+            updateOrder()
+        }
+
+        return changed
+    }
+
     /**
      * Adds a given ShoppingElement to this list, according to its given tag.
      * If no element of the given tag existed before, the list generate a new sublist,
@@ -19,6 +67,8 @@ class ShoppingList(private var wrapper: ShoppingListWrapper?) :
      * @param element The element to be added to the list.
      */
     fun add(element: ShoppingItem) {
+        element.tag = ShoppingCategories.normalizeTag(element.tag)
+
         this.forEach { e ->         // searching for preexistence of the elements tag
             if (e.first == element.tag) {   // add element to tags sublist and save to file
                 e.second.add(element)

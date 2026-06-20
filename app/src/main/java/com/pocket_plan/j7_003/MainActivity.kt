@@ -34,6 +34,7 @@ import com.pocket_plan.j7_003.data.birthdaylist.BirthdayFr
 import com.pocket_plan.j7_003.data.birthdaylist.BirthdayList
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.home.HomeFr
+import com.pocket_plan.j7_003.data.notelist.Note
 import com.pocket_plan.j7_003.data.notelist.NoteColors
 import com.pocket_plan.j7_003.data.notelist.NoteDirList
 import com.pocket_plan.j7_003.data.notelist.NoteEditorFr
@@ -416,15 +417,6 @@ class MainActivity : AppCompatActivity() {
 
         if (editNoteContentOnDestroy == null || editNoteTitleOnDestroy == null || noteFr == null || editNoteColorOnDestroy == -1) return
 
-        if (editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == "") {
-            //App was closed when editor window was empty, do nothing
-            getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
-            getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
-            return
-        }
-
         //Get saved editNoteContent (this gets written when editor is opened (content of note to edit)
         val editNoteContent =
             getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "")
@@ -432,28 +424,41 @@ class MainActivity : AppCompatActivity() {
             getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
         val editNoteColor =
             getPreferences(Context.MODE_PRIVATE).getInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
+        val editNoteId =
+            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_ID.id, "")
+        val editNoteFolderId =
+            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_FOLDER_ID.id, "")
 
         if (editNoteContent == null || editNoteTitle == null || editNoteColor == -1) return
 
-        resetNotePreferenceStorage()
+        if (editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == "" && editNoteContent == "" && editNoteTitle == "") {
+            //App was closed when a new note editor window was empty, do nothing
+            resetNotePreferenceStorage()
+            return
+        }
 
         if (editNoteContent == "" && editNoteTitle == "") {
             //App was closed after editor was opened for a new note, and app was closed with non-empty editor (see if above)
             //add new note with content of editor saved onDestroy
-            noteFr!!.noteListDirs.rootDir.noteList.addNote(
-                editNoteTitleOnDestroy,
-                editNoteContentOnDestroy, NoteColors.values()[editNoteColorOnDestroy]
+            noteFr!!.noteListDirs.addNoteToFolder(
+                Note(
+                    editNoteTitleOnDestroy,
+                    editNoteContentOnDestroy,
+                    NoteColors.values()[editNoteColorOnDestroy]
+                ),
+                editNoteFolderId
             )
-            noteFr!!.noteListDirs.save()
+            resetNotePreferenceStorage()
             return
         }
 
         if (editNoteContent != editNoteContentOnDestroy || editNoteTitle != editNoteTitleOnDestroy || editNoteColor != editNoteColorOnDestroy) {
             //App was closed, after editor got initialized with text, and this text was modified before the app close, but not saved
-            val editedNote = noteFr!!.noteListDirs.getNoteByTitleAndContent(
+            val editedNote = noteFr!!.noteListDirs.getNoteById(editNoteId) ?: noteFr!!.noteListDirs.getNoteByTitleAndContent(
                 title = editNoteTitle,
                 content = editNoteContent
             ) ?: return
+            resetNotePreferenceStorage()
             NoteFr.editNoteHolder = editedNote
 
             NoteFr.displayContent = editNoteContentOnDestroy
@@ -466,6 +471,8 @@ class MainActivity : AppCompatActivity() {
             changeToFragment(FT.NOTE_EDITOR)
             return
         }
+
+        resetNotePreferenceStorage()
     }
 
     private fun resetNotePreferenceStorage() {
@@ -478,6 +485,10 @@ class MainActivity : AppCompatActivity() {
         getPreferences(Context.MODE_PRIVATE).edit()
             .putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "").apply()
         getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
+            .apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_ID.id, "")
+            .apply()
+        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_FOLDER_ID.id, "")
             .apply()
         getPreferences(Context.MODE_PRIVATE).edit()
             .putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1).apply()
@@ -804,4 +815,3 @@ class MainActivity : AppCompatActivity() {
         myAlertDialog.show()
     }
 }
-

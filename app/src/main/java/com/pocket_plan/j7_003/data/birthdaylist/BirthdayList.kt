@@ -218,12 +218,39 @@ class BirthdayList(private val monthNames: Array<String>) : ArrayList<Birthday>(
     }
 
     private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.BIRTHDAYS]?.readText()
-
-        this.addAll(
-            GsonBuilder().create()
-                .fromJson(jsonString, object : TypeToken<ArrayList<Birthday>>() {}.type)
+        val jsonString = StorageHandler.readJsonFromFile(
+            StorageHandler.files[StorageId.BIRTHDAYS],
+            fallbackText = "[]"
         )
+
+        val birthdays: ArrayList<Birthday> = runCatching {
+            GsonBuilder().create()
+                .fromJson<ArrayList<Birthday>>(
+                    jsonString,
+                    object : TypeToken<ArrayList<Birthday>>() {}.type
+                )
+        }.getOrNull() ?: arrayListOf()
+
+        birthdays.forEach {
+            runCatching {
+                if (it != null && isStoredBirthdayUsable(it)) this.add(it)
+            }
+        }
+    }
+
+    private fun isStoredBirthdayUsable(birthday: Birthday): Boolean {
+        return runCatching {
+            birthday.name.length
+
+            if (birthday.month !in 1..12 || birthday.day < 0) {
+                false
+            } else {
+                if (birthday.daysToRemind >= 0) {
+                    LocalDate.of(2020, birthday.month, birthday.day)
+                }
+                true
+            }
+        }.getOrDefault(false)
     }
 
     fun save() {

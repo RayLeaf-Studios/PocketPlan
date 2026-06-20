@@ -17,7 +17,6 @@ import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageId
 import java.io.File
 import java.io.InputStream
 import java.util.*
-import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 
 /**
@@ -63,12 +62,17 @@ class ImportHandler(private val parentActivity: Activity) {
         val oldFile = File("${fileDir}old_${id.s}")
 
         // copies the current modules file content to the rollback file
-        oldFile.writeText(StorageHandler.files[id]!!.readText())
+        oldFile.writeText(
+            StorageHandler.readJsonFromFile(
+                StorageHandler.files[id],
+                fallbackText = fallbackJson(id)
+            ) ?: fallbackJson(id)
+        )
         // overwrites the content of the modules file with the selected files content
-        StorageHandler.files[id]!!.writeText(file.readText())
+        StorageHandler.writeTextToFile(StorageHandler.files[id], file.readText())
 
         if (!testFiles()) { // rollbacks the file if the file couldn't be read correctly
-            StorageHandler.files[id]!!.writeText(oldFile.readText())
+            StorageHandler.writeTextToFile(StorageHandler.files[id], oldFile.readText())
         }
 
         // deletes the rollback file
@@ -116,6 +120,7 @@ class ImportHandler(private val parentActivity: Activity) {
         // creating the aforementioned directories
         newDir.mkdir()
         oldDir.mkdir()
+        newFiles.clear()
 
         // copy content of each module file to a rollback file in the /old/ directory
         File("${parentActivity.filesDir}/").listFiles()!!.forEach { oldFile ->
@@ -126,32 +131,42 @@ class ImportHandler(private val parentActivity: Activity) {
         }
 
         // unzip all all entries from selected file into the /new/ directory
-        StorageId.values().forEach {
-            //Ignore old (unused) shopping file
-            if (it.s != StorageId.SHOPPING.s) {  // check so only module files are used/transferred
-                // the cache file is created with the corresponding name of the modules file name
-                cacheFile = File("${parentActivity.filesDir}/new/${it.s}")
-
-                // getting the content from the requested zip entry
-                // (only file names from storage ids are valid)
-                entryContent = zipFile.getInputStream(ZipEntry(it.s)).bufferedReader()
-                    .use { reader -> reader.readText() }
-
-                // the read in content is stored in the new file
-                cacheFile.writeText(entryContent)
-                newFiles[it] = cacheFile    // the file is added to a map to be easier managed
+        StorageId.values().forEach { id ->
+            val entry = zipFile.getEntry(id.s)
+            if (entry == null && id == StorageId.SHOPPING) {
+                return@forEach
             }
+
+            // the cache file is created with the corresponding name of the modules file name
+            cacheFile = File("${parentActivity.filesDir}/new/${id.s}")
+
+            // getting the content from the requested zip entry
+            // (only file names from storage ids are valid)
+            entryContent = if (entry != null) {
+                zipFile.getInputStream(entry).bufferedReader()
+                    .use { reader -> reader.readText() }
+            } else {
+                fallbackJson(id)
+            }
+
+            // the read in content is stored in the new file
+            cacheFile.writeText(entryContent)
+            newFiles[id] = cacheFile    // the file is added to a map to be easier managed
         }
 
         // the new files are used to overwrite their corresponding module files
         newFiles.forEach { (id, file) ->
-            StorageHandler.files[id]?.writeText(file.readText())
+            StorageHandler.createJsonFile(id, fallbackJson(id))
+            StorageHandler.writeTextToFile(StorageHandler.files[id], file.readText())
         }
 
         // test of all file, if it fails all files are rolled back
         if (!testFiles()) {
             File("${parentActivity.filesDir}/old/").listFiles()!!.forEach { currentFile ->
-                File("${parentActivity.filesDir}/${currentFile.name}").writeText(currentFile.readText())
+                StorageHandler.writeTextToFile(
+                    File("${parentActivity.filesDir}/${currentFile.name}"),
+                    currentFile.readText()
+                )
             }
         }
 
@@ -176,7 +191,11 @@ class ImportHandler(private val parentActivity: Activity) {
         return try {
             ShoppingListWrapper().check()
             BirthdayList(parentActivity.resources.getStringArray(R.array.months)).check()
-            NoteDirList().check()
+            val noteDirList = NoteDirList()
+            if (!noteDirList.loadedFromStorage) {
+                throw IllegalStateException("Notes JSON could not be loaded")
+            }
+            noteDirList.check()
 
             TodoList().check()
 
@@ -190,10 +209,17 @@ class ImportHandler(private val parentActivity: Activity) {
             Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportSuccessful), Toast.LENGTH_SHORT).show()
 
             true
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Log.e("IMPORT FAILED", e.toString())
             Toast.makeText(parentActivity, parentActivity.getString(R.string.settingsBackupImportFailed), Toast.LENGTH_SHORT).show()
             false
+        }
+    }
+
+    private fun fallbackJson(id: StorageId): String {
+        return when (id) {
+            StorageId.SETTINGS -> "{}"
+            else -> "[]"
         }
     }
 }

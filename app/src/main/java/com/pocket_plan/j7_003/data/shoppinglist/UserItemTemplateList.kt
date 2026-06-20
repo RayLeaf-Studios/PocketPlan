@@ -64,16 +64,32 @@ class UserItemTemplateList: ArrayList<ItemTemplate>(), Checkable {
 
     private fun fetchList() {
         val list = ArrayList<TMPTemplate>()
-        val jsonString = StorageHandler.files[StorageId.USER_TEMPLATE_LIST]?.readText()
+        val jsonString = StorageHandler.readJsonFromFile(
+            StorageHandler.files[StorageId.USER_TEMPLATE_LIST],
+            fallbackText = "[]"
+        )
 
-        list.addAll(
+        val savedTemplates: ArrayList<TMPTemplate> = runCatching {
             GsonBuilder().create()
-            .fromJson(jsonString,
-                object : TypeToken<ArrayList<TMPTemplate>>() {}.type))
+            .fromJson<ArrayList<TMPTemplate>>(
+                jsonString,
+                object : TypeToken<ArrayList<TMPTemplate>>() {}.type
+            )
+        }.getOrNull() ?: arrayListOf()
 
+        list.addAll(savedTemplates)
+
+        var changed = false
         list.forEach { e ->
-            this.add(ItemTemplate(e.n, e.c, e.s))
+            runCatching {
+                e.n.length
+                e.s.length
+                val normalizedCategory = ShoppingCategories.normalizeTag(e.c)
+                if (normalizedCategory != e.c) changed = true
+                super.add(ItemTemplate(e.n, normalizedCategory, e.s))
+            }
         }
+        if (changed) save()
     }
 
     private class TMPTemplate(val n: String, val c: String, val s: String)

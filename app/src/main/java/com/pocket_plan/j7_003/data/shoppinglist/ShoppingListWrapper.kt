@@ -22,9 +22,12 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
         // TODO - this is the compatibility layer for saving
         //  category order remove after a few releases
         this.forEach { (_, list) ->
-            list.forEach {
-                if (it.second[0].amount == null)
-                    it.second[0].amount = list.indexOf(it).toString()
+            runCatching {
+                list.normalizeCategoryTags()
+                list.forEach {
+                    if (it.second[0].amount == null)
+                        it.second[0].amount = list.indexOf(it).toString()
+                }
             }
         }
         save()
@@ -127,20 +130,35 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
     }
 
     private fun fetchList() {
-        val jsonString = StorageHandler.files[StorageId.SHOPPING_LISTS]?.readText()
-        val list: ArrayList<Pair<String, ShoppingList>> = GsonBuilder().create().fromJson(
+        if (this.isNotEmpty()) return
+
+        val jsonString = StorageHandler.readJsonFromFile(
+            StorageHandler.files[StorageId.SHOPPING_LISTS],
+            fallbackText = "[]"
+        )
+        val list: ArrayList<Pair<String, ShoppingList>> = runCatching {
+            GsonBuilder().create().fromJson<ArrayList<Pair<String, ShoppingList>>>(
                 jsonString,
                 object : TypeToken<ArrayList<Pair<String, ShoppingList>>>() {}.type
             )
-        list.forEach{
-            it.second.setWrapper(this)
+        }.getOrNull() ?: arrayListOf()
+        list.forEach {
+            runCatching {
+                val name = it.first.trim()
+                if (name.isNotEmpty()) {
+                    it.second.setWrapper(this)
+                    this.add(Pair(name, it.second))
+                }
+            }
         }
-        this.addAll(list)
     }
 
     private fun accountCompatibility() {    // TODO - remove when enough users updated
         StorageHandler.createJsonFile(StorageId.SHOPPING)
-        val jsonString = StorageHandler.files[StorageId.SHOPPING]?.readText()
+        val jsonString = StorageHandler.readJsonFromFile(
+            StorageHandler.files[StorageId.SHOPPING],
+            fallbackText = "[]"
+        )
 
         if (jsonString == "[]") {
             StorageHandler.files[StorageId.SHOPPING]?.delete()
@@ -148,14 +166,18 @@ class ShoppingListWrapper(defaultListName: String = ""): ArrayList<Pair<String, 
             return
         }
 
-        val list: ArrayList<Pair<String, ArrayList<ShoppingItem>>> = GsonBuilder().create().fromJson(
-            jsonString,
-            object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
-        )
+        val list: ArrayList<Pair<String, ArrayList<ShoppingItem>>> = runCatching {
+            GsonBuilder().create().fromJson<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>(
+                jsonString,
+                object : TypeToken<ArrayList<Pair<String, ArrayList<ShoppingItem>>>>() {}.type
+            )
+        }.getOrNull() ?: arrayListOf()
 
         val shoppingList = ShoppingList(this)
         list.forEach {
-            shoppingList.add(it)
+            runCatching {
+                shoppingList.add(it)
+            }
         }
 
         this.add(defaultName, shoppingList)

@@ -16,31 +16,44 @@ class NoteDirList : Checkable {
     var rootDir: Note = Note(rootDirName, NoteColors.GREEN, NoteList())
     var currentList: () -> NoteList = { folderStack.peek().noteList }
     var folderStack: Stack<Note> = Stack()
+    var loadedFromStorage: Boolean = false
+        private set
 
     init {
         StorageHandler.createJsonFile(StorageId.NOTES)
+        val jsonString = try {
+            StorageHandler.readJsonFromFile(StorageHandler.files[StorageId.NOTES])
+        } catch (_: Exception) {
+            null
+        }
+
         try {   // Todo - part of the compatibility layer; remove try, catch soon
-            fetchFromFile()
+            fetchFromFile(jsonString)
+            loadedFromStorage = true
         } catch (_: Exception) {/* no-op */
         }
         folderStack.push(rootDir)
 
-        try {   // Todo - main part of the comp. layer; also remove soon
-            val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
-            GsonBuilder().create()
-                .fromJson<LinkedList<Note>>(
-                    jsonString,
-                    object : TypeToken<LinkedList<Note>>() {}.type
-                )
-                .forEach {
-                    if (it.noteList == null) {
-                        it.noteList = NoteList()
+        if (!loadedFromStorage) {
+            try {   // Todo - main part of the comp. layer; also remove soon
+                GsonBuilder().create()
+                    .fromJson<LinkedList<Note>>(
+                        jsonString,
+                        object : TypeToken<LinkedList<Note>>() {}.type
+                    )
+                    .forEach {
+                        if (it.noteList == null) {
+                            it.noteList = NoteList()
+                        }
+                        currentList().add(it)
                     }
-                    currentList().add(it)
-                }
-            save()
-        } catch (_: Exception) {/* no-op */
+                loadedFromStorage = true
+                save()
+            } catch (_: Exception) {/* no-op */
+            }
         }
+
+        if (loadedFromStorage && normalizeNotes()) save()
 
     }
 
@@ -57,7 +70,12 @@ class NoteDirList : Checkable {
     }
 
     fun remove(note: Note) {
-        currentList().remove(note)
+        val parentDirectory = getParentDirectoryOrNull(note)
+        if (parentDirectory != null) {
+            parentDirectory.noteList.remove(note)
+        } else {
+            currentList().remove(note)
+        }
         save()
     }
 
@@ -88,7 +106,11 @@ class NoteDirList : Checkable {
     }
 
     fun getParentDirectory(dir: Note): Note {
-        return getDirPathsWithRef().find { it.second.noteList.contains(dir) }!!.second
+        return getParentDirectoryOrNull(dir)!!
+    }
+
+    private fun getParentDirectoryOrNull(dir: Note): Note? {
+        return getDirPathsWithRef().find { it.second.noteList.contains(dir) }?.second
     }
 
     fun moveDir(noteToMove: Note, toIndex: Int): Boolean {
@@ -143,6 +165,22 @@ class NoteDirList : Checkable {
             } else {
                 //Check subDirectory val
                 val subResult = getNoteByTitleAndContent(title, content, note)
+                if (subResult != null) return subResult
+            }
+        }
+        return null
+    }
+
+    fun getNoteById(id: String?, directory: Note = rootDir): Note? {
+        if (id.isNullOrBlank()) return null
+        if (directory.id == id) return directory
+
+        for (note in directory.noteList) {
+            if (note.id == id) {
+                return note
+            }
+            if (note.content == null) {
+                val subResult = getNoteById(id, note)
                 if (subResult != null) return subResult
             }
         }
@@ -255,6 +293,8 @@ class NoteDirList : Checkable {
         folderStack.push(rootDir)
     }
 
+    fun getCurrentFolderId(): String? = folderStack.peek().id
+
     /**
      * Deletes the currently opened folder, except for the root folder which can't
      * be deleted. Also saves the notes to file.
@@ -288,18 +328,28 @@ class NoteDirList : Checkable {
      * @see NoteList.addNote
      */
     fun addNote(note: Note) {
+        addNoteToList(currentList(), note)
+        save()
+    }
+
+    fun addNoteToFolder(note: Note, folderId: String?) {
+        val folder = getNoteById(folderId)?.takeIf { it.content == null } ?: rootDir
+        addNoteToList(folder.noteList, note)
+        save()
+    }
+
+    private fun addNoteToList(noteList: NoteList, note: Note) {
         if (SettingsManager.getSetting(SettingId.NOTES_MOVE_UP_CURRENT) as Boolean) {
             var index = 0
-            for (n in currentList()){
-                if (n.content == null){
+            for (n in noteList) {
+                if (n.content == null) {
                     index += 1
                 }
             }
-            currentList().add(index, note)
+            noteList.add(index, note)
         } else {
-            currentList().add(note)
+            noteList.add(note)
         }
-        save()
     }
 
     /**
@@ -340,12 +390,14 @@ class NoteDirList : Checkable {
         )
     }
 
-    private fun fetchFromFile() {
-        val jsonString = StorageHandler.files[StorageId.NOTES]?.readText()
-
+    private fun fetchFromFile(jsonString: String?) {
+        if (jsonString == null) throw IllegalStateException("Missing notes JSON")
         rootDir = GsonBuilder().create().fromJson(jsonString, object : TypeToken<Note>() {}.type)
+            ?: throw IllegalStateException("Missing notes root")
+        val normalized = normalizeNotes()
 
         if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
+        if (normalized) save()
     }
 
     fun sortDirsToTop() {
@@ -375,5 +427,35 @@ class NoteDirList : Checkable {
         }
 
         return results
+    }
+
+    private fun normalizeNotes(): Boolean {
+        val usedIds = HashSet<String>()
+
+        fun normalize(note: Note): Boolean {
+            var changed = false
+            val noteId = note.id
+
+            if (noteId.isNullOrBlank() || !usedIds.add(noteId)) {
+                var newId: String
+                do {
+                    newId = Note.newId()
+                } while (!usedIds.add(newId))
+                note.id = newId
+                changed = true
+            }
+
+            if (note.noteList == null) {
+                note.noteList = NoteList()
+                changed = true
+            }
+
+            note.noteList.forEach {
+                if (normalize(it)) changed = true
+            }
+            return changed
+        }
+
+        return normalize(rootDir)
     }
 }

@@ -19,7 +19,7 @@ class NoteList : LinkedList<Note>(), Checkable {
      * Small helper function to add a note object, used for undoing deletions
      */
     fun addFullNote(note: Note): Int {
-        addNote(note.title, note.content!!, note.color)
+        this.push(note)
         return this.indexOf(note)
     }
 

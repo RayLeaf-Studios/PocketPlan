@@ -99,6 +99,13 @@ class NoteEditorFr : Fragment() {
                 PreferenceIDs.EDIT_NOTE_COLOR.id,
                 NoteColors.entries.indexOf(NoteFr.editNoteHolder!!.color)
             ).apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
+                .putString(PreferenceIDs.EDIT_NOTE_ID.id, NoteFr.editNoteHolder!!.id ?: "")
+                .apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(
+                PreferenceIDs.EDIT_NOTE_FOLDER_ID.id,
+                myNoteFr.noteListDirs.getParentDirectory(NoteFr.editNoteHolder!!).id ?: ""
+            ).apply()
             fragmentBinding.etNoteTitle.clearFocus()
         } else {
             //Empty editNoteContent to signal we are adding a new note
@@ -112,6 +119,12 @@ class NoteEditorFr : Fragment() {
                 PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.entries.indexOf(
                     noteColor
                 )
+            ).apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
+                .putString(PreferenceIDs.EDIT_NOTE_ID.id, "").apply()
+            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(
+                PreferenceIDs.EDIT_NOTE_FOLDER_ID.id,
+                myNoteFr.noteListDirs.getCurrentFolderId() ?: ""
             ).apply()
             fragmentBinding.etNoteContent.requestFocus()
             fragmentBinding.etNoteContent.postDelayed({

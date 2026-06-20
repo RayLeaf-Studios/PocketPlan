@@ -13,6 +13,7 @@ import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.AlarmHandler
 import com.pocket_plan.j7_003.system_interaction.handler.notifications.NotificationHandler
 import com.pocket_plan.j7_003.system_interaction.handler.storage.StorageHandler
+import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 
 
@@ -25,21 +26,23 @@ class NotificationReceiver : BroadcastReceiver() {
         AndroidThreeTen.init(this.context)
         StorageHandler.path = context.filesDir.absolutePath
         this.localDate = LocalDate.now()
+        SettingsManager.init()
 
         when (intent.extras?.get("Notification")) {
             "Birthday" -> birthdayNotifications()
             "SReminder" -> checkSleepNotification(intent)
         }
 
-        SettingsManager.init()
         val time = SettingsManager.getSetting(SettingId.BIRTHDAY_NOTIFICATION_TIME) as String
         AlarmHandler.setBirthdayAlarms(time, context = context)
     }
 
     private fun checkSleepNotification(intent: Intent) {
-        SleepReminder(context).reminder[intent.extras?.get("weekday")]?.updateAlarm(
-            intent.extras?.getInt("requestCode")!!
-        )
+        val weekday = intent.extras?.getString("weekday") ?: return
+        val dayOfWeek = runCatching { DayOfWeek.valueOf(weekday) }.getOrNull() ?: return
+        val requestCode = intent.extras?.getInt("requestCode") ?: return
+
+        SleepReminder(context).reminder[dayOfWeek]?.updateAlarm(requestCode)
         sRNotification()
     }
 

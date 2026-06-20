@@ -556,8 +556,8 @@ class MultiShoppingFr : Fragment() {
                 if (template != null) {
                     unitToSet =
                         myActivity.resources.getStringArray(R.array.units).indexOf(template.s)
-                    categoryToSet = myActivity.resources.getStringArray(R.array.categoryCodes)
-                        .indexOf(template.c)
+                    if (unitToSet == -1) unitToSet = 0
+                    categoryToSet = ShoppingCategories.indexForTag(myActivity.resources, template.c)
                 }
 
                 //Apply selections
@@ -627,9 +627,7 @@ class MultiShoppingFr : Fragment() {
 
             //get selected categoryCode
             val categoryCode =
-                myActivity.resources.getStringArray(R.array.categoryCodes)[myActivity.resources.getStringArray(
-                    R.array.categoryNames
-                ).indexOf(spCategory.selectedItem as String)]
+                ShoppingCategories.codeForName(myActivity.resources, spCategory.selectedItem as String)
 
             //check if user template exists for this string
             var template =
@@ -775,6 +773,7 @@ class MultiShoppingFr : Fragment() {
         val unitIndex = myActivity.resources
             .getStringArray(R.array.units)
             .indexOf(item.suggestedUnit)
+            .takeIf { it != -1 } ?: 0
 
         dialogAddItemBinding.spItemUnit.tag = unitIndex
         //Select correct unit when opening dialog for edit
