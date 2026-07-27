@@ -6,10 +6,10 @@ android {
         applicationId "com.pocket_plan.j7_003"
         compileSdk 35
         minSdkVersion 23
-        targetSdkVersion 35
+        targetSdkVersion 36
 
-        versionCode 55
-        versionName "1.5"
+        versionCode 151
+        versionName "1.5.1"
 
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
