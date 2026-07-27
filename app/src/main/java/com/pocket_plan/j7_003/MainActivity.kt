@@ -19,6 +19,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -377,6 +378,22 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
+
+        //Register back navigation handling. This replaces the deprecated onBackPressed
+        //override, which no longer gets called once the app targets SDK 36+ (predictive back)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleBackNavigation(this)
+            }
+        })
+
+        //Since Android 13 notifications (birthdays, sleep reminder) need a runtime permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
+        }
     }
 
     private fun handleTextViaIntent(intent: Intent): Boolean{
@@ -401,97 +418,77 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun manageNoteRestore() {
+        val prefs = getPreferences(Context.MODE_PRIVATE)
 
-        val editNoteContentOnDestroy = getPreferences(Context.MODE_PRIVATE).getString(
-            PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id,
-            ""
-        )
-        val editNoteTitleOnDestroy = getPreferences(Context.MODE_PRIVATE).getString(
-            PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id,
-            ""
-        )
-        val editNoteColorOnDestroy = getPreferences(Context.MODE_PRIVATE).getInt(
-            PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id,
-            -1
-        )
+        val contentOnDestroy =
+            prefs.getString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, null)
+        val titleOnDestroy =
+            prefs.getString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, null)
+        val colorOnDestroy =
+            prefs.getInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1)
+        val noteIdOnDestroy =
+            prefs.getString(PreferenceIDs.EDIT_NOTE_ID_ON_DESTROY.id, null)
+        val folderIdOnDestroy =
+            prefs.getString(PreferenceIDs.EDIT_NOTE_FOLDER_ID_ON_DESTROY.id, "")
 
-        if (editNoteContentOnDestroy == null || editNoteTitleOnDestroy == null || noteFr == null || editNoteColorOnDestroy == -1) return
-
-        //Get saved editNoteContent (this gets written when editor is opened (content of note to edit)
-        val editNoteContent =
-            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "")
-        val editNoteTitle =
-            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
-        val editNoteColor =
-            getPreferences(Context.MODE_PRIVATE).getInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
-        val editNoteId =
-            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_ID.id, "")
-        val editNoteFolderId =
-            getPreferences(Context.MODE_PRIVATE).getString(PreferenceIDs.EDIT_NOTE_FOLDER_ID.id, "")
-
-        if (editNoteContent == null || editNoteTitle == null || editNoteColor == -1) return
-
-        if (editNoteContentOnDestroy == "" && editNoteTitleOnDestroy == "" && editNoteContent == "" && editNoteTitle == "") {
-            //App was closed when a new note editor window was empty, do nothing
-            resetNotePreferenceStorage()
-            return
-        }
-
-        if (editNoteContent == "" && editNoteTitle == "") {
-            //App was closed after editor was opened for a new note, and app was closed with non-empty editor (see if above)
-            //add new note with content of editor saved onDestroy
-            noteFr!!.noteListDirs.addNoteToFolder(
-                Note(
-                    editNoteTitleOnDestroy,
-                    editNoteContentOnDestroy,
-                    NoteColors.values()[editNoteColorOnDestroy]
-                ),
-                editNoteFolderId
-            )
-            resetNotePreferenceStorage()
-            return
-        }
-
-        if (editNoteContent != editNoteContentOnDestroy || editNoteTitle != editNoteTitleOnDestroy || editNoteColor != editNoteColorOnDestroy) {
-            //App was closed, after editor got initialized with text, and this text was modified before the app close, but not saved
-            val editedNote = noteFr!!.noteListDirs.getNoteById(editNoteId) ?: noteFr!!.noteListDirs.getNoteByTitleAndContent(
-                title = editNoteTitle,
-                content = editNoteContent
-            ) ?: return
-            resetNotePreferenceStorage()
-            NoteFr.editNoteHolder = editedNote
-
-            NoteFr.displayContent = editNoteContentOnDestroy
-            NoteFr.displayTitle = editNoteTitleOnDestroy
-            NoteFr.displayColor = editNoteColorOnDestroy
-
-            previousFragmentStack.push(FT.NOTES)
-            noteFr!!.noteListDirs.adjustStackAbove(editedNote)
-
-            changeToFragment(FT.NOTE_EDITOR)
-            return
-        }
-
+        //The snapshot is one-shot: clear it before acting on it, so it can never fire twice
+        //or get combined with state written by a later editor session
         resetNotePreferenceStorage()
+
+        if (contentOnDestroy == null || titleOnDestroy == null || noteIdOnDestroy == null || noteFr == null) return
+        val colorRestored = NoteColors.entries.getOrNull(colorOnDestroy) ?: return
+
+        if (noteIdOnDestroy == "") {
+            //App was stopped while the editor was open for a new note
+            if (contentOnDestroy == "" && titleOnDestroy == "") {
+                //editor was empty, nothing to restore
+                return
+            }
+            //re-add the unsaved new note to the folder it was being created in
+            noteFr!!.noteListDirs.addNoteToFolder(
+                Note(titleOnDestroy, contentOnDestroy, colorRestored),
+                folderIdOnDestroy
+            )
+            return
+        }
+
+        //App was stopped while the editor was open for an existing note: only restore into
+        //the exact note the snapshot was taken from, never a note from another editor session
+        val editedNote = noteFr!!.noteListDirs.getNoteById(noteIdOnDestroy)
+            ?.takeIf { it.content != null } ?: return
+
+        //if the note already matches the snapshot, the edit was saved before the app was stopped
+        if (editedNote.title.trim() == titleOnDestroy &&
+            editedNote.content!!.trim() == contentOnDestroy &&
+            editedNote.color == colorRestored
+        ) return
+
+        NoteFr.editNoteHolder = editedNote
+
+        NoteFr.displayContent = contentOnDestroy
+        NoteFr.displayTitle = titleOnDestroy
+        NoteFr.displayColor = colorOnDestroy
+
+        previousFragmentStack.push(FT.NOTES)
+        noteFr!!.noteListDirs.adjustStackAbove(editedNote)
+
+        changeToFragment(FT.NOTE_EDITOR)
     }
 
     private fun resetNotePreferenceStorage() {
         getPreferences(Context.MODE_PRIVATE).edit()
-            .putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
-        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "")
+            .remove(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id)
+            .remove(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id)
+            .remove(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id)
+            .remove(PreferenceIDs.EDIT_NOTE_ID_ON_DESTROY.id)
+            .remove(PreferenceIDs.EDIT_NOTE_FOLDER_ID_ON_DESTROY.id)
+            //legacy keys written by older versions on every editor open, purge any residue
+            .remove(PreferenceIDs.EDIT_NOTE_CONTENT.id)
+            .remove(PreferenceIDs.EDIT_NOTE_TITLE.id)
+            .remove(PreferenceIDs.EDIT_NOTE_COLOR.id)
+            .remove(PreferenceIDs.EDIT_NOTE_ID.id)
+            .remove(PreferenceIDs.EDIT_NOTE_FOLDER_ID.id)
             .apply()
-        getPreferences(Context.MODE_PRIVATE).edit()
-            .putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, "").apply()
-        getPreferences(Context.MODE_PRIVATE).edit()
-            .putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, "").apply()
-        getPreferences(Context.MODE_PRIVATE).edit().putInt(PreferenceIDs.EDIT_NOTE_COLOR.id, -1)
-            .apply()
-        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_ID.id, "")
-            .apply()
-        getPreferences(Context.MODE_PRIVATE).edit().putString(PreferenceIDs.EDIT_NOTE_FOLDER_ID.id, "")
-            .apply()
-        getPreferences(Context.MODE_PRIVATE).edit()
-            .putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, -1).apply()
     }
 
     /**
@@ -669,9 +666,8 @@ class MainActivity : AppCompatActivity() {
     /**
      * OVERRIDE FUNCTIONS
      */
-    @Deprecated("Deprecated in Java")
     @SuppressLint("NotifyDataSetChanged")
-    override fun onBackPressed() {
+    private fun handleBackNavigation(callback: OnBackPressedCallback) {
         //close drawer when its open
         if (drawerLayoutBinding.drawerLayout.isDrawerOpen(drawerLayoutBinding.navDrawer)) {
             drawerLayoutBinding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -724,8 +720,11 @@ class MainActivity : AppCompatActivity() {
         if (previousFragmentStack.isNotEmpty() && previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())
         } else {
+            //nothing left to navigate back inside the app: hand the back event to the
+            //system default (finishes the activity) without re-triggering this callback
+            callback.isEnabled = false
             onBackPressedDispatcher.onBackPressed()
-            super.onBackPressed()
+            callback.isEnabled = true
         }
     }
 
@@ -737,22 +736,37 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onStart() {
+        super.onStart()
+        //The process survived the stop, so the editor (if one is open) still holds the
+        //authoritative state: the onStop snapshot is stale now and must not be restored
+        //on a later launch, where it could no longer match the situation in the app
+        resetNotePreferenceStorage()
+    }
+
     override fun onStop() {
-        if(previousFragmentStack.isEmpty()){
-            super.onStop()
-            return
-        }
-        if (previousFragmentStack.peek() == FT.NOTE_EDITOR) {
-            getPreferences(Context.MODE_PRIVATE).edit().putString(
-                PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id,
-                noteEditorFr!!.getEditorContent()
-            ).apply()
-            getPreferences(Context.MODE_PRIVATE).edit().putString(
-                PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id,
-                noteEditorFr!!.getEditorTitle()
-            ).apply()
+        val editor = noteEditorFr
+        //snapshot the live editor session, so an unsaved edit survives process death
+        //(editor view can still be missing if the app is stopped during the fragment transaction)
+        if (previousFragmentStack.isNotEmpty() && previousFragmentStack.peek() == FT.NOTE_EDITOR && editor?.view != null) {
+            //the id of the edited note (empty for a new note) and the target folder are captured
+            //together with the text, so the snapshot can only ever be restored into the
+            //note / folder it was taken from
             getPreferences(Context.MODE_PRIVATE).edit()
-                .putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, noteEditorFr!!.getNoteColor())
+                .putString(PreferenceIDs.EDIT_NOTE_CONTENT_ON_DESTROY.id, editor.getEditorContent())
+                .putString(PreferenceIDs.EDIT_NOTE_TITLE_ON_DESTROY.id, editor.getEditorTitle())
+                .putInt(PreferenceIDs.EDIT_NOTE_COLOR_ON_DESTROY.id, editor.getNoteColor())
+                .putString(
+                    PreferenceIDs.EDIT_NOTE_ID_ON_DESTROY.id,
+                    NoteFr.editNoteHolder?.id ?: ""
+                )
+                .putString(
+                    PreferenceIDs.EDIT_NOTE_FOLDER_ID_ON_DESTROY.id,
+                    when (NoteFr.editNoteHolder) {
+                        null -> mainNoteListDir.getCurrentFolderId() ?: ""
+                        else -> ""
+                    }
+                )
                 .apply()
         }
         super.onStop()

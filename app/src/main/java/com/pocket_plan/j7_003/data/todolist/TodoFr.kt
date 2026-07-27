@@ -221,17 +221,22 @@ class TodoFr : Fragment() {
                     viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
                 ): Boolean {
 
+                    //get start and end position of this move
+                    val fromPos = viewHolder.bindingAdapterPosition
+                    val toPos = target.bindingAdapterPosition
+
+                    //ignore moves involving items that are already detached
+                    if (fromPos == RecyclerView.NO_POSITION || toPos == RecyclerView.NO_POSITION) {
+                        return false
+                    }
+
                     if (!moving) {
                         //if not moving, save new previous position
-                        previousPosition = viewHolder.bindingAdapterPosition
+                        previousPosition = fromPos
 
                         //and prevent new previous positions from being set until this move is over
                         moving = true
                     }
-
-                    //get start and end position of this move
-                    val fromPos = viewHolder.bindingAdapterPosition
-                    val toPos = target.bindingAdapterPosition
 
                     // animate move of task from `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
@@ -243,6 +248,9 @@ class TodoFr : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     //get index where task should be deleted
                     val deletedAtIndex = viewHolder.bindingAdapterPosition
+
+                    //ignore swipes that resolve while the item is already detached
+                    if (deletedAtIndex == RecyclerView.NO_POSITION) return
 
                     //save task at that index
                     deletedTasks.add(todoListInstance.getTask(deletedAtIndex))

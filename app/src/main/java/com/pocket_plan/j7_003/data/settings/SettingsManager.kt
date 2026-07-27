@@ -52,8 +52,13 @@ class SettingsManager {
 
             cacheMap.forEach { (settingId, value) ->
                 try {
-                    SettingId.valueOf(settingId)
-                    settings[settingId] = value
+                    val id = SettingId.valueOf(settingId)
+                    //only accept values of the same type as the default (Boolean / Double /
+                    //String), a mistyped value (e.g. from a hand-edited import) would
+                    //otherwise crash later casts like `getSetting(...) as Boolean`
+                    if (value != null && value::class == id.default::class) {
+                        settings[settingId] = value
+                    }
                 } catch (_: Exception) { /* no-op */ }
             }
         }

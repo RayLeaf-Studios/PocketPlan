@@ -44,13 +44,13 @@ class ImportHandler(private val parentActivity: Activity) {
         // used to copy the content of the picked file
         val outputStream = file.outputStream()
 
-        // byte array used to read bitwise from the selected file
-        val byteArray = ByteArray(1)
+        // byte array used to read blockwise from the selected file
+        val byteArray = ByteArray(8192)
         var length = inputStream.read(byteArray)
 
         // copies the content of the input stream to the given file
         while (length != -1) {
-            outputStream.write(byteArray)
+            outputStream.write(byteArray, 0, length)
             length = inputStream.read(byteArray)
         }
 
@@ -94,13 +94,14 @@ class ImportHandler(private val parentActivity: Activity) {
         // used to copy the content of the picked file
         val outputStream = file.outputStream()
 
-        // byte array used to read 8-bitwise from the selected file
-        val byteArray = ByteArray(8)
+        // byte array used to read blockwise from the selected file
+        val byteArray = ByteArray(8192)
         var length = zipInputStream.read(byteArray)
 
-        // copies the content of the input stream to the given file
+        // copies the content of the input stream to the given file,
+        // only writing as many bytes as were actually read
         while (length != -1) {
-            outputStream.write(byteArray)
+            outputStream.write(byteArray, 0, length)
             length = zipInputStream.read(byteArray)
         }
 

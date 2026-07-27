@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
@@ -68,6 +69,15 @@ class BackUpActivity : AppCompatActivity() {
 
         // adds the logic to the export/import buttons
         initializeListeners()
+
+        //Back should return to the main activity. Registered as a callback since the
+        //deprecated onBackPressed override no longer gets called when targeting SDK 36+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startMainActivity()
+                finish()
+            }
+        })
     }
 
     private fun initializeListeners() {
@@ -173,13 +183,9 @@ class BackUpActivity : AppCompatActivity() {
     private fun startMainActivity(){
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("NotificationEntry", "backup")
+        //clear the MainActivity underneath: it still holds pre-import state
+        //and could save stale data over the freshly imported files
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        startMainActivity()
-        this.finish()
-        onBackPressedDispatcher.onBackPressed()
     }
 }

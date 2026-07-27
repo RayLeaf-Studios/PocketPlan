@@ -155,22 +155,6 @@ class NoteDirList : Checkable {
         folderStack.reverse()
     }
 
-    fun getNoteByTitleAndContent(title: String, content: String, directory: Note = rootDir): Note? {
-        for (note in directory.noteList) {
-            if (note.content != null) {
-                //Check note
-                if (note.content == content && note.title == title) {
-                    return note
-                }
-            } else {
-                //Check subDirectory val
-                val subResult = getNoteByTitleAndContent(title, content, note)
-                if (subResult != null) return subResult
-            }
-        }
-        return null
-    }
-
     fun getNoteById(id: String?, directory: Note = rootDir): Note? {
         if (id.isNullOrBlank()) return null
         if (directory.id == id) return directory

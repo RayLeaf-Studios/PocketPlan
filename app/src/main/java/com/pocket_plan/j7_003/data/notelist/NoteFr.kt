@@ -543,6 +543,10 @@ class NoteFr : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                    val position = viewHolder.bindingAdapterPosition
+                    //ignore swipes that resolve while the item is already detached
+                    if (position == RecyclerView.NO_POSITION) return
+
                     val parsed = viewHolder as NoteAdapter.NoteViewHolder
                     deletedNote = parsed.noteObj
 
@@ -553,7 +557,7 @@ class NoteFr : Fragment() {
                     if (searching) {
                         search(lastQuery)
                     } else {
-                        myAdapter.notifyItemRemoved(viewHolder.bindingAdapterPosition)
+                        myAdapter.notifyItemRemoved(position)
                     }
 
                     if (archiveDeletedNotes) archive(parsed.noteObj)
