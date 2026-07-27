@@ -19,6 +19,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -377,6 +378,14 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
+
+        //Register back navigation handling. This replaces the deprecated onBackPressed
+        //override, which no longer gets called once the app targets SDK 36+ (predictive back)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleBackNavigation(this)
+            }
+        })
     }
 
     private fun handleTextViaIntent(intent: Intent): Boolean{
@@ -649,9 +658,8 @@ class MainActivity : AppCompatActivity() {
     /**
      * OVERRIDE FUNCTIONS
      */
-    @Deprecated("Deprecated in Java")
     @SuppressLint("NotifyDataSetChanged")
-    override fun onBackPressed() {
+    private fun handleBackNavigation(callback: OnBackPressedCallback) {
         //close drawer when its open
         if (drawerLayoutBinding.drawerLayout.isDrawerOpen(drawerLayoutBinding.navDrawer)) {
             drawerLayoutBinding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -704,8 +712,11 @@ class MainActivity : AppCompatActivity() {
         if (previousFragmentStack.isNotEmpty() && previousFragmentStack.peek() != FT.EMPTY) {
             changeToFragment(previousFragmentStack.peek())
         } else {
+            //nothing left to navigate back inside the app: hand the back event to the
+            //system default (finishes the activity) without re-triggering this callback
+            callback.isEnabled = false
             onBackPressedDispatcher.onBackPressed()
-            super.onBackPressed()
+            callback.isEnabled = true
         }
     }
 
