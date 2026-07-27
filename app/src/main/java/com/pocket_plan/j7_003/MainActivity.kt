@@ -386,6 +386,14 @@ class MainActivity : AppCompatActivity() {
                 handleBackNavigation(this)
             }
         })
+
+        //Since Android 13 notifications (birthdays, sleep reminder) need a runtime permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
+        }
     }
 
     private fun handleTextViaIntent(intent: Intent): Boolean{

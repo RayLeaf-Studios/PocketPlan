@@ -183,6 +183,9 @@ class BackUpActivity : AppCompatActivity() {
     private fun startMainActivity(){
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("NotificationEntry", "backup")
+        //clear the MainActivity underneath: it still holds pre-import state
+        //and could save stale data over the freshly imported files
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
     }
 }

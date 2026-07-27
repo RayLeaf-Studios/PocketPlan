@@ -101,7 +101,7 @@ class ExportHandler(private val parentActivity: AppCompatActivity) {
         val fis = file.inputStream()
         zipStream.putNextEntry(zipEntry)
 
-        val bytes = ByteArray(1)
+        val bytes = ByteArray(8192)
         var length: Int
 
         length = fis.read(bytes)

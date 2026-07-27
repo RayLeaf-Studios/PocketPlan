@@ -102,8 +102,9 @@ class MultiShoppingFr : Fragment() {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
+                    //currentpos is updated in the page change callback, setting it here
+                    //would make the callback flush the undo queue into the wrong slot
                     shoppingPager.currentItem = tab.position
-                    currentpos = tab.position
                 }
             }
 
@@ -219,7 +220,9 @@ class MultiShoppingFr : Fragment() {
 
         val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                deletedItems[currentpos] = activeDeletedItems
+                if (currentpos in deletedItems.indices) {
+                    deletedItems[currentpos] = activeDeletedItems
+                }
                 currentpos = position
                 activeShoppingFr = shoppingFragments[position]
                 activeShoppingFr.query = null
@@ -339,11 +342,18 @@ class MultiShoppingFr : Fragment() {
             R.id.item_shopping_delete_list -> {
                 val titleId = R.string.shoppingDialogDeleteTitle
                 val action: () -> Unit = {
+                    val removedPos = currentpos
                     MainActivity.shoppingListWrapper.remove(activeShoppingFr.shoppingListName)
                     shoppingFragments.remove(activeShoppingFr)
+                    //remove the undo queue of the deleted list to keep the queues aligned
+                    //with the tabs, and invalidate the current position so the page change
+                    //callback cannot flush the removed queue into another list's slot
+                    if (removedPos < deletedItems.size) deletedItems.removeAt(removedPos)
+                    activeDeletedItems = ArrayDeque()
+                    currentpos = -1
                     shoppingPager.adapter = ScreenSlidePagerAdapter(myActivity)
                     //This automatically selects the tab left of the deleted tab
-                    tabLayout.removeTabAt(currentpos)
+                    tabLayout.removeTabAt(removedPos)
                     if (MainActivity.shoppingListWrapper.size == 1) {
                         tabLayout.visibility = View.GONE
                     }

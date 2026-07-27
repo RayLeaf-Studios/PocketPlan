@@ -81,8 +81,7 @@ class NotificationReceiver : BroadcastReceiver() {
         val upcomingBirthdays = ArrayList<Birthday>()
         birthdayList.forEach { n ->
             val calculatedDate = LocalDate.now().plusDays(n.daysToRemind.toLong())
-            if (n.notify && calculatedDate.monthValue == n.month &&
-                calculatedDate.dayOfMonth == n.day && n.daysToRemind > 0) {
+            if (n.notify && n.daysToRemind > 0 && occursOn(n, calculatedDate)) {
                 upcomingBirthdays.add(n)
             }
         }
@@ -92,12 +91,19 @@ class NotificationReceiver : BroadcastReceiver() {
     private fun getCurrentBirthdays(birthdayList: BirthdayList): ArrayList<Birthday> {
         val currentBirthdays = ArrayList<Birthday>()
         birthdayList.forEach { n ->
-            if (n.notify && n.month == localDate.monthValue &&
-                n.day == localDate.dayOfMonth) {
+            if (n.notify && occursOn(n, localDate)) {
                 currentBirthdays.add(n)
             }
         }
         return currentBirthdays
+    }
+
+    private fun occursOn(birthday: Birthday, date: LocalDate): Boolean {
+        if (birthday.month == date.monthValue && birthday.day == date.dayOfMonth) return true
+        //notify Feb 29 birthdays on Feb 28 in non-leap years,
+        //matching the adjustment in Birthday.asAdjustedLocalDate
+        return birthday.month == 2 && birthday.day == 29 &&
+                !date.isLeapYear && date.monthValue == 2 && date.dayOfMonth == 28
     }
 
     private fun notifyBirthdayNow(birthday: Birthday) {
