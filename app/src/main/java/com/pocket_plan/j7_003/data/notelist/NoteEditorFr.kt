@@ -3,7 +3,6 @@ package com.pocket_plan.j7_003.data.notelist
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +18,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
-import com.pocket_plan.j7_003.PreferenceIDs
 import com.pocket_plan.j7_003.R
 import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
@@ -88,44 +86,11 @@ class NoteEditorFr : Fragment() {
                 fragmentBinding.etNoteTitle.setText(NoteFr.editNoteHolder!!.title)
                 fragmentBinding.etNoteContent.setText(NoteFr.editNoteHolder!!.content)
             }
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(
-                PreferenceIDs.EDIT_NOTE_CONTENT.id,
-                NoteFr.editNoteHolder!!.content!!.trim()
-            ).apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_TITLE.id, NoteFr.editNoteHolder!!.title.trim())
-                .apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(
-                PreferenceIDs.EDIT_NOTE_COLOR.id,
-                NoteColors.entries.indexOf(NoteFr.editNoteHolder!!.color)
-            ).apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_ID.id, NoteFr.editNoteHolder!!.id ?: "")
-                .apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(
-                PreferenceIDs.EDIT_NOTE_FOLDER_ID.id,
-                myNoteFr.noteListDirs.getParentDirectory(NoteFr.editNoteHolder!!).id ?: ""
-            ).apply()
             fragmentBinding.etNoteTitle.clearFocus()
         } else {
             //Empty editNoteContent to signal we are adding a new note
             fragmentBinding.etNoteTitle.setText("")
             fragmentBinding.etNoteContent.setText("")
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_CONTENT.id, "").apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_TITLE.id, "").apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putInt(
-                PreferenceIDs.EDIT_NOTE_COLOR.id, NoteColors.entries.indexOf(
-                    noteColor
-                )
-            ).apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit()
-                .putString(PreferenceIDs.EDIT_NOTE_ID.id, "").apply()
-            myActivity.getPreferences(Context.MODE_PRIVATE).edit().putString(
-                PreferenceIDs.EDIT_NOTE_FOLDER_ID.id,
-                myNoteFr.noteListDirs.getCurrentFolderId() ?: ""
-            ).apply()
             fragmentBinding.etNoteContent.requestFocus()
             fragmentBinding.etNoteContent.postDelayed({
                 val imm = myActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -337,6 +302,9 @@ class NoteEditorFr : Fragment() {
                 MainActivity.previousFragmentStack.push(fragmentTag)
             }
 
+            //the edit session is over, stop pointing at the note so no later
+            //editor use can accidentally write into it
+            NoteFr.editNoteHolder = null
             dialogOpened = false
             myAlertDialog?.dismiss()
             myActivity.changeToFragment(MainActivity.previousFragmentStack.peek())
