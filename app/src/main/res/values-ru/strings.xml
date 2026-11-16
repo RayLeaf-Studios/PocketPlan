@@ -191,7 +191,6 @@
     <string name="tasksDialogClearChecked">Удалить отмеченные задачи?</string>
     <string name="tasksEditTitle">Редактировать задачу</string>
     <string name="tasksOptionClearChecked">Очистить отмеченные задачи</string>
-    <string name="tasksOptionUncheckAll">Снять все галочки</string>
 
     <!-- Arrays -->
     <string-array name="units">

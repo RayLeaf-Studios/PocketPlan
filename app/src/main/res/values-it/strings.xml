@@ -218,7 +218,6 @@
     <string name="tasksDialogClearChecked">Eliminare le attività selezionate?</string>
     <string name="tasksEditTitle">Modifica attività</string>
     <string name="tasksOptionClearChecked">Cancella le attività selezionate</string>
-    <string name="tasksOptionUncheckAll">Deseleziona tutto</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

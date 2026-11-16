@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.todolist
 
-import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.KeyEvent
@@ -74,7 +73,6 @@ class TodoFr : Fragment() {
     }
 
     @Deprecated("Deprecated in Java")
-    @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
@@ -95,12 +93,6 @@ class TodoFr : Fragment() {
                 myAdapter.notifyItemInserted(newPos)
                 deletedTasks.removeLast()
 
-            }
-
-            R.id.item_tasks_uncheck_all -> {
-                //uncheck all tasks
-                todoListInstance.uncheckAll()
-                myAdapter.notifyDataSetChanged()
             }
 
         }
@@ -265,18 +257,12 @@ class TodoFr : Fragment() {
 
 
     fun updateTodoIcons() {
-        updateUncheckTaskListIcon()
         updateUndoTaskIcon()
         updateDeleteCheckedTasksIcon()
     }
 
     fun updateUndoTaskIcon() {
         myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTasks.isNotEmpty()
-    }
-
-    private fun updateUncheckTaskListIcon() {
-        myMenu.findItem(R.id.item_tasks_uncheck_all)?.isVisible =
-            todoListInstance.somethingIsChecked()
     }
 
     private fun updateDeleteCheckedTasksIcon() {

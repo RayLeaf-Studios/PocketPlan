@@ -191,7 +191,6 @@
     <string name="tasksDialogClearChecked">Supprimer les tâches cochées ?</string>
     <string name="tasksEditTitle">Modifier une tâche</string>
     <string name="tasksOptionClearChecked">Effacer les tâches cochées</string>
-    <string name="tasksOptionUncheckAll">Décocher tout</string>
 
     <!-- Arrays -->
     <string-array name="units">

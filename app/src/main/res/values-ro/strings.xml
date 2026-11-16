@@ -227,7 +227,6 @@
     <string name="tasksDialogClearChecked">Să ștergeți sarcinile bifate?</string>
     <string name="tasksEditTitle">Editare sarcină</string>
     <string name="tasksOptionClearChecked">Ștergeți sarcinile bifate</string>
-    <string name="tasksOptionUncheckAll">Debifați tot</string>
     <string name="tasksPriority1" translatable="false">1</string>
     <string name="tasksPriority2" translatable="false">2</string>
     <string name="tasksPriority3" translatable="false">3</string>

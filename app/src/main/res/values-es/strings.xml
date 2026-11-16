@@ -191,7 +191,6 @@
     <string name="tasksDialogClearChecked">¿Borrar tareas marcadas?</string>
     <string name="tasksEditTitle">Editar tarea</string>
     <string name="tasksOptionClearChecked">Borrar tareas marcadas</string>
-    <string name="tasksOptionUncheckAll">Desmarcar todo</string>
 
     <!-- Arrays -->
     <string-array name="units">

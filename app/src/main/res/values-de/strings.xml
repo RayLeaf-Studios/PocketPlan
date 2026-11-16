@@ -219,7 +219,6 @@
     <string name="tasksDialogClearChecked">Abgehaktes löschen?</string>
     <string name="tasksEditTitle">Aufgabe bearbeiten</string>
     <string name="tasksOptionClearChecked">Abgehaktes löschen</string>
-    <string name="tasksOptionUncheckAll">Haken entfernen</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">
