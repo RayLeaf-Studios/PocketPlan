@@ -189,10 +189,8 @@
     <string name="tasksAddHint">Titre</string>
     <string name="tasksAddTitle">Ajouter une tâche</string>
     <string name="tasksDialogClearChecked">Supprimer les tâches cochées ?</string>
-    <string name="tasksDialogClearList">Effacer la liste des tâches ?</string>
     <string name="tasksEditTitle">Modifier une tâche</string>
     <string name="tasksOptionClearChecked">Effacer les tâches cochées</string>
-    <string name="tasksOptionClearList">Effacer la liste</string>
     <string name="tasksOptionUncheckAll">Décocher tout</string>
 
     <!-- Arrays -->

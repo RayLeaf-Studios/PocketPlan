@@ -97,17 +97,6 @@ class TodoFr : Fragment() {
 
             }
 
-            R.id.item_tasks_clear -> {
-                //delete ALL tasks in list
-                val titleId = R.string.tasksDialogClearList
-                val action: () -> Unit = {
-                    todoListInstance.clear()
-                    myAdapter.notifyDataSetChanged()
-                    todoListInstance.save()
-                }
-                myActivity.dialogConfirm(titleId, action)
-            }
-
             R.id.item_tasks_uncheck_all -> {
                 //uncheck all tasks
                 todoListInstance.uncheckAll()
@@ -277,17 +266,12 @@ class TodoFr : Fragment() {
 
     fun updateTodoIcons() {
         updateUncheckTaskListIcon()
-        updateClearTaskListIcon()
         updateUndoTaskIcon()
         updateDeleteCheckedTasksIcon()
     }
 
     fun updateUndoTaskIcon() {
         myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTasks.isNotEmpty()
-    }
-
-    private fun updateClearTaskListIcon() {
-        myMenu.findItem(R.id.item_tasks_clear)?.isVisible = todoListInstance.size > 0
     }
 
     private fun updateUncheckTaskListIcon() {

@@ -189,10 +189,8 @@
     <string name="tasksAddHint">Заголовок</string>
     <string name="tasksAddTitle">Добавить задачу</string>
     <string name="tasksDialogClearChecked">Удалить отмеченные задачи?</string>
-    <string name="tasksDialogClearList">Очистить список дел?</string>
     <string name="tasksEditTitle">Редактировать задачу</string>
     <string name="tasksOptionClearChecked">Очистить отмеченные задачи</string>
-    <string name="tasksOptionClearList">Очистить список</string>
     <string name="tasksOptionUncheckAll">Снять все галочки</string>
 
     <!-- Arrays -->

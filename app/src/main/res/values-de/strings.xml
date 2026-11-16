@@ -217,10 +217,8 @@
     <string name="tasksAddHint">Titel</string>
     <string name="tasksAddTitle">Aufgabe hinzufügen</string>
     <string name="tasksDialogClearChecked">Abgehaktes löschen?</string>
-    <string name="tasksDialogClearList">To-Do Liste löschen?</string>
     <string name="tasksEditTitle">Aufgabe bearbeiten</string>
     <string name="tasksOptionClearChecked">Abgehaktes löschen</string>
-    <string name="tasksOptionClearList">Liste löschen</string>
     <string name="tasksOptionUncheckAll">Haken entfernen</string>
 
     <!-- Arrays -->
