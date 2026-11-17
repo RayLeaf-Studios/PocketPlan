@@ -70,14 +70,6 @@ class TodoList: ArrayList<Task>(), Checkable{
         return false
     }
 
-    fun uncheckAll(){
-        this.forEach { task ->
-            task.isChecked = false
-        }
-        sortTasks()
-        save()
-    }
-
     fun deleteCheckedTasks(): Int{
         val toBeDeleted = ArrayList<Task>()
 

@@ -1,6 +1,5 @@
 package com.pocket_plan.j7_003.data.todolist
 
-import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.KeyEvent
@@ -74,7 +73,6 @@ class TodoFr : Fragment() {
     }
 
     @Deprecated("Deprecated in Java")
-    @SuppressLint("NotifyDataSetChanged")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
@@ -95,23 +93,6 @@ class TodoFr : Fragment() {
                 myAdapter.notifyItemInserted(newPos)
                 deletedTasks.removeLast()
 
-            }
-
-            R.id.item_tasks_clear -> {
-                //delete ALL tasks in list
-                val titleId = R.string.tasksDialogClearList
-                val action: () -> Unit = {
-                    todoListInstance.clear()
-                    myAdapter.notifyDataSetChanged()
-                    todoListInstance.save()
-                }
-                myActivity.dialogConfirm(titleId, action)
-            }
-
-            R.id.item_tasks_uncheck_all -> {
-                //uncheck all tasks
-                todoListInstance.uncheckAll()
-                myAdapter.notifyDataSetChanged()
             }
 
         }
@@ -165,17 +146,16 @@ class TodoFr : Fragment() {
                     // currentPosition == previousPosition   =>  item was moved, but placed back to original position
                     // previousPosition == -1   =>  item was selected but not moved
                     if (currentPosition == -1 || currentPosition == previousPosition || previousPosition == -1) {
+                        //the list may have been reordered during the drag, persist its current state
+                        if (previousPosition != -1) todoListInstance.save()
                         previousPosition = -1
                         super.clearView(recyclerView, viewHolder)
                         return
                     }
 
-                    //save task that was moved
-                    val movedTask = todoListInstance[previousPosition]
-                    //remove it from its previous position
-                    todoListInstance.removeAt(previousPosition)
-                    //re-add it at the current adapter position
-                    todoListInstance.add(currentPosition, movedTask)
+                    //the list was already reordered step by step in onMove, so the moved
+                    //task is at its final position now
+                    val movedTask = todoListInstance[currentPosition]
 
                     //save old values
                     val oldPriority = movedTask.priority
@@ -238,6 +218,10 @@ class TodoFr : Fragment() {
                         moving = true
                     }
 
+                    //keep the data in sync with what the adapter shows, otherwise rows that get
+                    //(re)bound during the drag (e.g. while auto-scrolling) show the wrong task
+                    todoListInstance.add(toPos, todoListInstance.removeAt(fromPos))
+
                     // animate move of task from `fromPos` to `toPos` in adapter.
                     myAdapter.notifyItemMoved(fromPos, toPos)
 
@@ -273,23 +257,12 @@ class TodoFr : Fragment() {
 
 
     fun updateTodoIcons() {
-        updateUncheckTaskListIcon()
-        updateClearTaskListIcon()
         updateUndoTaskIcon()
         updateDeleteCheckedTasksIcon()
     }
 
     fun updateUndoTaskIcon() {
         myMenu.findItem(R.id.item_tasks_undo)?.isVisible = deletedTasks.isNotEmpty()
-    }
-
-    private fun updateClearTaskListIcon() {
-        myMenu.findItem(R.id.item_tasks_clear)?.isVisible = todoListInstance.size > 0
-    }
-
-    private fun updateUncheckTaskListIcon() {
-        myMenu.findItem(R.id.item_tasks_uncheck_all)?.isVisible =
-            todoListInstance.somethingIsChecked()
     }
 
     private fun updateDeleteCheckedTasksIcon() {
@@ -326,7 +299,7 @@ class TodoFr : Fragment() {
         deletedTasks.clear()
         val oldSize = todoListInstance.size
         val newSize = todoListInstance.deleteCheckedTasks()
-        myAdapter.notifyItemRangeRemoved(newSize, oldSize)
+        myAdapter.notifyItemRangeRemoved(newSize, oldSize - newSize)
         updateDeleteTaskIcon()
     }
 

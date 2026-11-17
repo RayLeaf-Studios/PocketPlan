@@ -189,11 +189,8 @@
     <string name="tasksAddHint">Título</string>
     <string name="tasksAddTitle">Añadir tarea</string>
     <string name="tasksDialogClearChecked">¿Borrar tareas marcadas?</string>
-    <string name="tasksDialogClearList">¿Borrar la lista de tareas?</string>
     <string name="tasksEditTitle">Editar tarea</string>
     <string name="tasksOptionClearChecked">Borrar tareas marcadas</string>
-    <string name="tasksOptionClearList">Borrar lista</string>
-    <string name="tasksOptionUncheckAll">Desmarcar todo</string>
 
     <!-- Arrays -->
     <string-array name="units">

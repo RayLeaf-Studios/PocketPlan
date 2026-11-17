@@ -225,11 +225,8 @@
     <string name="tasksAddHint">Title</string>
     <string name="tasksAddTitle">Add Task</string>
     <string name="tasksDialogClearChecked">Delete checked tasks?</string>
-    <string name="tasksDialogClearList">Clear To-Do List?</string>
     <string name="tasksEditTitle">Edit Task</string>
     <string name="tasksOptionClearChecked">Clear checked tasks</string>
-    <string name="tasksOptionClearList">Clear list</string>
-    <string name="tasksOptionUncheckAll">Uncheck all</string>
     <string name="tasksPriority1" translatable="false">1</string>
     <string name="tasksPriority2" translatable="false">2</string>
     <string name="tasksPriority3" translatable="false">3</string>

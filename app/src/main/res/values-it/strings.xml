@@ -216,11 +216,8 @@
     <string name="tasksAddHint">Titolo</string>
     <string name="tasksAddTitle">Aggiungi attività</string>
     <string name="tasksDialogClearChecked">Eliminare le attività selezionate?</string>
-    <string name="tasksDialogClearList">Cancellare la lista delle cose da fare?</string>
     <string name="tasksEditTitle">Modifica attività</string>
     <string name="tasksOptionClearChecked">Cancella le attività selezionate</string>
-    <string name="tasksOptionClearList">Cancella lista</string>
-    <string name="tasksOptionUncheckAll">Deseleziona tutto</string>
 
     <!-- Arrays -->
     <string-array name="noteLines">

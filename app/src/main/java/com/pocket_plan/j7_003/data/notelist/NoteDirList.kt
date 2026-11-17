@@ -85,7 +85,7 @@ class NoteDirList : Checkable {
      */
     fun addFullNote(note: Note) {
         currentList().addFullNote(note)
-        sortDirsToTop()
+        if (SettingsManager.getSetting(SettingId.NOTES_DIRS_TO_TOP) as Boolean) sortDirsToTop()
         save()
     }
 
@@ -384,9 +384,14 @@ class NoteDirList : Checkable {
         if (normalized) save()
     }
 
+    /**
+     * Moves folders above notes in every directory. The sort is stable and only
+     * looks at whether an entry is a folder, so the relative order of the folders
+     * and of the notes (e.g. "recently opened first") is kept as it is.
+     */
     fun sortDirsToTop() {
         getDirPathsWithRef().forEach {
-            it.second.noteList.sortBy { listNote -> listNote.content }
+            it.second.noteList.sortBy { listNote -> if (listNote.content == null) 0 else 1 }
         }
     }
 
