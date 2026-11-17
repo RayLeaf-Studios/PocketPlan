@@ -244,6 +244,11 @@ class MainActivity : AppCompatActivity() {
 
         //initialize bottom navigation
         bottomNavigation = findViewById(R.id.btm_nav)
+        //Don't let the view restore its last selected item when the activity is recreated
+        //(e.g. after the app was killed in the background). onCreate always picks the shown
+        //fragment itself and checks the matching item; a restored selection would be applied
+        //after that and leave the bar highlighting a different page than the one shown.
+        bottomNavigation.isSaveEnabled = false
 
         multiShoppingFr = MultiShoppingFr()
         shoppingListWrapper = ShoppingListWrapper(getString(R.string.menuTitleShopping))
