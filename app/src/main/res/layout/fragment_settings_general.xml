@@ -154,6 +154,50 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:id="@+id/clStartPage"
+                android:background="?attr/selectableItemBackground"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/tvStartPage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settingsGeneralStartPage"
+                    android:textColor="?attr/colorOnBackGround"
+                    android:textSize="@dimen/font_size_medium"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvCurrentStartPage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/colorHint"
+                    android:textSize="@dimen/font_size_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvStartPage"
+                    />
+
+                <Spinner
+                    android:id="@+id/spStartPage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </Spinner>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:id="@+id/clLanguage"
                 android:background="?attr/selectableItemBackground"
                 android:layout_height="wrap_content"

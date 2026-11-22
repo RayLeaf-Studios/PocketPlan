@@ -128,6 +128,7 @@
     <string name="settingsGeneralShakeHomeExplanation">Dacă există una sau mai multe sarcini cu prioritatea 1, pictograma sarcinii se va muta când deschideți panoul acasă.</string>
     <string name="settingsGeneralShakeTask">Agitați reamintire de sarcină în acasă</string>
     <string name="settingsGeneralShapes">Forme</string>
+    <string name="settingsGeneralStartPage">Pagina de start</string>
     <string name="settingsGeneralSystemTheme">Utilizați tema sistemului</string>
     <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
     <string name="settingsGeneralTheme">Tema</string>

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.pocket_plan.j7_003.MainActivity
 import com.pocket_plan.j7_003.R
+import com.pocket_plan.j7_003.data.fragmenttags.FT
 import com.pocket_plan.j7_003.data.settings.SettingId
 import com.pocket_plan.j7_003.data.settings.SettingsManager
 import com.pocket_plan.j7_003.databinding.FragmentSettingsGeneralBinding
@@ -19,6 +20,19 @@ import com.pocket_plan.j7_003.databinding.FragmentSettingsGeneralBinding
  * A simple [Fragment] subclass.
  */
 class SettingsGeneralFr : Fragment() {
+    companion object {
+        /**
+         * Pages that can be chosen as start page, in the order of the bottom navigation.
+         */
+        val startPages = listOf(FT.NOTES, FT.TASKS, FT.HOME, FT.SHOPPING, FT.BIRTHDAYS)
+
+        /**
+         * The page the app should open on, falls back to home for unknown values.
+         */
+        fun getStartPage(): FT =
+            startPages.find { it.name == SettingsManager.getSetting(SettingId.START_PAGE) } ?: FT.HOME
+    }
+
     private var _fragmentSettingsGeneralBinding: FragmentSettingsGeneralBinding? = null
     private val fragmentSettingsGeneralBinding: FragmentSettingsGeneralBinding get() = _fragmentSettingsGeneralBinding!!
 
@@ -27,6 +41,7 @@ class SettingsGeneralFr : Fragment() {
     private var initialDisplayTheme: Boolean = true
     private var initialDisplayShapes: Boolean = true
     private var initialDisplayLanguage: Boolean = true
+    private var initialDisplayStartPage: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,6 +99,27 @@ class SettingsGeneralFr : Fragment() {
         )
         spAdapterLanguages.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         fragmentSettingsGeneralBinding.spLanguages.adapter = spAdapterLanguages
+
+        //Spinner for start page
+        val spAdapterStartPage = ArrayAdapter(
+            myActivity,
+            android.R.layout.simple_list_item_1,
+            getStartPageNames()
+        )
+        spAdapterStartPage.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        fragmentSettingsGeneralBinding.spStartPage.adapter = spAdapterStartPage
+    }
+
+    private fun getStartPageNames(): List<String> = startPages.map {
+        getString(
+            when (it) {
+                FT.NOTES -> R.string.menuTitleNotes
+                FT.TASKS -> R.string.menuTitleTasks
+                FT.SHOPPING -> R.string.menuTitleShopping
+                FT.BIRTHDAYS -> R.string.menuTitleBirthdays
+                else -> R.string.menuTitleHome
+            }
+        )
     }
 
 
@@ -121,6 +157,11 @@ class SettingsGeneralFr : Fragment() {
         fragmentSettingsGeneralBinding.spLanguages.setSelection(spLanguagePosition)
         fragmentSettingsGeneralBinding.tvCurrentLanguage.text =
             resources.getStringArray(R.array.languages)[spLanguagePosition]
+
+        val spStartPagePosition = startPages.indexOf(getStartPage())
+        fragmentSettingsGeneralBinding.spStartPage.setSelection(spStartPagePosition)
+        fragmentSettingsGeneralBinding.tvCurrentStartPage.text =
+            getStartPageNames()[spStartPagePosition]
 
 
         fragmentSettingsGeneralBinding.swShakeTaskInHome.isChecked =
@@ -248,6 +289,30 @@ class SettingsGeneralFr : Fragment() {
                 }
             }
 
+        //Listener for start page spinner
+        fragmentSettingsGeneralBinding.spStartPage.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (initialDisplayStartPage) {
+                        initialDisplayStartPage = false
+                        return
+                    }
+
+                    SettingsManager.addSetting(SettingId.START_PAGE, startPages[position].name)
+                    fragmentSettingsGeneralBinding.tvCurrentStartPage.text =
+                        getStartPageNames()[position]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+            }
+
         fragmentSettingsGeneralBinding.swShakeTaskInHome.setOnClickListener {
             SettingsManager.addSetting(
                 SettingId.SHAKE_TASK_HOME,
@@ -329,6 +394,10 @@ class SettingsGeneralFr : Fragment() {
 
         fragmentSettingsGeneralBinding.clShapes.setOnClickListener {
             fragmentSettingsGeneralBinding.spShapes.performClick()
+        }
+
+        fragmentSettingsGeneralBinding.clStartPage.setOnClickListener {
+            fragmentSettingsGeneralBinding.spStartPage.performClick()
         }
 
         fragmentSettingsGeneralBinding.clLanguage.setOnClickListener {

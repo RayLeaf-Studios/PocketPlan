@@ -120,6 +120,7 @@
     <string name="settingsGeneralShakeHomeExplanation">Wenn es eine oder mehr Aufgaben mit Priorität 1 gibt, bewegt sich das Aufgaben Icon, sobald du das Home Panel öffnest.</string>
     <string name="settingsGeneralShakeTask">Animation für Todo-Erinnerung in Home</string>
     <string name="settingsGeneralShapes">Formen</string>
+    <string name="settingsGeneralStartPage">Startseite</string>
     <string name="settingsGeneralSystemTheme">Übernehme Systemdesign</string>
     <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
     <string name="settingsGeneralTheme">Design</string>

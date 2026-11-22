@@ -105,6 +105,7 @@
     <string name="settingsGeneralShakeHomeExplanation">Если есть 1 или более задач с приоритетом 1, значок задачи будет перемещаться при каждом открытии домашней панели.</string>
     <string name="settingsGeneralShakeTask">Встряхнуть напоминание о задаче в домашней панели</string>
     <string name="settingsGeneralShapes">Формы</string>
+    <string name="settingsGeneralStartPage">Стартовая страница</string>
     <string name="settingsGeneralSystemTheme">Использовать системную тему (Android 10+)</string>
     <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
     <string name="settingsGeneralTheme">Тема</string>
