@@ -120,6 +120,7 @@
     <string name="settingsGeneralShakeHomeExplanation">Se ci sono 1 o più attività con priorità 1, l\'icona dell\'attività si sposta ogni volta che si apre il pannello iniziale.</string>
     <string name="settingsGeneralShakeTask">Scuoti il promemoria di attività nella Home</string>
     <string name="settingsGeneralShapes">Forme</string>
+    <string name="settingsGeneralStartPage">Pagina iniziale</string>
     <string name="settingsGeneralSystemTheme">Usa il tema di sistema (Android 10+)</string>
     <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
     <string name="settingsGeneralTheme">Tema</string>

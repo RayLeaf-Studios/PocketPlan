@@ -105,6 +105,7 @@
     <string name="settingsGeneralShakeHomeExplanation">S\'il y a une ou plusieurs tâches de priorité 1, l\'icône de la tâche se déplace lorsque vous ouvrez le panneau d\'accueil.</string>
     <string name="settingsGeneralShakeTask">Secouer le rappel de tâche dans le panneau d\'accueil</string>
     <string name="settingsGeneralShapes">Formes</string>
+    <string name="settingsGeneralStartPage">Page de démarrage</string>
     <string name="settingsGeneralSystemTheme">Utiliser le thème du système (Android 10+)</string>
     <string name="settingsGeneralSystemThemeHint">(Android 10+)</string>
     <string name="settingsGeneralTheme">Thème</string>

@@ -280,7 +280,7 @@ class MainActivity : AppCompatActivity() {
 
         else -> {
             if (previousFragmentStack.peek() == FT.EMPTY) {
-                changeToFragment(FT.HOME)
+                changeToFragment(SettingsGeneralFr.getStartPage())
             } else {
                 changeToFragment(previousFragmentStack.pop())
             }
