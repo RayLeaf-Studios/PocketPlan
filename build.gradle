@@ -1,13 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.9.20'
+    ext.kotlin_version = '2.4.20'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.7.2'
+        classpath 'com.android.tools.build:gradle:9.5.1'
+        // AGP 9 compiles Kotlin itself (built-in Kotlin), this only pins a newer
+        // Kotlin version than the one AGP ships with
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -23,5 +25,5 @@ allprojects {
 }
 
 tasks.register('clean', Delete) {
-    delete rootProject.layout.buildDir
+    delete rootProject.layout.buildDirectory
 }
